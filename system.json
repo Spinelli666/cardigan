@@ -1,18 +1,18 @@
 {
   "id": "cardigan",
   "title": "Cardigan",
-  "description": "The Cardigan system for FoundryVTT!",
+  "description": "Sistema para Cardigan | System for Cardigan",
   "authors": [
     {
-      "name": "Asacolips",
-      "discord": "asacolips"
+      "name": "Spinelli666",
+      "discord": "camaleao666"
     },
     {
-      "name": "Lee Talman",
-      "discord": ".pizzaWizard"
+      "name": "Rato",
+      "discord": "ratomakonha"
     }
   ],
-  "url": "Replace this with a link to your public repository",
+  "url": "https://github.com/Spinelli666/cardigan",
   "license": "LICENSE.txt",
   "readme": "README.md",
   "bugs": "Replace this with a link to file issues or tickets",
