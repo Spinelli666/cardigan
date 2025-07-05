@@ -5,19 +5,25 @@ export const CARDIGAN = {};
  * @type {Object}
  */
 CARDIGAN.abilities = {
-  str: 'CARDIGAN.Ability.Str.long',
-  dex: 'CARDIGAN.Ability.Dex.long',
-  con: 'CARDIGAN.Ability.Con.long',
-  int: 'CARDIGAN.Ability.Int.long',
-  wis: 'CARDIGAN.Ability.Wis.long',
-  cha: 'CARDIGAN.Ability.Cha.long',
+  accuracy: 'CARDIGAN.Ability.Accuracy.long',
+  evasion: 'CARDIGAN.Ability.Evasion.long',
+  strength: 'CARDIGAN.Ability.Strength.long',
+  dexterity: 'CARDIGAN.Ability.Dexterity.long',
+  stamina: 'CARDIGAN.Ability.Stamina.long',
+  stealth: 'CARDIGAN.Ability.Stealth.long',
+  persuasion: 'CARDIGAN.Ability.Persuasion.long',
+  intelligence: 'CARDIGAN.Ability.Intelligence.long',
+  psionics: 'CARDIGAN.Ability.Psionics.long',
 };
 
 CARDIGAN.abilityAbbreviations = {
-  str: 'CARDIGAN.Ability.Str.abbr',
-  dex: 'CARDIGAN.Ability.Dex.abbr',
-  con: 'CARDIGAN.Ability.Con.abbr',
-  int: 'CARDIGAN.Ability.Int.abbr',
-  wis: 'CARDIGAN.Ability.Wis.abbr',
-  cha: 'CARDIGAN.Ability.Cha.abbr',
+  accuracy: 'CARDIGAN.Ability.Accuracy.abbr',
+  evasion: 'CARDIGAN.Ability.Evasion.abbr',
+  strength: 'CARDIGAN.Ability.Strength.abbr',
+  dexterity: 'CARDIGAN.Ability.Dexterity.abbr',
+  stamina: 'CARDIGAN.Ability.Stamina.abbr',
+  stealth: 'CARDIGAN.Ability.Stealth.abbr',
+  persuasion: 'CARDIGAN.Ability.Persuasion.abbr',
+  intelligence: 'CARDIGAN.Ability.Intelligence.abbr',
+  psionics: 'CARDIGAN.Ability.Psionics.abbr',
 };
