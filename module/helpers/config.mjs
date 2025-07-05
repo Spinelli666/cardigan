@@ -11,6 +11,7 @@ CARDIGAN.abilities = {
   int: 'CARDIGAN.Ability.Int.long',
   wis: 'CARDIGAN.Ability.Wis.long',
   cha: 'CARDIGAN.Ability.Cha.long',
+  teste: 'CARDIGAN.Ability.Teste.long',
 };
 
 CARDIGAN.abilityAbbreviations = {
@@ -20,4 +21,5 @@ CARDIGAN.abilityAbbreviations = {
   int: 'CARDIGAN.Ability.Int.abbr',
   wis: 'CARDIGAN.Ability.Wis.abbr',
   cha: 'CARDIGAN.Ability.Cha.abbr',
+  teste: 'CARDIGAN.Ability.Teste.abbr',
 };

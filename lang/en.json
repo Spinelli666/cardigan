@@ -6,7 +6,8 @@
       "Dex": { "long": "Dexterity", "abbr": "dex" },
       "Int": { "long": "Intelligence", "abbr": "int" },
       "Wis": { "long": "Wisdom", "abbr": "wis" },
-      "Cha": { "long": "Charisma", "abbr": "cha" }
+      "Cha": { "long": "Charisma", "abbr": "cha" },
+      "Teste": { "long": "Teste", "abbr": "tst" }
     },
     "SheetLabels": {
       "Actor": "CardiganSystem Actor Sheet",
