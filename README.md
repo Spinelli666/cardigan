@@ -1,8 +1,12 @@
 # CardiganSystem System
 
-![Foundry v11](https://img.shields.io/badge/foundry-v11-green)
+![Foundry v11](https://img.shields.io/badge/foundry-v11-green) ![Foundry v12](https://img.shields.io/badge/foundry-v12-green)
 
 This system is a cardigan system that you can use as a starting point for building your own custom systems. It's similar to Simple World-building, but has examples of creating attributes in code rather than dynamically through the UI.
+
+> **Tutorial Updates are WIP**
+> 
+> The v12 branch of CardiganSystem has switched to using Foundry's ApplicationV2 version of document sheets, and the updates for the accompanying tutorial on the wiki are still in progress. Feel free to use this version of the system, but you'll need to use the comments within the actor and item sheet classes for context on what's happening vs. reading the tutorial.
 
 ## Usage
 

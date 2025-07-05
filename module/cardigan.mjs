@@ -5,7 +5,6 @@ import { CardiganSystemItem } from './documents/item.mjs';
 import { CardiganSystemActorSheet } from './sheets/actor-sheet.mjs';
 import { CardiganSystemItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
-import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { CARDIGAN } from './helpers/config.mjs';
 // Import DataModel classes
 import * as models from './data/_module.mjs';
@@ -14,15 +13,24 @@ import * as models from './data/_module.mjs';
 /*  Init Hook                                   */
 /* -------------------------------------------- */
 
-Hooks.once('init', function () {
-  // Add utility classes to the global game object so that they're more easily
-  // accessible in global contexts.
-  game.cardigan = {
+// Add key classes to the global scope so they can be more easily used
+// by downstream developers
+globalThis.cardigan = {
+  documents: {
     CardiganSystemActor,
     CardiganSystemItem,
+  },
+  applications: {
+    CardiganSystemActorSheet,
+    CardiganSystemItemSheet,
+  },
+  utils: {
     rollItemMacro,
-  };
+  },
+  models,
+};
 
+Hooks.once('init', function () {
   // Add custom constants for configuration.
   CONFIG.CARDIGAN = CARDIGAN;
 
@@ -43,14 +51,14 @@ Hooks.once('init', function () {
   // with the Character/NPC as part of super.defineSchema()
   CONFIG.Actor.dataModels = {
     character: models.CardiganSystemCharacter,
-    npc: models.CardiganSystemNPC
-  }
+    npc: models.CardiganSystemNPC,
+  };
   CONFIG.Item.documentClass = CardiganSystemItem;
   CONFIG.Item.dataModels = {
-    item: models.CardiganSystemItem,
+    gear: models.CardiganSystemGear,
     feature: models.CardiganSystemFeature,
-    spell: models.CardiganSystemSpell
-  }
+    spell: models.CardiganSystemSpell,
+  };
 
   // Active Effects are never copied to the Actor,
   // but will still apply to the Actor from within the Item
@@ -68,9 +76,6 @@ Hooks.once('init', function () {
     makeDefault: true,
     label: 'CARDIGAN.SheetLabels.Item',
   });
-
-  // Preload Handlebars templates.
-  return preloadHandlebarsTemplates();
 });
 
 /* -------------------------------------------- */
@@ -88,7 +93,7 @@ Handlebars.registerHelper('toLowerCase', function (str) {
 
 Hooks.once('ready', function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
-  Hooks.on('hotbarDrop', (bar, data, slot) => createItemMacro(data, slot));
+  Hooks.on('hotbarDrop', (bar, data, slot) => createDocMacro(data, slot));
 });
 
 /* -------------------------------------------- */
@@ -102,7 +107,7 @@ Hooks.once('ready', function () {
  * @param {number} slot     The hotbar slot to use
  * @returns {Promise}
  */
-async function createItemMacro(data, slot) {
+async function createDocMacro(data, slot) {
   // First, determine if this is a valid owned item.
   if (data.type !== 'Item') return;
   if (!data.uuid.includes('Actor.') && !data.uuid.includes('Token.')) {

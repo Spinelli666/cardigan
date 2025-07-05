@@ -1,11 +1,31 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+:root {
+  --cardigan-c-dark: #191813;
+  --cardigan-c-faint: #c9c7b8;
+  --cardigan-c-beige: #b5b3a4;
+  --cardigan-c-tan: #444444;
+  --cardigan-c-white: #ffffff;
+  --cardigan-c-black: #000000;
+  --cardigan-c-groove: #eeede0;
+}
+
+.theme-dark {
+  --cardigan-c-dark: #c9c7b8;
+  --cardigan-c-faint: #191813;
+  --cardigan-c-beige: #444444;
+  --cardigan-c-tan: #b5b3a4;
+  --cardigan-c-white: #000000;
+  --cardigan-c-black: #ffffff;
+  --cardigan-c-groove: #11121f;
+}
+
 /* Global styles */
 .window-app {
   font-family: "Roboto", sans-serif;
 }
 
 .rollable:hover, .rollable:focus {
-  color: #000;
+  color: var(--cardigan-c-black);
   text-shadow: 0 0 10px red;
   cursor: pointer;
 }
@@ -224,17 +244,6 @@
 .cardigan .sheet-header .header-fields {
   flex: 1;
 }
-.cardigan .sheet-header h1.charname {
-  height: 50px;
-  padding: 0px;
-  margin: 5px 0;
-  border-bottom: 0;
-}
-.cardigan .sheet-header h1.charname input {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-}
 .cardigan .sheet-tabs {
   flex: 0;
 }
@@ -243,8 +252,14 @@
 .cardigan .sheet-body .tab .editor {
   height: 100%;
 }
+.cardigan .tab.biography {
+  flex: 1;
+}
+.cardigan .tab.biography .editor {
+  height: 100%;
+}
 .cardigan .tox .tox-editor-container {
-  background: #fff;
+  background: var(--cardigan-c-white);
 }
 .cardigan .tox .tox-edit-area {
   padding: 0 8px;
@@ -252,13 +267,20 @@
 .cardigan .resource-label {
   font-weight: bold;
 }
+.cardigan .ability {
+  margin-bottom: 2px;
+}
+.cardigan .ability-score,
+.cardigan .ability-mod {
+  flex: 0 0 44px;
+}
 .cardigan .items-header {
   height: 28px;
   margin: 2px 0;
   padding: 0;
   align-items: center;
   background: rgba(0, 0, 0, 0.05);
-  border: 2px groove #eeede0;
+  border: 2px groove var(--cardigan-c-groove);
   font-weight: bold;
 }
 .cardigan .items-header > * {
@@ -277,7 +299,7 @@
   padding: 0;
   overflow-y: auto;
   scrollbar-width: thin;
-  color: #444;
+  color: var(--cardigan-c-tan);
 }
 .cardigan .items-list .item-list {
   list-style: none;
@@ -311,13 +333,13 @@
 .cardigan .items-list .item {
   align-items: center;
   padding: 0 2px;
-  border-bottom: 1px solid #c9c7b8;
+  border-bottom: 1px solid var(--cardigan-c-faint);
 }
 .cardigan .items-list .item:last-child {
   border-bottom: none;
 }
 .cardigan .items-list .item .item-name {
-  color: #191813;
+  color: var(--cardigan-c-dark);
 }
 .cardigan .items-list .item .item-name .item-image {
   flex: 0 0 30px;
@@ -338,7 +360,7 @@
   padding: 0;
   align-items: center;
   background: rgba(0, 0, 0, 0.05);
-  border: 2px groove #eeede0;
+  border: 2px groove var(--cardigan-c-groove);
   font-weight: bold;
 }
 .cardigan .items-list .items-header > * {
@@ -350,6 +372,107 @@
   text-align: left;
 }
 .cardigan .item-formula {
+  flex: 0 0 200px;
+  padding: 0 8px;
+}
+.cardigan .effects-header {
+  height: 28px;
+  margin: 2px 0;
+  padding: 0;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.05);
+  border: 2px groove var(--cardigan-c-groove);
+  font-weight: bold;
+}
+.cardigan .effects-header > * {
+  font-size: 14px;
+  text-align: center;
+}
+.cardigan .effects-header .effect-name {
+  font-weight: bold;
+  padding-left: 5px;
+  text-align: left;
+  display: flex;
+}
+.cardigan .effects-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  color: var(--cardigan-c-tan);
+}
+.cardigan .effects-list .effect-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cardigan .effects-list .effect-name {
+  flex: 2;
+  margin: 0;
+  overflow: hidden;
+  font-size: 13px;
+  text-align: left;
+  align-items: center;
+  display: flex;
+}
+.cardigan .effects-list .effect-name h3, .cardigan .effects-list .effect-name h4 {
+  margin: 0;
+  white-space: nowrap;
+  overflow-x: hidden;
+}
+.cardigan .effects-list .effect-controls {
+  display: flex;
+  flex: 0 0 100px;
+  justify-content: flex-end;
+}
+.cardigan .effects-list .effect-controls a {
+  font-size: 12px;
+  text-align: center;
+  margin: 0 6px;
+}
+.cardigan .effects-list .effect {
+  align-items: center;
+  padding: 0 2px;
+  border-bottom: 1px solid var(--cardigan-c-faint);
+}
+.cardigan .effects-list .effect:last-child {
+  border-bottom: none;
+}
+.cardigan .effects-list .effect .effect-name {
+  color: var(--cardigan-c-dark);
+}
+.cardigan .effects-list .effect .effect-name .effect-image {
+  flex: 0 0 30px;
+  height: 30px;
+  background-size: 30px;
+  border: none;
+  margin-right: 5px;
+}
+.cardigan .effects-list .effect-prop {
+  text-align: center;
+  border-left: 1px solid #c9c7b8;
+  border-right: 1px solid #c9c7b8;
+  font-size: 12px;
+}
+.cardigan .effects-list .effects-header {
+  height: 28px;
+  margin: 2px 0;
+  padding: 0;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.05);
+  border: 2px groove var(--cardigan-c-groove);
+  font-weight: bold;
+}
+.cardigan .effects-list .effects-header > * {
+  font-size: 12px;
+  text-align: center;
+}
+.cardigan .effects-list .effects-header .effect-name {
+  padding-left: 5px;
+  text-align: left;
+}
+.cardigan .effect-formula {
   flex: 0 0 200px;
   padding: 0 8px;
 }

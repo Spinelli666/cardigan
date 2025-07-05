@@ -1,6 +1,6 @@
-import CardiganSystemDataModel from "./base-model.mjs";
-
-export default class CardiganSystemActorBase extends CardiganSystemDataModel {
+export default class CardiganSystemActorBase extends foundry.abstract
+  .TypeDataModel {
+  static LOCALIZATION_PREFIXES = ["CARDIGAN.Actor.base"];
 
   static defineSchema() {
     const fields = foundry.data.fields;
@@ -8,16 +8,19 @@ export default class CardiganSystemActorBase extends CardiganSystemDataModel {
     const schema = {};
 
     schema.health = new fields.SchemaField({
-      value: new fields.NumberField({ ...requiredInteger, initial: 10, min: 0 }),
-      max: new fields.NumberField({ ...requiredInteger, initial: 10 })
+      value: new fields.NumberField({
+        ...requiredInteger,
+        initial: 10,
+        min: 0,
+      }),
+      max: new fields.NumberField({ ...requiredInteger, initial: 10 }),
     });
     schema.power = new fields.SchemaField({
       value: new fields.NumberField({ ...requiredInteger, initial: 5, min: 0 }),
-      max: new fields.NumberField({ ...requiredInteger, initial: 5 })
+      max: new fields.NumberField({ ...requiredInteger, initial: 5 }),
     });
-    schema.biography = new fields.StringField({ required: true, blank: true }); // equivalent to passing ({initial: ""}) for StringFields
+    schema.biography = new fields.HTMLField();
 
     return schema;
   }
-
 }

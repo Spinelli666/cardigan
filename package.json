@@ -1,6 +1,6 @@
 {
   "name": "cardigan",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "CSS compiler for the CardiganSystem system",
   "scripts": {
     "build": "sass src/scss/cardigan.scss css/cardigan.css --style=expanded --no-source-map",

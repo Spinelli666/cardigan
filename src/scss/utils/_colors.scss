@@ -1,7 +1,29 @@
-$c-white: #fff;
-$c-black: #000;
+:root {
+  --cardigan-c-dark: #191813;
+  --cardigan-c-faint: #c9c7b8;
+  --cardigan-c-beige: #b5b3a4;
+  --cardigan-c-tan: #444444;
+  --cardigan-c-white: #ffffff;
+  --cardigan-c-black: #000000;
+  --cardigan-c-groove: #eeede0;
+}
 
-$c-dark: #191813;
-$c-faint: #c9c7b8;
-$c-beige: #b5b3a4;
-$c-tan: #444;
+.theme-dark {
+  --cardigan-c-dark: #c9c7b8;
+  --cardigan-c-faint: #191813;
+  --cardigan-c-beige: #444444;
+  --cardigan-c-tan: #b5b3a4;
+  --cardigan-c-white: #000000;
+  --cardigan-c-black: #ffffff;
+  --cardigan-c-groove: #11121f;
+}
+
+$c-white: var(--cardigan-c-white);
+$c-black: var(--cardigan-c-black);
+
+$c-dark: var(--cardigan-c-dark);
+$c-faint: var(--cardigan-c-faint);
+$c-beige: var(--cardigan-c-beige);
+$c-tan: var(--cardigan-c-tan);
+
+$c-groove: var(--cardigan-c-groove);

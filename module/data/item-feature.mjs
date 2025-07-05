@@ -1,3 +1,8 @@
-import CardiganSystemItemBase from "./base-item.mjs";
+import CardiganSystemItemBase from './base-item.mjs';
 
-export default class CardiganSystemFeature extends CardiganSystemItemBase {}
+export default class CardiganSystemFeature extends CardiganSystemItemBase {
+  static LOCALIZATION_PREFIXES = [
+    'CARDIGAN.Item.base',
+    'CARDIGAN.Item.Feature',
+  ];
+}
