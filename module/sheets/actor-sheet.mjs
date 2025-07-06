@@ -22,7 +22,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     classes: ['cardigan', 'actor'],
     position: {
       width: 600,
-      height: "auto",  // ✅ Altura automática baseada no conteúdo
+      height: 600,  // ✅ Volta para altura fixa original
     },
     window: {
       resizable: true,      // ✅ Mantém redimensionável
@@ -207,59 +207,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Recalcula a altura da janela quando o conteúdo muda
-   * @override
-   */
-  async _onChangeTab(event, tabs, active) {
-    await super._onChangeTab?.(event, tabs, active);
-    
-    // 🎯 Redimensionamento dinâmico SEM tocar no header
-    if (this.options.position.height === "auto") {
-      // Aguarda o DOM atualizar antes de recalcular
-      await foundry.utils.wait(150);
-      this._adjustWindowHeight();
-    }
-  }
-
-  /**
-   * Ajusta a altura da janela baseada no conteúdo SEM tocar no header
-   * @private
-   */
-  _adjustWindowHeight() {
-    if (!this.element || this.options.position.height !== "auto") return;
-    
-    try {
-      // Encontra elementos necessários
-      const windowContent = this.element.querySelector('.window-content');
-      const header = this.element.querySelector('.sheet-header'); // Header customizado do Cardigan
-      
-      if (!windowContent) return;
-      
-      // Calcula alturas
-      const headerHeight = header ? header.offsetHeight : 0;
-      const tabsHeight = this.element.querySelector('[data-group="primary"]')?.offsetHeight || 30;
-      const contentHeight = windowContent.scrollHeight;
-      
-      // Altura total necessária com margens de segurança
-      const totalHeight = Math.max(
-        400, // Altura mínima
-        Math.min(
-          window.innerHeight - 100, // Altura máxima (não sair da tela)
-          headerHeight + tabsHeight + contentHeight + 40 // Altura calculada + padding
-        )
-      );
-      
-      // Só redimensiona se houver diferença significativa
-      const currentHeight = this.element.offsetHeight;
-      if (Math.abs(totalHeight - currentHeight) > 20) {
-        this.setPosition({ height: totalHeight });
-      }
-    } catch (error) {
-      console.warn('Cardigan: Erro ao ajustar altura da janela:', error);
-    }
-  }
-
-  /**
    * Actions performed after any render of the Application.
    * Post-render steps are not awaited by the render process.
    * @param {ApplicationRenderContext} context      Prepared context data
@@ -270,11 +217,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   _onRender(context, options) {
     this.#dragDrop.forEach((d) => d.bind(this.element));
     this.#disableOverrides();
-    
-    // 🎯 Ajusta altura após renderização SEM tocar no header
-    if (this.options.position.height === "auto") {
-      foundry.utils.wait(100).then(() => this._adjustWindowHeight());
-    }
     
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter

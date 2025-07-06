@@ -24,62 +24,6 @@
   font-family: "Roboto", sans-serif;
 }
 
-/* ===== REDIMENSIONAMENTO DINÂMICO V2.0 ===== */
-/* 🎯 Implementação que NÃO toca no header customizado */
-
-.cardigan.actor .window-content {
-  /* Permite scroll interno quando necessário */
-  overflow-y: auto;
-  overflow-x: hidden;
-  
-  /* Altura flexível para o redimensionamento dinâmico */
-  height: auto;
-  min-height: 200px; /* Altura mínima */
-  max-height: calc(100vh - 150px); /* Altura máxima */
-  
-  /* Transições suaves */
-  transition: height 0.2s ease-in-out;
-}
-
-.cardigan.actor .sheet-header {
-  /* Garante que o header customizado não interfira */
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-}
-
-.cardigan.actor .tab {
-  /* Transições suaves entre abas */
-  transition: opacity 0.25s ease;
-}
-
-.cardigan.actor .tab:not(.active) {
-  /* Esconde abas inativas para cálculo correto de altura */
-  display: none;
-}
-
-.cardigan.actor .tab.active {
-  /* Garante que a aba ativa seja visível */
-  display: block;
-  animation: fadeIn 0.3s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Otimizações para diferentes tipos de conteúdo */
-.cardigan.actor .items-list {
-  /* Listas de itens se ajustam ao conteúdo */
-  min-height: auto;
-}
-
-.cardigan.actor .biography-content {
-  /* Conteúdo de biografia flexível */
-  min-height: 100px;
-}
-
 .rollable:hover, .rollable:focus {
   color: var(--cardigan-c-black);
   text-shadow: 0 0 10px red;
