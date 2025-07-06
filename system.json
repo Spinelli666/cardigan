@@ -4,17 +4,9 @@
   "description": "The Cardigan system for FoundryVTT!",
   "authors": [
     {
-      "name": "Asacolips",
-      "discord": "asacolips"
-    },
-    {
-      "name": "Lee Talman",
-      "discord": ".pizzaWizard"
-    },
-    {
-      "name": "Joseph M.",
-      "url": "https://joseph-meehan.carrd.co/",
-      "discord": "chaosos"
+      "name": "Spinelli666",
+      "url": "https://github.com/Spinelli666",
+      "discord": "camaleao666"
     }
   ],
   "documentTypes": {
@@ -52,8 +44,8 @@
   "media": [
     {
       "type": "setup",
-      "url": "systems/cardigan/assets/anvil-impact.png",
-      "thumbnail": "systems/cardigan/assets/anvil-impact.png"
+      "url": "systems/cardigan/assets/cardigan-logo.png",
+      "thumbnail": "systems/cardigan/assets/cardigan-logo.png"
     }
   ],
   "version": "3.0.0",
@@ -75,7 +67,7 @@
   "socket": false,
   "manifest": "Replace this with a link to the /latest release system.json so people can receive updates after they've installed the system",
   "download": "This must link to a .zip file of the current version",
-  "background": "systems/cardigan/assets/anvil-impact.png",
+  "background": "systems/cardigan/assets/cardigan-logo.png",
   "grid": {
     "type": 1,
     "distance": 5,
