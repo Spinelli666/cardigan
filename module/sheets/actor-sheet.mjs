@@ -9,6 +9,9 @@ const { api, sheets } = foundry.applications;
 export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   sheets.ActorSheetV2
 ) {
+  /** @type {DragDrop[]} */
+  #dragDrop;
+
   constructor(options = {}) {
     super(options);
     this.#dragDrop = this.#createDragDropHandlers();
@@ -19,7 +22,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     classes: ['cardigan', 'actor'],
     position: {
       width: 600,
-      height: 600,
+      height: "auto",  // ✅ Altura automática baseada no conteúdo
+    },
+    window: {
+      resizable: true,      // ✅ Mantém redimensionável
+      minimizable: true,    // ✅ Mantém minimizável
     },
     actions: {
       onEditImage: this._onEditImage,
@@ -66,7 +73,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['header', 'tabs', 'biography'];
+    options.parts = ['header', 'tabs', 'biography']; // ✅ Header restaurado
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
     // Control which parts show based on document subtype
@@ -200,6 +207,81 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Recalcula a altura da janela quando o conteúdo muda
+   * @override
+   */
+  async _onChangeTab(event, tabs, active) {
+    await super._onChangeTab?.(event, tabs, active);
+    
+    // 🎯 Redimensionamento dinâmico SEM tocar no header
+    if (this.options.position.height === "auto") {
+      // Aguarda o DOM atualizar antes de recalcular
+      await foundry.utils.wait(150);
+      this._adjustWindowHeight();
+    }
+  }
+
+  /**
+   * Ajusta a altura da janela baseada no conteúdo SEM tocar no header
+   * @private
+   */
+  _adjustWindowHeight() {
+    if (!this.element || this.options.position.height !== "auto") return;
+    
+    try {
+      // Encontra elementos necessários
+      const windowContent = this.element.querySelector('.window-content');
+      const header = this.element.querySelector('.sheet-header'); // Header customizado do Cardigan
+      
+      if (!windowContent) return;
+      
+      // Calcula alturas
+      const headerHeight = header ? header.offsetHeight : 0;
+      const tabsHeight = this.element.querySelector('[data-group="primary"]')?.offsetHeight || 30;
+      const contentHeight = windowContent.scrollHeight;
+      
+      // Altura total necessária com margens de segurança
+      const totalHeight = Math.max(
+        400, // Altura mínima
+        Math.min(
+          window.innerHeight - 100, // Altura máxima (não sair da tela)
+          headerHeight + tabsHeight + contentHeight + 40 // Altura calculada + padding
+        )
+      );
+      
+      // Só redimensiona se houver diferença significativa
+      const currentHeight = this.element.offsetHeight;
+      if (Math.abs(totalHeight - currentHeight) > 20) {
+        this.setPosition({ height: totalHeight });
+      }
+    } catch (error) {
+      console.warn('Cardigan: Erro ao ajustar altura da janela:', error);
+    }
+  }
+
+  /**
+   * Actions performed after any render of the Application.
+   * Post-render steps are not awaited by the render process.
+   * @param {ApplicationRenderContext} context      Prepared context data
+   * @param {RenderOptions} options                 Provided render options
+   * @protected
+   * @override
+   */
+  _onRender(context, options) {
+    this.#dragDrop.forEach((d) => d.bind(this.element));
+    this.#disableOverrides();
+    
+    // 🎯 Ajusta altura após renderização SEM tocar no header
+    if (this.options.position.height === "auto") {
+      foundry.utils.wait(100).then(() => this._adjustWindowHeight());
+    }
+    
+    // You may want to add other special handling here
+    // Foundry comes with a large number of utility classes, e.g. SearchFilter
+    // That you may want to implement yourself.
+  }
+
+  /**
    * Organize and classify Items for Actor sheets.
    *
    * @param {object} context The context object to mutate
@@ -250,23 +332,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     context.gear = gear.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.spells = spells;
-  }
-
-  /**
-   * Actions performed after any render of the Application.
-   * Post-render steps are not awaited by the render process.
-   * @param {ApplicationRenderContext} context      Prepared context data
-   * @param {RenderOptions} options                 Provided render options
-   * @protected
-   * @override
-   */
-  _onRender(context, options) {
-    this.#dragDrop.forEach((d) => d.bind(this.element));
-    this.#disableOverrides();
-    // You may want to add other special handling here
-    // Foundry comes with a large number of utility classes, e.g. SearchFilter
-    // That you may want to implement yourself.
-  }
+}
 
   /**************
    *
@@ -325,7 +391,14 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   static async _deleteDoc(event, target) {
     const doc = this._getEmbeddedDocument(target);
-    await doc.delete();
+    const performDeletion = await Dialog.confirm({
+      title: game.i18n.format('DOCUMENT.Delete', { type: doc.documentName }),
+      content: game.i18n.format('DOCUMENT.DeleteWarning', { name: doc.name }),
+    });
+    if (performDeletion) {
+      const deleted = await doc.delete();
+      deleted.sheet.render(false);
+    }
   }
 
   /**
@@ -338,27 +411,15 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   static async _createDoc(event, target) {
     // Retrieve the configured document class for Item or ActiveEffect
-    const docCls = getDocumentClass(target.dataset.documentClass);
-    // Prepare the document creation data by initializing it a default name.
-    const docData = {
-      name: docCls.defaultName({
-        // defaultName handles an undefined type gracefully
-        type: target.dataset.type,
-        parent: this.actor,
-      }),
-    };
-    // Loop through the dataset and add it to our docData
-    for (const [dataKey, value] of Object.entries(target.dataset)) {
-      // These data attributes are reserved for the action handling
-      if (['action', 'documentClass'].includes(dataKey)) continue;
-      // Nested properties require dot notation in the HTML, e.g. anything with `system`
-      // An example exists in spells.hbs, with `data-system.spell-level`
-      // which turns into the dataKey 'system.spellLevel'
-      foundry.utils.setProperty(docData, dataKey, value);
-    }
-
-    // Finally, create the embedded document!
-    await docCls.create(docData, { parent: this.actor });
+    const documentClass = getDocumentClass(target.dataset.documentClass);
+    // Prepare the document creation data by building a default name and any additional data defined by the form element
+    const createData = { name: documentClass.defaultName };
+    if (target.dataset.type) createData.type = target.dataset.type;
+    // Create the document and render its sheet
+    const document = await documentClass.create(createData, {
+      parent: this.document,
+    });
+    document.sheet.render(true);
   }
 
   /**
@@ -367,7 +428,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @this CardiganSystemActorSheet
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @private
+   * @protected
    */
   static async _toggleEffect(event, target) {
     const effect = this._getEmbeddedDocument(target);
@@ -376,21 +437,22 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
   /**
    * Handle clickable rolls.
-   *
-   * @this CardiganSystemActorSheet
-   * @param {PointerEvent} event   The originating click event
+   * @param {Event} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @protected
    */
   static async _onRoll(event, target) {
     event.preventDefault();
-    const dataset = target.dataset;
+    const element = event.currentTarget;
+    const dataset = element.dataset;
 
     // Handle item rolls.
     switch (dataset.rollType) {
       case 'item':
-        const item = this._getEmbeddedDocument(target);
+        const itemId = element.closest('[data-item-id]')?.dataset.itemId;
+        const item = this.actor.items.get(itemId);
         if (item) return item.roll();
+        break;
     }
 
     // Handle rolls that supply the formula directly.
@@ -406,37 +468,34 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }
   }
 
-  /** Helper Functions */
-
   /**
-   * Fetches the embedded document representing the containing HTML element
-   *
-   * @param {HTMLElement} target    The element subject to search
-   * @returns {Item | ActiveEffect} The embedded Item or ActiveEffect
+   * Get an embedded document from the target element
+   * @param {HTMLElement} target    The target element
+   * @returns {Document}             The embedded document
+   * @protected
    */
-  _getEmbeddedDocument(target) {
-    const docRow = target.closest('li[data-document-class]');
-    if (docRow.dataset.documentClass === 'Item') {
+  static _getEmbeddedDocument(target) {
+    const docRow = target.closest('[data-document-id], [data-item-id], [data-effect-id]');
+    if (docRow?.dataset.documentId) {
+      return this.actor.effects.get(docRow.dataset.documentId);
+    } else if (docRow?.dataset.itemId) {
       return this.actor.items.get(docRow.dataset.itemId);
-    } else if (docRow.dataset.documentClass === 'ActiveEffect') {
-      const parent =
-        docRow.dataset.parentId === this.actor.id
-          ? this.actor
-          : this.actor.items.get(docRow?.dataset.parentId);
-      return parent.effects.get(docRow?.dataset.effectId);
-    } else return console.warn('Could not find document class');
+    } else if (docRow?.dataset.effectId) {
+      return this.actor.effects.get(docRow.dataset.effectId);
+    }
+    throw new Error('Could not find document from element');
   }
 
-  /***************
+  /********************
    *
    * Drag and Drop
    *
-   ***************/
+   ********************/
 
   /**
-   * Define whether a user is able to begin a dragstart workflow for a given drag selector
+   * Define whether a user is able to begin a dragstart workflow for a given element
    * @param {string} selector       The candidate HTML selector for dragging
-   * @returns {boolean}             Can the current user drag this selector?
+   * @returns {boolean}             Can the current user drag this element?
    * @protected
    */
   _canDragStart(selector) {
@@ -445,9 +504,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Define whether a user is able to conclude a drag-and-drop workflow for a given drop selector
+   * Define whether a user is able to conclude a drag-and-drop workflow for a given element
    * @param {string} selector       The candidate HTML selector for the drop target
-   * @returns {boolean}             Can the current user drop on this selector?
+   * @returns {boolean}             Can the current user drop on this element?
    * @protected
    */
   _canDragDrop(selector) {
@@ -461,13 +520,22 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   _onDragStart(event) {
-    const docRow = event.currentTarget.closest('li');
+    const li = event.currentTarget;
     if ('link' in event.target.dataset) return;
 
-    // Chained operation
-    let dragData = this._getEmbeddedDocument(docRow)?.toDragData();
+    let dragData = null;
 
-    if (!dragData) return;
+    // Active Effect
+    if (li.dataset.effectId) {
+      const effect = this.actor.effects.get(li.dataset.effectId);
+      dragData = effect.toDragData();
+    }
+
+    // Owned Item
+    else if (li.dataset.itemId) {
+      const item = this.actor.items.get(li.dataset.itemId);
+      dragData = item.toDragData();
+    }
 
     // Set data transfer
     event.dataTransfer.setData('text/plain', JSON.stringify(dragData));
@@ -515,69 +583,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const aeCls = getDocumentClass('ActiveEffect');
     const effect = await aeCls.fromDropData(data);
     if (!this.actor.isOwner || !effect) return false;
-    if (effect.target === this.actor)
-      return this._onSortActiveEffect(event, effect);
-    return aeCls.create(effect, { parent: this.actor });
-  }
-
-  /**
-   * Handle a drop event for an existing embedded Active Effect to sort that Active Effect relative to its siblings
-   *
-   * @param {DragEvent} event
-   * @param {ActiveEffect} effect
-   */
-  async _onSortActiveEffect(event, effect) {
-    /** @type {HTMLElement} */
-    const dropTarget = event.target.closest('[data-effect-id]');
-    if (!dropTarget) return;
-    const target = this._getEmbeddedDocument(dropTarget);
-
-    // Don't sort on yourself
-    if (effect.uuid === target.uuid) return;
-
-    // Identify sibling items based on adjacent HTML elements
-    const siblings = [];
-    for (const el of dropTarget.parentElement.children) {
-      const siblingId = el.dataset.effectId;
-      const parentId = el.dataset.parentId;
-      if (
-        siblingId &&
-        parentId &&
-        (siblingId !== effect.id || parentId !== effect.parent.id)
-      )
-        siblings.push(this._getEmbeddedDocument(el));
-    }
-
-    // Perform the sort
-    const sortUpdates = SortingHelpers.performIntegerSort(effect, {
-      target,
-      siblings,
-    });
-
-    // Split the updates up by parent document
-    const directUpdates = [];
-
-    const grandchildUpdateData = sortUpdates.reduce((items, u) => {
-      const parentId = u.target.parent.id;
-      const update = { _id: u.target.id, ...u.update };
-      if (parentId === this.actor.id) {
-        directUpdates.push(update);
-        return items;
-      }
-      if (items[parentId]) items[parentId].push(update);
-      else items[parentId] = [update];
-      return items;
-    }, {});
-
-    // Effects-on-items updates
-    for (const [itemId, updates] of Object.entries(grandchildUpdateData)) {
-      await this.actor.items
-        .get(itemId)
-        .updateEmbeddedDocuments('ActiveEffect', updates);
-    }
-
-    // Update on the main actor
-    return this.actor.updateEmbeddedDocuments('ActiveEffect', directUpdates);
+    if (effect.target === this.actor) return false;
+    return aeCls.create(effect.toObject(), { parent: this.actor });
   }
 
   /**
@@ -592,13 +599,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     if (!this.actor.isOwner) return false;
   }
 
-  /* -------------------------------------------- */
-
   /**
    * Handle dropping of an item reference or item data onto an Actor Sheet
    * @param {DragEvent} event            The concluding DragEvent which contains drop data
    * @param {object} data                The data transfer extracted from the event
-   * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not permitted.
+   * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not
+   *                                     permitted.
    * @protected
    */
   async _onDropItem(event, data) {
@@ -606,8 +612,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const item = await Item.implementation.fromDropData(data);
 
     // Handle item sorting within the same Actor
-    if (this.actor.uuid === item.parent?.uuid)
-      return this._onSortItem(event, item);
+    if (this.actor.uuid === item.parent?.uuid) return this._onSortItem(event, item);
 
     // Create the owned item
     return this._onDropItemCreate(item, event);
@@ -628,7 +633,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const droppedItemData = await Promise.all(
       folder.contents.map(async (item) => {
         if (!(document instanceof Item)) item = await fromUuid(item.uuid);
-        return item;
+        return item.toObject();
       })
     );
     return this._onDropItemCreate(droppedItemData, event);
@@ -637,10 +642,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   /**
    * Handle the final creation of dropped Item data on the Actor.
    * This method is factored out to allow downstream classes the opportunity to override item creation behavior.
-   * @param {object[]|object} itemData      The item data requested for creation
-   * @param {DragEvent} event               The concluding DragEvent which provided the drop data
+   * @param {object[]|object} itemData     The item data requested for creation
+   * @param {DragEvent} event              The concluding DragEvent which provided the drop data
    * @returns {Promise<Item[]>}
-   * @private
+   * @protected
    */
   async _onDropItemCreate(itemData, event) {
     itemData = itemData instanceof Array ? itemData : [itemData];
@@ -656,23 +661,21 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   _onSortItem(event, item) {
     // Get the drag source and drop target
     const items = this.actor.items;
+    const source = items.get(item.id);
     const dropTarget = event.target.closest('[data-item-id]');
     if (!dropTarget) return;
     const target = items.get(dropTarget.dataset.itemId);
 
     // Don't sort on yourself
-    if (item.id === target.id) return;
+    if (source.id === target.id) return;
 
-    // Identify sibling items based on adjacent HTML elements
-    const siblings = [];
-    for (let el of dropTarget.parentElement.children) {
-      const siblingId = el.dataset.itemId;
-      if (siblingId && siblingId !== item.id)
-        siblings.push(items.get(el.dataset.itemId));
-    }
+    // Identify sibling items based on type and parent
+    const siblings = items.filter((i) => {
+      return i.type === source.type && i.parent === source.parent;
+    });
 
     // Perform the sort
-    const sortUpdates = SortingHelpers.performIntegerSort(item, {
+    const sortUpdates = SortingHelpers.performIntegerSort(source, {
       target,
       siblings,
     });
@@ -686,22 +689,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     return this.actor.updateEmbeddedDocuments('Item', updateData);
   }
 
-  /** The following pieces set up drag handling and are unlikely to need modification  */
-
   /**
-   * Returns an array of DragDrop instances
-   * @type {DragDrop[]}
-   */
-  get dragDrop() {
-    return this.#dragDrop;
-  }
-
-  // This is marked as private because there's no real need
-  // for subclasses or external hooks to mess with it directly
-  #dragDrop;
-
-  /**
-   * Create drag-and-drop workflow handlers for this Application
+   * Creates drag & drop handlers for this application
    * @returns {DragDrop[]}     An array of DragDrop handlers
    * @private
    */

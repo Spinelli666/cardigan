@@ -25,23 +25,32 @@
         }
       },
       "abilities": {
-        "str": {
-          "value": 10
+        "accuracy": {
+          "value": 0
         },
-        "dex": {
-          "value": 10
+        "evasion": {
+          "value": 0
         },
-        "con": {
-          "value": 10
+        "strength": {
+          "value": 0
         },
-        "int": {
-          "value": 10
+        "dexterity": {
+          "value": 0
         },
-        "wis": {
-          "value": 10
+        "stamina": {
+          "value": 0
         },
-        "cha": {
-          "value": 10
+        "stealth": {
+          "value": 0
+        },
+        "persuasion": {
+          "value": 0
+        },
+        "intelligence": {
+          "value": 0
+        },
+        "psionics": {
+          "value": 0
         }
       }
     },
@@ -62,7 +71,7 @@
       "templates": ["base"],
       "quantity": 1,
       "weight": 0,
-      "formula": "d20 + @str.mod + ceil(@lvl / 2)"
+      "formula": "d20 + @strength.value + ceil(@lvl / 2)"
     },
     "feature": {
       "templates": ["base"]

@@ -1,12 +1,15 @@
 {
   "CARDIGAN": {
     "Ability": {
-      "Str": { "long": "Strength", "abbr": "str" },
-      "Con": { "long": "Constitution", "abbr": "con" },
-      "Dex": { "long": "Dexterity", "abbr": "dex" },
-      "Int": { "long": "Intelligence", "abbr": "int" },
-      "Wis": { "long": "Wisdom", "abbr": "wis" },
-      "Cha": { "long": "Charisma", "abbr": "cha" }
+      "Accuracy": { "long": "Accuracy", "abbr": "acc" },
+      "Evasion": { "long": "Evasion", "abbr": "eva" },
+      "Strength": { "long": "Strength", "abbr": "str" },
+      "Dexterity": { "long": "Dexterity", "abbr": "dex" },
+      "Stamina": { "long": "Stamina", "abbr": "sta" },
+      "Stealth": { "long": "Stealth", "abbr": "ste" },
+      "Persuasion": { "long": "Persuasion", "abbr": "per" },
+      "Intelligence": { "long": "Intelligence", "abbr": "int" },
+      "Psionics": { "long": "Psionics", "abbr": "psi" }
     },
     "SheetLabels": {
       "Actor": "CardiganSystem Actor Sheet",

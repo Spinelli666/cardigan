@@ -9,28 +9,23 @@
       {{! The grid classes are defined in scss/global/_grid.scss. To use,
           use both the "grid" and "grid-Ncol" class where "N" can be any number
           from 1 to 12 and will create that number of columns.  }}
-      <div class='abilities flexcol'>
+      <div class='custom-abilities-container' style='display: flex; flex-direction: column; gap: 6px;'>
         {{#each system.abilities as |ability key|}}
-          <div class='ability flexrow flex-group-center'>
+          <div class='custom-ability-row' style='display: grid; grid-template-columns: 85px 50px; gap: 15px; align-items: center; padding: 2px 4px;'>
             <label
-              class='resource-label rollable flexlarge align-left'
+              class='rollable'
               data-action='roll'
-              data-roll='d20+@abilities.{{key}}.mod'
+              data-roll='d20+@abilities.{{key}}.value'
               data-label='{{localize (lookup @root.config.abilities key)}}'
+              style='font-weight: bold; cursor: pointer; margin: 0; padding: 0; text-align: left;'
             >{{localize (lookup @root.config.abilities key)}}</label>
             <input
               type='text'
               name='system.abilities.{{key}}.value'
               value='{{ability.value}}'
-              class="ability-score"
               data-dtype='Number'
+              style='width: 50px; text-align: center; border: 1px solid #ccc; padding: 2px;'
             />
-            <span
-              class='ability-mod rollable'
-              data-action='roll'
-              data-roll='d20+@abilities.{{key}}.mod'
-              data-label='{{localize (lookup @root.config.abilities key)}}'
-            >{{numberFormat ability.mod decimals=0 sign=true}}</span>
           </div>
         {{/each}}
       </div>
