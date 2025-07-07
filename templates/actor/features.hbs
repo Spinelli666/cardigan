@@ -15,8 +15,9 @@
             <label
               class='rollable'
               data-action='roll'
-              data-roll='d20+@abilities.{{key}}.value'
+              data-roll='1d20+{{ability.value}}'
               data-label='{{localize (lookup @root.config.abilities key)}}'
+              data-key='{{key}}'
               style='font-weight: bold; cursor: pointer; margin: 0; padding: 0; text-align: left;'
             >{{localize (lookup @root.config.abilities key)}}</label>
             <input

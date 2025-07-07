@@ -110,6 +110,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       systemFields: this.document.system.schema.fields,
     };
 
+
+
     // Offloading context prep to a helper function
     this._prepareItems(context);
 
@@ -120,6 +122,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   async _preparePartContext(partId, context) {
     switch (partId) {
       case 'features':
+        context.tab = context.tabs[partId];
+        break;
       case 'spells':
       case 'gear':
         context.tab = context.tabs[partId];
@@ -385,28 +389,42 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   static async _onRoll(event, target) {
     event.preventDefault();
-    const element = event.currentTarget;
+    
+    const element = target;
     const dataset = element.dataset;
 
     // Handle item rolls.
     switch (dataset.rollType) {
       case 'item':
         const itemId = element.closest('[data-item-id]')?.dataset.itemId;
-        const item = this.actor.items.get(itemId);
+        const item = this.document.items.get(itemId);
         if (item) return item.roll();
         break;
     }
 
     // Handle rolls that supply the formula directly.
     if (dataset.roll) {
-      let label = dataset.label ? `[ability] ${dataset.label}` : '';
-      let roll = new Roll(dataset.roll, this.actor.getRollData());
-      await roll.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: label,
-        rollMode: game.settings.get('core', 'rollMode'),
-      });
-      return roll;
+      const label = dataset.label || 'Roll';
+      
+      try {
+        // Create the roll
+        const roll = new Roll(dataset.roll, this.document.getRollData());
+        
+        // Evaluate the roll
+        await roll.evaluate();
+        
+        // Send to chat
+        const message = await roll.toMessage({
+          speaker: ChatMessage.getSpeaker({ actor: this.document }),
+          flavor: label,
+          rollMode: game.settings.get('core', 'rollMode'),
+        });
+        
+        return roll;
+      } catch (error) {
+        console.error("Error during roll:", error);
+        ui.notifications.error(`Erro ao rolar ${label}: ${error.message}`);
+      }
     }
   }
 
@@ -419,11 +437,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   static _getEmbeddedDocument(target) {
     const docRow = target.closest('[data-document-id], [data-item-id], [data-effect-id]');
     if (docRow?.dataset.documentId) {
-      return this.actor.effects.get(docRow.dataset.documentId);
+      return this.document.effects.get(docRow.dataset.documentId);
     } else if (docRow?.dataset.itemId) {
-      return this.actor.items.get(docRow.dataset.itemId);
+      return this.document.items.get(docRow.dataset.itemId);
     } else if (docRow?.dataset.effectId) {
-      return this.actor.effects.get(docRow.dataset.effectId);
+      return this.document.effects.get(docRow.dataset.effectId);
     }
     throw new Error('Could not find document from element');
   }
