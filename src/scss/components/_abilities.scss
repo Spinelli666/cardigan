@@ -1,0 +1,61 @@
+/* Abilities Toggle Styles */
+.abilities-toggle-view {
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: #e0e0e0 !important;
+    transform: scale(1.05);
+  }
+}
+
+/* Abilities Grid View Styles */
+.abilities-grid-view .ability-row {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  padding: 8px !important;
+  border: 1px solid var(--cardigan-c-beige) !important;
+  border-radius: 4px !important;
+  background: var(--cardigan-c-groove) !important;
+  min-height: 80px !important;
+  justify-content: center !important;
+
+  label {
+    margin: 0 !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    margin-bottom: 4px !important;
+  }
+
+  input {
+    width: 40px !important;
+    text-align: center !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+  }
+}
+
+/* Abilities List View Styles */
+.abilities-list-view .ability-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 2px 4px !important;
+  border-bottom: 1px solid var(--cardigan-c-faint) !important;
+
+  &:hover {
+    background: var(--cardigan-c-groove) !important;
+  }
+
+  label {
+    min-width: 100px !important;
+    margin: 0 !important;
+  }
+
+  input {
+    width: 50px !important;
+    text-align: center !important;
+  }
+}
