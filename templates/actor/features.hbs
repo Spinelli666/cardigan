@@ -4,77 +4,168 @@
   data-group='primary'
   data-tab='features'
 >
-  <section class='main' style='padding: 10px;'>
-    {{! Grid principal com duas colunas para Character Details e Features List }}
-    <div style='display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;'>
-      {{! Character Details Container - Coluna esquerda }}
-      <div class='character-details-container' style='display: flex; flex-direction: column; gap: 6px;'>
-        <h3 style='margin: 0 0 10px 0; font-size: 16px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;'>Character Details</h3>
-        
-        {{! Nome }}
-        <div style='display: flex; align-items: center; gap: 8px; padding: 2px 4px;'>
-          <label style='font-weight: bold; cursor: default; margin: 0; padding: 0; text-align: left; min-width: 80px; font-size: 14px;'>{{localize "CARDIGAN.Actor.base.FIELDS.details.name.label"}}:</label>
-          <input
-            type='text'
-            name='system.details.name'
-            value='{{system.details.name}}'
-            style='flex: 1; padding: 2px; text-align: left; border: 1px solid #ccc; font-size: 14px;'
-          />
-        </div>
-        
-        {{! Idade }}
-        <div style='display: flex; align-items: center; gap: 8px; padding: 2px 4px;'>
-          <label style='font-weight: bold; cursor: default; margin: 0; padding: 0; text-align: left; min-width: 80px; font-size: 14px;'>{{localize "CARDIGAN.Actor.base.FIELDS.details.age.label"}}:</label>
-          <input
-            type='number'
-            name='system.details.age'
-            value='{{system.details.age}}'
-            data-dtype='Number'
-            min='0'
-            style='flex: 1; padding: 2px; text-align: center; border: 1px solid #ccc; font-size: 14px;'
-          />
-        </div>
-        
-        {{! Raça }}
-        <div style='display: flex; align-items: center; gap: 8px; padding: 2px 4px;'>
-          <label style='font-weight: bold; cursor: default; margin: 0; padding: 0; text-align: left; min-width: 80px; font-size: 14px;'>{{localize "CARDIGAN.Actor.base.FIELDS.details.race.label"}}:</label>
-          <input
-            type='text'
-            name='system.details.race'
-            value='{{system.details.race}}'
-            style='flex: 1; padding: 2px; text-align: left; border: 1px solid #ccc; font-size: 14px;'
-          />
-        </div>
-        
-        {{! Deslocamento }}
-        <div style='display: flex; align-items: center; gap: 8px; padding: 2px 4px;'>
-          <label style='font-weight: bold; cursor: default; margin: 0; padding: 0; text-align: left; min-width: 80px; font-size: 14px;'>{{localize "CARDIGAN.Actor.base.FIELDS.details.movement.label"}}:</label>
-          <input
-            type='number'
-            name='system.details.movement'
-            value='{{system.details.movement}}'
-            data-dtype='Number'
-            min='0'
-            style='flex: 1; padding: 2px; text-align: center; border: 1px solid #ccc; font-size: 14px;'
-          />
-        </div>
-        
-        {{! Acerto Crítico }}
-        <div style='display: flex; align-items: center; gap: 8px; padding: 2px 4px;'>
-          <label style='font-weight: bold; cursor: default; margin: 0; padding: 0; text-align: left; min-width: 80px; font-size: 14px;'>{{localize "CARDIGAN.Actor.base.FIELDS.details.criticalHit.label"}}:</label>
-          <input
-            type='number'
-            name='system.details.criticalHit'
-            value='{{system.details.criticalHit}}'
-            data-dtype='Number'
-            min='0'
-            style='flex: 1; padding: 2px; text-align: center; border: 1px solid #ccc; font-size: 14px;'
-          />
+  <section class='main features-tab-main'>
+    {{! Grid principal com duas colunas para Character Details/Features e Container Teste }}
+    <div class='features-main-grid'>
+      {{! Coluna esquerda - Apenas Character Details }}
+      <div class='features-left-column'>
+        {{! Character Details Container }}
+        <div class='character-details-container'>
+          <h3>Character Details</h3>
+          
+          {{! Nome }}
+          <div class='detail-field'>
+            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.name.label"}}:</label>
+            <input
+              type='text'
+              name='system.details.name'
+              value='{{system.details.name}}'
+            />
+          </div>
+          
+          {{! Idade }}
+          <div class='detail-field'>
+            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.age.label"}}:</label>
+            <input
+              type='number'
+              name='system.details.age'
+              value='{{system.details.age}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
+          
+          {{! Raça }}
+          <div class='detail-field'>
+            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.race.label"}}:</label>
+            <input
+              type='text'
+              name='system.details.race'
+              value='{{system.details.race}}'
+            />
+          </div>
+          
+          {{! Deslocamento }}
+          <div class='detail-field'>
+            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.movement.label"}}:</label>
+            <input
+              type='number'
+              name='system.details.movement'
+              value='{{system.details.movement}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
+          
+          {{! Acerto Crítico }}
+          <div class='detail-field'>
+            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.criticalHit.label"}}:</label>
+            <input
+              type='number'
+              name='system.details.criticalHit'
+              value='{{system.details.criticalHit}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
         </div>
       </div>
 
-      {{! Features List - Coluna direita }}
+      {{! Container Classes, XP & Levels - Coluna direita }}
+      <div class='container-teste'>
+        <h3>Classes, XP & Levels</h3>
+        
+        {{! XP e Level Container }}
+        <div class='xp-level-container'>
+          <div class='xp-container'>
+            <label class='xp-label'>XP:</label>
+            <div class='xp-display'>
+              <input
+                type='number'
+                name='system.experience.current'
+                value='{{system.experience.current}}'
+                data-dtype='Number'
+                min='0'
+                class='xp-current'
+              />
+              <span class='xp-separator'>/</span>
+              <input
+                type='number'
+                name='system.experience.nextLevel'
+                value='{{system.experience.nextLevel}}'
+                data-dtype='Number'
+                min='0'
+                class='xp-next'
+              />
+            </div>
+          </div>
+          
+          <div class='level-container'>
+            <label class='level-label'>Level:</label>
+            <div class='level-display'>
+              <input
+                type='number'
+                name='system.attributes.level.value'
+                value='{{system.attributes.level.value}}'
+                data-dtype='Number'
+                min='1'
+                class='level-input'
+              />
+            </div>
+          </div>
+        </div>
+        
+        {{! Classes Row }}
+        <div class='classes-row'>
+          <div class='class-field'>
+            <label>ANDARILHO</label>
+            <input
+              type='number'
+              name='system.classes.andarilho'
+              value='{{system.classes.andarilho}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
+          <div class='class-field'>
+            <label>GUERREIRO</label>
+            <input
+              type='number'
+              name='system.classes.guerreiro'
+              value='{{system.classes.guerreiro}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
+          <div class='class-field'>
+            <label>LADINO</label>
+            <input
+              type='number'
+              name='system.classes.ladino'
+              value='{{system.classes.ladino}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
+          <div class='class-field'>
+            <label>FEITICEIRO</label>
+            <input
+              type='number'
+              name='system.classes.feiticeiro'
+              value='{{system.classes.feiticeiro}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{! Grid secundário para Features List e Abilities lado a lado }}
+    <div class='features-secondary-grid'>
+      {{! Features List - Lado esquerdo }}
       <div class='features-container'>
+        <h3>Features</h3>
         <ol class='items-list'>
           <li class='item flexrow items-header'>
             <div class='item-name'>{{localize 'Name'}}</div>
@@ -135,31 +226,29 @@
           {{/each}}
         </ol>
       </div>
-    </div>
 
-    {{! Abilities Container - Embaixo, ocupando toda a largura }}
-    <div class='abilities-main-container'>
-      <h3 style='margin: 0 0 10px 0; font-size: 16px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;'>Abilities</h3>
-      <div class='abilities-list' style='display: flex; flex-direction: column; gap: 6px;'>
-        {{#each system.abilities as |ability key|}}
-          <div class='ability-row' style='display: flex; align-items: center; gap: 8px; padding: 2px 4px;'>
-            <label
-              class='rollable'
-              data-action='roll'
-              data-roll='1d20+{{ability.value}}'
-              data-label='{{localize (lookup @root.config.abilities key)}}'
-              data-key='{{key}}'
-              style='font-weight: bold; cursor: pointer; margin: 0; padding: 0; text-align: left; min-width: 85px; font-size: 14px;'
-            >{{localize (lookup @root.config.abilities key)}}</label>
-            <input
-              type='text'
-              name='system.abilities.{{key}}.value'
-              value='{{ability.value}}'
-              data-dtype='Number'
-              style='width: 50px; text-align: center; border: 1px solid #ccc; padding: 2px; font-size: 14px;'
-            />
-          </div>
-        {{/each}}
+      {{! Abilities Container - Lado direito }}
+      <div class='abilities-main-container'>
+        <h3>Abilities</h3>
+        <div class='abilities-list'>
+          {{#each system.abilities as |ability key|}}
+            <div class='ability-row'>
+              <label
+                class='rollable'
+                data-action='roll'
+                data-roll='1d20+{{ability.value}}'
+                data-label='{{localize (lookup @root.config.abilities key)}}'
+                data-key='{{key}}'
+              >{{localize (lookup @root.config.abilities key)}}</label>
+              <input
+                type='text'
+                name='system.abilities.{{key}}.value'
+                value='{{ability.value}}'
+                data-dtype='Number'
+              />
+            </div>
+          {{/each}}
+        </div>
       </div>
     </div>
   </section>

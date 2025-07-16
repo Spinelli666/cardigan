@@ -21,7 +21,7 @@
     {{! The grid classes are defined in scss/global/_grid.scss. To use,
       use both the "grid" and "grid-Ncol" class where "N" can be any number
       from 1 to 12 and will create that number of columns.  }}
-    <div class='resources grid grid-3col'>
+    <div class='resources grid {{#if (eq actor.type "npc")}}grid-3col{{else}}grid-2col{{/if}}'>
 
       {{! "flex-group-center" is also defined in the _grid.scss file
         and it will add a small amount of padding, a border, and will
@@ -68,21 +68,8 @@
         </div>
       </div>
 
-      <div class='resource flex-group-center'>
-        {{#if (eq actor.type 'character')}}
-          <label class='resource-label'>
-            {{localize 'CARDIGAN.Actor.Character.FIELDS.attributes.level.value.label'}}
-          </label>
-          <div class='resource-content flexrow flex-center flex-between'>
-            <input
-              type='text'
-              name='system.attributes.level.value'
-              value='{{system.attributes.level.value}}'
-              data-dtype='Number'
-            />
-          </div>
-        {{/if}}
-        {{#if (eq actor.type 'npc')}}
+      {{#if (eq actor.type 'npc')}}
+        <div class='resource flex-group-center'>
           <label class='resource-label'>
             {{localize 'CARDIGAN.Actor.NPC.FIELDS.cr.label'}} / {{localize 'CARDIGAN.Actor.NPC.xp.label'}}
           </label>
@@ -93,7 +80,7 @@
               value='{{system.cr}}'
               data-dtype='Number'
             />
-            <span></span>
+            <span>/</span>
             <input
               type='text'
               disabled='true'
@@ -102,8 +89,8 @@
               data-dtype='Number'
             />
           </div>
-        {{/if}}
-      </div>
+        </div>
+      {{/if}}
     </div>
   </div>
 </header>
