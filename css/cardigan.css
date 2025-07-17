@@ -230,7 +230,9 @@
   /* Grid Principal - Character Details e Container Teste */
   /* Character Details Container */
   /* Container Teste */
-  /* Grid Secundário - Features e Abilities */
+  /* Grid Secundário - Status e Abilities */
+  /* Grid Terciário - Features (largura completa) */
+  /* Status Container */
   /* Features Container */
   /* Abilities Container */
 }
@@ -637,6 +639,12 @@
 .cardigan .container-teste .level-container .level-display .level-input:focus {
   border-radius: 2px;
 }
+.cardigan .container-teste .level-container .level-display .level-input[readonly] {
+  cursor: not-allowed;
+}
+.cardigan .container-teste .level-container .level-display .level-input[readonly]:focus {
+  box-shadow: none;
+}
 .cardigan .container-teste .classes-row {
   display: flex;
   gap: 10px;
@@ -683,6 +691,34 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+  margin-bottom: 20px;
+}
+.cardigan .features-tertiary-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+.cardigan .status-container h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+.cardigan .status-container .status-content {
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  text-align: center;
+  color: #666;
+}
+.cardigan .status-container .status-content p {
+  margin: 0;
+  font-style: italic;
+}
+.cardigan .status-container .status-content p:last-child {
+  margin: 10px 0 0 0;
+  font-size: 12px;
 }
 .cardigan .features-container h3 {
   margin: 0 0 10px 0;
