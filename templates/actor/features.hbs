@@ -110,6 +110,8 @@
                 data-dtype='Number'
                 min='1'
                 class='level-input'
+                readonly
+                title='Level is automatically calculated from class points'
               />
             </div>
           </div>
@@ -161,9 +163,45 @@
       </div>
     </div>
 
-    {{! Grid secundário para Features List e Abilities lado a lado }}
+    {{! Grid secundário para Status e Abilities lado a lado }}
     <div class='features-secondary-grid'>
-      {{! Features List - Lado esquerdo }}
+      {{! Status Container - Lado esquerdo }}
+      <div class='status-container'>
+        <h3>Status</h3>
+        <div class='status-content'>
+          <p>Status information will go here</p>
+          <p>This is the new Status Container!</p>
+        </div>
+      </div>
+
+      {{! Abilities Container - Lado direito }}
+      <div class='abilities-main-container'>
+        <h3>Abilities</h3>
+        <div class='abilities-list'>
+          {{#each system.abilities as |ability key|}}
+            <div class='ability-row'>
+              <label
+                class='rollable'
+                data-action='roll'
+                data-roll='1d20+{{ability.value}}'
+                data-label='{{localize (lookup @root.config.abilities key)}}'
+                data-key='{{key}}'
+              >{{localize (lookup @root.config.abilities key)}}</label>
+              <input
+                type='text'
+                name='system.abilities.{{key}}.value'
+                value='{{ability.value}}'
+                data-dtype='Number'
+              />
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+    {{! Grid terciário para Features List }}
+    <div class='features-tertiary-grid'>
+      {{! Features Container - Largura completa }}
       <div class='features-container'>
         <h3>Features</h3>
         <ol class='items-list'>
@@ -225,30 +263,6 @@
             </li>
           {{/each}}
         </ol>
-      </div>
-
-      {{! Abilities Container - Lado direito }}
-      <div class='abilities-main-container'>
-        <h3>Abilities</h3>
-        <div class='abilities-list'>
-          {{#each system.abilities as |ability key|}}
-            <div class='ability-row'>
-              <label
-                class='rollable'
-                data-action='roll'
-                data-roll='1d20+{{ability.value}}'
-                data-label='{{localize (lookup @root.config.abilities key)}}'
-                data-key='{{key}}'
-              >{{localize (lookup @root.config.abilities key)}}</label>
-              <input
-                type='text'
-                name='system.abilities.{{key}}.value'
-                value='{{ability.value}}'
-                data-dtype='Number'
-              />
-            </div>
-          {{/each}}
-        </div>
       </div>
     </div>
   </section>

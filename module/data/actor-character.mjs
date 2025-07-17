@@ -13,7 +13,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
 
     schema.attributes = new fields.SchemaField({
       level: new fields.SchemaField({
-        value: new fields.NumberField({ ...requiredInteger, initial: 1 }),
+        value: new fields.NumberField({ ...requiredInteger, initial: 0 }),
       }),
     });
 
@@ -35,11 +35,29 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
   }
 
   prepareDerivedData() {
+    // Calculate level automatically based on sum of all classes
+    this._calculateLevel();
+    
     // Loop through ability scores to handle labels.
     for (const key in this.abilities) {
       // Handle ability label localization.
       this.abilities[key].label =
         game.i18n.localize(CONFIG.CARDIGAN.abilities[key]) ?? key;
+    }
+  }
+
+  /**
+   * Calculate level automatically based on the sum of all class points
+   * @private
+   */
+  _calculateLevel() {
+    if (this.classes) {
+      const totalClassPoints = Object.values(this.classes).reduce((sum, classValue) => {
+        return sum + (classValue || 0);
+      }, 0);
+      
+      // Set the calculated level
+      this.attributes.level.value = totalClassPoints;
     }
   }
 
