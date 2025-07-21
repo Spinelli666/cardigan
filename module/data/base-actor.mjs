@@ -19,6 +19,10 @@ export default class CardiganSystemActorBase extends foundry.abstract
       value: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
       max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
     });
+    schema.armor = new fields.SchemaField({
+      value: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+      max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+    });
     
     // Character details
     schema.details = new fields.SchemaField({

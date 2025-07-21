@@ -1,0 +1,123 @@
+/* XP, Level & Classes Container Styles */
+.container-teste {
+  h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+  }
+
+  .xp-level-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+  }
+
+  .xp-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .status-label {
+      font-weight: bold;
+      font-size: 14px;
+      color: #fff;
+      margin: 0;
+    }
+
+    .status-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 2px;
+
+      .status-current,
+      .status-next {
+        border: none;
+        background: transparent;
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 4px 8px;
+        width: 50px;
+        outline: none;
+      }
+
+      .status-separator {
+        font-size: 14px;
+        font-weight: bold;
+        color: #666;
+        margin: 0 2px;
+        user-select: none;
+      }
+    }
+  }
+
+  .level-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .level-label {
+      font-weight: bold;
+      font-size: 14px;
+      color: #fff;
+      margin: 0;
+    }
+
+    .level-display {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 2px;
+
+      .level-input {
+        border: none;
+        background: transparent;
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 4px 8px;
+        width: 40px;
+        outline: none;
+      }
+    }
+  }
+
+  .classes-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+
+    .class-field {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      label {
+        font-weight: bold;
+        font-size: 11px;
+        color: #fff;
+        margin: 0;
+        text-align: center;
+        line-height: 1.2;
+      }
+
+      input {
+        padding: 4px 6px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-size: 14px;
+        width: 100%;
+      }
+    }
+  }
+}

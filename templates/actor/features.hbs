@@ -78,24 +78,24 @@
         {{! XP e Level Container }}
         <div class='xp-level-container'>
           <div class='xp-container'>
-            <label class='xp-label'>XP:</label>
-            <div class='xp-display'>
+            <label class='status-label'>XP:</label>
+            <div class='status-display'>
               <input
                 type='number'
                 name='system.experience.current'
                 value='{{system.experience.current}}'
                 data-dtype='Number'
                 min='0'
-                class='xp-current'
+                class='status-current'
               />
-              <span class='xp-separator'>/</span>
+              <span class='status-separator'>/</span>
               <input
                 type='number'
                 name='system.experience.nextLevel'
                 value='{{system.experience.nextLevel}}'
                 data-dtype='Number'
                 min='0'
-                class='xp-next'
+                class='status-next'
               />
             </div>
           </div>
@@ -169,8 +169,72 @@
       <div class='status-container'>
         <h3>Status</h3>
         <div class='status-content'>
-          <p>Status information will go here</p>
-          <p>This is the new Status Container!</p>
+          <div class='vida-container horizontal-field'>
+            <label class='status-label label-left'>Health:</label>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.health.value'
+                value='{{system.health.value}}'
+                data-dtype='Number'
+                min='0'
+                class='status-current'
+              />
+              <span class='status-separator'>/</span>
+              <input
+                type='number'
+                name='system.health.max'
+                value='{{system.health.max}}'
+                data-dtype='Number'
+                min='0'
+                class='status-next'
+              />
+            </div>
+          </div>
+          <div class='energia-container horizontal-field'>
+            <label class='status-label label-left'>Energy:</label>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.power.value'
+                value='{{system.power.value}}'
+                data-dtype='Number'
+                min='0'
+                class='status-current'
+              />
+              <span class='status-separator'>/</span>
+              <input
+                type='number'
+                name='system.power.max'
+                value='{{system.power.max}}'
+                data-dtype='Number'
+                min='0'
+                class='status-next'
+              />
+            </div>
+          </div>
+          <div class='armadura-container horizontal-field'>
+            <label class='status-label label-left'>Armor:</label>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.armor.value'
+                value='{{system.armor.value}}'
+                data-dtype='Number'
+                min='0'
+                class='status-current'
+              />
+              <span class='status-separator'>/</span>
+              <input
+                type='number'
+                name='system.armor.max'
+                value='{{system.armor.max}}'
+                data-dtype='Number'
+                min='0'
+                class='status-next'
+              />
+            </div>
+          </div>
         </div>
       </div>
 
