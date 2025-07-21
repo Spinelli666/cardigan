@@ -1,3 +1,61 @@
+/* Abilities Container Styles - visual antigo */
+.abilities-main-container {
+  h3 {
+    margin: 0 0 6px 0;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 2px;
+  }
+
+  .abilities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .ability-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    white-space: normal;
+  }
+
+  .ability-row label {
+    font-weight: bold;
+    font-size: 15px;
+    color: #fff;
+    margin: 0;
+    text-align: left;
+    line-height: 1.2;
+    white-space: nowrap;
+    min-width: 120px;
+    display: block;
+  }
+
+  .ability-row input {
+    width: 48px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: transparent;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 2px 0;
+    margin: 0;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+    display: block;
+  }
+
+  .ability-row input:focus {
+    border-color: #888;
+    outline: none;
+  }
+}
 /* Abilities Toggle Styles */
 .abilities-toggle-view {
   transition: all 0.2s ease;
