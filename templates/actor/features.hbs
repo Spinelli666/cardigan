@@ -235,6 +235,25 @@
               />
             </div>
           </div>
+          <!-- Fome e Sede -->
+          <div class='fome-sede-container'>
+            <div class='hunger-row horizontal-field'>
+              <label class='status-label label-left'>Hunger:</label>
+              <div class='checkbox-group'>
+                {{#each system.status.hunger as |checked idx|}}
+                  <input type='checkbox' data-action='toggleHunger' data-idx='{{idx}}' {{#if checked}}checked{{/if}} />
+                {{/each}}
+              </div>
+            </div>
+            <div class='thirst-row horizontal-field'>
+              <label class='status-label label-left'>Thirst:</label>
+              <div class='checkbox-group'>
+                {{#each system.status.thirst as |checked idx|}}
+                  <input type='checkbox' data-action='toggleThirst' data-idx='{{idx}}' {{#if checked}}checked{{/if}} />
+                {{/each}}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
