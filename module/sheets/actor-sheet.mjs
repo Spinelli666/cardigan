@@ -22,7 +22,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     classes: ['cardigan', 'actor'],
     position: {
       width: 600,
-      height: "auto",  // ✅ Altura automática baseada no conteúdo
+      height: 600,  // ✅ Volta para altura fixa original
     },
     window: {
       resizable: true,      // ✅ Mantém redimensionável
@@ -110,6 +110,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       systemFields: this.document.system.schema.fields,
     };
 
+
+
     // Offloading context prep to a helper function
     this._prepareItems(context);
 
@@ -120,6 +122,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   async _preparePartContext(partId, context) {
     switch (partId) {
       case 'features':
+        context.tab = context.tabs[partId];
+        break;
       case 'spells':
       case 'gear':
         context.tab = context.tabs[partId];
@@ -207,59 +211,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Recalcula a altura da janela quando o conteúdo muda
-   * @override
-   */
-  async _onChangeTab(event, tabs, active) {
-    await super._onChangeTab?.(event, tabs, active);
-    
-    // 🎯 Redimensionamento dinâmico SEM tocar no header
-    if (this.options.position.height === "auto") {
-      // Aguarda o DOM atualizar antes de recalcular
-      await foundry.utils.wait(150);
-      this._adjustWindowHeight();
-    }
-  }
-
-  /**
-   * Ajusta a altura da janela baseada no conteúdo SEM tocar no header
-   * @private
-   */
-  _adjustWindowHeight() {
-    if (!this.element || this.options.position.height !== "auto") return;
-    
-    try {
-      // Encontra elementos necessários
-      const windowContent = this.element.querySelector('.window-content');
-      const header = this.element.querySelector('.sheet-header'); // Header customizado do Cardigan
-      
-      if (!windowContent) return;
-      
-      // Calcula alturas
-      const headerHeight = header ? header.offsetHeight : 0;
-      const tabsHeight = this.element.querySelector('[data-group="primary"]')?.offsetHeight || 30;
-      const contentHeight = windowContent.scrollHeight;
-      
-      // Altura total necessária com margens de segurança
-      const totalHeight = Math.max(
-        400, // Altura mínima
-        Math.min(
-          window.innerHeight - 100, // Altura máxima (não sair da tela)
-          headerHeight + tabsHeight + contentHeight + 40 // Altura calculada + padding
-        )
-      );
-      
-      // Só redimensiona se houver diferença significativa
-      const currentHeight = this.element.offsetHeight;
-      if (Math.abs(totalHeight - currentHeight) > 20) {
-        this.setPosition({ height: totalHeight });
-      }
-    } catch (error) {
-      console.warn('Cardigan: Erro ao ajustar altura da janela:', error);
-    }
-  }
-
-  /**
    * Actions performed after any render of the Application.
    * Post-render steps are not awaited by the render process.
    * @param {ApplicationRenderContext} context      Prepared context data
@@ -270,11 +221,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   _onRender(context, options) {
     this.#dragDrop.forEach((d) => d.bind(this.element));
     this.#disableOverrides();
-    
-    // 🎯 Ajusta altura após renderização SEM tocar no header
-    if (this.options.position.height === "auto") {
-      foundry.utils.wait(100).then(() => this._adjustWindowHeight());
-    }
     
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
@@ -443,28 +389,42 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   static async _onRoll(event, target) {
     event.preventDefault();
-    const element = event.currentTarget;
+    
+    const element = target;
     const dataset = element.dataset;
 
     // Handle item rolls.
     switch (dataset.rollType) {
       case 'item':
         const itemId = element.closest('[data-item-id]')?.dataset.itemId;
-        const item = this.actor.items.get(itemId);
+        const item = this.document.items.get(itemId);
         if (item) return item.roll();
         break;
     }
 
     // Handle rolls that supply the formula directly.
     if (dataset.roll) {
-      let label = dataset.label ? `[ability] ${dataset.label}` : '';
-      let roll = new Roll(dataset.roll, this.actor.getRollData());
-      await roll.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: label,
-        rollMode: game.settings.get('core', 'rollMode'),
-      });
-      return roll;
+      const label = dataset.label || 'Roll';
+      
+      try {
+        // Create the roll
+        const roll = new Roll(dataset.roll, this.document.getRollData());
+        
+        // Evaluate the roll
+        await roll.evaluate();
+        
+        // Send to chat
+        const message = await roll.toMessage({
+          speaker: ChatMessage.getSpeaker({ actor: this.document }),
+          flavor: label,
+          rollMode: game.settings.get('core', 'rollMode'),
+        });
+        
+        return roll;
+      } catch (error) {
+        console.error("Error during roll:", error);
+        ui.notifications.error(`Erro ao rolar ${label}: ${error.message}`);
+      }
     }
   }
 
@@ -477,11 +437,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   static _getEmbeddedDocument(target) {
     const docRow = target.closest('[data-document-id], [data-item-id], [data-effect-id]');
     if (docRow?.dataset.documentId) {
-      return this.actor.effects.get(docRow.dataset.documentId);
+      return this.document.effects.get(docRow.dataset.documentId);
     } else if (docRow?.dataset.itemId) {
-      return this.actor.items.get(docRow.dataset.itemId);
+      return this.document.items.get(docRow.dataset.itemId);
     } else if (docRow?.dataset.effectId) {
-      return this.actor.effects.get(docRow.dataset.effectId);
+      return this.document.effects.get(docRow.dataset.effectId);
     }
     throw new Error('Could not find document from element');
   }

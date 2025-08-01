@@ -4,94 +4,330 @@
   data-group='primary'
   data-tab='features'
 >
-  <section class='grid grid-3col'>
-    <aside class='sidebar'>
-      {{! The grid classes are defined in scss/global/_grid.scss. To use,
-          use both the "grid" and "grid-Ncol" class where "N" can be any number
-          from 1 to 12 and will create that number of columns.  }}
-      <div class='custom-abilities-container' style='display: flex; flex-direction: column; gap: 6px;'>
-        {{#each system.abilities as |ability key|}}
-          <div class='custom-ability-row' style='display: grid; grid-template-columns: 85px 50px; gap: 15px; align-items: center; padding: 2px 4px;'>
-            <label
-              class='rollable'
-              data-action='roll'
-              data-roll='d20+@abilities.{{key}}.value'
-              data-label='{{localize (lookup @root.config.abilities key)}}'
-              style='font-weight: bold; cursor: pointer; margin: 0; padding: 0; text-align: left;'
-            >{{localize (lookup @root.config.abilities key)}}</label>
+  <section class='main features-tab-main'>
+    {{! Grid principal com duas colunas para Character Details/Features e Container Teste }}
+    <div class='features-main-grid'>
+      {{! Coluna esquerda - Apenas Character Details }}
+      <div class='features-left-column'>
+        {{! Character Details Container }}
+        <div class='character-details-container'>
+          <h3>Character Details</h3>
+          
+          {{! Nome }}
+          <div class='detail-field'>
+            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.name.label"}}:</label>
             <input
               type='text'
-              name='system.abilities.{{key}}.value'
-              value='{{ability.value}}'
-              data-dtype='Number'
-              style='width: 50px; text-align: center; border: 1px solid #ccc; padding: 2px;'
+              name='system.details.name'
+              value='{{system.details.name}}'
             />
           </div>
-        {{/each}}
-      </div>
-    </aside>
-
-    {{! For the main features list, span the right two columns }}
-    <section class='main grid-span-2'>
-      <ol class='items-list'>
-        <li class='item flexrow items-header'>
-          <div class='item-name'>{{localize 'Name'}}</div>
-          <div class='item-controls'>
-            {{#if @root.editable}}
-              <a
-                class='item-control item-create'
-                title='Create item'
-                data-action='createDoc'
-                data-document-class='Item'
-                data-type='feature'
-              >
-                <i class='fas fa-plus'></i>
-                {{localize 'DOCUMENT.New' type='feature'}}
-              </a>
-            {{/if}}
+          
+          {{! Idade }}
+          <div class='detail-field'>
+            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.age.label"}}:</label>
+            <input
+              type='number'
+              name='system.details.age'
+              value='{{system.details.age}}'
+              data-dtype='Number'
+              min='0'
+            />
           </div>
-        </li>
-        {{#each features as |item id|}}
-          <li
-            class='item flexrow'
-            data-item-id='{{item._id}}'
-            data-drag='true'
-            data-document-class='Item'
-          >
-            <div class='item-name'>
-              <div class='item-image'>
-                <a class='rollable' data-roll-type='item' data-action='roll'>
-                  <img
-                    src='{{item.img}}'
-                    title='{{item.name}}'
-                    width='24'
-                    height='24'
-                  />
-                </a>
-              </div>
-              <div>{{item.name}}</div>
+          
+          {{! Raça }}
+          <div class='detail-field'>
+            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.race.label"}}:</label>
+            <input
+              type='text'
+              name='system.details.race'
+              value='{{system.details.race}}'
+            />
+          </div>
+          
+          {{! Deslocamento }}
+          <div class='detail-field'>
+            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.movement.label"}}:</label>
+            <input
+              type='number'
+              name='system.details.movement'
+              value='{{system.details.movement}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
+          
+          {{! Acerto Crítico }}
+          <div class='detail-field'>
+            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.criticalHit.label"}}:</label>
+            <input
+              type='number'
+              name='system.details.criticalHit'
+              value='{{system.details.criticalHit}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
+        </div>
+      </div>
+
+      {{! Container Classes, XP & Levels - Coluna direita }}
+      <div class='container-teste'>
+        <h3>Classes, XP & Levels</h3>
+        
+        {{! XP e Level Container }}
+        <div class='xp-level-container'>
+          <div class='xp-container'>
+            <label class='status-label'>XP:</label>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.experience.current'
+                value='{{system.experience.current}}'
+                data-dtype='Number'
+                min='0'
+                class='status-current'
+              />
+              <span class='status-separator'>/</span>
+              <input
+                type='number'
+                name='system.experience.nextLevel'
+                value='{{system.experience.nextLevel}}'
+                data-dtype='Number'
+                min='0'
+                class='status-next'
+              />
             </div>
+          </div>
+          
+          <div class='level-container'>
+            <label class='level-label'>Level:</label>
+            <div class='level-display'>
+              <input
+                type='number'
+                name='system.attributes.level.value'
+                value='{{system.attributes.level.value}}'
+                data-dtype='Number'
+                min='1'
+                class='level-input'
+                readonly
+                title='Level is automatically calculated from class points'
+              />
+            </div>
+          </div>
+        </div>
+        
+        {{! Classes Row }}
+        <div class='classes-row'>
+          <div class='class-field'>
+            <label>ANDARILHO</label>
+            <input
+              type='number'
+              name='system.classes.andarilho'
+              value='{{system.classes.andarilho}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
+          <div class='class-field'>
+            <label>GUERREIRO</label>
+            <input
+              type='number'
+              name='system.classes.guerreiro'
+              value='{{system.classes.guerreiro}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
+          <div class='class-field'>
+            <label>LADINO</label>
+            <input
+              type='number'
+              name='system.classes.ladino'
+              value='{{system.classes.ladino}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
+          <div class='class-field'>
+            <label>FEITICEIRO</label>
+            <input
+              type='number'
+              name='system.classes.feiticeiro'
+              value='{{system.classes.feiticeiro}}'
+              data-dtype='Number'
+              min='0'
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{! Grid secundário para Status e Abilities lado a lado }}
+    <div class='features-secondary-grid'>
+      {{! Status Container - Lado esquerdo }}
+      <div class='status-container'>
+        <h3>Status</h3>
+        <div class='status-content'>
+          <div class='vida-container horizontal-field'>
+            <label class='status-label label-left'>Health:</label>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.health.value'
+                value='{{system.health.value}}'
+                data-dtype='Number'
+                min='0'
+                class='status-current'
+              />
+              <span class='status-separator'>/</span>
+              <input
+                type='number'
+                name='system.health.max'
+                value='{{system.health.max}}'
+                data-dtype='Number'
+                min='0'
+                class='status-next'
+              />
+            </div>
+          </div>
+          <div class='energia-container horizontal-field'>
+            <label class='status-label label-left'>Energy:</label>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.power.value'
+                value='{{system.power.value}}'
+                data-dtype='Number'
+                min='0'
+                class='status-current'
+              />
+              <span class='status-separator'>/</span>
+              <input
+                type='number'
+                name='system.power.max'
+                value='{{system.power.max}}'
+                data-dtype='Number'
+                min='0'
+                class='status-next'
+              />
+            </div>
+          </div>
+          <div class='armadura-container horizontal-field'>
+            <label class='status-label label-left'>Armor:</label>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.armor.value'
+                value='{{system.armor.value}}'
+                data-dtype='Number'
+                min='0'
+                class='status-current'
+              />
+              <span class='status-separator'>/</span>
+              <input
+                type='number'
+                name='system.armor.max'
+                value='{{system.armor.max}}'
+                data-dtype='Number'
+                min='0'
+                class='status-next'
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{! Abilities Container - Lado direito }}
+      <div class='abilities-main-container'>
+        <h3>Abilities</h3>
+        <div class='abilities-list'>
+          {{#each system.abilities as |ability key|}}
+            <div class='ability-row'>
+              <label
+                class='rollable'
+                data-action='roll'
+                data-roll='1d20+{{ability.value}}'
+                data-label='{{localize (lookup @root.config.abilities key)}}'
+                data-key='{{key}}'
+              >{{localize (lookup @root.config.abilities key)}}</label>
+              <input
+                type='text'
+                name='system.abilities.{{key}}.value'
+                value='{{ability.value}}'
+                data-dtype='Number'
+              />
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+    {{! Grid terciário para Features List }}
+    <div class='features-tertiary-grid'>
+      {{! Features Container - Largura completa }}
+      <div class='features-container'>
+        <h3>Features</h3>
+        <ol class='items-list'>
+          <li class='item flexrow items-header'>
+            <div class='item-name'>{{localize 'Name'}}</div>
             <div class='item-controls'>
-              <a
-                class='item-control item-edit'
-                title='{{localize "DOCUMENT.Update" type='feature'}}'
-                data-action='viewDoc'
-              >
-                <i class='fas fa-edit'></i>
-              </a>
               {{#if @root.editable}}
                 <a
-                  class='item-control item-delete'
-                  title='{{localize "DOCUMENT.Delete" type='feature'}}'
-                  data-action='deleteDoc'
+                  class='item-control item-create'
+                  title='Create item'
+                  data-action='createDoc'
+                  data-document-class='Item'
+                  data-type='feature'
                 >
-                  <i class='fas fa-trash'></i>
+                  <i class='fas fa-plus'></i>
+                  {{localize 'DOCUMENT.New' type='feature'}}
                 </a>
               {{/if}}
             </div>
           </li>
-        {{/each}}
-      </ol>
-    </section>
+          {{#each features as |item id|}}
+            <li
+              class='item flexrow'
+              data-item-id='{{item._id}}'
+              data-drag='true'
+              data-document-class='Item'
+            >
+              <div class='item-name'>
+                <div class='item-image'>
+                  <a class='rollable' data-roll-type='item' data-action='roll'>
+                    <img
+                      src='{{item.img}}'
+                      title='{{item.name}}'
+                      width='24'
+                      height='24'
+                    />
+                  </a>
+                </div>
+                <div>{{item.name}}</div>
+              </div>
+              <div class='item-controls'>
+                <a
+                  class='item-control item-edit'
+                  title='{{localize "DOCUMENT.Update" type='feature'}}'
+                  data-action='viewDoc'
+                >
+                  <i class='fas fa-edit'></i>
+                </a>
+                {{#if @root.editable}}
+                  <a
+                    class='item-control item-delete'
+                    title='{{localize "DOCUMENT.Delete" type='feature'}}'
+                    data-action='deleteDoc'
+                  >
+                    <i class='fas fa-trash'></i>
+                  </a>
+                {{/if}}
+              </div>
+            </li>
+          {{/each}}
+        </ol>
+      </div>
+    </div>
   </section>
 </section>

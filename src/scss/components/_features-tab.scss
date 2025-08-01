@@ -1,0 +1,70 @@
+.horizontal-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.label-left {
+  margin: 0;
+  min-width: 50px;
+  text-align: left;
+}
+/* Containers de Vida e Energia no Status */
+.vida-container,
+.energia-container {
+  margin-bottom: 10px;
+}
+
+/* Features Tab Layout Styles */
+// Utilitários e grids compartilhados
+.horizontal-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.label-left {
+  margin: 0;
+  min-width: 50px;
+  text-align: left;
+}
+
+.features-tab-main {
+  padding: 10px;
+}
+
+.features-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.features-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.features-secondary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.features-tertiary-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.features-container {
+  h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+  }
+}

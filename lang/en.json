@@ -31,8 +31,15 @@
             "max": {"label": "Maximum Health"}
           },
           "power": {
-            "value": {"label": "Power"},
-            "max": {"label": "Maximum Power"}
+            "value": {"label": "Energy"},
+            "max": {"label": "Maximum Energy"}
+          },
+          "details": {
+            "name": {"label": "Name"},
+            "age": {"label": "Age"},
+            "race": {"label": "Race"},
+            "movement": {"label": "Movement"},
+            "criticalHit": {"label": "Critical Hit"}
           }
         }
       },
