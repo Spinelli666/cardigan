@@ -33,8 +33,8 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
 
     // Adiciona campos de Fome e Sede (arrays de 3 checkboxes)
     schema.status = new fields.SchemaField({
-      hunger: new fields.ArrayField(new fields.BooleanField(), { initial: [false, false, false] }), // Todas desmarcadas
-      thirst: new fields.ArrayField(new fields.BooleanField(), { initial: [false, false, false] })  // Todas desmarcadas
+      hunger: new fields.ArrayField(new fields.BooleanField(), { initial: [true, true, true] }), // Todas marcadas
+      thirst: new fields.ArrayField(new fields.BooleanField(), { initial: [true, true, true] })  // Todas marcadas
     });
     return schema;
   }
@@ -61,27 +61,27 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Verificar estado de Hunger
     const hunger = this.status?.hunger ?? [];
     const hungerLevel = hunger.filter(Boolean).length; // Conta os checkboxes marcados
-    if (hungerLevel === 0) {
-      this.status.hungerMessage = ""; // Nenhuma checkbox marcada = sem mensagem
+    if (hungerLevel === 3) {
+      this.status.hungerMessage = ""; // Todas marcadas = sem mensagem (estado normal)
     } else if (hungerLevel === 2) {
-      this.status.hungerMessage = "O personagem está com muita fome!";
+      this.status.hungerMessage = "O personagem está ficando com fome. - 2 de Fome";
     } else if (hungerLevel === 1) {
-      this.status.hungerMessage = "O personagem está com fome.";
+      this.status.hungerMessage = "O personagem está ficando com mais fome. - 1 de Fome";
     } else if (hungerLevel === 0) {
-      this.status.hungerMessage = "O personagem está começando a sentir fome.";
+      this.status.hungerMessage = "O personagem está com fome! - 0 de Fome";
     }
 
     // Verificar estado de Thirst
     const thirst = this.status?.thirst ?? [];
     const thirstLevel = thirst.filter(Boolean).length; // Conta os checkboxes marcados
-    if (thirstLevel === 0) {
-      this.status.thirstMessage = ""; // Nenhuma checkbox marcada = sem mensagem
+    if (thirstLevel === 3) {
+      this.status.thirstMessage = ""; // Todas marcadas = sem mensagem (estado normal)
     } else if (thirstLevel === 2) {
-      this.status.thirstMessage = "O personagem está com muita sede!";
+      this.status.thirstMessage = "O personagem está ficando com sede. - 2 de Sede";
     } else if (thirstLevel === 1) {
-      this.status.thirstMessage = "O personagem está com sede.";
+      this.status.thirstMessage = "O personagem está ficando com mais sede. - 1 de Sede";
     } else if (thirstLevel === 0) {
-      this.status.thirstMessage = "O personagem está começando a sentir sede.";
+      this.status.thirstMessage = "O personagem está com sede! - 0 de Sede";
     }
   }
 
