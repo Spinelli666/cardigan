@@ -61,7 +61,8 @@
       "status": {
         "hunger": [true, true, true],
         "thirst": [true, true, true],
-        "exhaustion": 0
+        "exhaustion": 0,
+        "totalExhaustion": 0
       },
       "classes": {
         "andarilho": 0,

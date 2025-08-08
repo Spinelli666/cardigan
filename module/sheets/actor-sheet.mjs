@@ -729,7 +729,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           } else if (hungerLevel === 1) {
             message = `${actor.name} está ficando com mais fome. [1 de Fome]`;
           } else if (hungerLevel === 0) {
-            message = `${actor.name} está com fome! [0 de Fome]`;
+            message = `${actor.name} está com fome! [0 de Fome e 5 de Exaustão]`;
           }
         }
 
@@ -772,7 +772,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           } else if (thirstLevel === 1) {
             message = `${actor.name} está ficando com mais sede. [1 de Sede]`;
           } else if (thirstLevel === 0) {
-            message = `${actor.name} está com sede! [0 de Sede]`;
+            message = `${actor.name} está com sede! [0 de Sede e 5 de Exaustão]`;
           }
         }
 

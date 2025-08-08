@@ -35,7 +35,8 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     schema.status = new fields.SchemaField({
       hunger: new fields.ArrayField(new fields.BooleanField(), { initial: [true, true, true] }), // Todas marcadas
       thirst: new fields.ArrayField(new fields.BooleanField(), { initial: [true, true, true] }), // Todas marcadas
-      exhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }) // Pontos de exaustão
+      exhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }), // Pontos de exaustão manual
+      totalExhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }) // Exaustão total (manual + auto)
     });
     return schema;
   }
@@ -69,7 +70,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     } else if (hungerLevel === 1) {
       this.status.hungerMessage = "O personagem está ficando com mais fome. [1 de Fome]";
     } else if (hungerLevel === 0) {
-      this.status.hungerMessage = "O personagem está com fome! [0 de Fome]";
+      this.status.hungerMessage = "O personagem está com fome! [0 de Fome e 5 de Exaustão]";
     }
 
     // Verificar estado de Thirst
@@ -82,14 +83,36 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     } else if (thirstLevel === 1) {
       this.status.thirstMessage = "O personagem está ficando com mais sede. [1 de Sede]";
     } else if (thirstLevel === 0) {
-      this.status.thirstMessage = "O personagem está com sede! [0 de Sede]";
+      this.status.thirstMessage = "O personagem está com sede! [0 de Sede e 5 de Exaustão]";
     }
 
-    // Aplicar penalidade de exaustão nos testes de perícias
-    const exhaustion = this.status?.exhaustion ?? 0;
-    // A penalidade será aplicada automaticamente nos rolls através do getRollData()
-    // Cada ponto de exaustão = -1 em todos os testes de perícias
-    this.status.exhaustionPenalty = -exhaustion;
+    // Calcular exaustão automática por fome e sede
+    let autoExhaustion = 0;
+    
+    // Se fome estiver em 0 (todas desmarcadas), adiciona 5 de exaustão
+    if (hungerLevel === 0) {
+      autoExhaustion += 5;
+    }
+    
+    // Se sede estiver em 0 (todas desmarcadas), adiciona 5 de exaustão  
+    if (thirstLevel === 0) {
+      autoExhaustion += 5;
+    }
+    
+    // O totalExhaustion é editado pelo usuário, então calculamos a exaustão manual
+    const totalExhaustion = this.status?.totalExhaustion ?? 0;
+    const manualExhaustion = Math.max(0, totalExhaustion - autoExhaustion);
+    
+    // Atualizar os valores calculados
+    this.status.autoExhaustion = autoExhaustion;
+    this.status.exhaustion = manualExhaustion;
+    
+    // Se o valor total for menor que a exaustão automática, ajustar o total
+    if (totalExhaustion < autoExhaustion) {
+      this.status.totalExhaustion = autoExhaustion;
+    }
+    
+    this.status.exhaustionPenalty = -this.status.totalExhaustion;
   }
 
   /**
@@ -116,12 +139,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       for (let [k, v] of Object.entries(this.abilities)) {
         data[k] = foundry.utils.deepClone(v);
         
-        // Aplicar penalidade de exaustão em TODAS as perícias
-        const exhaustion = this.status?.exhaustion ?? 0;
-        if (exhaustion > 0) {
+        // Aplicar penalidade de exaustão TOTAL em TODAS as perícias
+        const totalExhaustion = this.status?.totalExhaustion ?? 0;
+        if (totalExhaustion > 0) {
           // Cada ponto de exaustão = -1 no teste de perícia
-          data[k].value = (data[k].value || 0) - exhaustion;
-          console.log(`[CARDIGAN] Aplicando penalidade de exaustão: ${k} = ${v.value} - ${exhaustion} = ${data[k].value}`);
+          data[k].value = (data[k].value || 0) - totalExhaustion;
+          console.log(`[CARDIGAN] Aplicando penalidade de exaustão total: ${k} = ${v.value} - ${totalExhaustion} = ${data[k].value}`);
         }
       }
     }
@@ -129,8 +152,14 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     data.lvl = this.attributes.level.value;
     
     // Adicionar informações de exaustão para uso em macros/rolls
-    data.exhaustion = this.status?.exhaustion ?? 0;
-    data.exhaustionPenalty = -(this.status?.exhaustion ?? 0);
+    const manualExhaustion = this.status?.exhaustion ?? 0;
+    const autoExhaustion = this.status?.autoExhaustion ?? 0;
+    const totalExhaustion = this.status?.totalExhaustion ?? 0;
+    
+    data.exhaustion = manualExhaustion;
+    data.autoExhaustion = autoExhaustion;
+    data.totalExhaustion = totalExhaustion;
+    data.exhaustionPenalty = -totalExhaustion;
 
     console.log(`[CARDIGAN] RollData final:`, data);
     return data;
