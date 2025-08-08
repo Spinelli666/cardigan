@@ -57,6 +57,28 @@
         "psionics": {
           "value": 0
         }
+      },
+      "status": {
+        "hunger": [true, true, true],
+        "thirst": [true, true, true],
+        "exhaustion": 0
+      },
+      "classes": {
+        "andarilho": 0,
+        "guerreiro": 0,
+        "ladino": 0,
+        "feiticeiro": 0
+      },
+      "details": {
+        "name": "",
+        "age": 0,
+        "race": "",
+        "movement": 0,
+        "criticalHit": 0
+      },
+      "experience": {
+        "current": 0,
+        "nextLevel": 100
       }
     },
     "npc": {

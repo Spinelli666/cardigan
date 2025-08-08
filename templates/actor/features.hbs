@@ -263,6 +263,20 @@
                 {{/each}}
               </div>
             </div>
+            <!-- Exaustão -->
+            <div class='exhaustion-row horizontal-field'>
+              <label class='status-label label-left'>Exaustão:</label>
+              <div class='status-display'>
+                <input
+                  type='number'
+                  name='system.status.exhaustion'
+                  value='{{system.status.exhaustion}}'
+                  data-dtype='Number'
+                  min='0'
+                  class='status-current'
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -276,7 +290,7 @@
               <label
                 class='rollable'
                 data-action='roll'
-                data-roll='1d20+{{ability.value}}'
+                data-roll='1d20+@{{key}}.value'
                 data-label='{{localize (lookup @root.config.abilities key)}}'
                 data-key='{{key}}'
               >{{localize (lookup @root.config.abilities key)}}</label>

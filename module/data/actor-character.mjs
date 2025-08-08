@@ -34,7 +34,8 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Adiciona campos de Fome e Sede (arrays de 3 checkboxes)
     schema.status = new fields.SchemaField({
       hunger: new fields.ArrayField(new fields.BooleanField(), { initial: [true, true, true] }), // Todas marcadas
-      thirst: new fields.ArrayField(new fields.BooleanField(), { initial: [true, true, true] })  // Todas marcadas
+      thirst: new fields.ArrayField(new fields.BooleanField(), { initial: [true, true, true] }), // Todas marcadas
+      exhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }) // Pontos de exaustão
     });
     return schema;
   }
@@ -83,6 +84,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     } else if (thirstLevel === 0) {
       this.status.thirstMessage = "O personagem está com sede! - 0 de Sede";
     }
+
+    // Aplicar penalidade de exaustão nos testes de perícias
+    const exhaustion = this.status?.exhaustion ?? 0;
+    // A penalidade será aplicada automaticamente nos rolls através do getRollData()
+    // Cada ponto de exaustão = -1 em todos os testes de perícias
+    this.status.exhaustionPenalty = -exhaustion;
   }
 
   /**
@@ -108,11 +115,24 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     if (this.abilities) {
       for (let [k, v] of Object.entries(this.abilities)) {
         data[k] = foundry.utils.deepClone(v);
+        
+        // Aplicar penalidade de exaustão em TODAS as perícias
+        const exhaustion = this.status?.exhaustion ?? 0;
+        if (exhaustion > 0) {
+          // Cada ponto de exaustão = -1 no teste de perícia
+          data[k].value = (data[k].value || 0) - exhaustion;
+          console.log(`[CARDIGAN] Aplicando penalidade de exaustão: ${k} = ${v.value} - ${exhaustion} = ${data[k].value}`);
+        }
       }
     }
 
     data.lvl = this.attributes.level.value;
+    
+    // Adicionar informações de exaustão para uso em macros/rolls
+    data.exhaustion = this.status?.exhaustion ?? 0;
+    data.exhaustionPenalty = -(this.status?.exhaustion ?? 0);
 
+    console.log(`[CARDIGAN] RollData final:`, data);
     return data;
   }
 }
