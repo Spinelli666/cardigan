@@ -222,6 +222,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     this.#dragDrop.forEach((d) => d.bind(this.element));
     this.#disableOverrides();
     
+    // Adicionar event listeners para checkboxes de hunger e thirst
+    this.#addStatusListeners();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -688,6 +691,69 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const overrides = foundry.utils.flattenObject(this.actor.overrides);
     for (let k of Object.keys(overrides)) delete submitData[k];
     await this.document.update(submitData);
+  }
+
+  /**
+   * Adiciona event listeners para os checkboxes de hunger e thirst
+   */
+  #addStatusListeners() {
+    const html = this.element;
+    
+    // Escutar mudanças nos checkboxes de Hunger
+    html.querySelectorAll('input[name^="system.status.hunger"]').forEach(input => {
+      input.addEventListener('change', (ev) => {
+        // Só executa se a checkbox foi MARCADA (não desmarcada)
+        if (!ev.target.checked) return;
+        
+        const actor = this.actor;
+        const hunger = actor.system.status.hunger;
+        const hungerLevel = hunger.filter(Boolean).length; // Conta checkboxes marcadas
+
+        let message = "";
+        if (hungerLevel === 2) {
+          message = `${actor.name} está com muita fome!`;
+        } else if (hungerLevel === 1) {
+          message = `${actor.name} está com fome.`;
+        } else if (hungerLevel === 0) {
+          message = `${actor.name} está começando a sentir fome.`;
+        }
+
+        if (message) {
+          ChatMessage.create({ 
+            content: message,
+            speaker: ChatMessage.getSpeaker({ actor: actor })
+          });
+        }
+      });
+    });
+
+    // Escutar mudanças nos checkboxes de Thirst
+    html.querySelectorAll('input[name^="system.status.thirst"]').forEach(input => {
+      input.addEventListener('change', (ev) => {
+        // Só executa se a checkbox foi MARCADA (não desmarcada)
+        if (!ev.target.checked) return;
+        
+        const actor = this.actor;
+        const thirst = actor.system.status.thirst;
+        const thirstLevel = thirst.filter(Boolean).length; // Conta checkboxes marcadas
+
+        let message = "";
+        if (thirstLevel === 2) {
+          message = `${actor.name} está com muita sede!`;
+        } else if (thirstLevel === 1) {
+          message = `${actor.name} está com sede.`;
+        } else if (thirstLevel === 0) {
+          message = `${actor.name} está começando a sentir sede.`;
+        }
+
+        if (message) {
+          ChatMessage.create({ 
+            content: message,
+            speaker: ChatMessage.getSpeaker({ actor: actor })
+          });
+        }
+      });
+    });
   }
 
   /**

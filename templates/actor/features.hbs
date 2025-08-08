@@ -241,7 +241,12 @@
               <label class='status-label label-left'>Hunger:</label>
               <div class='checkbox-group'>
                 {{#each system.status.hunger as |checked idx|}}
-                  <input type='checkbox' data-action='toggleHunger' data-idx='{{idx}}' {{#if checked}}checked{{/if}} />
+                  <input 
+                    type='checkbox' 
+                    name='system.status.hunger.{{idx}}' 
+                    {{#if checked}}checked{{/if}} 
+                    data-dtype='Boolean'
+                  />
                 {{/each}}
               </div>
             </div>
@@ -249,7 +254,12 @@
               <label class='status-label label-left'>Thirst:</label>
               <div class='checkbox-group'>
                 {{#each system.status.thirst as |checked idx|}}
-                  <input type='checkbox' data-action='toggleThirst' data-idx='{{idx}}' {{#if checked}}checked{{/if}} />
+                  <input 
+                    type='checkbox' 
+                    name='system.status.thirst.{{idx}}' 
+                    {{#if checked}}checked{{/if}} 
+                    data-dtype='Boolean'
+                  />
                 {{/each}}
               </div>
             </div>
