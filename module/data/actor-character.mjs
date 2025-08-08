@@ -65,11 +65,11 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     if (hungerLevel === 3) {
       this.status.hungerMessage = ""; // Todas marcadas = sem mensagem (estado normal)
     } else if (hungerLevel === 2) {
-      this.status.hungerMessage = "O personagem está ficando com fome. - 2 de Fome";
+      this.status.hungerMessage = "O personagem está ficando com fome. [2 de Fome]";
     } else if (hungerLevel === 1) {
-      this.status.hungerMessage = "O personagem está ficando com mais fome. - 1 de Fome";
+      this.status.hungerMessage = "O personagem está ficando com mais fome. [1 de Fome]";
     } else if (hungerLevel === 0) {
-      this.status.hungerMessage = "O personagem está com fome! - 0 de Fome";
+      this.status.hungerMessage = "O personagem está com fome! [0 de Fome]";
     }
 
     // Verificar estado de Thirst
@@ -78,11 +78,11 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     if (thirstLevel === 3) {
       this.status.thirstMessage = ""; // Todas marcadas = sem mensagem (estado normal)
     } else if (thirstLevel === 2) {
-      this.status.thirstMessage = "O personagem está ficando com sede. - 2 de Sede";
+      this.status.thirstMessage = "O personagem está ficando com sede. [2 de Sede]";
     } else if (thirstLevel === 1) {
-      this.status.thirstMessage = "O personagem está ficando com mais sede. - 1 de Sede";
+      this.status.thirstMessage = "O personagem está ficando com mais sede. [1 de Sede]";
     } else if (thirstLevel === 0) {
-      this.status.thirstMessage = "O personagem está com sede! - 0 de Sede";
+      this.status.thirstMessage = "O personagem está com sede! [0 de Sede]";
     }
 
     // Aplicar penalidade de exaustão nos testes de perícias

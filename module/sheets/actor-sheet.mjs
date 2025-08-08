@@ -702,26 +702,35 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Escutar mudanças nos checkboxes de Hunger
     html.querySelectorAll('input[name^="system.status.hunger"]').forEach(input => {
       input.addEventListener('change', (ev) => {
-        // Só executa se a checkbox foi DESMARCADA (não marcada)
-        if (ev.target.checked) return;
-        
         const actor = this.actor;
         const hunger = [...actor.system.status.hunger]; // Copia o array atual
         
-        // Determina qual índice da checkbox foi desmarcada
+        // Determina qual índice da checkbox foi alterada
         const inputName = ev.target.name;
         const index = parseInt(inputName.split('.').pop()); // Pega o último elemento após o ponto
-        hunger[index] = false; // Desmarca a checkbox que acabou de ser clicada
+        hunger[index] = ev.target.checked; // Atualiza o estado da checkbox
         
-        const hungerLevel = hunger.filter(Boolean).length; // Conta com o novo valor
+        const hungerLevel = hunger.filter(Boolean).length; // Conta as checkboxes marcadas
 
         let message = "";
-        if (hungerLevel === 2) {
-          message = `${actor.name} está ficando com fome. - 2 de Fome`;
-        } else if (hungerLevel === 1) {
-          message = `${actor.name} está ficando com mais fome. - 1 de Fome`;
-        } else if (hungerLevel === 0) {
-          message = `${actor.name} está com fome! - 0 de Fome`;
+        if (ev.target.checked) {
+          // Mensagens para quando a checkbox é marcada
+          if (hungerLevel === 3) {
+            message = `${actor.name} não está mais com fome.`;
+          } else if (hungerLevel === 2) {
+            message = `${actor.name} está com 2 de Fome.`;
+          } else if (hungerLevel === 1) {
+            message = `${actor.name} está com 1 de Fome.`;
+          }
+        } else {
+          // Mensagens para quando a checkbox é desmarcada
+          if (hungerLevel === 2) {
+            message = `${actor.name} está ficando com fome. [2 de Fome]`;
+          } else if (hungerLevel === 1) {
+            message = `${actor.name} está ficando com mais fome. [1 de Fome]`;
+          } else if (hungerLevel === 0) {
+            message = `${actor.name} está com fome! [0 de Fome]`;
+          }
         }
 
         if (message) {
@@ -736,26 +745,35 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Escutar mudanças nos checkboxes de Thirst
     html.querySelectorAll('input[name^="system.status.thirst"]').forEach(input => {
       input.addEventListener('change', (ev) => {
-        // Só executa se a checkbox foi DESMARCADA (não marcada)
-        if (ev.target.checked) return;
-        
         const actor = this.actor;
         const thirst = [...actor.system.status.thirst]; // Copia o array atual
         
-        // Determina qual índice da checkbox foi desmarcada
+        // Determina qual índice da checkbox foi alterada
         const inputName = ev.target.name;
         const index = parseInt(inputName.split('.').pop()); // Pega o último elemento após o ponto
-        thirst[index] = false; // Desmarca a checkbox que acabou de ser clicada
+        thirst[index] = ev.target.checked; // Atualiza o estado da checkbox
         
-        const thirstLevel = thirst.filter(Boolean).length; // Conta com o novo valor
+        const thirstLevel = thirst.filter(Boolean).length; // Conta as checkboxes marcadas
 
         let message = "";
-        if (thirstLevel === 2) {
-          message = `${actor.name} está ficando com sede. - 2 de Sede`;
-        } else if (thirstLevel === 1) {
-          message = `${actor.name} está ficando com mais sede. - 1 de Sede`;
-        } else if (thirstLevel === 0) {
-          message = `${actor.name} está com sede! - 0 de Sede`;
+        if (ev.target.checked) {
+          // Mensagens para quando a checkbox é marcada
+          if (thirstLevel === 3) {
+            message = `${actor.name} não está mais com sede.`;
+          } else if (thirstLevel === 2) {
+            message = `${actor.name} está com 2 de Sede.`;
+          } else if (thirstLevel === 1) {
+            message = `${actor.name} está com 1 de Sede.`;
+          }
+        } else {
+          // Mensagens para quando a checkbox é desmarcada
+          if (thirstLevel === 2) {
+            message = `${actor.name} está ficando com sede. [2 de Sede]`;
+          } else if (thirstLevel === 1) {
+            message = `${actor.name} está ficando com mais sede. [1 de Sede]`;
+          } else if (thirstLevel === 0) {
+            message = `${actor.name} está com sede! [0 de Sede]`;
+          }
         }
 
         if (message) {
