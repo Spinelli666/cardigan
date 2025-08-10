@@ -30,7 +30,13 @@ export default class CardiganSystemActorBase extends foundry.abstract
       age: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
       race: new fields.StringField({ initial: "" }),
       movement: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
-      criticalHit: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+      criticalHit: new fields.NumberField({ ...requiredInteger, initial: 20, min: 1 }),
+    });
+    
+    // Sanity field
+    schema.sanity = new fields.SchemaField({
+      value: new fields.NumberField({ ...requiredInteger, initial: 50, min: 0 }),
+      max: new fields.NumberField({ ...requiredInteger, initial: 50, min: 0 }),
     });
     
     // Character classes

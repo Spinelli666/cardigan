@@ -34,6 +34,10 @@
             "value": {"label": "Energy"},
             "max": {"label": "Maximum Energy"}
           },
+          "sanity": {
+            "value": {"label": "Sanity"},
+            "max": {"label": "Maximum Sanity"}
+          },
           "details": {
             "name": {"label": "Name"},
             "age": {"label": "Age"},
@@ -85,6 +89,26 @@
       "Temporary": "Temporary Effects",
       "Passive": "Passive Effects",
       "Inactive": "Inactive Effects"
+    },
+    "Hunger": {
+      "label": "Hunger",
+      "messages": {
+        "normal": "The character is not hungry.",
+        "low": "The character is getting hungry.",
+        "critical": "The character is starving!"
+      }
+    },
+    "Thirst": {
+      "label": "Thirst",
+      "messages": {
+        "normal": "The character is not thirsty.",
+        "low": "The character is getting thirsty.",
+        "critical": "The character is dehydrated!"
+      }
+    },
+    "Fracture": {
+      "label": "Fracture",
+      "description": "Each point of Fracture reduces maximum health and energy by 5."
     }
   },
   "TYPES": {

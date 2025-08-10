@@ -19,6 +19,11 @@
           "min": 0,
           "max": 0
         },
+        "sanity": {
+          "value": 50,
+          "min": 0,
+          "max": 50
+        },
         "biography": ""
       }
     },
@@ -62,7 +67,8 @@
         "hunger": [true, true, true],
         "thirst": [true, true, true],
         "exhaustion": 0,
-        "totalExhaustion": 0
+        "totalExhaustion": 0,
+        "fracture": 0
       },
       "classes": {
         "andarilho": 0,
@@ -75,7 +81,7 @@
         "age": 0,
         "race": "",
         "movement": 0,
-        "criticalHit": 0
+        "criticalHit": 20
       },
       "experience": {
         "current": 0,

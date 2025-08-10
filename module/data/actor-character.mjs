@@ -24,7 +24,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
           value: new fields.NumberField({
             ...requiredInteger,
             initial: 0,
-            min: 0,
           }),
         });
         return obj;
@@ -36,8 +35,10 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       hunger: new fields.ArrayField(new fields.BooleanField(), { initial: [true, true, true] }), // Todas marcadas
       thirst: new fields.ArrayField(new fields.BooleanField(), { initial: [true, true, true] }), // Todas marcadas
       exhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }), // Pontos de exaustão manual
-      totalExhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }) // Exaustão total (manual + auto)
+      totalExhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }), // Exaustão total (manual + auto)
+      fracture: new fields.NumberField({ initial: 0, min: 0, integer: true }) // Pontos de fratura
     });
+
     return schema;
   }
 
@@ -57,8 +58,34 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Regra: cada level até 10 adiciona +5 à vida e energia máxima
     const level = this.attributes?.level?.value ?? 0;
     const levelBonus = Math.min(level, 10) * 5;
-    this.health.max = 0 + (stamina * 5) + levelBonus; // 0 pode ser substituído por um valor base, se desejar
-    this.power.max = 0 + (stamina * 5) + levelBonus;
+    // Regra: cada ponto de Fratura reduz vida e energia máxima em 5
+    const fracture = this.status?.fracture ?? 0;
+    const fractureReduction = fracture * 5;
+    
+    this.health.max = Math.max(0, 0 + (stamina * 5) + levelBonus - fractureReduction);
+    this.power.max = Math.max(0, 0 + (stamina * 5) + levelBonus - fractureReduction);
+    
+    // Regra: cada 2 pontos de Inteligência adiciona +10 de Sanidade máxima (base 50)
+    const intelligence = this.abilities?.intelligence?.value ?? 0;
+    const intelligenceBonus = Math.floor(intelligence / 2) * 10;
+    this.sanity.max = Math.max(0, 50 + intelligenceBonus);
+    
+    // Ajustar valores atuais se excederem o novo máximo
+    if (this.health.value > this.health.max) {
+      this.health.value = this.health.max;
+    }
+    if (this.power.value > this.power.max) {
+      this.power.value = this.power.max;
+    }
+    if (this.sanity.value > this.sanity.max) {
+      this.sanity.value = this.sanity.max;
+    }
+
+    // Calcular Acerto Crítico baseado na Destreza
+    // Regra: cada 2 pontos de Destreza reduz o número crítico em 1 (20 base)
+    const dexterity = this.abilities?.dexterity?.value ?? 0;
+    const dexterityBonus = Math.floor(dexterity / 2);
+    this.details.criticalHit = Math.max(1, 20 - dexterityBonus); // Mínimo de 1
 
     // Verificar estado de Hunger
     const hunger = this.status?.hunger ?? [];
