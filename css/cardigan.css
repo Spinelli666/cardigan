@@ -231,6 +231,7 @@
   /* XP, Level & Classes Container Styles */
   /* Armor Container Styles */
   /* Status Container Styles */
+  /* Bonus Container Styles */
   /* Reset Button Styles */
   /* Abilities Container Styles - visual antigo */
   /* Abilities Toggle Styles */
@@ -815,6 +816,39 @@
   color: #666;
   margin: 0 2px;
   user-select: none;
+}
+.cardigan .bonus-container {
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.cardigan .bonus-label {
+  font-size: 12px;
+  color: #aaa;
+  white-space: nowrap;
+}
+.cardigan .bonus-input {
+  width: 38px !important;
+  min-width: 38px !important;
+  max-width: 38px !important;
+  height: 24px !important;
+  padding: 2px 4px !important;
+  font-size: 12px !important;
+  text-align: center !important;
+  border: 1px solid #666 !important;
+  border-radius: 3px !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+  color: #fff !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+}
+.cardigan .bonus-input:focus {
+  border-color: #3498db !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+.cardigan .bonus-input:hover {
+  border-color: #888 !important;
 }
 .cardigan .reset-button {
   background: #ff6b6b;

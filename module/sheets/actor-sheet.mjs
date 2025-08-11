@@ -38,6 +38,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       rollDeathDie: this._onRollDeathDie,
       resetGiftOfLife: this._onResetGiftOfLife,
       resetDeathSentence: this._onResetDeathSentence,
+      resetSanity: this._onResetSanity,
+      resetToxicity: this._onResetToxicity,
     },
     // Custom property that's merged into `this.options`
     dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
@@ -541,7 +543,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         'system.status.giftOfLife': null
       });
       
-      ui.notifications.info("Dádiva da Vida zerada");
+      ui.notifications.info("Dádiva da Vida zerada.");
     } catch (error) {
       console.error("Error resetting Gift of Life:", error);
       ui.notifications.error(`Erro ao zerar Dádiva da Vida: ${error.message}`);
@@ -563,10 +565,64 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         'system.status.deathSentence': null
       });
       
-      ui.notifications.info("Death Sentence reset");
+      ui.notifications.info("Sentença de Morte zerada.");
     } catch (error) {
       console.error("Error resetting Death Sentence:", error);
       ui.notifications.error(`Erro ao zerar Sentença de Morte: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle resetting Sanity checkboxes
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onResetSanity(event, target) {
+    event.preventDefault();
+    
+    try {
+      // Reset Sanity to null (unchecked)
+      await this.document.update({
+        'system.status.sanity': null
+      });
+      
+      ChatMessage.create({ 
+        content: `${this.document.name}: Estado mental estabilizado.`,
+        speaker: ChatMessage.getSpeaker({ actor: this.document })
+      });
+      
+      ui.notifications.info("Sanidade zerada.");
+    } catch (error) {
+      console.error("Error resetting Sanity:", error);
+      ui.notifications.error(`Erro ao zerar Sanidade: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle resetting Toxicity checkboxes
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onResetToxicity(event, target) {
+    event.preventDefault();
+    
+    try {
+      // Reset Toxicity to null (unchecked)
+      await this.document.update({
+        'system.status.toxicity': null
+      });
+      
+      ChatMessage.create({ 
+        content: `${this.document.name}: Toxinas eliminadas do organismo.`,
+        speaker: ChatMessage.getSpeaker({ actor: this.document })
+      });
+      
+      ui.notifications.info("Toxicidade zerada.");
+    } catch (error) {
+      console.error("Error resetting Toxicity:", error);
+      ui.notifications.error(`Erro ao zerar Toxicidade: ${error.message}`);
     }
   }
 
@@ -921,6 +977,70 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
             speaker: ChatMessage.getSpeaker({ actor: actor })
           });
         }
+      });
+    });
+
+    // Adicionar listeners para os grupos sequenciais (giftOfLife, deathSentence, sanity)
+    html.querySelectorAll('.sequential-group').forEach(group => {
+      const field = group.dataset.field;
+      const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+      
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', async (ev) => {
+          ev.preventDefault();
+          const level = parseInt(ev.target.dataset.level);
+          const currentValue = this.actor.system.status?.[field] ?? null;
+          let newValue = null;
+          let message = "";
+          
+          if (ev.target.checked) {
+            // Marcar: definir o valor como o nível da checkbox
+            newValue = level;
+            
+            // Gerar mensagem baseada no campo e nível
+            if (field === 'sanity') {
+              const messages = {
+                1: "Ansioso, você está estressado, tenso e desconfiado.",
+                2: "Paranoico, você está desesperado, neurótico e pessimista.",
+                3: "Violento, você inconsequente, você está hostil e insensível.",
+                4: "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.",
+                5: "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição."
+              };
+              message = `${this.actor.name}: ${messages[level]}`;
+            } else if (field === 'toxicity') {
+              const messages = {
+                1: "Levemente intoxicado, você sente náusea e tontura.",
+                2: "Intoxicação moderada, você está enjoado e com visão turva.",
+                3: "Severamente intoxicado, você está vomitando e com dores intensas.",
+                4: "Intoxicação crítica, você está delirando e perdendo consciência.",
+                5: "Envenenamento fatal, você está à beira da morte por toxinas."
+              };
+              message = `${this.actor.name}: ${messages[level]}`;
+            }
+          } else {
+            // Desmarcar: definir como o nível anterior (level - 1) ou null se for 1
+            newValue = level > 1 ? level - 1 : null;
+            
+            if (field === 'sanity' && newValue === null) {
+              message = `${this.actor.name}: Estado mental estabilizado.`;
+            } else if (field === 'toxicity' && newValue === null) {
+              message = `${this.actor.name}: Toxinas eliminadas do organismo.`;
+            }
+          }
+          
+          // Atualizar o valor no ator
+          await this.actor.update({
+            [`system.status.${field}`]: newValue
+          });
+          
+          // Enviar mensagem para o chat se houver
+          if (message) {
+            ChatMessage.create({ 
+              content: message,
+              speaker: ChatMessage.getSpeaker({ actor: this.actor })
+            });
+          }
+        });
       });
     });
   }

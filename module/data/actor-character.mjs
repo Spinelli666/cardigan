@@ -37,8 +37,13 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       exhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }), // Pontos de exaustão manual
       totalExhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }), // Exaustão total (manual + auto)
       fracture: new fields.NumberField({ initial: 0, min: 0, integer: true }), // Pontos de fratura
-      giftOfLife: new fields.NumberField({ initial: null, min: 0, max: 3, integer: true }), // Radio 0-3 para Dádiva da Vida, null = none selected
-      deathSentence: new fields.NumberField({ initial: null, min: 0, max: 3, integer: true }) // Radio 0-3 para Setença de Morte, null = none selected
+      giftOfLife: new fields.NumberField({ initial: null, min: 0, max: 3, integer: true }), // Radio 0-3 for Gift of Life, null = none selected
+      deathSentence: new fields.NumberField({ initial: null, min: 0, max: 3, integer: true }), // Radio 0-3 for Death Sentence, null = none selected
+      sanity: new fields.NumberField({ initial: null, min: 0, max: 5, integer: true }), // Radio 0-5 for Sanity levels, null = none selected
+      toxicity: new fields.NumberField({ initial: null, min: 0, max: 5, integer: true }), // Radio 0-5 for Toxicity levels, null = none selected
+      healthBonus: new fields.NumberField({ initial: 0, integer: true }), // Bonus to maximum health
+      energyBonus: new fields.NumberField({ initial: 0, integer: true }), // Bonus to maximum energy  
+      armorBonus: new fields.NumberField({ initial: 0, integer: true }) // Bonus to maximum armor
     });
 
     return schema;
@@ -64,13 +69,14 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const fracture = this.status?.fracture ?? 0;
     const fractureReduction = fracture * 5;
     
-    this.health.max = Math.max(0, 0 + (stamina * 5) + levelBonus - fractureReduction);
-    this.power.max = Math.max(0, 0 + (stamina * 5) + levelBonus - fractureReduction);
+    // Get bonus values
+    const healthBonus = this.status?.healthBonus ?? 0;
+    const energyBonus = this.status?.energyBonus ?? 0;
+    const armorBonus = this.status?.armorBonus ?? 0;
     
-    // Regra: cada 2 pontos de Inteligência adiciona +10 de Sanidade máxima (base 50)
-    const intelligence = this.abilities?.intelligence?.value ?? 0;
-    const intelligenceBonus = Math.floor(intelligence / 2) * 10;
-    this.sanity.max = Math.max(0, 50 + intelligenceBonus);
+    this.health.max = Math.max(0, 0 + (stamina * 5) + levelBonus - fractureReduction + healthBonus);
+    this.power.max = Math.max(0, 0 + (stamina * 5) + levelBonus - fractureReduction + energyBonus);
+    this.armor.max = Math.max(0, 0 + armorBonus);
     
     // Ajustar valores atuais se excederem o novo máximo
     if (this.health.value > this.health.max) {
@@ -79,8 +85,8 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     if (this.power.value > this.power.max) {
       this.power.value = this.power.max;
     }
-    if (this.sanity.value > this.sanity.max) {
-      this.sanity.value = this.sanity.max;
+    if (this.armor.value > this.armor.max) {
+      this.armor.value = this.armor.max;
     }
 
     // Calcular Acerto Crítico baseado na Destreza
@@ -142,6 +148,38 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     }
     
     this.status.exhaustionPenalty = -this.status.totalExhaustion;
+
+    // Verificar estado de Sanidade
+    const sanityLevel = this.status?.sanity ?? null;
+    if (sanityLevel === null || sanityLevel === 0) {
+      this.status.sanityMessage = ""; // Estado normal
+    } else if (sanityLevel === 1) {
+      this.status.sanityMessage = "Ansioso, você está estressado, tenso e desconfiado.";
+    } else if (sanityLevel === 2) {
+      this.status.sanityMessage = "Paranoico, você está desesperado, neurótico e pessimista.";
+    } else if (sanityLevel === 3) {
+      this.status.sanityMessage = "Violento, você inconsequente, você está hostil e insensível.";
+    } else if (sanityLevel === 4) {
+      this.status.sanityMessage = "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.";
+    } else if (sanityLevel === 5) {
+      this.status.sanityMessage = "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição.";
+    }
+
+    // Verificar estado de Toxicity
+    const toxicityLevel = this.status?.toxicity ?? null;
+    if (toxicityLevel === null || toxicityLevel === 0) {
+      this.status.toxicityMessage = ""; // Estado normal
+    } else if (toxicityLevel === 1) {
+      this.status.toxicityMessage = "Levemente intoxicado, você sente náusea e tontura.";
+    } else if (toxicityLevel === 2) {
+      this.status.toxicityMessage = "Intoxicação moderada, você está enjoado e com visão turva.";
+    } else if (toxicityLevel === 3) {
+      this.status.toxicityMessage = "Severamente intoxicado, você está vomitando e com dores intensas.";
+    } else if (toxicityLevel === 4) {
+      this.status.toxicityMessage = "Intoxicação crítica, você está delirando e perdendo consciência.";
+    } else if (toxicityLevel === 5) {
+      this.status.toxicityMessage = "Envenenamento fatal, você está à beira da morte por toxinas.";
+    }
   }
 
   /**

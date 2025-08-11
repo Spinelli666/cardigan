@@ -187,6 +187,17 @@
                 data-dtype='Number'
                 min='0'
                 class='status-next'
+                readonly
+              />
+            </div>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.status.healthBonus'
+                value='{{system.status.healthBonus}}'
+                data-dtype='Number'
+                class='bonus-input'
+                title='Health Bonus'
               />
             </div>
           </div>
@@ -209,6 +220,17 @@
                 data-dtype='Number'
                 min='0'
                 class='status-next'
+                readonly
+              />
+            </div>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.status.energyBonus'
+                value='{{system.status.energyBonus}}'
+                data-dtype='Number'
+                class='bonus-input'
+                title='Energy Bonus'
               />
             </div>
           </div>
@@ -231,6 +253,17 @@
                 data-dtype='Number'
                 min='0'
                 class='status-next'
+                readonly
+              />
+            </div>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.status.armorBonus'
+                value='{{system.status.armorBonus}}'
+                data-dtype='Number'
+                class='bonus-input'
+                title='Armor Bonus'
               />
             </div>
           </div>
@@ -294,25 +327,101 @@
             <!-- Sanidade -->
             <div class='sanity-row horizontal-field'>
               <label class='status-label label-left'>Sanity:</label>
-              <div class='status-display'>
-                <input
-                  type='number'
-                  name='system.sanity.value'
-                  value='{{system.sanity.value}}'
-                  data-dtype='Number'
-                  min='0'
-                  class='status-current'
-                />
-                <span class='status-separator'>/</span>
-                <input
-                  type='number'
-                  name='system.sanity.max'
-                  value='{{system.sanity.max}}'
-                  data-dtype='Number'
-                  min='0'
-                  class='status-next'
-                  readonly
-                />
+              <button 
+                type='button' 
+                class='reset-button'
+                data-action='resetSanity'
+                title='Reset Sanity'
+              >
+                ↻
+              </button>
+              <div class='sequential-group' data-field='sanity'>
+                <input type='hidden' name='system.status.sanity' value='{{system.status.sanity}}' data-dtype='Number' />
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='1'
+                    {{#if (gte system.status.sanity 1)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='2'
+                    {{#if (gte system.status.sanity 2)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='3'
+                    {{#if (gte system.status.sanity 3)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='4'
+                    {{#if (gte system.status.sanity 4)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='5'
+                    {{#if (gte system.status.sanity 5)}}checked{{/if}}
+                  />
+                </label>
+              </div>
+            </div>
+            <!-- Toxicity -->
+            <div class='toxicity-row horizontal-field'>
+              <label class='status-label label-left'>Toxicity:</label>
+              <button 
+                type='button' 
+                class='reset-button'
+                data-action='resetToxicity'
+                title='Reset Toxicity'
+              >
+                ↻
+              </button>
+              <div class='sequential-group' data-field='toxicity'>
+                <input type='hidden' name='system.status.toxicity' value='{{system.status.toxicity}}' data-dtype='Number' />
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='1'
+                    {{#if (gte system.status.toxicity 1)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='2'
+                    {{#if (gte system.status.toxicity 2)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='3'
+                    {{#if (gte system.status.toxicity 3)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='4'
+                    {{#if (gte system.status.toxicity 4)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='5'
+                    {{#if (gte system.status.toxicity 5)}}checked{{/if}}
+                  />
+                </label>
               </div>
             </div>
             <!-- Gift of Life -->

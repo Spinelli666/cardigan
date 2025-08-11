@@ -127,6 +127,30 @@
       "deathSentence": "Death Sentence! (1-6)",
       "giftOfLife": "Gift of Life! (7-12)",
       "autoMarked": "automatically marked"
+    },
+    "Sanity": {
+      "label": "Sanity",
+      "description": "Sanity radio buttons (0-5).",
+      "reset": "Reset Sanity",
+      "messages": {
+        "level1": "Ansioso, você está estressado, tenso e desconfiado.",
+        "level2": "Paranoico, você está desesperado, neurótico e pessimista.",
+        "level3": "Violento, você inconsequente, você está hostil e insensível.",
+        "level4": "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.",
+        "level5": "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição."
+      }
+    },
+    "Toxicity": {
+      "label": "Toxicity",
+      "description": "Toxicity radio buttons (0-5).",
+      "reset": "Reset Toxicity",
+      "messages": {
+        "level1": "Levemente intoxicado, você sente náusea e tontura.",
+        "level2": "Intoxicação moderada, você está enjoado e com visão turva.",
+        "level3": "Severamente intoxicado, você está vomitando e com dores intensas.",
+        "level4": "Intoxicação crítica, você está delirando e perdendo consciência.",
+        "level5": "Envenenamento fatal, você está à beira da morte por toxinas."
+      }
     }
   },
   "TYPES": {
