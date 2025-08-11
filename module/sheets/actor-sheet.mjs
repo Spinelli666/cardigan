@@ -35,6 +35,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       deleteDoc: this._deleteDoc,
       toggleEffect: this._toggleEffect,
       roll: this._onRoll,
+      rollDeathDie: this._onRollDeathDie,
+      resetGiftOfLife: this._onResetGiftOfLife,
+      resetDeathSentence: this._onResetDeathSentence,
     },
     // Custom property that's merged into `this.options`
     dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
@@ -428,6 +431,142 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         console.error("Error during roll:", error);
         ui.notifications.error(`Erro ao rolar ${label}: ${error.message}`);
       }
+    }
+  }
+
+  /**
+   * Handle rolling the Death Die (1d12)
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onRollDeathDie(event, target) {
+    event.preventDefault();
+    
+    try {
+      // Create the death die roll (1d12)
+      const roll = new Roll('1d12');
+      
+      // Evaluate the roll
+      await roll.evaluate();
+      
+      // Create custom flavor message based on result and apply automatic effects
+      let flavorMessage = "Death Die";
+      const result = roll.total;
+      let updateData = {};
+      
+      // Apply automatic effects based on result
+      if (result >= 1 && result <= 6) {
+        // 1-6: Death Sentence
+        const currentDeathSentence = this.document.system.status?.deathSentence ?? null;
+        
+        if (currentDeathSentence === 3) {
+          // Já está no máximo
+          flavorMessage += `\n Sentença de Morte! (${result})`;
+          flavorMessage += `\n→ Já possui 3 Sentenças de Morte - PERSONAGEM MORREU!!`;
+        } else if (currentDeathSentence === null) {
+          // Começar do 1 (contagem zerada ou nunca marcada)
+          updateData['system.status.deathSentence'] = 1;
+          flavorMessage += `\n Sentença de Morte! (${result})`;
+          flavorMessage += `\n→ Sentença de Morte nível 1 automaticamente marcada`;
+        } else {
+          // Incrementar (de 1 para 2, ou de 2 para 3)
+          const newLevel = currentDeathSentence + 1;
+          updateData['system.status.deathSentence'] = newLevel;
+          flavorMessage += `\n Sentença de Morte! (${result})`;
+          flavorMessage += `\n→ Sentença de Morte nível ${newLevel} automaticamente marcada`;
+
+          if (newLevel === 3) {
+            flavorMessage += `\n PERSONAGEM MORREU! (3 Sentenças de Morte)`;
+          }
+        }
+      } else if (result >= 7 && result <= 12) {
+        // 7-12: Dádiva da Vida
+        const currentLifeGift = this.document.system.status?.giftOfLife ?? null;
+        
+        if (currentLifeGift === 3) {
+          // Já está no máximo
+          flavorMessage += `\n Dádiva da Vida! (${result})`;
+          flavorMessage += `\n→ Já possui 3 Dádivas da Vida - ESTABILIZADO!`;
+        } else if (currentLifeGift === null) {
+          // Começar do 1 (contagem zerada ou nunca marcada)
+          updateData['system.status.giftOfLife'] = 1;
+          flavorMessage += `\n Dádiva da Vida! (${result})`;
+          flavorMessage += `\n→ Dádiva da Vida nível 1 automaticamente marcada`;
+        } else {
+          // Incrementar (de 1 para 2, ou de 2 para 3)
+          const newLevel = currentLifeGift + 1;
+          updateData['system.status.giftOfLife'] = newLevel;
+          flavorMessage += `\n Dádiva da Vida! (${result})`;
+          flavorMessage += `\n→ Dádiva da Vida nível ${newLevel} automaticamente marcada`;
+
+          if (newLevel === 3) {
+            flavorMessage += `\n ESTABILIZADO! (3 Dádivas da Vida)`;
+          }
+        }
+      }
+      
+      // Update the actor if there are changes to apply
+      if (Object.keys(updateData).length > 0) {
+        await this.document.update(updateData);
+      }
+      
+      // Send to chat
+      const chatMessage = await roll.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor: this.document }),
+        flavor: flavorMessage,
+        rollMode: game.settings.get('core', 'rollMode'),
+      });
+      
+      return roll;
+    } catch (error) {
+      console.error("Error during death die roll:", error);
+      ui.notifications.error(`Erro ao rolar Dado de Morte: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle resetting Dádiva da Vida
+   *  checkboxes
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onResetGiftOfLife(event, target) {
+    event.preventDefault();
+    
+    try {
+      // Reset Dádiva da Vida to null (unchecked)
+      await this.document.update({
+        'system.status.giftOfLife': null
+      });
+      
+      ui.notifications.info("Dádiva da Vida zerada");
+    } catch (error) {
+      console.error("Error resetting Gift of Life:", error);
+      ui.notifications.error(`Erro ao zerar Dádiva da Vida: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle resetting Sentença de Morte checkboxes
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onResetDeathSentence(event, target) {
+    event.preventDefault();
+    
+    try {
+      // Reset Death Sentence to null (unchecked)
+      await this.document.update({
+        'system.status.deathSentence': null
+      });
+      
+      ui.notifications.info("Death Sentence reset");
+    } catch (error) {
+      console.error("Error resetting Death Sentence:", error);
+      ui.notifications.error(`Erro ao zerar Sentença de Morte: ${error.message}`);
     }
   }
 

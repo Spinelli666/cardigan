@@ -36,7 +36,9 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       thirst: new fields.ArrayField(new fields.BooleanField(), { initial: [true, true, true] }), // Todas marcadas
       exhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }), // Pontos de exaustão manual
       totalExhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }), // Exaustão total (manual + auto)
-      fracture: new fields.NumberField({ initial: 0, min: 0, integer: true }) // Pontos de fratura
+      fracture: new fields.NumberField({ initial: 0, min: 0, integer: true }), // Pontos de fratura
+      giftOfLife: new fields.NumberField({ initial: null, min: 0, max: 3, integer: true }), // Radio 0-3 para Dádiva da Vida, null = none selected
+      deathSentence: new fields.NumberField({ initial: null, min: 0, max: 3, integer: true }) // Radio 0-3 para Setença de Morte, null = none selected
     });
 
     return schema;

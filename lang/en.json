@@ -109,6 +109,24 @@
     "Fracture": {
       "label": "Fracture",
       "description": "Each point of Fracture reduces maximum health and energy by 5."
+    },
+    "GiftOfLife": {
+      "label": "Gift of Life",
+      "description": "Gift of Life radio buttons (0-3).",
+      "reset": "Reset Gift of Life"
+    },
+    "DeathSentence": {
+      "label": "Death Sentence", 
+      "description": "Death Sentence radio buttons (0-3).",
+      "reset": "Reset Death Sentence"
+    },
+    "DeathDie": {
+      "label": "Death Die",
+      "button": "Roll 1d12",
+      "description": "Roll a 1d12 death die.",
+      "deathSentence": "Death Sentence! (1-6)",
+      "giftOfLife": "Gift of Life! (7-12)",
+      "autoMarked": "automatically marked"
     }
   },
   "TYPES": {

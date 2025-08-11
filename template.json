@@ -68,7 +68,9 @@
         "thirst": [true, true, true],
         "exhaustion": 0,
         "totalExhaustion": 0,
-        "fracture": 0
+        "fracture": 0,
+        "giftOfLife": null,
+        "deathSentence": null
       },
       "classes": {
         "andarilho": 0,

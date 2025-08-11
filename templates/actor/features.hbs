@@ -315,6 +315,93 @@
                 />
               </div>
             </div>
+            <!-- Gift of Life -->
+            <div class='gift-of-life-row horizontal-field'>
+              <label class='status-label label-left'>Gift of Life:</label>
+              <button 
+                type='button' 
+                class='reset-button'
+                data-action='resetGiftOfLife'
+                title='Reset Gift of Life'
+              >
+                ↻
+              </button>
+              <div class='sequential-group' data-field='giftOfLife'>
+                <input type='hidden' name='system.status.giftOfLife' value='{{system.status.giftOfLife}}' data-dtype='Number' />
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='1'
+                    {{#if (gte system.status.giftOfLife 1)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='2'
+                    {{#if (gte system.status.giftOfLife 2)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='3'
+                    {{#if (gte system.status.giftOfLife 3)}}checked{{/if}}
+                  />
+                </label>
+              </div>
+            </div>
+            <!-- Death Sentence -->
+            <div class='death-sentence-row horizontal-field'>
+              <label class='status-label label-left'>Death Sentence:</label>
+              <button 
+                type='button' 
+                class='reset-button'
+                data-action='resetDeathSentence'
+                title='Reset Death Sentence'
+              >
+                ↻
+              </button>
+              <div class='sequential-group' data-field='deathSentence'>
+                <input type='hidden' name='system.status.deathSentence' value='{{system.status.deathSentence}}' data-dtype='Number' />
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='1'
+                    {{#if (gte system.status.deathSentence 1)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='2'
+                    {{#if (gte system.status.deathSentence 2)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='3'
+                    {{#if (gte system.status.deathSentence 3)}}checked{{/if}}
+                  />
+                </label>
+              </div>
+            </div>
+            <!-- Death Die -->
+            <div class='death-die-row horizontal-field'>
+              <label class='status-label label-left'>Death Die:</label>
+              <div class='death-die-button-container'>
+                <button 
+                  type='button' 
+                  class='death-die-button'
+                  data-action='rollDeathDie'
+                  data-roll='1d12'
+                  data-label='Death Die'
+                >
+                  Roll 1d12
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

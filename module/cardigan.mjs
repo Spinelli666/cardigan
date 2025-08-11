@@ -87,6 +87,11 @@ Handlebars.registerHelper('toLowerCase', function (str) {
   return str.toLowerCase();
 });
 
+// Helper para comparação greater than or equal
+Handlebars.registerHelper('gte', function (a, b) {
+  return a >= b;
+});
+
 /* -------------------------------------------- */
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
