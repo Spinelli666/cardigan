@@ -40,6 +40,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       resetDeathSentence: this._onResetDeathSentence,
       resetSanity: this._onResetSanity,
       resetToxicity: this._onResetToxicity,
+      resetHunger: this._onResetHunger,
+      resetThirst: this._onResetThirst,
     },
     // Custom property that's merged into `this.options`
     dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
@@ -627,6 +629,102 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Handle resetting Hunger to full (3)
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onResetHunger(event, target) {
+    event.preventDefault();
+    
+    try {
+      // Buscar valores atuais
+      const currentThirst = this.document.system.status?.thirst ?? 3;
+      const currentTotalExhaustion = this.document.system.status?.totalExhaustion ?? 0;
+      const currentAutoExhaustion = this.document.system.status?.autoExhaustion ?? 0;
+      
+      // Calcular exaustão manual (preservar)
+      const manualExhaustion = Math.max(0, currentTotalExhaustion - currentAutoExhaustion);
+      
+      // Calcular nova exaustão automática (hunger será 3 = não contribui)
+      let newAutoExhaustion = 0;
+      if (currentThirst === 0) {
+        newAutoExhaustion += 5; // Só thirst contribui se estiver em 0
+      }
+      
+      // Nova exaustão total = manual + nova automática
+      const newTotalExhaustion = manualExhaustion + newAutoExhaustion;
+      
+      // Atualizar hunger e totalExhaustion em uma única operação
+      await this.document.update({
+        'system.status.hunger': 3,
+        'system.status.totalExhaustion': newTotalExhaustion
+      });
+      
+      // Forçar re-renderização para atualizar o input de exaustão
+      this.render(false);
+      
+      ChatMessage.create({ 
+        content: `${this.document.name}: Fome saciada.`,
+        speaker: ChatMessage.getSpeaker({ actor: this.document })
+      });
+      
+      ui.notifications.info("Fome restaurada.");
+    } catch (error) {
+      console.error("Error resetting Hunger:", error);
+      ui.notifications.error(`Erro ao restaurar Fome: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle resetting Thirst to full (3)
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onResetThirst(event, target) {
+    event.preventDefault();
+    
+    try {
+      // Buscar valores atuais
+      const currentHunger = this.document.system.status?.hunger ?? 3;
+      const currentTotalExhaustion = this.document.system.status?.totalExhaustion ?? 0;
+      const currentAutoExhaustion = this.document.system.status?.autoExhaustion ?? 0;
+      
+      // Calcular exaustão manual (preservar)
+      const manualExhaustion = Math.max(0, currentTotalExhaustion - currentAutoExhaustion);
+      
+      // Calcular nova exaustão automática (thirst será 3 = não contribui)
+      let newAutoExhaustion = 0;
+      if (currentHunger === 0) {
+        newAutoExhaustion += 5; // Só hunger contribui se estiver em 0
+      }
+      
+      // Nova exaustão total = manual + nova automática
+      const newTotalExhaustion = manualExhaustion + newAutoExhaustion;
+      
+      // Atualizar thirst e totalExhaustion em uma única operação
+      await this.document.update({
+        'system.status.thirst': 3,
+        'system.status.totalExhaustion': newTotalExhaustion
+      });
+      
+      // Forçar re-renderização para atualizar o input de exaustão
+      this.render(false);
+      
+      ChatMessage.create({ 
+        content: `${this.document.name}: Sede saciada.`,
+        speaker: ChatMessage.getSpeaker({ actor: this.document })
+      });
+      
+      ui.notifications.info("Sede restaurada.");
+    } catch (error) {
+      console.error("Error resetting Thirst:", error);
+      ui.notifications.error(`Erro ao restaurar Sede: ${error.message}`);
+    }
+  }
+
+  /**
    * Get an embedded document from the target element
    * @param {HTMLElement} target    The target element
    * @returns {Document}             The embedded document
@@ -889,98 +987,159 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Configura o sistema de exaustão com base + penalty
+   * @param {HTMLElement} html 
+   */
+  #setupExhaustionSystem(html) {
+    // Input principal de exaustão total
+    const exhaustionInput = html.querySelector('#exhaustion-total');
+    
+    // Grupos de radios independentes
+    const hungerRadios = html.querySelectorAll('.radio-group[data-field="hunger"] input[type="radio"]');
+    const thirstRadios = html.querySelectorAll('.radio-group[data-field="thirst"] input[type="radio"]');
+    
+    // Configurar radios independentes (podem ser desmarcados)
+    this.#setupIndependentRadios(hungerRadios, 'hunger');
+    this.#setupIndependentRadios(thirstRadios, 'thirst');
+    
+    // Listener para o input de exaustão total
+    if (exhaustionInput) {
+      exhaustionInput.addEventListener('change', async (ev) => {
+        const totalInput = parseInt(ev.target.value) || 0;
+        const penalty = this.#calculatePenalty();
+        const newBase = Math.max(0, totalInput - penalty);
+        
+        await this.actor.update({
+          'system.status.exhaustion': newBase,
+          'system.status.totalExhaustion': newBase + penalty
+        });
+      });
+    }
+  }
+
+  /**
+   * Configura radios para serem independentes (podem ser desmarcados)
+   * @param {NodeList} radios 
+   * @param {string} field 
+   */
+  #setupIndependentRadios(radios, field) {
+    radios.forEach(radio => {
+      let wasChecked = false;
+      
+      // Capturar estado em mousedown
+      radio.addEventListener('mousedown', () => {
+        wasChecked = radio.checked;
+      });
+      
+      // Processar click
+      radio.addEventListener('click', async (ev) => {
+        ev.preventDefault();
+        
+        if (wasChecked) {
+          // Se estava marcado, desmarcar
+          radio.checked = false;
+        } else {
+          // Se não estava marcado, marcar
+          radio.checked = true;
+        }
+        
+        // Calcular novo valor baseado nos radios marcados
+        const newValue = this.#calculateFieldValue(field);
+        const penalty = this.#calculatePenalty();
+        const currentBase = this.actor.system.status?.exhaustion ?? 0;
+        const newTotal = currentBase + penalty;
+        
+        // Atualizar o documento
+        await this.actor.update({
+          [`system.status.${field}`]: newValue,
+          'system.status.totalExhaustion': newTotal
+        });
+        
+        // Atualizar input de exaustão
+        const exhaustionInput = document.querySelector('#exhaustion-total');
+        if (exhaustionInput) {
+          exhaustionInput.value = newTotal;
+        }
+        
+        // Gerar mensagem para chat
+        this.#sendFieldMessage(field, newValue);
+      });
+    });
+  }
+
+  /**
+   * Calcula o valor do campo baseado nos radios marcados
+   * @param {string} field 
+   * @returns {number}
+   */
+  #calculateFieldValue(field) {
+    const radios = document.querySelectorAll(`.radio-group[data-field="${field}"] input[type="radio"]:checked`);
+    return radios.length;
+  }
+
+  /**
+   * Calcula penalty total baseado em hunger e thirst
+   * @returns {number}
+   */
+  #calculatePenalty() {
+    const hungerValue = this.#calculateFieldValue('hunger');
+    const thirstValue = this.#calculateFieldValue('thirst');
+    
+    let penalty = 0;
+    if (hungerValue === 0) penalty += 5;
+    if (thirstValue === 0) penalty += 5;
+    
+    return penalty;
+  }
+
+  /**
+   * Envia mensagem para o chat baseada no valor do campo
+   * @param {string} field 
+   * @param {number} value 
+   */
+  #sendFieldMessage(field, value) {
+    let message = "";
+    
+    if (field === 'hunger') {
+      if (value === 3) {
+        message = `${this.actor.name} não está mais com fome.`;
+      } else if (value === 2) {
+        message = `${this.actor.name} está com 2 de Fome.`;
+      } else if (value === 1) {
+        message = `${this.actor.name} está com 1 de Fome.`;
+      } else if (value === 0) {
+        message = `${this.actor.name} está com fome! [0 de Fome e +5 de Exaustão]`;
+      }
+    } else if (field === 'thirst') {
+      if (value === 3) {
+        message = `${this.actor.name} não está mais com sede.`;
+      } else if (value === 2) {
+        message = `${this.actor.name} está com 2 de Sede.`;
+      } else if (value === 1) {
+        message = `${this.actor.name} está com 1 de Sede.`;
+      } else if (value === 0) {
+        message = `${this.actor.name} está com sede! [0 de Sede e +5 de Exaustão]`;
+      }
+    }
+    
+    if (message) {
+      ChatMessage.create({ 
+        content: message,
+        speaker: ChatMessage.getSpeaker({ actor: this.actor })
+      });
+    }
+  }
+
+  /**
    * Adiciona event listeners para os checkboxes de hunger e thirst
    */
   #addStatusListeners() {
     const html = this.element;
-    
-    // Escutar mudanças nos checkboxes de Hunger
-    html.querySelectorAll('input[name^="system.status.hunger"]').forEach(input => {
-      input.addEventListener('change', (ev) => {
-        const actor = this.actor;
-        const hunger = [...actor.system.status.hunger]; // Copia o array atual
-        
-        // Determina qual índice da checkbox foi alterada
-        const inputName = ev.target.name;
-        const index = parseInt(inputName.split('.').pop()); // Pega o último elemento após o ponto
-        hunger[index] = ev.target.checked; // Atualiza o estado da checkbox
-        
-        const hungerLevel = hunger.filter(Boolean).length; // Conta as checkboxes marcadas
 
-        let message = "";
-        if (ev.target.checked) {
-          // Mensagens para quando a checkbox é marcada
-          if (hungerLevel === 3) {
-            message = `${actor.name} não está mais com fome.`;
-          } else if (hungerLevel === 2) {
-            message = `${actor.name} está com 2 de Fome.`;
-          } else if (hungerLevel === 1) {
-            message = `${actor.name} está com 1 de Fome.`;
-          }
-        } else {
-          // Mensagens para quando a checkbox é desmarcada
-          if (hungerLevel === 2) {
-            message = `${actor.name} está ficando com fome. [2 de Fome]`;
-          } else if (hungerLevel === 1) {
-            message = `${actor.name} está ficando com mais fome. [1 de Fome]`;
-          } else if (hungerLevel === 0) {
-            message = `${actor.name} está com fome! [0 de Fome e 5 de Exaustão]`;
-          }
-        }
+    // Sistema de Exaustão com base + penalty
+    this.#setupExhaustionSystem(html);
 
-        if (message) {
-          ChatMessage.create({ 
-            content: message,
-            speaker: ChatMessage.getSpeaker({ actor: actor })
-          });
-        }
-      });
-    });
-
-    // Escutar mudanças nos checkboxes de Thirst
-    html.querySelectorAll('input[name^="system.status.thirst"]').forEach(input => {
-      input.addEventListener('change', (ev) => {
-        const actor = this.actor;
-        const thirst = [...actor.system.status.thirst]; // Copia o array atual
-        
-        // Determina qual índice da checkbox foi alterada
-        const inputName = ev.target.name;
-        const index = parseInt(inputName.split('.').pop()); // Pega o último elemento após o ponto
-        thirst[index] = ev.target.checked; // Atualiza o estado da checkbox
-        
-        const thirstLevel = thirst.filter(Boolean).length; // Conta as checkboxes marcadas
-
-        let message = "";
-        if (ev.target.checked) {
-          // Mensagens para quando a checkbox é marcada
-          if (thirstLevel === 3) {
-            message = `${actor.name} não está mais com sede.`;
-          } else if (thirstLevel === 2) {
-            message = `${actor.name} está com 2 de Sede.`;
-          } else if (thirstLevel === 1) {
-            message = `${actor.name} está com 1 de Sede.`;
-          }
-        } else {
-          // Mensagens para quando a checkbox é desmarcada
-          if (thirstLevel === 2) {
-            message = `${actor.name} está ficando com sede. [2 de Sede]`;
-          } else if (thirstLevel === 1) {
-            message = `${actor.name} está ficando com mais sede. [1 de Sede]`;
-          } else if (thirstLevel === 0) {
-            message = `${actor.name} está com sede! [0 de Sede e 5 de Exaustão]`;
-          }
-        }
-
-        if (message) {
-          ChatMessage.create({ 
-            content: message,
-            speaker: ChatMessage.getSpeaker({ actor: actor })
-          });
-        }
-      });
-    });
-
-    // Adicionar listeners para os grupos sequenciais (giftOfLife, deathSentence, sanity)
+    // Adicionar listeners para os grupos sequenciais (giftOfLife, deathSentence, sanity, toxicity)
     html.querySelectorAll('.sequential-group').forEach(group => {
       const field = group.dataset.field;
       const checkboxes = group.querySelectorAll('input[type="checkbox"]');

@@ -30,10 +30,10 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       }, {})
     );
 
-    // Adiciona campos de Fome e Sede (arrays de 3 checkboxes)
+    // Adiciona campos de Fome e Sede (radio buttons sequenciais de 3)
     schema.status = new fields.SchemaField({
-      hunger: new fields.ArrayField(new fields.BooleanField(), { initial: [true, true, true] }), // Todas marcadas
-      thirst: new fields.ArrayField(new fields.BooleanField(), { initial: [true, true, true] }), // Todas marcadas
+      hunger: new fields.NumberField({ initial: 3, min: 0, max: 3, integer: true }), // Radio 0-3 for Hunger, initial 3 = all marked
+      thirst: new fields.NumberField({ initial: 3, min: 0, max: 3, integer: true }), // Radio 0-3 for Thirst, initial 3 = all marked
       exhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }), // Pontos de exaustão manual
       totalExhaustion: new fields.NumberField({ initial: 0, min: 0, integer: true }), // Exaustão total (manual + auto)
       fracture: new fields.NumberField({ initial: 0, min: 0, integer: true }), // Pontos de fratura
@@ -96,8 +96,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     this.details.criticalHit = Math.max(1, 20 - dexterityBonus); // Mínimo de 1
 
     // Verificar estado de Hunger
-    const hunger = this.status?.hunger ?? [];
-    const hungerLevel = hunger.filter(Boolean).length; // Conta os checkboxes marcados
+    const hungerLevel = this.status?.hunger ?? 3; // Valor padrão 3 (todas marcadas)
     if (hungerLevel === 3) {
       this.status.hungerMessage = ""; // Todas marcadas = sem mensagem (estado normal)
     } else if (hungerLevel === 2) {
@@ -109,8 +108,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     }
 
     // Verificar estado de Thirst
-    const thirst = this.status?.thirst ?? [];
-    const thirstLevel = thirst.filter(Boolean).length; // Conta os checkboxes marcados
+    const thirstLevel = this.status?.thirst ?? 3; // Valor padrão 3 (todas marcadas)
     if (thirstLevel === 3) {
       this.status.thirstMessage = ""; // Todas marcadas = sem mensagem (estado normal)
     } else if (thirstLevel === 2) {
@@ -124,12 +122,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Calcular exaustão automática por fome e sede
     let autoExhaustion = 0;
     
-    // Se fome estiver em 0 (todas desmarcadas), adiciona 5 de exaustão
+    // Se fome estiver em 0, adiciona 5 de exaustão
     if (hungerLevel === 0) {
       autoExhaustion += 5;
     }
     
-    // Se sede estiver em 0 (todas desmarcadas), adiciona 5 de exaustão  
+    // Se sede estiver em 0, adiciona 5 de exaustão  
     if (thirstLevel === 0) {
       autoExhaustion += 5;
     }
