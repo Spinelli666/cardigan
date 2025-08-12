@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 :root {
   --cardigan-c-dark: #191813;
@@ -234,6 +235,8 @@
   /* Bonus Container Styles */
   /* Reset Button Styles */
   /* Abilities Container Styles - visual antigo */
+  /* Roll Button Styles */
+  /* Botão usa estilos padrão do FoundryVTT - sem customização */
   /* Abilities Toggle Styles */
   /* Abilities Grid View Styles */
   /* Abilities List View Styles */
@@ -929,6 +932,11 @@
 .cardigan .abilities-main-container .ability-row input:focus {
   border-color: #888;
   outline: none;
+}
+.cardigan .roll-button-container {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
 }
 .cardigan .abilities-toggle-view {
   transition: all 0.2s ease;

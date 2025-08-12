@@ -56,6 +56,15 @@
     outline: none;
   }
 }
+
+/* Roll Button Styles */
+.roll-button-container {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+/* Botão usa estilos padrão do FoundryVTT - sem customização */
 /* Abilities Toggle Styles */
 .abilities-toggle-view {
   transition: all 0.2s ease;

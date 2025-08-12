@@ -25,6 +25,10 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
             ...requiredInteger,
             initial: 0,
           }),
+          bonus: new fields.NumberField({
+            initial: 0,
+            integer: true
+          }),
         });
         return obj;
       }, {})
@@ -58,10 +62,18 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       // Handle ability label localization.
       this.abilities[key].label =
         game.i18n.localize(CONFIG.CARDIGAN.abilities[key]) ?? key;
+      
+      // Calcular valor final da perícia (value + bonus) para exibição
+      const baseValue = this.abilities[key].value || 0;
+      const bonus = this.abilities[key].bonus || 0;
+      this.abilities[key].total = baseValue + bonus;
     }
 
     // Regra: cada ponto de Stamina adiciona +5 à vida máxima e +5 à energia máxima
     const stamina = this.abilities?.stamina?.value ?? 0;
+    const staminaBonus = this.abilities?.stamina?.bonus ?? 0;
+    const totalStamina = stamina + staminaBonus;
+    
     // Regra: cada level até 10 adiciona +5 à vida e energia máxima
     const level = this.attributes?.level?.value ?? 0;
     const levelBonus = Math.min(level, 10) * 5;
@@ -74,8 +86,8 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const energyBonus = this.status?.energyBonus ?? 0;
     const armorBonus = this.status?.armorBonus ?? 0;
     
-    this.health.max = Math.max(0, 0 + (stamina * 5) + levelBonus - fractureReduction + healthBonus);
-    this.power.max = Math.max(0, 0 + (stamina * 5) + levelBonus - fractureReduction + energyBonus);
+    this.health.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + healthBonus);
+    this.power.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + energyBonus);
     this.armor.max = Math.max(0, 0 + armorBonus);
     
     // Ajustar valores atuais se excederem o novo máximo
@@ -90,10 +102,16 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     }
 
     // Calcular Acerto Crítico baseado na Destreza
-    // Regra: cada 2 pontos de Destreza reduz o número crítico em 1 (20 base)
+    // Regra: cada 2 pontos de Destreza (valor + bônus) reduz o número crítico em 1 (20 base)
     const dexterity = this.abilities?.dexterity?.value ?? 0;
-    const dexterityBonus = Math.floor(dexterity / 2);
-    this.details.criticalHit = Math.max(1, 20 - dexterityBonus); // Mínimo de 1
+    const dexterityBonus = this.abilities?.dexterity?.bonus ?? 0;
+    const totalDexterity = dexterity + dexterityBonus;
+    const dexterityEffect = Math.floor(totalDexterity / 2);
+    this.details.criticalHit = Math.max(1, 20 - dexterityEffect); // Mínimo de 1
+
+    // Calcular Deslocamento baseado na Destreza
+    // Regra: cada 2 pontos de Destreza (valor + bônus) adiciona 1 ponto de deslocamento
+    this.details.movement = dexterityEffect;
 
     // Verificar estado de Hunger
     const hungerLevel = this.status?.hunger ?? 3; // Valor padrão 3 (todas marcadas)
@@ -204,12 +222,18 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       for (let [k, v] of Object.entries(this.abilities)) {
         data[k] = foundry.utils.deepClone(v);
         
-        // Aplicar penalidade de exaustão TOTAL em TODAS as perícias
+        // Aplicar bônus ANTES da penalidade de exaustão
+        const abilityBonus = v.bonus || 0;
+        const baseValue = (v.value || 0) + abilityBonus;
+        
+        // Aplicar penalidade de exaustão TOTAL após o bônus
         const totalExhaustion = this.status?.totalExhaustion ?? 0;
         if (totalExhaustion > 0) {
           // Cada ponto de exaustão = -1 no teste de perícia
-          data[k].value = (data[k].value || 0) - totalExhaustion;
-          console.log(`[CARDIGAN] Aplicando penalidade de exaustão total: ${k} = ${v.value} - ${totalExhaustion} = ${data[k].value}`);
+          data[k].value = baseValue - totalExhaustion;
+          console.log(`[CARDIGAN] Aplicando bônus e penalidade: ${k} = ${v.value} + ${abilityBonus} - ${totalExhaustion} = ${data[k].value}`);
+        } else {
+          data[k].value = baseValue;
         }
       }
     }

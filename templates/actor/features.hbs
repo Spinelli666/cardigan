@@ -54,6 +54,7 @@
               value='{{system.details.movement}}'
               data-dtype='Number'
               min='0'
+              readonly
             />
           </div>
           
@@ -96,6 +97,7 @@
                 data-dtype='Number'
                 min='0'
                 class='status-next'
+                readonly
               />
             </div>
           </div>
@@ -572,20 +574,40 @@
         <h3>Abilities</h3>
         <div class='abilities-list'>
           {{#each system.abilities as |ability key|}}
-            <div class='ability-row'>
-              <label
-                class='rollable'
-                data-action='roll'
-                data-roll='1d20+@{{key}}.value'
-                data-label='{{localize (lookup @root.config.abilities key)}}'
-                data-key='{{key}}'
-              >{{localize (lookup @root.config.abilities key)}}</label>
-              <input
-                type='text'
-                name='system.abilities.{{key}}.value'
-                value='{{ability.value}}'
-                data-dtype='Number'
-              />
+            <div class='ability-row horizontal-field'>
+              <label>{{localize (lookup @root.config.abilities key)}}</label>
+              <div class='status-display'>
+                <input
+                  type='text'
+                  name='system.abilities.{{key}}.value'
+                  value='{{ability.value}}'
+                  data-dtype='Number'
+                  class='ability-value'
+                  title='Base Value'
+                />
+              </div>
+              <div class='bonus-container'>
+                <input
+                  type='number'
+                  name='system.abilities.{{key}}.bonus'
+                  value='{{ability.bonus}}'
+                  data-dtype='Number'
+                  class='bonus-input'
+                  title='{{localize (lookup @root.config.abilities key)}} Bonus'
+                />
+              </div>
+              <div class='roll-button-container'>
+                <button 
+                  type='button' 
+                  class='ability-roll-button'
+                  data-action='roll'
+                  data-roll='1d20+@{{key}}.value'
+                  data-label='{{localize (lookup @root.config.abilities key)}} ({{ability.value}}+{{ability.bonus}}={{ability.total}})'
+                  data-key='{{key}}'
+                >
+                  Roll 1d20
+                </button>
+              </div>
             </div>
           {{/each}}
         </div>

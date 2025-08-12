@@ -31,31 +31,40 @@
       },
       "abilities": {
         "accuracy": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "evasion": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "strength": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "dexterity": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "stamina": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "stealth": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "persuasion": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "intelligence": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "psionics": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         }
       },
       "status": {
