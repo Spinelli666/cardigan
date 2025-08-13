@@ -49,6 +49,17 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       armorBonus: new fields.NumberField({ initial: 0, integer: true }) // Bonus to maximum armor
     });
 
+    // Adiciona campos de detalhes incluindo notas adicionais
+    schema.details = new fields.SchemaField({
+      name: new fields.StringField({ initial: "" }),
+      age: new fields.NumberField({ initial: 0, integer: true }),
+      race: new fields.StringField({ initial: "" }),
+      movement: new fields.NumberField({ initial: 0, integer: true }),
+      criticalHit: new fields.NumberField({ initial: 20, integer: true }),
+      additionalNotes: new fields.HTMLField({ initial: "" }), // Campo para notas adicionais com suporte a HTML
+      showAdditionalNotes: new fields.BooleanField({ initial: true }) // Controle de exibição das notas
+    });
+
     return schema;
   }
 

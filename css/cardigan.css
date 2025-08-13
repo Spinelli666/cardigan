@@ -228,6 +228,7 @@
 .cardigan {
   /* Containers de Vida e Energia no Status */
   /* Features Tab Layout Styles */
+  /* Additional Notes Section Styles */
   /* Character Details Container Styles */
   /* XP, Level & Classes Container Styles */
   /* Armor Container Styles */
@@ -553,12 +554,61 @@
   grid-template-columns: 1fr;
   gap: 20px;
 }
+.cardigan .features-quaternary-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
 .cardigan .features-container h3 {
   margin: 0 0 10px 0;
   font-size: 16px;
   font-weight: bold;
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
+}
+.cardigan .additional-notes-container h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+.cardigan .additional-notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.cardigan .additional-notes-header h3 {
+  margin: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.cardigan .additional-notes-toggle label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.cardigan .additional-notes-toggle label input[type=checkbox] {
+  margin: 0;
+}
+.cardigan .additional-notes-editor .editor-content {
+  min-height: 100px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.cardigan .additional-notes-editor prose-mirror {
+  min-height: 190px;
+}
+.cardigan .additional-notes-editor prose-mirror .editor {
+  min-height: 190px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
 }
 .cardigan .character-details-container {
   display: flex;

@@ -43,7 +43,8 @@
             "age": {"label": "Age"},
             "race": {"label": "Race"},
             "movement": {"label": "Movement"},
-            "criticalHit": {"label": "Critical Hit"}
+            "criticalHit": {"label": "Critical Hit"},
+            "additionalNotes": {"label": "Additional Notes"}
           }
         }
       },

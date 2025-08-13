@@ -683,6 +683,45 @@
       </div>
     </div>
 
+    {{! Grid quaternário para Additional Notes }}
+    <div class='features-quaternary-grid'>
+      {{! Additional Notes Container - Largura completa }}
+      <div class='additional-notes-container'>
+        <div class="additional-notes-header">
+          <h3>Additional Notes</h3>
+          <div class="additional-notes-toggle">
+            <label>
+              <input
+                type="checkbox"
+                name="system.details.showAdditionalNotes"
+                {{#if system.details.showAdditionalNotes}}checked{{/if}}
+                data-dtype="Boolean"
+              />
+              Show Additional Notes
+            </label>
+          </div>
+        </div>
+        {{#if system.details.showAdditionalNotes}}
+          <section class='additional-notes-editor'>
+            {{#if editable}}
+              <prose-mirror 
+                name="system.details.additionalNotes" 
+                data-document-u-u-i-d="{{actor.uuid}}" 
+                value="{{system.details.additionalNotes}}" 
+                collaborate="true" 
+                toggled="true">
+                {{{enrichedAdditionalNotes}}}
+              </prose-mirror>
+            {{else}}
+              <div class="editor-content">
+                {{{enrichedAdditionalNotes}}}
+              </div>
+            {{/if}}
+          </section>
+        {{/if}}
+      </div>
+    </div>    
+
     {{! Grid terciário para Features List }}
     <div class='features-tertiary-grid'>
       {{! Features Container - Largura completa }}

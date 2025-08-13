@@ -132,6 +132,18 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     switch (partId) {
       case 'features':
         context.tab = context.tabs[partId];
+        // Enrich additional notes for display
+        context.enrichedAdditionalNotes = await TextEditor.enrichHTML(
+          this.actor.system.details.additionalNotes,
+          {
+            // Whether to show secret blocks in the finished html
+            secrets: this.document.isOwner,
+            // Data to fill in for inline rolls
+            rollData: this.actor.getRollData(),
+            // Relative UUID resolution
+            relativeTo: this.actor,
+          }
+        );
         break;
       case 'spells':
       case 'gear':

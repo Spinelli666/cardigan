@@ -91,7 +91,9 @@
         "age": 0,
         "race": "",
         "movement": 0,
-        "criticalHit": 20
+        "criticalHit": 20,
+        "additionalNotes": "",
+        "showAdditionalNotes": true
       },
       "experience": {
         "current": 0,
