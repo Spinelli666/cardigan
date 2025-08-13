@@ -87,9 +87,7 @@
     "Effect": {
       "Source": "Source",
       "Toggle": "Toggle Effect",
-      "Temporary": "Temporary Effects",
-      "Passive": "Passive Effects",
-      "Inactive": "Inactive Effects"
+      "Effects": "Effects"
     },
     "Hunger": {
       "label": "Hunger",
@@ -162,7 +160,8 @@
     "Item": {
       "gear": "Gear",
       "feature": "Feature",
-      "spell": "Spell"
+      "spell": "Spell",
+      "efeito": "Efeito"
     }
   }
 }

@@ -1,0 +1,21 @@
+{{!-- 
+Template simplificado para itens do tipo efeito
+Sem abas de Duração e Mudanças
+--}}
+<div class="tab-content" data-tab="attributes">
+  <div class="form-group">
+    {{formInput systemFields.efeitoType 
+      name="system.efeitoType" 
+      value=item.system.efeitoType 
+      placeholder="Tipo do Efeito"
+      localize=true}}
+  </div>
+  
+  <div class="form-group">
+    {{formInput systemFields.active 
+      name="system.active" 
+      value=item.system.active 
+      label="Ativo"
+      localize=true}}
+  </div>
+</div>

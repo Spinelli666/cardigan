@@ -55,6 +55,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     attributesSpell: {
       template: 'systems/cardigan/templates/item/attribute-parts/spell.hbs',
     },
+    attributesEfeito: {
+      template: 'systems/cardigan/templates/item/attribute-parts/efeito.hbs',
+    },
     effects: {
       template: 'systems/cardigan/templates/item/effects.hbs',
     },
@@ -77,6 +80,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'spell':
         options.parts.push('attributesSpell');
+        break;
+      case 'efeito':
+        // Para efeitos: apenas descrição e atributos simples, SEM abas de Duração e Mudanças
+        options.parts.push('attributesEfeito');
         break;
     }
   }
@@ -113,6 +120,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesFeature':
       case 'attributesGear':
       case 'attributesSpell':
+      case 'attributesEfeito':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
         break;
@@ -174,6 +182,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesFeature':
         case 'attributesGear':
         case 'attributesSpell':
+        case 'attributesEfeito':
           tab.id = 'attributes';
           tab.label += 'Attributes';
           break;

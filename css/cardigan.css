@@ -426,22 +426,33 @@
   padding: 0;
 }
 .cardigan .effects-list .effect-name {
-  flex: 2;
+  flex: 1;
   margin: 0;
   overflow: hidden;
   font-size: 13px;
   text-align: left;
-  align-items: center;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .cardigan .effects-list .effect-name h3, .cardigan .effects-list .effect-name h4 {
-  margin: 0;
+  margin: 0 0 2px 0;
   white-space: nowrap;
   overflow-x: hidden;
+  font-weight: bold;
+}
+.cardigan .effects-list .effect-name .effect-description {
+  margin: 0;
+  font-size: 11px;
+  color: var(--cardigan-c-tan);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .cardigan .effects-list .effect-controls {
   display: flex;
-  flex: 0 0 100px;
+  flex: 0 0 50px;
   justify-content: flex-end;
 }
 .cardigan .effects-list .effect-controls a {
@@ -450,9 +461,10 @@
   margin: 0 6px;
 }
 .cardigan .effects-list .effect {
-  align-items: center;
-  padding: 0 2px;
+  align-items: flex-start;
+  padding: 8px 2px;
   border-bottom: 1px solid var(--cardigan-c-faint);
+  min-height: 40px;
 }
 .cardigan .effects-list .effect:last-child {
   border-bottom: none;
@@ -460,12 +472,15 @@
 .cardigan .effects-list .effect .effect-name {
   color: var(--cardigan-c-dark);
 }
-.cardigan .effects-list .effect .effect-name .effect-image {
+.cardigan .effects-list .effect .effect-image {
   flex: 0 0 30px;
   height: 30px;
+  margin-right: 8px;
+}
+.cardigan .effects-list .effect .effect-image img {
   background-size: 30px;
   border: none;
-  margin-right: 5px;
+  border-radius: 3px;
 }
 .cardigan .effects-list .effect-prop {
   text-align: center;

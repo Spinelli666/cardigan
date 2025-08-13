@@ -8,3 +8,4 @@ export { default as CardiganSystemItemBase } from './base-item.mjs';
 export { default as CardiganSystemGear } from './item-gear.mjs';
 export { default as CardiganSystemFeature } from './item-feature.mjs';
 export { default as CardiganSystemSpell } from './item-spell.mjs';
+export { default as CardiganSystemEfeito } from './item-efeito.mjs';

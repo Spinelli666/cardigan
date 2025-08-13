@@ -106,7 +106,7 @@
     }
   },
   "Item": {
-    "types": ["gear", "feature", "spell"],
+    "types": ["gear", "feature", "spell", "efeito"],
     "htmlFields": ["description"],
     "templates": {
       "base": {
@@ -125,6 +125,12 @@
     "spell": {
       "templates": ["base"],
       "spellLevel": 1
+    },
+    "efeito": {
+      "templates": ["base"],
+      "efeitoType": "",
+      "duration": 0,
+      "active": false
     }
   }
 }

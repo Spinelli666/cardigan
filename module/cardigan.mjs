@@ -58,7 +58,12 @@ Hooks.once('init', function () {
     gear: models.CardiganSystemGear,
     feature: models.CardiganSystemFeature,
     spell: models.CardiganSystemSpell,
+    efeito: models.CardiganSystemEfeito,
   };
+
+  // Debug logging
+  console.log('[CARDIGAN] Registered Item types:', Object.keys(CONFIG.Item.dataModels));
+  console.log('[CARDIGAN] CardiganSystemEfeito model:', models.CardiganSystemEfeito);
 
   // Active Effects are never copied to the Actor,
   // but will still apply to the Actor from within the Item

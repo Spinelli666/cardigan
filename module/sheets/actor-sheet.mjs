@@ -1,5 +1,3 @@
-import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
-
 const { api, sheets } = foundry.applications;
 
 /**
@@ -30,10 +28,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     },
     actions: {
       onEditImage: this._onEditImage,
-      viewDoc: this._viewDoc,
       createDoc: this._createDoc,
       deleteDoc: this._deleteDoc,
-      toggleEffect: this._toggleEffect,
       roll: this._onRoll,
       rollDeathDie: this._onRollDeathDie,
       resetGiftOfLife: this._onResetGiftOfLife,
@@ -167,12 +163,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'effects':
         context.tab = context.tabs[partId];
-        // Prepare active effects
-        context.effects = prepareActiveEffectCategories(
-          // A generator that returns all effects stored on the actor
-          // as well as any items
-          this.actor.allApplicableEffects()
-        );
+        // Os efeitos já são preparados na função _prepareItems como context.efeitos
+        // Não precisamos de lógica adicional aqui
         break;
     }
     return context;
@@ -263,6 +255,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // this sheet does with spells
     const gear = [];
     const features = [];
+    const efeitos = [];
     const spells = {
       0: [],
       1: [],
@@ -282,9 +275,18 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       if (i.type === 'gear') {
         gear.push(i);
       }
-      // Append to features.
+      // Append to features or efeitos.
       else if (i.type === 'feature') {
-        features.push(i);
+        // Se o nome contém "Efeito", vai para efeitos
+        if (i.name && i.name.includes('Efeito')) {
+          efeitos.push(i);
+        } else {
+          features.push(i);
+        }
+      }
+      // Append to efeitos (tipo dedicado).
+      else if (i.type === 'efeito') {
+        efeitos.push(i);
       }
       // Append to spells.
       else if (i.type === 'spell') {
@@ -301,8 +303,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Sort then assign
     context.gear = gear.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.efeitos = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.spells = spells;
-}
+  }
 
   /**************
    *
@@ -339,19 +342,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Renders an embedded document's sheet
-   *
-   * @this CardiganSystemActorSheet
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _viewDoc(event, target) {
-    const doc = this._getEmbeddedDocument(target);
-    doc.sheet.render(true);
-  }
-
-  /**
    * Handles item deletion
    *
    * @this CardiganSystemActorSheet
@@ -383,26 +373,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Retrieve the configured document class for Item or ActiveEffect
     const documentClass = getDocumentClass(target.dataset.documentClass);
     // Prepare the document creation data by building a default name and any additional data defined by the form element
-    const createData = { name: documentClass.defaultName };
+    const createData = { name: target.dataset.name || documentClass.defaultName };
     if (target.dataset.type) createData.type = target.dataset.type;
     // Create the document and render its sheet
     const document = await documentClass.create(createData, {
       parent: this.document,
     });
     document.sheet.render(true);
-  }
-
-  /**
-   * Determines effect parent to pass to helper
-   *
-   * @this CardiganSystemActorSheet
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _toggleEffect(event, target) {
-    const effect = this._getEmbeddedDocument(target);
-    await effect.update({ disabled: !effect.disabled });
   }
 
   /**
@@ -798,14 +775,28 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @returns {Document}             The embedded document
    * @protected
    */
-  static _getEmbeddedDocument(target) {
+  _getEmbeddedDocument(target) {
     const docRow = target.closest('[data-document-id], [data-item-id], [data-effect-id]');
     if (docRow?.dataset.documentId) {
       return this.document.effects.get(docRow.dataset.documentId);
     } else if (docRow?.dataset.itemId) {
       return this.document.items.get(docRow.dataset.itemId);
     } else if (docRow?.dataset.effectId) {
-      return this.document.effects.get(docRow.dataset.effectId);
+      // Handle effects that might be on items (parent-id) or directly on actor
+      const effectId = docRow.dataset.effectId;
+      const parentId = docRow.dataset.parentId;
+      
+      // If there's a parent ID and it's not the actor's ID, look for the effect on that item
+      if (parentId && parentId !== this.document.id) {
+        const parentItem = this.document.items.get(parentId);
+        if (parentItem?.effects) {
+          const effect = parentItem.effects.get(effectId);
+          if (effect) return effect;
+        }
+      }
+      
+      // Otherwise, look for the effect directly on the actor
+      return this.document.effects.get(effectId);
     }
     throw new Error('Could not find document from element');
   }

@@ -27,6 +27,9 @@
         },
         "spell": {
             "htmlFields": ["description"]
+        },
+        "efeito": {
+            "htmlFields": ["description"]
         }
     }
   },
