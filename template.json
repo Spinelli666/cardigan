@@ -71,7 +71,6 @@
         "hunger": 3,
         "thirst": 3,
         "exhaustion": 0,
-        "totalExhaustion": 0,
         "fracture": 0,
         "giftOfLife": null,
         "deathSentence": null,

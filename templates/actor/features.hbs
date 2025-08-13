@@ -347,35 +347,104 @@
                 </label>
               </div>
             </div>
-            <!-- Exaustão com novo sistema base + penalty -->
+            <!-- Exaustão -->
             <div class='exhaustion-row horizontal-field'>
               <label class='status-label label-left'>Exhaustion:</label>
-              <div class='status-display'>
+              <button 
+                type='button' 
+                class='reset-button'
+                data-action='resetExhaustion'
+                title='Reset Exhaustion'
+              >
+                ↻
+              </button>
+              <div class='sequential-group' data-field='exhaustion'>
                 <input type='hidden' name='system.status.exhaustion' value='{{system.status.exhaustion}}' data-dtype='Number' />
-                <input
-                  type='number'
-                  name='system.status.totalExhaustion'
-                  id='exhaustion-total'
-                  value='{{system.status.totalExhaustion}}'
-                  data-dtype='Number'
-                  min='0'
-                  class='status-current'
-                  title='Exaustão Total (Base + Penalty por Fome/Sede)'
-                />
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='1'
+                    {{#if (gte system.status.exhaustion 1)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='2'
+                    {{#if (gte system.status.exhaustion 2)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='3'
+                    {{#if (gte system.status.exhaustion 3)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='4'
+                    {{#if (gte system.status.exhaustion 4)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='5'
+                    {{#if (gte system.status.exhaustion 5)}}checked{{/if}}
+                  />
+                </label>
               </div>
             </div>
             <!-- Fratura -->
             <div class='fracture-row horizontal-field'>
               <label class='status-label label-left'>Fracture:</label>
-              <div class='status-display'>
-                <input
-                  type='number'
-                  name='system.status.fracture'
-                  value='{{system.status.fracture}}'
-                  data-dtype='Number'
-                  min='0'
-                  class='status-current'
-                />
+              <button 
+                type='button' 
+                class='reset-button'
+                data-action='resetFracture'
+                title='Reset Fracture'
+              >
+                ↻
+              </button>
+              <div class='sequential-group' data-field='fracture'>
+                <input type='hidden' name='system.status.fracture' value='{{system.status.fracture}}' data-dtype='Number' />
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='1'
+                    {{#if (gte system.status.fracture 1)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='2'
+                    {{#if (gte system.status.fracture 2)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='3'
+                    {{#if (gte system.status.fracture 3)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='4'
+                    {{#if (gte system.status.fracture 4)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='5'
+                    {{#if (gte system.status.fracture 5)}}checked{{/if}}
+                  />
+                </label>
               </div>
             </div>
             <!-- Sanidade -->

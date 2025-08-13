@@ -40,6 +40,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       resetDeathSentence: this._onResetDeathSentence,
       resetSanity: this._onResetSanity,
       resetToxicity: this._onResetToxicity,
+      resetExhaustion: this._onResetExhaustion,
+      resetFracture: this._onResetFracture,
       resetHunger: this._onResetHunger,
       resetThirst: this._onResetThirst,
     },
@@ -625,6 +627,60 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     } catch (error) {
       console.error("Error resetting Toxicity:", error);
       ui.notifications.error(`Erro ao zerar Toxicidade: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle resetting Exhaustion checkboxes
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onResetExhaustion(event, target) {
+    event.preventDefault();
+    
+    try {
+      // Reset Exhaustion to 0 (unchecked)
+      await this.document.update({
+        'system.status.exhaustion': 0
+      });
+      
+      ChatMessage.create({ 
+        content: `${this.document.name}: Exaustão completamente recuperada.`,
+        speaker: ChatMessage.getSpeaker({ actor: this.document })
+      });
+      
+      ui.notifications.info("Exaustão zerada.");
+    } catch (error) {
+      console.error("Error resetting Exhaustion:", error);
+      ui.notifications.error(`Erro ao zerar Exaustão: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle resetting Fracture checkboxes
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onResetFracture(event, target) {
+    event.preventDefault();
+    
+    try {
+      // Reset Fracture to 0 (unchecked)
+      await this.document.update({
+        'system.status.fracture': 0
+      });
+      
+      ChatMessage.create({ 
+        content: `${this.document.name}: Fraturas completamente curadas.`,
+        speaker: ChatMessage.getSpeaker({ actor: this.document })
+      });
+      
+      ui.notifications.info("Fratura zerada.");
+    } catch (error) {
+      console.error("Error resetting Fracture:", error);
+      ui.notifications.error(`Erro ao zerar Fratura: ${error.message}`);
     }
   }
 
