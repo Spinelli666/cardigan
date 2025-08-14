@@ -97,8 +97,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         options.parts.push('attributesSpell');
         break;
       case 'efeito':
-        // Para efeitos: apenas descrição e atributos simples, SEM abas de Duração e Mudanças
-        options.parts.push('attributesEfeito');
+        // Para efeitos: apenas descrição, SEM abas de Attributes e Effects
+        // Efeitos só têm descrição
         break;
     }
   }

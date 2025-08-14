@@ -35,10 +35,17 @@
           </div>
           
           <div class='effect-name'>
-            <h4>{{efeito.name}}</h4>
-            {{#if efeito.system.description}}
-              <p class='effect-description'>{{efeito.system.description}}</p>
-            {{/if}}
+            <h4 
+              data-tooltip="{{efeito.name}}{{#if efeito.system.description}}<br><em>{{efeito.system.description}}</em>{{/if}}"
+              data-tooltip-direction="UP"
+              data-tooltip-class="cardigan-tooltip"
+              data-action="showEffectInChat"
+              data-effect-name="{{efeito.name}}"
+              data-effect-description="{{efeito.system.description}}"
+              class="clickable-effect"
+            >
+              {{efeito.name}}
+            </h4>
           </div>
 
           <div class='effect-controls flexrow'>

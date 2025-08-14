@@ -40,6 +40,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       resetFracture: this._onResetFracture,
       resetHunger: this._onResetHunger,
       resetThirst: this._onResetThirst,
+      showEffectInChat: this._onShowEffectInChat,
     },
     // Custom property that's merged into `this.options`
     dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
@@ -766,6 +767,50 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     } catch (error) {
       console.error("Error resetting Thirst:", error);
       ui.notifications.error(`Erro ao restaurar Sede: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle showing effect information in chat
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onShowEffectInChat(event, target) {
+    event.preventDefault();
+    
+    try {
+      const effectName = target.dataset.effectName;
+      const effectDescription = target.dataset.effectDescription || "";
+      const actorName = this.document.name;
+      
+      // Criar o conteúdo da mensagem
+      let content = `<div class="cardigan-effect-message">
+        <h3 style="margin: 0 0 8px 0; color: #b5b3a4; border-bottom: 1px solid #c9c7b8; padding-bottom: 4px;">
+          <i class="fas fa-magic" style="margin-right: 6px;"></i>Efeito Ativo
+        </h3>
+        <p style="margin: 4px 0; font-weight: bold;">
+          <strong>${actorName}</strong> está sob o efeito: <em style="color: #b5b3a4;">${effectName}</em>
+        </p>`;
+      
+      if (effectDescription && effectDescription.trim() !== "") {
+        content += `<div style="margin-top: 8px; padding: 6px; background: rgba(0,0,0,0.1); border-left: 3px solid #b5b3a4; border-radius: 3px;">
+          <p style="margin: 0; font-style: italic; color: #666;">${effectDescription}</p>
+        </div>`;
+      }
+      
+      content += `</div>`;
+      
+      // Enviar mensagem para o chat
+      await ChatMessage.create({
+        content: content,
+        speaker: ChatMessage.getSpeaker({ actor: this.document }),
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER
+      });
+      
+    } catch (error) {
+      console.error("Error showing effect in chat:", error);
+      ui.notifications.error(`Erro ao mostrar efeito no chat: ${error.message}`);
     }
   }
 
