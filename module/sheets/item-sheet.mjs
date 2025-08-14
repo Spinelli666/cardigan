@@ -17,6 +17,14 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ['cardigan', 'item'],
+    position: {
+      width: 520,
+      height: 480,
+    },
+    window: {
+      resizable: true,
+      minimizable: true,
+    },
     actions: {
       onEditImage: this._onEditImage,
       viewDoc: this._viewEffect,
@@ -73,7 +81,14 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'feature':
-        options.parts.push('attributesFeature', 'effects');
+        // Para features que são "Efeito", apenas mostrar descrição (sem Attributes e Effects)
+        if (this.document.name === 'Efeito' || this.document.name.includes('Efeito')) {
+          // Efeitos só têm descrição - sem abas de Attributes e Effects
+          break;
+        } else {
+          // Features normais têm Attributes e Effects
+          options.parts.push('attributesFeature', 'effects');
+        }
         break;
       case 'gear':
         options.parts.push('attributesGear');
