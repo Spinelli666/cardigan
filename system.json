@@ -65,8 +65,22 @@
       "path": "lang/en.json"
     }
   ],
-  "packs": [],
-  "packFolders": [],
+  "packs": [
+    {
+      "name": "efeitos-cardigan",
+      "label": "Efeitos do Cardigan",
+      "type": "Item",
+      "system": "cardigan",
+      "path": "packs/efeitos-cardigan"
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Efeitos do Cardigan",
+      "sorting": "a",
+      "packs": ["efeitos-cardigan"]
+    }
+  ],
   "socket": false,
   "manifest": "Replace this with a link to the /latest release system.json so people can receive updates after they've installed the system",
   "download": "This must link to a .zip file of the current version",

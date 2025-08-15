@@ -1,0 +1,28 @@
+{
+  "_id": "Z1xK8VmQtN3HdJpW",
+  "_key": "!items!Z1xK8VmQtN3HdJpW",
+  "name": "Paralisia",
+  "type": "efeito",
+  "img": "icons/magic/control/hypnosis-mesmerism-swirl-purple.webp",
+  "system": {
+    "description": "<p>O personagem está paralisado e não pode se mover nem realizar ações. O efeito dura 3 turnos ou até ser quebrado por dano ou magia.</p>",
+    "efeitoType": "negativo",
+    "duration": 3,
+    "active": true
+  },
+  "effects": [],
+  "flags": {},
+  "folder": "Kx8mN2QwRtY5UvBp",
+  "sort": 200,
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "coreVersion": "12.328",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

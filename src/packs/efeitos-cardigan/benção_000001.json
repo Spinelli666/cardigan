@@ -1,0 +1,28 @@
+{
+  "_id": "w6I6RQgabMxNMTWA",
+  "_key": "!items!w6I6RQgabMxNMTWA",
+  "name": "Bênção",
+  "type": "efeito",
+  "img": "icons/magic/light/explosion-star-large-blue-yellow.webp",
+  "system": {
+    "description": "<p>O personagem foi abençoado por uma força divina, recebendo vantagem em testes de atributo e jogadas de ataque pelos próximos 10 minutos.</p>",
+    "efeitoType": "positivo",
+    "duration": 10,
+    "active": true
+  },
+  "effects": [],
+  "flags": {},
+  "folder": "FszDz3GuPvOHfi8w",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "coreVersion": "12.328",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

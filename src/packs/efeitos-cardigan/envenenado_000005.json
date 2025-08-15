@@ -1,0 +1,28 @@
+{
+  "_id": "S4wF7GhBkE6YqXvL",
+  "_key": "!items!S4wF7GhBkE6YqXvL",
+  "name": "Envenenado",
+  "type": "efeito",
+  "img": "icons/magic/death/skull-poison-green.webp",
+  "system": {
+    "description": "<p>O personagem está sob efeito de veneno, sofrendo 1d4 de dano por turno e tendo desvantagem em testes de Constituição. O efeito dura 5 turnos.</p>",
+    "efeitoType": "negativo",
+    "duration": 5,
+    "active": true
+  },
+  "effects": [],
+  "flags": {},
+  "folder": "Kx8mN2QwRtY5UvBp",
+  "sort": 100,
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "coreVersion": "12.328",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

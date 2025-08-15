@@ -1,5 +1,10 @@
 {
   "CARDIGAN": {
+    "Compendium": {
+      "EfeitosCardigan": "Cardigan Effects",
+      "EfeitosPositivos": "Positive Effects",
+      "EfeitosNegativos": "Negative Effects"
+    },
     "Ability": {
       "Accuracy": { "long": "Accuracy", "abbr": "acc" },
       "Evasion": { "long": "Evasion", "abbr": "eva" },

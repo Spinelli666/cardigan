@@ -1,0 +1,28 @@
+{
+  "_id": "B7mK9QzLpX4VwCfR",
+  "_key": "!items!B7mK9QzLpX4VwCfR",
+  "name": "Proteção Mágica",
+  "type": "efeito",
+  "img": "icons/magic/defensive/shield-barrier-flaming-pentagon-blue.webp",
+  "system": {
+    "description": "<p>Uma barreira mágica protege o personagem, fornecendo +2 de bônus na CA e resistência a dano mágico por 1 hora.</p>",
+    "efeitoType": "positivo",
+    "duration": 60,
+    "active": true
+  },
+  "effects": [],
+  "flags": {},
+  "folder": "FszDz3GuPvOHfi8w",
+  "sort": 100,
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "coreVersion": "12.328",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

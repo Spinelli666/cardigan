@@ -4,7 +4,9 @@
   "description": "CSS compiler for the CardiganSystem system",
   "scripts": {
     "build": "sass src/scss/cardigan.scss css/cardigan.css --style=expanded --no-source-map",
-    "watch": "sass src/scss/cardigan.scss css/cardigan.css --style=expanded --source-map --watch"
+    "watch": "sass src/scss/cardigan.scss css/cardigan.css --style=expanded --source-map --watch",
+    "build:packs": "node scripts/build-packs.mjs",
+    "build:all": "npm run build && npm run build:packs"
   },
   "browserslist": [
     "last 3 versions"
@@ -13,6 +15,7 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
+    "@foundryvtt/foundryvtt-cli": "^1.1.0",
     "sass": "^1.53.0"
   }
 }

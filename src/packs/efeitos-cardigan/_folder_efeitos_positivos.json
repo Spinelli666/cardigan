@@ -1,0 +1,20 @@
+{
+  "_id": "FszDz3GuPvOHfi8w",
+  "_key": "!folders!FszDz3GuPvOHfi8w",
+  "name": "Efeitos Positivos",
+  "type": "Item",
+  "description": "",
+  "parent": null,
+  "sorting": "a",
+  "sort": 0,
+  "flags": {},
+  "folder": null,
+  "_stats": {
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "coreVersion": "12.328",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

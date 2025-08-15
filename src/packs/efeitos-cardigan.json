@@ -1,0 +1,209 @@
+{
+  "package": "cardigan.efeitos-cardigan",
+  "metadata": {
+    "name": "efeitos-cardigan",
+    "label": "Efeitos do Cardigan",
+    "path": "systems/cardigan/packs/efeitos-cardigan",
+    "type": "Item",
+    "system": "cardigan",
+    "ownership": {
+      "PLAYER": "OBSERVER",
+      "ASSISTANT": "OWNER"
+    },
+    "flags": {},
+    "packageType": "system",
+    "packageName": "cardigan",
+    "id": "cardigan.efeitos-cardigan"
+  },
+  "type": "Item",
+  "items": [
+    {
+      "folder": "posit000000",
+      "name": "Bênção",
+      "type": "efeito",
+      "img": "icons/magic/light/explosion-star-large-blue-yellow.webp",
+      "system": {
+        "description": "<p>O personagem foi abençoado por uma força divina, recebendo vantagem em testes de atributo e jogadas de ataque pelos próximos 10 minutos.</p>",
+        "efeitoType": "positivo",
+        "duration": 10,
+        "active": true
+      },
+      "effects": [],
+      "flags": {},
+      "_stats": {
+        "coreVersion": "12.328",
+        "systemId": "cardigan",
+        "systemVersion": "3.0.0",
+        "createdTime": 1672531200000,
+        "modifiedTime": 1672531200000,
+        "lastModifiedBy": "cardigan-system"
+      },
+      "_id": "benção000001"
+    },
+    {
+      "folder": "posit000000",
+      "name": "Proteção Mágica",
+      "type": "efeito",
+      "img": "icons/magic/defensive/shield-barrier-glowing-triangle-blue.webp",
+      "system": {
+        "description": "<p>O personagem está protegido por uma barreira mágica que reduz dano físico e mágico recebido em 50% pelos próximos 5 minutos.</p>",
+        "efeitoType": "positivo",
+        "duration": 5,
+        "active": true
+      },
+      "effects": [],
+      "flags": {},
+      "_stats": {
+        "coreVersion": "12.328",
+        "systemId": "cardigan",
+        "systemVersion": "3.0.0",
+        "createdTime": 1672531200000,
+        "modifiedTime": 1672531200000,
+        "lastModifiedBy": "cardigan-system"
+      },
+      "_id": "proteção000002"
+    },
+    {
+      "folder": "posit000000",
+      "name": "Vigor Aprimorado",
+      "type": "efeito",
+      "img": "icons/magic/life/heart-cross-strong-flame-green.webp",
+      "system": {
+        "description": "<p>O personagem teve sua vitalidade aumentada, ganhando +20 pontos de vida temporários e regeneração de 2 PV por turno pelos próximos 15 minutos.</p>",
+        "efeitoType": "positivo",
+        "duration": 15,
+        "active": true
+      },
+      "effects": [],
+      "flags": {},
+      "_stats": {
+        "coreVersion": "12.328",
+        "systemId": "cardigan",
+        "systemVersion": "3.0.0",
+        "createdTime": 1672531200000,
+        "modifiedTime": 1672531200000,
+        "lastModifiedBy": "cardigan-system"
+      },
+      "_id": "vigor000003"
+    },
+    {
+      "folder": "negat000000",
+      "name": "Maldição",
+      "type": "efeito",
+      "img": "icons/magic/unholy/strike-evil-glowing-red.webp",
+      "system": {
+        "description": "<p>O personagem foi amaldiçoado por forças sombrias, sofrendo desvantagem em todos os testes de atributo e perdendo 1 PV por turno pelos próximos 20 minutos.</p>",
+        "efeitoType": "negativo",
+        "duration": 20,
+        "active": true
+      },
+      "effects": [],
+      "flags": {},
+      "_stats": {
+        "coreVersion": "12.328",
+        "systemId": "cardigan",
+        "systemVersion": "3.0.0",
+        "createdTime": 1672531200000,
+        "modifiedTime": 1672531200000,
+        "lastModifiedBy": "cardigan-system"
+      },
+      "_id": "maldição000004"
+    },
+    {
+      "folder": "negat000000",
+      "name": "Envenenado",
+      "type": "efeito",
+      "img": "icons/magic/death/skull-poison-green.webp",
+      "system": {
+        "description": "<p>O personagem está envenenado, sofrendo 1d4 de dano por veneno a cada turno e tendo sua velocidade reduzida pela metade pelos próximos 8 minutos.</p>",
+        "efeitoType": "negativo",
+        "duration": 8,
+        "active": true
+      },
+      "effects": [],
+      "flags": {},
+      "_stats": {
+        "coreVersion": "12.328",
+        "systemId": "cardigan",
+        "systemVersion": "3.0.0",
+        "createdTime": 1672531200000,
+        "modifiedTime": 1672531200000,
+        "lastModifiedBy": "cardigan-system"
+      },
+      "_id": "envenenado000005"
+    },
+    {
+      "folder": "negat000000",
+      "name": "Paralisia",
+      "type": "efeito",
+      "img": "icons/magic/control/debuff-chains-blue.webp",
+      "system": {
+        "description": "<p>O personagem está paralisado e não pode se mover nem realizar ações físicas. Ataques contra ele têm vantagem. Duração: 3 turnos.</p>",
+        "efeitoType": "negativo",
+        "duration": 3,
+        "active": true
+      },
+      "effects": [],
+      "flags": {},
+      "_stats": {
+        "coreVersion": "12.328",
+        "systemId": "cardigan",
+        "systemVersion": "3.0.0",
+        "createdTime": 1672531200000,
+        "modifiedTime": 1672531200000,
+        "lastModifiedBy": "cardigan-system"
+      },
+      "_id": "paralisia000006"
+    }
+  ],
+  "source": {
+    "world": "cardigan",
+    "system": "cardigan",
+    "version": {
+      "core": "12.328",
+      "system": "3.0.0"
+    }
+  },
+  "folders": [
+    {
+      "type": "Item",
+      "folder": null,
+      "name": "Efeitos Positivos",
+      "color": "#00ff00",
+      "sorting": "a",
+      "description": "Efeitos benéficos que concedem vantagens aos personagens",
+      "flags": {},
+      "_stats": {
+        "coreVersion": "12.328",
+        "systemId": "cardigan",
+        "systemVersion": "3.0.0",
+        "createdTime": 1672531200000,
+        "modifiedTime": 1672531200000,
+        "lastModifiedBy": "cardigan-system"
+      },
+      "_id": "posit000000"
+    },
+    {
+      "type": "Item",
+      "folder": null,
+      "name": "Efeitos Negativos",
+      "color": "#ff0000",
+      "sorting": "a",
+      "description": "Efeitos prejudiciais que causam desvantagens aos personagens",
+      "flags": {},
+      "_stats": {
+        "coreVersion": "12.328",
+        "systemId": "cardigan",
+        "systemVersion": "3.0.0",
+        "createdTime": 1672531200000,
+        "modifiedTime": 1672531200000,
+        "lastModifiedBy": "cardigan-system"
+      },
+      "_id": "negat000000"
+    }
+  ],
+  "folder": {
+    "id": "efeitos-cardigan-folder",
+    "name": "Efeitos do Cardigan"
+  }
+}
