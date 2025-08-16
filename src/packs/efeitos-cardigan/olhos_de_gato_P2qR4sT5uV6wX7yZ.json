@@ -1,0 +1,22 @@
+{
+  "_id": "P2qR4sT5uV6wX7yZ",
+  "_key": "!items!P2qR4sT5uV6wX7yZ",
+  "name": "Olhos de Gato",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
+  "system": {
+    "description": "<p style=\"text-align: justify;\">Você consegue enxergar no escuro e possui Vantagem para detectar personagens furtivos.</p>",
+    "efeitoType": "positivo"
+  },
+  "effects": [],
+  "folder": "FszDz3GuPvOHfi8w",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

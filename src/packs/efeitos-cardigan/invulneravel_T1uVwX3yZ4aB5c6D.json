@@ -1,11 +1,11 @@
 {
-  "_id": "k8JmN5PrQwX7VzBt",
-  "_key": "!items!k8JmN5PrQwX7VzBt",
-  "name": "Inspirado",
+  "_id": "T1uVwX3yZ4aB5c6D",
+  "_key": "!items!T1uVwX3yZ4aB5c6D",
+  "name": "Invulnerável",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects.svg",
+  "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
   "system": {
-    "description": "<p style=\"text-align: justify;\">Recebe bônus de alguma Perícia de acordo com a situação que deixar seu personagem inspirado.</p>",
+    "description": "<p style=\"text-align: justify;\">Você não pode sofrer dano de criaturas ou objetos.</p>",
     "efeitoType": "positivo"
   },
   "effects": [],

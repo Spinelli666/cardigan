@@ -1,0 +1,22 @@
+{
+  "_id": "X9yZ1aB2c3D4eF5g",
+  "_key": "!items!X9yZ1aB2c3D4eF5g",
+  "name": "Imparável",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
+  "system": {
+    "description": "<p style=\"text-align: justify;\">Não é afetado por efeitos que restrinjam suas ações, como Enraizado, Atordoado, Caído, Congelado, Encantado e Adormecido.</p>",
+    "efeitoType": "positivo"
+  },
+  "effects": [],
+  "folder": "FszDz3GuPvOHfi8w",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

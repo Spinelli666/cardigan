@@ -1,0 +1,22 @@
+{
+  "_id": "L2mN4oPqR3sT5uVw",
+  "_key": "!items!L2mN4oPqR3sT5uVw",
+  "name": "Veloz",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
+  "system": {
+    "description": "<p style=\"text-align: justify;\">Recebe +4m de Deslocamento.</p>",
+    "efeitoType": "positivo"
+  },
+  "effects": [],
+  "folder": "FszDz3GuPvOHfi8w",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

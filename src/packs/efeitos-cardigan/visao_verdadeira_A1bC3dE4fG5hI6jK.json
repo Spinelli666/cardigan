@@ -1,0 +1,22 @@
+{
+  "_id": "A1bC3dE4fG5hI6jK",
+  "_key": "!items!A1bC3dE4fG5hI6jK",
+  "name": "Visão Verdadeira",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
+  "system": {
+    "description": "<p style=\"text-align: justify;\">Você se torna capaz de enxergar através do Véu, percebendo rastros de magia, criaturas e objetos magicamente ocultos, além de armadilhas e passagens secretas.</p>",
+    "efeitoType": "positivo"
+  },
+  "effects": [],
+  "folder": "FszDz3GuPvOHfi8w",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

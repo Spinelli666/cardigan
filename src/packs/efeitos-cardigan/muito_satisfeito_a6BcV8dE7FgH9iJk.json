@@ -3,7 +3,7 @@
   "_key": "!items!a6BcV8dE7FgH9iJk",
   "name": "Muito Satisfeito",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects.svg",
+  "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
   "system": {
     "description": "<p style=\"text-align: justify;\">Recebe PVs e PEs temporários adicionais enquanto estiver saciado e hidratado por produções da ocupação de Culinária.</p>",
     "efeitoType": "positivo"

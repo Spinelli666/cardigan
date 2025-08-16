@@ -1,0 +1,22 @@
+{
+  "_id": "H7iJkL6mN8oP9qRs",
+  "_key": "!items!H7iJkL6mN8oP9qRs",
+  "name": "Persistência",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
+  "system": {
+    "description": "<p style=\"text-align: justify;\">Ao ter seus pontos de vida reduzidos a 0 ou menos, imediatamente retorna a ter 1 ponto de vida.</p>",
+    "efeitoType": "positivo"
+  },
+  "effects": [],
+  "folder": "FszDz3GuPvOHfi8w",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}
