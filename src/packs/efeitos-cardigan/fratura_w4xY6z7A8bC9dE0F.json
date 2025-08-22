@@ -1,0 +1,22 @@
+{
+  "_id": "w4xY6z7A8bC9dE0F",
+  "_key": "!items!w4xY6z7A8bC9dE0F",
+  "name": "Fratura",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+  "system": {
+    "description": "<p style=\"text-align: justify\">Você foi gravemente ferido, e para cada ponto de Fratura que possuir seus <code>💔PV</code> & <code>⚡️PE</code> <strong>totais</strong> são reduzidos em 5. Pode ser removido com um <code>💤</code> <strong>Descanso Longo</strong> ou com um 🧪<strong>Conjunto Cirúrgico</strong>.</p>",
+    "efeitoType": "negativo"
+  },
+  "effects": [],
+  "folder": "Kx8mN2QwRtY5UvBp",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

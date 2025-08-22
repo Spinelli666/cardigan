@@ -1,0 +1,22 @@
+{
+  "_id": "sS7tT8uU9vV0wW1X",
+  "_key": "!items!sS7tT8uU9vV0wW1X",
+  "name": "Derrotado",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+  "system": {
+    "description": "<p style=\"text-align: justify\">Você recebeu um golpe fatal e está <code>💤</code><code>Inconsciente</code>, não podendo realizar nenhum tipo de ação, se mover ou falar, mas também está gravemente ferido, à beira da morte, e por isso deve realizar o teste de <strong>Julgamento</strong>.</p>",
+    "efeitoType": "negativo"
+  },
+  "effects": [],
+  "folder": "Kx8mN2QwRtY5UvBp",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

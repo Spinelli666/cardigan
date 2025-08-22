@@ -1,0 +1,22 @@
+{
+  "_id": "bB3cCd4eEf5fF6gG",
+  "_key": "!items!bB3cCd4eEf5fF6gG",
+  "name": "Lento",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+  "system": {
+    "description": "<p style=\"text-align: justify\">Recebe -5m de Deslocamento.</p>",
+    "efeitoType": "negativo"
+  },
+  "effects": [],
+  "folder": "Kx8mN2QwRtY5UvBp",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

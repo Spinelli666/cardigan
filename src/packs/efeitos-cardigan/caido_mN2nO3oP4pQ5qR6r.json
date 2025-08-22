@@ -1,0 +1,22 @@
+{
+  "_id": "mN2nO3oP4pQ5qR6r",
+  "_key": "!items!mN2nO3oP4pQ5qR6r",
+  "name": "Caído",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+  "system": {
+    "description": "<p style=\"text-align: justify\">Cai no chão e recebe Desvantagem em qualquer teste de Perícia. Em seu turno pode usar sua <em>Ação Simples</em> para se levantar. Além disso, caso você esteja mantendo uma habilidade do tipo Foco ou Postura, ela é removida.</p>",
+    "efeitoType": "negativo"
+  },
+  "effects": [],
+  "folder": "Kx8mN2QwRtY5UvBp",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

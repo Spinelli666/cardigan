@@ -1,0 +1,22 @@
+{
+  "_id": "fG2fF3gG4hH5iI6J",
+  "_key": "!items!fG2fF3gG4hH5iI6J",
+  "name": "Eletrocutado",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+  "system": {
+    "description": "<p style=\"text-align: justify\">Recebe <strong>Atordoado¹</strong> e <code>1d12⚡️</code> dano elétrico instantâneo.</p>",
+    "efeitoType": "negativo"
+  },
+  "effects": [],
+  "folder": "Kx8mN2QwRtY5UvBp",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}
