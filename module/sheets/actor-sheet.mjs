@@ -36,7 +36,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       resetDeathSentence: this._onResetDeathSentence,
       resetSanity: this._onResetSanity,
       resetToxicity: this._onResetToxicity,
-      resetExhaustion: this._onResetExhaustion,
       resetFracture: this._onResetFracture,
       resetHunger: this._onResetHunger,
       resetThirst: this._onResetThirst,
@@ -620,32 +619,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }
   }
 
-  /**
-   * Handle resetting Exhaustion checkboxes
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _onResetExhaustion(event, target) {
-    event.preventDefault();
-    
-    try {
-      // Reset Exhaustion to 0 (unchecked)
-      await this.document.update({
-        'system.status.exhaustion': 0
-      });
-      
-      ChatMessage.create({ 
-        content: `${this.document.name}: Exaustão completamente recuperada.`,
-        speaker: ChatMessage.getSpeaker({ actor: this.document })
-      });
-      
-      ui.notifications.info("Exaustão zerada.");
-    } catch (error) {
-      console.error("Error resetting Exhaustion:", error);
-      ui.notifications.error(`Erro ao zerar Exaustão: ${error.message}`);
-    }
-  }
+
 
   /**
    * Handle resetting Fracture checkboxes
@@ -675,7 +649,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Handle resetting Hunger to full (3)
+   * Handle resetting Hunger to normal (0)
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @protected
@@ -684,46 +658,25 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     event.preventDefault();
     
     try {
-      // Buscar valores atuais
-      const currentThirst = this.document.system.status?.thirst ?? 3;
-      const currentTotalExhaustion = this.document.system.status?.totalExhaustion ?? 0;
-      const currentAutoExhaustion = this.document.system.status?.autoExhaustion ?? 0;
-      
-      // Calcular exaustão manual (preservar)
-      const manualExhaustion = Math.max(0, currentTotalExhaustion - currentAutoExhaustion);
-      
-      // Calcular nova exaustão automática (hunger será 3 = não contribui)
-      let newAutoExhaustion = 0;
-      if (currentThirst === 0) {
-        newAutoExhaustion += 5; // Só thirst contribui se estiver em 0
-      }
-      
-      // Nova exaustão total = manual + nova automática
-      const newTotalExhaustion = manualExhaustion + newAutoExhaustion;
-      
-      // Atualizar hunger e totalExhaustion em uma única operação
+      // Resetar hunger para 0 (sem fome)
       await this.document.update({
-        'system.status.hunger': 3,
-        'system.status.totalExhaustion': newTotalExhaustion
+        'system.status.hunger': 0
       });
       
-      // Forçar re-renderização para atualizar o input de exaustão
-      this.render(false);
-      
       ChatMessage.create({ 
-        content: `${this.document.name}: Fome saciada.`,
+        content: `${this.document.name}: Fome resetada (sem fome).`,
         speaker: ChatMessage.getSpeaker({ actor: this.document })
       });
       
-      ui.notifications.info("Fome restaurada.");
+      ui.notifications.info("Fome resetada.");
     } catch (error) {
       console.error("Error resetting Hunger:", error);
-      ui.notifications.error(`Erro ao restaurar Fome: ${error.message}`);
+      ui.notifications.error(`Erro ao resetar Fome: ${error.message}`);
     }
   }
 
   /**
-   * Handle resetting Thirst to full (3)
+   * Handle resetting Thirst to normal (0)
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @protected
@@ -732,41 +685,20 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     event.preventDefault();
     
     try {
-      // Buscar valores atuais
-      const currentHunger = this.document.system.status?.hunger ?? 3;
-      const currentTotalExhaustion = this.document.system.status?.totalExhaustion ?? 0;
-      const currentAutoExhaustion = this.document.system.status?.autoExhaustion ?? 0;
-      
-      // Calcular exaustão manual (preservar)
-      const manualExhaustion = Math.max(0, currentTotalExhaustion - currentAutoExhaustion);
-      
-      // Calcular nova exaustão automática (thirst será 3 = não contribui)
-      let newAutoExhaustion = 0;
-      if (currentHunger === 0) {
-        newAutoExhaustion += 5; // Só hunger contribui se estiver em 0
-      }
-      
-      // Nova exaustão total = manual + nova automática
-      const newTotalExhaustion = manualExhaustion + newAutoExhaustion;
-      
-      // Atualizar thirst e totalExhaustion em uma única operação
+      // Resetar thirst para 0 (sem sede)
       await this.document.update({
-        'system.status.thirst': 3,
-        'system.status.totalExhaustion': newTotalExhaustion
+        'system.status.thirst': 0
       });
       
-      // Forçar re-renderização para atualizar o input de exaustão
-      this.render(false);
-      
       ChatMessage.create({ 
-        content: `${this.document.name}: Sede saciada.`,
+        content: `${this.document.name}: Sede resetada (sem sede).`,
         speaker: ChatMessage.getSpeaker({ actor: this.document })
       });
       
-      ui.notifications.info("Sede restaurada.");
+      ui.notifications.info("Sede resetada.");
     } catch (error) {
       console.error("Error resetting Thirst:", error);
-      ui.notifications.error(`Erro ao restaurar Sede: ${error.message}`);
+      ui.notifications.error(`Erro ao resetar Sede: ${error.message}`);
     }
   }
 
@@ -1090,80 +1022,50 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     await this.document.update(submitData);
   }
 
-  /**
-   * Configura o sistema de exaustão com base + penalty
-   * @param {HTMLElement} html 
-   */
-  #setupExhaustionSystem(html) {
-    // Input principal de exaustão total
-    const exhaustionInput = html.querySelector('#exhaustion-total');
-    
-    // Grupos de radios independentes
-    const hungerRadios = html.querySelectorAll('.radio-group[data-field="hunger"] input[type="radio"]');
-    const thirstRadios = html.querySelectorAll('.radio-group[data-field="thirst"] input[type="radio"]');
-    
-    // Configurar radios independentes (podem ser desmarcados)
-    this.#setupIndependentRadios(hungerRadios, 'hunger');
-    this.#setupIndependentRadios(thirstRadios, 'thirst');
-    
-    // Listener para o input de exaustão total
-    if (exhaustionInput) {
-      exhaustionInput.addEventListener('change', async (ev) => {
-        const totalInput = parseInt(ev.target.value) || 0;
-        const penalty = this.#calculatePenalty();
-        const newBase = Math.max(0, totalInput - penalty);
-        
-        await this.actor.update({
-          'system.status.exhaustion': newBase,
-          'system.status.totalExhaustion': newBase + penalty
-        });
-      });
-    }
-  }
+  /********************
+   *
+   * Actor Override Handling
+   *
+   ********************/
 
   /**
-   * Configura radios para serem independentes (podem ser desmarcados)
-   * @param {NodeList} radios 
+   * Configura checkboxes para serem acumulativos (podem ser desmarcados)
+   * @param {NodeList} checkboxes 
    * @param {string} field 
    */
-  #setupIndependentRadios(radios, field) {
-    radios.forEach(radio => {
+  #setupIndependentRadios(checkboxes, field) {
+    checkboxes.forEach(checkbox => {
       let wasChecked = false;
       
       // Capturar estado em mousedown
-      radio.addEventListener('mousedown', () => {
-        wasChecked = radio.checked;
+      checkbox.addEventListener('mousedown', () => {
+        wasChecked = checkbox.checked;
       });
       
       // Processar click
-      radio.addEventListener('click', async (ev) => {
+      checkbox.addEventListener('click', async (ev) => {
         ev.preventDefault();
         
-        if (wasChecked) {
-          // Se estava marcado, desmarcar
-          radio.checked = false;
-        } else {
-          // Se não estava marcado, marcar
-          radio.checked = true;
-        }
+        const clickedLevel = parseInt(checkbox.dataset.level);
+        let newValue = 0;
         
-        // Calcular novo valor baseado nos radios marcados
-        const newValue = this.#calculateFieldValue(field);
-        const penalty = this.#calculatePenalty();
-        const currentBase = this.actor.system.status?.exhaustion ?? 0;
-        const newTotal = currentBase + penalty;
+        if (wasChecked) {
+          // Se estava marcado, desmarcar todos (volta para 0)
+          checkboxes.forEach(r => r.checked = false);
+          newValue = 0;
+        } else {
+          // Se não estava marcado, marcar este e todos os anteriores (acumulativo)
+          checkboxes.forEach(r => {
+            const rLevel = parseInt(r.dataset.level);
+            r.checked = rLevel <= clickedLevel;
+          });
+          newValue = clickedLevel;
+        }
         
         // Atualizar o documento
         await this.actor.update({
-          [`system.status.${field}`]: newValue,
-          'system.status.totalExhaustion': newTotal
+          [`system.status.${field}`]: newValue
         });
-        
-        // Atualizar input de exaustão
-        const exhaustionInput = document.querySelector('#exhaustion-total');
-        if (exhaustionInput) {
-          exhaustionInput.value = newTotal;
-        }
         
         // Gerar mensagem para chat
         this.#sendFieldMessage(field, newValue);
@@ -1178,7 +1080,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   #calculateFieldValue(field) {
     const radios = document.querySelectorAll(`.radio-group[data-field="${field}"] input[type="radio"]:checked`);
-    return radios.length;
+    if (radios.length === 0) return 0;
+    
+    // Para radio buttons, pegar o valor mais alto marcado
+    let maxValue = 0;
+    radios.forEach(radio => {
+      const level = parseInt(radio.dataset.level) || 0;
+      if (level > maxValue) maxValue = level;
+    });
+    
+    return maxValue;
   }
 
   /**
@@ -1186,14 +1097,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @returns {number}
    */
   #calculatePenalty() {
-    const hungerValue = this.#calculateFieldValue('hunger');
-    const thirstValue = this.#calculateFieldValue('thirst');
-    
-    let penalty = 0;
-    if (hungerValue === 0) penalty += 5;
-    if (thirstValue === 0) penalty += 5;
-    
-    return penalty;
+    // Removida penalidade automática por fome/sede
+    // Nova regra será implementada posteriormente
+    return 0;
   }
 
   /**
@@ -1205,24 +1111,24 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     let message = "";
     
     if (field === 'hunger') {
-      if (value === 3) {
+      if (value === 0) {
         message = `${this.actor.name} não está mais com fome.`;
-      } else if (value === 2) {
-        message = `${this.actor.name} está com 2 de Fome.`;
       } else if (value === 1) {
         message = `${this.actor.name} está com 1 de Fome.`;
-      } else if (value === 0) {
-        message = `${this.actor.name} está com fome! [0 de Fome e +5 de Exaustão]`;
+      } else if (value === 2) {
+        message = `${this.actor.name} está com 2 de Fome.`;
+      } else if (value === 3) {
+        message = `${this.actor.name} está com fome! [3 de Fome]`;
       }
     } else if (field === 'thirst') {
-      if (value === 3) {
+      if (value === 0) {
         message = `${this.actor.name} não está mais com sede.`;
-      } else if (value === 2) {
-        message = `${this.actor.name} está com 2 de Sede.`;
       } else if (value === 1) {
         message = `${this.actor.name} está com 1 de Sede.`;
-      } else if (value === 0) {
-        message = `${this.actor.name} está com sede! [0 de Sede e +5 de Exaustão]`;
+      } else if (value === 2) {
+        message = `${this.actor.name} está com 2 de Sede.`;
+      } else if (value === 3) {
+        message = `${this.actor.name} está com sede! [3 de Sede]`;
       }
     }
     
@@ -1240,8 +1146,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   #addStatusListeners() {
     const html = this.element;
 
-    // Sistema de Exaustão com base + penalty
-    this.#setupExhaustionSystem(html);
+    // Configurar checkboxes de fome e sede (acumulativos)
+    const hungerCheckboxes = html.querySelectorAll('.radio-group[data-field="hunger"] input[type="checkbox"]');
+    const thirstCheckboxes = html.querySelectorAll('.radio-group[data-field="thirst"] input[type="checkbox"]');
+    
+    this.#setupIndependentRadios(hungerCheckboxes, 'hunger');
+    this.#setupIndependentRadios(thirstCheckboxes, 'thirst');
 
     // Adicionar listeners para os grupos sequenciais (giftOfLife, deathSentence, sanity, toxicity)
     html.querySelectorAll('.sequential-group').forEach(group => {

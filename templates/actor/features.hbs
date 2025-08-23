@@ -285,7 +285,7 @@
                 <input type='hidden' name='system.status.hunger' value='{{system.status.hunger}}' data-dtype='Number' />
                 <label class='radio-option'>
                   <input
-                    type='radio'
+                    type='checkbox'
                     name='hunger-1'
                     data-level='1'
                     {{#if (gte system.status.hunger 1)}}checked{{/if}}
@@ -293,7 +293,7 @@
                 </label>
                 <label class='radio-option'>
                   <input
-                    type='radio'
+                    type='checkbox'
                     name='hunger-2'
                     data-level='2'
                     {{#if (gte system.status.hunger 2)}}checked{{/if}}
@@ -301,7 +301,7 @@
                 </label>
                 <label class='radio-option'>
                   <input
-                    type='radio'
+                    type='checkbox'
                     name='hunger-3'
                     data-level='3'
                     {{#if (gte system.status.hunger 3)}}checked{{/if}}
@@ -323,7 +323,7 @@
                 <input type='hidden' name='system.status.thirst' value='{{system.status.thirst}}' data-dtype='Number' />
                 <label class='radio-option'>
                   <input
-                    type='radio'
+                    type='checkbox'
                     name='thirst-1'
                     data-level='1'
                     {{#if (gte system.status.thirst 1)}}checked{{/if}}
@@ -331,7 +331,7 @@
                 </label>
                 <label class='radio-option'>
                   <input
-                    type='radio'
+                    type='checkbox'
                     name='thirst-2'
                     data-level='2'
                     {{#if (gte system.status.thirst 2)}}checked{{/if}}
@@ -339,60 +339,10 @@
                 </label>
                 <label class='radio-option'>
                   <input
-                    type='radio'
+                    type='checkbox'
                     name='thirst-3'
                     data-level='3'
                     {{#if (gte system.status.thirst 3)}}checked{{/if}}
-                  />
-                </label>
-              </div>
-            </div>
-            <!-- Exaustão -->
-            <div class='exhaustion-row horizontal-field'>
-              <label class='status-label label-left'>Exhaustion:</label>
-              <button 
-                type='button' 
-                class='reset-button'
-                data-action='resetExhaustion'
-                title='Reset Exhaustion'
-              >
-                ↻
-              </button>
-              <div class='sequential-group' data-field='exhaustion'>
-                <input type='hidden' name='system.status.exhaustion' value='{{system.status.exhaustion}}' data-dtype='Number' />
-                <label class='sequential-option'>
-                  <input
-                    type='checkbox'
-                    data-level='1'
-                    {{#if (gte system.status.exhaustion 1)}}checked{{/if}}
-                  />
-                </label>
-                <label class='sequential-option'>
-                  <input
-                    type='checkbox'
-                    data-level='2'
-                    {{#if (gte system.status.exhaustion 2)}}checked{{/if}}
-                  />
-                </label>
-                <label class='sequential-option'>
-                  <input
-                    type='checkbox'
-                    data-level='3'
-                    {{#if (gte system.status.exhaustion 3)}}checked{{/if}}
-                  />
-                </label>
-                <label class='sequential-option'>
-                  <input
-                    type='checkbox'
-                    data-level='4'
-                    {{#if (gte system.status.exhaustion 4)}}checked{{/if}}
-                  />
-                </label>
-                <label class='sequential-option'>
-                  <input
-                    type='checkbox'
-                    data-level='5'
-                    {{#if (gte system.status.exhaustion 5)}}checked{{/if}}
                   />
                 </label>
               </div>

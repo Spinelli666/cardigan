@@ -36,9 +36,8 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
 
     // Adiciona campos de status com radio buttons sequenciais
     schema.status = new fields.SchemaField({
-      hunger: new fields.NumberField({ initial: 3, min: 0, max: 3, integer: true }), // Radio 0-3 for Hunger, initial 3 = all marked
-      thirst: new fields.NumberField({ initial: 3, min: 0, max: 3, integer: true }), // Radio 0-3 for Thirst, initial 3 = all marked
-      exhaustion: new fields.NumberField({ initial: 0, min: 0, max: 5, integer: true }), // Radio 0-5 for Exhaustion levels
+      hunger: new fields.NumberField({ initial: 0, min: 0, max: 3, integer: true }), // Radio 0-3 for Hunger, initial 0 = none marked
+      thirst: new fields.NumberField({ initial: 0, min: 0, max: 3, integer: true }), // Radio 0-3 for Thirst, initial 0 = none marked
       fracture: new fields.NumberField({ initial: 0, min: 0, max: 5, integer: true }), // Radio 0-5 for Fracture levels
       giftOfLife: new fields.NumberField({ initial: null, min: 0, max: 3, integer: true }), // Radio 0-3 for Gift of Life, null = none selected
       deathSentence: new fields.NumberField({ initial: null, min: 0, max: 3, integer: true }), // Radio 0-3 for Death Sentence, null = none selected
@@ -125,64 +124,27 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     this.details.movement = dexterityEffect;
 
     // Verificar estado de Hunger
-    const hungerLevel = this.status?.hunger ?? 3; // Valor padrão 3 (todas marcadas)
-    if (hungerLevel === 3) {
-      this.status.hungerMessage = ""; // Todas marcadas = sem mensagem (estado normal)
-    } else if (hungerLevel === 2) {
-      this.status.hungerMessage = "O personagem está ficando com fome. [2 de Fome]";
+    const hungerLevel = this.status?.hunger ?? 0; // Valor padrão 0 (nenhuma marcada)
+    if (hungerLevel === 0) {
+      this.status.hungerMessage = ""; // Nenhuma marcada = sem mensagem (estado normal)
     } else if (hungerLevel === 1) {
-      this.status.hungerMessage = "O personagem está ficando com mais fome. [1 de Fome]";
-    } else if (hungerLevel === 0) {
-      this.status.hungerMessage = "O personagem está com fome! [0 de Fome e 5 de Exaustão]";
+      this.status.hungerMessage = "O personagem está ficando com fome. [1 de Fome]";
+    } else if (hungerLevel === 2) {
+      this.status.hungerMessage = "O personagem está ficando com mais fome. [2 de Fome]";
+    } else if (hungerLevel === 3) {
+      this.status.hungerMessage = "O personagem está faminto! [3 de Fome]";
     }
 
     // Verificar estado de Thirst
-    const thirstLevel = this.status?.thirst ?? 3; // Valor padrão 3 (todas marcadas)
-    if (thirstLevel === 3) {
-      this.status.thirstMessage = ""; // Todas marcadas = sem mensagem (estado normal)
-    } else if (thirstLevel === 2) {
-      this.status.thirstMessage = "O personagem está ficando com sede. [2 de Sede]";
-    } else if (thirstLevel === 1) {
-      this.status.thirstMessage = "O personagem está ficando com mais sede. [1 de Sede]";
-    } else if (thirstLevel === 0) {
-      this.status.thirstMessage = "O personagem está com sede! [0 de Sede e 5 de Exaustão]";
-    }
-
-    // NOVA LÓGICA EXAUSTÃO: Sistema de radio buttons com automação por fome/sede
-    // Se fome ou sede estiver em 0, força exaustão para pelo menos 3 (3 radios marcados)
-    let minimumExhaustion = 0;
-    
-    // Se fome estiver em 0, exaustão mínima = 3
-    if (hungerLevel === 0) {
-      minimumExhaustion = Math.max(minimumExhaustion, 3);
-    }
-    
-    // Se sede estiver em 0, exaustão mínima = 3  
+    const thirstLevel = this.status?.thirst ?? 0; // Valor padrão 0 (nenhuma marcada)
     if (thirstLevel === 0) {
-      minimumExhaustion = Math.max(minimumExhaustion, 3);
-    }
-    
-    // Obter exaustão atual (radio buttons marcados)
-    const currentExhaustion = this.status?.exhaustion ?? 0;
-    
-    // Se a exaustão atual for menor que a mínima necessária, ajustar automaticamente
-    if (currentExhaustion < minimumExhaustion) {
-      this.status.exhaustion = minimumExhaustion;
-    }
-    
-    // Valores finais para uso
-    const finalExhaustion = this.status.exhaustion;
-    
-    // Aplicar penalidade: cada radio marcado = -1 em testes de perícias
-    this.status.exhaustionPenalty = -finalExhaustion;
-    
-    // Se 5 radios marcados = status "Inconsciente"
-    if (finalExhaustion >= 5) {
-      this.status.exhaustionMessage = "Inconsciente (5 pontos de exaustão)";
-    } else if (finalExhaustion > 0) {
-      this.status.exhaustionMessage = `${finalExhaustion} pontos de exaustão (-${finalExhaustion} em testes)`;
-    } else {
-      this.status.exhaustionMessage = "";
+      this.status.thirstMessage = ""; // Nenhuma marcada = sem mensagem (estado normal)
+    } else if (thirstLevel === 1) {
+      this.status.thirstMessage = "O personagem está ficando com sede. [1 de Sede]";
+    } else if (thirstLevel === 2) {
+      this.status.thirstMessage = "O personagem está ficando com mais sede. [2 de Sede]";
+    } else if (thirstLevel === 3) {
+      this.status.thirstMessage = "O personagem está sedento! [3 de Sede]";
     }
 
     // Verificar estado de Sanidade
@@ -242,29 +204,16 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       for (let [k, v] of Object.entries(this.abilities)) {
         data[k] = foundry.utils.deepClone(v);
         
-        // Aplicar bônus ANTES da penalidade de exaustão
+        // Aplicar bônus
         const abilityBonus = v.bonus || 0;
         const baseValue = (v.value || 0) + abilityBonus;
         
-        // Aplicar penalidade de exaustão: cada radio marcado = -1 no teste
-        const exhaustionLevel = this.status?.exhaustion ?? 0;
-        if (exhaustionLevel > 0) {
-          // Cada ponto de exaustão = -1 no teste de perícia
-          data[k].value = baseValue - exhaustionLevel;
-          console.log(`[CARDIGAN] Aplicando bônus e penalidade exaustão: ${k} = ${v.value} + ${abilityBonus} - ${exhaustionLevel} = ${data[k].value}`);
-        } else {
-          data[k].value = baseValue;
-        }
+        data[k].value = baseValue;
+        console.log(`[CARDIGAN] Aplicando bônus: ${k} = ${v.value} + ${abilityBonus} = ${data[k].value}`);
       }
     }
 
     data.lvl = this.attributes.level.value;
-    
-    // Adicionar informações de exaustão para uso em macros/rolls
-    const exhaustionLevel = this.status?.exhaustion ?? 0;
-    
-    data.exhaustion = exhaustionLevel;
-    data.exhaustionPenalty = -exhaustionLevel;
 
     console.log(`[CARDIGAN] RollData final:`, data);
     return data;

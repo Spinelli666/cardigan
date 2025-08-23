@@ -68,9 +68,8 @@
         }
       },
       "status": {
-        "hunger": 3,
-        "thirst": 3,
-        "exhaustion": 0,
+        "hunger": 0,
+        "thirst": 0,
         "fracture": 0,
         "giftOfLife": null,
         "deathSentence": null,
