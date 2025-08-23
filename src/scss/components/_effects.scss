@@ -184,3 +184,38 @@
   color: $c-beige;
   transition: color 0.2s ease;
 }
+
+// Active Effects Section Styling
+.active-effects-section {
+  margin-bottom: 10px;
+  
+  .section-header {
+    font-size: 14px;
+    font-weight: bold;
+    color: $c-beige;
+    margin-bottom: 5px;
+    padding: 2px 5px;
+    background: rgba(0, 0, 0, 0.1);
+    border-left: 3px solid $c-beige;
+  }
+}
+
+// Active Effects vs Item Effects distinction
+.active-effect {
+  background: rgba(255, 215, 0, 0.1); // Slight gold background for active effects
+  border-left: 2px solid $c-beige;
+  
+  .effect-name h4 {
+    color: $c-beige;
+    font-weight: bold;
+  }
+}
+
+.item-effect {
+  background: rgba(255, 255, 255, 0.05); // Slight white background for item effects
+  border-left: 2px solid $c-tan;
+  
+  .effect-name h4 {
+    color: $c-tan;
+  }
+}

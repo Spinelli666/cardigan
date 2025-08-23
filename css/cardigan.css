@@ -544,6 +544,33 @@
   color: var(--cardigan-c-beige);
   transition: color 0.2s ease;
 }
+.cardigan .active-effects-section {
+  margin-bottom: 10px;
+}
+.cardigan .active-effects-section .section-header {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--cardigan-c-beige);
+  margin-bottom: 5px;
+  padding: 2px 5px;
+  background: rgba(0, 0, 0, 0.1);
+  border-left: 3px solid var(--cardigan-c-beige);
+}
+.cardigan .active-effect {
+  background: rgba(255, 215, 0, 0.1);
+  border-left: 2px solid var(--cardigan-c-beige);
+}
+.cardigan .active-effect .effect-name h4 {
+  color: var(--cardigan-c-beige);
+  font-weight: bold;
+}
+.cardigan .item-effect {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 2px solid var(--cardigan-c-tan);
+}
+.cardigan .item-effect .effect-name h4 {
+  color: var(--cardigan-c-tan);
+}
 .cardigan .horizontal-field {
   display: flex;
   align-items: center;

@@ -1,11 +1,11 @@
-{{! Effects Tab - Fixed Version }}
+{{! Effects Tab - Simplified unified effects list }}
 <section
   class='tab effects flexcol {{tab.cssClass}}'
   data-group='primary'
   data-tab='effects'
 >
   <div class="effects-header flexrow">
-    <h3>{{localize "CARDIGAN.Effect.Effects"}}</h3>
+    <h3>{{localize "CARDIGAN.Effect.Effects"}} ({{actor.effects.size}}{{#if efeitos}}+{{efeitos.length}}{{/if}})</h3>
     <div class='effect-controls'>
       <a
         class='effect-control btn'
@@ -21,50 +21,84 @@
     </div>
   </div>
 
+  {{! Unified Effects List - ActiveEffects and Items together }}
   <ol class='effects-list'>
-    {{#if efeitos}}
-      {{#each efeitos as |efeito|}}
-        <li
-          class='effect flexrow'
-          data-item-id='{{efeito.id}}'
-          data-document-class='Item'
-          data-drag="true"
-        >
-          <div class='effect-image'>
-            <img src='{{efeito.img}}' alt='{{efeito.name}}' width='24' height='24' />
-          </div>
-          
-          <div class='effect-name'>
-            <h4 
-              data-tooltip="{{efeito.name}}{{#if efeito.system.description}}<br><em>{{efeito.system.description}}</em>{{/if}}"
-              data-tooltip-direction="UP"
-              data-tooltip-class="cardigan-tooltip"
-              data-action="showEffectInChat"
-              data-effect-name="{{efeito.name}}"
-              data-effect-description="{{efeito.system.description}}"
-              class="clickable-effect"
-            >
-              {{efeito.name}}
-            </h4>
-          </div>
+    {{#each actor.effects as |effect|}}
+      <li
+        class='effect flexrow'
+        data-effect-id='{{effect.id}}'
+        data-document-class='ActiveEffect'
+      >
+        <div class='effect-image'>
+          <img src='{{effect.icon}}' alt='{{effect.name}}' width='24' height='24' />
+        </div>
+        
+        <div class='effect-name'>
+          <h4 
+            data-tooltip="{{effect.name}}{{#if effect.flags.cardigan.descriptionPlainText}}<br><em>{{effect.flags.cardigan.descriptionPlainText}}</em>{{/if}}"
+            data-tooltip-direction="UP"
+            data-tooltip-class="cardigan-tooltip"
+            data-action="showEffectInChat"
+            data-effect-name="{{effect.name}}"
+            data-effect-description="{{effect.flags.cardigan.description}}"
+            class="clickable-effect"
+          >
+            {{effect.name}}
+            {{#if effect.disabled}}<em> (Disabled)</em>{{/if}}
+          </h4>
+        </div>
 
-          <div class='effect-controls flexrow'>
-            {{#if @root.editable}}
-            <a class='effect-control' data-action='deleteDoc' title='Delete Efeito'>
-              <i class='fas fa-trash'></i>
-            </a>
-            {{/if}}
-          </div>
-        </li>
-      {{else}}
-        <li class="no-effects">
-          <span>No efeitos</span>
-        </li>
-      {{/each}}
-    {{else}}
-      <li class="no-effects">
-        <span>No efeitos available</span>
+        <div class='effect-controls flexrow'>
+          {{#if @root.editable}}
+          <a class='effect-control' data-action='deleteDoc' title='Delete Effect'>
+            <i class='fas fa-trash'></i>
+          </a>
+          {{/if}}
+        </div>
       </li>
-    {{/if}}
+    {{/each}}
+
+    {{#each efeitos as |efeito|}}
+      <li
+        class='effect flexrow'
+        data-item-id='{{efeito.id}}'
+        data-document-class='Item'
+        data-drag="true"
+      >
+        <div class='effect-image'>
+          <img src='{{efeito.img}}' alt='{{efeito.name}}' width='24' height='24' />
+        </div>
+        
+        <div class='effect-name'>
+          <h4 
+            data-tooltip="{{efeito.name}}{{#if efeito.system.description}}<br><em>{{efeito.system.description}}</em>{{/if}}"
+            data-tooltip-direction="UP"
+            data-tooltip-class="cardigan-tooltip"
+            data-action="showEffectInChat"
+            data-effect-name="{{efeito.name}}"
+            data-effect-description="{{efeito.system.description}}"
+            class="clickable-effect"
+          >
+            {{efeito.name}}
+          </h4>
+        </div>
+
+        <div class='effect-controls flexrow'>
+          {{#if @root.editable}}
+          <a class='effect-control' data-action='deleteDoc' title='Delete Efeito'>
+            <i class='fas fa-trash'></i>
+          </a>
+          {{/if}}
+        </div>
+      </li>
+    {{/each}}
+
+    {{#unless actor.effects.size}}
+      {{#unless efeitos}}
+      <li class="no-effects">
+        <span>No effects available</span>
+      </li>
+      {{/unless}}
+    {{/unless}}
   </ol>
 </section>

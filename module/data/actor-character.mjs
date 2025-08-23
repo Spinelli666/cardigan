@@ -123,8 +123,24 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Regra: cada 2 pontos de Destreza (valor + bônus) adiciona 1 ponto de deslocamento
     this.details.movement = dexterityEffect;
 
+    // Verificar estado de Hunger e aplicar efeito de exaustão automaticamente
+    const hungerLevel = this.status?.hunger ?? 0;
+    const thirstLevel = this.status?.thirst ?? 0;
+    
+    // Nova lógica: aplicar efeito de exaustão quando fome OU sede = 3
+    // Usar setTimeout para não bloquear o prepareDerivedData com async
+    if ((hungerLevel === 3 || thirstLevel === 3)) {
+      setTimeout(() => {
+        this._checkAndApplyExhaustionEffect(hungerLevel, thirstLevel);
+      }, 100);
+    } else {
+      // Verificar se precisa remover efeito existente
+      setTimeout(() => {
+        this._checkAndApplyExhaustionEffect(hungerLevel, thirstLevel);
+      }, 100);
+    }
+
     // Verificar estado de Hunger
-    const hungerLevel = this.status?.hunger ?? 0; // Valor padrão 0 (nenhuma marcada)
     if (hungerLevel === 0) {
       this.status.hungerMessage = ""; // Nenhuma marcada = sem mensagem (estado normal)
     } else if (hungerLevel === 1) {
@@ -136,7 +152,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     }
 
     // Verificar estado de Thirst
-    const thirstLevel = this.status?.thirst ?? 0; // Valor padrão 0 (nenhuma marcada)
     if (thirstLevel === 0) {
       this.status.thirstMessage = ""; // Nenhuma marcada = sem mensagem (estado normal)
     } else if (thirstLevel === 1) {
@@ -178,6 +193,216 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     } else if (toxicityLevel === 5) {
       this.status.toxicityMessage = "Envenenamento fatal, você está à beira da morte por toxinas.";
     }
+  }
+
+  /**
+   * Verifica e aplica/remove o efeito de exaustão baseado em fome e sede
+   * Aplica apenas quando fome OU sede chegam ao nível 3 (máximo)
+   * @param {number} hungerLevel - Nível atual de fome (0-3)
+   * @param {number} thirstLevel - Nível atual de sede (0-3)
+   * @private
+   */
+  async _checkAndApplyExhaustionEffect(hungerLevel, thirstLevel) {
+    console.log(`[CARDIGAN DEBUG] Verificando exaustão - Fome: ${hungerLevel}, Sede: ${thirstLevel}`);
+    
+    const shouldHaveExhaustion = hungerLevel === 3 || thirstLevel === 3;
+    console.log(`[CARDIGAN DEBUG] Deve ter exaustão: ${shouldHaveExhaustion}`);
+    
+    // Verificar efeitos existentes de forma mais detalhada
+    console.log(`[CARDIGAN DEBUG] Total de efeitos no ator:`, this.parent.effects.size);
+    console.log(`[CARDIGAN DEBUG] Lista de todos os efeitos:`, this.parent.effects.map(e => ({
+      name: e.name,
+      id: e.id,
+      flags: e.flags
+    })));
+    
+    const currentExhaustionEffect = this.parent.effects.find(effect => {
+      const isExhaustion = effect.name === "Exaustão" || 
+                          effect.label === "Exaustão" ||
+                          effect.flags?.cardigan?.source === "hunger_thirst";
+      console.log(`[CARDIGAN DEBUG] Verificando efeito "${effect.name}": é exaustão? ${isExhaustion}`);
+      return isExhaustion;
+    });
+    
+    console.log(`[CARDIGAN DEBUG] Efeito atual encontrado:`, currentExhaustionEffect ? {
+      name: currentExhaustionEffect.name,
+      id: currentExhaustionEffect.id,
+      flags: currentExhaustionEffect.flags
+    } : null);
+    
+    if (shouldHaveExhaustion && !currentExhaustionEffect) {
+      console.log(`[CARDIGAN DEBUG] Aplicando efeito de exaustão...`);
+      // Aplicar efeito de exaustão
+      await this._applyExhaustionEffect(hungerLevel, thirstLevel);
+    } else if (!shouldHaveExhaustion && currentExhaustionEffect) {
+      console.log(`[CARDIGAN DEBUG] Removendo efeito de exaustão...`);
+      // Remover efeito de exaustão
+      await currentExhaustionEffect.delete();
+      
+      // Forçar atualização da ficha
+      if (this.parent.sheet && this.parent.sheet.rendered) {
+        this.parent.sheet.render(false);
+      }
+      
+      ChatMessage.create({
+        content: `${this.parent.name}: Efeito de Exaustão removido (fome e sede normalizadas).`,
+        speaker: ChatMessage.getSpeaker({ actor: this.parent })
+      });
+    } else {
+      console.log(`[CARDIGAN DEBUG] Nenhuma ação necessária. shouldHave: ${shouldHaveExhaustion}, current: ${!!currentExhaustionEffect}`);
+    }
+  }
+
+  /**
+   * Aplica o efeito de exaustão na ficha do personagem (apenas visual, sem penalidades)
+   * @param {number} hungerLevel - Nível atual de fome
+   * @param {number} thirstLevel - Nível atual de sede
+   * @private
+   */
+  async _applyExhaustionEffect(hungerLevel, thirstLevel) {
+    try {
+      console.log(`[CARDIGAN DEBUG] Iniciando aplicação de efeito de exaustão...`);
+      
+      // Buscar o efeito de exaustão no compêndio
+      const pack = game.packs.get('cardigan.efeitos-cardigan');
+      console.log(`[CARDIGAN DEBUG] Compêndio encontrado: ${!!pack}`);
+      
+      if (!pack) {
+        console.warn('[CARDIGAN] Compêndio de efeitos não encontrado');
+        return;
+      }
+      
+      // Carregar o compêndio se necessário
+      if (!pack.indexed) {
+        console.log(`[CARDIGAN DEBUG] Indexando compêndio...`);
+        await pack.getIndex();
+      }
+      
+      console.log(`[CARDIGAN DEBUG] Procurando efeito de exaustão no compêndio...`);
+      console.log(`[CARDIGAN DEBUG] Índice do compêndio:`, pack.index.map(e => e.name));
+      
+      // Encontrar o efeito de exaustão
+      const exhaustionEntry = pack.index.find(entry => 
+        entry.name === "Exaustão" || entry.name.toLowerCase().includes("exaust")
+      );
+      
+      console.log(`[CARDIGAN DEBUG] Entrada de exaustão encontrada:`, exhaustionEntry);
+      
+      if (!exhaustionEntry) {
+        console.warn('[CARDIGAN] Efeito de Exaustão não encontrado no compêndio');
+        return;
+      }
+      
+      // Obter o documento do efeito
+      console.log(`[CARDIGAN DEBUG] Carregando documento do efeito...`);
+      const exhaustionItem = await pack.getDocument(exhaustionEntry._id);
+      if (!exhaustionItem) {
+        console.warn('[CARDIGAN] Não foi possível carregar o efeito de Exaustão');
+        return;
+      }
+      
+      console.log(`[CARDIGAN DEBUG] Item de exaustão carregado:`, exhaustionItem);
+      
+      // Criar o efeito na ficha do personagem (apenas visual, sem penalidades)
+      const effectData = {
+        name: "Exaustão",
+        icon: exhaustionItem.img || "systems/cardigan/assets/images/effects/effects_negative.svg",
+        origin: this.parent.uuid,
+        disabled: false,
+        duration: {
+          startTime: null,
+          seconds: null,
+          rounds: null,
+          turns: null,
+          startRound: null,
+          startTurn: null
+        },
+        flags: {
+          cardigan: {
+            source: "hunger_thirst",
+            hungerLevel: hungerLevel,
+            thirstLevel: thirstLevel,
+            description: this._generateExhaustionDescription(),
+            descriptionPlainText: this._generateExhaustionDescriptionPlainText()
+          }
+        },
+        changes: [], // Sem penalidades por enquanto
+        transfer: false,
+        statuses: []
+      };
+      
+      console.log(`[CARDIGAN DEBUG] Dados do efeito criados:`, effectData);
+      console.log(`[CARDIGAN DEBUG] Criando efeito no ator...`);
+      
+      const createdEffects = await this.parent.createEmbeddedDocuments('ActiveEffect', [effectData]);
+      console.log(`[CARDIGAN DEBUG] Efeitos criados:`, createdEffects);
+      console.log(`[CARDIGAN DEBUG] Total de efeitos no ator após criação:`, this.parent.effects.size);
+      
+      // Forçar atualização da ficha
+      if (this.parent.sheet && this.parent.sheet.rendered) {
+        this.parent.sheet.render(false);
+      }
+      
+      console.log(`[CARDIGAN DEBUG] Efeito de exaustão aplicado com sucesso!`);
+      
+      // Mensagem no chat
+      const cause = this._getExhaustionCause(hungerLevel, thirstLevel);
+      ChatMessage.create({
+        content: `${this.parent.name}: Efeito de Exaustão aplicado automaticamente devido a ${cause}.`,
+        speaker: ChatMessage.getSpeaker({ actor: this.parent })
+      });
+      
+    } catch (error) {
+      console.error('[CARDIGAN] Erro ao aplicar efeito de exaustão:', error);
+    }
+  }
+
+  /**
+   * Gera descrição do efeito de exaustão usando a descrição do compêndio
+   * @returns {string} Descrição do efeito
+   * @private
+   */
+  _generateExhaustionDescription() {
+    // Usar sempre a descrição oficial do compêndio para consistência
+    return `<p style="text-align: justify">Adquirido de diversas formas mas principalmente ao passar mais de <strong>24h</strong> acordado, ou ao preencher os níveis de <code>🍗</code> / <code>💧</code>, este <em>Efeito Negativo</em> aplica <strong>Desvantagem</strong> cumulativa em todo tipo de teste até que seja removido com um <strong>Descanso</strong>. Caso preencha seus níveis de <code>🍗</code> / <code>💧</code> ao mesmo tempo, este efeito vira uma <strong>Desvantagem Aprimorada</strong> que pode continuar a acumular por outras fontes.</p>`;
+  }
+
+  /**
+   * Gera versão texto simples da descrição de exaustão para tooltips
+   * @returns {string} Descrição em texto simples
+   * @private
+   */
+  _generateExhaustionDescriptionPlainText() {
+    return `Adquirido de diversas formas mas principalmente ao passar mais de 24h acordado, ou ao preencher os níveis de 🍗 / 💧, este Efeito Negativo aplica Desvantagem cumulativa em todo tipo de teste até que seja removido com um Descanso. Caso preencha seus níveis de 🍗 / 💧 ao mesmo tempo, este efeito vira uma Desvantagem Aprimorada que pode continuar a acumular por outras fontes.`;
+  }
+
+  /**
+   * Obtém a causa da exaustão para mensagens
+   * @param {number} hungerLevel - Nível de fome
+   * @param {number} thirstLevel - Nível de sede
+   * @returns {string} Causa da exaustão
+   * @private
+   */
+  _getExhaustionCause(hungerLevel, thirstLevel) {
+    const causes = [];
+    if (hungerLevel === 3) causes.push(`fome crítica`);
+    if (thirstLevel === 3) causes.push(`sede crítica`);
+    
+    return causes.join(' e ');
+  }
+
+  /**
+   * Método de teste para verificar o sistema de exaustão manualmente
+   * Pode ser chamado no console: actor.system.testExhaustionSystem()
+   */
+  testExhaustionSystem() {
+    console.log(`[CARDIGAN TEST] Testando sistema de exaustão...`);
+    console.log(`[CARDIGAN TEST] Valores atuais - Fome: ${this.status?.hunger}, Sede: ${this.status?.thirst}`);
+    console.log(`[CARDIGAN TEST] Total de efeitos no ator: ${this.parent.effects.size}`);
+    console.log(`[CARDIGAN TEST] Lista de efeitos:`, this.parent.effects.map(e => e.name));
+    
+    // Forçar verificação
+    this._checkAndApplyExhaustionEffect(this.status?.hunger ?? 0, this.status?.thirst ?? 0);
   }
 
   /**

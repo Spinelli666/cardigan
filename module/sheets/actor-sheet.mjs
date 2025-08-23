@@ -669,6 +669,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       });
       
       ui.notifications.info("Fome resetada.");
+      
+      // Verificar efeito de exaustão após reset
+      setTimeout(() => {
+        const hungerLevel = this.document.system.status?.hunger ?? 0;
+        const thirstLevel = this.document.system.status?.thirst ?? 0;
+        this.document.system._checkAndApplyExhaustionEffect(hungerLevel, thirstLevel);
+      }, 200);
     } catch (error) {
       console.error("Error resetting Hunger:", error);
       ui.notifications.error(`Erro ao resetar Fome: ${error.message}`);
@@ -696,6 +703,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       });
       
       ui.notifications.info("Sede resetada.");
+      
+      // Verificar efeito de exaustão após reset
+      setTimeout(() => {
+        const hungerLevel = this.document.system.status?.hunger ?? 0;
+        const thirstLevel = this.document.system.status?.thirst ?? 0;
+        this.document.system._checkAndApplyExhaustionEffect(hungerLevel, thirstLevel);
+      }, 200);
     } catch (error) {
       console.error("Error resetting Thirst:", error);
       ui.notifications.error(`Erro ao resetar Sede: ${error.message}`);
@@ -727,7 +741,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
       if (effectDescription && effectDescription.trim() !== "") {
         content += `<div style="margin-top: 8px; padding: 6px; background: rgba(0,0,0,0.1); border-left: 3px solid #b5b3a4; border-radius: 3px;">
-          <p style="margin: 0; font-style: italic; color: #666;">${effectDescription}</p>
+          <div style="margin: 0; font-style: italic; color: #666;">${effectDescription}</div>
         </div>`;
       }
       
@@ -1069,6 +1083,15 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         
         // Gerar mensagem para chat
         this.#sendFieldMessage(field, newValue);
+        
+        // Verificar efeito de exaustão se for hunger ou thirst
+        if (field === 'hunger' || field === 'thirst') {
+          setTimeout(() => {
+            const hungerLevel = this.actor.system.status?.hunger ?? 0;
+            const thirstLevel = this.actor.system.status?.thirst ?? 0;
+            this.actor.system._checkAndApplyExhaustionEffect(hungerLevel, thirstLevel);
+          }, 200);
+        }
       });
     });
   }
