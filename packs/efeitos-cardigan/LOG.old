@@ -1,21 +1,5 @@
-2025/08/23-00:33:57.288529 7b6d777ef6c0 Recovering log #19
-2025/08/23-00:33:57.351296 7b6d777ef6c0 Delete type=0 #19
-2025/08/23-00:33:57.351398 7b6d777ef6c0 Delete type=3 #18
-2025/08/23-00:39:26.678685 7b6d614bb6c0 Level-0 table #23: started
-2025/08/23-00:39:26.678736 7b6d614bb6c0 Level-0 table #23: 0 bytes OK
-2025/08/23-00:39:26.703374 7b6d614bb6c0 Delete type=0 #21
-2025/08/23-00:39:26.853654 7b6d614bb6c0 Manual compaction at level-0 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items!xY2yZ3zA4bB5cC6D' @ 0 : 0; will stop at '!items!xY2yZ3zA4bB5cC6D' @ 106 : 1
-2025/08/23-00:39:26.853667 7b6d614bb6c0 Compacting 1@0 + 0@1 files
-2025/08/23-00:39:26.885475 7b6d614bb6c0 Generated table #24@0: 34 keys, 8854 bytes
-2025/08/23-00:39:26.885497 7b6d614bb6c0 Compacted 1@0 + 0@1 files => 8854 bytes
-2025/08/23-00:39:26.911692 7b6d614bb6c0 compacted to: files[ 0 1 1 0 0 0 0 ]
-2025/08/23-00:39:26.911773 7b6d614bb6c0 Delete type=2 #14
-2025/08/23-00:39:26.970057 7b6d614bb6c0 Manual compaction at level-0 from '!items!xY2yZ3zA4bB5cC6D' @ 106 : 1 .. '!items!xY2yZ3zA4bB5cC6D' @ 0 : 0; will stop at (end)
-2025/08/23-00:39:26.994997 7b6d614bb6c0 Manual compaction at level-1 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items!xY2yZ3zA4bB5cC6D' @ 0 : 0; will stop at '!items!xY2yZ3zA4bB5cC6D' @ 106 : 1
-2025/08/23-00:39:26.995006 7b6d614bb6c0 Compacting 1@1 + 1@2 files
-2025/08/23-00:39:27.030080 7b6d614bb6c0 Generated table #25@1: 36 keys, 9100 bytes
-2025/08/23-00:39:27.030103 7b6d614bb6c0 Compacted 1@1 + 1@2 files => 9100 bytes
-2025/08/23-00:39:27.053340 7b6d614bb6c0 compacted to: files[ 0 0 1 0 0 0 0 ]
-2025/08/23-00:39:27.053428 7b6d614bb6c0 Delete type=2 #24
-2025/08/23-00:39:27.053496 7b6d614bb6c0 Delete type=2 #10
-2025/08/23-00:39:27.118909 7b6d614bb6c0 Manual compaction at level-1 from '!items!xY2yZ3zA4bB5cC6D' @ 106 : 1 .. '!items!xY2yZ3zA4bB5cC6D' @ 0 : 0; will stop at (end)
+2025/08/23-23:25:21.831790 7c64595ff6c0 Delete type=3 #1
+2025/08/23-23:25:21.835409 7c6442ffd6c0 Level-0 table #5: started
+2025/08/23-23:25:21.865610 7c6442ffd6c0 Level-0 table #5: 8229 bytes OK
+2025/08/23-23:25:21.898940 7c6442ffd6c0 Delete type=0 #3
+2025/08/23-23:25:21.899054 7c6442ffd6c0 Manual compaction at level-0 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items.effects!L2mN4oPqR3sT5uVw.VelozEffect001' @ 0 : 0; will stop at (end)

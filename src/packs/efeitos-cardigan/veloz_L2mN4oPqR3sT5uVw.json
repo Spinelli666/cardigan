@@ -8,7 +8,38 @@
     "description": "<p style=\"text-align: justify;\">Recebe +4m de Deslocamento.</p>",
     "efeitoType": "positivo"
   },
-  "effects": [],
+  "effects": [
+    {
+      "_id": "VelozEffect001",
+      "_key": "!items.effects!L2mN4oPqR3sT5uVw.VelozEffect001",
+      "name": "Veloz",
+      "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
+      "changes": [
+        {
+          "key": "system.details.movement",
+          "mode": 2,
+          "value": "4",
+          "priority": null
+        }
+      ],
+      "disabled": false,
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "description": "<p style=\"text-align: justify;\">Recebe +4m de Deslocamento.</p>",
+      "origin": null,
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": ["veloz"],
+      "flags": {}
+    }
+  ],
   "folder": "FszDz3GuPvOHfi8w",
   "flags": {},
   "_stats": {

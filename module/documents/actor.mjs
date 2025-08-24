@@ -16,6 +16,19 @@ export class CardiganSystemActor extends Actor {
   prepareBaseData() {
     // Data modifications in this step occur before processing embedded
     // documents or derived data.
+    
+    // Para personagens, calcular o movimento base baseado em Destreza
+    // Isso deve ser feito aqui (prepareBaseData) para que ActiveEffects
+    // possam adicionar bônus ao valor base
+    if (this.type === 'character') {
+      const dexterity = this.system.abilities?.dexterity?.value ?? 0;
+      const dexterityBonus = this.system.abilities?.dexterity?.bonus ?? 0;
+      const totalDexterity = dexterity + dexterityBonus;
+      
+      // Calcular movimento base: a cada 2 pontos de Destreza = +1 movimento
+      const baseMovement = Math.floor(totalDexterity / 2);
+      this.system.details.movement = baseMovement;
+    }
   }
 
   /**
