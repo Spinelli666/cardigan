@@ -69,9 +69,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     spells: {
       template: 'systems/cardigan/templates/actor/spells.hbs',
     },
-    effects: {
-      template: 'systems/cardigan/templates/actor/effects.hbs',
-    },
   };
 
   /** @override */
@@ -84,10 +81,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'character':
-        options.parts.push('features', 'gear', 'spells', 'effects');
+        options.parts.push('features', 'gear', 'spells');
         break;
       case 'npc':
-        options.parts.push('gear', 'effects');
+        options.parts.push('gear');
         break;
     }
   }
@@ -149,11 +146,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           }
         );
         break;
-      case 'effects':
-        context.tab = context.tabs[partId];
-        // Os efeitos já são preparados na função _prepareItems como context.efeitos
-        // Não precisamos de lógica adicional aqui
-        break;
     }
     return context;
   }
@@ -199,10 +191,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         case 'spells':
           tab.id = 'spells';
           tab.label += 'Spells';
-          break;
-        case 'effects':
-          tab.id = 'effects';
-          tab.label += 'Effects';
           break;
       }
       if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';

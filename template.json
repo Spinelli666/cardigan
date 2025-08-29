@@ -92,7 +92,8 @@
         "movement": 0,
         "criticalHit": 20,
         "additionalNotes": "",
-        "showAdditionalNotes": true
+        "showAdditionalNotes": true,
+        "showEffectsTab": true
       },
       "experience": {
         "current": 0,
