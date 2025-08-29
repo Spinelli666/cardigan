@@ -8,7 +8,38 @@
     "description": "<p style=\"text-align: justify\">Recebe -5m de Deslocamento.</p>",
     "efeitoType": "negativo"
   },
-  "effects": [],
+  "effects": [
+    {
+      "_id": "LentoEffect001",
+      "_key": "!items.effects!bB3cCd4eEf5fF6gG.LentoEffect001",
+      "name": "Lento",
+      "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+      "changes": [
+        {
+          "key": "system.details.movement",
+          "mode": 2,
+          "value": "-5",
+          "priority": null
+        }
+      ],
+      "disabled": false,
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "description": "<p style=\"text-align: justify\">Recebe -5m de Deslocamento.</p>",
+      "origin": null,
+      "tint": "#ffffff",
+      "transfer": true,
+      "statuses": ["lento"],
+      "flags": {}
+    }
+  ],
   "folder": "Kx8mN2QwRtY5UvBp",
   "flags": {},
   "_stats": {

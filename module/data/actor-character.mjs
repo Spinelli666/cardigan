@@ -98,7 +98,11 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     
     this.health.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + healthBonus);
     this.power.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + energyBonus);
-    this.armor.max = Math.max(0, 0 + armorBonus);
+    
+    // NOTA: Removido o cálculo automático de armor.max para permitir que ActiveEffects
+    // funcionem corretamente. O valor base da armadura máxima é definido no prepareBaseData()
+    // e ActiveEffects como "Congelado • Petrificado" podem adicionar bônus ao valor base.
+    // Se precisar de armadura base, use armorBonus do status.
     
     // Ajustar valores atuais se excederem o novo máximo
     if (this.health.value > this.health.max) {

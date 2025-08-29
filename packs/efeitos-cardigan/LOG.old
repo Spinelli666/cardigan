@@ -1,5 +1,5 @@
-2025/08/23-23:25:21.831790 7c64595ff6c0 Delete type=3 #1
-2025/08/23-23:25:21.835409 7c6442ffd6c0 Level-0 table #5: started
-2025/08/23-23:25:21.865610 7c6442ffd6c0 Level-0 table #5: 8229 bytes OK
-2025/08/23-23:25:21.898940 7c6442ffd6c0 Delete type=0 #3
-2025/08/23-23:25:21.899054 7c6442ffd6c0 Manual compaction at level-0 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items.effects!L2mN4oPqR3sT5uVw.VelozEffect001' @ 0 : 0; will stop at (end)
+2025/08/28-21:17:32.465520 7b51bdbff6c0 Delete type=3 #1
+2025/08/28-21:17:32.469812 7b51af7fe6c0 Level-0 table #5: started
+2025/08/28-21:17:32.499181 7b51af7fe6c0 Level-0 table #5: 8945 bytes OK
+2025/08/28-21:17:32.535801 7b51af7fe6c0 Delete type=0 #3
+2025/08/28-21:17:32.535907 7b51af7fe6c0 Manual compaction at level-0 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items.effects!bB3cCd4eEf5fF6gG.LentoEffect001' @ 0 : 0; will stop at (end)

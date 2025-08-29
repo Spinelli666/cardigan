@@ -17,9 +17,7 @@ export class CardiganSystemActor extends Actor {
     // Data modifications in this step occur before processing embedded
     // documents or derived data.
     
-    // Para personagens, calcular o movimento base baseado em Destreza
-    // Isso deve ser feito aqui (prepareBaseData) para que ActiveEffects
-    // possam adicionar bônus ao valor base
+    // Para personagens, calcular valores base que ActiveEffects podem modificar
     if (this.type === 'character') {
       const dexterity = this.system.abilities?.dexterity?.value ?? 0;
       const dexterityBonus = this.system.abilities?.dexterity?.bonus ?? 0;
@@ -28,6 +26,11 @@ export class CardiganSystemActor extends Actor {
       // Calcular movimento base: a cada 2 pontos de Destreza = +1 movimento
       const baseMovement = Math.floor(totalDexterity / 2);
       this.system.details.movement = baseMovement;
+      
+      // Calcular armadura máxima base: valor base + bônus de status
+      // ActiveEffects podem adicionar bônus adicionais a este valor
+      const armorBonus = this.system.status?.armorBonus ?? 0;
+      this.system.armor.max = Math.max(0, 0 + armorBonus);
     }
   }
 
