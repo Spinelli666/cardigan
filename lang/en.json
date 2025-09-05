@@ -25,7 +25,8 @@
         "Biography": "Biography",
         "Features": "Features",
         "Gear": "Gear",
-        "Spells": "Spells"
+        "Spells": "Spells",
+        "Equipamentos": "Equipment"
       },
       "base": {
         "FIELDS": {
@@ -93,6 +94,10 @@
       "Toggle": "Toggle Effect",
       "Effects": "Effects"
     },
+    "Tabs": {
+      "ShowEffects": "Show Effects",
+      "ShowEquipment": "Show Equipment"
+    },
     "Hunger": {
       "label": "Hunger",
       "messages": {
@@ -154,7 +159,34 @@
         "level4": "Intoxicação crítica, você está delirando e perdendo consciência.",
         "level5": "Envenenamento fatal, você está à beira da morte por toxinas."
       }
-    }
+    },
+    "AddWeapon": "Add Weapon",
+    "EditItem": "Edit Item", 
+    "DeleteItem": "Delete Item",
+    "Equipped": "Equipped",
+    "Damage": "Damage",
+    "DamageType": "Damage Type",
+    "DamageBlunt": "Blunt",
+    "DamageSlashing": "Slashing",
+    "DamagePiercing": "Piercing",
+    "DamageFire": "Fire",
+    "DamageIce": "Ice",
+    "DamageElectric": "Electric",
+    "DamageAcid": "Acid",
+    "DamagePsychic": "Psychic",
+    "WeaponType": "Weapon Type",
+    "WeaponMelee": "Melee",
+    "WeaponRanged": "Ranged",
+    "WeaponThrown": "Thrown",
+    "Range": "Range",
+    "Ammunition": "Ammunition",
+    "Weight": "Weight",
+    "Price": "Price",
+    "ItemName": "Item Name",
+    "ShowWeapons": "Show Weapons",
+    "RightHand": "Right Hand",
+    "LeftHand": "Left Hand",
+    "Hand": "Hand"
   },
   "TYPES": {
     "Actor": {
@@ -165,7 +197,8 @@
       "gear": "Gear",
       "feature": "Feature",
       "spell": "Spell",
-      "efeito": "Efeito"
+      "efeito": "Efeito",
+      "arma": "Weapon"
     }
   }
 }

@@ -57,7 +57,8 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       criticalHit: new fields.NumberField({ initial: 20, integer: true }),
       additionalNotes: new fields.StringField({ initial: "" }), // Campo para notas adicionais como texto simples
       showAdditionalNotes: new fields.BooleanField({ initial: true }), // Controle de exibição das notas
-      showEffectsTab: new fields.BooleanField({ initial: true }) // Controle de exibição da seção de efeitos
+      showEffectsTab: new fields.BooleanField({ initial: true }), // Controle de exibição da seção de efeitos
+      showWeaponsTable: new fields.BooleanField({ initial: true }) // Controle de exibição da tabela de armas
     });
 
     return schema;

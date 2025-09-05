@@ -29,6 +29,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     actions: {
       onEditImage: this._onEditImage,
       createDoc: this._createDoc,
+      editDoc: this._editDoc,
       deleteDoc: this._deleteDoc,
       roll: this._onRoll,
       rollDeathDie: this._onRollDeathDie,
@@ -69,6 +70,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     spells: {
       template: 'systems/cardigan/templates/actor/spells.hbs',
     },
+    equipamentos: {
+      template: 'systems/cardigan/templates/actor/equipamentos.hbs',
+    },
   };
 
   /** @override */
@@ -81,10 +85,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'character':
-        options.parts.push('features', 'gear', 'spells');
+        options.parts.push('features', 'gear', 'spells', 'equipamentos');
         break;
       case 'npc':
-        options.parts.push('gear');
+        options.parts.push('gear', 'equipamentos');
         break;
     }
   }
@@ -128,6 +132,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'spells':
       case 'gear':
+      case 'equipamentos':
         context.tab = context.tabs[partId];
         break;
       case 'biography':
@@ -192,6 +197,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           tab.id = 'spells';
           tab.label += 'Spells';
           break;
+        case 'equipamentos':
+          tab.id = 'equipamentos';
+          tab.label += 'Equipamentos';
+          break;
       }
       if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
       tabs[partId] = tab;
@@ -232,6 +241,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const gear = [];
     const features = [];
     const efeitos = [];
+    const armas = [];
     const spells = {
       0: [],
       1: [],
@@ -250,6 +260,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       // Append to gear.
       if (i.type === 'gear') {
         gear.push(i);
+      }
+      // Append to armas (weapons).
+      else if (i.type === 'arma') {
+        armas.push(i);
       }
       // Append to features or efeitos.
       else if (i.type === 'feature') {
@@ -280,6 +294,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     context.gear = gear.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.efeitos = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.armas = armas.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.spells = spells;
   }
 
@@ -356,6 +371,26 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       parent: this.document,
     });
     document.sheet.render(true);
+  }
+
+  /**
+   * Handle editing an existing Owned Item or ActiveEffect for the actor
+   *
+   * @this CardiganSystemActorSheet
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @private
+   */
+  static async _editDoc(event, target) {
+    const itemElement = target.closest('[data-item-id]');
+    if (!itemElement) return;
+    
+    const itemId = itemElement.dataset.itemId;
+    const item = this.document.items.get(itemId);
+    
+    if (item) {
+      item.sheet.render(true);
+    }
   }
 
   /**

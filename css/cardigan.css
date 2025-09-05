@@ -791,6 +791,23 @@
   color: #666;
   font-style: italic;
 }
+.cardigan .tab.equipamentos .item-formula {
+  text-align: center;
+}
+.cardigan .tab.equipamentos .item-formula:last-of-type {
+  text-align: center;
+}
+.cardigan .tab.equipamentos .fa-check-circle {
+  color: #4caf50 !important;
+}
+.cardigan .tab.equipamentos .fa-circle {
+  color: #666 !important;
+  opacity: 0.5;
+}
+.cardigan .tab.equipamentos .item-prop {
+  font-size: 12px;
+  text-transform: capitalize;
+}
 .cardigan .character-details-container {
   display: flex;
   flex-direction: column;

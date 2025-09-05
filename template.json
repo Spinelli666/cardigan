@@ -93,7 +93,8 @@
         "criticalHit": 20,
         "additionalNotes": "",
         "showAdditionalNotes": true,
-        "showEffectsTab": true
+        "showEffectsTab": true,
+        "showWeaponsTable": true
       },
       "experience": {
         "current": 0,
@@ -106,7 +107,7 @@
     }
   },
   "Item": {
-    "types": ["gear", "feature", "spell", "efeito"],
+    "types": ["gear", "feature", "spell", "efeito", "arma"],
     "htmlFields": ["description"],
     "templates": {
       "base": {
@@ -131,6 +132,18 @@
       "efeitoType": "",
       "duration": 0,
       "active": false
+    },
+    "arma": {
+      "templates": ["base"],
+      "damage": {
+        "value": "1d6",
+        "type": "contundente"
+      },
+      "rightHand": false,
+      "leftHand": false,
+      "weight": 1,
+      "price": 0,
+      "equipped": false
     }
   }
 }

@@ -1,0 +1,32 @@
+// -----------------------------------------
+// Equipment Tab Specific Styles - Using Gear Table Style
+// -----------------------------------------
+
+.tab.equipamentos {
+  // Inherits existing styles from items lists
+  // Additional specific styling if needed
+  
+  .item-formula {
+    text-align: center;
+    
+    &:last-of-type {
+      text-align: center;
+    }
+  }
+  
+  // Style for equipped status icons
+  .fa-check-circle {
+    color: #4caf50 !important;
+  }
+  
+  .fa-circle {
+    color: #666 !important;
+    opacity: 0.5;
+  }
+  
+  // Style for damage display
+  .item-prop {
+    font-size: 12px;
+    text-transform: capitalize;
+  }
+}

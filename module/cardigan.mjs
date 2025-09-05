@@ -59,11 +59,13 @@ Hooks.once('init', function () {
     feature: models.CardiganSystemFeature,
     spell: models.CardiganSystemSpell,
     efeito: models.CardiganSystemEfeito,
+    arma: models.CardiganSystemArma,
   };
 
   // Debug logging
   console.log('[CARDIGAN] Registered Item types:', Object.keys(CONFIG.Item.dataModels));
   console.log('[CARDIGAN] CardiganSystemEfeito model:', models.CardiganSystemEfeito);
+  console.log('[CARDIGAN] CardiganSystemArma model:', models.CardiganSystemArma);
 
   // Active Effects are never copied to the Actor,
   // but will still apply to the Actor from within the Item
@@ -95,6 +97,16 @@ Handlebars.registerHelper('toLowerCase', function (str) {
 // Helper para comparação greater than or equal
 Handlebars.registerHelper('gte', function (a, b) {
   return a >= b;
+});
+
+// Helper para selecionar opções em elementos select
+Handlebars.registerHelper('selected', function (current, expected) {
+  return current === expected ? 'selected' : '';
+});
+
+// Helper para marcar checkboxes
+Handlebars.registerHelper('checked', function (value) {
+  return value ? 'checked' : '';
 });
 
 /* -------------------------------------------- */

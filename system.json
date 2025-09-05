@@ -30,6 +30,9 @@
         },
         "efeito": {
             "htmlFields": ["description"]
+        },
+        "arma": {
+            "htmlFields": ["description"]
         }
     }
   },
