@@ -231,9 +231,40 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    */
   _onRender(context, options) {
     this.#dragDrop.forEach((d) => d.bind(this.element));
+    
+    // Setup mutually exclusive checkboxes for damage abilities
+    this._setupMutuallyExclusiveCheckboxes();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
+  }
+
+  /**
+   * Setup mutually exclusive checkboxes for damage ability selection
+   * @private
+   */
+  _setupMutuallyExclusiveCheckboxes() {
+    const strengthCheckbox = this.element.querySelector('input[name="system.damage.useStrength"]');
+    const dexterityCheckbox = this.element.querySelector('input[name="system.damage.useDexterity"]');
+
+    if (strengthCheckbox && dexterityCheckbox) {
+      strengthCheckbox.addEventListener('change', (event) => {
+        if (event.target.checked) {
+          dexterityCheckbox.checked = false;
+          // Trigger change event to update the data
+          dexterityCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      });
+
+      dexterityCheckbox.addEventListener('change', (event) => {
+        if (event.target.checked) {
+          strengthCheckbox.checked = false;
+          // Trigger change event to update the data
+          strengthCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      });
+    }
   }
 
   /**************

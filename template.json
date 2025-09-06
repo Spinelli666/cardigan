@@ -136,13 +136,20 @@
     "arma": {
       "templates": ["base"],
       "damage": {
-        "value": "1d6"
+        "value": "0",
+        "useStrength": false,
+        "useDexterity": false,
+        "total": "0"
       },
       "properties": [],
       "rightHand": false,
       "leftHand": false,
       "weight": 1,
       "price": 0,
+      "durability": {
+        "current": 3,
+        "max": 3
+      },
       "equipped": false
     }
   }

@@ -16,6 +16,23 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
         <label for="system.damage.value">{{localize "CARDIGAN.Damage"}}</label>
         <input type="text" name="system.damage.value" value="{{item.system.damage.value}}" placeholder="1d6"/>
     </div>
+
+    <div class="form-group damage-total-section">
+        <div class="ability-selection" style="display: flex; gap: 15px; margin-bottom: 5px;">
+            <label style="display: flex; align-items: center; gap: 5px;">
+                <input type="checkbox" name="system.damage.useStrength" {{checked item.system.damage.useStrength}} data-mutually-exclusive="damage-ability"/>
+                {{localize "CARDIGAN.Ability.Strength.abbr"}}
+            </label>
+            <label style="display: flex; align-items: center; gap: 5px;">
+                <input type="checkbox" name="system.damage.useDexterity" {{checked item.system.damage.useDexterity}} data-mutually-exclusive="damage-ability"/>
+                {{localize "CARDIGAN.Ability.Dexterity.abbr"}}
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="system.damage.total">{{localize "CARDIGAN.DamageTotal"}}</label>
+            <input type="text" name="system.damage.total" value="{{item.system.damage.total}}" readonly/>
+        </div>
+    </div>
     
     <div class="form-group weapon-properties">
         <div class="properties-header">
@@ -96,5 +113,14 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
     <div class="form-group">
         <label for="system.price">{{localize "CARDIGAN.Price"}} (PO)</label>
         <input type="number" name="system.price" value="{{item.system.price}}" min="0"/>
+    </div>
+    
+    <div class="form-group">
+        <label for="system.durability.current">{{localize "CARDIGAN.Durability"}}</label>
+        <div class="durability-container" style="display: flex; align-items: center; gap: 5px;">
+            <input type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="3" style="width: 60px;"/>
+            <span>/</span>
+            <span>{{item.system.durability.max}}</span>
+        </div>
     </div>
 </div>
