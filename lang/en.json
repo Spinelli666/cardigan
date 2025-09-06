@@ -186,7 +186,36 @@
     "ShowWeapons": "Show Weapons",
     "RightHand": "Right Hand",
     "LeftHand": "Left Hand",
-    "Hand": "Hand"
+    "Hand": "Hand",
+    "WeaponsTable": "Weapons Table",
+    "WeaponProperties": "Weapon Properties",
+    "AddProperty": "Add Property",
+    "RemoveProperty": "Remove Property",
+    "SelectProperty": "Select Property",
+    "WeaponProperty": {
+      "Afiado": "Afiado",
+      "Ambidestria": "Ambidestria",
+      "Bomba": "Bomba",
+      "Colateral": "Colateral",
+      "Contundente": "Contundente",
+      "Discreto": "Discreto",
+      "DispardividIdo": "Disparo Dividido",
+      "DoseDupla": "Dose Dupla",
+      "Duela": "Duela",
+      "Eletrecutar": "Eletrecutar",
+      "Extensao": "Extensão",
+      "Ferir": "Ferir",
+      "Impacto": "Impacto",
+      "Incendiar": "Incendiar",
+      "Pente": "Pente",
+      "Perfurar": "Perfurar",
+      "QueimaRoupa": "Queima-Roupa",
+      "Recarga": "Recarga",
+      "SaqueRapido": "Saque Rápido",
+      "Traspassar": "Traspassar",
+      "Unica": "Única",
+      "Vorpal": "Vorpal"
+    }
   },
   "TYPES": {
     "Actor": {

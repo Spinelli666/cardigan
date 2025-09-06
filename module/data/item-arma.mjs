@@ -19,9 +19,12 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
     return {
       ...super.defineSchema(),
       damage: new fields.SchemaField({
-        value: new fields.StringField({ ...requiredString, initial: "1d6" }),
-        type: new fields.StringField({ ...requiredString, initial: "contundente" })
+        value: new fields.StringField({ ...requiredString, initial: "1d6" })
       }),
+      properties: new fields.ArrayField(
+        new fields.StringField({ required: true, blank: true }),
+        { initial: [] }
+      ),
       rightHand: new fields.BooleanField({ required: true, initial: false }),
       leftHand: new fields.BooleanField({ required: true, initial: false }),
       weight: new fields.NumberField({ required: true, nullable: false, initial: 1, min: 0 }),

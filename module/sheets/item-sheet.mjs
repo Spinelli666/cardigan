@@ -31,6 +31,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       createDoc: this._createEffect,
       deleteDoc: this._deleteEffect,
       toggleEffect: this._toggleEffect,
+      addWeaponProperty: this._addWeaponProperty,
+      removeWeaponProperty: this._removeWeaponProperty,
     },
     form: {
       submitOnChange: true,
@@ -341,6 +343,73 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     await effect.update({ disabled: !effect.disabled });
   }
 
+  /**
+   * Handle adding a new weapon property
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _addWeaponProperty(event, target) {
+    event.preventDefault();
+    console.log('[CARDIGAN DEBUG] _addWeaponProperty called', { 
+      event, 
+      target, 
+      item: this.item,
+      itemType: this.item?.type,
+      itemSystem: this.item?.system 
+    });
+    
+    const item = this.item;
+    if (item.type !== 'arma') {
+      console.log('[CARDIGAN DEBUG] Item is not arma type, returning');
+      return;
+    }
+
+    const currentProperties = item.system.toObject().properties || [];
+    // Filter out any empty strings to avoid duplicates
+    const filteredProperties = currentProperties.filter(prop => prop && prop.trim() !== '');
+    const newProperties = [...filteredProperties, ''];
+    
+    console.log('[CARDIGAN DEBUG] Current properties:', currentProperties);
+    console.log('[CARDIGAN DEBUG] Filtered properties:', filteredProperties);
+    console.log('[CARDIGAN DEBUG] New properties:', newProperties);
+    console.log('[CARDIGAN DEBUG] Submitting update...');
+    
+    return this.submit({ updateData: { 'system.properties': newProperties } });
+  }
+
+  /**
+   * Handle removing a weapon property
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _removeWeaponProperty(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    if (item.type !== 'arma') return;
+
+    const index = parseInt(target.dataset.index);
+    if (isNaN(index)) return;
+
+    const currentProperties = item.system.toObject().properties || [];
+    
+    // Remove the property at the specified index
+    const newProperties = currentProperties.filter((_, i) => i !== index);
+    
+    // If we have no properties left, ensure we have at least one empty field
+    const finalProperties = newProperties.length === 0 ? [''] : newProperties;
+    
+    console.log('[CARDIGAN DEBUG] _removeWeaponProperty', {
+      index,
+      currentProperties,
+      newProperties,
+      finalProperties
+    });
+    
+    return this.submit({ updateData: { 'system.properties': finalProperties } });
+  }
+
   /** Helper Functions */
 
   /**
@@ -349,7 +418,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @param {HTMLElement} target  The element with the action
    * @returns {HTMLLIElement} The document's row
    */
-  _getEffect(target) {
+  static _getEffect(target) {
     const li = target.closest('.effect');
     return this.item.effects.get(li?.dataset?.effectId);
   }

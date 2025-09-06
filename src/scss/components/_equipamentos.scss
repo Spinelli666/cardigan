@@ -30,3 +30,73 @@
     text-transform: capitalize;
   }
 }
+
+// -----------------------------------------
+// Weapon Properties Styles
+// -----------------------------------------
+
+.weapon-properties {
+  .properties-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    
+    label {
+      margin: 0;
+    }
+    
+    .add-property-btn {
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      
+      &:hover {
+        background: #45a049;
+      }
+    }
+  }
+  
+  .properties-list {
+    .property-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      
+      select {
+        flex: 1;
+        min-width: 0;
+      }
+      
+      .remove-property-btn {
+        background: #f44336;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 16px;
+        flex-shrink: 0;
+        
+        &:hover {
+          background: #da190b;
+        }
+      }
+    }
+  }
+}

@@ -136,9 +136,9 @@
     "arma": {
       "templates": ["base"],
       "damage": {
-        "value": "1d6",
-        "type": "contundente"
+        "value": "1d6"
       },
+      "properties": [],
       "rightHand": false,
       "leftHand": false,
       "weight": 1,

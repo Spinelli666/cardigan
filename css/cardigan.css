@@ -808,6 +808,60 @@
   font-size: 12px;
   text-transform: capitalize;
 }
+.cardigan .weapon-properties .properties-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.cardigan .weapon-properties .properties-header label {
+  margin: 0;
+}
+.cardigan .weapon-properties .properties-header .add-property-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+}
+.cardigan .weapon-properties .properties-header .add-property-btn:hover {
+  background: #45a049;
+}
+.cardigan .weapon-properties .properties-list .property-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.cardigan .weapon-properties .properties-list .property-row select {
+  flex: 1;
+  min-width: 0;
+}
+.cardigan .weapon-properties .properties-list .property-row .remove-property-btn {
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.cardigan .weapon-properties .properties-list .property-row .remove-property-btn:hover {
+  background: #da190b;
+}
 .cardigan .character-details-container {
   display: flex;
   flex-direction: column;
