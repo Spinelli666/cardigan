@@ -797,6 +797,40 @@
 .cardigan .tab.equipamentos .item-formula:last-of-type {
   text-align: center;
 }
+.cardigan .tab.equipamentos .item-durability {
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 60px;
+}
+.cardigan .tab.equipamentos .item-durability span {
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.cardigan .tab.equipamentos .item-durability input[type=number] {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 12px;
+  font-weight: bold;
+  background: transparent;
+  color: #fff;
+}
+.cardigan .tab.equipamentos .item-durability input[type=number]:focus {
+  outline: none;
+  border-color: #888;
+  box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
+}
+.cardigan .tab.equipamentos .item-durability input[type=number]:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.cardigan .tab.equipamentos .item-name-broken {
+  color: #ff4444 !important;
+}
+.cardigan .tab.equipamentos .item-name-broken div {
+  color: #ff4444 !important;
+}
 .cardigan .tab.equipamentos .fa-check-circle {
   color: #4caf50 !important;
 }

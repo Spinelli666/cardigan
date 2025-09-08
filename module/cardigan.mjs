@@ -72,7 +72,7 @@ Hooks.once('init', function () {
   // if the transfer property on the Active Effect is true.
   CONFIG.ActiveEffect.legacyTransferral = false;
 
-  // Register sheet application classes
+    // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
   Actors.registerSheet('cardigan', CardiganSystemActorSheet, {
     makeDefault: true,
@@ -82,6 +82,65 @@ Hooks.once('init', function () {
   Items.registerSheet('cardigan', CardiganSystemItemSheet, {
     makeDefault: true,
     label: 'CARDIGAN.SheetLabels.Item',
+  });
+
+  // If you need to add Handlebars helpers, here is a useful example:
+  Handlebars.registerHelper('concat', function () {
+    var outStr = '';
+    for (var arg in arguments) {
+      if (typeof arguments[arg] != 'object') {
+        outStr += arguments[arg];
+      }
+    }
+    return outStr;
+  });
+
+  Handlebars.registerHelper('toLowerCase', function (str) {
+    return str.toLowerCase();
+  });
+
+  // Register helper for "lt" (less than) comparison
+  Handlebars.registerHelper('lt', function (a, b) {
+    return a < b;
+  });
+
+  // Register helper for "selected" attribute
+  Handlebars.registerHelper('selected', function (value, expectedValue) {
+    return value === expectedValue ? 'selected' : '';
+  });
+});
+
+/* -------------------------------------------- */
+/*  Item Update Hook for Bidirectional Sync    */
+/* -------------------------------------------- */
+
+Hooks.on('updateItem', function (item, updates, options, userId) {
+  console.log('[CARDIGAN] updateItem hook triggered:', item.name, updates);
+  
+  // Update actor sheets if item belongs to an actor
+  if (item.parent && item.parent.documentName === 'Actor') {
+    const actorSheets = Object.values(ui.windows).filter(app => 
+      app instanceof CardiganSystemActorSheet && 
+      app.document.id === item.parent.id
+    );
+    
+    actorSheets.forEach(sheet => {
+      console.log('[CARDIGAN] Re-rendering actor sheet for:', item.parent.name);
+      // Force immediate re-render
+      sheet.render(false);
+    });
+  }
+  
+  // Update item sheets for this specific item - INSTANTANEOUS
+  const itemSheets = Object.values(ui.windows).filter(app => 
+    app instanceof CardiganSystemItemSheet && 
+    app.document.id === item.id
+  );
+  
+  itemSheets.forEach(sheet => {
+    console.log('[CARDIGAN] Re-rendering item sheet for:', item.name);
+    // Force immediate re-render with fresh data
+    sheet.render(true); // true forces full re-render
   });
 });
 
@@ -97,6 +156,11 @@ Handlebars.registerHelper('toLowerCase', function (str) {
 // Helper para comparação greater than or equal
 Handlebars.registerHelper('gte', function (a, b) {
   return a >= b;
+});
+
+// Helper para comparação de igualdade
+Handlebars.registerHelper('eq', function (a, b) {
+  return a === b;
 });
 
 // Helper para selecionar opções em elementos select

@@ -223,6 +223,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para checkboxes de hunger e thirst
     this.#addStatusListeners();
     
+    // Adicionar event listeners para campos de durabilidade
+    this.#addDurabilityListeners();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -1044,7 +1047,44 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   async _processSubmitData(event, form, submitData) {
     const overrides = foundry.utils.flattenObject(this.actor.overrides);
     for (let k of Object.keys(overrides)) delete submitData[k];
-    await this.document.update(submitData);
+    
+    // Process item updates separately
+    const itemUpdates = [];
+    const actorUpdates = {};
+    
+    for (const [key, value] of Object.entries(submitData)) {
+      // Ignorar campos de durabilidade pois são processados pelo nosso listener
+      if (key.includes('durability')) {
+        console.log(`[CARDIGAN] Ignorando campo de durabilidade no submitData: ${key}`);
+        continue;
+      }
+      
+      if (key.startsWith('items.')) {
+        // Extract item ID and property path
+        const match = key.match(/^items\.([^.]+)\.(.+)$/);
+        if (match) {
+          const [, itemId, propertyPath] = match;
+          let existingUpdate = itemUpdates.find(u => u._id === itemId);
+          if (!existingUpdate) {
+            existingUpdate = { _id: itemId };
+            itemUpdates.push(existingUpdate);
+          }
+          foundry.utils.setProperty(existingUpdate, propertyPath, value);
+        }
+      } else {
+        actorUpdates[key] = value;
+      }
+    }
+    
+    // Update items if there are any changes
+    if (itemUpdates.length > 0) {
+      await this.actor.updateEmbeddedDocuments('Item', itemUpdates);
+    }
+    
+    // Update actor if there are any changes
+    if (Object.keys(actorUpdates).length > 0) {
+      await this.document.update(actorUpdates);
+    }
   }
 
   /********************
@@ -1250,6 +1290,119 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         });
       });
     });
+  }
+
+  /**
+   * Adiciona event listeners para campos de durabilidade de armas
+   * Implementa sincronização instantânea entre actor sheet e item sheet
+   */
+  #addDurabilityListeners() {
+    const html = this.element;
+    
+    // Encontrar todos os inputs de durabilidade de armas (atual e máxima)
+    const durabilityInputs = html.querySelectorAll('input[name*="durability"]');
+    
+    durabilityInputs.forEach(input => {
+      // Armazenar valor anterior para comparação
+      input.dataset.previousValue = input.value;
+      
+      // Usar apenas 'blur' para evitar processamento excessivo
+      input.addEventListener('blur', this.#handleDurabilityChange.bind(this));
+      
+      // Usar 'keydown' para capturar Enter
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.target.blur(); // Força o blur que irá processar a mudança
+        }
+      });
+    });
+  }
+
+  /**
+   * Manipula mudanças nos campos de durabilidade com debounce e validação
+   * @param {Event} event 
+   */
+  async #handleDurabilityChange(event) {
+    const input = event.target;
+    const name = input.name;
+    const currentValue = input.value.trim();
+    const previousValue = input.dataset.previousValue;
+    
+    // Se o valor não mudou, não faz nada
+    if (currentValue === previousValue) return;
+    
+    // Se o campo está vazio, não processa ainda (permite edição)
+    if (currentValue === '') {
+      console.log('[CARDIGAN] Campo vazio, aguardando valor...');
+      return;
+    }
+    
+    // Extrair o ID do item e o campo específico
+    const match = name.match(/^items\.([^.]+)\.system\.durability\.(.+)$/);
+    if (!match) return;
+    
+    const [, itemId, field] = match;
+    let value = parseInt(currentValue);
+    
+    // Validar se é um número válido
+    if (isNaN(value) || value < 0) {
+      console.log('[CARDIGAN] Valor inválido, restaurando valor anterior');
+      input.value = previousValue;
+      return;
+    }
+    
+    // Buscar o item para validação
+    const item = this.actor.items.get(itemId);
+    if (!item) return;
+    
+    // Validar limites baseados no tipo de campo
+    if (field === 'current') {
+      const maxDurability = item.system.durability.max;
+      if (value > maxDurability) {
+        console.log(`[CARDIGAN] Valor ${value} excede máximo ${maxDurability}, ajustando`);
+        value = maxDurability;
+        input.value = value;
+      }
+    } else if (field === 'max') {
+      // Durabilidade máxima deve ser pelo menos 1
+      if (value < 1) {
+        console.log(`[CARDIGAN] Durabilidade máxima deve ser pelo menos 1, ajustando`);
+        value = 1;
+        input.value = value;
+      }
+      
+      // Se a durabilidade atual for maior que a nova máxima, ajustar
+      const currentDurability = item.system.durability.current;
+      if (currentDurability > value) {
+        console.log(`[CARDIGAN] Ajustando durabilidade atual de ${currentDurability} para ${value}`);
+        await item.update({
+          'system.durability.current': value,
+          'system.durability.max': value
+        });
+        input.dataset.previousValue = value.toString();
+        return;
+      }
+    }
+    
+    console.log(`[CARDIGAN] Atualizando durabilidade - Item: ${itemId}, Campo: ${field}, Valor: ${value}`);
+    
+    // Preparar a atualização
+    const updateData = {};
+    updateData[`system.durability.${field}`] = value;
+    
+    try {
+      // Atualizar o item diretamente (sem usar o form submit para evitar conflito)
+      await item.update(updateData);
+      
+      // Atualizar o valor anterior para a próxima comparação
+      input.dataset.previousValue = value.toString();
+      
+      console.log(`[CARDIGAN] Durabilidade atualizada com sucesso para ${item.name}`);
+    } catch (error) {
+      console.error('[CARDIGAN] Erro ao atualizar durabilidade:', error);
+      // Restaurar valor anterior em caso de erro
+      input.value = previousValue;
+    }
   }
 
   /**

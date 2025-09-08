@@ -118,9 +118,9 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
     <div class="form-group">
         <label for="system.durability.current">{{localize "CARDIGAN.Durability"}}</label>
         <div class="durability-container" style="display: flex; align-items: center; gap: 5px;">
-            <input type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="3" style="width: 60px;"/>
+            <input type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}" style="width: 60px;"/>
             <span>/</span>
-            <span>{{item.system.durability.max}}</span>
+            <input type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1" style="width: 60px;"/>
         </div>
     </div>
 </div>

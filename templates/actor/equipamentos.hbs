@@ -17,8 +17,9 @@
   {{#if system.details.showWeaponsTable}}
   <ol class='items-list'>
     <li class='item flexrow items-header'>
-      <div class='item-name'>{{localize 'Name'}}</div>
       <div class='item-formula'>{{localize 'CARDIGAN.Hand'}}</div>
+      <div class='item-name'>{{localize 'Name'}}</div>
+      <div class='item-durability'>{{localize 'CARDIGAN.Durability'}}</div>
       <div class='item-controls'>
         {{#if @root.editable}}
           <a
@@ -42,7 +43,20 @@
         data-drag='true'
         data-document-class='Item'
       >
-        <div class='item-name'>
+        <div class='item-formula item-prop'>
+          {{#if item.system.rightHand}}
+            {{#if item.system.leftHand}}
+              <span style='color: #4caf50; font-weight: bold;'>P+S</span>
+            {{else}}
+              <span style='color: #2196f3; font-weight: bold;'>P</span>
+            {{/if}}
+          {{else if item.system.leftHand}}
+            <span style='color: #ff9800; font-weight: bold;'>S</span>
+          {{else}}
+            <span style='color: #666;'>-</span>
+          {{/if}}
+        </div>
+        <div class='item-name {{#if (eq item.system.durability.current 0)}}item-name-broken{{/if}}'>
           <div class='item-image'>
             <a class='rollable' data-roll-type='item' data-action='roll'>
               <img
@@ -55,17 +69,22 @@
           </div>
           <div>{{item.name}}</div>
         </div>
-        <div class='item-formula item-prop'>
-          {{#if item.system.rightHand}}
-            {{#if item.system.leftHand}}
-              <span style='color: #4caf50; font-weight: bold;'>R+L</span>
-            {{else}}
-              <span style='color: #2196f3; font-weight: bold;'>R</span>
-            {{/if}}
-          {{else if item.system.leftHand}}
-            <span style='color: #ff9800; font-weight: bold;'>L</span>
+        <div class='item-durability'>
+          {{#if @root.editable}}
+            <input
+              type='number'
+              name='items.{{item._id}}.system.durability.current'
+              value='{{item.system.durability.current}}'
+              min='0'
+              max='{{item.system.durability.max}}'
+              data-dtype='Number'
+              style='width: 50px; text-align: center;'
+              title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'
+            />
           {{else}}
-            <span style='color: #666;'>-</span>
+            <span title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'>
+              {{item.system.durability.current}}
+            </span>
           {{/if}}
         </div>
         <div class='item-controls'>
