@@ -135,6 +135,14 @@
     },
     "arma": {
       "templates": ["base"],
+      "weaponType": "",
+      "melee": false,
+      "ranged": false,
+      "isFirearm": false,
+      "ammunition": {
+        "current": 0,
+        "max": 0
+      },
       "damage": {
         "value": "0",
         "useStrength": false,
@@ -144,13 +152,15 @@
       "properties": [],
       "rightHand": false,
       "leftHand": false,
-      "weight": 1,
+      "weight": "leve",
       "price": 0,
       "durability": {
         "current": 3,
         "max": 3
       },
-      "equipped": false
+      "skillBonuses": [],
+      "equipped": false,
+      "magicalArtifact": false
     }
   }
 }

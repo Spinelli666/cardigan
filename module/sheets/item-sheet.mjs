@@ -33,6 +33,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       toggleEffect: this._toggleEffect,
       addWeaponProperty: this._addWeaponProperty,
       removeWeaponProperty: this._removeWeaponProperty,
+      addSkillBonus: this._addSkillBonus,
+      removeSkillBonus: this._removeSkillBonus,
     },
     form: {
       submitOnChange: true,
@@ -209,7 +211,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesEfeito':
         case 'attributesArma':
           tab.id = 'attributes';
-          tab.label += 'Attributes';
+          tab.label += 'Details';
           break;
         case 'effects':
           tab.id = 'effects';
@@ -234,6 +236,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     // Setup mutually exclusive checkboxes for damage abilities
     this._setupMutuallyExclusiveCheckboxes();
+    
+    // Setup conditional visibility for weapon ammunition
+    this._setupConditionalAmmunition();
     
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
@@ -264,6 +269,99 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           strengthCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
         }
       });
+    }
+  }
+
+  /**
+   * Setup conditional visibility for weapon ammunition
+   * @private
+   */
+  _setupConditionalAmmunition() {
+    const rangedCheckbox = this.element.querySelector('input[name="system.ranged"]');
+    const isFirearmCheckbox = this.element.querySelector('input[name="system.isFirearm"]');
+    const firearmSection = this.element.querySelector('.firearm-section');
+    const ammunitionSection = this.element.querySelector('.ammunition-section');
+
+    if (!rangedCheckbox || !isFirearmCheckbox || !firearmSection || !ammunitionSection) return;
+
+    // Function to update visibility based on checkboxes
+    const updateVisibility = () => {
+      const isRanged = rangedCheckbox.checked;
+      const isFirearm = isFirearmCheckbox.checked;
+
+      // Show/hide firearm and ammunition sections based on ranged status
+      firearmSection.style.display = isRanged ? 'block' : 'none';
+      ammunitionSection.style.display = isRanged ? 'block' : 'none';
+
+      // Re-render ammunition fields based on firearm status
+      if (isRanged) {
+        this._updateAmmunitionFields(isFirearm);
+      }
+    };
+
+    // Set up event listeners
+    rangedCheckbox.addEventListener('change', updateVisibility);
+    isFirearmCheckbox.addEventListener('change', updateVisibility);
+
+    // Initial setup
+    updateVisibility();
+  }
+
+  /**
+   * Update ammunition fields based on firearm status
+   * @private
+   */
+  _updateAmmunitionFields(isFirearm) {
+    const ammunitionSection = this.element.querySelector('.ammunition-section');
+    if (!ammunitionSection) return;
+
+    const label = ammunitionSection.querySelector('label');
+    const currentInput = ammunitionSection.querySelector('input[name="system.ammunition.current"]');
+    
+    // Remove existing container content
+    const existingContainer = ammunitionSection.querySelector('.ammunition-container, input[name="system.ammunition.current"]:not([type="hidden"])');
+    if (existingContainer) {
+      existingContainer.remove();
+    }
+
+    if (isFirearm) {
+      // Create firearm ammunition display (current/max)
+      const container = document.createElement('div');
+      container.className = 'ammunition-container';
+      container.style.cssText = 'display: flex; align-items: center; gap: 5px;';
+      
+      const currentField = document.createElement('input');
+      currentField.type = 'number';
+      currentField.name = 'system.ammunition.current';
+      currentField.value = this.document.system.ammunition.current;
+      currentField.min = '0';
+      currentField.max = this.document.system.ammunition.max;
+      currentField.style.width = '60px';
+      
+      const separator = document.createElement('span');
+      separator.textContent = '/';
+      
+      const maxField = document.createElement('input');
+      maxField.type = 'number';
+      maxField.name = 'system.ammunition.max';
+      maxField.value = this.document.system.ammunition.max;
+      maxField.min = '0';
+      maxField.style.width = '60px';
+      
+      container.appendChild(currentField);
+      container.appendChild(separator);
+      container.appendChild(maxField);
+      label.parentNode.appendChild(container);
+    } else {
+      // Create non-firearm ammunition display (current only)
+      const currentField = document.createElement('input');
+      currentField.type = 'number';
+      currentField.name = 'system.ammunition.current';
+      currentField.value = this.document.system.ammunition.current;
+      currentField.min = '0';
+      currentField.style.width = '80px';
+      
+      label.parentNode.appendChild(currentField);
     }
   }
 
@@ -439,6 +537,74 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     });
     
     return this.submit({ updateData: { 'system.properties': finalProperties } });
+  }
+
+  /**
+   * Handle adding a new skill bonus
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _addSkillBonus(event, target) {
+    event.preventDefault();
+    console.log('[CARDIGAN DEBUG] _addSkillBonus called', { 
+      event, 
+      target, 
+      item: this.item,
+      itemType: this.item?.type,
+      itemSystem: this.item?.system 
+    });
+    
+    const item = this.item;
+    if (item.type !== 'arma') {
+      console.log('[CARDIGAN DEBUG] Item is not arma type, returning');
+      return;
+    }
+
+    const currentSkillBonuses = item.system.toObject().skillBonuses || [];
+    // Filter out any incomplete entries to avoid duplicates
+    const filteredSkillBonuses = currentSkillBonuses.filter(sb => sb && (sb.skill || sb.bonus !== 0));
+    // Use 'accuracy' as default skill since blank strings are not allowed by the schema
+    const newSkillBonuses = [...filteredSkillBonuses, { skill: 'accuracy', bonus: 0 }];
+    
+    console.log('[CARDIGAN DEBUG] Current skill bonuses:', currentSkillBonuses);
+    console.log('[CARDIGAN DEBUG] Filtered skill bonuses:', filteredSkillBonuses);
+    console.log('[CARDIGAN DEBUG] New skill bonuses:', newSkillBonuses);
+    console.log('[CARDIGAN DEBUG] Submitting update...');
+    
+    return this.submit({ updateData: { 'system.skillBonuses': newSkillBonuses } });
+  }
+
+  /**
+   * Handle removing a skill bonus
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _removeSkillBonus(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    if (item.type !== 'arma') return;
+
+    const index = parseInt(target.dataset.index);
+    if (isNaN(index)) return;
+
+    const currentSkillBonuses = item.system.toObject().skillBonuses || [];
+    
+    // Remove the skill bonus at the specified index
+    const newSkillBonuses = currentSkillBonuses.filter((_, i) => i !== index);
+    
+    // If we have no skill bonuses left, ensure we have at least one empty field
+    const finalSkillBonuses = newSkillBonuses.length === 0 ? [{ skill: '', bonus: 0 }] : newSkillBonuses;
+    
+    console.log('[CARDIGAN DEBUG] _removeSkillBonus', {
+      index,
+      currentSkillBonuses,
+      newSkillBonuses,
+      finalSkillBonuses
+    });
+    
+    return this.submit({ updateData: { 'system.skillBonuses': finalSkillBonuses } });
   }
 
   /** Helper Functions */

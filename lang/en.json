@@ -67,8 +67,9 @@
     },
     "Item": {
       "Tabs": {
-        "Attributes": "Attributes",
-        "Description": "Description",
+        "Attributes": "Details",
+        "Description": "Description", 
+        "Details": "Details",
         "Effects": "Effects"
       },
       "Gear": {
@@ -181,7 +182,10 @@
     "WeaponThrown": "Thrown",
     "Range": "Range",
     "Ammunition": "Ammunition",
+    "IsFirearm": "Is Firearm?",
     "Weight": "Weight",
+    "WeightLight": "Light",
+    "WeightHeavy": "Heavy",
     "Price": "Price",
     "Durability": "Durability",
     "ItemName": "Item Name",
@@ -191,9 +195,14 @@
     "Hand": "Hand",
     "WeaponsTable": "Weapons Table",
     "WeaponProperties": "Weapon Properties",
+    "MagicalArtifact": "Magical Artifact",
     "AddProperty": "Add Property",
     "RemoveProperty": "Remove Property",
     "SelectProperty": "Select Property",
+    "SkillBonuses": "Skill Bonuses",
+    "AddSkillBonus": "Add Skill Bonus",
+    "RemoveSkillBonus": "Remove Skill Bonus",
+    "SelectSkill": "Select Skill",
     "WeaponProperty": {
       "Afiado": "Afiado",
       "Ambidestria": "Ambidestria",

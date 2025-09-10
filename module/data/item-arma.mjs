@@ -18,6 +18,14 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
 
     return {
       ...super.defineSchema(),
+      weaponType: new fields.StringField({ required: false, blank: true, initial: "" }),
+      melee: new fields.BooleanField({ required: true, initial: false }),
+      ranged: new fields.BooleanField({ required: true, initial: false }),
+      isFirearm: new fields.BooleanField({ required: true, initial: false }),
+      ammunition: new fields.SchemaField({
+        current: new fields.NumberField({ required: true, nullable: false, initial: 0, min: 0, integer: true }),
+        max: new fields.NumberField({ required: true, nullable: false, initial: 0, min: 0, integer: true })
+      }),
       damage: new fields.SchemaField({
         value: new fields.StringField({ ...requiredString, initial: "0" }),
         useStrength: new fields.BooleanField({ required: true, initial: false }),
@@ -30,13 +38,21 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
       ),
       rightHand: new fields.BooleanField({ required: true, initial: false }),
       leftHand: new fields.BooleanField({ required: true, initial: false }),
-      weight: new fields.NumberField({ required: true, nullable: false, initial: 1, min: 0 }),
+      weight: new fields.StringField({ required: true, blank: false, initial: "leve" }),
       price: new fields.NumberField({ required: true, nullable: false, initial: 0, min: 0 }),
       durability: new fields.SchemaField({
         current: new fields.NumberField({ required: true, nullable: false, initial: 3, min: 0, max: 3, integer: true }),
         max: new fields.NumberField({ required: true, nullable: false, initial: 3, min: 3, max: 3, integer: true })
       }),
-      equipped: new fields.BooleanField({ required: true, initial: false })
+      skillBonuses: new fields.ArrayField(
+        new fields.SchemaField({
+          skill: new fields.StringField({ required: true, blank: false }),
+          bonus: new fields.NumberField({ required: true, nullable: false, integer: true, initial: 0 })
+        }),
+        { initial: [] }
+      ),
+      equipped: new fields.BooleanField({ required: true, initial: false }),
+      magicalArtifact: new fields.BooleanField({ required: true, initial: false })
     };
   }
 

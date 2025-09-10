@@ -119,3 +119,85 @@
   flex: 0 0 200px;
   padding: 0 8px;
 }
+
+/* Skill Bonuses Section Styles */
+.skill-bonuses {
+  .skill-bonuses-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    
+    label {
+      font-weight: bold;
+      margin: 0;
+    }
+    
+    .add-skill-bonus-btn {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background: #45a049;
+      }
+    }
+  }
+  
+  .skill-bonuses-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .skill-bonus-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    
+    select {
+      flex: 1;
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    
+    input[type="number"] {
+      width: 60px;
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      text-align: center;
+    }
+    
+    .remove-skill-bonus-btn {
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background: #d32f2f;
+      }
+    }
+  }
+}

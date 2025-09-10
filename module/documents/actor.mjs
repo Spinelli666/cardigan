@@ -19,13 +19,8 @@ export class CardiganSystemActor extends Actor {
     
     // Para personagens, calcular valores base que ActiveEffects podem modificar
     if (this.type === 'character') {
-      const dexterity = this.system.abilities?.dexterity?.value ?? 0;
-      const dexterityBonus = this.system.abilities?.dexterity?.bonus ?? 0;
-      const totalDexterity = dexterity + dexterityBonus;
-      
-      // Calcular movimento base: a cada 2 pontos de Destreza = +1 movimento
-      const baseMovement = Math.floor(totalDexterity / 2);
-      this.system.details.movement = baseMovement;
+      // Note: weapon skill bonuses are calculated in prepareDerivedData(),
+      // so we'll calculate movement there as well to ensure totalBonus is available
       
       // Calcular armadura máxima base: valor base + bônus de status
       // ActiveEffects podem adicionar bônus adicionais a este valor

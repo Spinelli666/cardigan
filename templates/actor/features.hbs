@@ -590,7 +590,17 @@
 
       {{! Abilities Container - Lado direito }}
       <div class='abilities-main-container'>
-        <h3>Abilities</h3>
+        <div class='abilities-header'>
+          <h3>Abilities</h3>
+          <button 
+            type='button' 
+            class='abilities-edit-button'
+            data-action='editAbilities'
+            title='Edit Abilities'
+          >
+            <i class="fas fa-edit"></i> Edit
+          </button>
+        </div>
         <div class='abilities-list'>
           {{#each system.abilities as |ability key|}}
             <div class='ability-row horizontal-field'>
@@ -603,16 +613,18 @@
                   data-dtype='Number'
                   class='ability-value'
                   title='Base Value'
+                  readonly
                 />
               </div>
               <div class='bonus-container'>
                 <input
                   type='number'
-                  name='system.abilities.{{key}}.bonus'
-                  value='{{ability.bonus}}'
+                  name='system.abilities.{{key}}.totalBonus'
+                  value='{{ability.totalBonus}}'
                   data-dtype='Number'
                   class='bonus-input'
-                  title='{{localize (lookup @root.config.abilities key)}} Bonus'
+                  title='{{localize (lookup @root.config.abilities key)}} Total Bonus (manual + weapon bonuses)'
+                  readonly
                 />
               </div>
               <div class='roll-button-container'>
@@ -846,4 +858,54 @@
       </div>
     </div>
   </section>
+
+  {{! Abilities Edit Modal }}
+  <div id='abilities-edit-modal' class='abilities-modal' style='display: none;'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h3>Edit Abilities</h3>
+        <button type='button' class='close-modal' data-action='closeAbilitiesModal'>
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class='modal-body'>
+        {{#each system.abilities as |ability key|}}
+          <div class='ability-edit-row'>
+            <label>{{localize (lookup @root.config.abilities key)}}</label>
+            <div class='ability-edit-fields'>
+              <div class='field-group'>
+                <label class='field-label'>Base Value</label>
+                <input
+                  type='number'
+                  value='{{ability.value}}'
+                  data-dtype='Number'
+                  class='ability-value-edit'
+                  data-ability='{{key}}'
+                />
+              </div>
+              <div class='field-group'>
+                <label class='field-label'>Bonus</label>
+                <input
+                  type='number'
+                  value='{{ability.bonus}}'
+                  data-dtype='Number'
+                  class='ability-bonus-edit'
+                  data-ability='{{key}}'
+                />
+              </div>
+              <div class='field-group'>
+                <label class='field-label'>Total</label>
+                <span class='ability-total'>{{ability.total}}</span>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+      <div class='modal-footer'>
+        <button type='button' class='close-modal' data-action='closeAbilitiesModal'>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
 </section>

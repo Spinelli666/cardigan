@@ -73,17 +73,23 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       // Handle ability label localization.
       this.abilities[key].label =
         game.i18n.localize(CONFIG.CARDIGAN.abilities[key]) ?? key;
-      
-      // Calcular valor final da perícia (value + bonus) para exibição
+    }
+
+    // Calculate weapon skill bonuses and add to abilities
+    this._calculateWeaponSkillBonuses();
+    
+    // AGORA calcular valor final da perícia (value + totalBonus) para exibição
+    // após os bônus de armas terem sido calculados
+    for (const key in this.abilities) {
       const baseValue = this.abilities[key].value || 0;
-      const bonus = this.abilities[key].bonus || 0;
-      this.abilities[key].total = baseValue + bonus;
+      const totalBonus = this.abilities[key].totalBonus || 0;
+      this.abilities[key].total = baseValue + totalBonus;
     }
 
     // Regra: cada ponto de Stamina adiciona +5 à vida máxima e +5 à energia máxima
     const stamina = this.abilities?.stamina?.value ?? 0;
-    const staminaBonus = this.abilities?.stamina?.bonus ?? 0;
-    const totalStamina = stamina + staminaBonus;
+    const staminaTotalBonus = this.abilities?.stamina?.totalBonus ?? 0;
+    const totalStamina = stamina + staminaTotalBonus;
     
     // Regra: cada level até 10 adiciona +5 à vida e energia máxima
     const level = this.attributes?.level?.value ?? 0;
@@ -118,16 +124,17 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     }
 
     // Calcular Acerto Crítico baseado na Destreza
-    // Regra: cada 3 pontos de Destreza (valor + bônus) reduz o número crítico em 1 (20 base)
+    // Regra: cada 3 pontos de Destreza (valor + bônus total) reduz o número crítico em 1 (20 base)
     const dexterity = this.abilities?.dexterity?.value ?? 0;
-    const dexterityBonus = this.abilities?.dexterity?.bonus ?? 0;
-    const totalDexterity = dexterity + dexterityBonus;
+    const dexterityTotalBonus = this.abilities?.dexterity?.totalBonus ?? 0;
+    const totalDexterity = dexterity + dexterityTotalBonus;
     const dexterityCriticalEffect = Math.floor(totalDexterity / 3); // Crítico: cada 3 pontos
     this.details.criticalHit = Math.max(1, 20 - dexterityCriticalEffect); // Mínimo de 1
 
-    // NOTA: O cálculo de movimento base foi movido para prepareBaseData() no Actor document
-    // para que seja executado ANTES dos ActiveEffects, permitindo que efeitos como "Veloz"
-    // adicionem bônus corretamente ao valor base.
+    // Calcular movimento baseado na Destreza total (incluindo bônus de armas)
+    // Regra: a cada 2 pontos de Destreza = +1 movimento
+    const baseMovement = Math.floor(totalDexterity / 2);
+    this.details.movement = baseMovement;
 
     // Verificar estado de Hunger e aplicar efeito de exaustão automaticamente
     const hungerLevel = this.status?.hunger ?? 0;
@@ -211,6 +218,61 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       setTimeout(() => {
         this._checkAndApplyToxicityEffects(toxicityLevel);
       }, 100);
+    }
+  }
+
+  /**
+   * Calculate weapon skill bonuses and add them to character abilities
+   * All weapons (equipped and unequipped) contribute to bonuses
+   * Multiple weapons with the same skill bonus are cumulative
+   * @private
+   */
+  _calculateWeaponSkillBonuses() {
+    // First, calculate weapon bonuses for all abilities
+    const weaponBonuses = {};
+    for (const key in this.abilities) {
+      weaponBonuses[key] = 0;
+    }
+
+    // Get all weapons from the actor
+    const weapons = this.parent?.items?.filter(item => item.type === 'arma') || [];
+    
+    // Calculate total bonuses from all weapons
+    for (const weapon of weapons) {
+      const skillBonuses = weapon.system.skillBonuses || [];
+      
+      for (const skillBonus of skillBonuses) {
+        const skill = skillBonus.skill;
+        const bonus = skillBonus.bonus || 0;
+        
+        // Skip if no skill selected or bonus is 0
+        if (!skill || bonus === 0) continue;
+        
+        // Add bonus to the corresponding ability
+        if (weaponBonuses.hasOwnProperty(skill)) {
+          weaponBonuses[skill] += bonus;
+        }
+      }
+    }
+
+    // Apply weapon bonuses creating a separate totalBonus field
+    // Keep the original bonus field untouched (manual bonus only)
+    for (const key in this.abilities) {
+      const manualBonus = this.abilities[key].bonus || 0;
+      const weaponBonus = weaponBonuses[key] || 0;
+      
+      // Store weapon bonus separately
+      this.abilities[key].weaponBonus = weaponBonus;
+      
+      // Create totalBonus field that combines manual + weapon bonuses
+      this.abilities[key].totalBonus = manualBonus + weaponBonus;
+    }
+
+    // Recalculate totals with the totalBonus values
+    for (const key in this.abilities) {
+      const baseValue = this.abilities[key].value || 0;
+      const totalBonus = this.abilities[key].totalBonus || 0;
+      this.abilities[key].total = baseValue + totalBonus;
     }
   }
 
@@ -655,12 +717,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       for (let [k, v] of Object.entries(this.abilities)) {
         data[k] = foundry.utils.deepClone(v);
         
-        // Aplicar bônus
-        const abilityBonus = v.bonus || 0;
-        const baseValue = (v.value || 0) + abilityBonus;
+        // Usar totalBonus que inclui bônus manual + bônus de armas
+        const totalBonus = v.totalBonus || 0;
+        const baseValue = (v.value || 0) + totalBonus;
         
         data[k].value = baseValue;
-        console.log(`[CARDIGAN] Aplicando bônus: ${k} = ${v.value} + ${abilityBonus} = ${data[k].value}`);
+        console.log(`[CARDIGAN] Aplicando bônus total: ${k} = ${v.value} + ${totalBonus} = ${data[k].value}`);
       }
     }
 

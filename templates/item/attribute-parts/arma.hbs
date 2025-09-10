@@ -1,7 +1,7 @@
 {{!-- 
 Template para itens do tipo arma com sistema de propriedades dinâmicas
 --}}
-<div class="tab-content" data-tab="attributes">
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="attributes">
     <div class="form-group">
         <label for="system.rightHand">{{localize "CARDIGAN.RightHand"}}</label>
         <input type="checkbox" name="system.rightHand" {{checked item.system.rightHand}}/>
@@ -10,6 +10,46 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
     <div class="form-group">
         <label for="system.leftHand">{{localize "CARDIGAN.LeftHand"}}</label>
         <input type="checkbox" name="system.leftHand" {{checked item.system.leftHand}}/>
+    </div>
+
+    <div class="form-group">
+        <label for="system.weaponType">{{localize "CARDIGAN.WeaponType"}}</label>
+        <input type="text" name="system.weaponType" value="{{item.system.weaponType}}" placeholder="Espada, Escudo, Arco-Flecha"/>
+    </div>
+
+    <div class="form-group weapon-categories" style="display: flex; gap: 15px; align-items: center;">
+        <label style="display: flex; align-items: center; gap: 5px;">
+            <input type="checkbox" name="system.melee" {{checked item.system.melee}}/>
+            {{localize "CARDIGAN.WeaponMelee"}}
+        </label>
+        <label style="display: flex; align-items: center; gap: 5px;">
+            <input type="checkbox" name="system.ranged" {{checked item.system.ranged}} data-conditional-trigger="ranged"/>
+            {{localize "CARDIGAN.WeaponRanged"}}
+        </label>
+    </div>
+
+    <!-- Conditional Firearm Section -->
+    <div class="form-group firearm-section" style="{{#unless item.system.ranged}}display: none;{{/unless}}">
+        <label style="display: flex; align-items: center; gap: 5px;">
+            <input type="checkbox" name="system.isFirearm" {{checked item.system.isFirearm}} data-conditional-trigger="firearm"/>
+            {{localize "CARDIGAN.IsFirearm"}}
+        </label>
+    </div>
+
+    <!-- Conditional Ammunition Section -->
+    <div class="form-group ammunition-section" style="{{#unless item.system.ranged}}display: none;{{/unless}}">
+        <label for="system.ammunition.current">{{localize "CARDIGAN.Ammunition"}}</label>
+        {{#if item.system.isFirearm}}
+            <!-- Firearm: current/max format -->
+            <div class="ammunition-container" style="display: flex; align-items: center; gap: 5px;">
+                <input type="number" name="system.ammunition.current" value="{{item.system.ammunition.current}}" min="0" max="{{item.system.ammunition.max}}" style="width: 60px;"/>
+                <span>/</span>
+                <input type="number" name="system.ammunition.max" value="{{item.system.ammunition.max}}" min="0" style="width: 60px;"/>
+            </div>
+        {{else}}
+            <!-- Non-firearm: current only -->
+            <input type="number" name="system.ammunition.current" value="{{item.system.ammunition.current}}" min="0" style="width: 80px;"/>
+        {{/if}}
     </div>
 
     <div class="form-group">
@@ -32,6 +72,11 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
             <label for="system.damage.total">{{localize "CARDIGAN.DamageTotal"}}</label>
             <input type="text" name="system.damage.total" value="{{item.system.damage.total}}" readonly/>
         </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="system.magicalArtifact">{{localize "CARDIGAN.MagicalArtifact"}}</label>
+        <input type="checkbox" name="system.magicalArtifact" {{checked item.system.magicalArtifact}}/>
     </div>
     
     <div class="form-group weapon-properties">
@@ -106,8 +151,11 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
     </div>
 
     <div class="form-group">
-        <label for="system.weight">{{localize "CARDIGAN.Weight"}} (kg)</label>
-        <input type="number" name="system.weight" value="{{item.system.weight}}" min="0" step="0.1"/>
+        <label for="system.weight">{{localize "CARDIGAN.Weight"}}</label>
+        <select name="system.weight">
+            <option value="leve" {{selected item.system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
+            <option value="pesado" {{selected item.system.weight "pesado"}}>{{localize "CARDIGAN.WeightHeavy"}}</option>
+        </select>
     </div>
     
     <div class="form-group">
@@ -123,4 +171,51 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
             <input type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1" style="width: 60px;"/>
         </div>
     </div>
-</div>
+
+    <div class="form-group skill-bonuses">
+        <div class="skill-bonuses-header">
+            <label>{{localize "CARDIGAN.SkillBonuses"}}</label>
+            <button type="button" class="add-skill-bonus-btn" data-action="addSkillBonus" title="{{localize 'CARDIGAN.AddSkillBonus'}}">+</button>
+        </div>
+        
+        <div class="skill-bonuses-list" data-skill-bonuses-container>
+            {{#if item.system.skillBonuses.length}}
+                {{#each item.system.skillBonuses as |skillBonus index|}}
+                    <div class="skill-bonus-row" data-skill-bonus-index="{{index}}">
+                        <select name="system.skillBonuses.{{index}}.skill" data-skill-select style="flex: 1;">
+                            <option value="">{{localize "CARDIGAN.SelectSkill"}}</option>
+                            <option value="accuracy" {{selected skillBonus.skill "accuracy"}}>Accuracy</option>
+                            <option value="evasion" {{selected skillBonus.skill "evasion"}}>Evasion</option>
+                            <option value="strength" {{selected skillBonus.skill "strength"}}>Strength</option>
+                            <option value="dexterity" {{selected skillBonus.skill "dexterity"}}>Dexterity</option>
+                            <option value="stamina" {{selected skillBonus.skill "stamina"}}>Stamina</option>
+                            <option value="stealth" {{selected skillBonus.skill "stealth"}}>Stealth</option>
+                            <option value="persuasion" {{selected skillBonus.skill "persuasion"}}>Persuasion</option>
+                            <option value="intelligence" {{selected skillBonus.skill "intelligence"}}>Intelligence</option>
+                            <option value="psionics" {{selected skillBonus.skill "psionics"}}>Psionics</option>
+                        </select>
+                        <input type="number" name="system.skillBonuses.{{index}}.bonus" value="{{skillBonus.bonus}}" style="width: 60px; margin-left: 5px;" placeholder="±0"/>
+                        <button type="button" class="remove-skill-bonus-btn" data-action="removeSkillBonus" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveSkillBonus'}}">−</button>
+                    </div>
+                {{/each}}
+            {{else}}
+                <div class="skill-bonus-row" data-skill-bonus-index="0">
+                    <select name="system.skillBonuses.0.skill" data-skill-select style="flex: 1;">
+                        <option value="">{{localize "CARDIGAN.SelectSkill"}}</option>
+                        <option value="accuracy">Accuracy</option>
+                        <option value="evasion">Evasion</option>
+                        <option value="strength">Strength</option>
+                        <option value="dexterity">Dexterity</option>
+                        <option value="stamina">Stamina</option>
+                        <option value="stealth">Stealth</option>
+                        <option value="persuasion">Persuasion</option>
+                        <option value="intelligence">Intelligence</option>
+                        <option value="psionics">Psionics</option>
+                    </select>
+                    <input type="number" name="system.skillBonuses.0.bonus" value="0" style="width: 60px; margin-left: 5px;" placeholder="±0"/>
+                    <button type="button" class="remove-skill-bonus-btn" data-action="removeSkillBonus" data-index="0" title="{{localize 'CARDIGAN.RemoveSkillBonus'}}">−</button>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</section>
