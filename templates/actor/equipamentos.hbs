@@ -19,6 +19,9 @@
     <li class='item flexrow items-header'>
       <div class='item-formula'>{{localize 'CARDIGAN.Hand'}}</div>
       <div class='item-name'>{{localize 'Name'}}</div>
+      {{#if (hasRangedWeapons armas)}}
+      <div class='item-ammunition'>{{localize 'CARDIGAN.Ammunition'}}</div>
+      {{/if}}
       <div class='item-durability'>{{localize 'CARDIGAN.Durability'}}</div>
       <div class='item-controls'>
         {{#if @root.editable}}
@@ -69,6 +72,48 @@
           </div>
           <div>{{item.name}}</div>
         </div>
+        {{#if (hasRangedWeapons ../armas)}}
+        <div class='item-ammunition'>
+          {{#if item.system.ranged}}
+            {{#if item.system.isFirearm}}
+              {{#if @root.editable}}
+                <input
+                  type='number'
+                  name='items.{{item._id}}.system.ammunition.current'
+                  value='{{item.system.ammunition.current}}'
+                  min='0'
+                  max='{{item.system.ammunition.max}}'
+                  data-dtype='Number'
+                  style='width: 40px; text-align: center;'
+                  title='Munição atual: {{item.system.ammunition.current}}/{{item.system.ammunition.max}}'
+                />/<span style='color: #666;'>{{item.system.ammunition.max}}</span>
+              {{else}}
+                <span title='Munição atual: {{item.system.ammunition.current}}/{{item.system.ammunition.max}}'>
+                  {{item.system.ammunition.current}}/{{item.system.ammunition.max}}
+                </span>
+              {{/if}}
+            {{else}}
+              {{#if @root.editable}}
+                <input
+                  type='number'
+                  name='items.{{item._id}}.system.ammunition.current'
+                  value='{{item.system.ammunition.current}}'
+                  min='0'
+                  data-dtype='Number'
+                  style='width: 50px; text-align: center;'
+                  title='Munição disponível: {{item.system.ammunition.current}}'
+                />
+              {{else}}
+                <span title='Munição disponível: {{item.system.ammunition.current}}'>
+                  {{item.system.ammunition.current}}
+                </span>
+              {{/if}}
+            {{/if}}
+          {{else}}
+            <span style='color: #999;'>-</span>
+          {{/if}}
+        </div>
+        {{/if}}
         <div class='item-durability'>
           {{#if @root.editable}}
             <input

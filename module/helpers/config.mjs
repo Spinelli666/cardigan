@@ -27,3 +27,18 @@ CARDIGAN.abilityAbbreviations = {
   intelligence: 'CARDIGAN.Ability.Intelligence.abbr',
   psionics: 'CARDIGAN.Ability.Psionics.abbr',
 };
+
+/**
+ * Register Handlebars helpers for the Cardigan system
+ */
+export function registerHandlebarsHelpers() {
+  /**
+   * Check if there are any ranged weapons in the weapons array
+   * @param {Array} weapons - Array of weapon items
+   * @returns {boolean} - True if at least one weapon has ranged: true
+   */
+  Handlebars.registerHelper('hasRangedWeapons', function(weapons) {
+    if (!weapons || !Array.isArray(weapons)) return false;
+    return weapons.some(weapon => weapon.system?.ranged === true);
+  });
+}

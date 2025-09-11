@@ -7,7 +7,7 @@ const { api, sheets } = foundry.applications;
 export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   sheets.ActorSheetV2
 ) {
-  /** @type {DragDrop[]} */
+  /** @type {foundry.applications.ux.DragDrop[]} */
   #dragDrop;
 
   constructor(options = {}) {
@@ -146,7 +146,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         context.tab = context.tabs[partId];
         // Enrich biography info for display
         // Enrichment turns text like `[[/r 1d20]]` into buttons
-        context.enrichedBiography = await TextEditor.enrichHTML(
+        context.enrichedBiography = await foundry.applications.ux.TextEditor.enrichHTML(
           this.actor.system.biography,
           {
             // Whether to show secret blocks in the finished html
@@ -245,6 +245,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Adicionar event listeners para campos de durabilidade
     this.#addDurabilityListeners();
+    
+    // Adicionar event listeners para campos de munição
+    this.#addAmmunitionListeners();
     
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
@@ -365,8 +368,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   static async _deleteDoc(event, target) {
     const doc = this._getEmbeddedDocument(target);
-    const performDeletion = await Dialog.confirm({
-      title: game.i18n.format('DOCUMENT.Delete', { type: doc.documentName }),
+    const performDeletion = await foundry.applications.api.DialogV2.confirm({
+      window: { title: game.i18n.format('DOCUMENT.Delete', { type: doc.documentName }) },
       content: game.i18n.format('DOCUMENT.DeleteWarning', { name: doc.name }),
     });
     if (performDeletion) {
@@ -894,7 +897,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   async _onDrop(event) {
-    const data = TextEditor.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.getDragEventData(event);
     const actor = this.actor;
     const allowed = Hooks.call('dropActorSheetData', actor, this, data);
     if (allowed === false) return;
@@ -1031,7 +1034,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
   /**
    * Creates drag & drop handlers for this application
-   * @returns {DragDrop[]}     An array of DragDrop handlers
+   * @returns {foundry.applications.ux.DragDrop[]}     An array of DragDrop handlers
    * @private
    */
   #createDragDropHandlers() {
@@ -1045,7 +1048,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         dragover: this._onDragOver.bind(this),
         drop: this._onDrop.bind(this),
       };
-      return new DragDrop(d);
+      return new foundry.applications.ux.DragDrop(d);
     });
   }
 
@@ -1420,6 +1423,119 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       console.log(`[CARDIGAN] Durabilidade atualizada com sucesso para ${item.name}`);
     } catch (error) {
       console.error('[CARDIGAN] Erro ao atualizar durabilidade:', error);
+      // Restaurar valor anterior em caso de erro
+      input.value = previousValue;
+    }
+  }
+
+  /**
+   * Adiciona event listeners para campos de munição de armas
+   * Implementa sincronização instantânea entre actor sheet e item sheet
+   */
+  #addAmmunitionListeners() {
+    const html = this.element;
+    
+    // Encontrar todos os inputs de munição de armas (atual e máxima)
+    const ammunitionInputs = html.querySelectorAll('input[name*="ammunition"]');
+    
+    ammunitionInputs.forEach(input => {
+      // Armazenar valor anterior para comparação
+      input.dataset.previousValue = input.value;
+      
+      // Usar apenas 'blur' para evitar processamento excessivo
+      input.addEventListener('blur', this.#handleAmmunitionChange.bind(this));
+      
+      // Usar 'keydown' para capturar Enter
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.target.blur(); // Força o blur que irá processar a mudança
+        }
+      });
+    });
+  }
+
+  /**
+   * Manipula mudanças nos campos de munição com debounce e validação
+   * @param {Event} event 
+   */
+  async #handleAmmunitionChange(event) {
+    const input = event.target;
+    const name = input.name;
+    const currentValue = input.value.trim();
+    const previousValue = input.dataset.previousValue;
+    
+    // Se o valor não mudou, não faz nada
+    if (currentValue === previousValue) return;
+    
+    // Se o campo está vazio, não processa ainda (permite edição)
+    if (currentValue === '') {
+      console.log('[CARDIGAN] Campo vazio, aguardando valor...');
+      return;
+    }
+    
+    // Extrair o ID do item e o campo específico
+    const match = name.match(/^items\.([^.]+)\.system\.ammunition\.(.+)$/);
+    if (!match) return;
+    
+    const [, itemId, field] = match;
+    let value = parseInt(currentValue);
+    
+    // Validar se é um número válido
+    if (isNaN(value) || value < 0) {
+      console.log('[CARDIGAN] Valor inválido, restaurando valor anterior');
+      input.value = previousValue;
+      return;
+    }
+    
+    // Buscar o item para validação
+    const item = this.actor.items.get(itemId);
+    if (!item) return;
+    
+    // Validar limites baseados no tipo de campo
+    if (field === 'current') {
+      const maxAmmunition = item.system.ammunition.max;
+      if (value > maxAmmunition) {
+        console.log(`[CARDIGAN] Valor ${value} excede máximo ${maxAmmunition}, ajustando`);
+        value = maxAmmunition;
+        input.value = value;
+      }
+    } else if (field === 'max') {
+      // Munição máxima deve ser pelo menos 0
+      if (value < 0) {
+        console.log(`[CARDIGAN] Munição máxima deve ser pelo menos 0, ajustando`);
+        value = 0;
+        input.value = value;
+      }
+      
+      // Se a munição atual for maior que a nova máxima, ajustar
+      const currentAmmunition = item.system.ammunition.current;
+      if (currentAmmunition > value) {
+        console.log(`[CARDIGAN] Ajustando munição atual de ${currentAmmunition} para ${value}`);
+        await item.update({
+          'system.ammunition.current': value,
+          'system.ammunition.max': value
+        });
+        input.dataset.previousValue = value.toString();
+        return;
+      }
+    }
+    
+    console.log(`[CARDIGAN] Atualizando munição - Item: ${itemId}, Campo: ${field}, Valor: ${value}`);
+    
+    // Preparar a atualização
+    const updateData = {};
+    updateData[`system.ammunition.${field}`] = value;
+    
+    try {
+      // Atualizar o item diretamente (sem usar o form submit para evitar conflito)
+      await item.update(updateData);
+      
+      // Atualizar o valor anterior para a próxima comparação
+      input.dataset.previousValue = value.toString();
+      
+      console.log(`[CARDIGAN] Munição atualizada com sucesso para ${item.name}`);
+    } catch (error) {
+      console.error('[CARDIGAN] Erro ao atualizar munição:', error);
       // Restaurar valor anterior em caso de erro
       input.value = previousValue;
     }

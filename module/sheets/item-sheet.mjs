@@ -154,7 +154,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         context.tab = context.tabs[partId];
         // Enrich description info for display
         // Enrichment turns text like `[[/r 1d20]]` into buttons
-        context.enrichedDescription = await TextEditor.enrichHTML(
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.enrichHTML(
           this.item.system.description,
           {
             // Whether to show secret blocks in the finished html
@@ -526,8 +526,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Remove the property at the specified index
     const newProperties = currentProperties.filter((_, i) => i !== index);
     
-    // If we have no properties left, ensure we have at least one empty field
-    const finalProperties = newProperties.length === 0 ? [''] : newProperties;
+    // Filter out any empty strings and use the clean array
+    const finalProperties = newProperties.filter(prop => prop && prop.trim() !== '');
     
     console.log('[CARDIGAN DEBUG] _removeWeaponProperty', {
       index,
@@ -562,9 +562,12 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     }
 
     const currentSkillBonuses = item.system.toObject().skillBonuses || [];
-    // Filter out any incomplete entries to avoid duplicates
-    const filteredSkillBonuses = currentSkillBonuses.filter(sb => sb && (sb.skill || sb.bonus !== 0));
-    // Use 'accuracy' as default skill since blank strings are not allowed by the schema
+    // Filter out any incomplete or invalid entries
+    const filteredSkillBonuses = currentSkillBonuses.filter(sb => 
+      sb && sb.skill && typeof sb.skill === 'string' && sb.skill.trim() !== ''
+    );
+    
+    // Always use 'accuracy' as default skill to ensure valid data
     const newSkillBonuses = [...filteredSkillBonuses, { skill: 'accuracy', bonus: 0 }];
     
     console.log('[CARDIGAN DEBUG] Current skill bonuses:', currentSkillBonuses);
@@ -594,8 +597,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Remove the skill bonus at the specified index
     const newSkillBonuses = currentSkillBonuses.filter((_, i) => i !== index);
     
-    // If we have no skill bonuses left, ensure we have at least one empty field
-    const finalSkillBonuses = newSkillBonuses.length === 0 ? [{ skill: '', bonus: 0 }] : newSkillBonuses;
+    // Filter out any invalid entries and use the clean array
+    const finalSkillBonuses = newSkillBonuses.filter(sb => 
+      sb && typeof sb.skill === 'string' && sb.skill.trim() !== ''
+    );
     
     console.log('[CARDIGAN DEBUG] _removeSkillBonus', {
       index,
@@ -684,7 +689,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   async _onDrop(event) {
-    const data = TextEditor.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.getDragEventData(event);
     const item = this.item;
     const allowed = Hooks.call('dropItemSheetData', item, this, data);
     if (allowed === false) return;
@@ -804,7 +809,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
   /**
    * Returns an array of DragDrop instances
-   * @type {DragDrop[]}
+   * @type {foundry.applications.ux.DragDrop[]}
    */
   get dragDrop() {
     return this.#dragDrop;
@@ -816,7 +821,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
   /**
    * Create drag-and-drop workflow handlers for this Application
-   * @returns {DragDrop[]}     An array of DragDrop handlers
+   * @returns {foundry.applications.ux.DragDrop[]}     An array of DragDrop handlers
    * @private
    */
   #createDragDropHandlers() {
@@ -830,7 +835,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         dragover: this._onDragOver.bind(this),
         drop: this._onDrop.bind(this),
       };
-      return new DragDrop(d);
+      return new foundry.applications.ux.DragDrop(d);
     });
   }
 }

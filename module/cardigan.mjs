@@ -5,7 +5,7 @@ import { CardiganSystemItem } from './documents/item.mjs';
 import { CardiganSystemActorSheet } from './sheets/actor-sheet.mjs';
 import { CardiganSystemItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
-import { CARDIGAN } from './helpers/config.mjs';
+import { CARDIGAN, registerHandlebarsHelpers } from './helpers/config.mjs';
 // Import DataModel classes
 import * as models from './data/_module.mjs';
 
@@ -33,6 +33,9 @@ globalThis.cardigan = {
 Hooks.once('init', function () {
   // Add custom constants for configuration.
   CONFIG.CARDIGAN = CARDIGAN;
+
+  // Register Handlebars helpers
+  registerHandlebarsHelpers();
 
   /**
    * Set an initiative formula for the system
@@ -73,13 +76,13 @@ Hooks.once('init', function () {
   CONFIG.ActiveEffect.legacyTransferral = false;
 
     // Register sheet application classes
-  Actors.unregisterSheet('core', ActorSheet);
-  Actors.registerSheet('cardigan', CardiganSystemActorSheet, {
+  foundry.documents.collections.Actors.unregisterSheet('core', foundry.appv1.sheets.ActorSheet);
+  foundry.documents.collections.Actors.registerSheet('cardigan', CardiganSystemActorSheet, {
     makeDefault: true,
     label: 'CARDIGAN.SheetLabels.Actor',
   });
-  Items.unregisterSheet('core', ItemSheet);
-  Items.registerSheet('cardigan', CardiganSystemItemSheet, {
+  foundry.documents.collections.Items.unregisterSheet('core', foundry.appv1.sheets.ItemSheet);
+  foundry.documents.collections.Items.registerSheet('cardigan', CardiganSystemItemSheet, {
     makeDefault: true,
     label: 'CARDIGAN.SheetLabels.Item',
   });
@@ -171,6 +174,12 @@ Handlebars.registerHelper('selected', function (current, expected) {
 // Helper para marcar checkboxes
 Handlebars.registerHelper('checked', function (value) {
   return value ? 'checked' : '';
+});
+
+// Helper para verificar se há armas ranged na lista
+Handlebars.registerHelper('hasRangedWeapons', function(weapons) {
+  if (!weapons || !Array.isArray(weapons)) return false;
+  return weapons.some(weapon => weapon.system?.ranged === true);
 });
 
 /* -------------------------------------------- */

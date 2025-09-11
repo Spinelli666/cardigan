@@ -223,7 +223,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
 
   /**
    * Calculate weapon skill bonuses and add them to character abilities
-   * All weapons (equipped and unequipped) contribute to bonuses
+   * Only equipped weapons (rightHand or leftHand) contribute to bonuses
    * Multiple weapons with the same skill bonus are cumulative
    * @private
    */
@@ -237,8 +237,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Get all weapons from the actor
     const weapons = this.parent?.items?.filter(item => item.type === 'arma') || [];
     
-    // Calculate total bonuses from all weapons
+    // Calculate total bonuses from equipped weapons only
     for (const weapon of weapons) {
+      // Only apply bonuses if weapon is equipped in one or both hands
+      const isEquipped = weapon.system.rightHand || weapon.system.leftHand;
+      if (!isEquipped) continue;
+      
       const skillBonuses = weapon.system.skillBonuses || [];
       
       for (const skillBonus of skillBonuses) {
