@@ -869,6 +869,66 @@
 .cardigan .tab.equipamentos .item-formula:last-of-type {
   text-align: center;
 }
+.cardigan .tab.equipamentos .item-ammunition {
+  text-align: center;
+  min-width: 80px;
+  font-size: 12px;
+}
+.cardigan .tab.equipamentos .item-ammunition input[type=number] {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 12px;
+  background: transparent;
+  color: #fff;
+}
+.cardigan .tab.equipamentos .item-ammunition input[type=number]:focus {
+  outline: none;
+  border-color: #888;
+  box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
+}
+.cardigan .tab.equipamentos .item-reload {
+  text-align: center;
+  min-width: 40px;
+}
+.cardigan .tab.equipamentos .item-reload .reload-ammunition {
+  display: inline-block;
+  padding: 4px 6px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.cardigan .tab.equipamentos .item-reload .reload-ammunition:hover {
+  background: rgba(76, 175, 80, 0.2);
+  transform: scale(1.1);
+}
+.cardigan .tab.equipamentos .item-reload .reload-ammunition:active {
+  transform: scale(0.95);
+}
+.cardigan .tab.equipamentos .item-reload .reload-ammunition i {
+  font-size: 14px;
+}
+.cardigan .tab.equipamentos .item-attack {
+  text-align: center;
+  min-width: 40px;
+}
+.cardigan .tab.equipamentos .item-attack .attack-weapon {
+  display: inline-block;
+  padding: 4px 6px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.cardigan .tab.equipamentos .item-attack .attack-weapon:hover {
+  background: rgba(211, 47, 47, 0.2);
+  transform: scale(1.1);
+}
+.cardigan .tab.equipamentos .item-attack .attack-weapon:active {
+  transform: scale(0.95);
+}
+.cardigan .tab.equipamentos .item-attack .attack-weapon i {
+  font-size: 14px;
+}
 .cardigan .tab.equipamentos .item-durability {
   text-align: center;
   font-size: 12px;

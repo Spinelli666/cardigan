@@ -19,7 +19,9 @@
     <li class='item flexrow items-header'>
       <div class='item-formula'>{{localize 'CARDIGAN.Hand'}}</div>
       <div class='item-name'>{{localize 'Name'}}</div>
+      <div class='item-attack'></div>
       {{#if (hasRangedWeapons armas)}}
+      <div class='item-reload'></div>
       <div class='item-ammunition'>{{localize 'CARDIGAN.Ammunition'}}</div>
       {{/if}}
       <div class='item-durability'>{{localize 'CARDIGAN.Durability'}}</div>
@@ -72,7 +74,39 @@
           </div>
           <div>{{item.name}}</div>
         </div>
+        <div class='item-attack'>
+          {{#if (or item.system.rightHand item.system.leftHand)}}
+            {{#if @root.editable}}
+              <a
+                class='item-control attack-weapon'
+                title='Atacar com {{item.name}}'
+                data-action='attackWithWeapon'
+                data-item-id='{{item._id}}'
+                style='color: #d32f2f; font-size: 16px;'
+              >
+                <i class='fas fa-crosshairs'></i>
+              </a>
+            {{/if}}
+          {{/if}}
+        </div>
         {{#if (hasRangedWeapons ../armas)}}
+        <div class='item-reload'>
+          {{#if item.system.ranged}}
+            {{#if item.system.isFirearm}}
+              {{#if @root.editable}}
+                <a
+                  class='item-control reload-ammunition'
+                  title='{{localize "CARDIGAN.ReloadAmmunition"}}'
+                  data-action='reloadAmmunition'
+                  data-item-id='{{item._id}}'
+                  style='color: #4caf50; font-size: 16px;'
+                >
+                  <i class='fas fa-sync-alt'></i>
+                </a>
+              {{/if}}
+            {{/if}}
+          {{/if}}
+        </div>
         <div class='item-ammunition'>
           {{#if item.system.ranged}}
             {{#if item.system.isFirearm}}
@@ -109,8 +143,6 @@
                 </span>
               {{/if}}
             {{/if}}
-          {{else}}
-            <span style='color: #999;'>-</span>
           {{/if}}
         </div>
         {{/if}}
