@@ -38,8 +38,8 @@
   },
   "flags": {
     "hotReload": {
-      "extensions": ["css", "html", "hbs", "json"],
-      "paths": ["css", "lang", "templates"]
+      "extensions": ["css", "html", "hbs", "json", "mjs", "js"],
+      "paths": ["css", "lang", "templates", "module"]
     }
   },
   "url": "Replace this with a link to your public repository",
@@ -54,7 +54,7 @@
       "thumbnail": "systems/cardigan/assets/cardigan-logo.png"
     }
   ],
-  "version": "3.0.0",
+  "version": "3.0.7",
   "compatibility": {
     "minimum": "12.328",
     "verified": "12.328"

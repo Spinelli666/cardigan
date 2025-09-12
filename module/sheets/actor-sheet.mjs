@@ -251,6 +251,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para campos de munição
     this.#addAmmunitionListeners();
     
+    // Clean up any existing tooltips before setting up new ones
+    this.#cleanupTooltips();
+    
+    // Setup weapon tooltips with debug logging
+    console.log('Setting up weapon tooltips...');
+    this.#setupWeaponTooltips();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -2101,6 +2108,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       return;
     }
 
+    // Verificar durabilidade da arma
+    if (item.system.durability.current <= 0) {
+      ui.notifications.warn(game.i18n.localize("CARDIGAN.WeaponBroken"));
+      return;
+    }
+
     const actor = this.document;
     const accuracyValue = actor.system.abilities.accuracy.value || 0;
     const accuracyBonus = actor.system.abilities.accuracy.bonus || 0;
@@ -2187,5 +2200,220 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         input.disabled = true;
       }
     }
+  }
+
+  /**
+   * Clean up any existing custom tooltips
+   * @private
+   */
+  #cleanupTooltips() {
+    // Remove all custom tooltips
+    const existingTooltips = document.querySelectorAll('.cardigan-custom-tooltip');
+    existingTooltips.forEach(tooltip => tooltip.remove());
+    
+    // Try to deactivate any active native tooltips
+    try {
+      if (game.tooltip && typeof game.tooltip.deactivate === 'function') {
+        game.tooltip.deactivate();
+      }
+    } catch (error) {
+      // Silent fail
+    }
+  }
+
+  /**
+   * Setup rich weapon tooltips using multiple fallback approaches
+   * @private
+   */
+  #setupWeaponTooltips() {
+    const weaponTriggers = this.element.querySelectorAll('.weapon-tooltip-trigger');
+    console.log(`Found ${weaponTriggers.length} weapon tooltip triggers`);
+    
+    weaponTriggers.forEach((trigger, index) => {
+      const weaponElement = trigger.closest('[data-item-id]');
+      if (!weaponElement) {
+        console.warn(`Weapon tooltip trigger ${index} has no [data-item-id] parent`);
+        return;
+      }
+      
+      const itemId = weaponElement.dataset.itemId;
+      const item = this.actor.items.get(itemId);
+      if (!item || item.type !== 'arma') {
+        console.warn(`Weapon tooltip trigger ${index} has invalid item:`, item);
+        return;
+      }
+      
+      console.log(`Setting up tooltip for weapon: ${item.name}`);
+      
+      
+      let tooltipElement = null;
+      let hoverTimeout = null;
+      
+      const showTooltip = () => {
+        if (tooltipElement) return; // Already showing
+        
+        hoverTimeout = setTimeout(() => {
+          console.log(`Showing tooltip for ${item.name}`);
+          
+          // Try different tooltip methods in order of preference
+          
+          // Method 1: Try FoundryVTT's native tooltip
+          try {
+            const tooltipHTML = this.#generateWeaponTooltipHTML(item);
+            
+            if (game.tooltip && typeof game.tooltip.activate === 'function') {
+              console.log('Using native FoundryVTT tooltip');
+              game.tooltip.activate(trigger, {
+                html: tooltipHTML,
+                cssClass: 'tooltip cardigan-tooltip'
+              });
+              return;
+            }
+          } catch (error) {
+            console.warn('Native FoundryVTT tooltip failed:', error);
+          }
+          
+          // Method 2: Create custom positioned tooltip
+          try {
+            console.log('Using custom tooltip');
+            const tooltipHTML = this.#generateWeaponTooltipHTML(item);
+            tooltipElement = this.#createCustomTooltip(trigger, tooltipHTML);
+          } catch (error) {
+            console.warn('Custom tooltip failed:', error);
+            // Method 3: At least the title attribute will work as final fallback
+          }
+        }, 300); // Small delay to prevent tooltip spam
+      };
+      
+      const hideTooltip = () => {
+        if (hoverTimeout) {
+          clearTimeout(hoverTimeout);
+          hoverTimeout = null;
+        }
+        
+        // Try to deactivate native tooltip
+        try {
+          if (game.tooltip && typeof game.tooltip.deactivate === 'function') {
+            game.tooltip.deactivate();
+          }
+        } catch (error) {
+          // Silent fail
+        }
+        
+        // Remove custom tooltip
+        if (tooltipElement) {
+          tooltipElement.remove();
+          tooltipElement = null;
+        }
+      };
+      
+      trigger.addEventListener('mouseenter', showTooltip);
+      trigger.addEventListener('mouseleave', hideTooltip);
+      
+      // Also hide tooltip if the sheet is closed or re-rendered
+      trigger.addEventListener('remove', hideTooltip);
+    });
+  }
+
+  /**
+   * Create a custom tooltip element positioned near the trigger
+   * @param {HTMLElement} trigger - The element that triggered the tooltip
+   * @param {string} content - HTML content for the tooltip
+   * @returns {HTMLElement} The tooltip element
+   * @private
+   */
+  #createCustomTooltip(trigger, content) {
+    // Create tooltip element
+    const tooltip = document.createElement('div');
+    tooltip.className = 'cardigan-custom-tooltip';
+    tooltip.innerHTML = `<div class="tooltip-content">${content}</div>`;
+    
+    // Style the tooltip
+    tooltip.style.position = 'fixed';
+    tooltip.style.zIndex = '10000';
+    tooltip.style.pointerEvents = 'none';
+    tooltip.style.background = 'rgba(0, 0, 0, 0.9)';
+    tooltip.style.border = '1px solid #c9c7b8';
+    tooltip.style.borderRadius = '4px';
+    tooltip.style.padding = '8px 12px';
+    tooltip.style.fontSize = '13px';
+    tooltip.style.lineHeight = '1.3';
+    tooltip.style.maxWidth = '300px';
+    tooltip.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+    tooltip.style.color = '#ffffff';
+    
+    // Position the tooltip
+    document.body.appendChild(tooltip);
+    
+    const triggerRect = trigger.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+    
+    // Calculate position (try to show above the trigger)
+    let left = triggerRect.left + (triggerRect.width / 2) - (tooltipRect.width / 2);
+    let top = triggerRect.top - tooltipRect.height - 10;
+    
+    // Keep tooltip within viewport
+    if (left < 10) left = 10;
+    if (left + tooltipRect.width > window.innerWidth - 10) {
+      left = window.innerWidth - tooltipRect.width - 10;
+    }
+    if (top < 10) {
+      // Show below trigger instead
+      top = triggerRect.bottom + 10;
+    }
+    
+    tooltip.style.left = `${left}px`;
+    tooltip.style.top = `${top}px`;
+    
+    return tooltip;
+  }
+
+  /**
+   * Generate weapon tooltip HTML content
+   * @param {Object} weapon - Weapon item object
+   * @returns {string} - HTML string for weapon tooltip
+   * @private
+   */
+  #generateWeaponTooltipHTML(weapon) {
+    // Generate weapon type icons
+    let typeIcons = '';
+    if (weapon.system.melee && weapon.system.ranged) {
+      typeIcons = '<i class="fas fa-fist-raised"></i><span class="separator">/</span><i class="fas fa-bullseye"></i>';
+    } else if (weapon.system.melee) {
+      typeIcons = '<i class="fas fa-fist-raised"></i>';
+    } else if (weapon.system.ranged) {
+      typeIcons = '<i class="fas fa-bullseye"></i>';
+    } else {
+      typeIcons = '<i class="fas fa-question" style="opacity: 0.5;"></i>';
+    }
+    
+    // Generate weight info
+    const weightText = weapon.system.weight === 'leve' ? 'Leve' : 'Pesado';
+    
+    // Build complete tooltip HTML - D&D style with inline properties
+    let html = '<div class="weapon-tooltip">';
+    
+    // PRIMEIRO: Propriedades na mesma linha (inspirado no D&D5e)
+    html += '<div class="weapon-properties-horizontal">';
+    html += `${typeIcons}`;
+    html += '<span class="property-separator">&nbsp;</span>'; // Espaço em branco ao invés do bullet
+    html += '<i class="fas fa-backpack"></i>';
+    html += `<span class="weight-text">${weightText}</span>`;
+    html += '</div>';
+    
+    // SEGUNDO: Imagem da arma
+    html += `<div class="weapon-image"><img src="${weapon.img}" alt="${weapon.name}" /></div>`;
+    
+    // TERCEIRO: Nome da arma
+    html += `<div class="weapon-name-line"><strong>${weapon.name}</strong></div>`;
+
+    // QUARTO: Descrição (se houver)
+    if (weapon.system.description) {
+      html += `<div class="weapon-description"><em>${weapon.system.description}</em></div>`;
+    }
+    
+    html += '</div>';
+    
+    return html;
   }
 }

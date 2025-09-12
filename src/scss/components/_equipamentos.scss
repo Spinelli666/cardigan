@@ -75,13 +75,24 @@
       transition: all 0.2s ease;
       cursor: pointer;
       
-      &:hover {
+      &:hover:not(.disabled) {
         background: rgba(211, 47, 47, 0.2);
         transform: scale(1.1);
       }
       
-      &:active {
+      &:active:not(.disabled) {
         transform: scale(0.95);
+      }
+      
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed !important;
+        pointer-events: none;
+        
+        &:hover {
+          transform: none;
+          background: none;
+        }
       }
       
       i {
@@ -251,6 +262,155 @@
         &:hover {
           background: #da190b;
         }
+      }
+    }
+  }
+
+  // -----------------------------------------
+  // Hover effect for weapon names with tooltip (matching effects style)
+  .item-name[data-weapon-tooltip] {
+    transition: color 0.2s ease;
+    
+    &:hover {
+      div {
+        color: $c-beige;
+        transition: color 0.2s ease;
+      }
+    }
+  }
+  
+  // Remove help cursor from tooltip triggers
+  .weapon-tooltip-trigger {
+    cursor: pointer !important;
+    
+    &:hover {
+      cursor: pointer !important;
+    }
+  }
+}
+
+// Weapon Tooltip Styles - Using native FoundryVTT tooltip system and custom fallback
+// Keep tooltip styles consistent with effects
+.tooltip.cardigan-tooltip,
+.cardigan-custom-tooltip {
+  // Ensure consistent styling with effects tooltips
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid $c-beige;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 1.3;
+  max-width: 300px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  
+  .tooltip-content {
+    color: $c-white;
+    text-align: left;
+  }
+  
+  // Weapon tooltip specific styling for rich tooltips - D&D5e inspired horizontal layout
+  .weapon-tooltip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 200px;
+    
+    // NOVA ABORDAGEM: Propriedades em linha única (como D&D5e)
+    .weapon-properties-horizontal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px; // Gap menor para elementos inline
+      margin-bottom: 6px;
+      order: 1;
+      font-size: 14px;
+      
+      // Ícones de tipo de arma
+      .fas {
+        color: $c-beige;
+        font-size: 16px;
+      }
+      
+      // Separador entre tipo e peso
+      .separator {
+        color: $c-faint;
+        margin: 0 2px;
+        font-weight: bold;
+        font-size: 14px;
+      }
+      
+      // Separador bullet entre propriedades
+      .property-separator {
+        color: $c-faint;
+        font-size: 12px;
+        opacity: 0.7;
+        margin: 0 4px;
+        font-weight: bold;
+      }
+      
+      // Ícone de peso
+      .fa-backpack {
+        color: $c-tan;
+        font-size: 14px;
+        margin-left: 2px;
+      }
+      
+      // Texto do peso
+      .weight-text {
+        font-style: italic;
+        font-size: 14px;
+        color: $c-faint;
+        margin-left: 2px;
+      }
+    }
+    
+    // Nome da arma centralizado
+    .weapon-name-line {
+      text-align: center;
+      margin-bottom: 4px;
+      order: 3; // TERCEIRO na ordem visual (após imagem)
+      
+      strong {
+        color: $c-white;
+        font-size: 16px;
+        font-weight: bold;
+        display: block;
+      }
+    }
+    
+    // Imagem da arma após propriedades (REDUZIDA DE 48PX PARA 32PX)
+    .weapon-image {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 4px;
+      order: 2; // SEGUNDO na ordem visual (após propriedades)
+      
+      img {
+        width: 32px;
+        height: 32px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 2px solid $c-beige;
+        background: rgba(0, 0, 0, 0.3);
+      }
+    }
+    
+    // Descrição centralizada
+    .weapon-description {
+      text-align: center;
+      max-width: 180px;
+      margin-top: 4px;
+      order: 4; // Último na ordem visual
+      
+      em {
+        color: $c-faint;
+        font-style: italic;
+        opacity: 0.9;
+        font-size: 12px;
+        line-height: 1.3;
+        display: block;
       }
     }
   }
