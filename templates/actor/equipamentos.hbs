@@ -174,23 +174,12 @@
           {{/if}}
         </div>
         <div class='item-controls'>
-          <a
-            class='item-control item-edit'
-            title='{{localize "DOCUMENT.Update" type='Weapon'}}'
-            data-action='editDoc'
-            data-document-class='Item'
-          >
-            <i class='fas fa-edit'></i>
-          </a>
           {{#if @root.editable}}
-            <a
-              class='item-control item-delete'
-              title='{{localize "DOCUMENT.Delete" type='Weapon'}}'
-              data-action='deleteDoc'
-              data-document-class='Item'
-            >
-              <i class='fas fa-trash'></i>
-            </a>
+            {{!-- Context Menu Button (Three Dots) --}}
+            <button type="button" class="unbutton item-control always-interactive" data-context-menu
+                    data-tooltip="Opções Adicionais" data-tooltip-direction="UP">
+              <i class="fa-solid fa-ellipsis-vertical" inert></i>
+            </button>
           {{/if}}
         </div>
       </li>

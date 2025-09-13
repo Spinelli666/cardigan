@@ -1,4 +1,5 @@
 const { api, sheets } = foundry.applications;
+import ContextMenu5e from '../applications/context-menu.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -257,6 +258,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Setup weapon tooltips with debug logging
     console.log('Setting up weapon tooltips...');
     this.#setupWeaponTooltips();
+    
+    // Setup context menu for weapons
+    this.#setupContextMenus();
     
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
@@ -2446,5 +2450,96 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     html += '</div>';
     
     return html;
+  }
+
+  /* -------------------------------------------- */
+  /*  Context Menu Implementation                 */
+  /* -------------------------------------------- */
+
+  /**
+   * Setup context menus for weapons
+   * @private
+   */
+  #setupContextMenus() {
+    // Bind click event to context menu buttons
+    for (const control of this.element.querySelectorAll("[data-context-menu]")) {
+      control.addEventListener("click", ContextMenu5e.triggerEvent);
+    }
+
+    // Setup context menu for weapon items
+    new ContextMenu5e(this.element, "[data-item-id]", [], {
+      onOpen: this._onOpenContextMenu.bind(this),
+      jQuery: false
+    });
+  }
+
+  /**
+   * Handle opening the context menu for items
+   * @param {HTMLElement} element - The element that triggered the context menu
+   * @private
+   */
+  _onOpenContextMenu(element) {
+    const { itemId } = element.closest("[data-item-id]")?.dataset ?? {};
+    const item = this.actor.items.get(itemId);
+    if (!item) return;
+
+    ui.context.menuItems = this._getContextOptions(item, element);
+  }
+
+  /**
+   * Get context menu options for a weapon item
+   * @param {Item} item - The item
+   * @param {HTMLElement} element - The triggering element
+   * @returns {Array} Array of context menu options
+   * @private
+   */
+  _getContextOptions(item, element) {
+    const options = [];
+
+    // Edit option
+    options.push({
+      name: "Editar",
+      icon: '<i class="fa-solid fa-pen-to-square fa-fw"></i>',
+      condition: () => item.isOwner,
+      callback: li => this._onAction(li, "edit", item)
+    });
+
+    // Delete option
+    options.push({
+      name: "Excluir",
+      icon: '<i class="fa-solid fa-trash fa-fw"></i>',
+      condition: () => item.isOwner,
+      callback: li => this._onAction(li, "delete", item)
+    });
+
+    return options;
+  }
+
+  /**
+   * Handle context menu actions
+   * @param {HTMLElement} target - The action target
+   * @param {string} action - The action to perform
+   * @param {Item} item - The item to act on
+   * @private
+   */
+  async _onAction(target, action, item) {
+    switch (action) {
+      case "edit":
+        return item.sheet.render(true);
+      case "delete":
+        // Show confirmation dialog before deleting
+        const confirmed = await Dialog.confirm({
+          title: `Excluir ${item.name}?`,
+          content: `<p>Tem certeza que deseja excluir <strong>"${item.name}"</strong>?</p><p><em>Esta ação não pode ser desfeita.</em></p>`,
+          yes: () => true,
+          no: () => false,
+          defaultYes: false
+        });
+        
+        if (confirmed) {
+          return item.delete();
+        }
+        return null;
+    }
   }
 }
