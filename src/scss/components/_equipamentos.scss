@@ -195,6 +195,19 @@
     font-size: 12px;
     text-transform: capitalize;
   }
+  
+  // -----------------------------------------
+  // Weapon name hover styles - no underline like effects
+  .weapon-name-hover {
+    cursor: default;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: $c-beige;
+      // Explicitly no underline - this is the key difference from effects
+      text-decoration: none;
+    }
+  }
 }
 
 // -----------------------------------------
@@ -267,7 +280,7 @@
   }
 
   // -----------------------------------------
-  // Hover effect for weapon names with tooltip (matching effects style)
+  // Legacy hover effect for weapon names with tooltip (matching effects style)
   .item-name[data-weapon-tooltip] {
     transition: color 0.2s ease;
     
@@ -279,7 +292,7 @@
     }
   }
   
-  // Remove help cursor from tooltip triggers
+  // Legacy - Remove help cursor from tooltip triggers
   .weapon-tooltip-trigger {
     cursor: pointer !important;
     
@@ -321,7 +334,7 @@
     .weapon-properties-horizontal {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-end; // Alinhamento à direita
       gap: 6px; // Gap menor para elementos inline
       margin-bottom: 6px;
       order: 1;

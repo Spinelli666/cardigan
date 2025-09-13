@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UT      <!-- Nome centralizado -->
+      <div class="weapon-name-line" style="text-align: center; margin-bottom: 4px;">
+        <strong style="color: #f0f0e0; font-size: 16px;">Arco Élfico</strong>
+      </div>
+      
+      <!-- Tipo da arma centralizado -->
+      <div class="weapon-type-line" style="text-align: center; margin-bottom: 4px;">
+        <em style="color: #c9c7b8; font-style: italic; font-size: 14px;">Arco</em>
+      </div>
+      
+      <!-- Descrição centralizada -->
+      <div class="weapon-description" style="text-align: center; max-width: 180px; margin-top: 4px;">
+        <em style="color: #c9c7b8; font-style: italic; font-size: 12px;">Um arco élfico finamente trabalhado, preciso em longas distâncias.</em>
+      </div> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weapon Tooltip Test - Right Aligned Properties</title>
+    <link rel="stylesheet" href="css/cardigan.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body style="background: #2b2a29; padding: 20px; font-family: Arial, sans-serif;">
+  <h1 style="color: #f0f0e0;">Teste Visual: Tooltip de Arma com Propriedades Alinhadas à Direita</h1>
+  <p style="color: #c9c7b8;"><strong>Esperado:</strong> Propriedades alinhadas à direita, Imagem centralizada, Nome centralizado, Descrição centralizada</p>
+
+    <div style="margin: 20px 0; padding: 20px; background: rgba(0,0,0,0.2);">
+        <h3 style="color: #f0f0e0;">Espada Longa (Corpo-a-Corpo + Pesado - Melee + Artefato Mágico)</h3>
+    <div class="weapon-tooltip" style="display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 200px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: 1px solid #8b4513; border-radius: 8px; color: #f0f0e0; display: inline-block;">
+      
+      <!-- Propriedades alinhadas à direita com inline styles -->
+      <div class="weapon-properties-horizontal" style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 6px; font-size: 14px; width: 100%;">
+        <i class="fas fa-fist-raised" style="color: #f0f0e0; font-size: 16px;"></i>
+        <span class="property-separator">&nbsp;</span>
+        <i class="fas fa-backpack" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span class="weight-text" style="font-style: italic; font-size: 14px; color: #c9c7b8;">Pesado</span>
+      </div>
+      
+      <!-- Imagem centralizada -->
+      <div class="weapon-image" style="display: flex; justify-content: center; margin-bottom: 4px;">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23654321'/%3E%3Ctext x='16' y='20' text-anchor='middle' fill='white' font-size='10'%3ESword%3C/text%3E%3C/svg%3E" alt="Espada Longa" style="width: 32px; height: 32px; object-fit: cover; border-radius: 4px; border: 2px solid #f0f0e0;" />
+      </div>
+      
+      <!-- Nome centralizado -->
+      <div class="weapon-name-line" style="text-align: center; margin-bottom: 4px;">
+        <strong style="color: #f0f0e0; font-size: 16px;">Espada Longa</strong>
+      </div>
+      
+      <!-- Tipo da arma centralizado -->
+      <div class="weapon-type-line" style="text-align: center; margin-bottom: 4px;">
+        <em style="color: #c9c7b8; font-style: italic; font-size: 14px;">Espada</em>
+      </div>
+      
+      <!-- Dano e Munição (apenas dano para melee) -->
+      <div class="weapon-damage-ammo" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; font-size: 14px;">
+        <i class="fas fa-sword" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span style="color: #f0f0e0;">10</span>
+        <span style="color: #c9c7b8;">[22]</span>
+      </div>
+      
+      <!-- Durabilidade -->
+      <div class="weapon-durability" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; font-size: 14px;">
+        <i class="fas fa-hammer" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span style="color: #f0f0e0;">3/3</span>
+      </div>
+      
+      <!-- Descrição centralizada -->
+      <div class="weapon-description" style="text-align: center; max-width: 180px; margin-top: 4px;">
+        <em style="color: #c9c7b8; font-style: italic; font-size: 12px;">Uma arma versátil de combate corpo-a-corpo, ideal para guerreiros experientes.</em>
+      </div>
+      
+      <!-- Artefato Mágico alinhado à esquerda -->
+      <div class="weapon-artifact" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  🌀Artefato</div>
+      
+      <!-- Propriedades das armas alinhadas à esquerda -->
+      <div class="weapon-properties-list" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  Afiado ・ Ambidestria ・ Duelar</div>
+      
+      <!-- Bônus de Perícia alinhados à esquerda -->
+      <div class="weapon-skill-bonuses" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  Strength [+3] ・ Dexterity [+1]</div>
+    </div>
+  </div>
+
+  <div style="margin: 20px 0; padding: 20px; background: rgba(0,0,0,0.2);">
+    <h3 style="color: #f0f0e0;">Arco Élfico (Longa Distância + Leve - Ranged Não-Firearm)</h3>
+    <div class="weapon-tooltip" style="display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 200px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: 1px solid #8b4513; border-radius: 8px; color: #f0f0e0; display: inline-block;">
+      
+      <!-- Propriedades alinhadas à direita com inline styles -->
+      <div class="weapon-properties-horizontal" style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 6px; font-size: 14px; width: 100%;">
+        <i class="fas fa-bullseye" style="color: #f0f0e0; font-size: 16px;"></i>
+        <span class="property-separator">&nbsp;</span>
+        <i class="fas fa-backpack" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span class="weight-text" style="font-style: italic; font-size: 14px; color: #c9c7b8;">Leve</span>
+      </div>
+      
+      <!-- Imagem centralizada -->
+      <div class="weapon-image" style="display: flex; justify-content: center; margin-bottom: 4px;">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23228B22'/%3E%3Ctext x='16' y='20' text-anchor='middle' fill='white' font-size='12'%3E🏹%3C/text%3E%3C/svg%3E" alt="Arco Élfico" style="width: 32px; height: 32px; object-fit: cover; border-radius: 4px; border: 2px solid #f0f0e0;" />
+      </div>
+      
+      <!-- Nome centralizado -->
+      <div class="weapon-name-line" style="text-align: center; margin-bottom: 4px;">
+        <strong style="color: #f0f0e0; font-size: 16px;">Arco Élfico</strong>
+      </div>
+      
+      <!-- Tipo da arma centralizado -->
+      <div class="weapon-type-line" style="text-align: center; margin-bottom: 4px;">
+        <em style="color: #c9c7b8; font-style: italic; font-size: 14px;">Arco</em>
+      </div>
+      
+      <!-- Dano e Munição (ranged não-firearm) -->
+      <div class="weapon-damage-ammo" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; font-size: 14px;">
+        <i class="fas fa-sword" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span style="color: #f0f0e0;">8</span>
+        <span style="color: #c9c7b8;">[18]</span>
+        <span>&nbsp;&nbsp;</span>
+        <i class="fas fa-circle" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span style="color: #f0f0e0;">15</span>
+      </div>
+      
+      <!-- Durabilidade -->
+      <div class="weapon-durability" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; font-size: 14px;">
+        <i class="fas fa-hammer" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span style="color: #f0f0e0;">2/3</span>
+      </div>
+      
+      <!-- Descrição centralizada -->
+      <div class="weapon-description" style="text-align: center; max-width: 180px; margin-top: 4px;">
+        <em style="color: #c9c7b8; font-style: italic; font-size: 12px;">Um arco élfico finamente trabalhado, preciso em longas distâncias.</em>
+      </div>
+      
+      <!-- Propriedades das armas alinhadas à esquerda -->
+      <div class="weapon-properties-list" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  Preciso ・ Elegante ・ Longa Distância</div>
+      
+      <!-- Bônus de Perícia alinhados à esquerda -->
+      <div class="weapon-skill-bonuses" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  Accuracy [+2] ・ Stealth [+1]</div>
+    </div>
+  </div>
+
+  <div style="margin: 20px 0; padding: 20px; background: rgba(0,0,0,0.2);">
+    <h3 style="color: #f0f0e0;">Rifle de Caça (Disparo Dividido + Dose Dupla + Queima-Roupa - Firearm)</h3>
+    <div class="weapon-tooltip" style="display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 200px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: 1px solid #8b4513; border-radius: 8px; color: #f0f0e0; display: inline-block;">
+      
+      <!-- Propriedades alinhadas à direita com inline styles -->
+      <div class="weapon-properties-horizontal" style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 6px; font-size: 14px; width: 100%;">
+        <i class="fas fa-bullseye" style="color: #f0f0e0; font-size: 16px;"></i>
+        <span class="property-separator">&nbsp;</span>
+        <i class="fas fa-weight-hanging" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span class="weight-text" style="font-style: italic; font-size: 14px; color: #c9c7b8;">Pesado</span>
+      </div>
+      
+      <div style="margin-bottom: 10px;">
+        <img src="systems/cardigan/assets/anvil-impact.png" alt="Rifle de Caça" width="32" height="32" style="border-radius: 4px;">
+      </div>
+      
+      <div class="weapon-name" style="text-align: center; font-weight: bold; font-size: 16px; margin-bottom: 6px; color: #f0f0e0;">Rifle de Caça</div>
+      
+      <div class="weapon-type" style="text-align: center; font-style: italic; color: #c9c7b8; margin-bottom: 6px;">Rifle</div>
+      
+      <div class="weapon-damage-ammo" style="text-align: center; margin-bottom: 6px;">
+        <i class="fas fa-sword" style="color: #ff6b6b;"></i> 2d8 [2d8+4]  <i class="fas fa-circle" style="color: #4a90e2;"></i> 8/12
+      </div>
+      
+      <div class="weapon-durability" style="text-align: center; margin-bottom: 6px; color: #c9c7b8;">
+        <i class="fas fa-hammer" style="color: #8b4513;"></i> 3/3
+      </div>
+      
+      <div class="weapon-description" style="text-align: center; color: #c9c7b8; font-size: 14px; margin-bottom: 8px;">Rifle de longo alcance usado para caça maior. Precisão e poder de fogo superiores.</div>
+      
+      <div class="weapon-artifact" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  🌀Artefato</div>
+      
+      <div class="weapon-properties-list" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  Disparo Dividido ・ Dose Dupla ・ Queima-Roupa ・ Saque Rapido</div>
+      
+      <!-- Bônus de Perícia alinhados à esquerda -->
+      <div class="weapon-skill-bonuses" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  Intelligence [+2] ・ Psionics [+3]</div>
+    </div>
+  </div>
+
+  <div style="margin: 20px 0; padding: 20px; background: rgba(0,0,0,0.2);">
+    <h3 style="color: #f0f0e0;">Arco Élfico (Longa Distância + Leve - Ranged Não-Firearm)</h3>
+    <div class="weapon-tooltip" style="display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 200px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: 1px solid #8b4513; border-radius: 8px; color: #f0f0e0; display: inline-block;">
+      
+      <!-- Propriedades alinhadas à direita com inline styles -->
+      <div class="weapon-properties-horizontal" style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 6px; font-size: 14px; width: 100%;">
+        <i class="fas fa-bullseye" style="color: #f0f0e0; font-size: 16px;"></i>
+        <span class="property-separator">&nbsp;</span>
+        <i class="fas fa-backpack" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span class="weight-text" style="font-style: italic; font-size: 14px; color: #c9c7b8;">Leve</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin: 20px 0; padding: 20px; background: rgba(0,0,0,0.2);">
+    <h3 style="color: #f0f0e0;">Pistola Mágica (Longa Distância + Leve - Firearm + Artefato Mágico)</h3>
+    <div class="weapon-tooltip" style="display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 200px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: 1px solid #8b4513; border-radius: 8px; color: #f0f0e0; display: inline-block;">
+      
+      <!-- Propriedades alinhadas à direita com inline styles -->
+      <div class="weapon-properties-horizontal" style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 6px; font-size: 14px; width: 100%;">
+        <i class="fas fa-bullseye" style="color: #f0f0e0; font-size: 16px;"></i>
+        <span class="property-separator">&nbsp;</span>
+        <i class="fas fa-backpack" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span class="weight-text" style="font-style: italic; font-size: 14px; color: #c9c7b8;">Leve</span>
+      </div>
+      
+      <!-- Imagem centralizada -->
+      <div class="weapon-image" style="display: flex; justify-content: center; margin-bottom: 4px;">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23444444'/%3E%3Ctext x='16' y='20' text-anchor='middle' fill='white' font-size='10'%3EGun%3C/text%3E%3C/svg%3E" alt="Pistola Mágica" style="width: 32px; height: 32px; object-fit: cover; border-radius: 4px; border: 2px solid #f0f0e0;" />
+      </div>
+      
+      <!-- Nome centralizado -->
+      <div class="weapon-name-line" style="text-align: center; margin-bottom: 4px;">
+        <strong style="color: #f0f0e0; font-size: 16px;">Pistola Mágica</strong>
+      </div>
+      
+      <!-- Tipo da arma centralizado -->
+      <div class="weapon-type-line" style="text-align: center; margin-bottom: 4px;">
+        <em style="color: #c9c7b8; font-style: italic; font-size: 14px;">Pistola</em>
+      </div>
+      
+      <!-- Dano e Munição (firearm) -->
+      <div class="weapon-damage-ammo" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; font-size: 14px;">
+        <i class="fas fa-sword" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span style="color: #f0f0e0;">12</span>
+        <span style="color: #c9c7b8;">[24]</span>
+        <span>&nbsp;&nbsp;</span>
+        <i class="fas fa-circle" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span style="color: #f0f0e0;">6/10</span>
+      </div>
+      
+      <!-- Durabilidade -->
+      <div class="weapon-durability" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; font-size: 14px;">
+        <i class="fas fa-hammer" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span style="color: #f0f0e0;">3/3</span>
+      </div>
+      
+      <!-- Descrição centralizada -->
+      <div class="weapon-description" style="text-align: center; max-width: 180px; margin-top: 4px;">
+        <em style="color: #c9c7b8; font-style: italic; font-size: 12px;">Uma arma de fogo encantada com runas arcanas, dispara projéteis de energia.</em>
+      </div>
+      
+      <!-- Artefato Mágico alinhado à esquerda -->
+      <div class="weapon-artifact" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  🌀Artefato</div>
+      
+      <!-- Propriedades das armas alinhadas à esquerda -->
+      <div class="weapon-properties-list" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  Explosiva ・ Rúnica ・ Encantada</div>
+    </div>
+  </div>
+
+  <div style="margin: 20px 0; padding: 20px; background: rgba(0,0,0,0.2);">
+    <h3 style="color: #f0f0e0;">Arco Élfico (Longa Distância + Leve)</h3>
+    <div class="weapon-tooltip" style="display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 200px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: 1px solid #8b4513; border-radius: 8px; color: #f0f0e0; display: inline-block;">
+      
+      <!-- Propriedades alinhadas à direita com inline styles -->
+      <div class="weapon-properties-horizontal" style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 6px; font-size: 14px; width: 100%;">
+        <i class="fas fa-bullseye" style="color: #f0f0e0; font-size: 16px;"></i>
+        <span class="property-separator">&nbsp;</span>
+        <i class="fas fa-backpack" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span class="weight-text" style="font-style: italic; font-size: 14px; color: #c9c7b8;">Leve</span>
+      </div>
+      
+      <!-- Imagem centralizada -->
+      <div class="weapon-image" style="display: flex; justify-content: center; margin-bottom: 4px;">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23228B22'/%3E%3Ctext x='16' y='20' text-anchor='middle' fill='white' font-size='12'%3E🏹%3C/text%3E%3C/svg%3E" alt="Arco Élfico" style="width: 32px; height: 32px; object-fit: cover; border-radius: 4px; border: 2px solid #f0f0e0;" />
+      </div>
+      
+      <!-- Nome centralizado -->
+      <div class="weapon-name-line" style="text-align: center; margin-bottom: 4px;">
+        <strong style="color: #f0f0e0; font-size: 16px;">Arco Élfico</strong>
+      </div>
+      
+      <!-- Descrição centralizada -->
+      <div class="weapon-description" style="text-align: center; max-width: 180px; margin-top: 4px;">
+        <em style="color: #c9c7b8; font-style: italic; font-size: 12px;">Um arco elegante e preciso, crafted pelos mestres élficos.</em>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin: 20px 0; padding: 20px; background: rgba(0,0,0,0.2);">
+    <h3 style="color: #f0f0e0;">Lança Versátil (Corpo-a-Corpo + Longa Distância + Leve)</h3>
+    <div class="weapon-tooltip" style="display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 200px; padding: 10px; background: rgba(0, 0, 0, 0.9); border: 1px solid #8b4513; border-radius: 8px; color: #f0f0e0; display: inline-block;">
+      
+      <!-- Propriedades alinhadas à direita com inline styles -->
+      <div class="weapon-properties-horizontal" style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 6px; font-size: 14px; width: 100%;">
+        <i class="fas fa-fist-raised" style="color: #f0f0e0; font-size: 16px;"></i><span class="separator" style="color: #c9c7b8; margin: 0 2px;">/</span><i class="fas fa-bullseye" style="color: #f0f0e0; font-size: 16px;"></i>
+        <span class="property-separator">&nbsp;</span>
+        <i class="fas fa-backpack" style="color: #c9c7b8; font-size: 14px;"></i>
+        <span class="weight-text" style="font-style: italic; font-size: 14px; color: #c9c7b8;">Leve</span>
+      </div>
+      
+      <!-- Imagem centralizada -->
+      <div class="weapon-image" style="display: flex; justify-content: center; margin-bottom: 4px;">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23B8860B'/%3E%3Ctext x='16' y='20' text-anchor='middle' fill='white' font-size='10'%3ESpear%3C/text%3E%3C/svg%3E" alt="Lança Versátil" style="width: 32px; height: 32px; object-fit: cover; border-radius: 4px; border: 2px solid #f0f0e0;" />
+      </div>
+      
+      <!-- Nome centralizado -->
+      <div class="weapon-name-line" style="text-align: center; margin-bottom: 4px;">
+        <strong style="color: #f0f0e0; font-size: 16px;">Lança Versátil</strong>
+      </div>
+      
+      <!-- Tipo da arma centralizado -->
+      <div class="weapon-type-line" style="text-align: center; margin-bottom: 4px;">
+        <em style="color: #c9c7b8; font-style: italic; font-size: 14px;">Lança</em>
+      </div>
+      
+      <!-- Descrição centralizada -->
+      <div class="weapon-description" style="text-align: center; max-width: 180px; margin-top: 4px;">
+        <em style="color: #c9c7b8; font-style: italic; font-size: 12px;">Uma arma versátil que pode ser usada tanto em combate corpo-a-corpo quanto à distância.</em>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin: 20px 0; padding: 20px; background: rgba(0,0,0,0.2);">
+    <h3 style="color: #f0f0e0;">Observações do Layout:</h3>
+    <ul style="color: #c9c7b8;">
+      <li><strong>Propriedades:</strong> Agora alinhadas à direita na primeira linha com inline styles para garantir funcionamento</li>
+      <li><strong>Imagem:</strong> Permanece centralizada (32x32px)</li>
+      <li><strong>Nome:</strong> Permanece centralizado em negrito</li>
+      <li><strong>Tipo da Arma:</strong> Linha em itálico centralizada (do campo weaponType)</li>
+      <li><strong>🆕 Dano e Munição:</strong> Nova linha com sistema inteligente:
+        <ul>
+          <li><strong>Melee:</strong> [⚔️] dano [calculado] - apenas dano</li>
+          <li><strong>Ranged não-firearm:</strong> [⚔️] dano [calculado] &nbsp;&nbsp; [●] munição_atual</li>
+          <li><strong>Firearm:</strong> [⚔️] dano [calculado] &nbsp;&nbsp; [●] atual/máximo</li>
+        </ul>
+      </li>
+      <li><strong>🆕 Durabilidade:</strong> Nova linha com sistema de durabilidade:
+        <ul>
+          <li><strong>Todas as armas:</strong> [🔨] atual/máximo (ex: 3/3)</li>
+          <li><strong>Condicional:</strong> Só aparece se durability.max > 0</li>
+        </ul>
+      </li>
+      <li><strong>Descrição:</strong> Permanece centralizada em itálico</li>
+      <li><strong>Layout Final:</strong> Propriedades → Imagem → Nome → Tipo → Dano/Munição → Durabilidade → Descrição</li>
+      <li><strong>Solução:</strong> Usando inline styles para sobrescrever estilos do FoundryVTT</li>
+    </ul>
+    
+    <h4 style="color: #f0f0e0; margin-top: 20px;">Sistema de Dano e Munição:</h4>
+    <ul style="color: #c9c7b8;">
+      <li><strong>Ícone da Espada (fas fa-sword):</strong> Representa dano para todas as armas</li>
+      <li><strong>Dano Base:</strong> Valor configurado no campo damage.value da arma</li>
+      <li><strong>Dano Calculado [X]:</strong> Valor do damage.total (inclui força/destreza)</li>
+      <li><strong>Ícone de Munição (fas fa-circle):</strong> Apenas para armas ranged com munição > 0</li>
+      <li><strong>Munição Não-Firearm:</strong> Mostra apenas quantidade atual</li>
+      <li><strong>Munição Firearm:</strong> Mostra atual/máximo (ex: 6/10)</li>
+      <li><strong>Espaçamento:</strong> Dois espaços (&nbsp;&nbsp;) entre dano e munição</li>
+    </ul>
+    
+    <h4 style="color: #f0f0e0; margin-top: 20px;">Sistema de Durabilidade:</h4>
+    <ul style="color: #c9c7b8;">
+      <li><strong>Ícone da Forja (fas fa-hammer):</strong> Representa durabilidade da arma</li>
+      <li><strong>Formato:</strong> atual/máximo (baseado em durability.current/durability.max)</li>
+      <li><strong>Condicional:</strong> Só aparece se durability.max > 0</li>
+      <li><strong>Posição:</strong> Entre Dano/Munição e Descrição</li>
+      <li><strong>Exemplos:</strong> 3/3 (perfeita), 2/3 (levemente danificada), 1/3 (muito danificada)</li>
+    </ul>
+    
+    <h4 style="color: #f0f0e0; margin-top: 20px;">Sistema de Artefatos Mágicos:</h4>
+    <ul style="color: #c9c7b8;">
+      <li><strong>Formato:</strong> ◆  🌀Artefato (símbolo de diamante + emoji de ciclone + texto)</li>
+      <li><strong>Condicional:</strong> Só aparece se weapon.system.magicalArtifact === true</li>
+      <li><strong>Posição:</strong> Embaixo da Descrição (última linha do tooltip)</li>
+      <li><strong>Alinhamento:</strong> À esquerda (text-align: left)</li>
+      <li><strong>Cor:</strong> #c9c7b8 (cor secundária padrão)</li>
+      <li><strong>Exemplos:</strong> Espada Longa e Pistola Mágica são artefatos no teste</li>
+    </ul>
+    
+    <h4 style="color: #f0f0e0; margin-top: 20px;">Sistema de Propriedades das Armas:</h4>
+    <ul style="color: #c9c7b8;">
+      <li><strong>Formato:</strong> ◆  Propriedade1 ・ Propriedade2 ・ Propriedade3 (símbolo de diamante + separador middle dot)</li>
+      <li><strong>Condicional:</strong> Só aparece se weapon.system.properties.length > 0 E houver propriedades válidas</li>
+      <li><strong>Validação:</strong> Filtra propriedades vazias e garante que não apareça apenas o símbolo ◆</li>
+      <li><strong>Capitalização:</strong> Primeira letra de cada propriedade em maiúscula, resto em minúscula</li>
+      <li><strong>Posição:</strong> Embaixo do Artefato Mágico (se houver) ou embaixo da Descrição</li>
+      <li><strong>Alinhamento:</strong> À esquerda (text-align: left)</li>
+      <li><strong>Separador:</strong> ・ (middle dot / U+30FB) entre as propriedades</li>
+      <li><strong>Cor:</strong> #c9c7b8 (cor secundária padrão)</li>
+      <li><strong>Exemplos:</strong> Espada: "Afiado ・ Ambidestria ・ Duelar", Arco: "Preciso ・ Elegante", Pistola: "Explosiva ・ Rúnica ・ Encantada"</li>
+    </ul>
+  </div>
+</body>
+</html>

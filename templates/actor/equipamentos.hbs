@@ -73,13 +73,11 @@
             </a>
           </div>
           <div 
-            class="weapon-tooltip-trigger"
+            class="weapon-name-hover"
             data-tooltip-direction="UP"
-            data-item-name="{{item.name}}"
-            data-item-type="{{#if (and item.system.melee item.system.ranged)}}Corpo-a-Corpo / Longa Distância{{else if item.system.melee}}Corpo-a-Corpo{{else if item.system.ranged}}Longa Distância{{else}}Desconhecido{{/if}}"
-            data-item-weight="{{#if (eq item.system.weight 'leve')}}Leve{{else}}Pesado{{/if}}"
-            data-item-description="{{item.system.description}}"
-            title="{{item.name}} - {{#if (and item.system.melee item.system.ranged)}}Corpo-a-Corpo / Longa Distância{{else if item.system.melee}}Corpo-a-Corpo{{else if item.system.ranged}}Longa Distância{{else}}Desconhecido{{/if}} - {{#if (eq item.system.weight 'leve')}}Leve{{else}}Pesado{{/if}}"
+            data-tooltip-class="cardigan-tooltip"
+            data-item-id="{{item._id}}"
+            style="cursor: default;"
           >
             {{item.name}}
           </div>

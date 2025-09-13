@@ -1011,6 +1011,14 @@
   font-size: 12px;
   text-transform: capitalize;
 }
+.cardigan .tab.equipamentos .weapon-name-hover {
+  cursor: default;
+  transition: color 0.2s ease;
+}
+.cardigan .tab.equipamentos .weapon-name-hover:hover {
+  color: var(--cardigan-c-beige);
+  text-decoration: none;
+}
 .cardigan .weapon-properties .properties-header {
   display: flex;
   align-items: center;
@@ -1107,7 +1115,7 @@
 .cardigan .cardigan-custom-tooltip .weapon-tooltip .weapon-properties-horizontal {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 6px;
   margin-bottom: 6px;
   order: 1;
