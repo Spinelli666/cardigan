@@ -2198,6 +2198,62 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Handle toggling the expand/collapse state of an item via context menu
+   * @param {Item} item - The item to expand/collapse
+   * @param {HTMLElement} itemContainer - The item container element
+   * @private
+   */
+  async _handleToggleExpand(item, itemContainer) {
+    if (!item || !itemContainer) {
+      console.warn("Could not find item or item container for expand toggle");
+      return;
+    }
+    
+    const summary = itemContainer.querySelector(":scope > .item-description > .wrapper");
+    const itemId = item.id;
+    
+    if (!summary) {
+      console.warn("Could not find summary wrapper");
+      return;
+    }
+    
+    const expanded = this.expandedSections.get(itemId);
+    
+    if (expanded) {
+      // Collapse
+      this.expandedSections.set(itemId, false);
+      summary.querySelector(".weapon-summary")?.remove();
+    } else {
+      // Expand
+      try {
+        // Get weapon data for summary
+        const context = {
+          item: item,
+          system: item.system,
+          enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description || "", {
+            secrets: item.isOwner,
+            documents: true,
+            links: true,
+            rolls: true,
+            rollData: item.getRollData?.() || {}
+          })
+        };
+        
+        const template = "systems/cardigan/templates/weapons/weapon-summary.hbs";
+        const content = await foundry.applications.handlebars.renderTemplate(template, context);
+        summary.insertAdjacentHTML("beforeend", content);
+        this.expandedSections.set(itemId, true);
+      } catch (error) {
+        console.error("Error creating weapon summary:", error);
+        return;
+      }
+    }
+    
+    // Update CSS classes
+    itemContainer.classList.toggle("collapsed", expanded);
+  }
+
+  /**
    * Handle toggling the expand/collapse state of an item
    * Based on D&D5e implementation
    * @param {PointerEvent} event   The originating click event
@@ -2237,7 +2293,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         const context = {
           item: item,
           system: item.system,
-          enrichedDescription: await TextEditor.enrichHTML(item.system.description || "", {
+          enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description || "", {
             secrets: item.isOwner,
             documents: true,
             links: true,
@@ -2256,13 +2312,15 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
     
-    // Update CSS classes and icon
+    // Update CSS classes
     row.classList.toggle("collapsed", expanded);
-    icon.classList.toggle("fa-compress", !expanded);
-    icon.classList.toggle("fa-expand", expanded);
     
-    // Update tooltip text
-    target.setAttribute("data-tooltip", !expanded ? "Colapsar Detalhes" : "Expandir Detalhes");
+    // Update icon and tooltip only if we have an icon (from button, not from weapon name click)
+    if (icon) {
+      icon.classList.toggle("fa-compress", !expanded);
+      icon.classList.toggle("fa-expand", expanded);
+      target.setAttribute("data-tooltip", !expanded ? "Colapsar Detalhes" : "Expandir Detalhes");
+    }
   }
 
   /**
@@ -2559,6 +2617,35 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Show weapon information in chat
+   * @param {Item} weapon - The weapon item to show
+   * @returns {Promise<ChatMessage>} The created chat message
+   * @private
+   */
+  async _showWeaponInChat(weapon) {
+    // Reuse the existing tooltip HTML generation function
+    const weaponHtml = this.#generateWeaponTooltipHTML(weapon);
+    
+    // Create chat message with weapon information
+    const messageData = {
+      user: game.user.id,
+      speaker: ChatMessage.getSpeaker({ actor: this.document }),
+      content: `<div class="weapon-chat-display" style="background: linear-gradient(135deg, #2c2c2c, #1a1a1a); border: 2px solid #c9c7b8; border-radius: 8px; padding: 12px; margin: 8px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+        <div style="text-align: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #c9c7b8;">
+          <h3 style="margin: 0; color: #f0f0e0; font-size: 16px;">
+            <i class="fas fa-sword" style="margin-right: 6px; color: #c9c7b8;"></i>
+            Informações da Arma
+          </h3>
+        </div>
+        ${weaponHtml}
+      </div>`,
+      type: CONST.CHAT_MESSAGE_TYPES.OTHER
+    };
+
+    return ChatMessage.create(messageData);
+  }
+
+  /**
    * Get context menu options for a weapon item
    * @param {Item} item - The item
    * @param {HTMLElement} element - The triggering element
@@ -2567,6 +2654,18 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   _getContextOptions(item, element) {
     const options = [];
+    
+    // Get the item container to check if it's expanded
+    const itemContainer = element.closest('.item.collapsible');
+    const isExpanded = itemContainer && !itemContainer.classList.contains('collapsed');
+
+    // Expand/Collapse option (first in the menu)
+    options.push({
+      name: isExpanded ? "Recolher" : "Expandir",
+      icon: isExpanded ? '<i class="fa-solid fa-compress fa-fw"></i>' : '<i class="fa-solid fa-expand fa-fw"></i>',
+      condition: () => true,
+      callback: li => this._onAction(li, "toggleExpand", item, itemContainer)
+    });
 
     // Edit option
     options.push({
@@ -2574,6 +2673,14 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       icon: '<i class="fa-solid fa-pen-to-square fa-fw"></i>',
       condition: () => item.isOwner,
       callback: li => this._onAction(li, "edit", item)
+    });
+
+    // Show in Chat option
+    options.push({
+      name: "Mostrar no Chat",
+      icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
+      condition: () => item.type === "arma", // Only for weapons
+      callback: li => this._onAction(li, "showInChat", item)
     });
 
     // Delete option
@@ -2592,12 +2699,18 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @param {HTMLElement} target - The action target
    * @param {string} action - The action to perform
    * @param {Item} item - The item to act on
+   * @param {HTMLElement} itemContainer - The item container element (for expand/collapse)
    * @private
    */
-  async _onAction(target, action, item) {
+  async _onAction(target, action, item, itemContainer = null) {
     switch (action) {
+      case "toggleExpand":
+        // Use the existing expand logic but with the itemContainer passed from context menu
+        return this._handleToggleExpand(item, itemContainer);
       case "edit":
         return item.sheet.render(true);
+      case "showInChat":
+        return this._showWeaponInChat(item);
       case "delete":
         // Show confirmation dialog before deleting
         const confirmed = await Dialog.confirm({

@@ -80,7 +80,8 @@
             data-tooltip-direction="UP"
             data-tooltip-class="cardigan-tooltip"
             data-item-id="{{item._id}}"
-            style="cursor: default;"
+            data-action="toggleExpand"
+            style="cursor: pointer;"
           >
             {{item.name}}
           </div>
@@ -178,11 +179,6 @@
         </div>
         <div class='item-controls'>
           {{#if @root.editable}}
-            {{!-- Expand/Collapse Button --}}
-            <button type="button" class="unbutton item-control always-interactive" data-action="toggleExpand"
-                    data-tooltip="Expandir Detalhes" data-tooltip-direction="UP">
-              <i class="fa-solid fa-expand" inert></i>
-            </button>
             {{!-- Context Menu Button (Three Dots) --}}
             <button type="button" class="unbutton item-control always-interactive" data-context-menu
                     data-tooltip="Opções Adicionais" data-tooltip-direction="UP">

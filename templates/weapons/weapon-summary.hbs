@@ -47,8 +47,8 @@
         <div class="weapon-damage">
           <i class="fas fa-sword"></i>
           {{system.damage.value}}
-          {{#if system.damage.calculated}}
-          [{{system.damage.calculated}}]
+          {{#if system.damage.total}}
+          [{{system.damage.total}}]
           {{/if}}
         </div>
         
@@ -80,33 +80,52 @@
       </div>
       {{/if}}
 
-      {{!-- Magical Artifact (Centered) --}}
-      {{#if system.magicalArtifact}}
-      <div class="weapon-artifact-center">
-        <i class="fas fa-sparkles"></i>
-        <strong>Artefato Mágico</strong>
+      {{!-- Damage Formula Detail (Centered below description) --}}
+      <div class="weapon-damage-formula-center">
+        <span class="damage-formula-text">
+          DANO ‣ {{system.damage.value}}
+          {{#if system.damage.useStrength}}
+          + FORÇA = {{system.damage.total}}
+          {{else if system.damage.useDexterity}}
+          + DESTREZA = {{system.damage.total}}
+          {{else}}
+          + 0 = {{system.damage.total}}
+          {{/if}}
+        </span>
       </div>
-      {{/if}}      {{!-- Weapon Properties (Centered) --}}
-      {{#if system.properties}}
-      <div class="weapon-properties-center">
-        <i class="fas fa-cogs"></i>
-        <strong>Propriedades:</strong>
-        {{#each system.properties as |property|}}
-        <span class="property-tag">{{property}}</span>{{#unless @last}}, {{/unless}}
-        {{/each}}
-      </div>
-      {{/if}}
-      
-      {{!-- Skill Bonuses (Centered) --}}
+
+      {{!-- Weapon Skill Bonuses as Properties (Centered below damage formula) --}}
       {{#if system.skillBonuses}}
-      <div class="weapon-skill-bonuses-center">
-        <i class="fas fa-plus-circle"></i>
-        <strong>Bônus de Perícia:</strong>
-        {{#each system.skillBonuses as |bonus skill|}}
-        <span class="skill-bonus">{{skill}} [{{#if (gt bonus 0)}}+{{/if}}{{bonus}}]</span>{{#unless @last}}, {{/unless}}
-        {{/each}}
+      <div class="weapon-properties-bonuses-center">
+        <div class="properties-title">PROPRIEDADES</div>
+        <div class="properties-bonuses">
+          {{#each system.skillBonuses as |skillBonus|}}
+            {{#if (gt skillBonus.bonus 0)}}+{{/if}}{{skillBonus.bonus}} {{#if (eq skillBonus.skill "accuracy")}}ACCURACY{{else if (eq skillBonus.skill "evasion")}}EVASION{{else if (eq skillBonus.skill "strength")}}FORÇA{{else if (eq skillBonus.skill "dexterity")}}DESTREZA{{else if (eq skillBonus.skill "stamina")}}STAMINA{{else if (eq skillBonus.skill "stealth")}}STEALTH{{else if (eq skillBonus.skill "persuasion")}}PERSUASION{{else if (eq skillBonus.skill "intelligence")}}INTELIGÊNCIA{{else if (eq skillBonus.skill "psionics")}}PSIÔNICOS{{else}}{{skillBonus.skill}}{{/if}}{{#unless @last}} ・ {{/unless}}
+          {{/each}}
+        </div>
       </div>
       {{/if}}
+
+      {{!-- Weapon Properties and Magical Artifact with Detailed Descriptions (Left Aligned) --}}
+      <div class="weapon-detailed-properties">
+        
+        {{!-- Magical Artifact with Description --}}
+        {{#if system.magicalArtifact}}
+        <div class="property-detail-line">
+          ◆ 🌀Artefato ‣ Relíquia Arcana, que pode ser usado para canalizar feitiços.
+        </div>
+        {{/if}}
+        
+        {{!-- Weapon Properties with Detailed Descriptions --}}
+        {{#each system.properties as |property|}}
+        {{#if property}}
+        <div class="property-detail-line">
+          ◆ {{#if (eq property "afiado")}}Afiado ‣ Aumenta a chance crítica em 1, tornando mais fácil dobrar o dano causado.{{/if}}{{#if (eq property "ambidestria")}}Ambidestria ‣ Pode empunhar uma arma com esta propriedade em cada mão sem a regra de Desvantagem.{{/if}}{{#if (eq property "duelar")}}Duelar ‣ Após evadir criticamente, seu próximo ataque causará ¹Desarmado, e em embates seu resultado de Precisão tem prioridade.{{/if}}{{#if (eq property "vorpal")}}Vorpal ‣ Ao ser empunhado em duas mãos causa +4 de dano físico adicional.{{/if}}{{#if (eq property "impacto")}}Impacto ‣ Acerto crítico aplica ¹Fratura.{{/if}}{{#if (eq property "ferir")}}Ferir ‣ Acerto crítico aplica Sangramento por 1h.{{/if}}{{#if (eq property "perfurar")}}Perfurar ‣ Acerto crítico ignora 1d12 de armadura do alvo.{{/if}}{{#if (eq property "extensao")}}Extensão ‣ Possui +3m de alcance.{{/if}}{{#if (eq property "traspassar")}}Traspassar ‣ Acerto crítico aplica ¹Enfraquecido.{{/if}}{{#if (eq property "contundente")}}Contundente ‣ Acerto crítico aplica ¹Caído.{{/if}}{{#if (eq property "pente")}}Pente ‣ Determina quantas Munições uma Arma de Fogo suporta. Inicialmente armas de pólvora negra só podem realizar um único disparo.{{/if}}{{#if (eq property "recarga")}}Recarga ‣ Ataques com esta arma cobram uma ação de recarga ao disparar a última munição do Pente. Com uma Ação Simples você pode recarregar até duas Armas Leves ou apenas uma Arma Pesada.{{/if}}{{#if (eq property "dosedupla")}}Dose Dupla ‣ Acerto crítico permite realizar um ataque extra neste turno.{{/if}}{{#if (eq property "saquerapido")}}Saque Rápido ‣ Seu primeiro ataque contra um alvo possui Vantagem.{{/if}}{{#if (eq property "bomba")}}Bomba ‣ Explode em uma área 7x7, causando o dano da arma a todos no alcance e aplica 2 Fraturas e ¹Incendiado ou outras condições dependendo do tipo de bomba. Um personagem dentro da área de explosão pode rolar Vigor para receber apenas metade do dano de arma, mas não pode evitar receber a condição negativa da bomba.{{/if}}{{#if (eq property "unico")}}Único ‣ Este item se destrói permanentemente após o uso.{{/if}}{{#if (eq property "disparodividido")}}Disparo Dividido ‣ Em um único acerto pode gastar duas munições para acertar dois alvos próximos (máximo 4m de distância) um do outro.{{/if}}{{#if (eq property "discreto")}}Discreto ‣ Após realizar um ataque furtivo com esta arma pode rolar um teste de Furtividade com Vantagem para retomar o estado furtivo.{{/if}}{{#if (eq property "queimaroupa")}}Queima-Roupa ‣ Acertar um alvo adjacente à você (no espaço à sua frente) causa dano dobrado garantido. Possui Desvantagem ao disparar há mais de 6m do alvo.{{/if}}{{#if (eq property "colateral")}}Colateral ‣ Dissipa metade do dano à alvos adjacentes (1m) ao alvo acertado por esta arma.{{/if}}{{#if (eq property "incendiar")}}Incendiar ‣ Seus acertos aplicam Incendiado por duas rodadas.{{/if}}{{#if (eq property "eletrocutar")}}Eletrocutar ‣ Seus acertos críticos aplicam Eletrocutado.{{/if}}{{#unless (or (eq property "afiado") (eq property "ambidestria") (eq property "duelar") (eq property "vorpal") (eq property "impacto") (eq property "ferir") (eq property "perfurar") (eq property "extensao") (eq property "traspassar") (eq property "contundente") (eq property "pente") (eq property "recarga") (eq property "dosedupla") (eq property "saquerapido") (eq property "bomba") (eq property "unico") (eq property "disparodividido") (eq property "discreto") (eq property "queimaroupa") (eq property "colateral") (eq property "incendiar") (eq property "eletrocutar"))}}{{property}} ‣ Propriedade personalizada.{{/unless}}
+        </div>
+        {{/if}}
+        {{/each}}
+        
+      </div>
       
     </div>
     

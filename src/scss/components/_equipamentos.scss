@@ -197,13 +197,13 @@
   }
   
   // -----------------------------------------
-  // Weapon name hover styles - no underline like effects
+  // Weapon name hover styles - clickable for expand/collapse + tooltip
   .weapon-name-hover {
-    cursor: default;
+    cursor: pointer;
     transition: color 0.2s ease;
     
     &:hover {
-      color: $c-beige;
+      color: #d4d2c8; // Slightly lighter version of $c-beige for better visibility
       // Explicitly no underline - this is the key difference from effects
       text-decoration: none;
     }
@@ -483,33 +483,6 @@
         }
       }
       
-      // Skill Bonuses (Centered)
-      .weapon-skill-bonuses-center {
-        text-align: center;
-        color: $c-black;
-        font-size: 12px;
-        margin: 2px 0;
-        
-        i {
-          color: $c-black;
-          margin-right: 4px;
-        }
-        
-        strong {
-          color: $c-black;
-          margin-right: 4px;
-        }
-        
-        .skill-bonus {
-          background: rgba(255, 255, 255, 0.1);
-          padding: 2px 6px;
-          border-radius: 3px;
-          color: $c-black;
-          margin: 0 2px;
-          font-size: 11px;
-        }
-      }
-      
       // Description (Centered below durability)
       .weapon-description-center {
         text-align: center;
@@ -524,6 +497,49 @@
           &:last-child {
             margin-bottom: 0;
           }
+        }
+      }
+
+      // Damage Formula Detail (Centered below description)
+      .weapon-damage-formula-center {
+        text-align: center;
+        color: $c-black;
+        font-size: 11px;
+        margin: 8px 0 6px 0;
+        font-weight: bold;
+        font-family: monospace;
+        
+        .damage-formula-text {
+          background: rgba(0, 0, 0, 0.2);
+          padding: 2px 6px;
+          border-radius: 3px;
+          border: 1px solid rgba(201, 199, 184, 0.3);
+        }
+      }
+
+      // Weapon Properties Bonuses (Centered below damage formula)
+      .weapon-properties-bonuses-center {
+        text-align: center;
+        margin: 8px 0;
+        
+        .properties-title {
+          color: $c-black;
+          font-size: 12px;
+          font-weight: bold;
+          margin-bottom: 4px;
+          letter-spacing: 0.5px;
+        }
+        
+        .properties-bonuses {
+          color: $c-black;
+          font-size: 11px;
+          font-weight: bold;
+          font-family: monospace;
+          background: rgba(0, 0, 0, 0.1);
+          padding: 3px 8px;
+          border-radius: 3px;
+          border: 1px solid rgba(201, 199, 184, 0.2);
+          display: inline-block;
         }
       }
     }
@@ -547,6 +563,23 @@
             margin-bottom: 0;
           }
         }
+      }
+    }
+    
+    // Weapon Detailed Properties (New Format with Descriptions)
+    .weapon-detailed-properties {
+      margin-top: 8px;
+      
+      .property-detail-line {
+        color: $c-black;
+        font-size: 18px;
+        line-height: 1.5;
+        margin: 4px 0;
+        text-align: left;
+        padding: 2px 0;
+        
+        // Remove any bold styling for a cleaner look matching the image
+        font-weight: normal;
       }
     }
   }
