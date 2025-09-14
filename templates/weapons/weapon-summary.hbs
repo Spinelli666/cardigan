@@ -1,0 +1,114 @@
+{{!-- Weapon Summary Template --}}
+{{!-- Based on D&D5e item-summary structure with Vertical Centered Layout --}}
+<div class="weapon-summary">
+  <div class="summary-content">
+    
+    {{!-- Weapon Type and Weight Properties (Top Right Corner) --}}
+    <div class="weapon-properties-top-right">
+      {{#if system.melee}}
+        {{#if system.ranged}}
+          <i class="fas fa-fist-raised"></i><span class="separator">/</span><i class="fas fa-bullseye"></i>
+        {{else}}
+          <i class="fas fa-fist-raised"></i>
+        {{/if}}
+      {{else if system.ranged}}
+        <i class="fas fa-bullseye"></i>
+      {{else}}
+        <i class="fas fa-question" style="opacity: 0.5;"></i>
+      {{/if}}
+      <span class="property-separator">&nbsp;</span>
+      <i class="fas fa-backpack"></i>
+      <span class="weight-text">{{#if (eq system.weight "leve")}}Leve{{else}}Pesado{{/if}}</span>
+    </div>
+    
+    {{!-- Vertical Centered Layout --}}
+    <div class="weapon-vertical-layout">
+      
+      {{!-- Weapon Image (Centered) --}}
+      <div class="weapon-image-center">
+        <img src="{{item.img}}" alt="{{item.name}}" width="48" height="48">
+      </div>
+      
+      {{!-- Weapon Name (Centered below image) --}}
+      <div class="weapon-name-center">
+        <h4>{{item.name}}</h4>
+      </div>
+      
+      {{!-- Weapon Type (Centered below name) --}}
+      {{#if system.weaponType}}
+      <div class="weapon-type-center">
+        <em>{{system.weaponType}}</em>
+      </div>
+      {{/if}}
+      
+      {{!-- Statistics Row: Dano e Munição na mesma linha (Centered) --}}
+      <div class="weapon-stats-row">
+        {{!-- Damage --}}
+        <div class="weapon-damage">
+          <i class="fas fa-sword"></i>
+          {{system.damage.value}}
+          {{#if system.damage.calculated}}
+          [{{system.damage.calculated}}]
+          {{/if}}
+        </div>
+        
+        {{!-- Ammunition (only for ranged weapons) --}}
+        {{#if system.ranged}}
+        <div class="weapon-ammunition">
+          <i class="fas fa-circle"></i>
+          {{#if system.isFirearm}}
+          {{system.ammunition.current}}/{{system.ammunition.max}}
+          {{else}}
+          {{system.ammunition.current}}
+          {{/if}}
+        </div>
+        {{/if}}
+      </div>
+      
+      {{!-- Durability (Centered below stats row) --}}
+      {{#if system.durability.max}}
+      <div class="weapon-durability-center">
+        <i class="fas fa-hammer"></i>
+        {{system.durability.current}}/{{system.durability.max}}
+      </div>
+      {{/if}}
+      
+      {{!-- Description (Centered below durability) --}}
+      {{#if enrichedDescription}}
+      <div class="weapon-description-center">
+        {{{enrichedDescription}}}
+      </div>
+      {{/if}}
+
+      {{!-- Magical Artifact (Centered) --}}
+      {{#if system.magicalArtifact}}
+      <div class="weapon-artifact-center">
+        <i class="fas fa-sparkles"></i>
+        <strong>Artefato Mágico</strong>
+      </div>
+      {{/if}}      {{!-- Weapon Properties (Centered) --}}
+      {{#if system.properties}}
+      <div class="weapon-properties-center">
+        <i class="fas fa-cogs"></i>
+        <strong>Propriedades:</strong>
+        {{#each system.properties as |property|}}
+        <span class="property-tag">{{property}}</span>{{#unless @last}}, {{/unless}}
+        {{/each}}
+      </div>
+      {{/if}}
+      
+      {{!-- Skill Bonuses (Centered) --}}
+      {{#if system.skillBonuses}}
+      <div class="weapon-skill-bonuses-center">
+        <i class="fas fa-plus-circle"></i>
+        <strong>Bônus de Perícia:</strong>
+        {{#each system.skillBonuses as |bonus skill|}}
+        <span class="skill-bonus">{{skill}} [{{#if (gt bonus 0)}}+{{/if}}{{bonus}}]</span>{{#unless @last}}, {{/unless}}
+        {{/each}}
+      </div>
+      {{/if}}
+      
+    </div>
+    
+  </div>
+</div>

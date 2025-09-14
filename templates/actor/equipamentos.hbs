@@ -43,11 +43,14 @@
     </li>
     {{#each armas as |item id|}}
       <li
-        class='item flexrow'
+        class='item collapsible collapsed'
         data-item-id='{{item._id}}'
+        data-uuid='{{item.uuid}}'
         data-drag='true'
         data-document-class='Item'
       >
+        {{!-- Item Row Summary --}}
+        <div class="item-row flexrow">
         <div class='item-formula item-prop'>
           {{#if item.system.rightHand}}
             {{#if item.system.leftHand}}
@@ -175,12 +178,25 @@
         </div>
         <div class='item-controls'>
           {{#if @root.editable}}
+            {{!-- Expand/Collapse Button --}}
+            <button type="button" class="unbutton item-control always-interactive" data-action="toggleExpand"
+                    data-tooltip="Expandir Detalhes" data-tooltip-direction="UP">
+              <i class="fa-solid fa-expand" inert></i>
+            </button>
             {{!-- Context Menu Button (Three Dots) --}}
             <button type="button" class="unbutton item-control always-interactive" data-context-menu
                     data-tooltip="Opções Adicionais" data-tooltip-direction="UP">
               <i class="fa-solid fa-ellipsis-vertical" inert></i>
             </button>
           {{/if}}
+        </div>
+        </div>
+        
+        {{!-- Expandable Description --}}
+        <div class="item-description">
+          <div class="wrapper">
+            {{!-- Expanded content will be loaded here dynamically --}}
+          </div>
         </div>
       </li>
     {{/each}}

@@ -243,6 +243,313 @@
       pointer-events: none;
     }
   }
+
+  // -----------------------------------------
+  // Expand/Collapse System for Equipment Tab (Based on D&D5e)
+  // -----------------------------------------
+  
+  .items-list {
+    .item.collapsible {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      
+      .item-row {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        
+        // Ensure flexrow behavior for the row content
+        &.flexrow {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+      
+      .item-description {
+        width: 100%;
+        display: block;
+        transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+        overflow: hidden;
+        
+        .wrapper {
+          padding: 0;
+          width: 100%;
+        }
+      }
+      
+      // Collapsed state - hide the description
+      &.collapsed .item-description {
+        max-height: 0;
+        opacity: 0;
+        padding: 0;
+        margin: 0;
+        
+        .wrapper {
+          padding: 0;
+        }
+      }
+      
+      // Expanded state - show the description
+      &:not(.collapsed) .item-description {
+        max-height: 1000px; // Increase max height for more content
+        opacity: 1;
+        padding: 0; // Remove padding from container
+        margin: 0;
+        
+        .wrapper {
+          padding: 12px 8px; // Add padding to wrapper instead
+          margin-top: 10px; // Add spacing from the weapon row
+        }
+      }
+    }
+  }
+
+  // -----------------------------------------
+  // Weapon Summary Styles for Equipment Tab - VERTICAL CENTERED LAYOUT
+  // -----------------------------------------
+  
+  .weapon-summary {
+    padding: 12px;
+    
+    .summary-content {
+      color: $c-black;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    
+    .weapon-properties-top-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      color: $c-black;
+      
+      i {
+        color: var(--cardigan-c-beige);
+        margin-right: 2px;
+        
+        &.fa-fist-raised {
+          color: #ff6b6b; // Red for melee
+        }
+        
+        &.fa-bullseye {
+          color: #4ecdc4; // Cyan for ranged
+        }
+      }
+      
+      .separator {
+        margin: 0 2px;
+        color: $c-black;
+      }
+      
+      .property-separator {
+        margin: 0 4px;
+        color: $c-black;
+      }
+      
+      .weight-text {
+        margin-left: 2px;
+        color: $c-black;
+        font-size: 11px;
+      }
+    }
+
+    // -----------------------------------------
+    // VERTICAL CENTERED LAYOUT
+    // -----------------------------------------
+    
+    .weapon-vertical-layout {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+      
+      // Weapon Image (Centered at top)
+      .weapon-image-center {
+        margin-bottom: 4px;
+        
+        img {
+          width: 48px;
+          height: 48px;
+          border-radius: 4px;
+          border: 2px solid $c-black;
+          background: rgba(0, 0, 0, 0.3);
+        }
+      }
+      
+      // Weapon Name (Centered below image)
+      .weapon-name-center {
+        h4 {
+          color: $c-black;
+          font-size: 16px;
+          font-weight: bold;
+          margin: 0;
+          text-align: center;
+        }
+      }
+      
+      // Weapon Type (Centered below name)
+      .weapon-type-center {
+        em {
+          color: $c-black;
+          font-style: italic;
+          font-size: 13px;
+        }
+      }
+      
+      // Statistics Row: Dano e Munição na mesma linha
+      .weapon-stats-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin: 4px 0;
+        
+        .weapon-damage,
+        .weapon-ammunition {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          color: $c-black;
+          font-size: 13px;
+          
+          i {
+            color: $c-black;
+            width: 14px;
+          }
+        }
+      }
+      
+      // Durability (Centered below stats row)
+      .weapon-durability-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        color: $c-black;
+        font-size: 13px;
+        
+        i {
+          color: $c-black;
+          width: 14px;
+        }
+      }
+      
+      // Magical Artifact (Centered)
+      .weapon-artifact-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        color: #ffd700;
+        font-size: 13px;
+        margin: 2px 0;
+        
+        i {
+          color: #ffd700;
+        }
+        
+        strong {
+          color: #ffd700;
+        }
+      }
+      
+      // Weapon Properties (Centered)
+      .weapon-properties-center {
+        text-align: center;
+        color: $c-black;
+        font-size: 12px;
+        margin: 2px 0;
+        
+        i {
+          color: $c-black;
+          margin-right: 4px;
+        }
+        
+        strong {
+          color: $c-black;
+          margin-right: 4px;
+        }
+        
+        .property-tag {
+          background: rgba(255, 255, 255, 0.1);
+          padding: 2px 6px;
+          border-radius: 3px;
+          color: $c-black;
+          margin: 0 2px;
+          font-size: 11px;
+        }
+      }
+      
+      // Skill Bonuses (Centered)
+      .weapon-skill-bonuses-center {
+        text-align: center;
+        color: $c-black;
+        font-size: 12px;
+        margin: 2px 0;
+        
+        i {
+          color: $c-black;
+          margin-right: 4px;
+        }
+        
+        strong {
+          color: $c-black;
+          margin-right: 4px;
+        }
+        
+        .skill-bonus {
+          background: rgba(255, 255, 255, 0.1);
+          padding: 2px 6px;
+          border-radius: 3px;
+          color: $c-black;
+          margin: 0 2px;
+          font-size: 11px;
+        }
+      }
+      
+      // Description (Centered below durability)
+      .weapon-description-center {
+        text-align: center;
+        color: $c-black;
+        font-size: 12px;
+        margin: 6px 0;
+        line-height: 1.5;
+        
+        p {
+          margin-bottom: 4px;
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+
+    // Keep description at the bottom
+    .weapon-description {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 8px;
+      margin-top: 8px;
+      text-align: left; // Description should remain left-aligned
+      
+      .description-content {
+        color: $c-black;
+        line-height: 1.5;
+        font-size: 12px;
+        
+        p {
+          margin-bottom: 8px;
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
 }
 
 // -----------------------------------------
@@ -459,6 +766,240 @@
         font-size: 12px;
         line-height: 1.3;
         display: block;
+      }
+    }
+  }
+  
+  // -----------------------------------------
+  // Expand/Collapse System (Based on D&D5e)
+  // -----------------------------------------
+  
+  .items-list {
+    .item.collapsible {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      
+      .item-row {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        
+        // Ensure flexrow behavior for the row content
+        &.flexrow {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+      
+      .item-description {
+        width: 100%;
+        display: block;
+        transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+        overflow: hidden;
+        
+        .wrapper {
+          padding: 0;
+          width: 100%;
+        }
+      }
+      
+      // Collapsed state - hide the description
+      &.collapsed .item-description {
+        max-height: 0;
+        opacity: 0;
+        padding: 0;
+        margin: 0;
+        
+        .wrapper {
+          padding: 0;
+        }
+      }
+      
+      // Expanded state - show the description
+      &:not(.collapsed) .item-description {
+        max-height: 1000px; // Increase max height for more content
+        opacity: 1;
+        padding: 0; // Remove padding from container
+        margin: 0;
+        
+        .wrapper {
+          padding: 12px 8px; // Add padding to wrapper instead
+          margin-top: 10px; // Add spacing from the weapon row
+        }
+      }
+    }
+  }
+  
+  // -----------------------------------------
+  // Weapon Summary Styles
+  // -----------------------------------------
+  
+  .weapon-summary {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    margin: 8px 0;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative; // For positioning the top-right properties
+    
+    .summary-content {
+      color: $c-faint;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    
+    // Top-right weapon properties (like tooltip)
+    .weapon-properties-top-right {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      display: flex;
+      align-items: center;
+      color: $c-faint;
+      font-size: 12px;
+      z-index: 10;
+      
+      i {
+        color: $c-beige;
+        margin-right: 2px;
+        
+        &.fa-fist-raised {
+          color: #ff6b6b; // Red for melee
+        }
+        
+        &.fa-bullseye {
+          color: #4ecdc4; // Cyan for ranged
+        }
+        
+        &.fa-backpack {
+          color: $c-beige;
+          margin-left: 6px;
+          margin-right: 3px;
+        }
+      }
+      
+      .separator {
+        color: $c-faint;
+        margin: 0 2px;
+      }
+      
+      .property-separator {
+        display: inline-block;
+        width: 4px;
+      }
+      
+      .weight-text {
+        color: $c-faint;
+        font-size: 11px;
+      }
+    }
+    
+    .weapon-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+      
+      .weapon-image img {
+        width: 48px;
+        height: 48px;
+        border-radius: 4px;
+        border: 2px solid $c-beige;
+        background: rgba(0, 0, 0, 0.3);
+      }
+      
+      .weapon-basic-info {
+        flex: 1;
+        
+        .weapon-name {
+          color: $c-beige;
+          margin: 0 0 4px 0;
+          font-size: 16px;
+          font-weight: bold;
+        }
+        
+        .weapon-type {
+          color: $c-faint;
+          font-style: italic;
+          margin-bottom: 8px;
+        }
+        
+        .weapon-stats {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-bottom: 6px;
+          
+          > div {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: $c-faint;
+            
+            i {
+              color: $c-beige;
+              width: 14px;
+            }
+            
+            strong {
+              color: $c-faint;
+              font-weight: 600;
+            }
+          }
+        }
+        
+        .weapon-artifact {
+          color: #ffd700;
+          margin: 4px 0;
+          
+          i {
+            color: #ffd700;
+            margin-right: 6px;
+          }
+        }
+        
+        .weapon-properties, .weapon-skill-bonuses {
+          margin: 4px 0;
+          
+          i {
+            color: $c-beige;
+            margin-right: 6px;
+          }
+          
+          strong {
+            color: $c-faint;
+            margin-right: 6px;
+          }
+          
+          .property-tag, .skill-bonus {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            color: $c-beige;
+            margin-right: 4px;
+          }
+        }
+      }
+    }
+    
+    .weapon-description {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 8px;
+      
+      .description-content {
+        color: $c-faint;
+        line-height: 1.5;
+        
+        p {
+          margin-bottom: 8px;
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
       }
     }
   }

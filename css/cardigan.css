@@ -1046,6 +1046,237 @@
   font-size: 12px;
   pointer-events: none;
 }
+.cardigan .tab.equipamentos .items-list .item.collapsible {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.cardigan .tab.equipamentos .items-list .item.collapsible .item-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.cardigan .tab.equipamentos .items-list .item.collapsible .item-row.flexrow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.cardigan .tab.equipamentos .items-list .item.collapsible .item-description {
+  width: 100%;
+  display: block;
+  transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+  overflow: hidden;
+}
+.cardigan .tab.equipamentos .items-list .item.collapsible .item-description .wrapper {
+  padding: 0;
+  width: 100%;
+}
+.cardigan .tab.equipamentos .items-list .item.collapsible.collapsed .item-description {
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+}
+.cardigan .tab.equipamentos .items-list .item.collapsible.collapsed .item-description .wrapper {
+  padding: 0;
+}
+.cardigan .tab.equipamentos .items-list .item.collapsible:not(.collapsed) .item-description {
+  max-height: 1000px;
+  opacity: 1;
+  padding: 0;
+  margin: 0;
+}
+.cardigan .tab.equipamentos .items-list .item.collapsible:not(.collapsed) .item-description .wrapper {
+  padding: 12px 8px;
+  margin-top: 10px;
+}
+.cardigan .tab.equipamentos .weapon-summary {
+  padding: 12px;
+}
+.cardigan .tab.equipamentos .weapon-summary .summary-content {
+  color: var(--cardigan-c-black);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: var(--cardigan-c-black);
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right i {
+  color: var(--cardigan-c-beige);
+  margin-right: 2px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right i.fa-fist-raised {
+  color: #ff6b6b;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right i.fa-bullseye {
+  color: #4ecdc4;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right .separator {
+  margin: 0 2px;
+  color: var(--cardigan-c-black);
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right .property-separator {
+  margin: 0 4px;
+  color: var(--cardigan-c-black);
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right .weight-text {
+  margin-left: 2px;
+  color: var(--cardigan-c-black);
+  font-size: 11px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-image-center {
+  margin-bottom: 4px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-image-center img {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  border: 2px solid var(--cardigan-c-black);
+  background: rgba(0, 0, 0, 0.3);
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-name-center h4 {
+  color: var(--cardigan-c-black);
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-type-center em {
+  color: var(--cardigan-c-black);
+  font-style: italic;
+  font-size: 13px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 4px 0;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-damage,
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-ammunition {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--cardigan-c-black);
+  font-size: 13px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-damage i,
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-ammunition i {
+  color: var(--cardigan-c-black);
+  width: 14px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-durability-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--cardigan-c-black);
+  font-size: 13px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-durability-center i {
+  color: var(--cardigan-c-black);
+  width: 14px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-artifact-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: #ffd700;
+  font-size: 13px;
+  margin: 2px 0;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-artifact-center i {
+  color: #ffd700;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-artifact-center strong {
+  color: #ffd700;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-properties-center {
+  text-align: center;
+  color: var(--cardigan-c-black);
+  font-size: 12px;
+  margin: 2px 0;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-properties-center i {
+  color: var(--cardigan-c-black);
+  margin-right: 4px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-properties-center strong {
+  color: var(--cardigan-c-black);
+  margin-right: 4px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-properties-center .property-tag {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--cardigan-c-black);
+  margin: 0 2px;
+  font-size: 11px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-skill-bonuses-center {
+  text-align: center;
+  color: var(--cardigan-c-black);
+  font-size: 12px;
+  margin: 2px 0;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-skill-bonuses-center i {
+  color: var(--cardigan-c-black);
+  margin-right: 4px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-skill-bonuses-center strong {
+  color: var(--cardigan-c-black);
+  margin-right: 4px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-skill-bonuses-center .skill-bonus {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--cardigan-c-black);
+  margin: 0 2px;
+  font-size: 11px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-description-center {
+  text-align: center;
+  color: var(--cardigan-c-black);
+  font-size: 12px;
+  margin: 6px 0;
+  line-height: 1.5;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-description-center p {
+  margin-bottom: 4px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-description-center p:last-child {
+  margin-bottom: 0;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-description {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 8px;
+  margin-top: 8px;
+  text-align: left;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-description .description-content {
+  color: var(--cardigan-c-black);
+  line-height: 1.5;
+  font-size: 12px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-description .description-content p {
+  margin-bottom: 8px;
+}
+.cardigan .tab.equipamentos .weapon-summary .weapon-description .description-content p:last-child {
+  margin-bottom: 0;
+}
 .cardigan .weapon-properties .properties-header {
   display: flex;
   align-items: center;
@@ -1225,6 +1456,232 @@
   font-size: 12px;
   line-height: 1.3;
   display: block;
+}
+.cardigan .tooltip.cardigan-tooltip .items-list .item.collapsible,
+.cardigan .cardigan-custom-tooltip .items-list .item.collapsible {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.cardigan .tooltip.cardigan-tooltip .items-list .item.collapsible .item-row,
+.cardigan .cardigan-custom-tooltip .items-list .item.collapsible .item-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.cardigan .tooltip.cardigan-tooltip .items-list .item.collapsible .item-row.flexrow,
+.cardigan .cardigan-custom-tooltip .items-list .item.collapsible .item-row.flexrow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.cardigan .tooltip.cardigan-tooltip .items-list .item.collapsible .item-description,
+.cardigan .cardigan-custom-tooltip .items-list .item.collapsible .item-description {
+  width: 100%;
+  display: block;
+  transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+  overflow: hidden;
+}
+.cardigan .tooltip.cardigan-tooltip .items-list .item.collapsible .item-description .wrapper,
+.cardigan .cardigan-custom-tooltip .items-list .item.collapsible .item-description .wrapper {
+  padding: 0;
+  width: 100%;
+}
+.cardigan .tooltip.cardigan-tooltip .items-list .item.collapsible.collapsed .item-description,
+.cardigan .cardigan-custom-tooltip .items-list .item.collapsible.collapsed .item-description {
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+}
+.cardigan .tooltip.cardigan-tooltip .items-list .item.collapsible.collapsed .item-description .wrapper,
+.cardigan .cardigan-custom-tooltip .items-list .item.collapsible.collapsed .item-description .wrapper {
+  padding: 0;
+}
+.cardigan .tooltip.cardigan-tooltip .items-list .item.collapsible:not(.collapsed) .item-description,
+.cardigan .cardigan-custom-tooltip .items-list .item.collapsible:not(.collapsed) .item-description {
+  max-height: 1000px;
+  opacity: 1;
+  padding: 0;
+  margin: 0;
+}
+.cardigan .tooltip.cardigan-tooltip .items-list .item.collapsible:not(.collapsed) .item-description .wrapper,
+.cardigan .cardigan-custom-tooltip .items-list .item.collapsible:not(.collapsed) .item-description .wrapper {
+  padding: 12px 8px;
+  margin-top: 10px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary,
+.cardigan .cardigan-custom-tooltip .weapon-summary {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  margin: 8px 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .summary-content,
+.cardigan .cardigan-custom-tooltip .weapon-summary .summary-content {
+  color: var(--cardigan-c-faint);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-properties-top-right,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-properties-top-right {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  color: var(--cardigan-c-faint);
+  font-size: 12px;
+  z-index: 10;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-properties-top-right i,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-properties-top-right i {
+  color: var(--cardigan-c-beige);
+  margin-right: 2px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-properties-top-right i.fa-fist-raised,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-properties-top-right i.fa-fist-raised {
+  color: #ff6b6b;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-properties-top-right i.fa-bullseye,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-properties-top-right i.fa-bullseye {
+  color: #4ecdc4;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-properties-top-right i.fa-backpack,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-properties-top-right i.fa-backpack {
+  color: var(--cardigan-c-beige);
+  margin-left: 6px;
+  margin-right: 3px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-properties-top-right .separator,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-properties-top-right .separator {
+  color: var(--cardigan-c-faint);
+  margin: 0 2px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-properties-top-right .property-separator,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-properties-top-right .property-separator {
+  display: inline-block;
+  width: 4px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-properties-top-right .weight-text,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-properties-top-right .weight-text {
+  color: var(--cardigan-c-faint);
+  font-size: 11px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-image img,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-image img {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  border: 2px solid var(--cardigan-c-beige);
+  background: rgba(0, 0, 0, 0.3);
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info {
+  flex: 1;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-name,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-name {
+  color: var(--cardigan-c-beige);
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-type,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-type {
+  color: var(--cardigan-c-faint);
+  font-style: italic;
+  margin-bottom: 8px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-stats,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-stats > div,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-stats > div {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--cardigan-c-faint);
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-stats > div i,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-stats > div i {
+  color: var(--cardigan-c-beige);
+  width: 14px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-stats > div strong,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-stats > div strong {
+  color: var(--cardigan-c-faint);
+  font-weight: 600;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-artifact,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-artifact {
+  color: #ffd700;
+  margin: 4px 0;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-artifact i,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-artifact i {
+  color: #ffd700;
+  margin-right: 6px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-properties, .cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-skill-bonuses,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-properties,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-skill-bonuses {
+  margin: 4px 0;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-properties i, .cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-skill-bonuses i,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-properties i,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-skill-bonuses i {
+  color: var(--cardigan-c-beige);
+  margin-right: 6px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-properties strong, .cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-skill-bonuses strong,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-properties strong,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-skill-bonuses strong {
+  color: var(--cardigan-c-faint);
+  margin-right: 6px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-properties .property-tag, .cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-properties .skill-bonus, .cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-skill-bonuses .property-tag, .cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-skill-bonuses .skill-bonus,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-properties .property-tag,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-properties .skill-bonus,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-skill-bonuses .property-tag,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-header .weapon-basic-info .weapon-skill-bonuses .skill-bonus {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: var(--cardigan-c-beige);
+  margin-right: 4px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-description,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-description {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 8px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-description .description-content,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-description .description-content {
+  color: var(--cardigan-c-faint);
+  line-height: 1.5;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-description .description-content p,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-description .description-content p {
+  margin-bottom: 8px;
+}
+.cardigan .tooltip.cardigan-tooltip .weapon-summary .weapon-description .description-content p:last-child,
+.cardigan .cardigan-custom-tooltip .weapon-summary .weapon-description .description-content p:last-child {
+  margin-bottom: 0;
 }
 .cardigan .character-details-container {
   display: flex;

@@ -20,6 +20,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       isOpen: false,
       focusedInput: null
     };
+    
+    // Track expanded sections for items (similar to D&D5e)
+    this.expandedSections = new Map();
   }
 
   /** @override */
@@ -38,6 +41,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       createDoc: this._createDoc,
       editDoc: this._editDoc,
       deleteDoc: this._deleteDoc,
+      toggleExpand: this._onToggleExpand,
       roll: this._onRoll,
       rollDeathDie: this._onRollDeathDie,
       resetGiftOfLife: this._onResetGiftOfLife,
@@ -2191,6 +2195,74 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     });
 
     return roll;
+  }
+
+  /**
+   * Handle toggling the expand/collapse state of an item
+   * Based on D&D5e implementation
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onToggleExpand(event, target) {
+    event.preventDefault();
+    
+    const icon = target.querySelector(":scope > i");
+    const row = target.closest("[data-uuid]") || target.closest("[data-item-id]");
+    
+    if (!row) {
+      console.warn("Could not find item row for expand toggle");
+      return;
+    }
+    
+    const summary = row.querySelector(":scope > .item-description > .wrapper");
+    const itemId = row.dataset.itemId;
+    const item = this.document.items.get(itemId);
+    
+    if (!item || !summary) {
+      console.warn("Could not find item or summary wrapper");
+      return;
+    }
+    
+    const expanded = this.expandedSections.get(itemId);
+    
+    if (expanded) {
+      // Collapse
+      this.expandedSections.set(itemId, false);
+      summary.querySelector(".weapon-summary")?.remove();
+    } else {
+      // Expand
+      try {
+        // Get weapon data for summary
+        const context = {
+          item: item,
+          system: item.system,
+          enrichedDescription: await TextEditor.enrichHTML(item.system.description || "", {
+            secrets: item.isOwner,
+            documents: true,
+            links: true,
+            rolls: true,
+            rollData: item.getRollData?.() || {}
+          })
+        };
+        
+        const template = "systems/cardigan/templates/weapons/weapon-summary.hbs";
+        const content = await foundry.applications.handlebars.renderTemplate(template, context);
+        summary.insertAdjacentHTML("beforeend", content);
+        this.expandedSections.set(itemId, true);
+      } catch (error) {
+        console.error("Error creating weapon summary:", error);
+        return;
+      }
+    }
+    
+    // Update CSS classes and icon
+    row.classList.toggle("collapsed", expanded);
+    icon.classList.toggle("fa-compress", !expanded);
+    icon.classList.toggle("fa-expand", expanded);
+    
+    // Update tooltip text
+    target.setAttribute("data-tooltip", !expanded ? "Colapsar Detalhes" : "Expandir Detalhes");
   }
 
   /**
