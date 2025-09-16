@@ -1,0 +1,342 @@
+// -----------------------------------------
+// Hand Selection Dialog Styles
+// -----------------------------------------
+.hand-selection-dialog {
+  .dialog-header {
+    text-align: center;
+    margin-bottom: 20px;
+    
+    h2 {
+      color: $c-beige;
+      font-size: 1.2em;
+      margin-bottom: 8px;
+    }
+    
+    p {
+      color: $c-beige;
+      font-size: 0.95em;
+      line-height: 1.4;
+    }
+  }
+  
+  .dialog-content {
+    .hand-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .hand-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 2px solid #444;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover, &.hovered {
+        border-color: $c-beige;
+        background: rgba($c-beige, 0.1);
+        transform: translateY(-2px);
+      }
+      
+      .hand-icon {
+        font-size: 1.5em;
+        color: $c-beige;
+        width: 40px;
+        text-align: center;
+      }
+      
+      .hand-label {
+        font-weight: bold;
+        color: $c-beige;
+        font-size: 1em;
+        min-width: 100px;
+      }
+      
+      .hand-description {
+        color: rgba($c-beige, 0.8);
+        font-size: 0.9em;
+        flex: 1;
+      }
+    }
+  }
+  
+  .dialog-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    
+    .dialog-button {
+      padding: 8px 16px;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.5);
+      color: $c-beige;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        border-color: $c-beige;
+        background: rgba($c-beige, 0.1);
+      }
+      
+      i {
+        margin-right: 6px;
+      }
+    }
+  }
+}
+
+// -----------------------------------------
+// Item Type Selection Dialog Styles
+// -----------------------------------------
+
+.item-type-selection {
+  .window-content {
+    padding: 0;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+    border-radius: 8px;
+  }
+
+  .item-type-selection-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .modal-header {
+      background: linear-gradient(135deg, #333 0%, #222 100%);
+      border-bottom: 2px solid $c-beige;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+
+      h2 {
+        margin: 0;
+        color: $c-beige;
+        font-size: 20px;
+        font-weight: 600;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    .modal-body {
+      flex: 1;
+      padding: 25px;
+
+      .description {
+        color: $c-beige;
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 14px;
+        opacity: 0.9;
+        line-height: 1.4;
+      }
+
+      .item-type-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        max-width: 100%;
+
+        .item-type-option {
+          background: linear-gradient(135deg, #333 0%, #222 100%);
+          border: 2px solid #555;
+          border-radius: 8px;
+          padding: 20px 15px;
+          color: $c-beige;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.3s ease;
+          min-height: 100px;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+
+          &:hover {
+            background: linear-gradient(135deg, #444 0%, #333 100%);
+            border-color: $c-beige;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+          }
+
+          &:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+          }
+
+          &:focus {
+            outline: none;
+            border-color: $c-beige;
+            box-shadow: 0 0 0 3px rgba(201, 199, 184, 0.3);
+          }
+
+          .item-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+          }
+
+          .item-label {
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 4px;
+          }
+
+          .item-description {
+            font-size: 11px;
+            opacity: 0.7;
+            text-align: center;
+            line-height: 1.2;
+            font-style: italic;
+          }
+
+          // Icon colors for different item types
+          &[data-type="arma"] {
+            .item-icon {
+              color: #ff6b6b;
+            }
+            &:hover .item-icon {
+              color: #ff5252;
+              text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+            }
+          }
+          
+          &[data-type="feature"] {
+            .item-icon {
+              color: #ffd93d;
+            }
+            &:hover .item-icon {
+              color: #ffcd02;
+              text-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+            }
+          }
+          
+          &[data-type="spell"] {
+            .item-icon {
+              color: #6c5ce7;
+            }
+            &:hover .item-icon {
+              color: #5f3dc4;
+              text-shadow: 0 0 10px rgba(108, 92, 231, 0.5);
+            }
+          }
+          
+          &[data-type="efeito"] {
+            .item-icon {
+              color: #a29bfe;
+            }
+            &:hover .item-icon {
+              color: #8b82fb;
+              text-shadow: 0 0 10px rgba(162, 155, 254, 0.5);
+            }
+          }
+          
+          &[data-type="gear"] {
+            .item-icon {
+              color: #4ecdc4;
+            }
+            &:hover .item-icon {
+              color: #26d0ce;
+              text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+            }
+          }
+
+          // Hover glow effect
+          &:hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(201, 199, 184, 0.1) 0%, transparent 100%);
+            border-radius: 6px;
+            pointer-events: none;
+          }
+        }
+      }
+    }
+
+    .modal-footer {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+      border-top: 1px solid #444;
+      padding: 15px 25px;
+      text-align: center;
+      border-radius: 0 0 8px 8px;
+
+      .cancel-button {
+        background: linear-gradient(135deg, #555 0%, #444 100%);
+        border: 1px solid #666;
+        color: $c-beige;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        &:hover {
+          background: linear-gradient(135deg, #666 0%, #555 100%);
+          border-color: #777;
+        }
+
+        &:active {
+          transform: translateY(1px);
+        }
+
+        i {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  // Override default dialog styles
+  &.dialog {
+    .window-header {
+      background: linear-gradient(135deg, #333 0%, #222 100%);
+      border-bottom: 2px solid $c-beige;
+      
+      .window-title {
+        color: $c-beige;
+        font-weight: 600;
+      }
+
+      .header-button {
+        color: $c-beige;
+        
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 600px) {
+  .item-type-selection {
+    .modal-body .item-type-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      
+      .item-type-option {
+        min-height: 80px;
+        padding: 15px;
+      }
+    }
+  }
+}

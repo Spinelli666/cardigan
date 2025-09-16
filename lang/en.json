@@ -6,21 +6,123 @@
       "EfeitosNegativos": "Negative Effects"
     },
     "Ability": {
-      "Accuracy": { "long": "Accuracy", "abbr": "acc" },
-      "Evasion": { "long": "Evasion", "abbr": "eva" },
-      "Strength": { "long": "Strength", "abbr": "str" },
-      "Dexterity": { "long": "Dexterity", "abbr": "dex" },
-      "Stamina": { "long": "Stamina", "abbr": "sta" },
-      "Stealth": { "long": "Stealth", "abbr": "ste" },
-      "Persuasion": { "long": "Persuasion", "abbr": "per" },
-      "Intelligence": { "long": "Intelligence", "abbr": "int" },
-      "Psionics": { "long": "Psionics", "abbr": "psi" }
+      "Accuracy": {
+        "long": "Accuracy",
+        "abbr": "acc"
+      },
+      "Evasion": {
+        "long": "Evasion", 
+        "abbr": "eva"
+      },
+      "Strength": {
+        "long": "Strength",
+        "abbr": "str"
+      },
+      "Dexterity": {
+        "long": "Dexterity",
+        "abbr": "dex"
+      },
+      "Stamina": {
+        "long": "Stamina",
+        "abbr": "sta"
+      },
+      "Stealth": {
+        "long": "Stealth",
+        "abbr": "ste"
+      },
+      "Persuasion": {
+        "long": "Persuasion",
+        "abbr": "per"
+      },
+      "Intelligence": {
+        "long": "Intelligence",
+        "abbr": "int"
+      },
+      "Psionics": {
+        "long": "Psionics",
+        "abbr": "psi"
+      }
     },
     "SheetLabels": {
       "Actor": "CardiganSystem Actor Sheet",
       "Item": "CardiganSystem Item Sheet"
     },
+    "base": {
+      "FIELDS": {
+        "biography": {
+          "label": "Biography"
+        },
+        "health": {
+          "value": {
+            "label": "Health"
+          },
+          "max": {
+            "label": "Maximum Health"
+          }
+        },
+        "power": {
+          "value": {
+            "label": "Energy"
+          },
+          "max": {
+            "label": "Maximum Energy"
+          }
+        },
+        "sanity": {
+          "value": {
+            "label": "Sanity"
+          },
+          "max": {
+            "label": "Maximum Sanity"
+          }
+        },
+        "details": {
+          "name": {
+            "label": "Name"
+          },
+          "age": {
+            "label": "Age"
+          },
+          "race": {
+            "label": "Race"
+          },
+          "movement": {
+            "label": "Movement"
+          },
+          "criticalHit": {
+            "label": "Critical Hit"
+          },
+          "additionalNotes": {
+            "label": "Additional Notes"
+          }
+        }
+      }
+    },
     "Actor": {
+      "base": {
+        "FIELDS": {
+          "details": {
+            "name": {
+              "label": "Name"
+            },
+            "age": {
+              "label": "Age"
+            },
+            "race": {
+              "label": "Race"
+            },
+            "movement": {
+              "label": "Movement"
+            },
+            "criticalHit": {
+              "label": "Critical Hit"
+            },
+            "additionalNotes": {
+              "label": "Additional Notes"
+            }
+          }
+        }
+      },
       "Tabs": {
         "Biography": "Biography",
         "Features": "Features",
@@ -28,41 +130,22 @@
         "Spells": "Spells",
         "Equipamentos": "Equipment"
       },
-      "base": {
-        "FIELDS": {
-          "biography": {"label": "Biography"},
-          "health": {
-            "value": {"label": "Health"},
-            "max": {"label": "Maximum Health"}
-          },
-          "power": {
-            "value": {"label": "Energy"},
-            "max": {"label": "Maximum Energy"}
-          },
-          "sanity": {
-            "value": {"label": "Sanity"},
-            "max": {"label": "Maximum Sanity"}
-          },
-          "details": {
-            "name": {"label": "Name"},
-            "age": {"label": "Age"},
-            "race": {"label": "Race"},
-            "movement": {"label": "Movement"},
-            "criticalHit": {"label": "Critical Hit"},
-            "additionalNotes": {"label": "Additional Notes"}
-          }
-        }
-      },
       "Character": {
         "FIELDS": {
-          "attributes.level.value": {"label": "Level"}
+          "attributes.level.value": {
+            "label": "Level"
+          }
         }
       },
       "NPC": {
         "FIELDS": {
-          "cr": {"label": "CR"}
+          "cr": {
+            "label": "CR"
+          }
         },
-        "xp": {"label": "XP"}
+        "xp": {
+          "label": "XP"
+        }
       }
     },
     "Item": {
@@ -74,17 +157,31 @@
       },
       "Gear": {
         "FIELDS": {
-          "rollFormula": {"label": "Roll Formula"},
-          "numDice": {"label": "Number of Dice"},
-          "dieSize": {"label": "Die Size"},
-          "rollMod": {"label": "Roll Modifier"},
-          "quantity": {"label": "Quantity"},
-          "weight": {"label": "Weight"}
+          "rollFormula": {
+            "label": "Roll Formula"
+          },
+          "numDice": {
+            "label": "Number of Dice"
+          },
+          "dieSize": {
+            "label": "Die Size"
+          },
+          "rollMod": {
+            "label": "Roll Modifier"
+          },
+          "quantity": {
+            "label": "Quantity"
+          },
+          "weight": {
+            "label": "Weight"
+          }
         }
       },
       "Spell": {
         "FIELDS": {
-          "level": {"label": "Spell Level"}
+          "level": {
+            "label": "Spell Level"
+          }
         },
         "SpellLVL": "Level {level} Spells",
         "AddLVL": "Add LVL {level}"
@@ -201,6 +298,12 @@
     "Durability": "Durability",
     "ItemName": "Item Name",
     "ShowWeapons": "Show Weapons",
+    "ShowBackpack": "Show Backpack",
+    "BackpackTable": "Backpack Table",
+    "AddGear": "Add Item",
+    "SelectItemType": "Select Item Type",
+    "SelectItemTypeDescription": "Choose the type of item you want to create:",
+    "Quantity": "Quantity",
     "RightHand": "Primary Hand",
     "LeftHand": "Secondary Hand",
     "Hand": "Hand",
@@ -214,6 +317,16 @@
     "AddSkillBonus": "Add Skill Bonus",
     "RemoveSkillBonus": "Remove Skill Bonus",
     "SelectSkill": "Select Skill",
+    "EquipWeapon": "Equip",
+    "UnequipWeapon": "Unequip",
+    "SelectHandsTitle": "Select Hand(s)",
+    "SelectHandsDescription": "Choose which hand(s) to equip",
+    "BothHands": "Both Hands",
+    "PrimaryHandDescription": "Main weapon hand",
+    "SecondaryHandDescription": "Off-hand or shield hand",
+    "BothHandsDescription": "Two-handed weapon",
+    "ConfirmUnequipWeapon": "Are you sure you want to unequip this weapon?",
+    "ConfirmUnequipDescription": "The weapon will be moved to the backpack.",
     "WeaponProperty": {
       "Afiado": "Afiado",
       "Ambidestria": "Ambidestria",

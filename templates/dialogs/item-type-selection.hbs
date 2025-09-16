@@ -1,0 +1,49 @@
+{{! Item Type Selection Dialog Template }}
+<form class="item-type-selection-form">
+  <div class="modal-header">
+    <h2>{{localize "CARDIGAN.SelectItemType"}}</h2>
+  </div>
+  
+  <div class="modal-body">
+    <p class="description">{{localize "CARDIGAN.SelectItemTypeDescription"}}</p>
+    
+    <div class="item-type-grid">
+      <button type="button" class="item-type-option" data-type="arma" data-name="Nova Arma">
+        <i class="fas fa-sword item-icon weapon-icon"></i>
+        <span class="item-label">{{localize "TYPES.Item.arma"}}</span>
+        <small class="item-description">Armas de combate</small>
+      </button>
+      
+      <button type="button" class="item-type-option" data-type="feature" data-name="Nova Habilidade">
+        <i class="fas fa-star item-icon feature-icon"></i>
+        <span class="item-label">{{localize "TYPES.Item.feature"}}</span>
+        <small class="item-description">Habilidades especiais</small>
+      </button>
+      
+      <button type="button" class="item-type-option" data-type="spell" data-name="Nova Magia">
+        <i class="fas fa-magic item-icon spell-icon"></i>
+        <span class="item-label">{{localize "TYPES.Item.spell"}}</span>
+        <small class="item-description">Magias e feitiços</small>
+      </button>
+      
+      <button type="button" class="item-type-option" data-type="efeito" data-name="Novo Efeito">
+        <i class="fas fa-sparkles item-icon effect-icon"></i>
+        <span class="item-label">{{localize "TYPES.Item.efeito"}}</span>
+        <small class="item-description">Efeitos ativos</small>
+      </button>
+      
+      <button type="button" class="item-type-option" data-type="gear" data-name="Novo Item">
+        <i class="fas fa-box item-icon gear-icon"></i>
+        <span class="item-label">{{localize "TYPES.Item.gear"}}</span>
+        <small class="item-description">Equipamentos gerais</small>
+      </button>
+    </div>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="cancel-button" data-action="cancel">
+      <i class="fas fa-times"></i>
+      {{localize "Cancel"}}
+    </button>
+  </div>
+</form>

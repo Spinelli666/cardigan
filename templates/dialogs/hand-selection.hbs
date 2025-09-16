@@ -1,0 +1,42 @@
+{{!-- Hand Selection Dialog Template --}}
+<div class="hand-selection-dialog">
+  <div class="dialog-header">
+    <h2>{{localize "CARDIGAN.SelectHandsTitle"}}</h2>
+    <p>{{localize "CARDIGAN.SelectHandsDescription"}} <strong>{{weaponName}}</strong>:</p>
+  </div>
+  
+  <div class="dialog-content">
+    <div class="hand-options">
+      <div class="hand-option" data-hand="right">
+        <div class="hand-icon">
+          <i class="fas fa-hand-paper"></i>
+        </div>
+        <div class="hand-label">{{localize "CARDIGAN.RightHand"}}</div>
+        <div class="hand-description">{{localize "CARDIGAN.PrimaryHandDescription"}}</div>
+      </div>
+      
+      <div class="hand-option" data-hand="left">
+        <div class="hand-icon">
+          <i class="fas fa-hand-paper fa-flip-horizontal"></i>
+        </div>
+        <div class="hand-label">{{localize "CARDIGAN.LeftHand"}}</div>
+        <div class="hand-description">{{localize "CARDIGAN.SecondaryHandDescription"}}</div>
+      </div>
+      
+      <div class="hand-option" data-hand="both">
+        <div class="hand-icon">
+          <i class="fas fa-hands"></i>
+        </div>
+        <div class="hand-label">{{localize "CARDIGAN.BothHands"}}</div>
+        <div class="hand-description">{{localize "CARDIGAN.BothHandsDescription"}}</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="dialog-footer">
+    <button type="button" class="dialog-button cancel" data-action="cancel">
+      <i class="fas fa-times"></i>
+      {{localize "Cancel"}}
+    </button>
+  </div>
+</div>

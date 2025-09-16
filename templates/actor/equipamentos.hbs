@@ -10,7 +10,7 @@
         {{#if system.details.showWeaponsTable}}checked{{/if}}
         data-dtype="Boolean"
       />
-      {{localize "CARDIGAN.Tabs.ShowWeapons"}}
+      {{localize "CARDIGAN.ShowWeapons"}}
     </label>
   </div>
 
@@ -66,7 +66,13 @@
         </div>
         <div class='item-name {{#if (eq item.system.durability.current 0)}}item-name-broken{{/if}}'>
           <div class='item-image'>
-            <a class='rollable' data-roll-type='item' data-action='roll'>
+            <a 
+              class='rollable weapon-image-click' 
+              data-roll-type='item' 
+              data-action='weaponToChat'
+              data-item-id='{{item._id}}'
+              title='Clique para mostrar informações no chat'
+            >
               <img
                 src='{{item.img}}'
                 title='{{item.name}}'
@@ -197,6 +203,68 @@
       </li>
     {{/each}}
   </ol>
+  {{/if}}
+
+  {{! Spacer between weapons and gear }}
+  <div style="margin: 20px 0; border-bottom: 1px solid #444;"></div>
+
+  {{! Backpack/Gear Table - Always Visible }}
+  <h3 class="items-section-header" style="margin-bottom: 10px; color: #c9c7b8; text-align: center;">
+    <i class="fas fa-backpack" style="margin-right: 8px;"></i>
+    {{localize "CARDIGAN.BackpackTable"}}
+  </h3>
+  <ol class='items-list'>
+    <li class='item flexrow items-header'>
+      <div class='item-name'>{{localize 'Name'}}</div>
+      <div class='item-quantity'>{{localize 'CARDIGAN.Quantity'}}</div>
+      <div class='item-weight'>{{localize 'CARDIGAN.Weight'}}</div>
+      <div class='item-controls'>
+        {{#if @root.editable}}
+          <button
+            class='item-control item-create-with-selection'
+            title='{{localize "DOCUMENT.Create" type="Item"}}'
+            data-action='createDocWithSelection'
+          >
+            <i class='fas fa-plus'></i>
+            {{localize 'CARDIGAN.AddGear'}}
+          </button>
+        {{/if}}
+      </div>
+    </li>
+    {{#each gear as |item id|}}
+      <li
+        class='item flexrow'
+        data-item-id='{{item._id}}'
+        data-uuid='{{item.uuid}}'
+        data-drag='true'
+        data-document-class='Item'
+      >
+        <div class='item-name'>
+          <div class='item-image'>
+            <a class='rollable' data-roll-type='item' data-action='roll'>
+              <img
+                src='{{item.img}}'
+                title='{{item.name}}'
+                width='24'
+                height='24'
+              />
+            </a>
+          </div>
+          <div>{{item.name}}</div>
+        </div>
+        <div class='item-quantity'>{{item.system.quantity}}</div>
+        <div class='item-weight'>{{item.system.weight}}</div>
+        <div class='item-controls'>
+          {{#if @root.editable}}
+            {{!-- Context Menu Button (Three Dots) for Gear Table --}}
+            <button type="button" class="unbutton item-control always-interactive" data-context-menu
+                    data-tooltip="Opções Adicionais" data-tooltip-direction="UP" data-item-id="{{item._id}}">
+              <i class="fa-solid fa-ellipsis-vertical" inert></i>
+            </button>
+          {{/if}}
+        </div>
+      </li>
+    {{/each}}
+  </ol>
 </section>
-{{/if}}
 

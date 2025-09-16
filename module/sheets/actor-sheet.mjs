@@ -1,5 +1,7 @@
 const { api, sheets } = foundry.applications;
 import ContextMenu5e from '../applications/context-menu.mjs';
+import { ItemTypeSelectionDialog } from '../applications/item-type-selection-dialog.mjs';
+import { HandSelectionDialog } from '../applications/hand-selection-dialog.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -39,6 +41,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     actions: {
       onEditImage: this._onEditImage,
       createDoc: this._createDoc,
+      createDocWithSelection: this._createDocWithSelection,
       editDoc: this._editDoc,
       deleteDoc: this._deleteDoc,
       toggleExpand: this._onToggleExpand,
@@ -298,15 +301,31 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       9: [],
     };
 
+    console.log("=== PREPARE ITEMS DEBUG ===");
+    console.log("Total items:", this.document.items.size);
+
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
+      // Debug weapon items
+      if (i.type === 'arma') {
+        console.log(`Weapon: ${i.name}, equipped: ${i.system.equipped}, ID: ${i._id}`);
+      }
+
       // Append to gear.
       if (i.type === 'gear') {
         gear.push(i);
       }
       // Append to armas (weapons).
       else if (i.type === 'arma') {
-        armas.push(i);
+        // Only equipped weapons go to armas table, unequipped ones go to gear table
+        if (i.system.equipped) {
+          console.log(`  → Adding ${i.name} to ARMAS table (equipped: true)`);
+          armas.push(i);
+        } else {
+          console.log(`  → Adding ${i.name} to GEAR table (equipped: false)`);
+          // Unequipped weapons go to gear table
+          gear.push(i);
+        }
       }
       // Append to features or efeitos.
       else if (i.type === 'feature') {
@@ -328,6 +347,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
       }
     }
+
+    console.log(`Final counts: gear=${gear.length}, armas=${armas.length}`);
+    console.log("=== END PREPARE ITEMS DEBUG ===");
 
     for (const s of Object.values(spells)) {
       s.sort((a, b) => (a.sort || 0) - (b.sort || 0));
@@ -414,6 +436,30 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       parent: this.document,
     });
     document.sheet.render(true);
+  }
+
+  /**
+   * Handle creating a new item with type selection dialog
+   *
+   * @this CardiganSystemActorSheet
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @private
+   */
+  static async _createDocWithSelection(event, target) {
+    try {
+      // Show the item type selection dialog
+      const result = await ItemTypeSelectionDialog.show(this.document);
+      
+      // Dialog handles item creation and sheet opening automatically
+      console.log(`Created item of type ${result.type}:`, result.document);
+      
+    } catch (error) {
+      if (error.message !== "Cancelled by user") {
+        console.error("Error in item creation dialog:", error);
+        ui.notifications.error("Failed to create item");
+      }
+    }
   }
 
   /**
@@ -805,7 +851,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       await ChatMessage.create({
         content: content,
         speaker: ChatMessage.getSpeaker({ actor: this.document }),
-        type: CONST.CHAT_MESSAGE_TYPES.OTHER
+        style: CONST.CHAT_MESSAGE_STYLES.OTHER
       });
       
     } catch (error) {
@@ -2046,57 +2092,42 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       </form>
     `;
 
-    new Dialog({
-      title: game.i18n.localize("CARDIGAN.ReloadAmmunition"),
+    foundry.applications.api.DialogV2.prompt({
+      window: { title: game.i18n.localize("CARDIGAN.ReloadAmmunition") },
       content,
-      buttons: {
-        reload: {
-          icon: '<i class="fas fa-sync-alt"></i>',
-          label: game.i18n.localize("CARDIGAN.ReloadButton"),
-          callback: async (html) => {
-            const reloadAmount = parseInt(html.find('[name="reloadAmount"]').val()) || 1;
-            
-            // Validar quantidade
-            if (reloadAmount < 1 || reloadAmount > (maxAmmo - currentAmmo)) {
-              ui.notifications.error(`Quantidade inválida. Máximo possível: ${maxAmmo - currentAmmo}`);
-              return;
-            }
-            
-            // Calcular novos valores
-            const newCurrent = currentAmmo + reloadAmount;
-            const newMax = maxAmmo - reloadAmount;
-            
-            try {
-              await item.update({
-                'system.ammunition.current': newCurrent,
-                'system.ammunition.max': newMax
-              });
-              
-              ui.notifications.info(`Recarregado ${reloadAmount} munições. Agora: ${newCurrent}/${newMax}`);
-            } catch (error) {
-              console.error("Error reloading ammunition:", error);
-              ui.notifications.error(`Erro ao recarregar munição: ${error.message}`);
-            }
+      ok: {
+        icon: "fas fa-sync-alt",
+        label: game.i18n.localize("CARDIGAN.ReloadButton"),
+        callback: async (event, button, dialog) => {
+          const formData = new FormData(button.form);
+          const reloadAmount = parseInt(formData.get("reloadAmount")) || 1;
+          
+          // Validar quantidade
+          if (reloadAmount < 1 || reloadAmount > (maxAmmo - currentAmmo)) {
+            ui.notifications.error(`Quantidade inválida. Máximo possível: ${maxAmmo - currentAmmo}`);
+            return;
           }
-        },
-        cancel: {
-          icon: '<i class="fas fa-times"></i>',
-          label: "Cancelar"
+          
+          // Calcular novos valores
+          const newCurrent = currentAmmo + reloadAmount;
+          const newMax = maxAmmo - reloadAmount;
+          
+          try {
+            await item.update({
+              'system.ammunition.current': newCurrent,
+              'system.ammunition.max': newMax
+            });
+            
+            ui.notifications.info(`Recarregado ${reloadAmount} munições. Agora: ${newCurrent}/${newMax}`);
+          } catch (error) {
+            console.error("Error reloading ammunition:", error);
+            ui.notifications.error(`Erro ao recarregar munição: ${error.message}`);
+          }
         }
       },
-      default: "reload",
-      render: (html) => {
-        // Focus no input quando o dialog abrir
-        html.find('[name="reloadAmount"]').focus().select();
-        
-        // Permitir Enter para confirmar
-        html.find('[name="reloadAmount"]').on('keypress', (e) => {
-          if (e.which === 13) {
-            html.parent().find('.dialog-button.reload').click();
-          }
-        });
-      }
-    }).render(true);
+      rejectClose: false,
+      modal: true
+    });
   }
 
   /**
@@ -2401,6 +2432,23 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
       });
     });
+
+    // Setup weapon image click handlers
+    const weaponImageElements = this.element.querySelectorAll('.weapon-image-click');
+    
+    weaponImageElements.forEach(imageElement => {
+      const itemId = imageElement.dataset.itemId;
+      const item = this.actor.items.get(itemId);
+      if (!item || item.type !== 'arma') return;
+      
+      imageElement.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Show weapon information in chat
+        this._showWeaponInChat(item);
+      });
+    });
   }
 
   /**
@@ -2639,7 +2687,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         </div>
         ${weaponHtml}
       </div>`,
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER
+      style: CONST.CHAT_MESSAGE_STYLES.OTHER
     };
 
     return ChatMessage.create(messageData);
@@ -2659,13 +2707,15 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const itemContainer = element.closest('.item.collapsible');
     const isExpanded = itemContainer && !itemContainer.classList.contains('collapsed');
 
-    // Expand/Collapse option (first in the menu)
-    options.push({
-      name: isExpanded ? "Recolher" : "Expandir",
-      icon: isExpanded ? '<i class="fa-solid fa-compress fa-fw"></i>' : '<i class="fa-solid fa-expand fa-fw"></i>',
-      condition: () => true,
-      callback: li => this._onAction(li, "toggleExpand", item, itemContainer)
-    });
+    // Expand/Collapse option (first in the menu) - only for weapons in weapons table
+    if (item.type === "arma" && item.system.equipped) {
+      options.push({
+        name: isExpanded ? "Recolher" : "Expandir",
+        icon: isExpanded ? '<i class="fa-solid fa-compress fa-fw"></i>' : '<i class="fa-solid fa-expand fa-fw"></i>',
+        condition: () => true,
+        callback: li => this._onAction(li, "toggleExpand", item, itemContainer)
+      });
+    }
 
     // Edit option
     options.push({
@@ -2675,13 +2725,36 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       callback: li => this._onAction(li, "edit", item)
     });
 
-    // Show in Chat option
-    options.push({
-      name: "Mostrar no Chat",
-      icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
-      condition: () => item.type === "arma", // Only for weapons
-      callback: li => this._onAction(li, "showInChat", item)
-    });
+    // Equip/Unequip option for weapons
+    if (item.type === "arma") {
+      if (item.system.equipped) {
+        // Show Unequip option for equipped weapons
+        options.push({
+          name: game.i18n.localize("CARDIGAN.UnequipWeapon"),
+          icon: '<i class="fa-solid fa-shield fa-fw"></i>',
+          condition: () => item.isOwner,
+          callback: li => this._onAction(li, "unequip", item)
+        });
+      } else {
+        // Show Equip option for unequipped weapons
+        options.push({
+          name: game.i18n.localize("CARDIGAN.EquipWeapon"),
+          icon: '<i class="fa-solid fa-hand-fist fa-fw"></i>',
+          condition: () => item.isOwner,
+          callback: li => this._onAction(li, "equip", item)
+        });
+      }
+    }
+
+    // Show in Chat option for weapons only
+    if (item.type === "arma") {
+      options.push({
+        name: "Mostrar no Chat",
+        icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
+        condition: () => item.type === "arma", // Only for weapons
+        callback: li => this._onAction(li, "showInChat", item)
+      });
+    }
 
     // Delete option
     options.push({
@@ -2709,11 +2782,28 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         return this._handleToggleExpand(item, itemContainer);
       case "edit":
         return item.sheet.render(true);
+      case "equip":
+        // Equip weapon (move from gear table to weapons table)
+        return this._equipWeapon(item);
+      case "unequip":
+        // Show confirmation dialog before unequipping
+        const confirmed = await foundry.applications.api.DialogV2.confirm({
+          title: game.i18n.localize("CARDIGAN.ConfirmUnequipWeapon"),
+          content: `<p>Tem certeza que deseja desequipar <strong>"${item.name}"</strong>?</p><p><em>${game.i18n.localize("CARDIGAN.ConfirmUnequipDescription")}</em></p>`,
+          yes: () => true,
+          no: () => false,
+          defaultYes: false
+        });
+        
+        if (confirmed) {
+          return this._unequipWeapon(item);
+        }
+        return null;
       case "showInChat":
         return this._showWeaponInChat(item);
       case "delete":
         // Show confirmation dialog before deleting
-        const confirmed = await Dialog.confirm({
+        const deleteConfirmed = await foundry.applications.api.DialogV2.confirm({
           title: `Excluir ${item.name}?`,
           content: `<p>Tem certeza que deseja excluir <strong>"${item.name}"</strong>?</p><p><em>Esta ação não pode ser desfeita.</em></p>`,
           yes: () => true,
@@ -2721,10 +2811,112 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           defaultYes: false
         });
         
-        if (confirmed) {
+        if (deleteConfirmed) {
           return item.delete();
         }
         return null;
+    }
+  }
+
+  /**
+   * Equip a weapon (move from gear table to weapons table)
+   * @param {Item} weapon - The weapon to equip
+   * @private
+   */
+  async _equipWeapon(weapon) {
+    if (weapon.type !== "arma") return;
+
+    try {
+      console.log("=== EQUIP DEBUG ===");
+      console.log("Equipando arma:", weapon.name);
+      console.log("Status ANTES do update:", weapon.system.equipped);
+      console.log("Weapon ID:", weapon._id);
+      console.log("Weapon data before:", weapon.system);
+      
+      // Show hand selection dialog
+      const selectedHand = await HandSelectionDialog.show(weapon);
+      
+      if (selectedHand === null) {
+        console.log("User cancelled hand selection");
+        return; // User cancelled
+      }
+      
+      console.log("User selected hand:", selectedHand);
+      
+      // Prepare update data based on selection
+      const updateData = {
+        "system.equipped": true,
+        "system.rightHand": false,
+        "system.leftHand": false
+      };
+      
+      // Set hand assignments based on selection
+      switch (selectedHand) {
+        case "right":
+          updateData["system.rightHand"] = true;
+          break;
+        case "left":
+          updateData["system.leftHand"] = true;
+          break;
+        case "both":
+          updateData["system.rightHand"] = true;
+          updateData["system.leftHand"] = true;
+          break;
+      }
+      
+      console.log("Update data:", updateData);
+      
+      const result = await weapon.update(updateData);
+      console.log("Update result:", result);
+      
+      // Get fresh weapon data after update
+      const updatedWeapon = this.document.items.get(weapon._id);
+      console.log("Status DEPOIS do update:", updatedWeapon?.system.equipped);
+      console.log("Right hand:", updatedWeapon?.system.rightHand);
+      console.log("Left hand:", updatedWeapon?.system.leftHand);
+      console.log("Weapon data after:", updatedWeapon?.system);
+      console.log("=== END EQUIP DEBUG ===");
+      
+      // Show success message based on hand selection
+      const handText = selectedHand === "both" ? "ambas as mãos" : 
+                      selectedHand === "right" ? "mão primária" : "mão secundária";
+      ui.notifications.info(`${weapon.name} foi equipada na ${handText}.`);
+      
+      // Force re-render to update the tables
+      await this.render(false);
+    } catch (error) {
+      console.error("Error equipping weapon:", error);
+      ui.notifications.error("Erro ao equipar a arma.");
+    }
+  }
+
+  /**
+   * Unequip a weapon (move from weapons table to gear table)
+   * @param {Item} weapon - The weapon to unequip
+   * @private
+   */
+  async _unequipWeapon(weapon) {
+    if (weapon.type !== "arma") return;
+
+    try {
+      console.log("Desequipando arma:", weapon.name, "Status atual:", weapon.system.equipped);
+      
+      // Clear hand assignments when unequipping
+      const updateData = {
+        "system.equipped": false,
+        "system.rightHand": false,
+        "system.leftHand": false
+      };
+      
+      await weapon.update(updateData);
+      console.log("Arma desequipada:", weapon.name, "Novo status:", weapon.system.equipped);
+      ui.notifications.info(`${weapon.name} foi desequipada e movida para a mochila.`);
+      
+      // Force re-render to update the tables
+      await this.render(false);
+    } catch (error) {
+      console.error("Error unequipping weapon:", error);
+      ui.notifications.error("Erro ao desequipar a arma.");
     }
   }
 }
