@@ -78,6 +78,9 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Calculate weapon skill bonuses and add to abilities
     this._calculateWeaponSkillBonuses();
     
+    // Calculate armor bonuses and add to abilities/stats
+    this._calculateArmorBonuses();
+    
     // AGORA calcular valor final da perícia (value + totalBonus) para exibição
     // após os bônus de armas terem sido calculados
     for (const key in this.abilities) {
@@ -99,13 +102,22 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const fractureLevel = this.status?.fracture ?? 0;
     const fractureReduction = fractureLevel * 5;
     
-    // Get bonus values
+    // Get bonus values (manual bonuses from status)
     const healthBonus = this.status?.healthBonus ?? 0;
     const energyBonus = this.status?.energyBonus ?? 0;
     const armorBonus = this.status?.armorBonus ?? 0;
     
-    this.health.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + healthBonus);
-    this.power.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + energyBonus);
+    // Get armor bonuses (calculated from equipped armors)
+    const armorHealthBonus = this._armorHealthBonus ?? 0;
+    const armorEnergyBonus = this._armorEnergyBonus ?? 0;
+    const armorProtectionBonus = this._armorProtectionBonus ?? 0;
+    const armorMovementBonus = this._armorMovementBonus ?? 0;
+    
+    this.health.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + healthBonus + armorHealthBonus);
+    this.power.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + energyBonus + armorEnergyBonus);
+    
+    // Calculate armor maximum based on armor bonus from equipped armors + manual bonus
+    this.armor.max = Math.max(0, armorBonus + armorProtectionBonus);
     
     // NOTA: Removido o cálculo automático de armor.max para permitir que ActiveEffects
     // funcionem corretamente. O valor base da armadura máxima é definido no prepareBaseData()
@@ -131,10 +143,11 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const dexterityCriticalEffect = Math.floor(totalDexterity / 3); // Crítico: cada 3 pontos
     this.details.criticalHit = Math.max(1, 20 - dexterityCriticalEffect); // Mínimo de 1
 
-    // Calcular movimento baseado na Destreza total (incluindo bônus de armas)
+    // Calcular movimento baseado na Destreza total (incluindo bônus de armas) + bônus de armaduras
     // Regra: a cada 2 pontos de Destreza = +1 movimento
-    const baseMovement = Math.floor(totalDexterity / 2);
-    this.details.movement = baseMovement;
+    const dexterityMovement = Math.floor(totalDexterity / 2);
+    const armorMovementBonusTotal = this._armorMovementBonus ?? 0;
+    this.details.movement = dexterityMovement + armorMovementBonusTotal;
 
     // Verificar estado de Hunger e aplicar efeito de exaustão automaticamente
     const hungerLevel = this.status?.hunger ?? 0;
@@ -273,6 +286,98 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     }
 
     // Recalculate totals with the totalBonus values
+    for (const key in this.abilities) {
+      const baseValue = this.abilities[key].value || 0;
+      const totalBonus = this.abilities[key].totalBonus || 0;
+      this.abilities[key].total = baseValue + totalBonus;
+    }
+  }
+
+  /**
+   * Calculate armor bonuses and add them to character abilities and stats
+   * Only equipped armors contribute to bonuses
+   * Multiple armors with bonuses are cumulative
+   * @private
+   */
+  _calculateArmorBonuses() {
+    // Initialize armor bonuses for abilities
+    const armorSkillBonuses = {};
+    for (const key in this.abilities) {
+      armorSkillBonuses[key] = 0;
+    }
+
+    // Initialize stat bonuses from armors
+    let armorHealthBonus = 0;
+    let armorEnergyBonus = 0;
+    let armorProtectionBonus = 0;
+    let armorMovementBonus = 0;
+
+    // Get all armors from the actor
+    const armors = this.parent?.items?.filter(item => item.type === 'armadura') || [];
+    
+    // Calculate total bonuses from equipped armors only
+    for (const armor of armors) {
+      // Only apply bonuses if armor is equipped
+      const isEquipped = armor.system.equipped;
+      if (!isEquipped) continue;
+      
+      // 1. Calculate skill bonuses from armors
+      const skillBonuses = armor.system.skillBonuses || [];
+      for (const skillBonus of skillBonuses) {
+        const skill = skillBonus.skill;
+        const bonus = skillBonus.bonus || 0;
+        
+        // Skip if no skill selected or bonus is 0
+        if (!skill || bonus === 0) continue;
+        
+        // Add bonus to the corresponding ability
+        if (armorSkillBonuses.hasOwnProperty(skill)) {
+          armorSkillBonuses[skill] += bonus;
+        }
+      }
+
+      // 2. Calculate stat bonuses from armors
+      // Health bonus
+      if (armor.system.bonusVida && armor.system.bonusVida > 0) {
+        armorHealthBonus += armor.system.bonusVida;
+      }
+      
+      // Energy bonus  
+      if (armor.system.bonusEnergia && armor.system.bonusEnergia > 0) {
+        armorEnergyBonus += armor.system.bonusEnergia;
+      }
+      
+      // Protection bonus (contributes to armor max)
+      if (armor.system.protecao && armor.system.protecao > 0) {
+        armorProtectionBonus += armor.system.protecao;
+      }
+      
+      // Movement bonus
+      if (armor.system.bonusDeslocamento && armor.system.bonusDeslocamento.enabled && armor.system.bonusDeslocamento.bonus > 0) {
+        armorMovementBonus += armor.system.bonusDeslocamento.bonus;
+      }
+    }
+
+    // Apply armor skill bonuses to abilities (add to existing totalBonus)
+    for (const key in this.abilities) {
+      const currentTotalBonus = this.abilities[key].totalBonus || 0;
+      const armorBonus = armorSkillBonuses[key] || 0;
+      
+      // Store armor bonus separately
+      this.abilities[key].armorBonus = armorBonus;
+      
+      // Update totalBonus to include armor bonuses
+      this.abilities[key].totalBonus = currentTotalBonus + armorBonus;
+    }
+
+    // Apply stat bonuses - store them separately instead of adding to existing status
+    // These will be used directly in the max calculations
+    this._armorHealthBonus = armorHealthBonus;
+    this._armorEnergyBonus = armorEnergyBonus; 
+    this._armorProtectionBonus = armorProtectionBonus;
+    this._armorMovementBonus = armorMovementBonus;
+
+    // Recalculate ability totals with armor bonuses included
     for (const key in this.abilities) {
       const baseValue = this.abilities[key].value || 0;
       const totalBonus = this.abilities[key].totalBonus || 0;

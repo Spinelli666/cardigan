@@ -223,13 +223,15 @@
     </li>
     {{#each armaduras as |item id|}}
       <li
-        class='item flexrow'
+        class='item collapsible collapsed'
         data-item-id='{{item._id}}'
         data-uuid='{{item.uuid}}'
         data-drag='true'
         data-document-class='Item'
       >
-        <div class='item-name {{#if (eq item.system.durabilidade.value 0)}}item-name-broken{{/if}}'>
+        {{!-- Item Row Summary --}}
+        <div class="item-row flexrow">
+        <div class='item-name {{#if (eq item.system.durability.current 0)}}item-name-broken{{/if}}'>
           <div class='item-image'>
             <img
               src='{{item.img}}'
@@ -238,7 +240,16 @@
               height='24'
             />
           </div>
-          <h4>{{item.name}}</h4>
+          <div 
+            class="armor-name-hover"
+            data-tooltip-direction="UP"
+            data-tooltip-class="cardigan-tooltip"
+            data-item-id="{{item._id}}"
+            data-action="toggleExpand"
+            style="cursor: pointer;"
+          >
+            {{item.name}}
+          </div>
         </div>
         <div class='item-armor-type'>
           {{localize (concat "CARDIGAN.ArmorType." (capitalize item.system.armorType))}}
@@ -247,9 +258,22 @@
           {{item.system.protecao}}
         </div>
         <div class='item-durability'>
-          <span class="durability-display {{#if (lt item.system.durabilidade.value 25)}}low-durability{{/if}}">
-            {{item.system.durabilidade.value}}/{{item.system.durabilidade.max}}
-          </span>
+          {{#if @root.editable}}
+            <input
+              type='number'
+              name='items.{{item._id}}.system.durability.current'
+              value='{{item.system.durability.current}}'
+              min='0'
+              max='{{item.system.durability.max}}'
+              data-dtype='Number'
+              style='width: 50px; text-align: center;'
+              title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'
+            />
+          {{else}}
+            <span title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'>
+              {{item.system.durability.current}}
+            </span>
+          {{/if}}
         </div>
         <div class='item-unequip'>
           {{#if @root.editable}}
@@ -275,6 +299,14 @@
               <i class='fas fa-ellipsis-v'></i>
             </a>
           {{/if}}
+        </div>
+        </div>
+        
+        {{!-- Expandable Description --}}
+        <div class="item-description">
+          <div class="wrapper">
+            {{!-- Expanded content will be loaded here dynamically --}}
+          </div>
         </div>
       </li>
     {{/each}}

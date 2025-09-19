@@ -141,6 +141,54 @@ export function registerHandlebarsHelpers() {
   });
 
   /**
+   * Generate simple armor tooltip content (similar to weaponTooltip but for armors)
+   * @param {Object} armor - Armor item object
+   * @returns {string} - HTML string for armor tooltip
+   */
+  Handlebars.registerHelper('armorTooltip', function(armor) {
+    if (!armor) return '';
+    
+    // Generate weight info
+    const weightText = armor.system.weight === 'leve' ? 'Leve' : 'Pesado';
+    const weightHTML = '<i class="fas fa-backpack"></i><span>' + weightText + '</span>';
+    
+    // Build complete tooltip HTML
+    let html = '<div class="armor-tooltip">';
+    html += '<div class="armor-image"><img src="' + armor.img + '" alt="' + armor.name + '" /></div>';
+    html += '<div class="armor-name-line"><strong>' + armor.name + '</strong></div>';
+    html += '<div class="armor-properties-line">';
+    html += '<div class="armor-weight">' + weightHTML + '</div>';
+    html += '</div>';
+    
+    if (armor.system.description) {
+      html += '<div class="armor-description"><em>' + armor.system.description + '</em></div>';
+    }
+    
+    html += '</div>';
+    
+    return new Handlebars.SafeString(html);
+  });
+
+  /**
+   * Generate rich armor tooltip content using template (for future advanced tooltips)
+   * @param {Object} armor - Armor item object
+   * @returns {Promise<string>} - HTML string for armor tooltip
+   */
+  Handlebars.registerHelper('armorRichTooltip', async function(armor) {
+    if (!armor) return '';
+    
+    try {
+      const templatePath = 'systems/cardigan/templates/tooltips/armor-tooltip.hbs';
+      const content = await foundry.applications.handlebars.renderTemplate(templatePath, { armor });
+      return new Handlebars.SafeString(content);
+    } catch (error) {
+      console.warn('Failed to render armor tooltip template:', error);
+      // Fallback to simple text
+      return armor.name;
+    }
+  });
+
+  /**
    * Capitalize the first letter of a string
    * @param {string} str - String to capitalize
    * @returns {string} - Capitalized string

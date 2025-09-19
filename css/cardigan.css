@@ -1365,6 +1365,143 @@
   padding: 2px 0;
   font-weight: normal;
 }
+.cardigan .tab.equipamentos .armor-summary {
+  margin: 8px 0;
+  padding: 12px;
+  position: relative;
+}
+.cardigan .tab.equipamentos .armor-summary .summary-content {
+  color: var(--cardigan-c-black);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-properties-top-right {
+  display: flex;
+  justify-content: flex-end;
+  color: var(--cardigan-c-black);
+  font-size: 12px;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-properties-top-right i {
+  color: var(--cardigan-c-black);
+  margin-right: 2px;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-properties-top-right i.fa-backpack {
+  color: var(--cardigan-c-black);
+  margin-left: 6px;
+  margin-right: 3px;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-properties-top-right .weight-text {
+  color: var(--cardigan-c-black);
+  font-size: 11px;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-right: 20px;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-image-center {
+  display: flex;
+  justify-content: center;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-image-center img {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  border: 2px solid var(--cardigan-c-black);
+  background: rgba(0, 0, 0, 0.3);
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-name-center {
+  text-align: center;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-name-center h4 {
+  color: var(--cardigan-c-black);
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-type-center {
+  text-align: center;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-type-center em {
+  color: var(--cardigan-c-faint);
+  font-style: italic;
+  font-size: 13px;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 4px 0;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-stats-row .armor-protection {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--cardigan-c-black);
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-stats-row .armor-protection i {
+  color: var(--cardigan-c-black);
+  width: 14px;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-durability-center {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--cardigan-c-black);
+  justify-content: center;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-durability-center i {
+  color: var(--cardigan-c-black);
+  width: 14px;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-description-center {
+  text-align: center;
+  color: var(--cardigan-c-black);
+  line-height: 1.5;
+  margin: 8px 0;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-description-center p {
+  margin-bottom: 8px;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-description-center p:last-child {
+  margin-bottom: 0;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-properties-bonuses-center {
+  text-align: center;
+  margin: 8px 0;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-properties-bonuses-center .properties-title {
+  color: var(--cardigan-c-black);
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-properties-bonuses-center .properties-bonuses {
+  color: var(--cardigan-c-black);
+  font-size: 11px;
+  font-weight: bold;
+  font-family: monospace;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid rgba(201, 199, 184, 0.2);
+  display: inline-block;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-detailed-properties {
+  width: 100%;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-detailed-properties .property-detail-line {
+  color: var(--cardigan-c-black);
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 4px;
+  text-align: left;
+}
+.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-detailed-properties .property-detail-line:last-child {
+  margin-bottom: 0;
+}
 .cardigan .weapon-properties .properties-header {
   display: flex;
   align-items: center;

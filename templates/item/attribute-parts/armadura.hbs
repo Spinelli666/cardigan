@@ -22,6 +22,12 @@ Template para itens do tipo armadura com aba Detail
         <input type="number" name="system.protecao" value="{{item.system.protecao}}" min="0" placeholder="0"/>
     </div>
 
+    <!-- Armor Class/Type Description -->
+    <div class="form-group">
+        <label for="system.armorClass">{{localize "CARDIGAN.ArmorClass"}}</label>
+        <input type="text" name="system.armorClass" value="{{item.system.armorClass}}" placeholder="Couro, Cota de Malha, Placas"/>
+    </div>
+
     <!-- Weight and Price -->
     <div class="form-group" style="display: flex; gap: 15px;">
         <div style="flex: 1;">
@@ -39,56 +45,26 @@ Template para itens do tipo armadura com aba Detail
     
     <!-- Durability -->
     <div class="form-group">
-        <label for="system.durabilidade.value">{{localize "CARDIGAN.Durability"}}</label>
+        <label for="system.durability.current">{{localize "CARDIGAN.Durability"}}</label>
         <div class="durability-container" style="display: flex; align-items: center; gap: 5px;">
-            <input type="number" name="system.durabilidade.value" value="{{item.system.durabilidade.value}}" min="0" max="{{item.system.durabilidade.max}}" style="width: 80px;"/>
+            <input type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}" style="width: 60px;"/>
             <span>/</span>
-            <input type="number" name="system.durabilidade.max" value="{{item.system.durabilidade.max}}" min="1" style="width: 80px;"/>
+            <input type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1" style="width: 60px;"/>
         </div>
     </div>
 
-    <!-- Properties -->
-    <div class="form-group">
-        <label>{{localize "CARDIGAN.Properties"}}</label>
-        <div class="properties-container">
-            <input type="text" class="properties-input" placeholder="{{localize 'CARDIGAN.AddProperty'}}" data-property-input/>
-            <button type="button" class="add-property-btn" data-action="addProperty">{{localize "CARDIGAN.Add"}}</button>
-        </div>
-        <div class="properties-list" data-properties-container>
-            {{#each item.system.propriedades as |property index|}}
-                <div class="property-tag" data-property-index="{{index}}">
-                    <span class="property-text">{{property}}</span>
-                    <button type="button" class="remove-property-btn" data-action="removeProperty" data-index="{{index}}">&times;</button>
-                    <input type="hidden" name="system.propriedades.{{index}}" value="{{property}}"/>
-                </div>
-            {{/each}}
-        </div>
-    </div>
 
     <!-- Skill Bonuses -->
-    <div class="form-group skill-bonuses-section">
-        <label>{{localize "CARDIGAN.SkillBonuses"}}</label>
-        <div class="skill-bonus-controls" style="display: flex; gap: 10px; margin-bottom: 10px;">
-            <select data-skill-select-new style="flex: 1;">
-                <option value="">{{localize "CARDIGAN.SelectSkill"}}</option>
-                <option value="accuracy">Accuracy</option>
-                <option value="evasion">Evasion</option>
-                <option value="strength">Strength</option>
-                <option value="dexterity">Dexterity</option>
-                <option value="stamina">Stamina</option>
-                <option value="stealth">Stealth</option>
-                <option value="persuasion">Persuasion</option>
-                <option value="intelligence">Intelligence</option>
-                <option value="psionics">Psionics</option>
-            </select>
-            <input type="number" data-skill-bonus-new style="width: 80px;" placeholder="±0"/>
-            <button type="button" class="add-skill-bonus-btn" data-action="addSkillBonus">{{localize "CARDIGAN.Add"}}</button>
+    <div class="form-group skill-bonuses">
+        <div class="skill-bonuses-header">
+            <label>{{localize "CARDIGAN.SkillBonuses"}}</label>
+            <button type="button" class="add-skill-bonus-btn" data-action="addSkillBonus" title="{{localize 'CARDIGAN.AddSkillBonus'}}">+</button>
         </div>
         
         <div class="skill-bonuses-list" data-skill-bonuses-container>
             {{#each item.system.skillBonuses as |skillBonus index|}}
-                <div class="skill-bonus-row" data-skill-bonus-index="{{index}}" style="display: flex; gap: 10px; margin-bottom: 5px; align-items: center;">
-                    <select name="system.skillBonuses.{{index}}.skill" style="flex: 1;">
+                <div class="skill-bonus-row" data-skill-bonus-index="{{index}}">
+                    <select name="system.skillBonuses.{{index}}.skill" data-skill-select style="flex: 1;">
                         <option value="">{{localize "CARDIGAN.SelectSkill"}}</option>
                         <option value="accuracy" {{selected skillBonus.skill "accuracy"}}>Accuracy</option>
                         <option value="evasion" {{selected skillBonus.skill "evasion"}}>Evasion</option>
@@ -100,24 +76,23 @@ Template para itens do tipo armadura com aba Detail
                         <option value="intelligence" {{selected skillBonus.skill "intelligence"}}>Intelligence</option>
                         <option value="psionics" {{selected skillBonus.skill "psionics"}}>Psionics</option>
                     </select>
-                    <input type="number" name="system.skillBonuses.{{index}}.bonus" value="{{skillBonus.bonus}}" style="width: 80px;" placeholder="±0"/>
-                    <button type="button" class="remove-skill-bonus-btn" data-action="removeSkillBonus" data-index="{{index}}">&times;</button>
+                    <input type="number" name="system.skillBonuses.{{index}}.bonus" value="{{skillBonus.bonus}}" style="width: 60px; margin-left: 5px;" placeholder="±0"/>
+                    <button type="button" class="remove-skill-bonus-btn" data-action="removeSkillBonus" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveSkillBonus'}}">−</button>
                 </div>
             {{/each}}
         </div>
     </div>
 
-    <!-- Special Properties -->
-    <div class="form-group special-properties" style="display: flex; flex-direction: column; gap: 10px;">
-        <label style="display: flex; align-items: center; gap: 5px;">
-            <input type="checkbox" name="system.artefatoMagico" {{checked item.system.artefatoMagico}}/>
-            {{localize "CARDIGAN.MagicalArtifact"}}
-        </label>
-        
-        <label style="display: flex; align-items: center; gap: 5px;">
-            <input type="checkbox" name="system.resistenciaFrio" {{checked item.system.resistenciaFrio}}/>
-            {{localize "CARDIGAN.ColdResistance"}}
-        </label>
+    <!-- Magical Artifact -->
+    <div class="form-group">
+        <label for="system.magicalArtifact">{{localize "CARDIGAN.MagicalArtifact"}}</label>
+        <input type="checkbox" name="system.magicalArtifact" {{checked item.system.magicalArtifact}}/>
+    </div>
+
+    <!-- Cold Resistance -->
+    <div class="form-group">
+        <label for="system.resistenciaFrio">{{localize "CARDIGAN.ColdResistance"}}</label>
+        <input type="checkbox" name="system.resistenciaFrio" {{checked item.system.resistenciaFrio}}/>
     </div>
 
     <!-- Attribute Bonuses -->

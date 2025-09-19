@@ -270,6 +270,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     console.log('Setting up weapon tooltips...');
     this.#setupWeaponTooltips();
     
+    // Setup armor tooltips with debug logging
+    console.log('Setting up armor tooltips...');
+    this.#setupArmorTooltips();
+    
     // Setup context menu for weapons
     this.#setupContextMenus();
     
@@ -404,7 +408,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Calculate totals from equipped armors and apply to actor
+   * Calculate totals from equipped armors for display purposes only
+   * This method calculates totals to show in the UI but doesn't modify the actor's actual bonus fields
+   * The actual bonuses are calculated in the actor's _calculateArmorBonuses method
    * @param {object} context - The context object
    * @private
    */
@@ -429,7 +435,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     });
 
-    // Store totals in context for display/use
+    // Store totals in context for display/use only - DO NOT modify actor data
     context.armorTotals = {
       armor: totalArmor,
       life: totalLifeBonus,
@@ -437,16 +443,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       movement: totalMovementBonus
     };
 
-    // Update actor's derived values
-    // Note: In Foundry, you should be careful about modifying the actor data directly
-    // This is for display purposes and shouldn't persist
-    if (this.actor.system.status) {
-      // Add armor bonus to existing armor bonus field
-      this.actor.system.status.armorBonus = totalArmor;
-      // Add life and energy bonuses to existing bonus fields  
-      this.actor.system.status.healthBonus = totalLifeBonus;
-      this.actor.system.status.energyBonus = totalEnergyBonus;
-    }
+    // REMOVED: Do NOT modify the actor's status fields here!
+    // The actor's _calculateArmorBonuses method handles all armor bonuses correctly
+    // Modifying status fields here causes duplication in the max calculations
 
     // Log for debugging
     console.log(`[ARMOR TOTALS] Armor: ${totalArmor}, Life: ${totalLifeBonus}, Energy: ${totalEnergyBonus}, Movement: ${totalMovementBonus}`);
@@ -2536,15 +2535,17 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }
     
     const expanded = this.expandedSections.get(itemId);
+    const isArmor = item.type === 'armadura';
+    const summaryClass = isArmor ? ".armor-summary" : ".weapon-summary";
     
     if (expanded) {
       // Collapse
       this.expandedSections.set(itemId, false);
-      summary.querySelector(".weapon-summary")?.remove();
+      summary.querySelector(summaryClass)?.remove();
     } else {
       // Expand
       try {
-        // Get weapon data for summary
+        // Get item data for summary
         const context = {
           item: item,
           system: item.system,
@@ -2557,12 +2558,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           })
         };
         
-        const template = "systems/cardigan/templates/weapons/weapon-summary.hbs";
+        // Choose template based on item type
+        const template = isArmor 
+          ? "systems/cardigan/templates/armors/armor-summary.hbs"
+          : "systems/cardigan/templates/weapons/weapon-summary.hbs";
+        
         const content = await foundry.applications.handlebars.renderTemplate(template, context);
         summary.insertAdjacentHTML("beforeend", content);
         this.expandedSections.set(itemId, true);
       } catch (error) {
-        console.error("Error creating weapon summary:", error);
+        console.error(`Error creating ${isArmor ? 'armor' : 'weapon'} summary:`, error);
         return;
       }
     }
@@ -2599,15 +2604,17 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }
     
     const expanded = this.expandedSections.get(itemId);
+    const isArmor = item.type === 'armadura';
+    const summaryClass = isArmor ? ".armor-summary" : ".weapon-summary";
     
     if (expanded) {
       // Collapse
       this.expandedSections.set(itemId, false);
-      summary.querySelector(".weapon-summary")?.remove();
+      summary.querySelector(summaryClass)?.remove();
     } else {
       // Expand
       try {
-        // Get weapon data for summary
+        // Get item data for summary
         const context = {
           item: item,
           system: item.system,
@@ -2620,7 +2627,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           })
         };
         
-        const template = "systems/cardigan/templates/weapons/weapon-summary.hbs";
+        // Choose template based on item type
+        const template = isArmor 
+          ? "systems/cardigan/templates/armors/armor-summary.hbs"
+          : "systems/cardigan/templates/weapons/weapon-summary.hbs";
+        
         const content = await foundry.applications.handlebars.renderTemplate(template, context);
         summary.insertAdjacentHTML("beforeend", content);
         this.expandedSections.set(itemId, true);
@@ -2922,6 +2933,189 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   /* -------------------------------------------- */
 
   /**
+   * Setup tooltips for armors
+   * @private
+   */
+  #setupArmorTooltips() {
+    // Select all armor name elements (.armor-name-hover) in the armor section
+    const armorSection = this.element.querySelector('.equipamentos');
+    if (!armorSection) return;
+    
+    const armorNameElements = armorSection.querySelectorAll('.armor-name-hover');
+    
+    armorNameElements.forEach(nameElement => {
+      const itemRow = nameElement.closest('.item[data-item-id]');
+      const itemId = itemRow.dataset.itemId;
+      const item = this.document.items.get(itemId);
+      
+      if (item && item.type === 'armadura') {
+        // Remove any existing tooltip event listeners
+        nameElement.removeEventListener('mouseenter', this._onArmorMouseEnter);
+        nameElement.removeEventListener('mouseleave', this._onArmorMouseLeave);
+        
+        // Add new event listeners
+        nameElement.addEventListener('mouseenter', (event) => this._onArmorMouseEnter(event, item));
+        nameElement.addEventListener('mouseleave', this._onArmorMouseLeave.bind(this));
+      }
+    });
+  }
+
+  /**
+   * Handle mouse enter for armor tooltip
+   * @private
+   */
+  _onArmorMouseEnter(event, armor) {
+    const tooltipHTML = this.#generateArmorTooltipHTML(armor);
+    
+    game.tooltip.activate(event.currentTarget, {
+      html: tooltipHTML,
+      cssClass: "tooltip cardigan-tooltip"
+    });
+  }
+
+  /**
+   * Handle mouse leave for armor tooltip
+   * @private
+   */
+  _onArmorMouseLeave(event) {
+    game.tooltip.deactivate();
+  }
+
+  /**
+   * Generate HTML for armor tooltip
+   * @private
+   */
+  #generateArmorTooltipHTML(armor) {
+    // Generate weight info
+    const weightText = armor.system.weight === 'leve' ? 'Leve' : 'Pesado';
+    
+    // Build complete tooltip HTML - Simplified approach with inline styles
+    let html = '<div class="armor-tooltip" style="display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 200px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-radius: 8px; color: #f0f0e0;">';
+    
+    // PRIMEIRO: Propriedades à direita usando inline styles para garantir funcionamento
+    html += '<div class="armor-properties-horizontal" style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 6px; font-size: 14px; width: 100%;">';
+    
+    // Mostrar ícone de resistência ao frio apenas se estiver marcada
+    if (armor.system.resistenciaFrio) {
+      html += '<i class="fas fa-sun" style="color: #ffeb3b;"></i>';
+      html += '<span class="property-separator">&nbsp;</span>';
+    }
+    
+    html += '<i class="fas fa-backpack" style="color: #c9c7b8; font-size: 14px;"></i>';
+    html += `<span class="weight-text" style="font-style: italic; font-size: 14px; color: #c9c7b8;">${weightText}</span>`;
+    html += '</div>';
+    
+    // SEGUNDO: Imagem da armadura centralizada
+    html += `<div class="armor-image" style="display: flex; justify-content: center; margin-bottom: 4px;"><img src="${armor.img}" alt="${armor.name}" style="width: 32px; height: 32px; object-fit: cover; border-radius: 4px; border: 2px solid #f0f0e0;" /></div>`;
+    
+    // TERCEIRO: Nome da armadura centralizado
+    html += `<div class="armor-name-line" style="text-align: center; margin-bottom: 4px;"><strong style="color: #f0f0e0; font-size: 16px;">${armor.name}</strong></div>`;
+
+    // QUARTO: Tipo da armadura centralizado (se houver)
+    if (armor.system.armorClass && armor.system.armorClass.trim() !== '') {
+      html += `<div class="armor-type-line" style="text-align: center; margin-bottom: 4px;"><em style="color: #c9c7b8; font-style: italic; font-size: 14px;">${armor.system.armorClass}</em></div>`;
+    }
+
+    // QUINTO: Proteção
+    const baseProtection = armor.system.protecao || 0;
+    // As armaduras não têm proteção total calculada como as armas têm damage.total
+    // então usamos apenas o valor base
+    const totalProtection = baseProtection;
+
+    let protectionHtml = '<div class="armor-protection" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; font-size: 14px;">';
+    
+    // Ícone de escudo + proteção base
+    protectionHtml += '<i class="fas fa-shield-alt" style="color: #c9c7b8; font-size: 14px;"></i>';
+    protectionHtml += `<span style="color: #f0f0e0;">${baseProtection}</span>`;
+    protectionHtml += '</div>';
+    html += protectionHtml;
+
+    // SEXTO: Durabilidade (se houver)
+    const currentDurability = armor.system.durability?.current;
+    const maxDurability = armor.system.durability?.max;
+    
+    if (currentDurability !== undefined && maxDurability !== undefined && maxDurability > 0) {
+      let durabilityHtml = '<div class="armor-durability" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; font-size: 14px;">';
+      
+      // Ícone de forja/martelo
+      durabilityHtml += '<i class="fas fa-hammer" style="color: #c9c7b8; font-size: 14px;"></i>';
+      
+      // Durabilidade atual/máxima
+      durabilityHtml += `<span style="color: #f0f0e0;">${currentDurability}/${maxDurability}</span>`;
+      
+      durabilityHtml += '</div>';
+      html += durabilityHtml;
+    }
+
+    // SÉTIMO: Descrição centralizada (se houver)
+    if (armor.system.description) {
+      html += `<div class="armor-description" style="text-align: center; max-width: 180px; margin-top: 4px;"><em style="color: #c9c7b8; font-style: italic; font-size: 12px;">${armor.system.description}</em></div>`;
+    }
+
+    // OITAVO: Artefato Mágico alinhado à esquerda (se for artefato)
+    if (armor.system.magicalArtifact) {
+      html += `<div class="armor-artifact" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  🌀Artefato</div>`;
+    }
+
+    // NONO: Bônus de Atributos (Vida, Energia, Deslocamento) alinhados à esquerda (se houver)
+    const bonusVida = armor.system.bonusVida || 0;
+    const bonusEnergia = armor.system.bonusEnergia || 0;
+    const bonusDeslocamento = armor.system.bonusDeslocamento?.enabled ? (armor.system.bonusDeslocamento.bonus || 0) : 0;
+    
+    // Cada bônus em linha separada com ícone próprio
+    if (bonusVida !== 0) {
+      const vidaText = bonusVida > 0 ? `+${bonusVida}` : bonusVida.toString();
+      html += `<div class="armor-vida-bonus" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆ ❤️Vida [${vidaText}]</div>`;
+    }
+    
+    if (bonusEnergia !== 0) {
+      const energiaText = bonusEnergia > 0 ? `+${bonusEnergia}` : bonusEnergia.toString();
+      html += `<div class="armor-energia-bonus" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆ ⚡️Energia [${energiaText}]</div>`;
+    }
+    
+    if (bonusDeslocamento !== 0) {
+      const deslocamentoText = bonusDeslocamento > 0 ? `+${bonusDeslocamento}` : bonusDeslocamento.toString();
+      html += `<div class="armor-deslocamento-bonus" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆ 👣Deslocamento [${deslocamentoText}]</div>`;
+    }
+
+    // DÉCIMO: Bônus de Perícia das armaduras alinhados à esquerda (se houver bônus)
+    if (armor.system.skillBonuses && armor.system.skillBonuses.length > 0) {
+      // Mapeamento das habilidades para seus nomes completos
+      const abilityNames = {
+        'accuracy': 'Accuracy',
+        'evasion': 'Evasion', 
+        'strength': 'Strength',
+        'dexterity': 'Dexterity',
+        'stamina': 'Stamina',
+        'stealth': 'Stealth',
+        'persuasion': 'Persuasion',
+        'intelligence': 'Intelligence',
+        'psionics': 'Psionics'
+      };
+
+      // Filtra e formata os bônus de perícia válidos
+      const validBonuses = armor.system.skillBonuses
+        .filter(bonus => bonus && bonus.skill && bonus.bonus != null && bonus.bonus !== 0)
+        .map(bonus => {
+          // Usa o nome completo da habilidade ou capitaliza se não encontrado
+          const skillName = abilityNames[bonus.skill.toLowerCase()] || 
+                            bonus.skill.charAt(0).toUpperCase() + bonus.skill.slice(1).toLowerCase();
+          const bonusValue = bonus.bonus > 0 ? `+${bonus.bonus}` : bonus.bonus.toString();
+          return `${skillName} [${bonusValue}]`;
+        });
+      
+      if (validBonuses.length > 0) {
+        const bonusesText = validBonuses.join(' ・ ');
+        html += `<div class="armor-skill-bonuses" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  ${bonusesText}</div>`;
+      }
+    }
+    
+    html += '</div>';
+    
+    return html;
+  }
+
+  /**
    * Setup context menus for weapons
    * @private
    */
@@ -2976,6 +3170,35 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           </h3>
         </div>
         ${weaponHtml}
+      </div>`,
+      style: CONST.CHAT_MESSAGE_STYLES.OTHER
+    };
+
+    return ChatMessage.create(messageData);
+  }
+
+  /**
+   * Show armor information in chat
+   * @param {Item} armor - The armor item to show
+   * @returns {Promise<ChatMessage>} The created chat message
+   * @private
+   */
+  async _showArmorInChat(armor) {
+    // Reuse the existing tooltip HTML generation function
+    const armorHtml = this.#generateArmorTooltipHTML(armor);
+    
+    // Create chat message with armor information
+    const messageData = {
+      user: game.user.id,
+      speaker: ChatMessage.getSpeaker({ actor: this.document }),
+      content: `<div class="armor-chat-display" style="background: linear-gradient(135deg, #2c2c2c, #1a1a1a); border: 2px solid #c9c7b8; border-radius: 8px; padding: 12px; margin: 8px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+        <div style="text-align: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #c9c7b8;">
+          <h3 style="margin: 0; color: #f0f0e0; font-size: 16px;">
+            <i class="fas fa-shield-alt" style="margin-right: 6px; color: #c9c7b8;"></i>
+            Informações da Armadura
+          </h3>
+        </div>
+        ${armorHtml}
       </div>`,
       style: CONST.CHAT_MESSAGE_STYLES.OTHER
     };
@@ -3057,12 +3280,22 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
 
-    // Show in Chat option for weapons only
+    // Show in Chat option for weapons and armors
     if (item.type === "arma") {
       options.push({
         name: "Mostrar no Chat",
         icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
         condition: () => item.type === "arma", // Only for weapons
+        callback: li => this._onAction(li, "showInChat", item)
+      });
+    }
+
+    // Show in Chat option for armors
+    if (item.type === "armadura") {
+      options.push({
+        name: "Mostrar no Chat",
+        icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
+        condition: () => item.type === "armadura", // Only for armors
         callback: li => this._onAction(li, "showInChat", item)
       });
     }
@@ -3128,7 +3361,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
         return null;
       case "showInChat":
-        return this._showWeaponInChat(item);
+        // Handle both weapons and armors
+        if (item.type === "arma") {
+          return this._showWeaponInChat(item);
+        } else if (item.type === "armadura") {
+          return this._showArmorInChat(item);
+        }
+        return null;
       case "delete":
         // Show confirmation dialog before deleting
         const deleteConfirmed = await foundry.applications.api.DialogV2.confirm({

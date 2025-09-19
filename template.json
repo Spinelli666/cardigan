@@ -166,10 +166,11 @@
       "templates": ["base"],
       "armorType": "torso",
       "protecao": 0,
+      "armorClass": "",
       "equipped": false,
-      "propriedades": [],
+      "properties": [],
       "skillBonuses": [],
-      "artefatoMagico": false,
+      "magicalArtifact": false,
       "resistenciaFrio": false,
       "bonusVida": 0,
       "bonusEnergia": 0,
@@ -179,9 +180,9 @@
       },
       "weight": "leve",
       "price": 0,
-      "durabilidade": {
-        "value": 100,
-        "max": 100
+      "durability": {
+        "current": 3,
+        "max": 3
       }
     }
   }

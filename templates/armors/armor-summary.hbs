@@ -1,0 +1,110 @@
+{{!-- Armor Summary Template --}}
+{{!-- Based on weapon-summary structure with Armor-specific Layout --}}
+<div class="armor-summary">
+  <div class="summary-content">
+    
+    {{!-- Armor Weight Property (Top Right Corner) --}}
+    <div class="armor-properties-top-right">
+      <i class="fas fa-backpack"></i>
+      <span class="weight-text">{{#if (eq system.weight "leve")}}Leve{{else}}Pesado{{/if}}</span>
+    </div>
+    
+    {{!-- Vertical Centered Layout --}}
+    <div class="armor-vertical-layout">
+      
+      {{!-- Armor Image (Centered) --}}
+      <div class="armor-image-center">
+        <img src="{{item.img}}" alt="{{item.name}}" width="48" height="48">
+      </div>
+      
+      {{!-- Armor Name (Centered below image) --}}
+      <div class="armor-name-center">
+        <h4>{{item.name}}</h4>
+      </div>
+      
+      {{!-- Armor Type (Centered below name) --}}
+      {{#if system.armorClass}}
+      <div class="armor-type-center">
+        <em>{{system.armorClass}}</em>
+      </div>
+      {{/if}}
+      
+      {{!-- Protection (Centered) --}}
+      <div class="armor-stats-row">
+        <div class="armor-protection">
+          <i class="fas fa-shield-alt"></i>
+          {{system.protecao}}
+        </div>
+      </div>
+      
+      {{!-- Durability (Centered below stats row) --}}
+      {{#if system.durability.max}}
+      <div class="armor-durability-center">
+        <i class="fas fa-hammer"></i>
+        {{system.durability.current}}/{{system.durability.max}}
+      </div>
+      {{/if}}
+      
+      {{!-- Description (Centered below durability) --}}
+      {{#if enrichedDescription}}
+      <div class="armor-description-center">
+        {{{enrichedDescription}}}
+      </div>
+      {{/if}}
+
+      {{!-- Armor Skill Bonuses as Properties (Centered below description) --}}
+      {{#if system.skillBonuses}}
+      <div class="armor-properties-bonuses-center">
+        <div class="properties-title">PROPRIEDADES</div>
+        <div class="properties-bonuses">
+          {{#each system.skillBonuses as |skillBonus|}}
+            {{#if (gt skillBonus.bonus 0)}}+{{/if}}{{skillBonus.bonus}} {{#if (eq skillBonus.skill "accuracy")}}ACCURACY{{else if (eq skillBonus.skill "evasion")}}EVASION{{else if (eq skillBonus.skill "strength")}}FORÇA{{else if (eq skillBonus.skill "dexterity")}}DESTREZA{{else if (eq skillBonus.skill "stamina")}}STAMINA{{else if (eq skillBonus.skill "stealth")}}STEALTH{{else if (eq skillBonus.skill "persuasion")}}PERSUASION{{else if (eq skillBonus.skill "intelligence")}}INTELIGÊNCIA{{else if (eq skillBonus.skill "psionics")}}PSIÔNICOS{{else}}{{skillBonus.skill}}{{/if}}{{#unless @last}} ・ {{/unless}}
+          {{/each}}
+        </div>
+      </div>
+      {{/if}}
+
+      {{!-- Armor Properties with Detailed Descriptions (Left Aligned) --}}
+      <div class="armor-detailed-properties">
+        
+        {{!-- Magical Artifact with Description --}}
+        {{#if system.magicalArtifact}}
+        <div class="property-detail-line">
+          ◆ 🌀Artefato ‣ Relíquia Arcana, que pode ser usado para canalizar feitiços.
+        </div>
+        {{/if}}
+        
+        {{!-- Cold Resistance with Description --}}
+        {{#if system.resistenciaFrio}}
+        <div class="property-detail-line">
+          ◆ ☀️Resistência ao Frio ‣ Bônus para testes de resistência à climas de extremo frio.
+        </div>
+        {{/if}}
+        
+        {{!-- Life Bonus with Description --}}
+        {{#unless (eq system.bonusVida 0)}}
+        <div class="property-detail-line">
+          ◆ ❤️Vida ‣ Você recebeu {{#if (gt system.bonusVida 0)}}+{{system.bonusVida}}{{else}}{{system.bonusVida}}{{/if}} de Vida.
+        </div>
+        {{/unless}}
+        
+        {{!-- Energy Bonus with Description --}}
+        {{#unless (eq system.bonusEnergia 0)}}
+        <div class="property-detail-line">
+          ◆ ⚡Energia ‣ Você recebeu {{#if (gt system.bonusEnergia 0)}}+{{system.bonusEnergia}}{{else}}{{system.bonusEnergia}}{{/if}} de Energia.
+        </div>
+        {{/unless}}
+        
+        {{!-- Movement Bonus with Description --}}
+        {{#if (and system.bonusDeslocamento.enabled (not (eq system.bonusDeslocamento.bonus 0)))}}
+        <div class="property-detail-line">
+          ◆ 👣Deslocamento ‣ Você recebeu {{#if (gt system.bonusDeslocamento.bonus 0)}}+{{system.bonusDeslocamento.bonus}}{{else}}{{system.bonusDeslocamento.bonus}}{{/if}} de Deslocamento.
+        </div>
+        {{/if}}
+        
+      </div>
+      
+    </div>
+    
+  </div>
+</div>
