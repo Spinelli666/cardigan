@@ -76,7 +76,56 @@ export class ItemTypeSelectionDialog extends api.HandlebarsApplicationMixin(
     const itemName = target.dataset.name;
     
     try {
-      // Create the item with selected type
+      // Special handling for armor - need to select armor type first
+      if (itemType === "armadura") {
+        // Import and show armor type selection dialog
+        const { ArmorTypeSelectionDialog } = await import('./armor-type-selection-dialog.mjs');
+        const selectedArmorType = await ArmorTypeSelectionDialog.show();
+        
+        if (selectedArmorType === null) {
+          // User cancelled armor type selection
+          return;
+        }
+        
+        // Create armor with selected type
+        const itemClass = getDocumentClass("Item");
+        const createData = { 
+          name: itemName, 
+          type: itemType,
+          system: {
+            armorType: selectedArmorType
+          }
+        };
+        
+        // Debug logging
+        console.log('[ARMOR CREATION] Item class:', itemClass);
+        console.log('[ARMOR CREATION] Create data:', createData);
+        console.log('[ARMOR CREATION] Available item types:', Object.keys(CONFIG.Item.dataModels || {}));
+        console.log('[ARMOR CREATION] System template types:', game.system?.template?.Item?.types);
+        
+        const document = await itemClass.create(createData, {
+          parent: this.actor,
+        });
+        
+        // Check if document was created successfully
+        if (document) {
+          // Open the item sheet
+          document.sheet.render(true);
+          
+          // Resolve the promise and close the dialog
+          if (this.resolve) {
+            this.resolve({ document, type: itemType });
+          }
+        } else {
+          console.error('Failed to create armor document');
+          ui.notifications.error('Failed to create armor item');
+        }
+        
+        this.close();
+        return;
+      }
+      
+      // Regular item creation for non-armor types
       const itemClass = getDocumentClass("Item");
       const createData = { 
         name: itemName, 

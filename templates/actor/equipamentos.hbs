@@ -24,6 +24,7 @@
       <div class='item-ammunition'>{{localize 'CARDIGAN.Ammunition'}}</div>
       {{/if}}
       <div class='item-durability'>{{localize 'CARDIGAN.Durability'}}</div>
+      <div class='item-unequip'>{{localize 'CARDIGAN.Unequip'}}</div>
       <div class='item-controls'>
     </li>
     {{#each armas as |item id|}}
@@ -168,6 +169,19 @@
             </span>
           {{/if}}
         </div>
+        <div class='item-unequip'>
+          {{#if @root.editable}}
+            <a
+              class='item-control unequip-weapon'
+              title='{{localize "CARDIGAN.UnequipWeapon"}}'
+              data-action='unequipWeapon'
+              data-item-id='{{item._id}}'
+              style='color: #ff5722; font-size: 16px;'
+            >
+              <i class='fas fa-times-circle'></i>
+            </a>
+          {{/if}}
+        </div>
         <div class='item-controls'>
           {{#if @root.editable}}
             {{!-- Context Menu Button (Three Dots) --}}
@@ -193,6 +207,82 @@
   {{! Spacer between weapons and gear }}
   <div style="margin: 20px 0; border-bottom: 1px solid #444;"></div>
 
+  {{! Armor Table - Equipped Armors }}
+  <h3 class="items-section-header" style="margin-bottom: 10px; color: #c9c7b8; text-align: center;">
+    <i class="fas fa-shield" style="margin-right: 8px;"></i>
+    {{localize "CARDIGAN.ArmorTable"}}
+  </h3>
+  <ol class='items-list'>
+    <li class='item flexrow items-header'>
+      <div class='item-name'>{{localize 'Name'}}</div>
+      <div class='item-armor-type'>{{localize 'CARDIGAN.ArmorTypeLabel'}}</div>
+      <div class='item-protection'>{{localize 'CARDIGAN.Protection'}}</div>
+      <div class='item-durability'>{{localize 'CARDIGAN.Durability'}}</div>
+      <div class='item-unequip'>{{localize 'CARDIGAN.Unequip'}}</div>
+      <div class='item-controls'></div>
+    </li>
+    {{#each armaduras as |item id|}}
+      <li
+        class='item flexrow'
+        data-item-id='{{item._id}}'
+        data-uuid='{{item.uuid}}'
+        data-drag='true'
+        data-document-class='Item'
+      >
+        <div class='item-name {{#if (eq item.system.durabilidade.value 0)}}item-name-broken{{/if}}'>
+          <div class='item-image'>
+            <img
+              src='{{item.img}}'
+              title='{{item.name}}'
+              width='24'
+              height='24'
+            />
+          </div>
+          <h4>{{item.name}}</h4>
+        </div>
+        <div class='item-armor-type'>
+          {{localize (concat "CARDIGAN.ArmorType." (capitalize item.system.armorType))}}
+        </div>
+        <div class='item-protection'>
+          {{item.system.protecao}}
+        </div>
+        <div class='item-durability'>
+          <span class="durability-display {{#if (lt item.system.durabilidade.value 25)}}low-durability{{/if}}">
+            {{item.system.durabilidade.value}}/{{item.system.durabilidade.max}}
+          </span>
+        </div>
+        <div class='item-unequip'>
+          {{#if @root.editable}}
+            <button
+              class='item-control unequip-armor-btn'
+              title='{{localize "CARDIGAN.UnequipArmor"}}'
+              data-action='unequipArmor'
+              data-item-id='{{item._id}}'
+            >
+              <i class='fas fa-shield-slash'></i>
+            </button>
+          {{/if}}
+        </div>
+        <div class='item-controls'>
+          {{#if @root.editable}}
+            {{!-- Context Menu Button (Three Dots) for Armor Table --}}
+            <a
+              class='item-control item-options'
+              title='{{localize "CARDIGAN.ItemOptions"}}'
+              data-context-menu
+              data-item-id='{{item._id}}'
+            >
+              <i class='fas fa-ellipsis-v'></i>
+            </a>
+          {{/if}}
+        </div>
+      </li>
+    {{/each}}
+  </ol>
+
+  {{! Spacer between armor and gear }}
+  <div style="margin: 20px 0; border-bottom: 1px solid #444;"></div>
+
   {{! Backpack/Gear Table - Always Visible }}
   <h3 class="items-section-header" style="margin-bottom: 10px; color: #c9c7b8; text-align: center;">
     <i class="fas fa-backpack" style="margin-right: 8px;"></i>
@@ -203,6 +293,7 @@
       <div class='item-name'>{{localize 'Name'}}</div>
       <div class='item-quantity'>{{localize 'CARDIGAN.Quantity'}}</div>
       <div class='item-weight'>{{localize 'CARDIGAN.Weight'}}</div>
+      <div class='item-equip'>{{localize 'CARDIGAN.Equip'}}</div>
       <div class='item-controls'>
         {{#if @root.editable}}
           <button
@@ -239,6 +330,31 @@
         </div>
         <div class='item-quantity'>{{item.system.quantity}}</div>
         <div class='item-weight'>{{item.system.weight}}</div>
+        <div class='item-equip'>
+          {{#if @root.editable}}
+            {{#if (eq item.type "arma")}}
+              <a
+                class='item-control equip-weapon'
+                title='{{localize "CARDIGAN.EquipWeapon"}}'
+                data-action='equipWeapon'
+                data-item-id='{{item._id}}'
+                style='color: #4caf50; font-size: 16px;'
+              >
+                <i class='fas fa-shield-alt'></i>
+              </a>
+            {{else if (eq item.type "armadura")}}
+              <a
+                class='item-control equip-armor'
+                title='{{localize "CARDIGAN.EquipArmor"}}'
+                data-action='equipArmor'
+                data-item-id='{{item._id}}'
+                style='color: #2196f3; font-size: 16px;'
+              >
+                <i class='fas fa-shield'></i>
+              </a>
+            {{/if}}
+          {{/if}}
+        </div>
         <div class='item-controls'>
           {{#if @root.editable}}
             {{!-- Context Menu Button (Three Dots) for Gear Table --}}

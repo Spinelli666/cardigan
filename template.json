@@ -107,7 +107,7 @@
     }
   },
   "Item": {
-    "types": ["gear", "feature", "spell", "efeito", "arma"],
+    "types": ["gear", "feature", "spell", "efeito", "arma", "armadura"],
     "htmlFields": ["description"],
     "templates": {
       "base": {
@@ -161,6 +161,28 @@
       "skillBonuses": [],
       "equipped": false,
       "magicalArtifact": false
+    },
+    "armadura": {
+      "templates": ["base"],
+      "armorType": "torso",
+      "protecao": 0,
+      "equipped": false,
+      "propriedades": [],
+      "skillBonuses": [],
+      "artefatoMagico": false,
+      "resistenciaFrio": false,
+      "bonusVida": 0,
+      "bonusEnergia": 0,
+      "bonusDeslocamento": {
+        "enabled": false,
+        "bonus": 0
+      },
+      "weight": "leve",
+      "price": 0,
+      "durabilidade": {
+        "value": 100,
+        "max": 100
+      }
     }
   }
 }

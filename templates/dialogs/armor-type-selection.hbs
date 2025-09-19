@@ -1,0 +1,21 @@
+<div class="armor-type-selection">
+  <h3>{{localize "CARDIGAN.SelectArmorTypeTitle"}}</h3>
+  <p class="dialog-description">{{localize "CARDIGAN.SelectArmorTypeDescription"}}</p>
+  
+  <div class="armor-types-grid">
+    {{#each armorTypes}}
+    <div class="armor-type-option" data-armor-type="{{key}}" data-action="selectType">
+      <div class="armor-type-icon">
+        <i class="{{icon}}"></i>
+      </div>
+      <div class="armor-type-label">{{label}}</div>
+    </div>
+    {{/each}}
+  </div>
+  
+  <div class="dialog-buttons">
+    <button type="button" class="cancel-button" data-action="cancel">
+      <i class="fa-solid fa-times"></i> {{localize "Cancel"}}
+    </button>
+  </div>
+</div>

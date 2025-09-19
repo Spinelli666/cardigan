@@ -225,27 +225,6 @@
 }
 
 /* Styles limited to cardigan sheets */
-.cardigan {
-  /* Skill Bonuses Section Styles */
-  /* Containers de Vida e Energia no Status */
-  /* Features Tab Layout Styles */
-  /* Additional Notes Section Styles */
-  /* Effects Container in Features Tab */
-  /* Character Details Container Styles */
-  /* XP, Level & Classes Container Styles */
-  /* Armor Container Styles */
-  /* Status Container Styles */
-  /* Bonus Container Styles */
-  /* Reset Button Styles */
-  /* Abilities Container Styles - visual antigo */
-  /* Roll Button Styles */
-  /* Botão usa estilos padrão do FoundryVTT - sem customização */
-  /* Abilities Toggle Styles */
-  /* Abilities Grid View Styles */
-  /* Abilities List View Styles */
-  /* Abilities Edit Modal Styles */
-  /* Weapon Bonus Indicator Styles */
-}
 .cardigan .item-form {
   font-family: "Roboto", sans-serif;
 }
@@ -396,6 +375,9 @@
 .cardigan .item-formula {
   flex: 0 0 200px;
   padding: 0 8px;
+}
+.cardigan {
+  /* Skill Bonuses Section Styles */
 }
 .cardigan .skill-bonuses .skill-bonuses-header {
   display: flex;
@@ -654,9 +636,15 @@
   min-width: 50px;
   text-align: left;
 }
+.cardigan {
+  /* Containers de Vida e Energia no Status */
+}
 .cardigan .vida-container,
 .cardigan .energia-container {
   margin-bottom: 10px;
+}
+.cardigan {
+  /* Features Tab Layout Styles */
 }
 .cardigan .horizontal-field {
   display: flex;
@@ -705,6 +693,9 @@
   font-weight: bold;
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
+}
+.cardigan {
+  /* Additional Notes Section Styles */
 }
 .cardigan .additional-notes-container h3 {
   margin: 0 0 10px 0;
@@ -759,6 +750,9 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 8px;
+}
+.cardigan {
+  /* Effects Container in Features Tab */
 }
 .cardigan .effects-container h3 {
   margin: 0 0 10px 0;
@@ -1019,6 +1013,48 @@
 }
 .cardigan .tab.equipamentos .item-ammunition input[type=number]:hover {
   background: rgba(255, 255, 255, 0.1);
+}
+.cardigan .tab.equipamentos .item-unequip {
+  text-align: center;
+  min-width: 50px;
+}
+.cardigan .tab.equipamentos .item-unequip .unequip-weapon {
+  display: inline-block;
+  padding: 4px 6px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.cardigan .tab.equipamentos .item-unequip .unequip-weapon:hover {
+  background: rgba(255, 87, 34, 0.2);
+  transform: scale(1.1);
+}
+.cardigan .tab.equipamentos .item-unequip .unequip-weapon:active {
+  transform: scale(0.95);
+}
+.cardigan .tab.equipamentos .item-unequip .unequip-weapon i {
+  font-size: 14px;
+}
+.cardigan .tab.equipamentos .item-equip {
+  text-align: center;
+  min-width: 50px;
+}
+.cardigan .tab.equipamentos .item-equip .equip-weapon {
+  display: inline-block;
+  padding: 4px 6px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.cardigan .tab.equipamentos .item-equip .equip-weapon:hover {
+  background: rgba(76, 175, 80, 0.2);
+  transform: scale(1.1);
+}
+.cardigan .tab.equipamentos .item-equip .equip-weapon:active {
+  transform: scale(0.95);
+}
+.cardigan .tab.equipamentos .item-equip .equip-weapon i {
+  font-size: 14px;
 }
 .cardigan .tab.equipamentos .item-name-broken {
   color: #ff4444 !important;
@@ -1849,6 +1885,62 @@
 .cardigan .item-selection-modal .modal-content .modal-body .item-type-options .item-type-option[data-type=gear] i {
   color: #4ecdc4;
 }
+.cardigan .item-selection-modal .item-armor-type {
+  text-align: center;
+  min-width: 100px;
+  font-size: 0.9rem;
+  color: #c9c7b8;
+}
+.cardigan .item-selection-modal .item-protection {
+  text-align: center;
+  min-width: 80px;
+  font-weight: bold;
+  color: #4caf50;
+}
+.cardigan .item-selection-modal .equip-armor {
+  color: #2196f3 !important;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+.cardigan .item-selection-modal .equip-armor:hover {
+  color: #1976d2 !important;
+  transform: scale(1.1);
+}
+.cardigan .item-selection-modal .unequip-armor-btn {
+  background: none;
+  border: none;
+  color: #f44336;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 4px;
+}
+.cardigan .item-selection-modal .unequip-armor-btn:hover {
+  color: #d32f2f;
+  transform: scale(1.1);
+}
+.cardigan .item-selection-modal .low-durability {
+  color: #ff9800 !important;
+  font-weight: bold;
+}
+.cardigan .item-selection-modal .low-durability.critical {
+  color: #f44336 !important;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.cardigan {
+  /* Character Details Container Styles */
+}
 .cardigan .character-details-container {
   display: flex;
   flex-direction: column;
@@ -1889,6 +1981,9 @@
   text-align: center;
   border: 1px solid #ccc;
   font-size: 14px;
+}
+.cardigan {
+  /* XP, Level & Classes Container Styles */
 }
 .cardigan .container-teste h3 {
   margin: 0 0 10px 0;
@@ -1996,6 +2091,9 @@
   font-size: 14px;
   width: 100%;
 }
+.cardigan {
+  /* Armor Container Styles */
+}
 .cardigan .armadura-container {
   margin-bottom: 10px;
 }
@@ -2040,6 +2138,9 @@
   color: #666;
   margin: 0 2px;
   user-select: none;
+}
+.cardigan {
+  /* Status Container Styles */
 }
 .cardigan .status-container h3 {
   margin: 0 0 10px 0;
@@ -2109,6 +2210,9 @@
   margin: 0 2px;
   user-select: none;
 }
+.cardigan {
+  /* Bonus Container Styles */
+}
 .cardigan .bonus-container {
   margin-left: 8px;
   display: inline-flex;
@@ -2141,6 +2245,9 @@
 }
 .cardigan .bonus-input:hover {
   border-color: #888 !important;
+}
+.cardigan {
+  /* Reset Button Styles */
 }
 .cardigan .reset-button {
   background: #ff6b6b;
@@ -2440,6 +2547,77 @@
     padding: 15px;
   }
 }
+.cardigan .armor-type-selection {
+  padding: 1rem;
+}
+.cardigan .armor-type-selection h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--cardigan-c-beige);
+  text-align: center;
+}
+.cardigan .armor-type-selection .dialog-description {
+  margin: 0 0 1rem 0;
+  color: var(--cardigan-c-beige);
+  text-align: center;
+  font-size: 0.9rem;
+}
+.cardigan .armor-type-selection .armor-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.cardigan .armor-type-selection .armor-type-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border: 2px solid #444;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 80px;
+  justify-content: center;
+}
+.cardigan .armor-type-selection .armor-type-option:hover, .cardigan .armor-type-selection .armor-type-option.hovered {
+  border-color: var(--cardigan-c-beige);
+  background: rgba(var(--cardigan-c-beige), 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.cardigan .armor-type-selection .armor-type-icon {
+  font-size: 1.5rem;
+  color: var(--cardigan-c-beige);
+  margin-bottom: 0.5rem;
+}
+.cardigan .armor-type-selection .armor-type-label {
+  font-size: 0.85rem;
+  color: var(--cardigan-c-beige);
+  text-align: center;
+  font-weight: 500;
+}
+.cardigan .armor-type-selection .dialog-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.cardigan .armor-type-selection .cancel-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--cardigan-c-beige);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.cardigan .armor-type-selection .cancel-button:hover {
+  background: rgba(var(--cardigan-c-beige), 0.1);
+  border-color: var(--cardigan-c-beige);
+}
+.cardigan {
+  /* Abilities Container Styles - visual antigo */
+}
 .cardigan .abilities-main-container h3 {
   margin: 0 0 6px 0;
   font-size: 20px;
@@ -2529,10 +2707,17 @@
   border-color: #666;
   outline: none;
 }
+.cardigan {
+  /* Roll Button Styles */
+}
 .cardigan .roll-button-container {
   display: flex;
   align-items: center;
   margin-left: 8px;
+}
+.cardigan {
+  /* Botão usa estilos padrão do FoundryVTT - sem customização */
+  /* Abilities Toggle Styles */
 }
 .cardigan .abilities-toggle-view {
   transition: all 0.2s ease;
@@ -2540,6 +2725,9 @@
 .cardigan .abilities-toggle-view:hover {
   background: #e0e0e0 !important;
   transform: scale(1.05);
+}
+.cardigan {
+  /* Abilities Grid View Styles */
 }
 .cardigan .abilities-grid-view .ability-row {
   display: flex !important;
@@ -2566,6 +2754,9 @@
   font-size: 14px !important;
   font-weight: bold !important;
 }
+.cardigan {
+  /* Abilities List View Styles */
+}
 .cardigan .abilities-list-view .ability-row {
   display: flex !important;
   align-items: center !important;
@@ -2583,6 +2774,9 @@
 .cardigan .abilities-list-view .ability-row input {
   width: 50px !important;
   text-align: center !important;
+}
+.cardigan {
+  /* Abilities Edit Modal Styles */
 }
 .cardigan .abilities-modal {
   position: fixed;
@@ -2703,6 +2897,9 @@
   text-align: center;
   border-top: 1px solid #444;
   padding-top: 15px;
+}
+.cardigan {
+  /* Weapon Bonus Indicator Styles */
 }
 .cardigan .weapon-bonus-indicator {
   display: inline-block;

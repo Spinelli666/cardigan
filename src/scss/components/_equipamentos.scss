@@ -210,6 +210,60 @@
     }
   }
   
+  // Style for unequip weapon column
+  .item-unequip {
+    text-align: center;
+    min-width: 50px;
+    
+    .unequip-weapon {
+      display: inline-block;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      
+      &:hover {
+        background: rgba(255, 87, 34, 0.2);
+        transform: scale(1.1);
+      }
+      
+      &:active {
+        transform: scale(0.95);
+      }
+      
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  // Style for equip weapon column in backpack
+  .item-equip {
+    text-align: center;
+    min-width: 50px;
+    
+    .equip-weapon {
+      display: inline-block;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      
+      &:hover {
+        background: rgba(76, 175, 80, 0.2);
+        transform: scale(1.1);
+      }
+      
+      &:active {
+        transform: scale(0.95);
+      }
+      
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+  
   // Style for broken weapons (durability = 0)
   .item-name-broken {
     color: #ff4444 !important;
@@ -1212,5 +1266,64 @@
         }
       }
     }
+  }
+
+  // Armor table specific styles
+  .item-armor-type {
+    text-align: center;
+    min-width: 100px;
+    font-size: 0.9rem;
+    color: #c9c7b8;
+  }
+
+  .item-protection {
+    text-align: center;
+    min-width: 80px;
+    font-weight: bold;
+    color: #4caf50;
+  }
+
+  // Equip/Unequip buttons for armor
+  .equip-armor {
+    color: #2196f3 !important;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      color: #1976d2 !important;
+      transform: scale(1.1);
+    }
+  }
+
+  .unequip-armor-btn {
+    background: none;
+    border: none;
+    color: #f44336;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 4px;
+    
+    &:hover {
+      color: #d32f2f;
+      transform: scale(1.1);
+    }
+  }
+
+  // Low durability warning for armor
+  .low-durability {
+    color: #ff9800 !important;
+    font-weight: bold;
+    
+    &.critical {
+      color: #f44336 !important;
+      animation: pulse 2s infinite;
+    }
+  }
+
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
   }
 }

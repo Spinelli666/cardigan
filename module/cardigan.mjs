@@ -63,12 +63,18 @@ Hooks.once('init', function () {
     spell: models.CardiganSystemSpell,
     efeito: models.CardiganSystemEfeito,
     arma: models.CardiganSystemArma,
+    armadura: models.CardiganSystemArmadura,
   };
 
   // Debug logging
   console.log('[CARDIGAN] Registered Item types:', Object.keys(CONFIG.Item.dataModels));
   console.log('[CARDIGAN] CardiganSystemEfeito model:', models.CardiganSystemEfeito);
   console.log('[CARDIGAN] CardiganSystemArma model:', models.CardiganSystemArma);
+  console.log('[CARDIGAN] CardiganSystemArmadura model:', models.CardiganSystemArmadura);
+  
+  // Verify system template types
+  console.log('[CARDIGAN] System template Item types from game.system.template:', game.system?.template?.Item?.types);
+  console.log('[CARDIGAN] Document types from system.json:', game.system?.documentTypes?.Item);
 
   // Active Effects are never copied to the Actor,
   // but will still apply to the Actor from within the Item

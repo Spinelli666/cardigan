@@ -139,4 +139,25 @@ export function registerHandlebarsHelpers() {
       return weapon.name;
     }
   });
+
+  /**
+   * Capitalize the first letter of a string
+   * @param {string} str - String to capitalize
+   * @returns {string} - Capitalized string
+   */
+  Handlebars.registerHelper('capitalize', function(str) {
+    if (typeof str !== 'string') return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  });
+
+  /**
+   * Concatenate strings
+   * @param {...string} args - Strings to concatenate
+   * @returns {string} - Concatenated string
+   */
+  Handlebars.registerHelper('concat', function(...args) {
+    // Remove the last argument which is the Handlebars options object
+    args.pop();
+    return args.join('');
+  });
 }

@@ -57,6 +57,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       showEffectInChat: this._onShowEffectInChat,
       reloadAmmunition: this._onReloadAmmunition,
       attackWithWeapon: this._onAttackWithWeapon,
+      equipWeapon: this._onEquipWeapon,
+      unequipWeapon: this._onUnequipWeapon,
+      equipArmor: this._onEquipArmor,
+      unequipArmor: this._onUnequipArmor,
       // Removemos as ações do modal para implementar via event listeners diretos
     },
     // Custom property that's merged into `this.options`
@@ -288,6 +292,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const features = [];
     const efeitos = [];
     const armas = [];
+    const armaduras = [];
     const spells = {
       0: [],
       1: [],
@@ -310,6 +315,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       if (i.type === 'arma') {
         console.log(`Weapon: ${i.name}, equipped: ${i.system.equipped}, ID: ${i._id}`);
       }
+      // Debug armor items
+      if (i.type === 'armadura') {
+        console.log(`Armor: ${i.name}, equipped: ${i.system.equipped}, type: ${i.system.armorType}, ID: ${i._id}`);
+      }
 
       // Append to gear.
       if (i.type === 'gear') {
@@ -324,6 +333,18 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         } else {
           console.log(`  → Adding ${i.name} to GEAR table (equipped: false)`);
           // Unequipped weapons go to gear table
+          gear.push(i);
+        }
+      }
+      // Append to armaduras (armor).
+      else if (i.type === 'armadura') {
+        // Only equipped armors go to armaduras table, unequipped ones go to gear table
+        if (i.system.equipped) {
+          console.log(`  → Adding ${i.name} to ARMADURAS table (equipped: true)`);
+          armaduras.push(i);
+        } else {
+          console.log(`  → Adding ${i.name} to GEAR table (equipped: false)`);
+          // Unequipped armors go to gear table
           gear.push(i);
         }
       }
@@ -348,19 +369,87 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
 
-    console.log(`Final counts: gear=${gear.length}, armas=${armas.length}`);
+    console.log(`Final counts: gear=${gear.length}, armas=${armas.length}, armaduras=${armaduras.length}`);
     console.log("=== END PREPARE ITEMS DEBUG ===");
 
     for (const s of Object.values(spells)) {
       s.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     }
 
+    // Sort armors by type order (Cabeça, Acessórios, Ombreiras, Torso, Braços, Pernas, Pés)
+    const armorTypeOrder = {
+      "cabeca": 1,
+      "acessorios": 2,
+      "ombreiras": 3,
+      "torso": 4,
+      "bracos": 5,
+      "pernas": 6,
+      "pes": 7
+    };
+
     // Sort then assign
     context.gear = gear.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.efeitos = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.armas = armas.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.armaduras = armaduras.sort((a, b) => {
+      const orderA = armorTypeOrder[a.system.armorType] || 99;
+      const orderB = armorTypeOrder[b.system.armorType] || 99;
+      return orderA - orderB;
+    });
     context.spells = spells;
+
+    // Calculate armor totals for equipped armors
+    this._calculateArmorTotals(context);
+  }
+
+  /**
+   * Calculate totals from equipped armors and apply to actor
+   * @param {object} context - The context object
+   * @private
+   */
+  _calculateArmorTotals(context) {
+    let totalArmor = 0;
+    let totalLifeBonus = 0;
+    let totalEnergyBonus = 0;
+    let totalMovementBonus = 0;
+
+    // Calculate totals from equipped armors
+    context.armaduras.forEach(armor => {
+      // Armor protection
+      totalArmor += armor.system.protecao || 0;
+      
+      // Life and energy bonuses
+      totalLifeBonus += armor.system.bonusVida || 0;
+      totalEnergyBonus += armor.system.bonusEnergia || 0;
+      
+      // Movement bonus (only if enabled)
+      if (armor.system.bonusDeslocamento && armor.system.bonusDeslocamento.enabled) {
+        totalMovementBonus += armor.system.bonusDeslocamento.bonus || 0;
+      }
+    });
+
+    // Store totals in context for display/use
+    context.armorTotals = {
+      armor: totalArmor,
+      life: totalLifeBonus,
+      energy: totalEnergyBonus,
+      movement: totalMovementBonus
+    };
+
+    // Update actor's derived values
+    // Note: In Foundry, you should be careful about modifying the actor data directly
+    // This is for display purposes and shouldn't persist
+    if (this.actor.system.status) {
+      // Add armor bonus to existing armor bonus field
+      this.actor.system.status.armorBonus = totalArmor;
+      // Add life and energy bonuses to existing bonus fields  
+      this.actor.system.status.healthBonus = totalLifeBonus;
+      this.actor.system.status.energyBonus = totalEnergyBonus;
+    }
+
+    // Log for debugging
+    console.log(`[ARMOR TOTALS] Armor: ${totalArmor}, Life: ${totalLifeBonus}, Energy: ${totalEnergyBonus}, Movement: ${totalMovementBonus}`);
   }
 
   /**************
@@ -2229,6 +2318,204 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Handle equipping a weapon from the backpack
+   * @this CardiganSystemActorSheet
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @returns {Promise}
+   * @protected
+   */
+  static async _onEquipWeapon(event, target) {
+    event.preventDefault();
+    
+    const itemId = target.dataset.itemId;
+    const item = this.document.items.get(itemId);
+    
+    if (!item || item.type !== 'arma') {
+      ui.notifications.warn("Item não encontrado ou não é uma arma.");
+      return;
+    }
+
+    if (item.system.equipped) {
+      ui.notifications.info("Esta arma já está equipada.");
+      return;
+    }
+
+    try {
+      // Import the HandSelectionDialog
+      const { HandSelectionDialog } = await import('../applications/hand-selection-dialog.mjs');
+      
+      // Open dialog to select hand(s) - pass the item as parameter
+      const selectedHand = await HandSelectionDialog.show(item);
+      
+      if (selectedHand === null) {
+        // User cancelled the dialog
+        return;
+      }
+
+      // Prepare update data based on selection
+      const updateData = {
+        "system.equipped": true,
+        "system.rightHand": false,
+        "system.leftHand": false
+      };
+      
+      // Set hand assignments based on selection
+      switch (selectedHand) {
+        case "right":
+          updateData["system.rightHand"] = true;
+          break;
+        case "left":
+          updateData["system.leftHand"] = true;
+          break;
+        case "both":
+          updateData["system.rightHand"] = true;
+          updateData["system.leftHand"] = true;
+          break;
+      }
+
+      await item.update(updateData);
+
+      // Show success message based on hand selection
+      const handText = selectedHand === "both" ? "ambas as mãos" : 
+                      selectedHand === "right" ? "mão principal" : "mão secundária";
+      ui.notifications.info(`${item.name} foi equipada em ${handText}.`);
+      
+      // Force re-render to update the tables
+      await this.render(false);
+    } catch (error) {
+      console.error("Error equipping weapon:", error);
+      ui.notifications.error("Erro ao equipar a arma.");
+    }
+  }
+
+  /**
+   * Handle unequipping a weapon to the backpack
+   * @this CardiganSystemActorSheet
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @returns {Promise}
+   * @protected
+   */
+  static async _onUnequipWeapon(event, target) {
+    event.preventDefault();
+    
+    const itemId = target.dataset.itemId;
+    const item = this.document.items.get(itemId);
+    
+    if (!item || item.type !== 'arma') {
+      ui.notifications.warn("Item não encontrado ou não é uma arma.");
+      return;
+    }
+
+    if (!item.system.equipped) {
+      ui.notifications.info("Esta arma já está desequipada.");
+      return;
+    }
+
+    try {
+      // Clear hand assignments when unequipping
+      const updateData = {
+        "system.equipped": false,
+        "system.rightHand": false,
+        "system.leftHand": false
+      };
+      
+      await item.update(updateData);
+      ui.notifications.info(`${item.name} foi desequipada e movida para a mochila.`);
+      
+      // Force re-render to update the tables
+      await this.render(false);
+    } catch (error) {
+      console.error("Error unequipping weapon:", error);
+      ui.notifications.error("Erro ao desequipar a arma.");
+    }
+  }
+
+  /**
+   * Handle equipping an armor from the backpack
+   * @this CardiganSystemActorSheet
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @returns {Promise}
+   * @protected
+   */
+  static async _onEquipArmor(event, target) {
+    event.preventDefault();
+    
+    const itemId = target.dataset.itemId;
+    const item = this.document.items.get(itemId);
+    
+    if (!item || item.type !== 'armadura') {
+      ui.notifications.warn("Item não encontrado ou não é uma armadura.");
+      return;
+    }
+
+    if (item.system.equipped) {
+      ui.notifications.info("Esta armadura já está equipada.");
+      return;
+    }
+
+    try {
+      // Simply equip the armor (no dialog needed like weapons)
+      const updateData = {
+        "system.equipped": true
+      };
+
+      await item.update(updateData);
+
+      const armorTypeLabel = game.i18n.localize(`CARDIGAN.ArmorType.${item.system.armorType.charAt(0).toUpperCase() + item.system.armorType.slice(1)}`);
+      ui.notifications.info(`${item.name} (${armorTypeLabel}) foi equipada.`);
+      
+      // Force re-render to update the tables
+      await this.render(false);
+    } catch (error) {
+      console.error("Error equipping armor:", error);
+      ui.notifications.error("Erro ao equipar a armadura.");
+    }
+  }
+
+  /**
+   * Handle unequipping an armor to the backpack
+   * @this CardiganSystemActorSheet
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @returns {Promise}
+   * @protected
+   */
+  static async _onUnequipArmor(event, target) {
+    event.preventDefault();
+    
+    const itemId = target.dataset.itemId;
+    const item = this.document.items.get(itemId);
+    
+    if (!item || item.type !== 'armadura') {
+      ui.notifications.warn("Item não encontrado ou não é uma armadura.");
+      return;
+    }
+
+    if (!item.system.equipped) {
+      ui.notifications.info("Esta armadura já está desequipada.");
+      return;
+    }
+
+    try {
+      const updateData = {
+        "system.equipped": false
+      };
+      
+      await item.update(updateData);
+      ui.notifications.info(`${item.name} foi desequipada e movida para a mochila.`);
+      
+      // Force re-render to update the tables
+      await this.render(false);
+    } catch (error) {
+      console.error("Error unequipping armor:", error);
+      ui.notifications.error("Erro ao desequipar a armadura.");
+    }
+  }
+
+  /**
    * Handle toggling the expand/collapse state of an item via context menu
    * @param {Item} item - The item to expand/collapse
    * @param {HTMLElement} itemContainer - The item container element
@@ -2639,8 +2926,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   #setupContextMenus() {
-    // Bind click event to context menu buttons
+    // Clear any existing context menu event listeners to prevent duplicates
     for (const control of this.element.querySelectorAll("[data-context-menu]")) {
+      // Remove existing listener if any
+      control.removeEventListener("click", ContextMenu5e.triggerEvent);
+      // Add the listener
       control.addEventListener("click", ContextMenu5e.triggerEvent);
     }
 
@@ -2746,6 +3036,27 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
 
+    // Equip/Unequip option for armors
+    if (item.type === "armadura") {
+      if (item.system.equipped) {
+        // Show Unequip option for equipped armors
+        options.push({
+          name: game.i18n.localize("CARDIGAN.UnequipArmor"),
+          icon: '<i class="fa-solid fa-shield-slash fa-fw"></i>',
+          condition: () => item.isOwner,
+          callback: li => this._onAction(li, "unequipArmor", item)
+        });
+      } else {
+        // Show Equip option for unequipped armors
+        options.push({
+          name: game.i18n.localize("CARDIGAN.EquipArmor"),
+          icon: '<i class="fa-solid fa-shield fa-fw"></i>',
+          condition: () => item.isOwner,
+          callback: li => this._onAction(li, "equipArmor", item)
+        });
+      }
+    }
+
     // Show in Chat option for weapons only
     if (item.type === "arma") {
       options.push({
@@ -2797,6 +3108,23 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         
         if (confirmed) {
           return this._unequipWeapon(item);
+        }
+        return null;
+      case "equipArmor":
+        // Equip armor (move from gear table to armor table)
+        return this._equipArmor(item);
+      case "unequipArmor":
+        // Show confirmation dialog before unequipping armor
+        const armorConfirmed = await foundry.applications.api.DialogV2.confirm({
+          title: game.i18n.localize("CARDIGAN.ConfirmUnequipArmor"),
+          content: `<p>Tem certeza que deseja desequipar <strong>"${item.name}"</strong>?</p><p><em>${game.i18n.localize("CARDIGAN.ConfirmUnequipArmorDescription")}</em></p>`,
+          yes: () => true,
+          no: () => false,
+          defaultYes: false
+        });
+        
+        if (armorConfirmed) {
+          return this._unequipArmor(item);
         }
         return null;
       case "showInChat":
@@ -2917,6 +3245,73 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     } catch (error) {
       console.error("Error unequipping weapon:", error);
       ui.notifications.error("Erro ao desequipar a arma.");
+    }
+  }
+
+  /**
+   * Equip an armor (move from gear table to armor table)
+   * @param {Item} armor - The armor to equip
+   * @private
+   */
+  async _equipArmor(armor) {
+    if (armor.type !== "armadura") return;
+
+    try {
+      console.log("=== EQUIP ARMOR DEBUG ===");
+      console.log("Equipando armadura:", armor.name);
+      console.log("Status ANTES do update:", armor.system.equipped);
+      console.log("Armor ID:", armor._id);
+      console.log("Armor type:", armor.system.armorType);
+      
+      const updateData = {
+        "system.equipped": true
+      };
+      
+      console.log("Update data:", updateData);
+      
+      const result = await armor.update(updateData);
+      console.log("Update result:", result);
+      
+      // Get fresh armor data after update
+      const updatedArmor = this.document.items.get(armor._id);
+      console.log("Status DEPOIS do update:", updatedArmor?.system.equipped);
+      console.log("=== END EQUIP ARMOR DEBUG ===");
+      
+      const armorTypeLabel = game.i18n.localize(`CARDIGAN.ArmorType.${armor.system.armorType.charAt(0).toUpperCase() + armor.system.armorType.slice(1)}`);
+      ui.notifications.info(`${armor.name} (${armorTypeLabel}) foi equipada.`);
+      
+      // Force re-render to update the tables
+      await this.render(false);
+    } catch (error) {
+      console.error("Error equipping armor:", error);
+      ui.notifications.error("Erro ao equipar a armadura.");
+    }
+  }
+
+  /**
+   * Unequip an armor (move from armor table to gear table)
+   * @param {Item} armor - The armor to unequip
+   * @private
+   */
+  async _unequipArmor(armor) {
+    if (armor.type !== "armadura") return;
+
+    try {
+      console.log("Desequipando armadura:", armor.name, "Status atual:", armor.system.equipped);
+      
+      const updateData = {
+        "system.equipped": false
+      };
+      
+      await armor.update(updateData);
+      console.log("Armadura desequipada:", armor.name, "Novo status:", armor.system.equipped);
+      ui.notifications.info(`${armor.name} foi desequipada e movida para a mochila.`);
+      
+      // Force re-render to update the tables
+      await this.render(false);
+    } catch (error) {
+      console.error("Error unequipping armor:", error);
+      ui.notifications.error("Erro ao desequipar a armadura.");
     }
   }
 }

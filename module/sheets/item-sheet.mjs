@@ -73,6 +73,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     attributesArma: {
       template: 'systems/cardigan/templates/item/attribute-parts/arma.hbs',
     },
+    attributesArmadura: {
+      template: 'systems/cardigan/templates/item/attribute-parts/armadura.hbs',
+    },
     effects: {
       template: 'systems/cardigan/templates/item/effects.hbs',
     },
@@ -109,6 +112,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'arma':
         options.parts.push('attributesArma');
+        break;
+      case 'armadura':
+        options.parts.push('attributesArmadura');
         break;
     }
   }
@@ -147,6 +153,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesSpell':
       case 'attributesEfeito':
       case 'attributesArma':
+      case 'attributesArmadura':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
         break;
@@ -210,6 +217,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesSpell':
         case 'attributesEfeito':
         case 'attributesArma':
+        case 'attributesArmadura':
           tab.id = 'attributes';
           tab.label += 'Details';
           break;
@@ -239,6 +247,11 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     // Setup conditional visibility for weapon ammunition
     this._setupConditionalAmmunition();
+    
+    // Setup armor-specific functionality if this is an armor item
+    if (this.document.type === 'armadura') {
+      this._setupArmorFunctionality();
+    }
     
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
@@ -362,6 +375,113 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       currentField.style.width = '80px';
       
       label.parentNode.appendChild(currentField);
+    }
+  }
+
+  /**
+   * Setup armor-specific functionality
+   * @private
+   */
+  _setupArmorFunctionality() {
+    // Property management functionality
+    const addPropertyBtn = this.element.querySelector('[data-action="addProperty"]');
+    const propertyInput = this.element.querySelector('[data-property-input]');
+    const propertiesContainer = this.element.querySelector('[data-properties-container]');
+    
+    if (addPropertyBtn && propertyInput && propertiesContainer) {
+      addPropertyBtn.addEventListener('click', () => {
+        const propertyText = propertyInput.value.trim();
+        if (propertyText) {
+          const propertyTag = document.createElement('div');
+          propertyTag.className = 'property-tag';
+          propertyTag.innerHTML = `
+            <span class="property-text">${propertyText}</span>
+            <button type="button" class="remove-property-btn" data-action="removeProperty">×</button>
+            <input type="hidden" name="system.properties.${propertiesContainer.children.length}" value="${propertyText}"/>
+          `;
+          propertiesContainer.appendChild(propertyTag);
+          propertyInput.value = '';
+          
+          // Update form data by triggering a change event
+          propertyInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      });
+
+      propertyInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          addPropertyBtn.click();
+        }
+      });
+    }
+    
+    // Remove property functionality
+    this.element.addEventListener('click', (e) => {
+      if (e.target.matches('[data-action="removeProperty"]')) {
+        e.target.closest('.property-tag').remove();
+        this._updatePropertyIndices();
+      }
+    });
+    
+    // Skill bonus management functionality
+    const addSkillBonusBtn = this.element.querySelector('[data-action="addSkillBonus"]');
+    const skillBonusesContainer = this.element.querySelector('[data-skill-bonuses-container]');
+    
+    if (addSkillBonusBtn && skillBonusesContainer) {
+      addSkillBonusBtn.addEventListener('click', () => {
+        const index = skillBonusesContainer.children.length;
+        const skillBonusDiv = document.createElement('div');
+        skillBonusDiv.className = 'skill-bonus-item';
+        skillBonusDiv.innerHTML = `
+          <select name="system.skillBonuses.${index}.skill" style="width: 100px;">
+            <option value="accuracy">Precisão</option>
+            <option value="evasion">Evasão</option>
+            <option value="strength">Força</option>
+            <option value="dexterity">Destreza</option>
+            <option value="stamina">Vigor</option>
+            <option value="stealth">Furtividade</option>
+            <option value="persuasion">Persuasão</option>
+            <option value="intelligence">Inteligência</option>
+            <option value="psionics">Psiônicos</option>
+          </select>
+          <input type="number" name="system.skillBonuses.${index}.bonus" value="0" style="width: 60px; margin-left: 5px;" placeholder="±0"/>
+          <button type="button" class="remove-skill-bonus-btn" data-action="removeSkillBonus" data-index="${index}">−</button>
+        `;
+        skillBonusesContainer.appendChild(skillBonusDiv);
+      });
+    }
+    
+    // Conditional field visibility for movement bonus
+    const movementCheckbox = this.element.querySelector('[data-conditional-trigger="movement"]');
+    const movementValue = this.element.querySelector('.movement-value');
+    
+    if (movementCheckbox && movementValue) {
+      movementCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+          movementValue.style.display = 'block';
+        } else {
+          movementValue.style.display = 'none';
+        }
+      });
+    }
+  }
+
+  /**
+   * Update property indices after removal
+   * @private
+   */
+  _updatePropertyIndices() {
+    const propertiesContainer = this.element.querySelector('[data-properties-container]');
+    if (propertiesContainer) {
+      const propertyTags = propertiesContainer.querySelectorAll('.property-tag');
+      propertyTags.forEach((tag, index) => {
+        const hiddenInput = tag.querySelector('input[type="hidden"]');
+        if (hiddenInput) {
+          const oldName = hiddenInput.name;
+          const newName = oldName.replace(/\[\d+\]$/, `[${index}]`);
+          hiddenInput.name = newName;
+        }
+      });
     }
   }
 
@@ -489,8 +609,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     });
     
     const item = this.item;
-    if (item.type !== 'arma') {
-      console.log('[CARDIGAN DEBUG] Item is not arma type, returning');
+    if (item.type !== 'arma' && item.type !== 'armadura') {
+      console.log('[CARDIGAN DEBUG] Item is not arma or armadura type, returning');
       return;
     }
 
@@ -516,7 +636,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   static async _removeWeaponProperty(event, target) {
     event.preventDefault();
     const item = this.item;
-    if (item.type !== 'arma') return;
+    if (item.type !== 'arma' && item.type !== 'armadura') return;
 
     const index = parseInt(target.dataset.index);
     if (isNaN(index)) return;
@@ -556,8 +676,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     });
     
     const item = this.item;
-    if (item.type !== 'arma') {
-      console.log('[CARDIGAN DEBUG] Item is not arma type, returning');
+    if (item.type !== 'arma' && item.type !== 'armadura') {
+      console.log('[CARDIGAN DEBUG] Item is not arma or armadura type, returning');
       return;
     }
 
@@ -587,7 +707,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   static async _removeSkillBonus(event, target) {
     event.preventDefault();
     const item = this.item;
-    if (item.type !== 'arma') return;
+    if (item.type !== 'arma' && item.type !== 'armadura') return;
 
     const index = parseInt(target.dataset.index);
     if (isNaN(index)) return;

@@ -294,10 +294,16 @@
     "Weight": "Weight",
     "WeightLight": "Light",
     "WeightHeavy": "Heavy",
+    "Light": "Light",
+    "Heavy": "Heavy",
     "Price": "Price",
     "Durability": "Durability",
     "ItemName": "Item Name",
     "ShowWeapons": "Show Weapons",
+    "UnequipWeapon": "Unequip Weapon",
+    "EquipWeapon": "Equip Weapon",
+    "Unequip": "Unequip",
+    "Equip": "Equip",
     "ShowBackpack": "Show Backpack",
     "BackpackTable": "Backpack Table",
     "AddGear": "Add Item",
@@ -317,8 +323,6 @@
     "AddSkillBonus": "Add Skill Bonus",
     "RemoveSkillBonus": "Remove Skill Bonus",
     "SelectSkill": "Select Skill",
-    "EquipWeapon": "Equip",
-    "UnequipWeapon": "Unequip",
     "SelectHandsTitle": "Select Hand(s)",
     "SelectHandsDescription": "Choose which hand(s) to equip",
     "BothHands": "Both Hands",
@@ -350,7 +354,32 @@
       "Traspassar": "Traspassar",
       "Unica": "Única",
       "Vorpal": "Vorpal"
-    }
+    },
+    "ArmorType": {
+      "Cabeca": "Head",
+      "Acessorios": "Accessories", 
+      "Ombreiras": "Shoulders",
+      "Torso": "Torso",
+      "Bracos": "Arms",
+      "Pernas": "Legs",
+      "Pes": "Feet"
+    },
+    "ArmorTable": "Equipped Armor",
+    "ArmorProtection": "Protection",
+    "ArmorTypeLabel": "Armor Type",
+    "EquipArmor": "Equip Armor",
+    "UnequipArmor": "Unequip Armor",
+    "Protection": "Protection",
+    "ColdResistance": "Cold Resistance",
+    "AttributeBonuses": "Attribute Bonuses",
+    "Life": "Life",
+    "Energy": "Energy", 
+    "MovementBonus": "Movement Bonus",
+    "Meters": "meters",
+    "SelectArmorTypeTitle": "Select Armor Type",
+    "SelectArmorTypeDescription": "Choose which type of armor you want to create:",
+    "ConfirmUnequipArmor": "Confirm Unequip Armor",
+    "ConfirmUnequipArmorDescription": "This will move the armor to your backpack."
   },
   "TYPES": {
     "Actor": {
@@ -359,10 +388,11 @@
     },
     "Item": {
       "gear": "Gear",
-      "feature": "Feature",
+      "feature": "Feature", 
       "spell": "Spell",
       "efeito": "Efeito",
-      "arma": "Weapon"
+      "arma": "Weapon",
+      "armadura": "Armor"
     }
   }
 }
