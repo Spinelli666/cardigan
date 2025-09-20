@@ -248,6 +248,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup conditional visibility for weapon ammunition
     this._setupConditionalAmmunition();
     
+    // Setup conditional visibility for weapon protection
+    this._setupConditionalProtection();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -371,6 +374,29 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       
       label.parentNode.appendChild(currentField);
     }
+  }
+
+  /**
+   * Setup conditional visibility for weapon protection
+   * @private
+   */
+  _setupConditionalProtection() {
+    const protectionCheckbox = this.element.querySelector('input[name="system.protection.enabled"]');
+    const protectionValueSection = this.element.querySelector('.protection-value-section');
+
+    if (!protectionCheckbox || !protectionValueSection) return;
+
+    // Function to update visibility based on checkbox
+    const updateVisibility = () => {
+      const isEnabled = protectionCheckbox.checked;
+      protectionValueSection.style.display = isEnabled ? 'block' : 'none';
+    };
+
+    // Set up event listener
+    protectionCheckbox.addEventListener('change', updateVisibility);
+
+    // Initial setup
+    updateVisibility();
   }
 
   /**************

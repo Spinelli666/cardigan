@@ -52,7 +52,11 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
         { initial: [] }
       ),
       equipped: new fields.BooleanField({ required: true, initial: false }),
-      magicalArtifact: new fields.BooleanField({ required: true, initial: false })
+      magicalArtifact: new fields.BooleanField({ required: true, initial: false }),
+      protection: new fields.SchemaField({
+        enabled: new fields.BooleanField({ required: true, initial: false }),
+        value: new fields.NumberField({ required: true, nullable: false, initial: 0, min: 0, integer: true })
+      })
     };
   }
 

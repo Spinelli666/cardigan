@@ -2793,7 +2793,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       html += `<div class="weapon-type-line" style="text-align: center; margin-bottom: 4px;"><em style="color: #c9c7b8; font-style: italic; font-size: 14px;">${weapon.system.weaponType}</em></div>`;
     }
 
-    // QUINTO: Dano e Munição (se aplicável)
+    // QUINTO: Estatísticas na mesma linha - Dano, Proteção e Munição
     const baseDamage = weapon.system.damage.value || '0';
     const totalDamage = weapon.system.damage.total || baseDamage;
     const currentAmmo = weapon.system.ammunition?.current || 0;
@@ -2808,6 +2808,18 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     damageAmmoHtml += '<i class="fas fa-sword" style="color: #c9c7b8; font-size: 14px;"></i>';
     damageAmmoHtml += `<span style="color: #f0f0e0;">${baseDamage}</span>`;
     damageAmmoHtml += `<span style="color: #c9c7b8;">[${totalDamage}]</span>`;
+    
+    // Proteção (se habilitada) - adiciona na mesma linha
+    if (weapon.system.protection?.enabled && weapon.system.protection?.value > 0) {
+      // Dois espaços de separação
+      damageAmmoHtml += '<span>&nbsp;&nbsp;</span>';
+      
+      // Ícone de escudo
+      damageAmmoHtml += '<i class="fas fa-shield-alt" style="color: #c9c7b8; font-size: 14px;"></i>';
+      
+      // Valor de proteção
+      damageAmmoHtml += `<span style="color: #f0f0e0;">${weapon.system.protection.value}</span>`;
+    }
     
     // Munição (apenas para armas ranged)
     if (isRanged && currentAmmo > 0) {
@@ -2830,7 +2842,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     damageAmmoHtml += '</div>';
     html += damageAmmoHtml;
 
-    // SEXTO: Durabilidade (se houver)
+    // SÉTIMO: Durabilidade (se houver)
     const currentDurability = weapon.system.durability?.current;
     const maxDurability = weapon.system.durability?.max;
     
@@ -2847,7 +2859,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       html += durabilityHtml;
     }
 
-    // SÉTIMO: Descrição centralizada (se houver)
+    // OITAVO: Descrição centralizada (se houver)
     if (weapon.system.description) {
       html += `<div class="weapon-description" style="text-align: center; max-width: 180px; margin-top: 4px;"><em style="color: #c9c7b8; font-style: italic; font-size: 12px;">${weapon.system.description}</em></div>`;
     }
@@ -2891,7 +2903,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
 
-    // DÉCIMO: Bônus de Perícia das armas alinhados à esquerda (se houver bônus)
+    // DÉCIMO PRIMEIRO: Bônus de Perícia das armas alinhados à esquerda (se houver bônus)
     if (weapon.system.skillBonuses && weapon.system.skillBonuses.length > 0) {
       // Mapeamento das habilidades para seus nomes completos
       const abilityNames = {

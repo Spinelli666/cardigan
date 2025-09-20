@@ -41,7 +41,7 @@
       </div>
       {{/if}}
       
-      {{!-- Statistics Row: Dano e Munição na mesma linha (Centered) --}}
+      {{!-- Statistics Row: Dano, Proteção e Munição na mesma linha (Centered) --}}
       <div class="weapon-stats-row">
         {{!-- Damage --}}
         <div class="weapon-damage">
@@ -51,6 +51,14 @@
           [{{system.damage.total}}]
           {{/if}}
         </div>
+        
+        {{!-- Protection (only if enabled) --}}
+        {{#if system.protection.enabled}}
+        <div class="weapon-protection">
+          <i class="fas fa-shield-alt"></i>
+          {{system.protection.value}}
+        </div>
+        {{/if}}
         
         {{!-- Ammunition (only for ranged weapons) --}}
         {{#if system.ranged}}

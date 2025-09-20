@@ -315,6 +315,9 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Get all armors from the actor
     const armors = this.parent?.items?.filter(item => item.type === 'armadura') || [];
     
+    // Get all weapons from the actor  
+    const weapons = this.parent?.items?.filter(item => item.type === 'arma') || [];
+    
     // Calculate total bonuses from equipped armors only
     for (const armor of armors) {
       // Only apply bonuses if armor is equipped
@@ -355,6 +358,18 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       // Movement bonus
       if (armor.system.bonusDeslocamento && armor.system.bonusDeslocamento.enabled && armor.system.bonusDeslocamento.bonus > 0) {
         armorMovementBonus += armor.system.bonusDeslocamento.bonus;
+      }
+    }
+
+    // Calculate protection bonuses from equipped weapons with protection enabled
+    for (const weapon of weapons) {
+      // Only apply bonuses if weapon is equipped
+      const isEquipped = weapon.system.equipped;
+      if (!isEquipped) continue;
+      
+      // Add protection bonus from weapons if enabled
+      if (weapon.system.protection && weapon.system.protection.enabled && weapon.system.protection.value > 0) {
+        armorProtectionBonus += weapon.system.protection.value;
       }
     }
 

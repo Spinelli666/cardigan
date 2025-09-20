@@ -1226,6 +1226,7 @@
   margin: 4px 0;
 }
 .cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-damage,
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-protection,
 .cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-ammunition {
   display: flex;
   align-items: center;
@@ -1234,6 +1235,7 @@
   font-size: 13px;
 }
 .cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-damage i,
+.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-protection i,
 .cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-ammunition i {
   color: var(--cardigan-c-black);
   width: 14px;

@@ -492,7 +492,7 @@
         }
       }
       
-      // Statistics Row: Dano e Munição na mesma linha
+      // Statistics Row: Dano, Proteção e Munição na mesma linha
       .weapon-stats-row {
         display: flex;
         justify-content: center;
@@ -501,6 +501,7 @@
         margin: 4px 0;
         
         .weapon-damage,
+        .weapon-protection,
         .weapon-ammunition {
           display: flex;
           align-items: center;

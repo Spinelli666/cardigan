@@ -79,6 +79,20 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
         <input type="checkbox" name="system.magicalArtifact" {{checked item.system.magicalArtifact}}/>
     </div>
     
+    <!-- Weapon Protection Section -->
+    <div class="form-group weapon-protection">
+        <label style="display: flex; align-items: center; gap: 5px;">
+            <input type="checkbox" name="system.protection.enabled" {{checked item.system.protection.enabled}} data-conditional-trigger="weapon-protection"/>
+            {{localize "CARDIGAN.WeaponProtection"}}
+        </label>
+        
+        <!-- Conditional Protection Value -->
+        <div class="protection-value-section" style="margin-top: 8px; {{#unless item.system.protection.enabled}}display: none;{{/unless}}">
+            <label for="system.protection.value">{{localize "CARDIGAN.ProtectionValue"}}</label>
+            <input type="number" name="system.protection.value" value="{{item.system.protection.value}}" min="0" placeholder="0" style="width: 80px;"/>
+        </div>
+    </div>
+    
     <div class="form-group weapon-properties">
         <div class="properties-header">
             <label>{{localize "CARDIGAN.WeaponProperties"}}</label>
