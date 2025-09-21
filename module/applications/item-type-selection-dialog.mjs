@@ -1,4 +1,5 @@
 const { api } = foundry.applications;
+import GeneralItemsSelectionDialog from './general-items-selection-dialog.mjs';
 
 /**
  * Dialog for selecting item type when creating new items
@@ -32,6 +33,7 @@ export class ItemTypeSelectionDialog extends api.HandlebarsApplicationMixin(
     },
     actions: {
       selectType: this._onSelectType,
+      openGeneralItems: this._onOpenGeneralItems,
       cancel: this._onCancel
     }
   };
@@ -56,9 +58,17 @@ export class ItemTypeSelectionDialog extends api.HandlebarsApplicationMixin(
     
     // Setup click handlers for item type buttons
     this.element.querySelectorAll('.item-type-option').forEach(button => {
-      button.addEventListener('click', (event) => {
-        this._onSelectType(event, button);
-      });
+      if (button.classList.contains('general-items-button')) {
+        // Special handler for general items button
+        button.addEventListener('click', (event) => {
+          this._onOpenGeneralItems(event, button);
+        });
+      } else {
+        // Regular item type button
+        button.addEventListener('click', (event) => {
+          this._onSelectType(event, button);
+        });
+      }
     });
 
     // Auto-focus the dialog
@@ -120,21 +130,35 @@ export class ItemTypeSelectionDialog extends api.HandlebarsApplicationMixin(
           console.error('Failed to create armor document');
           ui.notifications.error('Failed to create armor item');
         }
-        
+
         this.close();
         return;
-      }
-      
-      // Regular item creation for non-armor types
+      }      // Regular item creation for non-armor types
       const itemClass = getDocumentClass("Item");
       const createData = { 
         name: itemName, 
         type: itemType 
       };
       
+      // Debug logging for backpack creation
+      if (itemType === 'backpack') {
+        console.log('[BACKPACK CREATION] Item class:', itemClass);
+        console.log('[BACKPACK CREATION] Create data:', createData);
+        console.log('[BACKPACK CREATION] Available item types:', Object.keys(CONFIG.Item.dataModels || {}));
+        console.log('[BACKPACK CREATION] Item class TYPES:', itemClass.TYPES);
+        console.log('[BACKPACK CREATION] System document types:', game.system?.documentTypes?.Item);
+      }
+      
       const document = await itemClass.create(createData, {
         parent: this.actor,
       });
+      
+      // Check if document was created successfully
+      if (!document) {
+        console.error('Failed to create document for type:', itemType);
+        ui.notifications.error(`Failed to create ${itemType} item`);
+        return;
+      }
       
       // Open the item sheet
       document.sheet.render(true);
@@ -152,6 +176,34 @@ export class ItemTypeSelectionDialog extends api.HandlebarsApplicationMixin(
       if (this.reject) {
         this.reject(error);
       }
+    }
+  }
+
+  /**
+   * Handle opening the general items dialog
+   * @param {Event} event - The click event
+   * @param {HTMLElement} target - The clicked button
+   * @private
+   */
+  async _onOpenGeneralItems(event, target) {
+    try {
+      // Hide this dialog (don't close it completely)
+      this.element.style.display = 'none';
+      
+      // Create and show the general items dialog
+      const generalDialog = new GeneralItemsSelectionDialog({
+        actor: this.actor,
+        parentDialog: this
+      });
+      
+      await generalDialog.render(true);
+      
+    } catch (error) {
+      console.error("Error opening general items dialog:", error);
+      ui.notifications.error("Failed to open general items dialog");
+      
+      // Restore this dialog if there was an error
+      this.element.style.display = 'block';
     }
   }
 

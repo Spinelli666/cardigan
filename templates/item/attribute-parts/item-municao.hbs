@@ -1,0 +1,89 @@
+{{! Item Munição Attributes Tab }}
+<section
+  class='tab attributes {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='attributes'
+>
+  <div class="item-municao-header">
+    <h3><i class="fas fa-bullseye"></i> {{localize "CARDIGAN.ItemMunicao.Title"}}</h3>
+    <p class="item-subtitle">{{localize "CARDIGAN.ItemMunicao.Subtitle"}}</p>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemMunicao.Quantity"}}</label>
+      <div class="form-fields">
+        <input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="1"/>
+        <span class="unit">{{localize "CARDIGAN.ItemMunicao.Units"}}</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemMunicao.Weight"}}</label>
+      <div class="form-fields">
+        <input type="number" name="system.weight" value="{{system.weight}}" data-dtype="Number" step="0.1" min="0"/>
+        <span class="unit">kg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemMunicao.Type"}}</label>
+      <div class="form-fields">
+        <select name="system.ammunitionType" data-dtype="String">
+          <option value="arrow" {{#if (eq system.ammunitionType "arrow")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemMunicao.Types.Arrow"}}
+          </option>
+          <option value="bolt" {{#if (eq system.ammunitionType "bolt")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemMunicao.Types.Bolt"}}
+          </option>
+          <option value="bullet" {{#if (eq system.ammunitionType "bullet")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemMunicao.Types.Bullet"}}
+          </option>
+          <option value="stone" {{#if (eq system.ammunitionType "stone")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemMunicao.Types.Stone"}}
+          </option>
+          <option value="dart" {{#if (eq system.ammunitionType "dart")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemMunicao.Types.Dart"}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemMunicao.Price"}}</label>
+      <div class="form-fields">
+        <input type="number" name="system.price" value="{{system.price}}" data-dtype="Number" min="0" step="0.1"/>
+        <span class="unit">{{localize "CARDIGAN.Currency.Gold"}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemMunicao.Damage"}}</label>
+      <div class="form-fields">
+        <input type="text" name="system.damageBonus" value="{{system.damageBonus}}" placeholder="+1, +2, etc"/>
+        <span class="help-text">{{localize "CARDIGAN.ItemMunicao.DamageHelp"}}</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemMunicao.Range"}}</label>
+      <div class="form-fields">
+        <input type="number" name="system.rangeModifier" value="{{system.rangeModifier}}" data-dtype="Number" step="5"/>
+        <span class="unit">{{localize "CARDIGAN.ItemMunicao.RangeUnit"}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group full-width">
+      <label>{{localize "CARDIGAN.ItemMunicao.Properties"}}</label>
+      <div class="form-fields">
+        <textarea name="system.properties" rows="3" placeholder="{{localize 'CARDIGAN.ItemMunicao.PropertiesPlaceholder'}}">{{system.properties}}</textarea>
+      </div>
+    </div>
+  </div>
+</section>

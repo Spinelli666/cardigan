@@ -48,6 +48,108 @@
   margin: 0 2px;
   user-select: none;
 }
+
+/* Mochila/Backpack Container Styles */
+.mochila-container {
+  margin-bottom: 10px;
+}
+
+.mochila-container .status-label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.mochila-container .status-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 2px;
+  background: transparent;
+  width: auto;
+  min-width: 0;
+  max-width: 220px;
+  justify-content: center;
+}
+
+.mochila-container .status-current,
+.mochila-container .status-next {
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 4px 0;
+  width: 38px !important;
+  min-width: 38px !important;
+  max-width: 38px !important;
+  outline: none;
+  box-sizing: border-box;
+  flex: 0 0 38px;
+}
+
+.mochila-container .status-separator {
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  margin: 0 2px;
+  user-select: none;
+}
+
+/* Test Field Styles */
+.test-field-container {
+  margin-bottom: 10px;
+}
+
+.test-field-container .status-label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.test-field-container .status-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 6px;
+  background: transparent;
+  width: auto;
+  min-width: 0;
+  max-width: 220px;
+  justify-content: flex-start;
+}
+
+.test-field-input {
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 4px;
+  width: 60px !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  outline: none;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+.test-field-result {
+  font-size: 14px;
+  font-weight: bold;
+  color: #4CAF50;
+  padding: 4px;
+  min-width: 40px;
+  text-align: center;
+}
 /* Status Container Styles */
 .status-container {
   h3 {

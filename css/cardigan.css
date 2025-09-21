@@ -2021,7 +2021,7 @@
 .cardigan .item-selection-modal .modal-content .modal-body .item-type-options .item-type-option[data-type=efeito] i {
   color: #a29bfe;
 }
-.cardigan .item-selection-modal .modal-content .modal-body .item-type-options .item-type-option[data-type=gear] i {
+.cardigan .item-selection-modal .modal-content .modal-body .item-type-options .item-type-option[data-type=backpack] i {
   color: #4ecdc4;
 }
 .cardigan .item-selection-modal .item-armor-type {
@@ -2277,6 +2277,102 @@
   color: #666;
   margin: 0 2px;
   user-select: none;
+}
+.cardigan {
+  /* Mochila/Backpack Container Styles */
+}
+.cardigan .mochila-container {
+  margin-bottom: 10px;
+}
+.cardigan .mochila-container .status-label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 4px;
+  display: block;
+}
+.cardigan .mochila-container .status-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 2px;
+  background: transparent;
+  width: auto;
+  min-width: 0;
+  max-width: 220px;
+  justify-content: center;
+}
+.cardigan .mochila-container .status-current,
+.cardigan .mochila-container .status-next {
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 4px 0;
+  width: 38px !important;
+  min-width: 38px !important;
+  max-width: 38px !important;
+  outline: none;
+  box-sizing: border-box;
+  flex: 0 0 38px;
+}
+.cardigan .mochila-container .status-separator {
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  margin: 0 2px;
+  user-select: none;
+}
+.cardigan {
+  /* Test Field Styles */
+}
+.cardigan .test-field-container {
+  margin-bottom: 10px;
+}
+.cardigan .test-field-container .status-label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 4px;
+  display: block;
+}
+.cardigan .test-field-container .status-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 6px;
+  background: transparent;
+  width: auto;
+  min-width: 0;
+  max-width: 220px;
+  justify-content: flex-start;
+}
+.cardigan .test-field-input {
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 4px;
+  width: 60px !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  outline: none;
+  box-sizing: border-box;
+  color: #fff;
+}
+.cardigan .test-field-result {
+  font-size: 14px;
+  font-weight: bold;
+  color: #4CAF50;
+  padding: 4px;
+  min-width: 40px;
+  text-align: center;
 }
 .cardigan {
   /* Status Container Styles */
@@ -2614,10 +2710,10 @@
   color: #8b82fb;
   text-shadow: 0 0 10px rgba(162, 155, 254, 0.5);
 }
-.cardigan .item-type-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=gear] .item-icon {
+.cardigan .item-type-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=backpack] .item-icon {
   color: #4ecdc4;
 }
-.cardigan .item-type-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=gear]:hover .item-icon {
+.cardigan .item-type-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=backpack]:hover .item-icon {
   color: #26d0ce;
   text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
 }
@@ -2753,6 +2849,456 @@
 .cardigan .armor-type-selection .cancel-button:hover {
   background: rgba(var(--cardigan-c-beige), 0.1);
   border-color: var(--cardigan-c-beige);
+}
+.cardigan .backpack-type-selection {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.95));
+  border: 2px solid var(--cardigan-c-beige);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+.cardigan .backpack-type-selection .dialog-header {
+  text-align: center;
+  margin-bottom: 25px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(var(--cardigan-c-beige), 0.15), rgba(var(--cardigan-c-beige), 0.05));
+  border-radius: 10px 10px 0 0;
+  border-bottom: 2px solid rgba(var(--cardigan-c-beige), 0.3);
+}
+.cardigan .backpack-type-selection .dialog-header h2 {
+  color: var(--cardigan-c-beige);
+  font-size: 1.5em;
+  margin-bottom: 8px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.5px;
+}
+.cardigan .backpack-type-selection .dialog-header p {
+  color: rgba(var(--cardigan-c-beige), 0.85);
+  font-size: 1rem;
+  line-height: 1.4;
+  margin: 0;
+  font-style: italic;
+}
+.cardigan .backpack-type-selection .dialog-content {
+  padding: 20px;
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 25px;
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border: 2px solid rgba(var(--cardigan-c-beige), 0.3);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(10, 10, 20, 0.4));
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(var(--cardigan-c-beige), 0.1), transparent);
+  transition: left 0.5s ease;
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option:hover {
+  border-color: var(--cardigan-c-beige);
+  background: linear-gradient(135deg, rgba(var(--cardigan-c-beige), 0.2), rgba(var(--cardigan-c-beige), 0.1));
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(var(--cardigan-c-beige), 0.3);
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option:hover::before {
+  left: 100%;
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option:hover .type-icon {
+  transform: scale(1.15) rotate(5deg);
+  background: linear-gradient(135deg, rgba(var(--cardigan-c-beige), 0.4), rgba(var(--cardigan-c-beige), 0.2));
+  box-shadow: 0 0 20px rgba(var(--cardigan-c-beige), 0.4);
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option:hover .type-name {
+  color: var(--cardigan-c-beige);
+  text-shadow: 0 0 10px rgba(var(--cardigan-c-beige), 0.5);
+  filter: brightness(1.15);
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option:hover .type-description {
+  color: rgba(var(--cardigan-c-beige), 0.9);
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option:active {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 4px 15px rgba(var(--cardigan-c-beige), 0.4);
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option .type-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(var(--cardigan-c-beige), 0.25), rgba(var(--cardigan-c-beige), 0.15));
+  border: 3px solid rgba(var(--cardigan-c-beige), 0.4);
+  font-size: 1.8rem;
+  color: var(--cardigan-c-beige);
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 2px 4px rgba(var(--cardigan-c-beige), 0.1);
+  position: relative;
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option .type-icon::after {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+  pointer-events: none;
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option .type-details {
+  flex: 1;
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option .type-details .type-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--cardigan-c-beige);
+  margin: 0 0 8px 0;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  letter-spacing: 0.3px;
+}
+.cardigan .backpack-type-selection .dialog-content .backpack-type-option .type-details .type-description {
+  font-size: 1rem;
+  color: rgba(var(--cardigan-c-beige), 0.75);
+  line-height: 1.4;
+  margin: 0;
+  transition: all 0.3s ease;
+}
+.cardigan .backpack-type-selection .dialog-footer {
+  text-align: center;
+  padding: 20px;
+  border-top: 2px solid rgba(var(--cardigan-c-beige), 0.2);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(10, 10, 20, 0.2));
+  border-radius: 0 0 10px 10px;
+}
+.cardigan .backpack-type-selection .dialog-footer .cancel-button {
+  padding: 12px 24px;
+  border: 2px solid rgba(var(--cardigan-c-beige), 0.4);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(20, 20, 30, 0.4));
+  color: var(--cardigan-c-beige);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+.cardigan .backpack-type-selection .dialog-footer .cancel-button i {
+  margin-right: 8px;
+  font-size: 0.9rem;
+}
+.cardigan .backpack-type-selection .dialog-footer .cancel-button:hover {
+  background: linear-gradient(135deg, rgba(var(--cardigan-c-beige), 0.15), rgba(var(--cardigan-c-beige), 0.05));
+  border-color: var(--cardigan-c-beige);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(var(--cardigan-c-beige), 0.2);
+}
+.cardigan .backpack-type-selection .dialog-footer .cancel-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(var(--cardigan-c-beige), 0.3);
+}
+.cardigan .backpack-type-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(68, 68, 68, 0.5);
+}
+.cardigan .backpack-common-header,
+.cardigan .backpack-ammunition-header,
+.cardigan .backpack-consumable-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.cardigan .backpack-common-header h3,
+.cardigan .backpack-ammunition-header h3,
+.cardigan .backpack-consumable-header h3 {
+  color: var(--cardigan-c-beige);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.cardigan .backpack-common-header h3 i,
+.cardigan .backpack-ammunition-header h3 i,
+.cardigan .backpack-consumable-header h3 i {
+  font-size: 1.1rem;
+}
+.cardigan .backpack-common-header .item-subtitle,
+.cardigan .backpack-ammunition-header .item-subtitle,
+.cardigan .backpack-consumable-header .item-subtitle {
+  color: rgba(var(--cardigan-c-beige), 0.7);
+  font-size: 0.9rem;
+  margin: 0;
+  font-style: italic;
+}
+.cardigan .backpack-form-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  border: 1px solid rgba(68, 68, 68, 0.3);
+}
+.cardigan .backpack-form-section .form-group {
+  flex: 1;
+  min-width: 200px;
+}
+.cardigan .backpack-form-section .form-group.full-width {
+  flex: 100%;
+}
+.cardigan .backpack-form-section .form-group label {
+  display: block;
+  color: var(--cardigan-c-beige);
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+.cardigan .backpack-form-section .form-group .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: normal;
+  cursor: pointer;
+}
+.cardigan .backpack-form-section .form-group .checkbox-label input[type=checkbox] {
+  margin: 0;
+}
+.cardigan .backpack-form-section .form-group .form-fields {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cardigan .backpack-form-section .form-group .form-fields input, .cardigan .backpack-form-section .form-group .form-fields select, .cardigan .backpack-form-section .form-group .form-fields textarea {
+  flex: 1;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+}
+.cardigan .backpack-form-section .form-group .form-fields input:focus, .cardigan .backpack-form-section .form-group .form-fields select:focus, .cardigan .backpack-form-section .form-group .form-fields textarea:focus {
+  border-color: var(--cardigan-c-beige);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(var(--cardigan-c-beige), 0.2);
+}
+.cardigan .backpack-form-section .form-group .form-fields input::placeholder, .cardigan .backpack-form-section .form-group .form-fields select::placeholder, .cardigan .backpack-form-section .form-group .form-fields textarea::placeholder {
+  color: rgba(var(--cardigan-c-beige), 0.5);
+}
+.cardigan .backpack-form-section .form-group .form-fields textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.4;
+}
+.cardigan .backpack-form-section .form-group .form-fields .unit {
+  color: rgba(var(--cardigan-c-beige), 0.7);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.cardigan .backpack-form-section .form-group .form-fields .help-text {
+  color: rgba(var(--cardigan-c-beige), 0.6);
+  font-size: 0.8rem;
+  font-style: italic;
+  flex: 100%;
+  margin-top: 0.25rem;
+}
+.cardigan .backpack-roll-section {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 2px solid rgba(68, 68, 68, 0.5);
+}
+.cardigan .backpack-roll-section .resource {
+  margin-bottom: 1rem;
+}
+.cardigan .general-items-selection .window-content {
+  padding: 0;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+  border-radius: 8px;
+}
+.cardigan .general-items-selection .item-type-selection-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-header {
+  background: linear-gradient(135deg, #333 0%, #222 100%);
+  border-bottom: 2px solid var(--cardigan-c-beige);
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+  position: relative;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-header .back-button {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--cardigan-c-beige);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-header .back-button:hover {
+  background: rgba(var(--cardigan-c-beige), 0.1);
+  color: #fff;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-header h2 {
+  margin: 0;
+  color: var(--cardigan-c-beige);
+  font-size: 18px;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body {
+  flex: 1;
+  padding: 25px;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .description {
+  color: var(--cardigan-c-beige);
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 14px;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  max-width: 100%;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option {
+  background: linear-gradient(135deg, #333 0%, #222 100%);
+  border: 2px solid #555;
+  border-radius: 8px;
+  padding: 20px 15px;
+  color: var(--cardigan-c-beige);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  min-height: 120px;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option:hover {
+  background: linear-gradient(135deg, #444 0%, #333 100%);
+  border-color: var(--cardigan-c-beige);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option .item-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option .item-label {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 4px;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option .item-description {
+  font-size: 11px;
+  opacity: 0.7;
+  text-align: center;
+  line-height: 1.2;
+  font-style: italic;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=item-comum] .item-icon {
+  color: #4ecdc4;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=item-comum]:hover .item-icon {
+  color: #26d0ce;
+  text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=item-municao] .item-icon {
+  color: #ff7675;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=item-municao]:hover .item-icon {
+  color: #e84e4e;
+  text-shadow: 0 0 10px rgba(255, 118, 117, 0.5);
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=item-consumivel] .item-icon {
+  color: #00b894;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=item-consumivel]:hover .item-icon {
+  color: #00a085;
+  text-shadow: 0 0 10px rgba(0, 184, 148, 0.5);
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-footer {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+  border-top: 1px solid #444;
+  padding: 15px 25px;
+  text-align: center;
+  border-radius: 0 0 8px 8px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-footer .back-button, .cardigan .general-items-selection .item-type-selection-form .modal-footer .cancel-button {
+  background: linear-gradient(135deg, #555 0%, #444 100%);
+  border: 1px solid #666;
+  color: var(--cardigan-c-beige);
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-footer .back-button:hover, .cardigan .general-items-selection .item-type-selection-form .modal-footer .cancel-button:hover {
+  background: linear-gradient(135deg, #666 0%, #555 100%);
+  border-color: #777;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-footer .back-button i, .cardigan .general-items-selection .item-type-selection-form .modal-footer .cancel-button i {
+  font-size: 12px;
+}
+.cardigan .item-type-selection .item-type-grid .item-type-option.general-items-button .item-icon {
+  color: #74b9ff;
+}
+.cardigan .item-type-selection .item-type-grid .item-type-option.general-items-button:hover .item-icon {
+  color: #0984e3;
+  text-shadow: 0 0 10px rgba(116, 185, 255, 0.5);
+}
+.cardigan .item-type-selection .item-type-grid .item-type-option[data-type=armadura] .item-icon {
+  color: #00b894;
+}
+.cardigan .item-type-selection .item-type-grid .item-type-option[data-type=armadura]:hover .item-icon {
+  color: #00a085;
+  text-shadow: 0 0 10px rgba(0, 184, 148, 0.5);
 }
 .cardigan {
   /* Abilities Container Styles - visual antigo */

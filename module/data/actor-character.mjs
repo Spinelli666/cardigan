@@ -29,6 +29,18 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
             initial: 0,
             integer: true
           }),
+          manualValue: new fields.NumberField({
+            initial: 0,
+            integer: true
+          }),
+          manualBonus: new fields.NumberField({
+            initial: 0,
+            integer: true
+          }),
+          baseValue: new fields.NumberField({
+            initial: 0,
+            integer: true
+          }),
         });
         return obj;
       }, {})
@@ -68,11 +80,16 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Calculate level automatically based on sum of all classes
     this._calculateLevel();
 
-    // Loop through ability scores to handle labels.
+    // Loop through ability scores to handle labels and calculate base values
     for (const key in this.abilities) {
       // Handle ability label localization.
       this.abilities[key].label =
         game.i18n.localize(CONFIG.CARDIGAN.abilities[key]) ?? key;
+        
+      // Calculate final value using Dynamic Base + Manual Field Pattern
+      const baseValue = this.abilities[key].baseValue || 0;
+      const manualValue = this.abilities[key].manualValue || 0;
+      this.abilities[key].value = baseValue + manualValue;
     }
 
     // Calculate weapon skill bonuses and add to abilities
@@ -118,6 +135,27 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     
     // Calculate armor maximum based on armor bonus from equipped armors + manual bonus
     this.armor.max = Math.max(0, armorBonus + armorProtectionBonus);
+    
+    // Calculate backpack maximum capacity based on Strength (every 2 points of Strength = +1 capacity)
+    // Use value (baseValue + manualValue) + bonus + totalBonus for complete strength calculation
+    const strengthValue = this.abilities?.strength?.value || 0;
+    const strengthBonus = this.abilities?.strength?.bonus || 0;
+    const strengthTotalBonus = this.abilities?.strength?.totalBonus || 0;
+    const totalStrength = strengthValue + strengthBonus + strengthTotalBonus;
+    this.backpack.max = Math.floor(totalStrength / 2);
+    
+    // CAMPO DE TESTE: Implementa lógica de campo manual com bônus automático
+    // Exemplo: se stamina é 2, bônus automático é 10 (2 * 5)
+    const staminaBonusForTest = totalStamina * 5; // Bônus baseado em stamina
+    const testFieldInput = this.status?.testField ?? 0; // Valor manual digitado
+    
+    // Se não existe um campo calculado ainda, cria
+    if (!this.status.testFieldCalculated) {
+      this.status.testFieldCalculated = testFieldInput + staminaBonusForTest;
+    }
+    
+    // Sempre recalcula o valor baseado no input + bônus
+    this.status.testFieldCalculated = testFieldInput + staminaBonusForTest;
     
     // NOTA: Removido o cálculo automático de armor.max para permitir que ActiveEffects
     // funcionem corretamente. O valor base da armadura máxima é definido no prepareBaseData()
@@ -275,7 +313,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Apply weapon bonuses creating a separate totalBonus field
     // Keep the original bonus field untouched (manual bonus only)
     for (const key in this.abilities) {
-      const manualBonus = this.abilities[key].bonus || 0;
+      const manualBonus = this.abilities[key].manualBonus || 0;
       const weaponBonus = weaponBonuses[key] || 0;
       
       // Store weapon bonus separately

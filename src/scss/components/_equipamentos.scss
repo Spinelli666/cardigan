@@ -1,5 +1,5 @@
 // -----------------------------------------
-// Equipment Tab Specific Styles - Using Gear Table Style
+// Equipment Tab Specific Styles - Using Backpack Table Style
 // -----------------------------------------
 
 .tab.equipamentos {
@@ -1431,7 +1431,7 @@
             color: #a29bfe;
           }
           
-          &[data-type="gear"] i {
+          &[data-type="backpack"] i {
             color: #4ecdc4;
           }
         }

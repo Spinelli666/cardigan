@@ -204,7 +204,7 @@
   </ol>
   {{/if}}
 
-  {{! Spacer between weapons and gear }}
+  {{! Spacer between weapons and backpack }}
   <div style="margin: 20px 0; border-bottom: 1px solid #444;"></div>
 
   {{! Armor Table - Equipped Armors }}
@@ -312,10 +312,36 @@
     {{/each}}
   </ol>
 
-  {{! Spacer between armor and gear }}
+  {{! Spacer between armor and backpack }}
   <div style="margin: 20px 0; border-bottom: 1px solid #444;"></div>
 
-  {{! Backpack/Gear Table - Always Visible }}
+  {{! Backpack Capacity Field }}
+  <div class='mochila-container horizontal-field'>
+    <label class='status-label label-left'>Backpack:</label>
+    <div class='status-display'>
+      <input
+        type='number'
+        name='system.backpack.current'
+        value='{{system.backpack.current}}'
+        data-dtype='Number'
+        min='0'
+        class='status-current'
+        readonly
+      />
+      <span class='status-separator'>/</span>
+      <input
+        type='number'
+        name='system.backpack.max'
+        value='{{system.backpack.max}}'
+        data-dtype='Number'
+        min='0'
+        class='status-next'
+        readonly
+      />
+    </div>
+  </div>
+
+  {{! Backpack Table - Always Visible }}
   <h3 class="items-section-header" style="margin-bottom: 10px; color: #c9c7b8; text-align: center;">
     <i class="fas fa-backpack" style="margin-right: 8px;"></i>
     {{localize "CARDIGAN.BackpackTable"}}
@@ -334,12 +360,12 @@
             data-action='createDocWithSelection'
           >
             <i class='fas fa-plus'></i>
-            {{localize 'CARDIGAN.AddGear'}}
+            {{localize 'CARDIGAN.AddBackpack'}}
           </button>
         {{/if}}
       </div>
     </li>
-    {{#each gear as |item id|}}
+    {{#each backpack as |item id|}}
       <li
         class='item flexrow'
         data-item-id='{{item._id}}'
@@ -389,7 +415,7 @@
         </div>
         <div class='item-controls'>
           {{#if @root.editable}}
-            {{!-- Context Menu Button (Three Dots) for Gear Table --}}
+            {{!-- Context Menu Button (Three Dots) for Backpack Table --}}
             <button type="button" class="unbutton item-control always-interactive" data-context-menu
                     data-tooltip="Opções Adicionais" data-tooltip-direction="UP" data-item-id="{{item._id}}">
               <i class="fa-solid fa-ellipsis-vertical" inert></i>

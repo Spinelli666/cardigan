@@ -107,18 +107,42 @@
     }
   },
   "Item": {
-    "types": ["gear", "feature", "spell", "efeito", "arma", "armadura"],
+    "types": ["item-comum", "item-municao", "item-consumivel", "feature", "spell", "efeito", "arma", "armadura"],
     "htmlFields": ["description"],
     "templates": {
       "base": {
         "description": ""
       }
     },
-    "gear": {
+    "item-comum": {
       "templates": ["base"],
       "quantity": 1,
       "weight": 0,
-      "formula": "d20 + @strength.value + ceil(@lvl / 2)"
+      "price": 0,
+      "category": "misc",
+      "usage": ""
+    },
+    "item-municao": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": 0,
+      "price": 0,
+      "ammunitionType": "arrow",
+      "damageBonus": "",
+      "rangeModifier": 0,
+      "properties": ""
+    },
+    "item-consumivel": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": 0,
+      "price": 0,
+      "consumableType": "potion",
+      "useTime": "action",
+      "duration": "",
+      "effect": "",
+      "requiresCheck": false,
+      "checkDifficulty": 15
     },
     "feature": {
       "templates": ["base"]

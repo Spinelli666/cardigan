@@ -19,10 +19,16 @@
         }
     },
     "Item": {
-        "feature": {
+        "item-comum": {
             "htmlFields": ["description"]
         },
-        "gear": {
+        "item-municao": {
+            "htmlFields": ["description"]
+        },
+        "item-consumivel": {
+            "htmlFields": ["description"]
+        },
+        "feature": {
             "htmlFields": ["description"]
         },
         "spell": {

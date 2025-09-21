@@ -85,8 +85,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     biography: {
       template: 'systems/cardigan/templates/actor/biography.hbs',
     },
-    gear: {
-      template: 'systems/cardigan/templates/actor/gear.hbs',
+    backpack: {
+      template: 'systems/cardigan/templates/actor/backpack.hbs',
     },
     spells: {
       template: 'systems/cardigan/templates/actor/spells.hbs',
@@ -106,10 +106,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'character':
-        options.parts.push('features', 'gear', 'spells', 'equipamentos');
+        options.parts.push('features', 'backpack', 'spells', 'equipamentos');
         break;
       case 'npc':
-        options.parts.push('gear', 'equipamentos');
+        options.parts.push('backpack', 'equipamentos');
         break;
     }
   }
@@ -152,7 +152,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         context.tab = context.tabs[partId];
         break;
       case 'spells':
-      case 'gear':
+      case 'backpack':
       case 'equipamentos':
         context.tab = context.tabs[partId];
         break;
@@ -210,9 +210,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           tab.id = 'features';
           tab.label += 'Features';
           break;
-        case 'gear':
-          tab.id = 'gear';
-          tab.label += 'Gear';
+        case 'backpack':
+          tab.id = 'backpack';
+          tab.label += 'Backpack';
           break;
         case 'spells':
           tab.id = 'spells';
@@ -244,9 +244,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Clear any existing modal listeners to prevent conflicts
     this._clearAbilitiesModalListeners();
     
-    // Setup abilities modal event listeners
-    this._setupAbilitiesButtonListeners();
-    
     // Restore modal state if it was open before re-render
     if (this._modalState.isOpen) {
       setTimeout(() => {
@@ -262,6 +259,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Adicionar event listeners para campos de munição
     this.#addAmmunitionListeners();
+    
+    // Adicionar event listeners para campos dinâmicos de abilities
+    this.#addAbilitiesListeners();
     
     // Clean up any existing tooltips before setting up new ones
     this.#cleanupTooltips();
@@ -292,7 +292,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // You can just use `this.document.itemTypes` instead
     // if you don't need to subdivide a given type like
     // this sheet does with spells
-    const gear = [];
+    const backpack = [];
     const features = [];
     const efeitos = [];
     const armas = [];
@@ -323,33 +323,37 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       if (i.type === 'armadura') {
         console.log(`Armor: ${i.name}, equipped: ${i.system.equipped}, type: ${i.system.armorType}, ID: ${i._id}`);
       }
+      // Debug backpack items
+      if (i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel') {
+        console.log(`Backpack Item: ${i.name}, type: ${i.type}, ID: ${i._id}`);
+      }
 
-      // Append to gear.
-      if (i.type === 'gear') {
-        gear.push(i);
+      // Append to backpack.
+      if (i.type === 'backpack' || i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel') {
+        backpack.push(i);
       }
       // Append to armas (weapons).
       else if (i.type === 'arma') {
-        // Only equipped weapons go to armas table, unequipped ones go to gear table
+        // Only equipped weapons go to armas table, unequipped ones go to backpack table
         if (i.system.equipped) {
           console.log(`  → Adding ${i.name} to ARMAS table (equipped: true)`);
           armas.push(i);
         } else {
-          console.log(`  → Adding ${i.name} to GEAR table (equipped: false)`);
-          // Unequipped weapons go to gear table
-          gear.push(i);
+          console.log(`  → Adding ${i.name} to BACKPACK table (equipped: false)`);
+          // Unequipped weapons go to backpack table
+          backpack.push(i);
         }
       }
       // Append to armaduras (armor).
       else if (i.type === 'armadura') {
-        // Only equipped armors go to armaduras table, unequipped ones go to gear table
+        // Only equipped armors go to armaduras table, unequipped ones go to backpack table
         if (i.system.equipped) {
           console.log(`  → Adding ${i.name} to ARMADURAS table (equipped: true)`);
           armaduras.push(i);
         } else {
-          console.log(`  → Adding ${i.name} to GEAR table (equipped: false)`);
-          // Unequipped armors go to gear table
-          gear.push(i);
+          console.log(`  → Adding ${i.name} to BACKPACK table (equipped: false)`);
+          // Unequipped armors go to backpack table
+          backpack.push(i);
         }
       }
       // Append to features or efeitos.
@@ -373,7 +377,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
 
-    console.log(`Final counts: gear=${gear.length}, armas=${armas.length}, armaduras=${armaduras.length}`);
+    console.log(`Final counts: backpack=${backpack.length}, armas=${armas.length}, armaduras=${armaduras.length}`);
     console.log("=== END PREPARE ITEMS DEBUG ===");
 
     for (const s of Object.values(spells)) {
@@ -392,7 +396,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     };
 
     // Sort then assign
-    context.gear = gear.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.backpack = backpack.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.efeitos = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.armas = armas.sort((a, b) => (a.sort || 0) - (b.sort || 0));
@@ -1693,20 +1697,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Setup event listeners for abilities modal buttons
-   * @protected
+   * Adiciona event listeners para o campo de teste
+   * Implementa atualização em tempo real do valor calculado
    */
-  _setupAbilitiesButtonListeners() {
-    // Edit button
-    const editButton = this.element.querySelector('[data-action="editAbilities"]');
-    if (editButton) {
-      editButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        this.openAbilitiesModal();
-      });
-    }
-  }
-
   /**
    * Setup event listeners for modal close buttons (called when modal opens)
    * @protected
@@ -3339,7 +3332,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       case "edit":
         return item.sheet.render(true);
       case "equip":
-        // Equip weapon (move from gear table to weapons table)
+        // Equip weapon (move from backpack table to weapons table)
         return this._equipWeapon(item);
       case "unequip":
         // Show confirmation dialog before unequipping
@@ -3356,7 +3349,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
         return null;
       case "equipArmor":
-        // Equip armor (move from gear table to armor table)
+        // Equip armor (move from backpack table to armor table)
         return this._equipArmor(item);
       case "unequipArmor":
         // Show confirmation dialog before unequipping armor
@@ -3398,7 +3391,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Equip a weapon (move from gear table to weapons table)
+   * Equip a weapon (move from backpack table to weapons table)
    * @param {Item} weapon - The weapon to equip
    * @private
    */
@@ -3470,7 +3463,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Unequip a weapon (move from weapons table to gear table)
+   * Unequip a weapon (move from weapons table to backpack table)
    * @param {Item} weapon - The weapon to unequip
    * @private
    */
@@ -3500,7 +3493,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Equip an armor (move from gear table to armor table)
+   * Equip an armor (move from backpack table to armor table)
    * @param {Item} armor - The armor to equip
    * @private
    */
@@ -3540,7 +3533,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Unequip an armor (move from armor table to gear table)
+   * Unequip an armor (move from armor table to backpack table)
    * @param {Item} armor - The armor to unequip
    * @private
    */
@@ -3563,6 +3556,103 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     } catch (error) {
       console.error("Error unequipping armor:", error);
       ui.notifications.error("Erro ao desequipar a armadura.");
+    }
+  }
+
+  /**
+   * Adicionar event listeners para campos dinâmicos de abilities
+   * Implementa o padrão Dynamic Base + Manual Field
+   * @private
+   */
+  #addAbilitiesListeners() {
+    const dynamicFields = this.element.querySelectorAll('.dynamic-field');
+    
+    dynamicFields.forEach(field => {
+      const ability = field.dataset.ability;
+      const fieldType = field.dataset.field; // 'value' ou 'totalBonus'
+      
+      // Event listener para focus (mostrar valor manual)
+      field.addEventListener('focus', (event) => {
+        this.#handleAbilityFieldFocus(event, ability, fieldType);
+      });
+      
+      // Event listener para blur (calcular e mostrar total)
+      field.addEventListener('blur', (event) => {
+        this.#handleAbilityFieldBlur(event, ability, fieldType);
+      });
+    });
+    
+    console.log(`[CARDIGAN] Dynamic abilities listeners added to ${dynamicFields.length} fields`);
+  }
+
+  /**
+   * Handler para quando o usuário clica em um campo de ability (focus)
+   * @private
+   */
+  #handleAbilityFieldFocus(event, ability, fieldType) {
+    const field = event.target;
+    const abilityData = this.actor.system.abilities[ability];
+    
+    if (fieldType === 'value') {
+      // Campo base - mostrar apenas o valor manual
+      const manualValue = abilityData.manualValue || 0;
+      field.value = manualValue === 0 ? '' : manualValue;
+      field.dataset.manualValue = manualValue;
+      
+      console.log(`[ABILITY FOCUS] ${ability}.value - Manual: ${manualValue}`);
+    } else if (fieldType === 'totalBonus') {
+      // Campo bônus - mostrar apenas o bônus manual
+      const manualBonus = abilityData.manualBonus || 0;
+      field.value = manualBonus === 0 ? '' : manualBonus;
+      field.dataset.manualBonus = manualBonus;
+      
+      console.log(`[ABILITY FOCUS] ${ability}.totalBonus - Manual: ${manualBonus}`);
+    }
+    
+    field.select();
+  }
+
+  /**
+   * Handler para quando o usuário sai de um campo de ability (blur)
+   * @private
+   */
+  #handleAbilityFieldBlur(event, ability, fieldType) {
+    const field = event.target;
+    const userInput = Number(field.value) || 0;
+    const abilityData = this.actor.system.abilities[ability];
+    
+    if (fieldType === 'value') {
+      // Campo base - calcular total
+      const baseValue = abilityData.baseValue || 0; // Valor padrão
+      const totalValue = baseValue + userInput;
+      
+      field.value = totalValue;
+      field.dataset.manualValue = userInput;
+      
+      // Salvar apenas o valor manual
+      this.actor.update({
+        [`system.abilities.${ability}.manualValue`]: userInput
+      }).catch(error => {
+        console.error(`[CARDIGAN] Erro ao atualizar ${ability}.manualValue:`, error);
+      });
+      
+      console.log(`[ABILITY BLUR] ${ability}.value - Manual: ${userInput}, Total: ${totalValue}`);
+    } else if (fieldType === 'totalBonus') {
+      // Campo bônus - calcular total
+      const calculatedBonus = abilityData.weaponBonus || 0;
+      const totalBonus = calculatedBonus + userInput;
+      
+      field.value = totalBonus;
+      field.dataset.manualBonus = userInput;
+      
+      // Salvar apenas o bônus manual
+      this.actor.update({
+        [`system.abilities.${ability}.manualBonus`]: userInput
+      }).catch(error => {
+        console.error(`[CARDIGAN] Erro ao atualizar ${ability}.manualBonus:`, error);
+      });
+      
+      console.log(`[ABILITY BLUR] ${ability}.totalBonus - Manual: ${userInput}, Calculated: ${calculatedBonus}, Total: ${totalBonus}`);
     }
   }
 }

@@ -126,7 +126,7 @@
       "Tabs": {
         "Biography": "Biography",
         "Features": "Features",
-        "Gear": "Gear",
+        "Backpack": "Backpack",
         "Spells": "Spells",
         "Equipamentos": "Equipment"
       },
@@ -155,7 +155,7 @@
         "Details": "Details",
         "Effects": "Effects"
       },
-      "Gear": {
+      "Backpack": {
         "FIELDS": {
           "rollFormula": {
             "label": "Roll Formula"
@@ -293,8 +293,11 @@
     "AmmunitionRemaining": "remaining",
     "IsFirearm": "Is Firearm?",
     "Weight": "Weight",
+    "WeightVeryLight": "Very Light",
     "WeightLight": "Light",
+    "WeightMedium": "Medium", 
     "WeightHeavy": "Heavy",
+    "WeightVeryHeavy": "Very Heavy",
     "Light": "Light",
     "Heavy": "Heavy",
     "Price": "Price",
@@ -307,9 +310,16 @@
     "Equip": "Equip",
     "ShowBackpack": "Show Backpack",
     "BackpackTable": "Backpack Table",
-    "AddGear": "Add Item",
+    "Backpack": "Backpack",
+    "BackpackCapacity": "Backpack Capacity",
+    "BackpackType": "Backpack Type",
+    "AddBackpack": "Add Item",
     "SelectItemType": "Select Item Type",
     "SelectItemTypeDescription": "Choose the type of item you want to create:",
+    "GeneralItems": "General Items",
+    "SelectGeneralItemType": "Select General Item Type", 
+    "SelectGeneralItemTypeDescription": "Choose the specific type of general item you want to create:",
+    "Back": "Back",
     "Quantity": "Quantity",
     "RightHand": "Primary Hand",
     "LeftHand": "Secondary Hand",
@@ -382,7 +392,96 @@
     "SelectArmorTypeTitle": "Select Armor Type",
     "SelectArmorTypeDescription": "Choose which type of armor you want to create:",
     "ConfirmUnequipArmor": "Confirm Unequip Armor",
-    "ConfirmUnequipArmorDescription": "This will move the armor to your backpack."
+    "ConfirmUnequipArmorDescription": "This will move the armor to your backpack.",
+    "BackpackTypeSelection": {
+      "Title": "Select Backpack Item Type",
+      "Description": "Choose the type of backpack item you want to create:"
+    },
+    "BackpackTypes": {
+      "Common": "Common Item",
+      "CommonDesc": "General equipment and miscellaneous items",
+      "Ammunition": "Ammunition",
+      "AmmunitionDesc": "Arrows, bullets, bolts and other projectiles",
+      "Consumable": "Consumable",
+      "ConsumableDesc": "Potions, food, temporary use items"
+    },
+    "ItemComum": {
+      "Title": "Common Item",
+      "Subtitle": "General equipment and miscellaneous items",
+      "Quantity": "Quantity",
+      "Weight": "Weight",
+      "Price": "Price",
+      "Category": "Category",
+      "Usage": "Usage Instructions",
+      "UsagePlaceholder": "Describe how this item is used...",
+      "Categories": {
+        "Equipment": "Equipment",
+        "Tool": "Tool",
+        "Misc": "Miscellaneous",
+        "Valuable": "Valuable"
+      }
+    },
+    "ItemMunicao": {
+      "Title": "Ammunition",
+      "Subtitle": "Arrows, bullets, bolts and other projectiles",
+      "Quantity": "Quantity",
+      "Weight": "Weight",
+      "Price": "Price",
+      "Type": "Ammunition Type",
+      "Units": "units",
+      "Damage": "Damage Bonus",
+      "DamageHelp": "Additional damage (e.g., +1, +2)",
+      "Range": "Range Modifier",
+      "RangeUnit": "meters",
+      "Properties": "Special Properties",
+      "PropertiesPlaceholder": "Describe any special properties...",
+      "Types": {
+        "Arrow": "Arrow",
+        "Bolt": "Bolt",
+        "Bullet": "Bullet",
+        "Stone": "Stone",
+        "Dart": "Dart"
+      }
+    },
+    "ItemConsumivel": {
+      "Title": "Consumable",
+      "Subtitle": "Potions, food, temporary use items",
+      "Quantity": "Quantity",
+      "Weight": "Weight",
+      "Price": "Price",
+      "Type": "Consumable Type",
+      "Units": "units",
+      "UseTime": "Use Time",
+      "Duration": "Duration",
+      "Effect": "Effect",
+      "EffectPlaceholder": "Describe the item's effect when used...",
+      "RequiresCheck": "Requires Skill Check",
+      "RequiresCheckHelp": "Check this if using the item requires a skill check",
+      "CheckDifficulty": "Check Difficulty",
+      "Types": {
+        "Potion": "Potion",
+        "Food": "Food",
+        "Scroll": "Scroll",
+        "Medicine": "Medicine",
+        "Bomb": "Bomb",
+        "Other": "Other"
+      },
+      "UseTimes": {
+        "Action": "Action",
+        "BonusAction": "Bonus Action",
+        "Reaction": "Reaction",
+        "Minute": "1 Minute"
+      }
+    },
+    "Currency": {
+      "Gold": "gold"
+    },
+    "Difficulty": {
+      "Easy": "Easy",
+      "Normal": "Normal",
+      "Hard": "Hard",
+      "VeryHard": "Very Hard"
+    }
   },
   "TYPES": {
     "Actor": {
@@ -390,7 +489,9 @@
       "npc": "NPC"
     },
     "Item": {
-      "gear": "Gear",
+      "item-comum": "Common Item",
+      "item-municao": "Ammunition",
+      "item-consumivel": "Consumable",
       "feature": "Feature", 
       "spell": "Spell",
       "efeito": "Efeito",

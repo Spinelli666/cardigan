@@ -58,7 +58,9 @@ Hooks.once('init', function () {
   };
   CONFIG.Item.documentClass = CardiganSystemItem;
   CONFIG.Item.dataModels = {
-    gear: models.CardiganSystemGear,
+    "item-comum": models.CardiganSystemItemComum,
+    "item-municao": models.CardiganSystemItemMunicao,
+    "item-consumivel": models.CardiganSystemItemConsumivel,
     feature: models.CardiganSystemFeature,
     spell: models.CardiganSystemSpell,
     efeito: models.CardiganSystemEfeito,
@@ -68,13 +70,19 @@ Hooks.once('init', function () {
 
   // Debug logging
   console.log('[CARDIGAN] Registered Item types:', Object.keys(CONFIG.Item.dataModels));
+  console.log('[CARDIGAN] CardiganSystemItemComum model:', models.CardiganSystemItemComum);
+  console.log('[CARDIGAN] CardiganSystemItemMunicao model:', models.CardiganSystemItemMunicao);
+  console.log('[CARDIGAN] CardiganSystemItemConsumivel model:', models.CardiganSystemItemConsumivel);
   console.log('[CARDIGAN] CardiganSystemEfeito model:', models.CardiganSystemEfeito);
   console.log('[CARDIGAN] CardiganSystemArma model:', models.CardiganSystemArma);
   console.log('[CARDIGAN] CardiganSystemArmadura model:', models.CardiganSystemArmadura);
   
-  // Verify system template types
-  console.log('[CARDIGAN] System template Item types from game.system.template:', game.system?.template?.Item?.types);
+  // Verify document types (using modern documentTypes instead of deprecated template)
   console.log('[CARDIGAN] Document types from system.json:', game.system?.documentTypes?.Item);
+  
+  // Verify that CONFIG recognizes the backpack type
+  console.log('[CARDIGAN] CONFIG.Item.dataModels keys:', Object.keys(CONFIG.Item.dataModels));
+  console.log('[CARDIGAN] Does CONFIG have backpack?', 'backpack' in CONFIG.Item.dataModels);
 
   // Active Effects are never copied to the Actor,
   // but will still apply to the Actor from within the Item
@@ -262,3 +270,24 @@ function rollItemMacro(itemUuid) {
     item.roll();
   });
 }
+
+/* -------------------------------------------- */
+/*  Ready Hook                                  */
+/* -------------------------------------------- */
+
+Hooks.once('ready', function () {
+  // Verify system is properly loaded
+  console.log('[CARDIGAN] System ready - verifying configuration...');
+  console.log('[CARDIGAN] Available Item types in CONFIG:', Object.keys(CONFIG.Item.dataModels));
+  console.log('[CARDIGAN] System document types:', game.system?.documentTypes?.Item);
+  console.log('[CARDIGAN] Backpack model available:', !!CONFIG.Item.dataModels.backpack);
+  
+  // Test if we can create a backpack item
+  try {
+    const itemClass = getDocumentClass("Item");
+    console.log('[CARDIGAN] Item class:', itemClass);
+    console.log('[CARDIGAN] Item class supports backpack:', itemClass.TYPES.includes('backpack'));
+  } catch (error) {
+    console.error('[CARDIGAN] Error testing item creation:', error);
+  }
+});

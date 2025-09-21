@@ -33,8 +33,11 @@ Template para itens do tipo armadura com aba Detail
         <div style="flex: 1;">
             <label for="system.weight">{{localize "CARDIGAN.Weight"}}</label>
             <select name="system.weight">
+                <option value="muito-leve" {{selected item.system.weight "muito-leve"}}>{{localize "CARDIGAN.WeightVeryLight"}}</option>
                 <option value="leve" {{selected item.system.weight "leve"}}>{{localize "CARDIGAN.Light"}}</option>
+                <option value="medio" {{selected item.system.weight "medio"}}>{{localize "CARDIGAN.WeightMedium"}}</option>
                 <option value="pesado" {{selected item.system.weight "pesado"}}>{{localize "CARDIGAN.Heavy"}}</option>
+                <option value="muito-pesado" {{selected item.system.weight "muito-pesado"}}>{{localize "CARDIGAN.WeightVeryHeavy"}}</option>
             </select>
         </div>
         <div style="flex: 1;">

@@ -1,0 +1,44 @@
+{{! General Items Selection Dialog Template }}
+<form class="item-type-selection-form">
+  <div class="modal-header">
+    <button type="button" class="back-button" data-action="back">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <h2>{{localize "CARDIGAN.SelectGeneralItemType"}}</h2>
+  </div>
+  
+  <div class="modal-body">
+    <p class="description">{{localize "CARDIGAN.SelectGeneralItemTypeDescription"}}</p>
+    
+    <div class="item-type-grid">
+      <button type="button" class="item-type-option" data-type="item-comum" data-name="Novo Item Comum">
+        <i class="fas fa-box item-icon comum-icon"></i>
+        <span class="item-label">{{localize "TYPES.Item.item-comum"}}</span>
+        <small class="item-description">Equipamentos gerais, ferramentas e objetos diversos</small>
+      </button>
+      
+      <button type="button" class="item-type-option" data-type="item-municao" data-name="Nova Munição">
+        <i class="fas fa-bullseye item-icon municao-icon"></i>
+        <span class="item-label">{{localize "TYPES.Item.item-municao"}}</span>
+        <small class="item-description">Flechas, balas, dardos e projéteis</small>
+      </button>
+      
+      <button type="button" class="item-type-option" data-type="item-consumivel" data-name="Novo Consumível">
+        <i class="fas fa-flask item-icon consumivel-icon"></i>
+        <span class="item-label">{{localize "TYPES.Item.item-consumivel"}}</span>
+        <small class="item-description">Poções, comidas, pergaminhos e itens de uso único</small>
+      </button>
+    </div>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="back-button" data-action="back">
+      <i class="fas fa-arrow-left"></i>
+      {{localize "CARDIGAN.Back"}}
+    </button>
+    <button type="button" class="cancel-button" data-action="cancel">
+      <i class="fas fa-times"></i>
+      {{localize "Cancel"}}
+    </button>
+  </div>
+</form>

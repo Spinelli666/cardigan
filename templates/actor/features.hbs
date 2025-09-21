@@ -269,6 +269,7 @@
               />
             </div>
           </div>
+          
           <!-- Fome e Sede -->
           <div class='fome-sede-container'>
             <div class='hunger-row horizontal-field'>
@@ -592,14 +593,6 @@
       <div class='abilities-main-container'>
         <div class='abilities-header'>
           <h3>Abilities</h3>
-          <button 
-            type='button' 
-            class='abilities-edit-button'
-            data-action='editAbilities'
-            title='Edit Abilities'
-          >
-            <i class="fas fa-edit"></i> Edit
-          </button>
         </div>
         <div class='abilities-list'>
           {{#each system.abilities as |ability key|}}
@@ -607,13 +600,14 @@
               <label>{{localize (lookup @root.config.abilities key)}}</label>
               <div class='status-display'>
                 <input
-                  type='text'
+                  type='number'
                   name='system.abilities.{{key}}.value'
                   value='{{ability.value}}'
                   data-dtype='Number'
-                  class='ability-value'
-                  title='Base Value'
-                  readonly
+                  class='ability-value dynamic-field'
+                  data-ability='{{key}}'
+                  data-field='value'
+                  title='Base Value (Focus: manual | Blur: total)'
                 />
               </div>
               <div class='bonus-container'>
@@ -622,9 +616,10 @@
                   name='system.abilities.{{key}}.totalBonus'
                   value='{{ability.totalBonus}}'
                   data-dtype='Number'
-                  class='bonus-input'
-                  title='{{localize (lookup @root.config.abilities key)}} Total Bonus (manual + weapon bonuses)'
-                  readonly
+                  class='bonus-input dynamic-field'
+                  data-ability='{{key}}'
+                  data-field='totalBonus'
+                  title='Total Bonus (Focus: manual | Blur: calculated + manual)'
                 />
               </div>
               <div class='roll-button-container'>

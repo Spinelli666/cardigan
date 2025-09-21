@@ -61,8 +61,14 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       template:
         'systems/cardigan/templates/item/attribute-parts/feature.hbs',
     },
-    attributesGear: {
-      template: 'systems/cardigan/templates/item/attribute-parts/gear.hbs',
+    attributesItemComum: {
+      template: 'systems/cardigan/templates/item/attribute-parts/item-comum.hbs',
+    },
+    attributesItemMunicao: {
+      template: 'systems/cardigan/templates/item/attribute-parts/item-municao.hbs',
+    },
+    attributesItemConsumivel: {
+      template: 'systems/cardigan/templates/item/attribute-parts/item-consumivel.hbs',
     },
     attributesSpell: {
       template: 'systems/cardigan/templates/item/attribute-parts/spell.hbs',
@@ -100,8 +106,17 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           options.parts.push('attributesFeature', 'effects');
         }
         break;
-      case 'gear':
-        options.parts.push('attributesGear');
+      case 'backpack':
+        // Tipo backpack foi removido - não deve mais chegar aqui
+        break;
+      case 'item-comum':
+        options.parts.push('attributesItemComum');
+        break;
+      case 'item-municao':
+        options.parts.push('attributesItemMunicao');
+        break;
+      case 'item-consumivel':
+        options.parts.push('attributesItemConsumivel');
         break;
       case 'spell':
         options.parts.push('attributesSpell');
@@ -149,7 +164,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   async _preparePartContext(partId, context) {
     switch (partId) {
       case 'attributesFeature':
-      case 'attributesGear':
+      case 'attributesItemComum':
+      case 'attributesItemMunicao':
+      case 'attributesItemConsumivel':
       case 'attributesSpell':
       case 'attributesEfeito':
       case 'attributesArma':
@@ -213,7 +230,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           tab.label += 'Description';
           break;
         case 'attributesFeature':
-        case 'attributesGear':
+        case 'attributesItemComum':
+        case 'attributesItemMunicao':
+        case 'attributesItemConsumivel':
         case 'attributesSpell':
         case 'attributesEfeito':
         case 'attributesArma':
