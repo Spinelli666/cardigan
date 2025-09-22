@@ -1,4 +1,5 @@
 const { api } = foundry.applications;
+import WeightSelectionDialog from './weight-selection-dialog.mjs';
 
 /**
  * A specialized dialog for selecting general item types (comum, munição, consumível)
@@ -69,6 +70,21 @@ export default class GeneralItemsSelectionDialog extends api.HandlebarsApplicati
       });
     });
 
+    // Setup click handlers for action buttons
+    this.element.querySelectorAll('[data-action="back"]').forEach(button => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        this._onBack(event, button);
+      });
+    });
+
+    this.element.querySelectorAll('[data-action="cancel"]').forEach(button => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        this._onCancel(event, button);
+      });
+    });
+
     // Auto-focus the dialog
     this.element.focus();
   }
@@ -98,18 +114,32 @@ export default class GeneralItemsSelectionDialog extends api.HandlebarsApplicati
     console.log(`[GeneralItemsSelectionDialog] Creating ${type} item with name: ${name}`);
     
     try {
+      // Show weight selection dialog for backpack items
+      const weightResult = await WeightSelectionDialog.show({
+        itemType: 'backpack',
+        itemName: name,
+        actor: this.actor
+      });
+      
+      if (!weightResult) {
+        // User cancelled weight selection
+        return;
+      }
+      
       const itemData = {
         name: name,
         type: type,
-        system: {}
+        system: {
+          weight: weightResult.weight
+        }
       };
 
-      // Set default values based on type
+      // Set default values based on type, preserving the selected weight
       switch (type) {
         case 'item-comum':
           itemData.system = {
+            ...itemData.system, // Keep the selected weight
             quantity: 1,
-            weight: 0,
             price: 0,
             category: 'equipment',
             usage: ''
@@ -117,16 +147,16 @@ export default class GeneralItemsSelectionDialog extends api.HandlebarsApplicati
           break;
         case 'item-municao':
           itemData.system = {
+            ...itemData.system, // Keep the selected weight
             quantity: 20,
-            weight: 0,
             price: 0,
             ammunitionType: 'arrow'
           };
           break;
         case 'item-consumivel':
           itemData.system = {
+            ...itemData.system, // Keep the selected weight
             quantity: 1,
-            weight: 0,
             price: 0,
             uses: 1,
             effect: '',
@@ -178,13 +208,16 @@ export default class GeneralItemsSelectionDialog extends api.HandlebarsApplicati
    * @param {HTMLElement} target
    */
   async _onBack(event, target) {
+    console.log('[GeneralItemsSelectionDialog] Back button clicked');
+    
     // Close this dialog
     this.close();
     
     // Reopen parent dialog if it exists
     if (this.parentDialog) {
+      console.log('[GeneralItemsSelectionDialog] Reopening parent dialog');
       this.parentDialog.element.style.display = 'block';
-      this.parentDialog.render(true);
+      await this.parentDialog.render(true);
     }
   }
 
@@ -194,6 +227,8 @@ export default class GeneralItemsSelectionDialog extends api.HandlebarsApplicati
    * @param {HTMLElement} target
    */
   async _onCancel(event, target) {
+    console.log('[GeneralItemsSelectionDialog] Cancel button clicked');
+    
     this.close();
     
     // Also close parent dialog if it exists

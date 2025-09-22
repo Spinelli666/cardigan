@@ -257,6 +257,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para campos de durabilidade
     this.#addDurabilityListeners();
     
+    // Adicionar event listeners para campos de quantidade
+    this.#addQuantityListeners();
+    
     // Adicionar event listeners para campos de munição
     this.#addAmmunitionListeners();
     
@@ -409,6 +412,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
     // Calculate armor totals for equipped armors
     this._calculateArmorTotals(context);
+    
+    // Calculate backpack spaces occupied
+    context.backpackSpacesOccupied = this._calculateBackpackSpaces(context.backpack);
   }
 
   /**
@@ -453,6 +459,135 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
     // Log for debugging
     console.log(`[ARMOR TOTALS] Armor: ${totalArmor}, Life: ${totalLifeBonus}, Energy: ${totalEnergyBonus}, Movement: ${totalMovementBonus}`);
+  }
+
+  /**
+   * Calculate spaces occupied by a single item based on its weight and quantity
+   * Implements Cardigan's backpack space rules:
+   * - Muito Leve: 0 spaces, but +1 space per 10 items accumulated
+   * - Leve: 1 space, but +1 space per 11 items accumulated  
+   * - Médio: 1 space each
+   * - Pesado: 2 spaces each
+   * - Muito Pesado: 4 spaces each
+   * @param {string} weight - Item weight category
+   * @param {number} quantity - Item quantity
+   * @returns {number} Spaces occupied by this item
+   * @private
+   */
+  _calculateItemSpaces(weight, quantity) {
+    if (!weight || quantity <= 0) return 0;
+
+    switch (weight) {
+      case 'muito-leve':
+        // 0 spaces, but +1 space per 10 items
+        return Math.floor(quantity / 10);
+      
+      case 'leve':
+        // 1 space per group of 11 items
+        // Examples: 1-11 items = 1 space, 12-22 items = 2 spaces, 23-33 items = 3 spaces
+        return Math.ceil(quantity / 11);
+      
+      case 'medio':
+        // 1 space each
+        return quantity;
+      
+      case 'pesado':
+        // 2 spaces each
+        return quantity * 2;
+      
+      case 'muito-pesado':
+        // 4 spaces each
+        return quantity * 4;
+      
+      default:
+        console.warn(`[CARDIGAN] Unknown weight category: ${weight}`);
+        return 0;
+    }
+  }
+
+  /**
+   * Calculate total spaces occupied in backpack by all items
+   * Only counts items that are in the backpack table (unequipped)
+   * @param {Array} backpackItems - Array of items in the backpack
+   * @returns {number} Total spaces occupied
+   * @private
+   */
+  _calculateBackpackSpaces(backpackItems) {
+    if (!backpackItems || !Array.isArray(backpackItems)) return 0;
+
+    let totalSpaces = 0;
+
+    // Group items by weight for special rules
+    const weightGroups = {
+      'muito-leve': 0,
+      'leve': 0
+    };
+
+    // First pass: calculate individual item spaces and count weight groups
+    backpackItems.forEach(item => {
+      const weight = item.system?.weight;
+      const quantity = item.system?.quantity || 1;
+
+      if (weight === 'muito-leve') {
+        weightGroups['muito-leve'] += quantity;
+      } else if (weight === 'leve') {
+        weightGroups['leve'] += quantity;
+      } else {
+        // For other weights, calculate normally
+        totalSpaces += this._calculateItemSpaces(weight, quantity);
+      }
+    });
+
+    // Apply special rules for weight groups
+    totalSpaces += this._calculateItemSpaces('muito-leve', weightGroups['muito-leve']);
+    totalSpaces += this._calculateItemSpaces('leve', weightGroups['leve']);
+
+    console.log(`[BACKPACK SPACES] Total occupied: ${totalSpaces}`);
+    return totalSpaces;
+  }
+
+  /**
+   * Check if there is enough space in the backpack to accommodate an item
+   * @param {string} weight - Item weight category
+   * @param {number} quantity - Item quantity
+   * @returns {boolean} True if there's enough space
+   * @private
+   */
+  _hasBackpackSpace(weight, quantity) {
+    const currentSpaces = this.context?.backpackSpacesOccupied || 0;
+    const maxSpaces = this.actor.system.backpack.max;
+    const requiredSpaces = this._calculateItemSpaces(weight, quantity);
+    
+    return (currentSpaces + requiredSpaces) <= maxSpaces;
+  }
+
+  /**
+   * Calculate how much space would be needed if an equipped item was unequipped
+   * @param {Object} item - The item to check
+   * @returns {number} Spaces required for the item
+   * @private
+   */
+  _getItemRequiredSpaces(item) {
+    if (!item || !item.system) return 0;
+    
+    const weight = item.system.weight;
+    const quantity = item.system.quantity || 1;
+    
+    return this._calculateItemSpaces(weight, quantity);
+  }
+
+  /**
+   * Check if an equipped item can be unequipped (has space in backpack)
+   * @param {Object} item - The item to check
+   * @returns {boolean} True if item can be unequipped
+   * @private
+   */
+  _canUnequipItem(item) {
+    const requiredSpaces = this._getItemRequiredSpaces(item);
+    const currentSpaces = this.context?.backpackSpacesOccupied || 0;
+    const maxSpaces = this.actor.system.backpack.max;
+    
+    return (currentSpaces + requiredSpaces) <= maxSpaces;
   }
 
   /**************
@@ -540,6 +675,15 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   static async _createDocWithSelection(event, target) {
     try {
+      // Check if backpack is full before allowing item creation
+      const currentSpaces = this.context?.backpackSpacesOccupied || 0;
+      const maxSpaces = this.document.system.backpack.max;
+      
+      if (currentSpaces >= maxSpaces) {
+        ui.notifications.warn("Mochila cheia! Não é possível adicionar novos itens. Equipe ou remova alguns itens primeiro.");
+        return;
+      }
+      
       // Show the item type selection dialog
       const result = await ItemTypeSelectionDialog.show(this.document);
       
@@ -1584,6 +1728,88 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Adiciona event listeners para campos de quantidade de itens da backpack
+   * Implementa sincronização instantânea entre actor sheet e item sheet
+   */
+  #addQuantityListeners() {
+    const html = this.element;
+    
+    // Encontrar todos os inputs de quantidade dos itens da backpack
+    const quantityInputs = html.querySelectorAll('input[name*="quantity"]');
+    
+    quantityInputs.forEach(input => {
+      // Armazenar valor anterior para comparação
+      input.dataset.previousValue = input.value;
+      
+      // Usar apenas 'blur' para evitar processamento excessivo
+      input.addEventListener('blur', this.#handleQuantityChange.bind(this));
+    });
+  }
+
+  /**
+   * Manipula mudanças nos campos de quantidade dos itens da backpack
+   * @param {Event} event - O evento blur do input
+   */
+  async #handleQuantityChange(event) {
+    const input = event.target;
+    const name = input.name;
+    const value = parseInt(input.value) || 0;
+    const previousValue = input.dataset.previousValue;
+    
+    // Se o valor não mudou, não fazer nada
+    if (value.toString() === previousValue) return;
+    
+    console.log(`[CARDIGAN] Quantidade alterada: ${previousValue} → ${value}`);
+    
+    // Extrair o ID do item do nome do campo (formato: items.itemId.system.quantity)
+    const match = name.match(/^items\.([^.]+)\.system\.quantity$/);
+    if (!match) {
+      console.warn('[CARDIGAN] Nome do campo de quantidade inválido:', name);
+      return;
+    }
+    
+    const itemId = match[1];
+    const item = this.actor.items.get(itemId);
+    
+    if (!item) {
+      console.warn('[CARDIGAN] Item não encontrado:', itemId);
+      return;
+    }
+    
+    // Validar se é um dos tipos permitidos para edição de quantidade
+    if (!['item-comum', 'item-municao', 'item-consumivel'].includes(item.type)) {
+      console.warn('[CARDIGAN] Tipo de item não permitido para edição de quantidade:', item.type);
+      return;
+    }
+    
+    // Validar valor mínimo
+    const finalValue = Math.max(0, value);
+    if (finalValue !== value) {
+      console.log(`[CARDIGAN] Valor ${value} ajustado para mínimo 0`);
+      input.value = finalValue;
+    }
+    
+    // Preparar a atualização
+    const updateData = {
+      'system.quantity': finalValue
+    };
+    
+    try {
+      // Atualizar o item diretamente
+      await item.update(updateData);
+      
+      // Atualizar o valor anterior para a próxima comparação
+      input.dataset.previousValue = finalValue.toString();
+      
+      console.log(`[CARDIGAN] Quantidade atualizada com sucesso para ${item.name}: ${finalValue}`);
+    } catch (error) {
+      console.error('[CARDIGAN] Erro ao atualizar quantidade:', error);
+      // Restaurar valor anterior em caso de erro
+      input.value = previousValue;
+    }
+  }
+
+  /**
    * Adiciona event listeners para campos de munição de armas
    * Implementa sincronização instantânea entre actor sheet e item sheet
    */
@@ -2405,6 +2631,31 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       return;
     }
 
+    // Check if there's enough space in backpack
+    const requiredSpaces = this._calculateItemSpaces(item.system.weight, item.system.quantity || 1);
+    
+    // Calculate current backpack spaces
+    const backpackItems = this.document.items.filter(i => {
+      // Items that go to backpack table: unequipped items or specific types
+      if (i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel') {
+        return true;
+      }
+      // Unequipped weapons and armors
+      if (i.type === 'arma' && !i.system.equipped) return true;
+      if (i.type === 'armadura' && !i.system.equipped) return true;
+      return false;
+    });
+    
+    const currentSpaces = this._calculateBackpackSpaces(backpackItems);
+    const maxSpaces = this.document.system.backpack.max;
+    
+    console.log(`[UNEQUIP WEAPON CHECK] Current: ${currentSpaces}, Required: ${requiredSpaces}, Max: ${maxSpaces}`);
+    
+    if ((currentSpaces + requiredSpaces) > maxSpaces) {
+      ui.notifications.warn(`Não é possível desequipar ${item.name}. Mochila cheia! Precisa de ${requiredSpaces} espaço(s) livre(s).`);
+      return;
+    }
+
     try {
       // Clear hand assignments when unequipping
       const updateData = {
@@ -2488,6 +2739,31 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
     if (!item.system.equipped) {
       ui.notifications.info("Esta armadura já está desequipada.");
+      return;
+    }
+
+    // Check if there's enough space in backpack
+    const requiredSpaces = this._calculateItemSpaces(item.system.weight, item.system.quantity || 1);
+    
+    // Calculate current backpack spaces
+    const backpackItems = this.document.items.filter(i => {
+      // Items that go to backpack table: unequipped items or specific types
+      if (i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel') {
+        return true;
+      }
+      // Unequipped weapons and armors
+      if (i.type === 'arma' && !i.system.equipped) return true;
+      if (i.type === 'armadura' && !i.system.equipped) return true;
+      return false;
+    });
+    
+    const currentSpaces = this._calculateBackpackSpaces(backpackItems);
+    const maxSpaces = this.document.system.backpack.max;
+    
+    console.log(`[UNEQUIP ARMOR CHECK] Current: ${currentSpaces}, Required: ${requiredSpaces}, Max: ${maxSpaces}`);
+    
+    if ((currentSpaces + requiredSpaces) > maxSpaces) {
+      ui.notifications.warn(`Não é possível desequipar ${item.name}. Mochila cheia! Precisa de ${requiredSpaces} espaço(s) livre(s).`);
       return;
     }
 

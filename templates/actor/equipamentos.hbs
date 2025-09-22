@@ -318,14 +318,14 @@
   {{! Backpack Capacity Field }}
   <div class='mochila-container horizontal-field'>
     <label class='status-label label-left'>Backpack:</label>
-    <div class='status-display'>
+    <div class='status-display {{#if (gte backpackSpacesOccupied system.backpack.max)}}backpack-full{{/if}}'>
       <input
         type='number'
         name='system.backpack.current'
-        value='{{system.backpack.current}}'
+        value='{{backpackSpacesOccupied}}'
         data-dtype='Number'
         min='0'
-        class='status-current'
+        class='status-current {{#if (gte backpackSpacesOccupied system.backpack.max)}}backpack-full-text{{/if}}'
         readonly
       />
       <span class='status-separator'>/</span>
@@ -339,6 +339,12 @@
         readonly
       />
     </div>
+    {{#if (gte backpackSpacesOccupied system.backpack.max)}}
+      <div class='backpack-warning'>
+        <i class="fas fa-exclamation-triangle"></i>
+        {{localize 'CARDIGAN.BackpackFull'}}
+      </div>
+    {{/if}}
   </div>
 
   {{! Backpack Table - Always Visible }}
@@ -386,8 +392,30 @@
           </div>
           <div>{{item.name}}</div>
         </div>
-        <div class='item-quantity'>{{item.system.quantity}}</div>
-        <div class='item-weight'>{{item.system.weight}}</div>
+        <div class='item-quantity'>
+          {{#if @root.editable}}
+            {{#if (or (eq item.type "item-comum") (eq item.type "item-municao") (eq item.type "item-consumivel"))}}
+              <input
+                type='number'
+                name='items.{{item._id}}.system.quantity'
+                value='{{item.system.quantity}}'
+                min='0'
+                data-dtype='Number'
+                style='width: 60px; text-align: center;'
+                title='Quantidade: {{item.system.quantity}}'
+              />
+            {{else}}
+              <span title='Quantidade: {{item.system.quantity}}'>
+                {{item.system.quantity}}
+              </span>
+            {{/if}}
+          {{else}}
+            <span title='Quantidade: {{item.system.quantity}}'>
+              {{item.system.quantity}}
+            </span>
+          {{/if}}
+                </div>
+        <div class='item-weight'>{{abbreviateWeight item.system.weight}}</div>
         <div class='item-equip'>
           {{#if @root.editable}}
             {{#if (eq item.type "arma")}}

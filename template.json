@@ -117,7 +117,7 @@
     "item-comum": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": 0,
+      "weight": "muito-leve",
       "price": 0,
       "category": "misc",
       "usage": ""
@@ -125,7 +125,7 @@
     "item-municao": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": 0,
+      "weight": "muito-leve",
       "price": 0,
       "ammunitionType": "arrow",
       "damageBonus": "",
@@ -135,7 +135,7 @@
     "item-consumivel": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": 0,
+      "weight": "muito-leve",
       "price": 0,
       "consumableType": "potion",
       "useTime": "action",

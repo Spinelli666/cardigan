@@ -17,11 +17,10 @@ export default class CardiganSystemItemComum extends CardiganSystemItemBase {
       min: 1,
     });
 
-    schema.weight = new fields.NumberField({
+    schema.weight = new fields.StringField({
       required: true,
-      nullable: false,
-      initial: 0,
-      min: 0,
+      blank: false,
+      initial: "muito-leve"
     });
 
     schema.price = new fields.NumberField({

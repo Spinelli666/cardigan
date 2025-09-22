@@ -965,3 +965,141 @@
     }
   }
 }
+
+// -----------------------------------------
+// Weight Selection Dialog Styles
+// -----------------------------------------
+.weight-selection-dialog {
+  .dialog-header {
+    text-align: center;
+    margin-bottom: 24px;
+    
+    h2 {
+      color: $c-beige;
+      font-size: 1.3em;
+      margin-bottom: 8px;
+      
+      i {
+        color: $c-tan;
+        margin-right: 8px;
+      }
+    }
+    
+    .dialog-subtitle {
+      color: $c-beige;
+      font-size: 0.9em;
+      line-height: 1.4;
+      opacity: 0.85;
+    }
+  }
+  
+  .weight-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+    max-height: 400px;
+    overflow-y: auto;
+    
+    .weight-option {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border: 2px solid #555;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+      width: 100%;
+      
+      &:hover {
+        border-color: $c-beige;
+        background: rgba($c-beige, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      
+      .weight-icon {
+        font-size: 2em;
+        width: 50px;
+        text-align: center;
+        color: $c-tan;
+        transition: color 0.3s ease;
+      }
+      
+      .weight-info {
+        flex: 1;
+        
+        .weight-name {
+          font-size: 1.1em;
+          font-weight: bold;
+          color: $c-beige;
+          margin-bottom: 4px;
+        }
+        
+        .weight-description {
+          font-size: 0.85em;
+          color: $c-beige;
+          opacity: 0.8;
+        }
+      }
+      
+      .weight-spaces {
+        text-align: right;
+        
+        .spaces-info {
+          font-size: 0.8em;
+          color: $c-tan;
+          font-weight: 500;
+          background: rgba($c-tan, 0.1);
+          padding: 4px 8px;
+          border-radius: 12px;
+          border: 1px solid rgba($c-tan, 0.3);
+        }
+      }
+      
+      // Color coding for different weights
+      &[data-weight="muito-leve"] .weight-icon { color: #74b9ff; }
+      &[data-weight="leve"] .weight-icon { color: #00b894; }
+      &[data-weight="medio"] .weight-icon { color: #fdcb6e; }
+      &[data-weight="pesado"] .weight-icon { color: #e17055; }
+      &[data-weight="muito-pesado"] .weight-icon { color: #d63031; }
+      
+      &:hover {
+        &[data-weight="muito-leve"] .weight-icon { color: #0984e3; }
+        &[data-weight="leve"] .weight-icon { color: #00a085; }
+        &[data-weight="medio"] .weight-icon { color: #e84393; }
+        &[data-weight="pesado"] .weight-icon { color: #e84393; }
+        &[data-weight="muito-pesado"] .weight-icon { color: #fd79a8; }
+      }
+    }
+  }
+  
+  .dialog-footer {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    
+    .cancel-btn {
+      padding: 10px 20px;
+      border: 2px solid #666;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      color: $c-beige;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        border-color: #999;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      
+      i {
+        margin-right: 6px;
+      }
+    }
+  }
+}

@@ -196,6 +196,57 @@ Handlebars.registerHelper('hasRangedWeapons', function(weapons) {
   return weapons.some(weapon => weapon.system?.ranged === true);
 });
 
+// Helper para calcular espaços ocupados por um item individual
+Handlebars.registerHelper('calculateItemSpaces', function(weight, quantity) {
+  if (!weight || quantity <= 0) return 0;
+
+  switch (weight) {
+    case 'muito-leve':
+      // 0 spaces, but +1 space per 10 items
+      return Math.floor(quantity / 10);
+    
+    case 'leve':
+      // 1 space per group of 11 items
+      // Examples: 1-11 items = 1 space, 12-22 items = 2 spaces, 23-33 items = 3 spaces
+      return Math.ceil(quantity / 11);
+    
+    case 'medio':
+      // 1 space each
+      return quantity;
+    
+    case 'pesado':
+      // 2 spaces each
+      return quantity * 2;
+    
+    case 'muito-pesado':
+      // 4 spaces each
+      return quantity * 4;
+    
+    default:
+      return 0;
+  }
+});
+
+// Helper para abreviar categorias de peso
+Handlebars.registerHelper('abbreviateWeight', function(weight) {
+  if (!weight) return '';
+
+  switch (weight) {
+    case 'muito-leve':
+      return 'ML';
+    case 'leve':
+      return 'L';
+    case 'medio':
+      return 'M';
+    case 'pesado':
+      return 'P';
+    case 'muito-pesado':
+      return 'MP';
+    default:
+      return weight.toUpperCase();
+  }
+});
+
 /* -------------------------------------------- */
 /*  Ready Hook                                  */
 /* -------------------------------------------- */

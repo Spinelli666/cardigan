@@ -1,5 +1,6 @@
 const { api } = foundry.applications;
 import GeneralItemsSelectionDialog from './general-items-selection-dialog.mjs';
+import WeightSelectionDialog from './weight-selection-dialog.mjs';
 
 /**
  * Dialog for selecting item type when creating new items
@@ -86,7 +87,7 @@ export class ItemTypeSelectionDialog extends api.HandlebarsApplicationMixin(
     const itemName = target.dataset.name;
     
     try {
-      // Special handling for armor - need to select armor type first
+      // Special handling for armor - need to select armor type first, then weight
       if (itemType === "armadura") {
         // Import and show armor type selection dialog
         const { ArmorTypeSelectionDialog } = await import('./armor-type-selection-dialog.mjs');
@@ -97,21 +98,30 @@ export class ItemTypeSelectionDialog extends api.HandlebarsApplicationMixin(
           return;
         }
         
-        // Create armor with selected type
+        // Show weight selection dialog for armor
+        const weightResult = await WeightSelectionDialog.show({
+          itemType: 'armor',
+          itemName: itemName,
+          actor: this.actor
+        });
+        
+        if (!weightResult) {
+          // User cancelled weight selection
+          return;
+        }
+        
+        // Create armor with selected type and weight
         const itemClass = getDocumentClass("Item");
         const createData = { 
           name: itemName, 
           type: itemType,
           system: {
-            armorType: selectedArmorType
+            armorType: selectedArmorType,
+            weight: weightResult.weight
           }
         };
         
-        // Debug logging
-        console.log('[ARMOR CREATION] Item class:', itemClass);
         console.log('[ARMOR CREATION] Create data:', createData);
-        console.log('[ARMOR CREATION] Available item types:', Object.keys(CONFIG.Item.dataModels || {}));
-        console.log('[ARMOR CREATION] System template types:', game.system?.template?.Item?.types);
         
         const document = await itemClass.create(createData, {
           parent: this.actor,
@@ -133,7 +143,57 @@ export class ItemTypeSelectionDialog extends api.HandlebarsApplicationMixin(
 
         this.close();
         return;
-      }      // Regular item creation for non-armor types
+      }
+      
+      // Special handling for weapons - need weight selection
+      if (itemType === "arma") {
+        // Show weight selection dialog for weapon
+        const weightResult = await WeightSelectionDialog.show({
+          itemType: 'weapon',
+          itemName: itemName,
+          actor: this.actor
+        });
+        
+        if (!weightResult) {
+          // User cancelled weight selection
+          return;
+        }
+        
+        // Create weapon with selected weight
+        const itemClass = getDocumentClass("Item");
+        const createData = { 
+          name: itemName, 
+          type: itemType,
+          system: {
+            weight: weightResult.weight
+          }
+        };
+        
+        console.log('[WEAPON CREATION] Create data:', createData);
+        
+        const document = await itemClass.create(createData, {
+          parent: this.actor,
+        });
+        
+        // Check if document was created successfully
+        if (document) {
+          // Open the item sheet
+          document.sheet.render(true);
+          
+          // Resolve the promise and close the dialog
+          if (this.resolve) {
+            this.resolve({ document, type: itemType });
+          }
+        } else {
+          console.error('Failed to create weapon document');
+          ui.notifications.error('Failed to create weapon item');
+        }
+
+        this.close();
+        return;
+      }
+      
+      // Regular item creation for non-armor/weapon types
       const itemClass = getDocumentClass("Item");
       const createData = { 
         name: itemName, 

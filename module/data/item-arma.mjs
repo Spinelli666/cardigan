@@ -38,7 +38,26 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
       ),
       rightHand: new fields.BooleanField({ required: true, initial: false }),
       leftHand: new fields.BooleanField({ required: true, initial: false }),
-      weight: new fields.StringField({ required: true, blank: false, initial: "leve" }),
+      weight: new fields.StringField({ 
+        required: true, 
+        blank: false, 
+        initial: "leve",
+        choices: {
+          "leve": "CARDIGAN.Light",
+          "pesado": "CARDIGAN.Heavy"
+        },
+        clean: (value) => {
+          // Convert old numeric values to string choices
+          if (typeof value === 'number') {
+            return value <= 0 ? "leve" : "pesado";
+          }
+          // Ensure valid string choices
+          if (!["leve", "pesado"].includes(value)) {
+            return "leve";
+          }
+          return value;
+        }
+      }),
       price: new fields.NumberField({ required: true, nullable: false, initial: 0, min: 0 }),
       durability: new fields.SchemaField({
         current: new fields.NumberField({ required: true, nullable: false, initial: 3, min: 0, max: 3, integer: true }),

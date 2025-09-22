@@ -102,11 +102,8 @@ export default class ArmorData extends BaseItemData {
         required: true,
         initial: "leve",
         choices: {
-          "muito-leve": "CARDIGAN.WeightVeryLight",
           "leve": "CARDIGAN.Light",
-          "medio": "CARDIGAN.WeightMedium", 
-          "pesado": "CARDIGAN.Heavy",
-          "muito-pesado": "CARDIGAN.WeightVeryHeavy"
+          "pesado": "CARDIGAN.Heavy"
         },
         clean: (value) => {
           // Convert old numeric values to string choices
@@ -114,7 +111,7 @@ export default class ArmorData extends BaseItemData {
             return value <= 0 ? "leve" : "pesado";
           }
           // Ensure valid string choices
-          if (!["muito-leve", "leve", "medio", "pesado", "muito-pesado"].includes(value)) {
+          if (!["leve", "pesado"].includes(value)) {
             return "leve";
           }
           return value;

@@ -19,11 +19,14 @@
     </div>
 
     <div class="form-group">
-      <label>{{localize "CARDIGAN.ItemMunicao.Weight"}}</label>
-      <div class="form-fields">
-        <input type="number" name="system.weight" value="{{system.weight}}" data-dtype="Number" step="0.1" min="0"/>
-        <span class="unit">kg</span>
-      </div>
+      <label>{{localize "CARDIGAN.Weight"}}</label>
+      <select name="system.weight">
+        <option value="muito-leve" {{selected system.weight "muito-leve"}}>{{localize "CARDIGAN.WeightVeryLight"}}</option>
+        <option value="leve" {{selected system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
+        <option value="medio" {{selected system.weight "medio"}}>{{localize "CARDIGAN.WeightMedium"}}</option>
+        <option value="pesado" {{selected system.weight "pesado"}}>{{localize "CARDIGAN.WeightHeavy"}}</option>
+        <option value="muito-pesado" {{selected system.weight "muito-pesado"}}>{{localize "CARDIGAN.WeightVeryHeavy"}}</option>
+      </select>
     </div>
   </div>
 
