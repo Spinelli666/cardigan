@@ -347,6 +347,22 @@
     {{/if}}
   </div>
 
+  {{! Money Field }}
+  <div class='money-container horizontal-field'>
+    <label class='status-label label-left'>Money:</label>
+    <div class='status-display'>
+      <input
+        type='number'
+        name='system.money'
+        value='{{system.money}}'
+        data-dtype='Number'
+        min='0'
+        class='money-field'
+        title='Quantidade de moedas (peso: leve)'
+      />
+    </div>
+  </div>
+
   {{! Backpack Table - Always Visible }}
   <h3 class="items-section-header" style="margin-bottom: 10px; color: #c9c7b8; text-align: center;">
     <i class="fas fa-backpack" style="margin-right: 8px;"></i>
@@ -357,7 +373,7 @@
       <div class='item-name'>{{localize 'Name'}}</div>
       <div class='item-quantity'>{{localize 'CARDIGAN.Quantity'}}</div>
       <div class='item-weight'>{{localize 'CARDIGAN.Weight'}}</div>
-      <div class='item-equip'>{{localize 'CARDIGAN.Equip'}}</div>
+      <div class='item-equip'></div>
       <div class='item-controls'>
         {{#if @root.editable}}
           <button
@@ -419,25 +435,55 @@
         <div class='item-equip'>
           {{#if @root.editable}}
             {{#if (eq item.type "arma")}}
-              <a
-                class='item-control equip-weapon'
-                title='{{localize "CARDIGAN.EquipWeapon"}}'
-                data-action='equipWeapon'
-                data-item-id='{{item._id}}'
-                style='color: #4caf50; font-size: 16px;'
-              >
-                <i class='fas fa-shield-alt'></i>
-              </a>
+              {{#if (or item.system.rightHand item.system.leftHand)}}
+                <i class='fas fa-shield-alt' style='color: #4caf50; font-size: 16px;' title='{{localize "CARDIGAN.Equipped"}}'></i>
+              {{else}}
+                <a
+                  class='item-control equip-weapon'
+                  title='{{localize "CARDIGAN.EquipWeapon"}}'
+                  data-action='equipWeapon'
+                  data-item-id='{{item._id}}'
+                  style='color: #4caf50; font-size: 16px;'
+                >
+                  <i class='fas fa-shield-alt'></i>
+                </a>
+              {{/if}}
             {{else if (eq item.type "armadura")}}
+              {{#if item.system.equipped}}
+                <i class='fas fa-shield' style='color: #2196f3; font-size: 16px;' title='{{localize "CARDIGAN.Equipped"}}'></i>
+              {{else}}
+                <a
+                  class='item-control equip-armor'
+                  title='{{localize "CARDIGAN.EquipArmor"}}'
+                  data-action='equipArmor'
+                  data-item-id='{{item._id}}'
+                  style='color: #2196f3; font-size: 16px;'
+                >
+                  <i class='fas fa-shield'></i>
+                </a>
+              {{/if}}
+            {{else if (eq item.type "item-consumivel")}}
               <a
-                class='item-control equip-armor'
-                title='{{localize "CARDIGAN.EquipArmor"}}'
-                data-action='equipArmor'
+                class='item-control consume-item'
+                title='{{localize "CARDIGAN.UseConsumable"}}'
+                data-action='consumeItem'
                 data-item-id='{{item._id}}'
-                style='color: #2196f3; font-size: 16px;'
+                style='color: #ff9800; font-size: 16px; cursor: pointer;'
               >
-                <i class='fas fa-shield'></i>
+                <i class='fas fa-flask'></i>
               </a>
+            {{/if}}
+          {{else}}
+            {{#if (eq item.type "arma")}}
+              {{#if (or item.system.rightHand item.system.leftHand)}}
+                <i class='fas fa-shield-alt' style='color: #4caf50; font-size: 16px;' title='{{localize "CARDIGAN.Equipped"}}'></i>
+              {{/if}}
+            {{else if (eq item.type "armadura")}}
+              {{#if item.system.equipped}}
+                <i class='fas fa-shield' style='color: #2196f3; font-size: 16px;' title='{{localize "CARDIGAN.Equipped"}}'></i>
+              {{/if}}
+            {{else if (eq item.type "item-consumivel")}}
+              <i class='fas fa-flask' style='color: #ff9800; font-size: 16px;' title='{{localize "CARDIGAN.Consumable"}}'></i>
             {{/if}}
           {{/if}}
         </div>

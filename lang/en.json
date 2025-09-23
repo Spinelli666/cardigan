@@ -153,7 +153,8 @@
         "Attributes": "Details",
         "Description": "Description", 
         "Details": "Details",
-        "Effects": "Effects"
+        "Effects": "Effects",
+        "Modifiers": "Modifiers"
       },
       "Backpack": {
         "FIELDS": {
@@ -308,6 +309,8 @@
     "EquipWeapon": "Equip Weapon",
     "Unequip": "Unequip",
     "Equip": "Equip",
+    "UseConsumable": "Use Consumable",
+    "Consumable": "Consumable",
     "ShowBackpack": "Show Backpack",
     "BackpackTable": "Backpack Table",
     "Backpack": "Backpack",
@@ -484,6 +487,44 @@
         "Reaction": "Reaction",
         "Minute": "1 Minute"
       }
+    },
+    "Modifiers": {
+      "Title": "Modifiers",
+      "Subtitle": "Effects and modifiers applied when using this item",
+      "StatusEffects": "Status Effects",
+      "StatusEffectsHelp": "Positive values add, negative values remove",
+      "SkillEffects": "Skill Effects", 
+      "AddSkillEffect": "Add Skill Effect",
+      "RemoveSkillEffect": "Remove Effect",
+      "RollSystem": "Roll System",
+      "EnableRollSystem": "Enable Roll System", 
+      "DiceFormula": "Dice Formula",
+      "SkillModifier": "Skill Modifier",
+      "Multiplier": "Multiplier",
+      "RollDescription": "Roll Description",
+      "SystemEffects": "System Effects",
+      "AddSystemEffect": "Add System Effect",
+      "UsageSettings": "Usage Settings",
+      "ConsumeOnUse": "Consume on Use",
+      "UsesPerDay": "Uses per Day",
+      "ZeroForUnlimited": "0 for unlimited",
+      "CurrentUses": "Current Uses",
+      "UseItem": "Use Item",
+      "Add": "Add (+)",
+      "Subtract": "Subtract (-)",
+      "Multiply": "Multiply (×)",
+      "Permanent": "Permanent",
+      "Temporary": "Temporary", 
+      "Scene": "Scene",
+      "Combat": "Combat",
+      "Apply": "Apply",
+      "Remove": "Remove",
+      "None": "None",
+      "Fome": "Hunger",
+      "Sede": "Thirst", 
+      "Fratura": "Fracture",
+      "Sanidade": "Sanity",
+      "Toxidade": "Toxicity"
     },
     "Currency": {
       "Gold": "gold"

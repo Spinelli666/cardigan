@@ -35,6 +35,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       removeWeaponProperty: this._removeWeaponProperty,
       addSkillBonus: this._addSkillBonus,
       removeSkillBonus: this._removeSkillBonus,
+      'add-skill-effect': this._addSkillEffect,
+      'remove-skill-effect': this._removeSkillEffect,
+      'use-item': this._useConsumableItem,
     },
     form: {
       submitOnChange: true,
@@ -69,6 +72,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     },
     attributesItemConsumivel: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-consumivel.hbs',
+    },
+    modifiersItemConsumivel: {
+      template: 'systems/cardigan/templates/item/attribute-parts/item-consumivel-modifiers.hbs',
     },
     attributesSpell: {
       template: 'systems/cardigan/templates/item/attribute-parts/spell.hbs',
@@ -116,7 +122,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         options.parts.push('attributesItemMunicao');
         break;
       case 'item-consumivel':
-        options.parts.push('attributesItemConsumivel');
+        options.parts.push('attributesItemConsumivel', 'modifiersItemConsumivel');
         break;
       case 'spell':
         options.parts.push('attributesSpell');
@@ -167,6 +173,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesItemComum':
       case 'attributesItemMunicao':
       case 'attributesItemConsumivel':
+      case 'modifiersItemConsumivel':
       case 'attributesSpell':
       case 'attributesEfeito':
       case 'attributesArma':
@@ -239,6 +246,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesArmadura':
           tab.id = 'attributes';
           tab.label += 'Details';
+          break;
+        case 'modifiersItemConsumivel':
+          tab.id = 'modifiers';
+          tab.label += 'Modifiers';
           break;
         case 'effects':
           tab.id = 'effects';
@@ -663,6 +674,97 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     });
     
     return this.submit({ updateData: { 'system.skillBonuses': finalSkillBonuses } });
+  }
+
+  /**
+   * Handle adding a new skill effect to a consumable item
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _addSkillEffect(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    if (item.type !== 'item-consumivel') return;
+
+    const currentEffects = item.system.toObject().modifiers?.skillEffects || [];
+    const newEffect = {
+      skill: 'vigor',
+      operation: 'add',
+      value: 1,
+      duration: 'temporary'
+    };
+    const newEffects = [...currentEffects, newEffect];
+    
+    console.log('[CARDIGAN DEBUG] _addSkillEffect', {
+      currentEffects,
+      newEffect,
+      newEffects
+    });
+    
+    return this.submit({ updateData: { 'system.modifiers.skillEffects': newEffects } });
+  }
+
+  /**
+   * Handle removing a skill effect from a consumable item
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _removeSkillEffect(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    if (item.type !== 'item-consumivel') return;
+
+    const index = parseInt(target.dataset.index);
+    if (isNaN(index)) return;
+
+    const currentEffects = item.system.toObject().modifiers?.skillEffects || [];
+    const newEffects = currentEffects.filter((_, i) => i !== index);
+    
+    console.log('[CARDIGAN DEBUG] _removeSkillEffect', {
+      index,
+      currentEffects,
+      newEffects
+    });
+    
+    return this.submit({ updateData: { 'system.modifiers.skillEffects': newEffects } });
+  }
+
+  /**
+   * Handle using a consumable item
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _useConsumableItem(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    if (item.type !== 'item-consumivel') return;
+
+    // Basic implementation - can be expanded later
+    const itemName = item.name;
+    const chatMessage = `<p><strong>${itemName}</strong> foi usado!</p>`;
+    
+    // Check if item should be consumed
+    const consumeOnUse = item.system.modifiers?.usage?.consumeOnUse ?? true;
+    if (consumeOnUse && item.system.quantity > 0) {
+      const newQuantity = Math.max(0, item.system.quantity - 1);
+      await item.update({ 'system.quantity': newQuantity });
+    }
+    
+    // Create chat message
+    ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: item.actor }),
+      content: chatMessage,
+      type: CONST.CHAT_MESSAGE_TYPES.OTHER
+    });
+    
+    console.log('[CARDIGAN DEBUG] _useConsumableItem', {
+      item: item.name,
+      consumeOnUse,
+      remainingQuantity: item.system.quantity
+    });
   }
 
   /** Helper Functions */

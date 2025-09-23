@@ -195,6 +195,10 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
     let totalSpaces = 0;
     const weightGroups = { 'muito-leve': 0, 'leve': 0 };
 
+    // Add money weight to 'leve' weight group (coins are light)
+    const moneyAmount = this.actor?.system?.money || 0;
+    weightGroups['leve'] += moneyAmount;
+
     // Group items by weight for special rules
     backpackItems.forEach(item => {
       const weight = item.system?.weight;

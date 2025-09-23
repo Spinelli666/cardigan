@@ -68,26 +68,6 @@
 
   <div class="backpack-form-section">
     <div class="form-group">
-      <label>{{localize "CARDIGAN.ItemConsumivel.UseTime"}}</label>
-      <div class="form-fields">
-        <select name="system.useTime" data-dtype="String">
-          <option value="action" {{#if (eq system.useTime "action")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemConsumivel.UseTimes.Action"}}
-          </option>
-          <option value="bonus-action" {{#if (eq system.useTime "bonus-action")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemConsumivel.UseTimes.BonusAction"}}
-          </option>
-          <option value="reaction" {{#if (eq system.useTime "reaction")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemConsumivel.UseTimes.Reaction"}}
-          </option>
-          <option value="minute" {{#if (eq system.useTime "minute")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemConsumivel.UseTimes.Minute"}}
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-group">
       <label>{{localize "CARDIGAN.ItemConsumivel.Duration"}}</label>
       <div class="form-fields">
         <input type="text" name="system.duration" value="{{system.duration}}" placeholder="Instantâneo, 1 hora, etc"/>
@@ -102,29 +82,5 @@
         <textarea name="system.effect" rows="4" placeholder="{{localize 'CARDIGAN.ItemConsumivel.EffectPlaceholder'}}">{{system.effect}}</textarea>
       </div>
     </div>
-  </div>
-
-  <div class="backpack-form-section">
-    <div class="form-group">
-      <label class="checkbox-label">
-        <input type="checkbox" name="system.requiresCheck" {{checked system.requiresCheck}}/>
-        {{localize "CARDIGAN.ItemConsumivel.RequiresCheck"}}
-      </label>
-      <div class="help-text">{{localize "CARDIGAN.ItemConsumivel.RequiresCheckHelp"}}</div>
-    </div>
-
-    {{#if system.requiresCheck}}
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.ItemConsumivel.CheckDifficulty"}}</label>
-      <div class="form-fields">
-        <select name="system.checkDifficulty" data-dtype="Number">
-          <option value="10" {{#if (eq system.checkDifficulty 10)}}selected{{/if}}>10 - {{localize "CARDIGAN.Difficulty.Easy"}}</option>
-          <option value="15" {{#if (eq system.checkDifficulty 15)}}selected{{/if}}>15 - {{localize "CARDIGAN.Difficulty.Normal"}}</option>
-          <option value="20" {{#if (eq system.checkDifficulty 20)}}selected{{/if}}>20 - {{localize "CARDIGAN.Difficulty.Hard"}}</option>
-          <option value="25" {{#if (eq system.checkDifficulty 25)}}selected{{/if}}>25 - {{localize "CARDIGAN.Difficulty.VeryHard"}}</option>
-        </select>
-      </div>
-    </div>
-    {{/if}}
   </div>
 </section>

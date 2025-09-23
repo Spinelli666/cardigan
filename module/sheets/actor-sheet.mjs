@@ -523,6 +523,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       'leve': 0
     };
 
+    // Add money weight to 'leve' weight group (coins are light)
+    const moneyAmount = this.actor?.system?.money || 0;
+    weightGroups['leve'] += moneyAmount;
+
     // First pass: calculate individual item spaces and count weight groups
     backpackItems.forEach(item => {
       const weight = item.system?.weight;
@@ -542,7 +546,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     totalSpaces += this._calculateItemSpaces('muito-leve', weightGroups['muito-leve']);
     totalSpaces += this._calculateItemSpaces('leve', weightGroups['leve']);
 
-    console.log(`[BACKPACK SPACES] Total occupied: ${totalSpaces}`);
+    console.log(`[BACKPACK SPACES] Total occupied: ${totalSpaces} (includes ${moneyAmount} coins as light items)`);
     return totalSpaces;
   }
 
