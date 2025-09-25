@@ -75,6 +75,16 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       }
     });
 
+    // Effects system (similar to skillBonuses from weapons)
+    schema.effects = new fields.ArrayField(
+      new fields.SchemaField({
+        effectId: new fields.StringField({ required: true, blank: true, initial: "" }),
+        apply: new fields.BooleanField({ required: true, initial: false }),
+        remove: new fields.BooleanField({ required: true, initial: false })
+      }),
+      { initial: [] }
+    );
+
     // Modifiers system
     schema.modifiers = new fields.SchemaField({
       // Status effects (checkboxes)

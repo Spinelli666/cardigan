@@ -1103,3 +1103,48 @@
     }
   }
 }
+
+// -----------------------------------------
+// Quantity Consumption Dialog Styles
+// -----------------------------------------
+.cardigan-dialog {
+  .form-group {
+    margin-bottom: 16px;
+    
+    label {
+      display: block;
+      color: $c-beige;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    
+    input[type="number"] {
+      width: 100%;
+      padding: 8px 12px;
+      border: 2px solid #444;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      color: $c-beige;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      
+      &:focus {
+        outline: none;
+        border-color: $c-beige;
+        background: rgba($c-beige, 0.05);
+      }
+      
+      &:hover {
+        border-color: #666;
+      }
+    }
+    
+    small {
+      color: rgba($c-beige, 0.7);
+      font-size: 0.85rem;
+      margin-top: 4px;
+      display: block;
+    }
+  }
+}

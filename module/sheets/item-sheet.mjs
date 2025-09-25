@@ -37,6 +37,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       removeSkillBonus: this._removeSkillBonus,
       'add-skill-effect': this._addSkillEffect,
       'remove-skill-effect': this._removeSkillEffect,
+      addEffect: this._addEffect,
+      removeEffect: this._removeEffect,
       'use-item': this._useConsumableItem,
     },
     form: {
@@ -173,13 +175,18 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesItemComum':
       case 'attributesItemMunicao':
       case 'attributesItemConsumivel':
-      case 'modifiersItemConsumivel':
       case 'attributesSpell':
       case 'attributesEfeito':
       case 'attributesArma':
       case 'attributesArmadura':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
+        break;
+      case 'modifiersItemConsumivel':
+        // Necessary for preserving active tab on re-render
+        context.tab = context.tabs[partId];
+        // Load available effects from compendium for dropdowns
+        context.availableEffects = await this._loadAvailableEffects();
         break;
       case 'description':
         context.tab = context.tabs[partId];
@@ -280,6 +287,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     // Setup conditional visibility for weapon protection
     this._setupConditionalProtection();
+    
+    // Setup mutually exclusive checkboxes for effect apply/remove
+    this._setupEffectCheckboxes();
     
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
@@ -427,6 +437,33 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     // Initial setup
     updateVisibility();
+  }
+
+  /**
+   * Setup mutually exclusive checkboxes for effect apply/remove
+   * @private
+   */
+  _setupEffectCheckboxes() {
+    const effectCheckboxes = this.element.querySelectorAll('input[data-effect-checkbox]');
+    
+    effectCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', (event) => {
+        if (!event.target.checked) return;
+        
+        const effectIndex = event.target.dataset.effectIndex;
+        const checkboxType = event.target.dataset.effectCheckbox;
+        const otherType = checkboxType === 'apply' ? 'remove' : 'apply';
+        
+        // Find the other checkbox in the same effect and uncheck it
+        const otherCheckbox = this.element.querySelector(
+          `input[data-effect-checkbox="${otherType}"][data-effect-index="${effectIndex}"]`
+        );
+        
+        if (otherCheckbox && otherCheckbox.checked) {
+          otherCheckbox.checked = false;
+        }
+      });
+    });
   }
 
   /**************
@@ -973,6 +1010,95 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   // This is marked as private because there's no real need
   // for subclasses or external hooks to mess with it directly
   #dragDrop;
+
+  /**
+   * Handle adding a new effect to a consumable item
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _addEffect(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    if (item.type !== 'item-consumivel') return;
+
+    const currentEffects = item.system.toObject().effects || [];
+    // Filter out any incomplete or invalid entries
+    const filteredEffects = currentEffects.filter(effect => 
+      effect && effect.effectId && typeof effect.effectId === 'string' && effect.effectId.trim() !== ''
+    );
+    
+    const newEffects = [...filteredEffects, { effectId: '', apply: false, remove: false }];
+    
+    console.log('[CARDIGAN DEBUG] _addEffect', {
+      currentEffects,
+      filteredEffects,
+      newEffects
+    });
+    
+    return this.submit({ updateData: { 'system.effects': newEffects } });
+  }
+
+  /**
+   * Handle removing an effect from a consumable item
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _removeEffect(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    if (item.type !== 'item-consumivel') return;
+
+    const index = parseInt(target.dataset.index);
+    if (isNaN(index)) return;
+
+    const currentEffects = item.system.toObject().effects || [];
+    
+    // Remove the effect at the specified index
+    const newEffects = currentEffects.filter((_, i) => i !== index);
+    
+    // Filter out any invalid entries (effects with empty effectId)
+    const finalEffects = newEffects.filter(effect => 
+      effect && typeof effect.effectId === 'string' && effect.effectId.trim() !== ''
+    );
+    
+    console.log('[CARDIGAN DEBUG] _removeEffect', {
+      index,
+      currentEffects,
+      newEffects,
+      finalEffects
+    });
+    
+    return this.submit({ updateData: { 'system.effects': finalEffects } });
+  }
+
+  /**
+   * Load available effects from the compendium
+   * @returns {Promise<Array>} Array of effect objects with id and name
+   * @private
+   */
+  async _loadAvailableEffects() {
+    try {
+      const pack = game.packs.get("cardigan.efeitos-cardigan");
+      if (!pack) {
+        console.warn('[CARDIGAN] Effects compendium not found!');
+        return [];
+      }
+
+      // Load the compendium index
+      await pack.getIndex();
+      
+      // Return array of effects with id and name for dropdowns
+      return pack.index.map(effect => ({
+        id: effect._id,
+        name: effect.name
+      })).sort((a, b) => a.name.localeCompare(b.name));
+    } catch (error) {
+      console.error('[CARDIGAN] Error loading effects from compendium:', error);
+      return [];
+    }
+  }
 
   /**
    * Create drag-and-drop workflow handlers for this Application

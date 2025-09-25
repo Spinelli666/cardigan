@@ -61,6 +61,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       unequipWeapon: this._onUnequipWeapon,
       equipArmor: this._onEquipArmor,
       unequipArmor: this._onUnequipArmor,
+      consumeItem: this._onConsumeItem,
       // Removemos as ações do modal para implementar via event listeners diretos
     },
     // Custom property that's merged into `this.options`
@@ -2784,6 +2785,183 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     } catch (error) {
       console.error("Error unequipping armor:", error);
       ui.notifications.error("Erro ao desequipar a armadura.");
+    }
+  }
+
+  /**
+   * Handle consuming a consumable item
+   * @param {Event} event           The originating click event
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action]
+   * @returns {Promise}
+   * @protected
+   */
+  static async _onConsumeItem(event, target) {
+    event.preventDefault();
+    
+    const itemId = target.dataset.itemId;
+    const item = this.document.items.get(itemId);
+    
+    if (!item || item.type !== 'item-consumivel') {
+      ui.notifications.warn("Item não encontrado ou não é um consumível.");
+      return;
+    }
+
+    const currentQuantity = item.system.quantity || 0;
+    if (currentQuantity <= 0) {
+      ui.notifications.warn(`${item.name} não possui unidades disponíveis para consumo.`);
+      return;
+    }
+
+    // Show quantity selection dialog
+    const quantityToConsume = await CardiganSystemActorSheet._showQuantityDialog(item.name, currentQuantity);
+    if (!quantityToConsume) return; // User cancelled
+
+    // Process consumption
+    await this._processItemConsumption(item, quantityToConsume);
+  }
+
+  /**
+   * Show dialog to select quantity to consume
+   * @param {string} itemName - Name of the item
+   * @param {number} maxQuantity - Maximum available quantity
+   * @returns {Promise<number|null>} - Selected quantity or null if cancelled
+   * @private
+   */
+  static async _showQuantityDialog(itemName, maxQuantity) {
+    return new Promise(resolve => {
+      new foundry.applications.api.DialogV2({
+        window: {
+          title: `Consumir ${itemName}`,
+          contentClasses: ["cardigan-dialog"]
+        },
+        content: `
+          <div class="form-group">
+            <label>Quantidade a consumir:</label>
+            <input type="number" name="quantity" value="1" min="1" max="${maxQuantity}" style="width: 100%; margin-top: 5px;">
+            <small>Disponível: ${maxQuantity} unidade(s)</small>
+          </div>
+        `,
+        buttons: [
+          {
+            action: "consume",
+            icon: "fas fa-flask",
+            label: "Consumir",
+            default: true,
+            callback: (event, button, dialog) => {
+              const quantity = parseInt(dialog.element.querySelector('[name="quantity"]').value) || 1;
+              if (quantity > maxQuantity || quantity < 1) {
+                ui.notifications.warn("Quantidade inválida.");
+                resolve(null);
+              } else {
+                resolve(quantity);
+              }
+            }
+          },
+          {
+            action: "cancel",
+            icon: "fas fa-times",
+            label: "Cancelar",
+            callback: () => resolve(null)
+          }
+        ],
+        render: (event, dialog) => {
+          const input = dialog.element.querySelector('[name="quantity"]');
+          if (input) {
+            input.focus();
+            input.select();
+          }
+        }
+      }).render(true);
+    });
+  }
+
+  /**
+   * Process the consumption of an item and apply effects
+   * @param {Item} item - The consumable item
+   * @param {number} quantity - Quantity to consume
+   * @private
+   */
+  async _processItemConsumption(item, quantity) {
+    try {
+      // Get current actor data
+      const actorData = foundry.utils.deepClone(this.document.system);
+      
+      // Process each effect that is marked for apply or remove
+      const effects = item.system.effects || [];
+      const messages = [];
+      let hasChanges = false;
+
+      for (const effect of effects) {
+        if (!effect.effectId || (!effect.apply && !effect.remove)) continue;
+
+        // Get effect from compendium
+        const pack = game.packs.get("cardigan.efeitos-cardigan");
+        const effectDocument = await pack.getDocument(effect.effectId);
+        
+        if (!effectDocument) {
+          console.warn(`Effect ${effect.effectId} not found in compendium`);
+          continue;
+        }
+
+        const effectName = effectDocument.name;
+        
+        // Check if effect already exists in actor's effects
+        const existingEffect = this.document.items.find(i => 
+          i.type === 'efeito' && i.name === effectName
+        );
+
+        if (effect.apply) {
+          if (existingEffect) {
+            messages.push(`Você consumiu o item, mas o efeito ${effectName} já estava na sua ficha`);
+          } else {
+            // Create new effect on actor
+            const effectData = foundry.utils.deepClone(effectDocument.toObject());
+            effectData._id = foundry.utils.randomID();
+            
+            await this.document.createEmbeddedDocuments("Item", [effectData]);
+            messages.push(`Efeito ${effectName} aplicado com sucesso`);
+            hasChanges = true;
+          }
+        } else if (effect.remove) {
+          if (existingEffect) {
+            await existingEffect.delete();
+            messages.push(`Efeito ${effectName} removido com sucesso`);
+            hasChanges = true;
+          } else {
+            messages.push(`Você consumiu o item, mas o efeito ${effectName} já não estava na sua ficha`);
+          }
+        }
+      }
+
+      // Update item quantity or remove if depleted
+      const newQuantity = Math.max(0, (item.system.quantity || 0) - quantity);
+      
+      if (newQuantity <= 0) {
+        // Remove item completely when quantity reaches 0
+        await item.delete();
+        hasChanges = true;
+      } else {
+        // Update quantity
+        await item.update({ "system.quantity": newQuantity });
+      }
+
+      // Show success message with all effects processed
+      const consumeMessage = newQuantity <= 0 
+        ? `${item.name} foi consumido completamente (${quantity} unidade(s))`
+        : `${item.name} foi consumido (${quantity} unidade(s))`;
+        
+      if (messages.length > 0) {
+        ui.notifications.info(`${consumeMessage}. ${messages.join('. ')}.`);
+      } else {
+        ui.notifications.info(`${consumeMessage}.`);
+      }
+
+      // Always force re-render after consumption to update inventory display
+      await this.render(false);
+
+    } catch (error) {
+      console.error("Error consuming item:", error);
+      ui.notifications.error("Erro ao consumir o item.");
     }
   }
 

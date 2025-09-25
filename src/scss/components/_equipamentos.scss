@@ -1545,4 +1545,120 @@
       transform: scale(0.95);
     }
   }
+
+
+}
+
+// -----------------------------------------
+// Effects System Styles (Global for Item Sheets)
+// -----------------------------------------
+.effects-system {
+  .effects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    
+    label {
+      font-weight: bold;
+      margin: 0;
+      color: #c9c7b8;
+    }
+    
+    .add-effect-btn {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background: #45a049;
+      }
+    }
+  }
+  
+  .effects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .effect-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px;
+    
+    select[data-effect-select] {
+      flex: 1;
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      background: #fff;
+      color: #000;
+    }
+    
+    .effect-checkboxes {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 140px;
+      
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        color: #c9c7b8;
+        white-space: nowrap;
+        cursor: pointer;
+        
+        input[type="checkbox"] {
+          margin: 0;
+          cursor: pointer;
+        }
+      }
+    }
+    
+    .remove-effect-btn {
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+      flex-shrink: 0;
+      
+      &:hover {
+        background: #d32f2f;
+      }
+    }
+  }
+  
+  .no-effects-message {
+    text-align: center;
+    color: #888;
+    padding: 1rem;
+    font-style: italic;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;  
+    border: 1px dashed #666;
+    margin-bottom: 8px;
+  }
 }

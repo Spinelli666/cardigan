@@ -9,11 +9,45 @@
     <p class="item-subtitle">{{localize "CARDIGAN.Modifiers.Subtitle"}}</p>
   </div>
 
-  {{! Content will be added here later }}
-  <div class="modifiers-content">
-    <p style="text-align: center; color: #888; padding: 2rem;">
-      <i class="fas fa-wrench" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
-      Modifiers functionality will be implemented here.
-    </p>
+  {{! Effects System - Similar to Skill Bonuses }}
+  <div class="effects-system">
+    <div class="form-group item-effects">
+      <div class="effects-header">
+        <label>{{localize "CARDIGAN.Effects"}}</label>
+        <button type="button" class="add-effect-btn" data-action="addEffect" title="{{localize 'CARDIGAN.AddEffect'}}">+</button>
+      </div>
+      
+      <div class="effects-list" data-effects-container>
+        {{#each item.system.effects as |effect index|}}
+          <div class="effect-row" data-effect-index="{{index}}">
+            <select name="system.effects.{{index}}.effectId" data-effect-select>
+              <option value="">{{localize "CARDIGAN.SelectEffect"}}</option>
+              {{#each @root.availableEffects as |availableEffect|}}
+                <option value="{{availableEffect.id}}" {{#if (eq effect.effectId availableEffect.id)}}selected{{/if}}>
+                  {{availableEffect.name}}
+                </option>
+              {{/each}}
+            </select>
+            <div class="effect-checkboxes">
+              <label class="checkbox-label">
+                <input type="checkbox" name="system.effects.{{index}}.apply" {{checked effect.apply}} data-dtype="Boolean" data-effect-checkbox="apply" data-effect-index="{{index}}"/>
+                {{localize "CARDIGAN.Apply"}}
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="system.effects.{{index}}.remove" {{checked effect.remove}} data-dtype="Boolean" data-effect-checkbox="remove" data-effect-index="{{index}}"/>
+                {{localize "CARDIGAN.Remove"}}
+              </label>
+            </div>
+            <button type="button" class="remove-effect-btn" data-action="removeEffect" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveEffect'}}">−</button>
+          </div>
+        {{/each}}
+      </div>
+      
+      {{#unless item.system.effects.length}}
+        <div class="no-effects-message">
+          {{localize "CARDIGAN.NoEffectsAdded"}}
+        </div>
+      {{/unless}}
+    </div>
   </div>
 </section>
