@@ -2933,6 +2933,17 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
       }
 
+      // Process roll formula if present
+      let rollResult = null;
+      if (item.system.rollFormula && item.system.rollFormula.trim()) {
+        try {
+          rollResult = await this._processRollFormula(item.system.rollFormula, item.name);
+        } catch (error) {
+          console.warn("Error processing roll formula:", error);
+          ui.notifications.warn(`Erro na fórmula de rolagem: ${error.message}`);
+        }
+      }
+
       // Update item quantity or remove if depleted
       const newQuantity = Math.max(0, (item.system.quantity || 0) - quantity);
       
@@ -2962,6 +2973,44 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     } catch (error) {
       console.error("Error consuming item:", error);
       ui.notifications.error("Erro ao consumir o item.");
+    }
+  }
+
+  /**
+   * Process a roll formula for item consumption
+   * @param {string} formula - The roll formula to process
+   * @param {string} itemName - Name of the consumed item
+   * @returns {Promise<Object|null>} - Roll result or null if failed
+   * @private
+   */
+  async _processRollFormula(formula, itemName) {
+    try {
+      // Get actor's roll data for formula evaluation
+      const rollData = this.document.getRollData();
+      
+      // Create and evaluate the roll
+      const roll = await Roll.create(formula, rollData);
+      
+      // Use Foundry's native roll-to-chat system
+      // This automatically handles Dice So Nice and shows individual dice results
+      await roll.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor: this.document }),
+        flavor: `<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                   <i class="fas fa-flask" style="color: #4CAF50;"></i>
+                   <strong>${itemName}</strong>
+                   <span style="color: #888; font-style: italic;">- Item consumido com rolagem</span>
+                 </div>`,
+        rollMode: game.settings.get("core", "rollMode")
+      });
+
+      return {
+        roll: roll,
+        total: roll.total,
+        formula: formula
+      };
+
+    } catch (error) {
+      throw new Error(`Fórmula inválida "${formula}": ${error.message}`);
     }
   }
 

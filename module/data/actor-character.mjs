@@ -873,22 +873,17 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
   getRollData() {
     const data = {};
 
-    // Copy the ability scores to the top level, so that rolls can use
-    // formulas like `@str.value + 4`.
+    // Copy abilities directly to root level for easier access (@accuracy.value instead of @abilities.accuracy.value)
     if (this.abilities) {
       for (let [k, v] of Object.entries(this.abilities)) {
-        data[k] = foundry.utils.deepClone(v);
-        
-        // Usar totalBonus que inclui bônus manual + bônus de armas
-        const totalBonus = v.totalBonus || 0;
-        const baseValue = (v.value || 0) + totalBonus;
-        
-        data[k].value = baseValue;
-        console.log(`[CARDIGAN] Aplicando bônus total: ${k} = ${v.value} + ${totalBonus} = ${data[k].value}`);
+        data[k] = {
+          value: v.value || 0,           // Base value
+          bonus: v.totalBonus || 0,      // Total bonus (manual + weapons)
+          total: (v.value || 0) + (v.totalBonus || 0)  // Combined total
+        };
+        console.log(`[CARDIGAN] RollData: ${k} = {value: ${data[k].value}, bonus: ${data[k].bonus}, total: ${data[k].total}}`);
       }
     }
-
-    data.lvl = this.attributes.level.value;
 
     console.log(`[CARDIGAN] RollData final:`, data);
     return data;

@@ -47,6 +47,7 @@
       "Actor": "CardiganSystem Actor Sheet",
       "Item": "CardiganSystem Item Sheet"
     },
+    "Optional": "Optional",
     "base": {
       "FIELDS": {
         "biography": {
@@ -493,7 +494,9 @@
         "BonusAction": "Bonus Action",
         "Reaction": "Reaction",
         "Minute": "1 Minute"
-      }
+      },
+      "RollFormula": "Roll Formula",
+      "FormulaHelp": "Use @accuracy.value, @accuracy.bonus, @strength.value, @intelligence.total, etc."
     },
     "Modifiers": {
       "Title": "Modifiers",

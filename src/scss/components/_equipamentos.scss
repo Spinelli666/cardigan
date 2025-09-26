@@ -1662,3 +1662,77 @@
     margin-bottom: 8px;
   }
 }
+
+// -----------------------------------------
+// Roll Formula System Styles
+// -----------------------------------------
+.roll-formula-system {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba($c-beige, 0.2);
+  
+  .roll-formula {
+    label {
+      display: block;
+      font-weight: bold;
+      color: $c-beige;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      
+      .optional {
+        font-weight: normal;
+        color: rgba($c-beige, 0.6);
+        font-size: 0.85rem;
+        font-style: italic;
+      }
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 12px;
+      border: 2px solid #444;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      color: $c-beige;
+      font-size: 0.95rem;
+      font-family: 'Courier New', monospace;
+      transition: all 0.2s ease;
+      
+      &:focus {
+        outline: none;
+        border-color: $c-beige;
+        background: rgba($c-beige, 0.05);
+        box-shadow: 0 0 0 2px rgba($c-beige, 0.1);
+      }
+      
+      &:hover {
+        border-color: #666;
+      }
+      
+      &::placeholder {
+        color: rgba($c-beige, 0.4);
+        font-style: italic;
+      }
+    }
+    
+    .formula-help {
+      margin-top: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      
+      i {
+        color: rgba($c-beige, 0.6);
+        font-size: 0.85rem;
+        margin-top: 2px;
+        flex-shrink: 0;
+      }
+      
+      small {
+        color: rgba($c-beige, 0.6);
+        font-size: 0.8rem;
+        line-height: 1.3;
+      }
+    }
+  }
+}

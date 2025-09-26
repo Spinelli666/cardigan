@@ -2212,6 +2212,65 @@
   border: 1px dashed #666;
   margin-bottom: 8px;
 }
+.cardigan .roll-formula-system {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(var(--cardigan-c-beige), 0.2);
+}
+.cardigan .roll-formula-system .roll-formula label {
+  display: block;
+  font-weight: bold;
+  color: var(--cardigan-c-beige);
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+.cardigan .roll-formula-system .roll-formula label .optional {
+  font-weight: normal;
+  color: rgba(var(--cardigan-c-beige), 0.6);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+.cardigan .roll-formula-system .roll-formula input[type=text] {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #444;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--cardigan-c-beige);
+  font-size: 0.95rem;
+  font-family: "Courier New", monospace;
+  transition: all 0.2s ease;
+}
+.cardigan .roll-formula-system .roll-formula input[type=text]:focus {
+  outline: none;
+  border-color: var(--cardigan-c-beige);
+  background: rgba(var(--cardigan-c-beige), 0.05);
+  box-shadow: 0 0 0 2px rgba(var(--cardigan-c-beige), 0.1);
+}
+.cardigan .roll-formula-system .roll-formula input[type=text]:hover {
+  border-color: #666;
+}
+.cardigan .roll-formula-system .roll-formula input[type=text]::placeholder {
+  color: rgba(var(--cardigan-c-beige), 0.4);
+  font-style: italic;
+}
+.cardigan .roll-formula-system .roll-formula .formula-help {
+  margin-top: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.cardigan .roll-formula-system .roll-formula .formula-help i {
+  color: rgba(var(--cardigan-c-beige), 0.6);
+  font-size: 0.85rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.cardigan .roll-formula-system .roll-formula .formula-help small {
+  color: rgba(var(--cardigan-c-beige), 0.6);
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
 .cardigan {
   /* Character Details Container Styles */
 }

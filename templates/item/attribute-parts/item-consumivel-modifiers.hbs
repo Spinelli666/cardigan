@@ -50,4 +50,16 @@
       {{/unless}}
     </div>
   </div>
+
+  {{! Roll Formula System }}
+  <div class="roll-formula-system">
+    <div class="form-group roll-formula">
+      <label>{{localize "CARDIGAN.ItemConsumivel.RollFormula"}} <span class="optional">({{localize "CARDIGAN.Optional"}})</span></label>
+      <input type="text" name="system.rollFormula" value="{{item.system.rollFormula}}" placeholder="Ex: 2d4 + @strength.value + @strength.bonus" />
+      <div class="formula-help">
+        <i class="fas fa-info-circle"></i>
+        <small>{{localize "CARDIGAN.ItemConsumivel.FormulaHelp"}}</small>
+      </div>
+    </div>
+  </div>
 </section>

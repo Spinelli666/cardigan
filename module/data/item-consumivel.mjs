@@ -85,6 +85,14 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       { initial: [] }
     );
 
+    // Roll formula for consumption
+    schema.rollFormula = new fields.StringField({
+      required: false,
+      blank: true,
+      initial: "",
+      label: "CARDIGAN.ItemConsumivel.RollFormula"
+    });
+
     // Modifiers system
     schema.modifiers = new fields.SchemaField({
       // Status effects (checkboxes)
