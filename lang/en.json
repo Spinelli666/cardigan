@@ -509,9 +509,22 @@
         "Reaction": "Reaction",
         "Minute": "1 Minute"
       },
-      "RollFormula": "Roll Formula",
-      "FormulaHelp": "Use @accuracy.value, @accuracy.bonus, @strength.value, @intelligence.total, etc."
+      "HasSkillCheck": "Skill Check?",
+      "SkillCheckAbility": "Which Skill?",
+      "SkillCheckAdvantage": "Advantage?",
+      "HasCriticalFailureEffects": "Critical Failure applies some Effect?",
+      "CriticalFailureEffects": "Critical Failure Effects",
+      "AddCriticalFailureEffect": "Add Effect",
+      "RemoveCriticalFailureEffect": "Remove Effect",
+      "HasCriticalFailureSkillLoss": "Critical Failure applies Skill Loss?",
+      "CriticalFailureSkillLoss": "Critical Failure Skill Loss",
+      "AddCriticalFailureSkillLoss": "Add Skill Loss",
+      "RemoveCriticalFailureSkillLoss": "Remove Skill Loss",
+      "CriticalFailureSkillLossAbility": "Ability",
+      "CriticalFailureSkillLossValue": "Loss Value",
+      "HasEffects": "Does it grant any Effect?"
     },
+    "NoSkillLossAdded": "No skill loss configured",
     "Modifiers": {
       "Title": "Modifiers",
       "Subtitle": "Effects and modifiers applied when using this item",

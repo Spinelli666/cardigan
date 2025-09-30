@@ -291,6 +291,18 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup mutually exclusive checkboxes for effect apply/remove
     this._setupEffectCheckboxes();
     
+    // Setup skill check toggle visibility for consumable items
+    this._setupSkillCheckToggle();
+    
+    // Setup effects toggle visibility for consumable items
+    this._setupEffectsToggle();
+    
+    // Setup critical failure effects toggle visibility for consumable items
+    this._setupCriticalFailureEffectsToggle();
+    
+    // Setup critical failure skill loss toggle visibility for consumable items
+    this._setupCriticalFailureSkillLossToggle();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -1098,6 +1110,158 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       console.error('[CARDIGAN] Error loading effects from compendium:', error);
       return [];
     }
+  }
+
+  /**
+   * Setup skill check toggle visibility for consumable items
+   * @private
+   */
+  _setupSkillCheckToggle() {
+    const toggle = this.element.querySelector('[data-skill-check-toggle]');
+    const skillCheckSection = this.element.querySelector('[data-skill-check-section]');
+    
+    if (!toggle || !skillCheckSection) return;
+    
+    // Add event listener for the toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        skillCheckSection.classList.remove('hidden');
+      } else {
+        skillCheckSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup effects toggle visibility for consumable items
+   * @private
+   */
+  _setupEffectsToggle() {
+    const toggle = this.element.querySelector('[data-effects-toggle]');
+    const effectsSection = this.element.querySelector('[data-effects-section]');
+    
+    if (!toggle || !effectsSection) return;
+    
+    // Add event listener for the toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        effectsSection.classList.remove('hidden');
+      } else {
+        effectsSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup critical failure effects toggle visibility for consumable items
+   * @private
+   */
+  _setupCriticalFailureEffectsToggle() {
+    const toggle = this.element.querySelector('[data-critical-failure-effects-toggle]');
+    const criticalFailureEffectsSection = this.element.querySelector('[data-critical-failure-effects-section]');
+    
+    if (!toggle || !criticalFailureEffectsSection) return;
+    
+    // Add event listener for the toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        criticalFailureEffectsSection.classList.remove('hidden');
+      } else {
+        criticalFailureEffectsSection.classList.add('hidden');
+      }
+    });
+
+    // Setup add/remove effect buttons
+    this._setupCriticalFailureEffectButtons();
+  }
+
+  /**
+   * Setup critical failure skill loss toggle visibility for consumable items
+   * @private
+   */
+  _setupCriticalFailureSkillLossToggle() {
+    const toggle = this.element.querySelector('[data-critical-failure-skill-loss-toggle]');
+    const criticalFailureSkillLossSection = this.element.querySelector('[data-critical-failure-skill-loss-section]');
+    
+    if (!toggle || !criticalFailureSkillLossSection) return;
+    
+    // Add event listener for the toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        criticalFailureSkillLossSection.classList.remove('hidden');
+      } else {
+        criticalFailureSkillLossSection.classList.add('hidden');
+      }
+    });
+
+    // Setup add/remove skill loss buttons
+    this._setupCriticalFailureSkillLossButtons();
+  }
+
+  /**
+   * Setup critical failure effect add/remove buttons
+   * @private
+   */
+  _setupCriticalFailureEffectButtons() {
+    // Add effect button
+    const addButton = this.element.querySelector('[data-action="addCriticalFailureEffect"]');
+    if (addButton) {
+      addButton.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const currentEffects = this.document.system.criticalFailureEffects || [];
+        const newEffects = [...currentEffects, ""];
+        await this.document.update({ 'system.criticalFailureEffects': newEffects });
+      });
+    }
+
+    // Remove effect buttons
+    const removeButtons = this.element.querySelectorAll('[data-action="removeCriticalFailureEffect"]');
+    removeButtons.forEach(button => {
+      button.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const index = parseInt(button.dataset.index);
+        const currentEffects = this.document.system.criticalFailureEffects || [];
+        const newEffects = currentEffects.filter((_, i) => i !== index);
+        await this.document.update({ 'system.criticalFailureEffects': newEffects });
+      });
+    });
+  }
+
+  /**
+   * Setup critical failure skill loss add/remove buttons
+   * @private
+   */
+  _setupCriticalFailureSkillLossButtons() {
+    // Add skill loss button
+    const addButton = this.element.querySelector('[data-action="addCriticalFailureSkillLoss"]');
+    if (addButton) {
+      addButton.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const currentSkillLoss = this.document.system.criticalFailureSkillLoss || [];
+        const newSkillLoss = [...currentSkillLoss, { ability: "accuracy", value: 1 }];
+        await this.document.update({ 'system.criticalFailureSkillLoss': newSkillLoss });
+      });
+    }
+
+    // Remove skill loss buttons
+    const removeButtons = this.element.querySelectorAll('[data-action="removeCriticalFailureSkillLoss"]');
+    removeButtons.forEach(button => {
+      button.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const index = parseInt(button.dataset.index);
+        const currentSkillLoss = this.document.system.criticalFailureSkillLoss || [];
+        const newSkillLoss = currentSkillLoss.filter((_, i) => i !== index);
+        await this.document.update({ 'system.criticalFailureSkillLoss': newSkillLoss });
+      });
+    });
   }
 
   /**

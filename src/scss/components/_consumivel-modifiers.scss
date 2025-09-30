@@ -4,33 +4,136 @@
 
 .tab.modifiers {
   padding: 1rem;
-  
-  .modifiers-header {
-    text-align: center;
+
+  // Skill check toggle checkbox
+  .skill-check-toggle {
     margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid rgba($c-beige, 0.3);
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    border: 1px solid rgba($c-beige, 0.3);
     
-    h3 {
-      color: $c-beige;
-      font-size: 1.4rem;
-      margin-bottom: 0.5rem;
+    .checkbox-label {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
+      color: $c-beige;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin: 0;
       
-      i {
-        font-size: 1.3rem;
+      input[type="checkbox"] {
+        margin: 0;
+        transform: scale(1.3);
+        cursor: pointer;
+        accent-color: #2196F3; // Blue for skill check
+      }
+      
+      &:hover {
+        color: #f5f5dc;
       }
     }
+  }
+
+  // Skill check system
+  .skill-check-system {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(33, 150, 243, 0.1); // Light blue background
+    border-radius: 6px;
+    border: 1px solid rgba(33, 150, 243, 0.3);
     
-    .item-subtitle {
-      color: rgba($c-beige, 0.7);
-      font-size: 0.9rem;
-      margin: 0;
-      font-style: italic;
+    &.hidden {
+      display: none;
     }
+    
+    .form-group {
+      margin-bottom: 1rem;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      label {
+        display: block;
+        color: $c-beige;
+        font-size: 0.95rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+      
+      select {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid rgba($c-beige, 0.3);
+        background: rgba(0, 0, 0, 0.3);
+        color: $c-beige;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        
+        &:focus {
+          border-color: #2196F3;
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+        }
+      }
+      
+      &.advantage-toggle {
+        .checkbox-label {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: $c-beige;
+          font-size: 0.9rem;
+          cursor: pointer;
+          margin: 0;
+          
+          input[type="checkbox"] {
+            margin: 0;
+            transform: scale(1.2);
+            cursor: pointer;
+            accent-color: #2196F3;
+          }
+        }
+      }
+    }
+  }
+
+  // Effects toggle checkbox
+  .effects-toggle {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    border: 1px solid rgba($c-beige, 0.3);
+    
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: $c-beige;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin: 0;
+      
+      input[type="checkbox"] {
+        margin: 0;
+        transform: scale(1.3);
+        cursor: pointer;
+        accent-color: #4CAF50;
+      }
+      
+      &:hover {
+        color: #f5f5dc;
+      }
+    }
+  }
+
+  // Hidden state for effects section
+  .effects-system.hidden {
+    display: none;
   }
 
   .backpack-form-section {
@@ -171,78 +274,6 @@
     }
   }
 
-  // Roll System Section
-  .roll-config {
-    padding: 1.5rem;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    margin-top: 1rem;
-    border: 1px solid rgba($c-beige, 0.2);
-    
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 1rem;
-      
-      &.full-width {
-        grid-column: 1 / -1;
-      }
-      
-      label {
-        color: $c-beige;
-        font-size: 0.9rem;
-        margin-bottom: 0.25rem;
-      }
-      
-      select, input, textarea {
-        padding: 0.5rem;
-        border: 1px solid rgba($c-beige, 0.3);
-        background: rgba(0, 0, 0, 0.4);
-        color: $c-beige;
-        border-radius: 4px;
-        
-        &:focus {
-          border-color: $c-beige;
-          outline: none;
-        }
-      }
-      
-      textarea {
-        resize: vertical;
-        min-height: 80px;
-      }
-    }
-    
-    // Grid layout for roll config fields
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    
-    @media (max-width: 600px) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .roll-preview {
-    grid-column: 1 / -1;
-    margin-top: 1rem;
-    padding: 1rem;
-    background: rgba($c-beige, 0.1);
-    border-radius: 6px;
-    border: 1px solid rgba($c-beige, 0.3);
-    
-    strong {
-      color: $c-beige;
-    }
-    
-    .formula-display {
-      color: #4CAF50;
-      font-family: 'Courier New', monospace;
-      font-size: 1.1rem;
-      margin-left: 0.5rem;
-    }
-  }
-
   // Use Item Button
   .use-consumable-item {
     width: 100%;
@@ -323,6 +354,232 @@
   @media (max-width: 480px) {
     .status-grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  // Critical Failure System (inside skill-check-system)
+  .skill-check-system {
+    .critical-failure-effects-toggle,
+    .critical-failure-skill-loss-toggle {
+      margin: 1rem 0;
+      padding: 0.75rem;
+      background: rgba(255, 152, 0, 0.1);
+      border: 1px solid rgba(255, 152, 0, 0.3);
+      border-radius: 6px;
+
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #FF9800;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        margin: 0;
+
+        input[type="checkbox"] {
+          margin: 0;
+          transform: scale(1.3);
+          cursor: pointer;
+          accent-color: #FF9800;
+        }
+      }
+    }
+
+    .critical-failure-effects-system,
+    .critical-failure-skill-loss-system {
+    background: rgba(255, 152, 0, 0.05);
+    border: 1px solid rgba(255, 152, 0, 0.2);
+    border-radius: 6px;
+    padding: 1rem;
+    margin: 0.5rem 0;
+
+    &.hidden {
+      display: none;
+    }
+
+    .critical-failure-effects-header,
+    .critical-failure-skill-loss-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255, 152, 0, 0.3);
+
+      label {
+        color: #FF9800;
+        font-weight: 600;
+        font-size: 1rem;
+      }
+
+      .add-critical-failure-effect-btn,
+      .add-critical-failure-skill-loss-btn {
+        background: #FF9800;
+        color: #1a1a1a;
+        border: none;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1.2rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: #FFB74D;
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    .critical-failure-effects-list,
+    .critical-failure-skill-loss-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .critical-failure-effect-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: rgba(255, 152, 0, 0.08);
+      border: 1px solid rgba(255, 152, 0, 0.2);
+      border-radius: 4px;
+
+      select {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid rgba(255, 152, 0, 0.4);
+        background: rgba(0, 0, 0, 0.3);
+        color: $c-beige;
+        border-radius: 4px;
+        font-size: 0.9rem;
+
+        &:focus {
+          border-color: #FF9800;
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
+        }
+      }
+
+      .remove-critical-failure-effect-btn {
+        background: rgba(244, 67, 54, 0.8);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: #f44336;
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    .critical-failure-skill-loss-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: rgba(255, 152, 0, 0.08);
+      border: 1px solid rgba(255, 152, 0, 0.2);
+      border-radius: 4px;
+
+      .skill-loss-controls {
+        flex: 1;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-end;
+
+        .skill-loss-ability,
+        .skill-loss-value {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+
+          label {
+            color: #FF9800;
+            font-size: 0.85rem;
+            font-weight: 500;
+          }
+
+          select,
+          input {
+            padding: 0.5rem;
+            border: 1px solid rgba(255, 152, 0, 0.4);
+            background: rgba(0, 0, 0, 0.3);
+            color: $c-beige;
+            border-radius: 4px;
+            font-size: 0.9rem;
+
+            &:focus {
+              border-color: #FF9800;
+              outline: none;
+              box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
+            }
+          }
+        }
+
+        .skill-loss-ability {
+          flex: 2;
+        }
+
+        .skill-loss-value {
+          flex: 1;
+          
+          input {
+            width: 100%;
+          }
+        }
+      }
+
+      .remove-critical-failure-skill-loss-btn {
+        background: rgba(244, 67, 54, 0.8);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+
+        &:hover {
+          background: #f44336;
+          transform: scale(1.1);
+        }
+      }
+    }
+
+      .no-critical-failure-effects-message,
+      .no-critical-failure-skill-loss-message {
+        text-align: center;
+        color: rgba(255, 152, 0, 0.6);
+        font-style: italic;
+        padding: 1rem;
+        background: rgba(255, 152, 0, 0.05);
+        border: 1px dashed rgba(255, 152, 0, 0.3);
+        border-radius: 4px;
+      }
     }
   }
 }

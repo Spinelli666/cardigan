@@ -85,12 +85,90 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       { initial: [] }
     );
 
-    // Roll formula for consumption
-    schema.rollFormula = new fields.StringField({
+    // Controls whether skill check section is enabled
+    schema.hasSkillCheck = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasSkillCheck"
+    });
+
+    // Skill check ability selection
+    schema.skillCheckAbility = new fields.StringField({
       required: false,
       blank: true,
-      initial: "",
-      label: "CARDIGAN.ItemConsumivel.RollFormula"
+      initial: "accuracy",
+      choices: {
+        "accuracy": "CARDIGAN.Ability.Accuracy.long",
+        "evasion": "CARDIGAN.Ability.Evasion.long",
+        "strength": "CARDIGAN.Ability.Strength.long",
+        "dexterity": "CARDIGAN.Ability.Dexterity.long",
+        "stamina": "CARDIGAN.Ability.Stamina.long",
+        "stealth": "CARDIGAN.Ability.Stealth.long",
+        "persuasion": "CARDIGAN.Ability.Persuasion.long",
+        "intelligence": "CARDIGAN.Ability.Intelligence.long",
+        "psionics": "CARDIGAN.Ability.Psionics.long"
+      },
+      label: "CARDIGAN.ItemConsumivel.SkillCheckAbility"
+    });
+
+    // Whether skill check has advantage
+    schema.skillCheckAdvantage = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.SkillCheckAdvantage"
+    });
+
+    // Critical failure effects system
+    schema.hasCriticalFailureEffects = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasCriticalFailureEffects"
+    });
+
+    schema.criticalFailureEffects = new fields.ArrayField(
+      new fields.StringField({ required: true, blank: true, initial: "" }),
+      { initial: [] }
+    );
+
+    // Critical failure skill loss system
+    schema.hasCriticalFailureSkillLoss = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasCriticalFailureSkillLoss"
+    });
+
+    schema.criticalFailureSkillLoss = new fields.ArrayField(
+      new fields.SchemaField({
+        ability: new fields.StringField({
+          required: true,
+          initial: "accuracy",
+          choices: {
+            "accuracy": "CARDIGAN.Ability.Accuracy.long",
+            "evasion": "CARDIGAN.Ability.Evasion.long",
+            "strength": "CARDIGAN.Ability.Strength.long",
+            "dexterity": "CARDIGAN.Ability.Dexterity.long",
+            "stamina": "CARDIGAN.Ability.Stamina.long",
+            "stealth": "CARDIGAN.Ability.Stealth.long",
+            "persuasion": "CARDIGAN.Ability.Persuasion.long",
+            "intelligence": "CARDIGAN.Ability.Intelligence.long",
+            "psionics": "CARDIGAN.Ability.Psionics.long"
+          }
+        }),
+        value: new fields.NumberField({
+          required: true,
+          initial: 1,
+          min: 1,
+          integer: true
+        })
+      }),
+      { initial: [] }
+    );
+
+    // Controls whether effects section is enabled
+    schema.hasEffects = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasEffects"
     });
 
     // Modifiers system

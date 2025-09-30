@@ -2893,6 +2893,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       // Get current actor data
       const actorData = foundry.utils.deepClone(this.document.system);
       
+      // Process skill check if enabled
+      if (item.system.hasSkillCheck && item.system.skillCheckAbility) {
+        await this._processSkillCheck(item);
+      }
+      
       // Process each effect that is marked for apply or remove
       const effects = item.system.effects || [];
       const messages = [];
@@ -2940,17 +2945,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
       }
 
-      // Process roll formula if present
-      let rollResult = null;
-      if (item.system.rollFormula && item.system.rollFormula.trim()) {
-        try {
-          rollResult = await this._processRollFormula(item.system.rollFormula, item.name);
-        } catch (error) {
-          console.warn("Error processing roll formula:", error);
-          ui.notifications.warn(`Erro na fórmula de rolagem: ${error.message}`);
-        }
-      }
-
       // Update item quantity or remove if depleted
       const newQuantity = Math.max(0, (item.system.quantity || 0) - quantity);
       
@@ -2984,28 +2978,53 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Process a roll formula for item consumption
-   * @param {string} formula - The roll formula to process
-   * @param {string} itemName - Name of the consumed item
+   * Process a skill check for item consumption
+   * @param {Item} item - The consumable item with skill check
    * @returns {Promise<Object|null>} - Roll result or null if failed
    * @private
    */
-  async _processRollFormula(formula, itemName) {
+  async _processSkillCheck(item) {
     try {
-      // Get actor's roll data for formula evaluation
-      const rollData = this.document.getRollData();
+      const ability = item.system.skillCheckAbility;
+      const hasAdvantage = item.system.skillCheckAdvantage;
+      
+      // Get the ability value and total bonus
+      const abilityData = this.document.system.abilities[ability];
+      const abilityValue = abilityData.value || 0;
+      const abilityBonus = abilityData.totalBonus || 0;
+      const totalModifier = abilityValue + abilityBonus;
+      
+      // Create roll formula based on advantage
+      let rollFormula;
+      let flavorText;
+      
+      if (hasAdvantage) {
+        rollFormula = `2d20kh1 + ${totalModifier}`;
+        flavorText = `${item.name} - ${game.i18n.localize(`CARDIGAN.Ability.${ability.charAt(0).toUpperCase() + ability.slice(1)}.long`)} Check (Advantage)`;
+      } else {
+        rollFormula = `1d20 + ${totalModifier}`;
+        flavorText = `${item.name} - ${game.i18n.localize(`CARDIGAN.Ability.${ability.charAt(0).toUpperCase() + ability.slice(1)}.long`)} Check`;
+      }
       
       // Create and evaluate the roll
-      const roll = await Roll.create(formula, rollData);
+      const roll = await Roll.create(rollFormula, this.document.getRollData());
+      await roll.evaluate();
+      
+      // Check for critical failure (natural 1 on any d20)
+      const isCriticalFailure = this._checkCriticalFailure(roll, hasAdvantage);
+      
+      // Process critical failure effects if applicable
+      if (isCriticalFailure) {
+        await this._processCriticalFailure(item, roll);
+      }
       
       // Use Foundry's native roll-to-chat system
-      // This automatically handles Dice So Nice and shows individual dice results
       await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.document }),
         flavor: `<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                   <i class="fas fa-flask" style="color: #4CAF50;"></i>
-                   <strong>${itemName}</strong>
-                   <span style="color: #888; font-style: italic;">- Item consumido com rolagem</span>
+                   <i class="fas fa-dice-d20" style="color: #2196F3;"></i>
+                   <strong>${flavorText}</strong>
+                   ${isCriticalFailure ? '<span style="color: #FF5722; font-weight: bold; margin-left: 8px;">[CRITICAL FAILURE]</span>' : ''}
                  </div>`,
         rollMode: game.settings.get("core", "rollMode")
       });
@@ -3013,11 +3032,179 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       return {
         roll: roll,
         total: roll.total,
-        formula: formula
+        formula: rollFormula,
+        ability: ability,
+        hasAdvantage: hasAdvantage,
+        isCriticalFailure: isCriticalFailure
       };
 
     } catch (error) {
-      throw new Error(`Fórmula inválida "${formula}": ${error.message}`);
+      console.error("Error processing skill check:", error);
+      ui.notifications.warn(`Erro no teste de perícia: ${error.message}`);
+      return null;
+    }
+  }
+
+  /**
+   * Check if a roll resulted in a critical failure
+   * @param {Roll} roll - The roll to check
+   * @param {boolean} hasAdvantage - Whether the roll had advantage
+   * @returns {boolean} Whether the roll is a critical failure
+   * @private
+   */
+  _checkCriticalFailure(roll, hasAdvantage) {
+    try {
+      if (!roll) return false;
+      
+      // Critical failure occurs when the total result is 1 or less
+      const totalResult = roll.total;
+      if (totalResult <= 1) return true;
+      
+      // Also check for natural 1s on the dice (traditional critical failure)
+      if (!roll.dice || roll.dice.length === 0) return false;
+      
+      // Find the d20 die in the roll
+      const d20Die = roll.dice.find(die => die.faces === 20);
+      if (!d20Die || !d20Die.results || d20Die.results.length === 0) return false;
+      
+      // For advantage rolls (2d20kh1), critical failure only occurs if both dice show natural 1
+      if (hasAdvantage) {
+        if (d20Die.results.length < 2) return false;
+        const results = d20Die.results.map(r => r?.result).filter(r => r !== undefined);
+        return results.length >= 2 && results.every(result => result === 1);
+      } else {
+        // For normal rolls (1d20), critical failure occurs on natural 1
+        const firstResult = d20Die.results[0];
+        return firstResult && firstResult.result === 1;
+      }
+    } catch (error) {
+      console.warn("Error checking critical failure:", error);
+      return false;
+    }
+  }
+
+  /**
+   * Process critical failure effects and skill losses
+   * @param {Item} item - The item being used
+   * @param {Roll} roll - The failed roll
+   * @private
+   */
+  async _processCriticalFailure(item, roll) {
+    try {
+      const criticalFailureMessages = [];
+      
+      // Apply critical failure effects
+      if (item.system.hasCriticalFailureEffects && item.system.criticalFailureEffects?.length > 0) {
+        for (const effectId of item.system.criticalFailureEffects) {
+          if (effectId && effectId.trim() !== "") {
+            await this._applyCriticalFailureEffect(effectId);
+            
+            // Get effect name for message
+            const effect = game.packs.find(p => p.metadata.id === "cardigan.efeitos-cardigan")?.index.get(effectId);
+            const effectName = effect?.name || effectId;
+            criticalFailureMessages.push(`Applied effect: <strong>${effectName}</strong>`);
+          }
+        }
+      }
+      
+      // Apply skill losses
+      if (item.system.hasCriticalFailureSkillLoss && item.system.criticalFailureSkillLoss?.length > 0) {
+        for (const skillLoss of item.system.criticalFailureSkillLoss) {
+          if (skillLoss.ability && skillLoss.value > 0) {
+            await this._applyCriticalFailureSkillLoss(skillLoss.ability, skillLoss.value);
+            
+            const abilityName = game.i18n.localize(`CARDIGAN.Ability.${skillLoss.ability.charAt(0).toUpperCase() + skillLoss.ability.slice(1)}.long`);
+            criticalFailureMessages.push(`Lost <strong>${skillLoss.value}</strong> points from <strong>${abilityName}</strong>`);
+          }
+        }
+      }
+      
+      // Send critical failure message to chat if there were any effects
+      if (criticalFailureMessages.length > 0) {
+        const messageContent = `
+          <div style="background: rgba(255, 87, 34, 0.1); border: 1px solid #FF5722; border-radius: 4px; padding: 8px; margin-top: 8px;">
+            <div style="color: #FF5722; font-weight: bold; margin-bottom: 4px;">
+              <i class="fas fa-exclamation-triangle"></i> Critical Failure Effects:
+            </div>
+            <ul style="margin: 0; padding-left: 16px;">
+              ${criticalFailureMessages.map(msg => `<li>${msg}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+        
+        await ChatMessage.create({
+          speaker: ChatMessage.getSpeaker({ actor: this.document }),
+          content: messageContent,
+          rollMode: game.settings.get("core", "rollMode")
+        });
+      }
+      
+    } catch (error) {
+      console.error("Error processing critical failure:", error);
+      ui.notifications.warn(`Erro ao processar falha crítica: ${error.message}`);
+    }
+  }
+
+  /**
+   * Apply a critical failure effect to the actor
+   * @param {string} effectId - The ID of the effect to apply
+   * @private
+   */
+  async _applyCriticalFailureEffect(effectId) {
+    try {
+      // Get the effect from the compendium
+      const pack = game.packs.get("cardigan.efeitos-cardigan");
+      if (!pack) {
+        console.warn("Could not find effects compendium");
+        return;
+      }
+      
+      const effectDocument = await pack.getDocument(effectId);
+      if (!effectDocument) {
+        console.warn(`Could not find effect with ID: ${effectId}`);
+        return;
+      }
+      
+      // Create the effect on the actor
+      const effectData = effectDocument.toObject();
+      effectData.origin = `Actor.${this.document.id}`;
+      
+      await this.document.createEmbeddedDocuments("Item", [effectData]);
+      
+    } catch (error) {
+      console.error(`Error applying critical failure effect ${effectId}:`, error);
+    }
+  }
+
+  /**
+   * Apply skill loss from critical failure
+   * @param {string} ability - The ability to reduce
+   * @param {number} lossValue - The amount to reduce
+   * @private
+   */
+  async _applyCriticalFailureSkillLoss(ability, lossValue) {
+    try {
+      console.log(`Applying skill loss: ${ability} -${lossValue}`);
+      
+      const abilityData = this.document.system.abilities[ability];
+      console.log(`Current ${ability} data:`, abilityData);
+      
+      // We need to modify manualValue, not value (which is calculated)
+      const currentManualValue = abilityData?.manualValue || 0;
+      const newManualValue = currentManualValue - lossValue; // Can go negative as penalties
+      
+      console.log(`${ability} manualValue: ${currentManualValue} -> ${newManualValue}`);
+      
+      const updateData = {};
+      updateData[`system.abilities.${ability}.manualValue`] = newManualValue;
+      
+      console.log(`Update data:`, updateData);
+      
+      const result = await this.document.update(updateData);
+      console.log(`Update result:`, result);
+      
+    } catch (error) {
+      console.error(`Error applying skill loss for ${ability}:`, error);
     }
   }
 
@@ -4253,8 +4440,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
             quantity: recipe.system.servings || 1,
             weight: recipe.system.weight || "muito-leve",
             price: Math.ceil(recipe.system.price / 2) || 1,
-            effects: [],
-            rollFormula: ""
+            effects: []
           }
         };
         

@@ -4,13 +4,139 @@
   data-group='primary'
   data-tab='modifiers'
 >
-  <div class="modifiers-header">
-    <h3><i class="fas fa-magic"></i> {{localize "CARDIGAN.Modifiers.Title"}}</h3>
-    <p class="item-subtitle">{{localize "CARDIGAN.Modifiers.Subtitle"}}</p>
+  {{! Checkbox to control skill check visibility }}
+  <div class="skill-check-toggle">
+    <label class="checkbox-label">
+      <input type="checkbox" name="system.hasSkillCheck" {{checked item.system.hasSkillCheck}} data-dtype="Boolean" data-skill-check-toggle />
+      {{localize "CARDIGAN.ItemConsumivel.HasSkillCheck"}}
+    </label>
+  </div>
+
+  {{! Skill Check System }}
+  <div class="skill-check-system {{#unless item.system.hasSkillCheck}}hidden{{/unless}}" data-skill-check-section>
+    <div class="form-group skill-selection">
+      <label>{{localize "CARDIGAN.ItemConsumivel.SkillCheckAbility"}}</label>
+      <select name="system.skillCheckAbility" data-dtype="String">
+        <option value="accuracy" {{#if (eq item.system.skillCheckAbility "accuracy")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Accuracy.long"}}</option>
+        <option value="evasion" {{#if (eq item.system.skillCheckAbility "evasion")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Evasion.long"}}</option>
+        <option value="strength" {{#if (eq item.system.skillCheckAbility "strength")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Strength.long"}}</option>
+        <option value="dexterity" {{#if (eq item.system.skillCheckAbility "dexterity")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Dexterity.long"}}</option>
+        <option value="stamina" {{#if (eq item.system.skillCheckAbility "stamina")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Stamina.long"}}</option>
+        <option value="stealth" {{#if (eq item.system.skillCheckAbility "stealth")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Stealth.long"}}</option>
+        <option value="persuasion" {{#if (eq item.system.skillCheckAbility "persuasion")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Persuasion.long"}}</option>
+        <option value="intelligence" {{#if (eq item.system.skillCheckAbility "intelligence")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Intelligence.long"}}</option>
+        <option value="psionics" {{#if (eq item.system.skillCheckAbility "psionics")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Psionics.long"}}</option>
+      </select>
+    </div>
+    
+    <div class="form-group advantage-toggle">
+      <label class="checkbox-label">
+        <input type="checkbox" name="system.skillCheckAdvantage" {{checked item.system.skillCheckAdvantage}} data-dtype="Boolean" />
+        {{localize "CARDIGAN.ItemConsumivel.SkillCheckAdvantage"}}
+      </label>
+    </div>
+
+    {{! Critical Failure Effects System }}
+    <div class="critical-failure-effects-toggle">
+      <label class="checkbox-label">
+        <input type="checkbox" name="system.hasCriticalFailureEffects" {{checked item.system.hasCriticalFailureEffects}} data-dtype="Boolean" data-critical-failure-effects-toggle />
+        {{localize "CARDIGAN.ItemConsumivel.HasCriticalFailureEffects"}}
+      </label>
+    </div>
+
+    <div class="critical-failure-effects-system {{#unless item.system.hasCriticalFailureEffects}}hidden{{/unless}}" data-critical-failure-effects-section>
+      <div class="form-group critical-failure-effects">
+        <div class="critical-failure-effects-header">
+          <label>{{localize "CARDIGAN.ItemConsumivel.CriticalFailureEffects"}}</label>
+          <button type="button" class="add-critical-failure-effect-btn" data-action="addCriticalFailureEffect" title="{{localize 'CARDIGAN.ItemConsumivel.AddCriticalFailureEffect'}}">+</button>
+        </div>
+        
+        <div class="critical-failure-effects-list" data-critical-failure-effects-container>
+          {{#each item.system.criticalFailureEffects as |effectId index|}}
+            <div class="critical-failure-effect-row" data-critical-failure-effect-index="{{index}}">
+              <select name="system.criticalFailureEffects.{{index}}" data-critical-failure-effect-select>
+                <option value="">{{localize "CARDIGAN.SelectEffect"}}</option>
+                {{#each @root.availableEffects as |availableEffect|}}
+                  <option value="{{availableEffect.id}}" {{#if (eq effectId availableEffect.id)}}selected{{/if}}>
+                    {{availableEffect.name}}
+                  </option>
+                {{/each}}
+              </select>
+              <button type="button" class="remove-critical-failure-effect-btn" data-action="removeCriticalFailureEffect" data-index="{{index}}" title="{{localize 'CARDIGAN.ItemConsumivel.RemoveCriticalFailureEffect'}}">−</button>
+            </div>
+          {{/each}}
+        </div>
+        
+        {{#unless item.system.criticalFailureEffects.length}}
+          <div class="no-critical-failure-effects-message">
+            {{localize "CARDIGAN.NoEffectsAdded"}}
+          </div>
+        {{/unless}}
+      </div>
+    </div>
+
+    {{! Critical Failure Skill Loss System }}
+    <div class="critical-failure-skill-loss-toggle">
+      <label class="checkbox-label">
+        <input type="checkbox" name="system.hasCriticalFailureSkillLoss" {{checked item.system.hasCriticalFailureSkillLoss}} data-dtype="Boolean" data-critical-failure-skill-loss-toggle />
+        {{localize "CARDIGAN.ItemConsumivel.HasCriticalFailureSkillLoss"}}
+      </label>
+    </div>
+
+    <div class="critical-failure-skill-loss-system {{#unless item.system.hasCriticalFailureSkillLoss}}hidden{{/unless}}" data-critical-failure-skill-loss-section>
+      <div class="form-group critical-failure-skill-loss">
+        <div class="critical-failure-skill-loss-header">
+          <label>{{localize "CARDIGAN.ItemConsumivel.CriticalFailureSkillLoss"}}</label>
+          <button type="button" class="add-critical-failure-skill-loss-btn" data-action="addCriticalFailureSkillLoss" title="{{localize 'CARDIGAN.ItemConsumivel.AddCriticalFailureSkillLoss'}}">+</button>
+        </div>
+        
+        <div class="critical-failure-skill-loss-list" data-critical-failure-skill-loss-container>
+          {{#each item.system.criticalFailureSkillLoss as |skillLoss index|}}
+            <div class="critical-failure-skill-loss-row" data-critical-failure-skill-loss-index="{{index}}">
+              <div class="skill-loss-controls">
+                <div class="skill-loss-ability">
+                  <label>{{localize "CARDIGAN.ItemConsumivel.CriticalFailureSkillLossAbility"}}</label>
+                  <select name="system.criticalFailureSkillLoss.{{index}}.ability" data-critical-failure-skill-loss-ability-select>
+                    <option value="accuracy" {{#if (eq skillLoss.ability "accuracy")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Accuracy.long"}}</option>
+                    <option value="evasion" {{#if (eq skillLoss.ability "evasion")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Evasion.long"}}</option>
+                    <option value="strength" {{#if (eq skillLoss.ability "strength")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Strength.long"}}</option>
+                    <option value="dexterity" {{#if (eq skillLoss.ability "dexterity")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Dexterity.long"}}</option>
+                    <option value="stamina" {{#if (eq skillLoss.ability "stamina")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Stamina.long"}}</option>
+                    <option value="stealth" {{#if (eq skillLoss.ability "stealth")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Stealth.long"}}</option>
+                    <option value="persuasion" {{#if (eq skillLoss.ability "persuasion")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Persuasion.long"}}</option>
+                    <option value="intelligence" {{#if (eq skillLoss.ability "intelligence")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Intelligence.long"}}</option>
+                    <option value="psionics" {{#if (eq skillLoss.ability "psionics")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Psionics.long"}}</option>
+                  </select>
+                </div>
+                <div class="skill-loss-value">
+                  <label>{{localize "CARDIGAN.ItemConsumivel.CriticalFailureSkillLossValue"}}</label>
+                  <input type="number" name="system.criticalFailureSkillLoss.{{index}}.value" value="{{skillLoss.value}}" min="1" data-dtype="Number" />
+                </div>
+              </div>
+              <button type="button" class="remove-critical-failure-skill-loss-btn" data-action="removeCriticalFailureSkillLoss" data-index="{{index}}" title="{{localize 'CARDIGAN.ItemConsumivel.RemoveCriticalFailureSkillLoss'}}">−</button>
+            </div>
+          {{/each}}
+        </div>
+        
+        {{#unless item.system.criticalFailureSkillLoss.length}}
+          <div class="no-critical-failure-skill-loss-message">
+            {{localize "CARDIGAN.NoSkillLossAdded"}}
+          </div>
+        {{/unless}}
+      </div>
+    </div>
+  </div>
+
+  {{! Checkbox to control effects visibility }}
+  <div class="effects-toggle">
+    <label class="checkbox-label">
+      <input type="checkbox" name="system.hasEffects" {{checked item.system.hasEffects}} data-dtype="Boolean" data-effects-toggle />
+      {{localize "CARDIGAN.ItemConsumivel.HasEffects"}}
+    </label>
   </div>
 
   {{! Effects System - Similar to Skill Bonuses }}
-  <div class="effects-system">
+  <div class="effects-system {{#unless item.system.hasEffects}}hidden{{/unless}}" data-effects-section>
     <div class="form-group item-effects">
       <div class="effects-header">
         <label>{{localize "CARDIGAN.Effects"}}</label>
@@ -51,15 +177,4 @@
     </div>
   </div>
 
-  {{! Roll Formula System }}
-  <div class="roll-formula-system">
-    <div class="form-group roll-formula">
-      <label>{{localize "CARDIGAN.ItemConsumivel.RollFormula"}} <span class="optional">({{localize "CARDIGAN.Optional"}})</span></label>
-      <input type="text" name="system.rollFormula" value="{{item.system.rollFormula}}" placeholder="Ex: 2d4 + @strength.value + @strength.bonus" />
-      <div class="formula-help">
-        <i class="fas fa-info-circle"></i>
-        <small>{{localize "CARDIGAN.ItemConsumivel.FormulaHelp"}}</small>
-      </div>
-    </div>
-  </div>
 </section>
