@@ -1,0 +1,118 @@
+{{! Item Ingredient Attributes Tab }}
+<section
+  class='tab attributes {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='attributes'
+>
+  <div class="item-ingredient-header">
+    <h3><i class="fas fa-seedling"></i> {{localize "CARDIGAN.ItemIngredient.Title"}}</h3>
+    <p class="item-subtitle">{{localize "CARDIGAN.ItemIngredient.Subtitle"}}</p>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemIngredient.Quantity"}}</label>
+      <div class="form-fields">
+        <input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="1"/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.Weight"}}</label>
+      <select name="system.weight">
+        <option value="muito-leve" {{selected system.weight "muito-leve"}}>{{localize "CARDIGAN.WeightVeryLight"}}</option>
+        <option value="leve" {{selected system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
+        <option value="medio" {{selected system.weight "medio"}}>{{localize "CARDIGAN.WeightMedium"}}</option>
+        <option value="pesado" {{selected system.weight "pesado"}}>{{localize "CARDIGAN.WeightHeavy"}}</option>
+        <option value="muito-pesado" {{selected system.weight "muito-pesado"}}>{{localize "CARDIGAN.WeightVeryHeavy"}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemIngredient.Type"}}</label>
+      <div class="form-fields">
+        <select name="system.ingredientType" data-dtype="String">
+          <option value="herb" {{#if (eq system.ingredientType "herb")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Types.Herb"}}
+          </option>
+          <option value="mineral" {{#if (eq system.ingredientType "mineral")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Types.Mineral"}}
+          </option>
+          <option value="animal" {{#if (eq system.ingredientType "animal")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Types.Animal"}}
+          </option>
+          <option value="magical" {{#if (eq system.ingredientType "magical")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Types.Magical"}}
+          </option>
+          <option value="chemical" {{#if (eq system.ingredientType "chemical")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Types.Chemical"}}
+          </option>
+          <option value="other" {{#if (eq system.ingredientType "other")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Types.Other"}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemIngredient.Rarity"}}</label>
+      <div class="form-fields">
+        <select name="system.rarity" data-dtype="String">
+          <option value="common" {{#if (eq system.rarity "common")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.RarityLevels.Common"}}
+          </option>
+          <option value="uncommon" {{#if (eq system.rarity "uncommon")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.RarityLevels.Uncommon"}}
+          </option>
+          <option value="rare" {{#if (eq system.rarity "rare")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.RarityLevels.Rare"}}
+          </option>
+          <option value="very-rare" {{#if (eq system.rarity "very-rare")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.RarityLevels.VeryRare"}}
+          </option>
+          <option value="legendary" {{#if (eq system.rarity "legendary")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.RarityLevels.Legendary"}}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemIngredient.Price"}}</label>
+      <div class="form-fields">
+        <input type="number" name="system.price" value="{{system.price}}" data-dtype="Number" min="0"/>
+        <span class="unit">{{localize "CARDIGAN.Currency.Gold"}}</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemIngredient.Freshness"}}</label>
+      <div class="form-fields">
+        <input type="number" name="system.freshness" value="{{system.freshness}}" data-dtype="Number" min="0" max="100"/>
+        <span class="unit">%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group full-width">
+      <label>{{localize "CARDIGAN.ItemIngredient.Origin"}}</label>
+      <div class="form-fields">
+        <input type="text" name="system.origin" value="{{system.origin}}" placeholder="Where this ingredient was found or obtained"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group full-width">
+      <label>{{localize "CARDIGAN.ItemIngredient.CraftingProperties"}}</label>
+      <div class="form-fields">
+        <textarea name="system.craftingProperties" rows="3" placeholder="Describe how this ingredient can be used in crafting...">{{system.craftingProperties}}</textarea>
+      </div>
+    </div>
+  </div>
+</section>

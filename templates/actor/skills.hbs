@@ -1,0 +1,89 @@
+{{! Skills Tab with Recipes Table }}
+<section class='tab skills {{tab.cssClass}}' data-group='primary' data-tab='skills'>
+  
+  {{! Recipes Table }}
+  <h3 class="items-section-header" style="margin-bottom: 10px; color: #c9c7b8; text-align: center;">
+    <i class="fas fa-scroll" style="margin-right: 8px;"></i>
+    {{localize "CARDIGAN.RecipesTable"}}
+  </h3>
+  
+  <ol class='items-list'>
+    <li class='item flexrow items-header'>
+      <div class='item-name'>{{localize "CARDIGAN.RecipeName"}}</div>
+      <div class='item-controls'>
+        {{#if @root.editable}}
+          <a
+            class='item-control item-create'
+            title='{{localize "CARDIGAN.AddRecipe"}}'
+            data-action='createDoc'
+            data-document-class='Item'
+            data-type='item-recipe'
+            data-name='New Recipe'
+          >
+            <i class='fas fa-plus'></i>
+            {{localize "CARDIGAN.AddRecipe"}}
+          </a>
+        {{/if}}
+      </div>
+    </li>
+    
+    {{! Placeholder for future recipes - for now showing empty state }}
+    {{#unless recipes}}
+      <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>
+        <div style='width: 100%;'>
+          <i class="fas fa-scroll" style="font-size: 24px; margin-bottom: 10px; opacity: 0.5;"></i>
+          <p>No recipes learned yet.</p>
+          <p style="font-size: 12px;">Click "Add Recipe" to start collecting recipes for crafting.</p>
+        </div>
+      </li>
+    {{/unless}}
+    
+    {{! Recipe items }}
+    {{#each recipes as |recipe id|}}
+      <li
+        class='item flexrow'
+        data-item-id='{{recipe._id}}'
+        data-uuid='{{recipe.uuid}}'
+        data-drag='true'
+        data-document-class='Item'
+      >
+        <div class='item-name'>
+          <div class='item-image'>
+            <img
+              src='{{recipe.img}}'
+              title='{{recipe.name}}'
+              width='24'
+              height='24'
+            />
+          </div>
+          <div>{{recipe.name}}</div>
+        </div>
+        <div class='item-controls'>
+          {{#if @root.editable}}
+            <button type="button" class="unbutton item-control cook-recipe-btn" 
+                    data-tooltip="{{localize 'CARDIGAN.CookRecipe'}}" data-tooltip-direction="UP"
+                    data-action="cookRecipe"
+                    data-item-id="{{recipe._id}}"
+                    style="color: #ff6b35; margin-right: 8px;">
+              <i class="fas fa-fire"></i>
+            </button>
+            <button type="button" class="unbutton item-control always-interactive" data-context-menu
+                    data-tooltip="Recipe Options" data-tooltip-direction="UP"
+                    data-item-id="{{recipe._id}}">
+              <i class="fa-solid fa-ellipsis-vertical" inert></i>
+            </button>
+          {{/if}}
+        </div>
+      </li>
+    {{/each}}
+  </ol>
+
+  {{! Equipment backpack info - keeping for reference }}
+  <div style="margin-top: 40px; padding: 20px; border-top: 1px solid #444; text-align: center; color: #a59b85;">
+    <p style="font-size: 14px;">
+      <i class="fas fa-info-circle" style="margin-right: 5px;"></i>
+      Equipment and inventory management can be found in the <strong>Equipment</strong> tab.
+    </p>
+  </div>
+  
+</section>

@@ -61,6 +61,8 @@ Hooks.once('init', function () {
     "item-comum": models.CardiganSystemItemComum,
     "item-municao": models.CardiganSystemItemMunicao,
     "item-consumivel": models.CardiganSystemItemConsumivel,
+    "item-ingredient": models.CardiganSystemItemIngredient,
+    "item-recipe": models.CardiganSystemItemRecipe,
     feature: models.CardiganSystemFeature,
     spell: models.CardiganSystemSpell,
     efeito: models.CardiganSystemEfeito,
@@ -245,6 +247,13 @@ Handlebars.registerHelper('abbreviateWeight', function(weight) {
     default:
       return weight.toUpperCase();
   }
+});
+
+// Helper para truncar texto
+Handlebars.registerHelper('truncate', function(str, length) {
+  if (!str) return '';
+  if (str.length <= length) return str;
+  return str.substring(0, length) + '...';
 });
 
 /* -------------------------------------------- */

@@ -62,6 +62,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       equipArmor: this._onEquipArmor,
       unequipArmor: this._onUnequipArmor,
       consumeItem: this._onConsumeItem,
+      cookRecipe: this._onCookRecipe,
       // Removemos as ações do modal para implementar via event listeners diretos
     },
     // Custom property that's merged into `this.options`
@@ -86,8 +87,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     biography: {
       template: 'systems/cardigan/templates/actor/biography.hbs',
     },
-    backpack: {
-      template: 'systems/cardigan/templates/actor/backpack.hbs',
+    skills: {
+      template: 'systems/cardigan/templates/actor/skills.hbs',
     },
     spells: {
       template: 'systems/cardigan/templates/actor/spells.hbs',
@@ -107,10 +108,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'character':
-        options.parts.push('features', 'backpack', 'spells', 'equipamentos');
+        options.parts.push('features', 'skills', 'spells', 'equipamentos');
         break;
       case 'npc':
-        options.parts.push('backpack', 'equipamentos');
+        options.parts.push('skills', 'equipamentos');
         break;
     }
   }
@@ -153,7 +154,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         context.tab = context.tabs[partId];
         break;
       case 'spells':
-      case 'backpack':
+      case 'skills':
       case 'equipamentos':
         context.tab = context.tabs[partId];
         break;
@@ -211,9 +212,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           tab.id = 'features';
           tab.label += 'Features';
           break;
-        case 'backpack':
-          tab.id = 'backpack';
-          tab.label += 'Backpack';
+        case 'skills':
+          tab.id = 'skills';
+          tab.label += 'Skills';
           break;
         case 'spells':
           tab.id = 'spells';
@@ -301,6 +302,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const efeitos = [];
     const armas = [];
     const armaduras = [];
+    const recipes = [];
     const spells = {
       0: [],
       1: [],
@@ -328,12 +330,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         console.log(`Armor: ${i.name}, equipped: ${i.system.equipped}, type: ${i.system.armorType}, ID: ${i._id}`);
       }
       // Debug backpack items
-      if (i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel') {
+      if (i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel' || i.type === 'item-ingredient') {
         console.log(`Backpack Item: ${i.name}, type: ${i.type}, ID: ${i._id}`);
       }
 
       // Append to backpack.
-      if (i.type === 'backpack' || i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel') {
+      if (i.type === 'backpack' || i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel' || i.type === 'item-ingredient') {
         backpack.push(i);
       }
       // Append to armas (weapons).
@@ -373,6 +375,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       else if (i.type === 'efeito') {
         efeitos.push(i);
       }
+      // Append to recipes.
+      else if (i.type === 'item-recipe') {
+        recipes.push(i);
+      }
       // Append to spells.
       else if (i.type === 'spell') {
         if (i.system.spellLevel != undefined) {
@@ -403,6 +409,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     context.backpack = backpack.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.efeitos = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.recipes = recipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.armas = armas.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.armaduras = armaduras.sort((a, b) => {
       const orderA = armorTypeOrder[a.system.armorType] || 99;
@@ -2642,7 +2649,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Calculate current backpack spaces
     const backpackItems = this.document.items.filter(i => {
       // Items that go to backpack table: unequipped items or specific types
-      if (i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel') {
+      if (i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel' || i.type === 'item-ingredient') {
         return true;
       }
       // Unequipped weapons and armors
@@ -2753,7 +2760,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Calculate current backpack spaces
     const backpackItems = this.document.items.filter(i => {
       // Items that go to backpack table: unequipped items or specific types
-      if (i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel') {
+      if (i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel' || i.type === 'item-ingredient') {
         return true;
       }
       // Unequipped weapons and armors
@@ -3894,6 +3901,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           return item.delete();
         }
         return null;
+
     }
   }
 
@@ -4160,6 +4168,136 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       });
       
       console.log(`[ABILITY BLUR] ${ability}.totalBonus - Manual: ${userInput}, Calculated: ${calculatedBonus}, Total: ${totalBonus}`);
+    }
+  }
+
+  /**
+   * Handle cook recipe action - creates a consumable item from recipe
+   * @param {Event} event - The click event
+   * @param {HTMLElement} target - The button that was clicked
+   * @private
+   */
+  static async _onCookRecipe(event, target) {
+    console.log("[RECIPES] _onCookRecipe called!", event, target);
+    event.preventDefault();
+    
+    const itemId = target.dataset.itemId;
+    console.log("[RECIPES] Item ID:", itemId);
+    const recipe = this.document.items.get(itemId);
+    if (!recipe) {
+      console.log("[RECIPES] No recipe found with ID:", itemId);
+      return;
+    }
+    try {
+      console.log("[RECIPES] Cooking recipe:", recipe.name);
+      
+      if (recipe.type !== "item-recipe") {
+        ui.notifications.error("Invalid recipe item.");
+        return;
+      }
+      
+      // Show confirmation dialog
+      const confirmed = await foundry.applications.api.DialogV2.confirm({
+        title: `Cook ${recipe.name}?`,
+        content: `
+          <div style="margin-bottom: 15px;">
+            <p>Do you want to cook <strong>"${recipe.name}"</strong>?</p>
+            <div style="background: rgba(43, 24, 16, 0.3); padding: 10px; border-radius: 5px; margin-top: 10px;">
+              <p><strong>Difficulty:</strong> ${game.i18n.localize(`CARDIGAN.Item.ItemRecipe.difficulty.${recipe.system.difficulty}`)}</p>
+              <p><strong>Cooking Time:</strong> ${recipe.system.cookingTime} minutes</p>
+              <p><strong>Servings:</strong> ${recipe.system.servings}</p>
+              ${recipe.system.ingredients ? `<p><strong>Ingredients:</strong> ${recipe.system.ingredients}</p>` : ''}
+            </div>
+          </div>
+        `,
+        yes: () => true,
+        no: () => false,
+        defaultYes: true
+      });
+      
+      if (!confirmed) {
+        console.log("[RECIPES] Cooking cancelled by user");
+        return;
+      }
+      
+      // Check if consumable with same name already exists in backpack
+      const existingConsumable = this.document.items.find(item => 
+        item.type === "item-consumivel" && 
+        item.name === recipe.name
+      );
+      
+      let resultItem;
+      let isNewItem = false;
+      
+      if (existingConsumable) {
+        // Item exists - increase quantity
+        const currentQuantity = existingConsumable.system.quantity || 1;
+        const servingsToAdd = recipe.system.servings || 1;
+        const newQuantity = currentQuantity + servingsToAdd;
+        
+        await existingConsumable.update({
+          "system.quantity": newQuantity
+        });
+        
+        resultItem = existingConsumable;
+        console.log(`[RECIPES] Increased quantity of "${recipe.name}" from ${currentQuantity} to ${newQuantity}`);
+        ui.notifications.info(`Added ${servingsToAdd} more "${recipe.name}" to your backpack! (Total: ${newQuantity})`);
+        
+      } else {
+        // Item doesn't exist - create new consumable
+        const consumableData = {
+          name: recipe.name,
+          type: "item-consumivel",
+          img: recipe.img,
+          system: {
+            quantity: recipe.system.servings || 1,
+            weight: recipe.system.weight || "muito-leve",
+            price: Math.ceil(recipe.system.price / 2) || 1,
+            effects: [],
+            rollFormula: ""
+          }
+        };
+        
+        // If recipe has effects, add them to description
+        if (recipe.system.effects) {
+          consumableData.system.description = `<p><strong>Recipe Effects:</strong></p><p>${recipe.system.effects}</p>`;
+        }
+        
+        const newConsumable = await this.document.createEmbeddedDocuments("Item", [consumableData]);
+        resultItem = newConsumable[0];
+        isNewItem = true;
+        
+        console.log("[RECIPES] Created new consumable from recipe:", resultItem);
+        ui.notifications.info(`Successfully cooked "${recipe.name}"! Check your equipment backpack.`);
+      }
+      
+      // Show cooking success message in chat
+      const actionText = isNewItem ? "cooked" : "added more";
+      const quantityText = isNewItem ? resultItem.system.quantity : `+${recipe.system.servings || 1} (Total: ${resultItem.system.quantity})`;
+      
+      const messageContent = `
+        <div class="cardigan-cook-message" style="background: linear-gradient(90deg, #2b1810 0%, #3d2317 100%); border: 2px solid #8B4513; border-radius: 8px; padding: 15px; color: #c9c7b8;">
+          <h3 style="color: #d4af37; margin-bottom: 10px;">
+            <i class="fas fa-fire" style="margin-right: 8px; color: #ff6b35;"></i>
+            Cooking Complete!
+          </h3>
+          <p><strong>${this.document.name}</strong> has ${actionText} <strong>"${resultItem.name}"</strong>!</p>
+          <div style="margin-top: 10px; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 4px;">
+            <p style="margin: 2px 0;"><strong>Recipe:</strong> ${recipe.name}</p>
+            <p style="margin: 2px 0;"><strong>Difficulty:</strong> ${game.i18n.localize(`CARDIGAN.Item.ItemRecipe.difficulty.${recipe.system.difficulty}`)}</p>
+            <p style="margin: 2px 0;"><strong>Servings:</strong> ${quantityText}</p>
+          </div>
+        </div>
+      `;
+      
+      ChatMessage.create({
+        content: messageContent,
+        speaker: ChatMessage.getSpeaker({ actor: this.document })
+      });
+      
+    } catch (error) {
+      console.error("[RECIPES] Error cooking recipe:", error);
+      ui.notifications.error("Error cooking recipe. Please try again.");
     }
   }
 }

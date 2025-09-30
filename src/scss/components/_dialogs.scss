@@ -897,6 +897,16 @@
               text-shadow: 0 0 10px rgba(0, 184, 148, 0.5);
             }
           }
+          
+          &[data-type="item-ingredient"] {
+            .item-icon {
+              color: #55a3ff;
+            }
+            &:hover .item-icon {
+              color: #4c96ff;
+              text-shadow: 0 0 10px rgba(85, 163, 255, 0.5);
+            }
+          }
         }
       }
     }

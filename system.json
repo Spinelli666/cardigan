@@ -28,6 +28,12 @@
         "item-consumivel": {
             "htmlFields": ["description"]
         },
+        "item-ingredient": {
+            "htmlFields": ["description"]
+        },
+        "item-recipe": {
+            "htmlFields": ["description"]
+        },
         "feature": {
             "htmlFields": ["description"]
         },

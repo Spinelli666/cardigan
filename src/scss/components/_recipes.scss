@@ -1,0 +1,224 @@
+/* ===== RECIPES TABLE STYLES ===== */
+
+.recipes-list {
+  .items-header {
+    background: linear-gradient(90deg, #2b1810 0%, #3d2317 100%);
+    border: 1px solid #8B4513;
+    color: #d4af37;
+    font-weight: bold;
+    
+    .recipe-name {
+      flex: 2;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    
+    .recipe-ingredients {
+      flex: 3;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    
+    .recipe-result {
+      flex: 2;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    
+    .recipe-difficulty {
+      flex: 1;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    
+    .item-controls {
+      flex: 1.5;
+      padding: 8px 12px;
+      text-align: center;
+    }
+  }
+  
+  .recipe-item {
+    background: rgba(43, 24, 16, 0.3);
+    border: 1px solid rgba(139, 69, 19, 0.3);
+    margin-bottom: 2px;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: rgba(43, 24, 16, 0.5);
+      border-color: rgba(139, 69, 19, 0.6);
+    }
+    
+    .recipe-name {
+      flex: 2;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      .recipe-icon {
+        width: 20px;
+        text-align: center;
+      }
+    }
+    
+    .recipe-ingredients {
+      flex: 3;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #c9c7b8;
+      
+      &[title] {
+        cursor: help;
+      }
+    }
+    
+    .recipe-result {
+      flex: 2;
+      padding: 8px 12px;
+      font-weight: 500;
+      color: #d4af37;
+      
+      &[title] {
+        cursor: help;
+      }
+    }
+    
+    .recipe-difficulty {
+      flex: 1;
+      padding: 8px 12px;
+      text-align: center;
+      
+      .difficulty-easy {
+        color: #4caf50;
+        font-weight: bold;
+      }
+      
+      .difficulty-medium {
+        color: #ff9800;
+        font-weight: bold;
+      }
+      
+      .difficulty-hard {
+        color: #f44336;
+        font-weight: bold;
+      }
+      
+      .difficulty-master {
+        color: #9c27b0;
+        font-weight: bold;
+      }
+    }
+    
+    .item-controls {
+      flex: 1.5;
+      padding: 8px 12px;
+      text-align: center;
+      
+      .recipe-options {
+        color: #c9c7b8;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 3px;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          color: #d4af37;
+          background: rgba(212, 175, 55, 0.1);
+        }
+      }
+    }
+  }
+  
+  .empty-state {
+    background: rgba(43, 24, 16, 0.2);
+    border: 1px dashed rgba(139, 69, 19, 0.4);
+    color: #a59b85;
+    font-style: italic;
+    padding: 30px 20px;
+    
+    i {
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    p {
+      margin: 5px 0;
+      
+      &:first-of-type {
+        font-size: 14px;
+        font-weight: 500;
+      }
+      
+      &:last-of-type {
+        font-size: 12px;
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+.recipe-create {
+  background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+  color: #fff;
+  border: 1px solid #8B4513;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  
+  &:hover {
+    background: linear-gradient(135deg, #A0522D 0%, #CD853F 100%);
+    border-color: #A0522D;
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  i {
+    font-size: 10px;
+  }
+}
+
+/* Cook Recipe Button */
+.cook-recipe-btn {
+  color: #ff6b35 !important;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: #ff4500 !important;
+    background: rgba(255, 107, 53, 0.1);
+    transform: scale(1.1);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Recipe Type Indicators */
+.recipe-type-food { color: #4caf50; }
+.recipe-type-drink { color: #2196f3; }
+.recipe-type-potion { color: #9c27b0; }
+.recipe-type-other { color: #ff9800; }
+
+/* Skills Tab Icon Update */
+.sheet-tabs .item[data-tab="backpack"] {
+  i::before {
+    content: "\f19d"; // fa-graduation-cap for skills
+  }
+}

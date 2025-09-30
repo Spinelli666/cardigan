@@ -410,7 +410,7 @@
         </div>
         <div class='item-quantity'>
           {{#if @root.editable}}
-            {{#if (or (eq item.type "item-comum") (eq item.type "item-municao") (eq item.type "item-consumivel"))}}
+            {{#if (or (eq item.type "item-comum") (eq item.type "item-municao") (eq item.type "item-consumivel") (eq item.type "item-ingredient"))}}
               <input
                 type='number'
                 name='items.{{item._id}}.system.quantity'

@@ -1,4 +1,9 @@
 {
+  "DOCUMENT": {
+    "New": {
+      "item-recipe": "New Recipe"
+    }
+  },
   "CARDIGAN": {
     "Compendium": {
       "EfeitosCardigan": "Cardigan Effects",
@@ -127,7 +132,8 @@
       "Tabs": {
         "Biography": "Biography",
         "Features": "Features",
-        "Backpack": "Backpack",
+        "Skills": "Skills",
+        "Backpack": "Skills",
         "Spells": "Spells",
         "Equipamentos": "Equipment"
       },
@@ -326,6 +332,14 @@
     "BackpackFull": "Backpack is full! Cannot add more items.",
     "BackpackType": "Backpack Type",
     "AddBackpack": "Add Item",
+    "RecipesTable": "Recipes",
+    "Recipes": "Recipes",
+    "AddRecipe": "Add Recipe",
+    "RecipeName": "Recipe Name",
+    "RecipeIngredients": "Ingredients",
+    "RecipeResult": "Result",
+    "RecipeDifficulty": "Difficulty",
+    "CookRecipe": "Cook Recipe",
     "SelectItemType": "Select Item Type",
     "SelectItemTypeDescription": "Choose the type of item you want to create:",
     "SelectWeight": "Select Weight",
@@ -555,11 +569,75 @@
       "item-comum": "Common Item",
       "item-municao": "Ammunition",
       "item-consumivel": "Consumable",
+      "item-ingredient": "Ingredient",
+      "item-recipe": "Recipe",
       "feature": "Feature", 
       "spell": "Spell",
       "efeito": "Efeito",
       "arma": "Weapon",
       "armadura": "Armor"
+    }
+  },
+  "ItemIngredient": {
+    "Title": "Ingredient",
+    "Subtitle": "Crafting materials, herbs, and components",
+    "Quantity": "Quantity",
+    "Weight": "Weight",
+    "Price": "Price",
+    "Type": "Ingredient Type",
+    "Rarity": "Rarity",
+    "Freshness": "Freshness",
+    "Origin": "Origin",
+    "CraftingProperties": "Crafting Properties",
+    "Types": {
+      "Herb": "Herb",
+      "Mineral": "Mineral",
+      "Animal": "Animal Part",
+      "Magical": "Magical Component",
+      "Chemical": "Chemical",
+      "Other": "Other"
+    },
+    "RarityLevels": {
+      "Common": "Common",
+      "Uncommon": "Uncommon",
+      "Rare": "Rare",
+      "VeryRare": "Very Rare",
+      "Legendary": "Legendary"
+    },
+    "ItemRecipe": {
+      "ingredients": {
+        "label": "Ingredients",
+        "hint": "List the ingredients needed for this recipe"
+      },
+      "difficulty": {
+        "label": "Difficulty",
+        "hint": "How difficult is this recipe to cook?",
+        "easy": "Easy",
+        "medium": "Medium", 
+        "hard": "Hard",
+        "master": "Master"
+      },
+      "cookingTime": {
+        "label": "Cooking Time (min)",
+        "hint": "Time in minutes to cook this recipe"
+      },
+      "servings": {
+        "label": "Servings",
+        "hint": "How many servings does this recipe create?"
+      },
+      "consumableType": {
+        "label": "Type",
+        "hint": "What type of consumable does this recipe create?",
+        "food": "Food",
+        "drink": "Drink",
+        "potion": "Potion",
+        "other": "Other"
+      },
+      "effects": {
+        "label": "Effects",
+        "hint": "What effects does the cooked item provide?"
+      },
+      "preview": "Recipe Preview"
     }
   }
 }

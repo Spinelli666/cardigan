@@ -3497,6 +3497,13 @@
   color: #00a085;
   text-shadow: 0 0 10px rgba(0, 184, 148, 0.5);
 }
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=item-ingredient] .item-icon {
+  color: #55a3ff;
+}
+.cardigan .general-items-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=item-ingredient]:hover .item-icon {
+  color: #4c96ff;
+  text-shadow: 0 0 10px rgba(85, 163, 255, 0.5);
+}
 .cardigan .general-items-selection .item-type-selection-form .modal-footer {
   background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
   border-top: 1px solid #444;
@@ -4278,4 +4285,204 @@
   .cardigan .tab.modifiers .status-grid {
     grid-template-columns: 1fr;
   }
+}
+.cardigan {
+  /* ===== RECIPES TABLE STYLES ===== */
+}
+.cardigan .recipes-list .items-header {
+  background: linear-gradient(90deg, #2b1810 0%, #3d2317 100%);
+  border: 1px solid #8B4513;
+  color: #d4af37;
+  font-weight: bold;
+}
+.cardigan .recipes-list .items-header .recipe-name {
+  flex: 2;
+  padding: 8px 12px;
+  text-align: left;
+}
+.cardigan .recipes-list .items-header .recipe-ingredients {
+  flex: 3;
+  padding: 8px 12px;
+  text-align: left;
+}
+.cardigan .recipes-list .items-header .recipe-result {
+  flex: 2;
+  padding: 8px 12px;
+  text-align: left;
+}
+.cardigan .recipes-list .items-header .recipe-difficulty {
+  flex: 1;
+  padding: 8px 12px;
+  text-align: center;
+}
+.cardigan .recipes-list .items-header .item-controls {
+  flex: 1.5;
+  padding: 8px 12px;
+  text-align: center;
+}
+.cardigan .recipes-list .recipe-item {
+  background: rgba(43, 24, 16, 0.3);
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  margin-bottom: 2px;
+  transition: all 0.2s ease;
+}
+.cardigan .recipes-list .recipe-item:hover {
+  background: rgba(43, 24, 16, 0.5);
+  border-color: rgba(139, 69, 19, 0.6);
+}
+.cardigan .recipes-list .recipe-item .recipe-name {
+  flex: 2;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cardigan .recipes-list .recipe-item .recipe-name .recipe-icon {
+  width: 20px;
+  text-align: center;
+}
+.cardigan .recipes-list .recipe-item .recipe-ingredients {
+  flex: 3;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #c9c7b8;
+}
+.cardigan .recipes-list .recipe-item .recipe-ingredients[title] {
+  cursor: help;
+}
+.cardigan .recipes-list .recipe-item .recipe-result {
+  flex: 2;
+  padding: 8px 12px;
+  font-weight: 500;
+  color: #d4af37;
+}
+.cardigan .recipes-list .recipe-item .recipe-result[title] {
+  cursor: help;
+}
+.cardigan .recipes-list .recipe-item .recipe-difficulty {
+  flex: 1;
+  padding: 8px 12px;
+  text-align: center;
+}
+.cardigan .recipes-list .recipe-item .recipe-difficulty .difficulty-easy {
+  color: #4caf50;
+  font-weight: bold;
+}
+.cardigan .recipes-list .recipe-item .recipe-difficulty .difficulty-medium {
+  color: #ff9800;
+  font-weight: bold;
+}
+.cardigan .recipes-list .recipe-item .recipe-difficulty .difficulty-hard {
+  color: #f44336;
+  font-weight: bold;
+}
+.cardigan .recipes-list .recipe-item .recipe-difficulty .difficulty-master {
+  color: #9c27b0;
+  font-weight: bold;
+}
+.cardigan .recipes-list .recipe-item .item-controls {
+  flex: 1.5;
+  padding: 8px 12px;
+  text-align: center;
+}
+.cardigan .recipes-list .recipe-item .item-controls .recipe-options {
+  color: #c9c7b8;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+.cardigan .recipes-list .recipe-item .item-controls .recipe-options:hover {
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.1);
+}
+.cardigan .recipes-list .empty-state {
+  background: rgba(43, 24, 16, 0.2);
+  border: 1px dashed rgba(139, 69, 19, 0.4);
+  color: #a59b85;
+  font-style: italic;
+  padding: 30px 20px;
+}
+.cardigan .recipes-list .empty-state i {
+  display: block;
+  margin-bottom: 10px;
+}
+.cardigan .recipes-list .empty-state p {
+  margin: 5px 0;
+}
+.cardigan .recipes-list .empty-state p:first-of-type {
+  font-size: 14px;
+  font-weight: 500;
+}
+.cardigan .recipes-list .empty-state p:last-of-type {
+  font-size: 12px;
+  opacity: 0.8;
+}
+.cardigan .recipe-create {
+  background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+  color: #fff;
+  border: 1px solid #8B4513;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cardigan .recipe-create:hover {
+  background: linear-gradient(135deg, #A0522D 0%, #CD853F 100%);
+  border-color: #A0522D;
+  transform: translateY(-1px);
+}
+.cardigan .recipe-create:active {
+  transform: translateY(0);
+}
+.cardigan .recipe-create i {
+  font-size: 10px;
+}
+.cardigan {
+  /* Cook Recipe Button */
+}
+.cardigan .cook-recipe-btn {
+  color: #ff6b35 !important;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+.cardigan .cook-recipe-btn:hover {
+  color: #ff4500 !important;
+  background: rgba(255, 107, 53, 0.1);
+  transform: scale(1.1);
+}
+.cardigan .cook-recipe-btn:active {
+  transform: scale(0.95);
+}
+.cardigan {
+  /* Recipe Type Indicators */
+}
+.cardigan .recipe-type-food {
+  color: #4caf50;
+}
+.cardigan .recipe-type-drink {
+  color: #2196f3;
+}
+.cardigan .recipe-type-potion {
+  color: #9c27b0;
+}
+.cardigan .recipe-type-other {
+  color: #ff9800;
+}
+.cardigan {
+  /* Skills Tab Icon Update */
+}
+.cardigan .sheet-tabs .item[data-tab=backpack] i::before {
+  content: "\f19d";
 }
