@@ -268,6 +268,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para campos dinâmicos de abilities
     this.#addAbilitiesListeners();
     
+    // Adicionar event listeners para campo dinâmico de critical hit
+    this.#addCriticalHitListeners();
+    
+    // Adicionar event listeners para campo dinâmico de movement
+    this.#addMovementListeners();
+    
     // Clean up any existing tooltips before setting up new ones
     this.#cleanupTooltips();
     
@@ -2307,20 +2313,34 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       const dexterityTotalBonus = system.abilities.dexterity.totalBonus || 0;
       const totalDexterity = dexterity + dexterityTotalBonus;
       const dexterityCriticalEffect = Math.floor(totalDexterity / 3);
-      const newCriticalHit = Math.max(1, 20 - dexterityCriticalEffect);
+      const autoValue = Math.max(1, 20 - dexterityCriticalEffect);
+      
+      // Obter o valor manual atual (se existir)
+      const manualValue = system.details.criticalHitManual || 0;
+      const newCriticalHit = autoValue + manualValue;
       
       // Calculate movement: a cada 2 pontos de Destreza = +1 movimento
-      const newMovement = Math.floor(totalDexterity / 2);
+      const dexterityMovement = Math.floor(totalDexterity / 2);
+      const armorMovementBonus = this.actor._armorMovementBonus || 0;
+      const autoMovementValue = dexterityMovement + armorMovementBonus;
+      const manualMovementValue = system.details.movementManual || 0;
+      const newMovement = autoMovementValue + manualMovementValue;
       
       const criticalHitInput = this.element.querySelector('input[name="system.details.criticalHit"]');
       if (criticalHitInput) {
-        criticalHitInput.value = newCriticalHit;
+        // Se o campo não está em foco, mostrar o valor total
+        if (document.activeElement !== criticalHitInput) {
+          criticalHitInput.value = newCriticalHit;
+        }
       }
       
       // Update movement input
       const movementInput = this.element.querySelector('input[name="system.details.movement"]');
       if (movementInput) {
-        movementInput.value = newMovement;
+        // Se o campo não está em foco, mostrar o valor total
+        if (document.activeElement !== movementInput) {
+          movementInput.value = newMovement;
+        }
       }
       
       // Update the document silently
@@ -4429,6 +4449,161 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
       console.log(`[ABILITY BLUR] ${ability}.totalBonus - Manual: ${userInput}, Calculated: ${calculatedBonus}, Total: ${totalBonus}`);
     }
+  }
+
+  /**
+   * Add listeners for critical hit dynamic field
+   * @private
+   */
+  #addCriticalHitListeners() {
+    const criticalHitField = this.element.querySelector('input[name="system.details.criticalHit"].dynamic-field');
+    
+    if (criticalHitField) {
+      // Event listener para focus (mostrar valor manual)
+      criticalHitField.addEventListener('focus', (event) => {
+        this.#handleCriticalHitFocus(event);
+      });
+      
+      // Event listener para blur (calcular e mostrar total)
+      criticalHitField.addEventListener('blur', (event) => {
+        this.#handleCriticalHitBlur(event);
+      });
+      
+      console.log('[CARDIGAN] Critical Hit dynamic field listener added');
+    }
+  }
+
+  /**
+   * Handler para quando o usuário clica no campo de critical hit (focus)
+   * @private
+   */
+  #handleCriticalHitFocus(event) {
+    const field = event.target;
+    const system = this.actor.system;
+    
+    // Obter o valor manual armazenado ou 0 se não existir
+    const manualValue = system.details.criticalHitManual || 0;
+    
+    // Mostrar apenas o valor manual
+    field.value = manualValue === 0 ? '' : manualValue;
+    field.dataset.manualValue = manualValue;
+    
+    console.log(`[CRITICAL HIT FOCUS] Manual: ${manualValue}`);
+    field.select();
+  }
+
+  /**
+   * Handler para quando o usuário sai do campo de critical hit (blur)
+   * @private
+   */
+  #handleCriticalHitBlur(event) {
+    const field = event.target;
+    const userInput = Number(field.value) || 0;
+    const system = this.actor.system;
+    
+    // Calcular o valor automático baseado na Destreza
+    const dexterity = system.abilities.dexterity.value || 0;
+    const dexterityTotalBonus = system.abilities.dexterity.totalBonus || 0;
+    const totalDexterity = dexterity + dexterityTotalBonus;
+    const dexterityCriticalEffect = Math.floor(totalDexterity / 3);
+    const autoValue = Math.max(1, 20 - dexterityCriticalEffect);
+    
+    // O valor total é o automático + o manual
+    const totalValue = autoValue + userInput;
+    
+    // Mostrar o valor total no campo
+    field.value = totalValue;
+    field.dataset.manualValue = userInput;
+    
+    // Salvar o valor manual e o total
+    this.actor.update({
+      'system.details.criticalHitManual': userInput,
+      'system.details.criticalHit': totalValue
+    }).catch(error => {
+      console.error('[CARDIGAN] Erro ao atualizar criticalHit:', error);
+    });
+    
+    console.log(`[CRITICAL HIT BLUR] Manual: ${userInput}, Auto: ${autoValue}, Total: ${totalValue}`);
+  }
+
+  /**
+   * Add listeners for movement dynamic field
+   * @private
+   */
+  #addMovementListeners() {
+    const movementField = this.element.querySelector('input[name="system.details.movement"].dynamic-field');
+    
+    if (movementField) {
+      // Event listener para focus (mostrar valor manual)
+      movementField.addEventListener('focus', (event) => {
+        this.#handleMovementFocus(event);
+      });
+      
+      // Event listener para blur (calcular e mostrar total)
+      movementField.addEventListener('blur', (event) => {
+        this.#handleMovementBlur(event);
+      });
+      
+      console.log('[CARDIGAN] Movement dynamic field listener added');
+    }
+  }
+
+  /**
+   * Handler para quando o usuário clica no campo de movement (focus)
+   * @private
+   */
+  #handleMovementFocus(event) {
+    const field = event.target;
+    const system = this.actor.system;
+    
+    // Obter o valor manual armazenado ou 0 se não existir
+    const manualValue = system.details.movementManual || 0;
+    
+    // Mostrar apenas o valor manual
+    field.value = manualValue === 0 ? '' : manualValue;
+    field.dataset.manualValue = manualValue;
+    
+    console.log(`[MOVEMENT FOCUS] Manual: ${manualValue}`);
+    field.select();
+  }
+
+  /**
+   * Handler para quando o usuário sai do campo de movement (blur)
+   * @private
+   */
+  #handleMovementBlur(event) {
+    const field = event.target;
+    const userInput = Number(field.value) || 0;
+    const system = this.actor.system;
+    
+    // Calcular o valor automático baseado na Destreza
+    const dexterity = system.abilities.dexterity.value || 0;
+    const dexterityTotalBonus = system.abilities.dexterity.totalBonus || 0;
+    const totalDexterity = dexterity + dexterityTotalBonus;
+    const dexterityMovement = Math.floor(totalDexterity / 2);
+    
+    // Calcular bônus de armaduras
+    const armorMovementBonus = this.actor._armorMovementBonus || 0;
+    
+    // O valor automático é Destreza + Armaduras
+    const autoValue = dexterityMovement + armorMovementBonus;
+    
+    // O valor total é o automático + o manual
+    const totalValue = autoValue + userInput;
+    
+    // Mostrar o valor total no campo
+    field.value = totalValue;
+    field.dataset.manualValue = userInput;
+    
+    // Salvar o valor manual e o total
+    this.actor.update({
+      'system.details.movementManual': userInput,
+      'system.details.movement': totalValue
+    }).catch(error => {
+      console.error('[CARDIGAN] Erro ao atualizar movement:', error);
+    });
+    
+    console.log(`[MOVEMENT BLUR] Manual: ${userInput}, Auto: ${autoValue} (Dex: ${dexterityMovement} + Armor: ${armorMovementBonus}), Total: ${totalValue}`);
   }
 
   /**

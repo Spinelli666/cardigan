@@ -66,7 +66,9 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       age: new fields.NumberField({ initial: 0, integer: true }),
       race: new fields.StringField({ initial: "" }),
       movement: new fields.NumberField({ initial: 0, integer: true }),
+      movementManual: new fields.NumberField({ initial: 0, integer: true }),
       criticalHit: new fields.NumberField({ initial: 20, integer: true }),
+      criticalHitManual: new fields.NumberField({ initial: 0, integer: true }),
       additionalNotes: new fields.StringField({ initial: "" }), // Campo para notas adicionais como texto simples
       showAdditionalNotes: new fields.BooleanField({ initial: true }), // Controle de exibição das notas
       showEffectsTab: new fields.BooleanField({ initial: true }), // Controle de exibição da seção de efeitos
@@ -179,13 +181,17 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const dexterityTotalBonus = this.abilities?.dexterity?.totalBonus ?? 0;
     const totalDexterity = dexterity + dexterityTotalBonus;
     const dexterityCriticalEffect = Math.floor(totalDexterity / 3); // Crítico: cada 3 pontos
-    this.details.criticalHit = Math.max(1, 20 - dexterityCriticalEffect); // Mínimo de 1
+    const autoValue = Math.max(1, 20 - dexterityCriticalEffect); // Valor automático (mínimo de 1)
+    const manualValue = this.details.criticalHitManual ?? 0; // Valor manual
+    this.details.criticalHit = autoValue + manualValue; // Total = automático + manual
 
     // Calcular movimento baseado na Destreza total (incluindo bônus de armas) + bônus de armaduras
     // Regra: a cada 2 pontos de Destreza = +1 movimento
     const dexterityMovement = Math.floor(totalDexterity / 2);
     const armorMovementBonusTotal = this._armorMovementBonus ?? 0;
-    this.details.movement = dexterityMovement + armorMovementBonusTotal;
+    const autoMovementValue = dexterityMovement + armorMovementBonusTotal; // Valor automático
+    const manualMovementValue = this.details.movementManual ?? 0; // Valor manual
+    this.details.movement = autoMovementValue + manualMovementValue; // Total = automático + manual
 
     // Verificar estado de Hunger e aplicar efeito de exaustão automaticamente
     const hungerLevel = this.status?.hunger ?? 0;
