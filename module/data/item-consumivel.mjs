@@ -164,6 +164,52 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       { initial: [] }
     );
 
+    // Critical hit effects system
+    schema.hasCriticalHitEffects = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasCriticalHitEffects"
+    });
+
+    schema.criticalHitEffects = new fields.ArrayField(
+      new fields.StringField({ required: true, blank: true, initial: "" }),
+      { initial: [] }
+    );
+
+    // Critical hit skill bonus system
+    schema.hasCriticalHitSkillBonus = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasCriticalHitSkillBonus"
+    });
+
+    schema.criticalHitSkillBonus = new fields.ArrayField(
+      new fields.SchemaField({
+        ability: new fields.StringField({
+          required: true,
+          initial: "accuracy",
+          choices: {
+            "accuracy": "CARDIGAN.Ability.Accuracy.long",
+            "evasion": "CARDIGAN.Ability.Evasion.long",
+            "strength": "CARDIGAN.Ability.Strength.long",
+            "dexterity": "CARDIGAN.Ability.Dexterity.long",
+            "stamina": "CARDIGAN.Ability.Stamina.long",
+            "stealth": "CARDIGAN.Ability.Stealth.long",
+            "persuasion": "CARDIGAN.Ability.Persuasion.long",
+            "intelligence": "CARDIGAN.Ability.Intelligence.long",
+            "psionics": "CARDIGAN.Ability.Psionics.long"
+          }
+        }),
+        value: new fields.NumberField({
+          required: true,
+          initial: 1,
+          min: 1,
+          integer: true
+        })
+      }),
+      { initial: [] }
+    );
+
     // Controls whether effects section is enabled
     schema.hasEffects = new fields.BooleanField({
       required: true,

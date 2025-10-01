@@ -303,6 +303,12 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup critical failure skill loss toggle visibility for consumable items
     this._setupCriticalFailureSkillLossToggle();
     
+    // Setup critical hit effects toggle visibility for consumable items
+    this._setupCriticalHitEffectsToggle();
+    
+    // Setup critical hit skill bonus toggle visibility for consumable items
+    this._setupCriticalHitSkillBonusToggle();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -1207,6 +1213,56 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Setup critical hit effects toggle visibility for consumable items
+   * @private
+   */
+  _setupCriticalHitEffectsToggle() {
+    const toggle = this.element.querySelector('[data-critical-hit-effects-toggle]');
+    const criticalHitEffectsSection = this.element.querySelector('[data-critical-hit-effects-section]');
+    
+    if (!toggle || !criticalHitEffectsSection) return;
+    
+    // Add event listener for the toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        criticalHitEffectsSection.classList.remove('hidden');
+      } else {
+        criticalHitEffectsSection.classList.add('hidden');
+      }
+    });
+
+    // Setup add/remove effect buttons
+    this._setupCriticalHitEffectButtons();
+  }
+
+  /**
+   * Setup critical hit skill bonus toggle visibility for consumable items
+   * @private
+   */
+  _setupCriticalHitSkillBonusToggle() {
+    const toggle = this.element.querySelector('[data-critical-hit-skill-bonus-toggle]');
+    const criticalHitSkillBonusSection = this.element.querySelector('[data-critical-hit-skill-bonus-section]');
+    
+    if (!toggle || !criticalHitSkillBonusSection) return;
+    
+    // Add event listener for the toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        criticalHitSkillBonusSection.classList.remove('hidden');
+      } else {
+        criticalHitSkillBonusSection.classList.add('hidden');
+      }
+    });
+
+    // Setup add/remove skill bonus buttons
+    this._setupCriticalHitSkillBonusButtons();
+  }
+
+  /**
    * Setup critical failure effect add/remove buttons
    * @private
    */
@@ -1260,6 +1316,64 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         const currentSkillLoss = this.document.system.criticalFailureSkillLoss || [];
         const newSkillLoss = currentSkillLoss.filter((_, i) => i !== index);
         await this.document.update({ 'system.criticalFailureSkillLoss': newSkillLoss });
+      });
+    });
+  }
+
+  /**
+   * Setup critical hit effect add/remove buttons
+   * @private
+   */
+  _setupCriticalHitEffectButtons() {
+    // Add effect button
+    const addButton = this.element.querySelector('[data-action="addCriticalHitEffect"]');
+    if (addButton) {
+      addButton.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const currentEffects = this.document.system.criticalHitEffects || [];
+        const newEffects = [...currentEffects, ""];
+        await this.document.update({ 'system.criticalHitEffects': newEffects });
+      });
+    }
+
+    // Remove effect buttons
+    const removeButtons = this.element.querySelectorAll('[data-action="removeCriticalHitEffect"]');
+    removeButtons.forEach(button => {
+      button.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const index = parseInt(button.dataset.index);
+        const currentEffects = this.document.system.criticalHitEffects || [];
+        const newEffects = currentEffects.filter((_, i) => i !== index);
+        await this.document.update({ 'system.criticalHitEffects': newEffects });
+      });
+    });
+  }
+
+  /**
+   * Setup critical hit skill bonus add/remove buttons
+   * @private
+   */
+  _setupCriticalHitSkillBonusButtons() {
+    // Add skill bonus button
+    const addButton = this.element.querySelector('[data-action="addCriticalHitSkillBonus"]');
+    if (addButton) {
+      addButton.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const currentSkillBonus = this.document.system.criticalHitSkillBonus || [];
+        const newSkillBonus = [...currentSkillBonus, { ability: "accuracy", value: 1 }];
+        await this.document.update({ 'system.criticalHitSkillBonus': newSkillBonus });
+      });
+    }
+
+    // Remove skill bonus buttons
+    const removeButtons = this.element.querySelectorAll('[data-action="removeCriticalHitSkillBonus"]');
+    removeButtons.forEach(button => {
+      button.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const index = parseInt(button.dataset.index);
+        const currentSkillBonus = this.document.system.criticalHitSkillBonus || [];
+        const newSkillBonus = currentSkillBonus.filter((_, i) => i !== index);
+        await this.document.update({ 'system.criticalHitSkillBonus': newSkillBonus });
       });
     });
   }

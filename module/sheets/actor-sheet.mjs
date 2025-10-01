@@ -274,6 +274,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para campo dinâmico de movement
     this.#addMovementListeners();
     
+    // Adicionar event listeners para campos dinâmicos de bonus
+    this.#addBonusFieldsListeners();
+    
+    // Adicionar event listeners para campos dinâmicos de valores atuais
+    this.#addValueFieldsListeners();
+    
     // Clean up any existing tooltips before setting up new ones
     this.#cleanupTooltips();
     
@@ -2948,26 +2954,36 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Process the consumption of an item and apply effects
+   * Process the consumption of an item and apply effects using tracking system
    * @param {Item} item - The consumable item
    * @param {number} quantity - Quantity to consume
    * @private
    */
   async _processItemConsumption(item, quantity) {
     try {
-      // Get current actor data
-      const actorData = foundry.utils.deepClone(this.document.system);
-      
-      // Process skill check if enabled
+      // Process skill check if enabled and track results
+      let rollResult = null;
       if (item.system.hasSkillCheck && item.system.skillCheckAbility) {
-        await this._processSkillCheck(item);
+        rollResult = await this._processSkillCheck(item);
       }
-      
-      // Process each effect that is marked for apply or remove
-      const effects = item.system.effects || [];
-      const messages = [];
-      let hasChanges = false;
 
+      // Determine roll type for tracking
+      let rollType = 'normal';
+      if (rollResult) {
+        if (rollResult.isCriticalFailure) {
+          rollType = 'critical-failure';
+        } else if (rollResult.isCriticalHit) {
+          rollType = 'critical-hit';
+        }
+      }
+
+      // Collect effects to apply (normal consumption effects)
+      const appliedEffects = [];
+      const appliedSkillBonuses = [];
+      const messages = [];
+
+      // Process normal effects from the item
+      const effects = item.system.effects || [];
       for (const effect of effects) {
         if (!effect.effectId || (!effect.apply && !effect.remove)) continue;
 
@@ -2981,48 +2997,86 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
 
         const effectName = effectDocument.name;
-        
-        // Check if effect already exists in actor's effects
-        const existingEffect = this.document.items.find(i => 
-          i.type === 'efeito' && i.name === effectName
-        );
 
         if (effect.apply) {
+          // Check if effect already exists
+          const existingEffect = this.document.items.find(i => 
+            i.type === 'efeito' && 
+            i.name === effectName &&
+            !i.system.consumableTracking?.isTrackingEffect
+          );
+
           if (existingEffect) {
-            messages.push(`Você consumiu o item, mas o efeito ${effectName} já estava na sua ficha`);
+            messages.push(`Effect ${effectName} was already active`);
           } else {
             // Create new effect on actor
             const effectData = foundry.utils.deepClone(effectDocument.toObject());
             effectData._id = foundry.utils.randomID();
             
             await this.document.createEmbeddedDocuments("Item", [effectData]);
-            messages.push(`Efeito ${effectName} aplicado com sucesso`);
-            hasChanges = true;
+            appliedEffects.push(effect.effectId);
+            messages.push(`Applied effect: ${effectName}`);
           }
         } else if (effect.remove) {
+          // Find and remove effect
+          const existingEffect = this.document.items.find(i => 
+            i.type === 'efeito' && 
+            i.name === effectName &&
+            !i.system.consumableTracking?.isTrackingEffect
+          );
+          
           if (existingEffect) {
             await existingEffect.delete();
-            messages.push(`Efeito ${effectName} removido com sucesso`);
-            hasChanges = true;
+            messages.push(`Removed effect: ${effectName}`);
           } else {
-            messages.push(`Você consumiu o item, mas o efeito ${effectName} já não estava na sua ficha`);
+            messages.push(`Effect ${effectName} was not active`);
           }
         }
+      }
+
+      // If we have a roll result with critical effects, they were already processed
+      // and stored in the rollResult. We need to collect them for tracking.
+      if (rollResult && rollResult.isCriticalFailure) {
+        // Critical failure effects were already processed in _processCriticalFailure
+        // We need to collect what was applied for tracking
+        if (item.system.hasCriticalFailureEffects && item.system.criticalFailureEffects?.length > 0) {
+          appliedEffects.push(...item.system.criticalFailureEffects.filter(id => id && id.trim() !== ""));
+        }
+        if (item.system.hasCriticalFailureSkillLoss && item.system.criticalFailureSkillLoss?.length > 0) {
+          // Convert skill losses to negative bonuses for tracking
+          const skillLosses = item.system.criticalFailureSkillLoss.map(loss => ({
+            ability: loss.ability,
+            value: -loss.value // Store as negative for tracking
+          }));
+          appliedSkillBonuses.push(...skillLosses);
+        }
+      }
+
+      if (rollResult && rollResult.isCriticalHit) {
+        // Critical hit effects were already processed in _processCriticalHit
+        if (item.system.hasCriticalHitEffects && item.system.criticalHitEffects?.length > 0) {
+          appliedEffects.push(...item.system.criticalHitEffects.filter(id => id && id.trim() !== ""));
+        }
+        if (item.system.hasCriticalHitSkillBonus && item.system.criticalHitSkillBonus?.length > 0) {
+          appliedSkillBonuses.push(...item.system.criticalHitSkillBonus);
+        }
+      }
+
+      // Create tracking effect item if there were any effects or bonuses applied
+      if (appliedEffects.length > 0 || appliedSkillBonuses.length > 0) {
+        await this._createTrackingEffectItem(item, rollType, appliedEffects, appliedSkillBonuses);
       }
 
       // Update item quantity or remove if depleted
       const newQuantity = Math.max(0, (item.system.quantity || 0) - quantity);
       
       if (newQuantity <= 0) {
-        // Remove item completely when quantity reaches 0
         await item.delete();
-        hasChanges = true;
       } else {
-        // Update quantity
         await item.update({ "system.quantity": newQuantity });
       }
 
-      // Show success message with all effects processed
+      // Show success message
       const consumeMessage = newQuantity <= 0 
         ? `${item.name} foi consumido completamente (${quantity} unidade(s))`
         : `${item.name} foi consumido (${quantity} unidade(s))`;
@@ -3033,7 +3087,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         ui.notifications.info(`${consumeMessage}.`);
       }
 
-      // Always force re-render after consumption to update inventory display
+      // Force re-render after consumption
       await this.render(false);
 
     } catch (error) {
@@ -3084,6 +3138,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       // Process critical failure effects if applicable
       if (isCriticalFailure) {
         await this._processCriticalFailure(item, roll);
+      }
+      
+      // Process critical hit effects if applicable
+      if (isCriticalHit) {
+        await this._processCriticalHit(item, roll);
       }
       
       // Use Foundry's native roll-to-chat system with colored total
@@ -3298,6 +3357,209 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
     } catch (error) {
       console.error(`Error applying skill loss for ${ability}:`, error);
+    }
+  }
+
+  /**
+   * Process critical hit effects and skill bonuses
+   * @param {Item} item - The item being used
+   * @param {Roll} roll - The successful roll
+   * @private
+   */
+  async _processCriticalHit(item, roll) {
+    try {
+      const criticalHitMessages = [];
+      
+      // Apply critical hit effects
+      if (item.system.hasCriticalHitEffects && item.system.criticalHitEffects?.length > 0) {
+        for (const effectId of item.system.criticalHitEffects) {
+          if (effectId && effectId.trim() !== "") {
+            await this._applyCriticalHitEffect(effectId);
+            
+            // Get effect name for message
+            const effect = game.packs.find(p => p.metadata.id === "cardigan.efeitos-cardigan")?.index.get(effectId);
+            const effectName = effect?.name || effectId;
+            criticalHitMessages.push(`Applied effect: <strong>${effectName}</strong>`);
+          }
+        }
+      }
+      
+      // Apply skill bonuses
+      if (item.system.hasCriticalHitSkillBonus && item.system.criticalHitSkillBonus?.length > 0) {
+        for (const skillBonus of item.system.criticalHitSkillBonus) {
+          if (skillBonus.ability && skillBonus.value > 0) {
+            await this._applyCriticalHitSkillBonus(skillBonus.ability, skillBonus.value);
+            
+            const abilityName = game.i18n.localize(`CARDIGAN.Ability.${skillBonus.ability.charAt(0).toUpperCase() + skillBonus.ability.slice(1)}.long`);
+            criticalHitMessages.push(`Gained <strong>${skillBonus.value}</strong> bonus to <strong>${abilityName}</strong>`);
+          }
+        }
+      }
+      
+      // Send critical hit message to chat if there were any effects
+      if (criticalHitMessages.length > 0) {
+        const messageContent = `
+          <div style="background: rgba(76, 175, 80, 0.1); border: 1px solid #4CAF50; border-radius: 4px; padding: 8px; margin-top: 8px;">
+            <div style="color: #4CAF50; font-weight: bold; margin-bottom: 4px;">
+              <i class="fas fa-star"></i> Critical Hit Effects:
+            </div>
+            <ul style="margin: 0; padding-left: 16px;">
+              ${criticalHitMessages.map(msg => `<li>${msg}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+        
+        await ChatMessage.create({
+          speaker: ChatMessage.getSpeaker({ actor: this.document }),
+          content: messageContent,
+          rollMode: game.settings.get("core", "rollMode")
+        });
+      }
+      
+    } catch (error) {
+      console.error("Error processing critical hit:", error);
+      ui.notifications.warn(`Erro ao processar acerto crítico: ${error.message}`);
+    }
+  }
+
+  /**
+   * Apply a critical hit effect to the actor
+   * @param {string} effectId - The ID of the effect to apply
+   * @private
+   */
+  async _applyCriticalHitEffect(effectId) {
+    try {
+      // Get the effect from the compendium
+      const pack = game.packs.get("cardigan.efeitos-cardigan");
+      if (!pack) {
+        console.warn("Could not find effects compendium");
+        return;
+      }
+      
+      const effectDocument = await pack.getDocument(effectId);
+      if (!effectDocument) {
+        console.warn(`Could not find effect with ID: ${effectId}`);
+        return;
+      }
+      
+      // Create the effect on the actor
+      const effectData = effectDocument.toObject();
+      effectData.origin = `Actor.${this.document.id}`;
+      
+      await this.document.createEmbeddedDocuments("Item", [effectData]);
+      
+    } catch (error) {
+      console.error(`Error applying critical hit effect ${effectId}:`, error);
+    }
+  }
+
+  /**
+   * Apply skill bonus from critical hit
+   * @param {string} ability - The ability to bonus
+   * @param {number} bonusValue - The amount to add
+   * @private
+   */
+  async _applyCriticalHitSkillBonus(ability, bonusValue) {
+    try {
+      const abilityData = this.document.system.abilities[ability];
+      
+      // We need to modify manualBonus, which is part of totalBonus calculation
+      const currentManualBonus = abilityData?.manualBonus || 0;
+      const newManualBonus = currentManualBonus + bonusValue;
+      
+      const updateData = {};
+      updateData[`system.abilities.${ability}.manualBonus`] = newManualBonus;
+      
+      await this.document.update(updateData);
+      
+    } catch (error) {
+      console.error(`Error applying skill bonus for ${ability}:`, error);
+    }
+  }
+
+  /**
+   * Create a tracking effect item for consumed items
+   * @param {Item} originalItem - The original consumed item
+   * @param {string} rollType - Type of roll: 'normal', 'critical-failure', 'critical-hit'
+   * @param {Array} appliedEffects - Array of effect IDs that were applied
+   * @param {Array} appliedSkillBonuses - Array of skill bonuses that were applied
+   * @private
+   */
+  async _createTrackingEffectItem(originalItem, rollType, appliedEffects = [], appliedSkillBonuses = []) {
+    try {
+      // Create descriptive name based on roll type
+      let itemName = originalItem.name;
+      let description = `Effects from consuming ${originalItem.name}`;
+      
+      switch (rollType) {
+        case 'critical-failure':
+          itemName += ' (Critical Failure)';
+          description = `Critical failure effects from consuming ${originalItem.name}`;
+          break;
+        case 'critical-hit':
+          itemName += ' (Critical Hit)';
+          description = `Critical hit effects from consuming ${originalItem.name}`;
+          break;
+        default:
+          itemName += ' (Consumed)';
+          break;
+      }
+
+      // Build description with applied effects
+      const effectDescriptions = [];
+      
+      if (appliedEffects.length > 0) {
+        effectDescriptions.push('<strong>Applied Effects:</strong>');
+        for (const effectId of appliedEffects) {
+          // Try to get effect name from compendium
+          const pack = game.packs.get("cardigan.efeitos-cardigan");
+          if (pack) {
+            const effectDoc = await pack.getDocument(effectId);
+            const effectName = effectDoc?.name || effectId;
+            effectDescriptions.push(`• ${effectName}`);
+          }
+        }
+      }
+
+      if (appliedSkillBonuses.length > 0) {
+        effectDescriptions.push('<strong>Applied Skill Bonuses:</strong>');
+        for (const bonus of appliedSkillBonuses) {
+          const abilityName = game.i18n.localize(`CARDIGAN.Ability.${bonus.ability.charAt(0).toUpperCase() + bonus.ability.slice(1)}.long`);
+          const sign = bonus.value >= 0 ? '+' : '';
+          effectDescriptions.push(`• ${abilityName}: ${sign}${bonus.value}`);
+        }
+      }
+
+      if (effectDescriptions.length > 0) {
+        description += '<br><br>' + effectDescriptions.join('<br>');
+      }
+
+      // Create the tracking effect item
+      const trackingItemData = {
+        name: itemName,
+        type: 'efeito',
+        system: {
+          description: description,
+          efeitoType: 'consumable-tracking',
+          active: true,
+          consumableTracking: {
+            isTrackingEffect: true,
+            originalItemName: originalItem.name,
+            originalItemId: originalItem.id,
+            rollType: rollType,
+            appliedEffects: appliedEffects,
+            appliedSkillBonuses: appliedSkillBonuses,
+          }
+        }
+      };
+
+      // Create the item on the actor
+      const createdItems = await this.document.createEmbeddedDocuments("Item", [trackingItemData]);
+      return createdItems[0];
+
+    } catch (error) {
+      console.error("Error creating tracking effect item:", error);
+      throw error;
     }
   }
 
@@ -4604,6 +4866,168 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     });
     
     console.log(`[MOVEMENT BLUR] Manual: ${userInput}, Auto: ${autoValue} (Dex: ${dexterityMovement} + Armor: ${armorMovementBonus}), Total: ${totalValue}`);
+  }
+
+  /**
+   * Add listeners for bonus fields (health, energy, armor)
+   * @private
+   */
+  #addBonusFieldsListeners() {
+    const bonusFields = [
+      { selector: 'input[name="system.status.healthBonus"].dynamic-field', type: 'healthBonus' },
+      { selector: 'input[name="system.status.energyBonus"].dynamic-field', type: 'energyBonus' },
+      { selector: 'input[name="system.status.armorBonus"].dynamic-field', type: 'armorBonus' }
+    ];
+    
+    bonusFields.forEach(({ selector, type }) => {
+      const field = this.element.querySelector(selector);
+      
+      if (field) {
+        // Event listener para focus (mostrar valor atual)
+        field.addEventListener('focus', (event) => {
+          this.#handleBonusFieldFocus(event, type);
+        });
+        
+        // Event listener para blur (salvar valor)
+        field.addEventListener('blur', (event) => {
+          this.#handleBonusFieldBlur(event, type);
+        });
+      }
+    });
+    
+    console.log('[CARDIGAN] Bonus fields dynamic listeners added');
+  }
+
+  /**
+   * Handler para quando o usuário clica em um campo de bonus (focus)
+   * @private
+   */
+  #handleBonusFieldFocus(event, bonusType) {
+    const field = event.target;
+    const system = this.actor.system;
+    
+    // Para bonus fields, não há valor automático, apenas manual
+    const currentValue = system.status[bonusType] || 0;
+    
+    // Mostrar o valor atual
+    field.value = currentValue === 0 ? '' : currentValue;
+    field.dataset.currentValue = currentValue;
+    
+    console.log(`[${bonusType.toUpperCase()} FOCUS] Current: ${currentValue}`);
+    field.select();
+  }
+
+  /**
+   * Handler para quando o usuário sai de um campo de bonus (blur)
+   * @private
+   */
+  #handleBonusFieldBlur(event, bonusType) {
+    const field = event.target;
+    const userInput = Number(field.value) || 0;
+    
+    // Para bonus fields, o valor final é apenas o que o usuário inseriu
+    field.value = userInput;
+    field.dataset.currentValue = userInput;
+    
+    // Salvar o valor
+    this.actor.update({
+      [`system.status.${bonusType}`]: userInput
+    }).catch(error => {
+      console.error(`[CARDIGAN] Erro ao atualizar ${bonusType}:`, error);
+    });
+    
+    console.log(`[${bonusType.toUpperCase()} BLUR] Value: ${userInput}`);
+  }
+
+  /**
+   * Add listeners for value fields (health, energy, armor current values)
+   * @private
+   */
+  #addValueFieldsListeners() {
+    const valueFields = [
+      { selector: 'input[name="system.health.value"].dynamic-field', type: 'health', path: 'system.health.value' },
+      { selector: 'input[name="system.power.value"].dynamic-field', type: 'power', path: 'system.power.value' },
+      { selector: 'input[name="system.armor.value"].dynamic-field', type: 'armor', path: 'system.armor.value' }
+    ];
+    
+    valueFields.forEach(({ selector, type, path }) => {
+      const field = this.element.querySelector(selector);
+      
+      if (field) {
+        // Event listener para focus (mostrar valor atual)
+        field.addEventListener('focus', (event) => {
+          this.#handleValueFieldFocus(event, type, path);
+        });
+        
+        // Event listener para blur (salvar valor)
+        field.addEventListener('blur', (event) => {
+          this.#handleValueFieldBlur(event, type, path);
+        });
+      }
+    });
+    
+    console.log('[CARDIGAN] Value fields dynamic listeners added');
+  }
+
+  /**
+   * Handler para quando o usuário clica em um campo de valor (focus)
+   * @private
+   */
+  #handleValueFieldFocus(event, valueType, valuePath) {
+    const field = event.target;
+    const system = this.actor.system;
+    
+    // Para value fields, obter valor atual baseado no path
+    const pathParts = valuePath.split('.');
+    let currentValue = system;
+    for (let i = 1; i < pathParts.length; i++) { // Pula 'system'
+      currentValue = currentValue[pathParts[i]];
+    }
+    
+    // Mostrar o valor atual
+    field.value = currentValue === 0 ? '' : currentValue;
+    field.dataset.currentValue = currentValue;
+    
+    console.log(`[${valueType.toUpperCase()} VALUE FOCUS] Current: ${currentValue}`);
+    field.select();
+  }
+
+  /**
+   * Handler para quando o usuário sai de um campo de valor (blur)
+   * @private
+   */
+  #handleValueFieldBlur(event, valueType, valuePath) {
+    const field = event.target;
+    const userInput = Number(field.value) || 0;
+    const system = this.actor.system;
+    
+    // Obter valor máximo para validação
+    const pathParts = valuePath.split('.');
+    const resourceType = pathParts[pathParts.length - 2]; // 'health', 'power', ou 'armor'
+    const maxValue = system[resourceType].max;
+    
+    // Garantir que o valor não exceda o máximo
+    const finalValue = Math.min(userInput, maxValue);
+    
+    // Se o valor foi ajustado, mostrar o valor final
+    if (finalValue !== userInput) {
+      field.value = finalValue;
+      console.warn(`[${valueType.toUpperCase()} VALUE] Value ${userInput} capped to max ${maxValue}`);
+    } else {
+      field.value = finalValue;
+    }
+    
+    field.dataset.currentValue = finalValue;
+    
+    // Salvar o valor
+    const updateData = {};
+    updateData[valuePath] = finalValue;
+    
+    this.actor.update(updateData).catch(error => {
+      console.error(`[CARDIGAN] Erro ao atualizar ${valuePath}:`, error);
+    });
+    
+    console.log(`[${valueType.toUpperCase()} VALUE BLUR] Value: ${finalValue}${finalValue !== userInput ? ` (capped from ${userInput})` : ''}`);
   }
 
   /**

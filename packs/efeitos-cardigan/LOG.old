@@ -1,8 +1,8 @@
-2025/10/01-10:41:51.788823 7728fc16c6c0 Recovering log #591
-2025/10/01-10:41:51.858880 7728fc16c6c0 Delete type=3 #589
-2025/10/01-10:41:51.858968 7728fc16c6c0 Delete type=0 #591
-2025/10/01-10:49:25.963207 7728edbd66c0 Level-0 table #596: started
-2025/10/01-10:49:25.963406 7728edbd66c0 Level-0 table #596: 0 bytes OK
-2025/10/01-10:49:26.369271 7728edbd66c0 Delete type=0 #594
-2025/10/01-10:49:27.195825 7728edbd66c0 Manual compaction at level-0 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items.effects!bB3cCd4eEf5fF6gG.TQyVysQo2WUl6YXZ' @ 0 : 0; will stop at (end)
-2025/10/01-10:49:27.251196 7728edbd66c0 Manual compaction at level-1 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items.effects!bB3cCd4eEf5fF6gG.TQyVysQo2WUl6YXZ' @ 0 : 0; will stop at (end)
+2025/10/01-19:21:41.872777 7d99277ef6c0 Recovering log #631
+2025/10/01-19:21:41.952732 7d99277ef6c0 Delete type=0 #631
+2025/10/01-19:21:41.952769 7d99277ef6c0 Delete type=3 #629
+2025/10/01-19:38:04.983083 7d991cbff6c0 Level-0 table #636: started
+2025/10/01-19:38:04.983261 7d991cbff6c0 Level-0 table #636: 0 bytes OK
+2025/10/01-19:38:05.017428 7d991cbff6c0 Delete type=0 #634
+2025/10/01-19:38:05.150135 7d991cbff6c0 Manual compaction at level-0 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items.effects!bB3cCd4eEf5fF6gG.TQyVysQo2WUl6YXZ' @ 0 : 0; will stop at (end)
+2025/10/01-19:38:05.208737 7d991cbff6c0 Manual compaction at level-1 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items.effects!bB3cCd4eEf5fF6gG.TQyVysQo2WUl6YXZ' @ 0 : 0; will stop at (end)

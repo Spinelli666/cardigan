@@ -13,6 +13,119 @@ export class CardiganSystemItem extends Item {
   }
 
   /**
+   * Perform preliminary operations before an Item document is deleted.
+   * @param {object} options - Additional options which modify the deletion request
+   * @param {User} user      - The User requesting the document deletion
+   * @returns {boolean|void} - Explicitly return false to prevent the deletion
+   * @override
+   */
+  async _preDelete(options, user) {
+    await super._preDelete(options, user);
+    
+    // If this is a tracking effect item, revert its effects
+    if (this.type === 'efeito' && this.system.consumableTracking?.isTrackingEffect) {
+      await this._revertTrackingEffects();
+    }
+  }
+
+  /**
+   * Revert all effects applied by a tracking effect item
+   * @private
+   */
+  async _revertTrackingEffects() {
+    try {
+      if (!this.actor) {
+        console.warn("Cannot revert tracking effects: item has no parent actor");
+        return;
+      }
+
+      const tracking = this.system.consumableTracking;
+      const revertMessages = [];
+
+      // Revert applied effects (remove them from actor)
+      if (tracking.appliedEffects && tracking.appliedEffects.length > 0) {
+        for (const effectId of tracking.appliedEffects) {
+          // Find and remove effect from actor
+          const pack = game.packs.get("cardigan.efeitos-cardigan");
+          if (pack) {
+            const effectDoc = await pack.getDocument(effectId);
+            if (effectDoc) {
+              const existingEffect = this.actor.items.find(i => 
+                i.type === 'efeito' && 
+                i.name === effectDoc.name && 
+                i.id !== this.id // Don't remove the tracking item itself
+              );
+              
+              if (existingEffect) {
+                await existingEffect.delete();
+                revertMessages.push(`Removed effect: <strong>${effectDoc.name}</strong>`);
+              }
+            }
+          }
+        }
+      }
+
+      // Revert applied skill bonuses/penalties
+      if (tracking.appliedSkillBonuses && tracking.appliedSkillBonuses.length > 0) {
+        const updateData = {};
+        
+        for (const bonus of tracking.appliedSkillBonuses) {
+          const abilityData = this.actor.system.abilities[bonus.ability];
+          if (abilityData) {
+            // Determine if this is a penalty (negative) or bonus (positive)
+            if (bonus.value < 0) {
+              // This is a penalty (Critical Failure Skill Loss)
+              // Revert by adding back to manualValue (base value)
+              const currentManualValue = abilityData.manualValue || 0;
+              const newManualValue = currentManualValue - bonus.value; // Double negative = positive
+              updateData[`system.abilities.${bonus.ability}.manualValue`] = newManualValue;
+            } else {
+              // This is a bonus (Critical Hit Skill Bonus)
+              // Revert by subtracting from manualBonus
+              const currentManualBonus = abilityData.manualBonus || 0;
+              const newManualBonus = currentManualBonus - bonus.value;
+              updateData[`system.abilities.${bonus.ability}.manualBonus`] = newManualBonus;
+            }
+            
+            const abilityName = game.i18n.localize(`CARDIGAN.Ability.${bonus.ability.charAt(0).toUpperCase() + bonus.ability.slice(1)}.long`);
+            const sign = bonus.value >= 0 ? '' : '+';
+            const revertValue = -bonus.value;
+            revertMessages.push(`${abilityName}: ${sign}${revertValue}`);
+          }
+        }
+        
+        if (Object.keys(updateData).length > 0) {
+          await this.actor.update(updateData);
+        }
+      }
+
+      // Send revert message to chat
+      if (revertMessages.length > 0) {
+        const messageContent = `
+          <div style="background: rgba(156, 39, 176, 0.1); border: 1px solid #9C27B0; border-radius: 4px; padding: 8px; margin-top: 8px;">
+            <div style="color: #9C27B0; font-weight: bold; margin-bottom: 4px;">
+              <i class="fas fa-undo"></i> Effects Reverted from ${tracking.originalItemName}:
+            </div>
+            <ul style="margin: 0; padding-left: 16px;">
+              ${revertMessages.map(msg => `<li>${msg}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+        
+        await ChatMessage.create({
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          content: messageContent,
+          rollMode: game.settings.get("core", "rollMode")
+        });
+      }
+
+    } catch (error) {
+      console.error("Error reverting tracking effects:", error);
+      ui.notifications.warn(`Erro ao reverter efeitos: ${error.message}`);
+    }
+  }
+
+  /**
    * Perform preliminary operations before an Item document is updated.
    * @param {object} changed - The differential data that is changed relative to the documents prior values
    * @param {object} options - Additional options which modify the update request

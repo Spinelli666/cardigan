@@ -125,6 +125,96 @@
         {{/unless}}
       </div>
     </div>
+
+    {{! Critical Hit Effects System }}
+    <div class="critical-hit-effects-toggle">
+      <label class="checkbox-label">
+        <input type="checkbox" name="system.hasCriticalHitEffects" {{checked item.system.hasCriticalHitEffects}} data-dtype="Boolean" data-critical-hit-effects-toggle />
+        {{localize "CARDIGAN.ItemConsumivel.HasCriticalHitEffects"}}
+      </label>
+    </div>
+
+    <div class="critical-hit-effects-system {{#unless item.system.hasCriticalHitEffects}}hidden{{/unless}}" data-critical-hit-effects-section>
+      <div class="form-group critical-hit-effects">
+        <div class="critical-hit-effects-header">
+          <label>{{localize "CARDIGAN.ItemConsumivel.CriticalHitEffects"}}</label>
+          <button type="button" class="add-critical-hit-effect-btn" data-action="addCriticalHitEffect" title="{{localize 'CARDIGAN.ItemConsumivel.AddCriticalHitEffect'}}">+</button>
+        </div>
+        
+        <div class="critical-hit-effects-list" data-critical-hit-effects-container>
+          {{#each item.system.criticalHitEffects as |effectId index|}}
+            <div class="critical-hit-effect-row" data-critical-hit-effect-index="{{index}}">
+              <select name="system.criticalHitEffects.{{index}}" data-critical-hit-effect-select>
+                <option value="">{{localize "CARDIGAN.SelectEffect"}}</option>
+                {{#each @root.availableEffects as |availableEffect|}}
+                  <option value="{{availableEffect.id}}" {{#if (eq effectId availableEffect.id)}}selected{{/if}}>
+                    {{availableEffect.name}}
+                  </option>
+                {{/each}}
+              </select>
+              <button type="button" class="remove-critical-hit-effect-btn" data-action="removeCriticalHitEffect" data-index="{{index}}" title="{{localize 'CARDIGAN.ItemConsumivel.RemoveCriticalHitEffect'}}">−</button>
+            </div>
+          {{/each}}
+        </div>
+        
+        {{#unless item.system.criticalHitEffects.length}}
+          <div class="no-critical-hit-effects-message">
+            {{localize "CARDIGAN.NoEffectsAdded"}}
+          </div>
+        {{/unless}}
+      </div>
+    </div>
+
+    {{! Critical Hit Skill Bonus System }}
+    <div class="critical-hit-skill-bonus-toggle">
+      <label class="checkbox-label">
+        <input type="checkbox" name="system.hasCriticalHitSkillBonus" {{checked item.system.hasCriticalHitSkillBonus}} data-dtype="Boolean" data-critical-hit-skill-bonus-toggle />
+        {{localize "CARDIGAN.ItemConsumivel.HasCriticalHitSkillBonus"}}
+      </label>
+    </div>
+
+    <div class="critical-hit-skill-bonus-system {{#unless item.system.hasCriticalHitSkillBonus}}hidden{{/unless}}" data-critical-hit-skill-bonus-section>
+      <div class="form-group critical-hit-skill-bonus">
+        <div class="critical-hit-skill-bonus-header">
+          <label>{{localize "CARDIGAN.ItemConsumivel.CriticalHitSkillBonus"}}</label>
+          <button type="button" class="add-critical-hit-skill-bonus-btn" data-action="addCriticalHitSkillBonus" title="{{localize 'CARDIGAN.ItemConsumivel.AddCriticalHitSkillBonus'}}">+</button>
+        </div>
+        
+        <div class="critical-hit-skill-bonus-list" data-critical-hit-skill-bonus-container>
+          {{#each item.system.criticalHitSkillBonus as |skillBonus index|}}
+            <div class="critical-hit-skill-bonus-row" data-critical-hit-skill-bonus-index="{{index}}">
+              <div class="skill-bonus-controls">
+                <div class="skill-bonus-ability">
+                  <label>{{localize "CARDIGAN.ItemConsumivel.CriticalHitSkillBonusAbility"}}</label>
+                  <select name="system.criticalHitSkillBonus.{{index}}.ability" data-critical-hit-skill-bonus-ability-select>
+                    <option value="accuracy" {{#if (eq skillBonus.ability "accuracy")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Accuracy.long"}}</option>
+                    <option value="evasion" {{#if (eq skillBonus.ability "evasion")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Evasion.long"}}</option>
+                    <option value="strength" {{#if (eq skillBonus.ability "strength")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Strength.long"}}</option>
+                    <option value="dexterity" {{#if (eq skillBonus.ability "dexterity")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Dexterity.long"}}</option>
+                    <option value="stamina" {{#if (eq skillBonus.ability "stamina")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Stamina.long"}}</option>
+                    <option value="stealth" {{#if (eq skillBonus.ability "stealth")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Stealth.long"}}</option>
+                    <option value="persuasion" {{#if (eq skillBonus.ability "persuasion")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Persuasion.long"}}</option>
+                    <option value="intelligence" {{#if (eq skillBonus.ability "intelligence")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Intelligence.long"}}</option>
+                    <option value="psionics" {{#if (eq skillBonus.ability "psionics")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Psionics.long"}}</option>
+                  </select>
+                </div>
+                <div class="skill-bonus-value">
+                  <label>{{localize "CARDIGAN.ItemConsumivel.CriticalHitSkillBonusValue"}}</label>
+                  <input type="number" name="system.criticalHitSkillBonus.{{index}}.value" value="{{skillBonus.value}}" min="1" data-dtype="Number" />
+                </div>
+              </div>
+              <button type="button" class="remove-critical-hit-skill-bonus-btn" data-action="removeCriticalHitSkillBonus" data-index="{{index}}" title="{{localize 'CARDIGAN.ItemConsumivel.RemoveCriticalHitSkillBonus'}}">−</button>
+            </div>
+          {{/each}}
+        </div>
+        
+        {{#unless item.system.criticalHitSkillBonus.length}}
+          <div class="no-critical-hit-skill-bonus-message">
+            {{localize "CARDIGAN.NoSkillBonusAdded"}}
+          </div>
+        {{/unless}}
+      </div>
+    </div>
   </div>
 
   {{! Checkbox to control effects visibility }}

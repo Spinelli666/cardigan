@@ -34,6 +34,40 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
       initial: false,
     });
 
+    // Tracking system for consumable items
+    schema.consumableTracking = new fields.SchemaField({
+      isTrackingEffect: new fields.BooleanField({
+        required: false,
+        initial: false,
+      }),
+      originalItemName: new fields.StringField({
+        required: false,
+        blank: true,
+        initial: '',
+      }),
+      originalItemId: new fields.StringField({
+        required: false,
+        blank: true,
+        initial: '',
+      }),
+      rollType: new fields.StringField({
+        required: false,
+        blank: true,
+        initial: 'normal', // 'normal', 'critical-failure', 'critical-hit'
+      }),
+      appliedEffects: new fields.ArrayField(
+        new fields.StringField({ required: false, blank: true }),
+        { required: false, initial: [] }
+      ),
+      appliedSkillBonuses: new fields.ArrayField(
+        new fields.SchemaField({
+          ability: new fields.StringField({ required: false, blank: true }),
+          value: new fields.NumberField({ required: false, integer: true, initial: 0 }),
+        }),
+        { required: false, initial: [] }
+      ),
+    });
+
     return schema;
   }
 }
