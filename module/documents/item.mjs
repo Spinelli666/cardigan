@@ -133,14 +133,79 @@ export class CardiganSystemItem extends Item {
 
       // Invoke the roll and submit it to chat.
       const roll = new Roll(rollData.formula, rollData.actor);
-      // If you need to store the value first, uncomment the next line.
-      // const result = await roll.evaluate();
+      
+      // Evaluate the roll to get the result
+      await roll.evaluate();
+      
+      // Detect critical results manually (same logic as in actor-sheet)
+      const flags = this._detectCriticalResults(roll, this.actor, null);
+      
       roll.toMessage({
         speaker: speaker,
         rollMode: rollMode,
         flavor: label,
+        flags: flags
       });
       return roll;
+    }
+  }
+
+  /**
+   * Detect critical results from a roll and return appropriate flags
+   * @param {Roll} roll - The roll to analyze
+   * @param {Object} actor - The actor who made the roll (optional, used for critical hit threshold)
+   * @param {string} abilityKey - The ability key being rolled (optional, used for accuracy-specific logic)
+   * @returns {Object} - Flags object for critical hit/failure, empty if no critical
+   */
+  _detectCriticalResults(roll, actor = null, abilityKey = null) {
+    if (!roll || !roll.dice || roll.dice.length === 0) return {};
+
+    try {
+      // Evaluate the roll if not already evaluated
+      if (!roll._evaluated) {
+        roll.evaluate({ async: false });
+      }
+
+      const flags = {};
+      
+      // Check for critical failure (total ≤ 1 or natural 1)
+      if (roll.total <= 1) {
+        flags.criticalFailure = true;
+        return { cardigan: flags };
+      }
+
+      // Check for natural 1 on d20
+      const d20Die = roll.dice.find(die => die.faces === 20);
+      if (d20Die && d20Die.results && d20Die.results.length > 0) {
+        const hasNaturalOne = d20Die.results.some(result => result?.result === 1);
+        if (hasNaturalOne) {
+          flags.criticalFailure = true;
+          return { cardigan: flags };
+        }
+      }
+
+      // Check for critical hit - different logic for accuracy vs other rolls
+      if (d20Die && d20Die.results && d20Die.results.length > 0) {
+        // For accuracy rolls, use actor's criticalHit threshold
+        if (abilityKey === 'accuracy' && actor && actor.system?.details?.criticalHit) {
+          const criticalThreshold = actor.system.details.criticalHit;
+          if (roll.total >= criticalThreshold) {
+            flags.criticalHit = true;
+            return { cardigan: flags };
+          }
+        }
+        // For all other rolls, critical hit when total is 20 or higher
+        else if (roll.total >= 20) {
+          flags.criticalHit = true;
+          return { cardigan: flags };
+        }
+      }
+
+      return {};
+
+    } catch (error) {
+      console.warn("Error detecting critical results:", error);
+      return {};
     }
   }
 }

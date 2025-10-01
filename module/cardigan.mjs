@@ -263,6 +263,24 @@ Handlebars.registerHelper('truncate', function(str, length) {
 Hooks.once('ready', function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => createDocMacro(data, slot));
+  
+  // Hook to color roll totals based on critical success/failure
+  Hooks.on('renderChatMessageHTML', (chatMessage, html) => {
+    // Only process roll messages with our flags
+    const flags = chatMessage.flags?.cardigan;
+    if (!flags || (!flags.criticalHit && !flags.criticalFailure && !flags.isCriticalHit && !flags.isCriticalFailure)) return;
+    
+    // Find the roll total element (html is now HTMLElement, not jQuery)
+    const rollTotal = html.querySelector('.dice-total');
+    if (!rollTotal) return;
+    
+    // Apply colors based on critical type (checking both old and new flag formats)
+    if (flags.criticalHit || flags.isCriticalHit) {
+      rollTotal.style.color = '#4CAF50'; // Green for critical hit
+    } else if (flags.criticalFailure || flags.isCriticalFailure) {
+      rollTotal.style.color = '#f44336'; // Red for critical failure
+    }
+  });
 });
 
 /* -------------------------------------------- */

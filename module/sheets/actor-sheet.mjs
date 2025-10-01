@@ -762,11 +762,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         // Evaluate the roll
         await roll.evaluate();
         
+        // Detect critical results, passing the ability key if available
+        const abilityKey = dataset.key || null;
+        const flags = this.constructor._detectCriticalResults(roll, this.document, abilityKey);
+        
         // Send to chat
         const message = await roll.toMessage({
           speaker: ChatMessage.getSpeaker({ actor: this.document }),
           flavor: label,
           rollMode: game.settings.get('core', 'rollMode'),
+          flags: flags
         });
         
         return roll;
@@ -854,11 +859,15 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         await this.document.update(updateData);
       }
       
+      // Detect critical results
+      const flags = this.constructor._detectCriticalResults(roll, this.document, null);
+      
       // Send to chat
       const chatMessage = await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.document }),
         flavor: flavorMessage,
         rollMode: game.settings.get('core', 'rollMode'),
+        flags: flags
       });
       
       return roll;
@@ -2517,17 +2526,53 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Criar flavor text personalizado
     const flavor = `${game.i18n.localize("CARDIGAN.AttackWith")} ${item.name}`;
 
+    // Detect critical results - use accuracy logic for weapon attacks
+    const flags = this.constructor._detectCriticalResults(roll, actor, 'accuracy');
+
+    // Check for critical results
+    const isCriticalHit = flags.cardigan?.criticalHit || false;
+    const isCriticalFailure = flags.cardigan?.criticalFailure || false;
+    let finalDamage = totalDamage;
+    let criticalMessage = '';
+    
+    // Handle critical hit - double damage
+    if (isCriticalHit) {
+      finalDamage = totalDamage * 2;
+      criticalMessage = `<div style="text-align: center; margin-top: 4px; color: #4CAF50; font-weight: bold;">
+        <i class="fas fa-star"></i> ${game.i18n.localize("CARDIGAN.CriticalHitDamageDoubled") || "CRITICAL HIT! Damage doubled!"}
+      </div>`;
+    }
+    
+    // Handle critical failure - reduce durability
+    if (isCriticalFailure) {
+      const currentDurability = item.system.durability.current;
+      if (currentDurability > 0) {
+        const newDurability = Math.max(0, currentDurability - 1);
+        await item.update({
+          'system.durability.current': newDurability
+        });
+        
+        criticalMessage = `<div style="text-align: center; margin-top: 4px; color: #f44336; font-weight: bold;">
+          <i class="fas fa-exclamation-triangle"></i> ${game.i18n.localize("CARDIGAN.CriticalFailureDurabilityLoss") || "CRITICAL FAILURE! Weapon durability reduced!"}
+        </div>
+        <div style="text-align: center; margin-top: 2px; font-size: 12px; color: #666;">
+          ${game.i18n.localize("CARDIGAN.DurabilityReduced") || "Durability:"} ${currentDurability} → ${newDurability}
+        </div>`;
+      }
+    }
+
     // Enviar rolagem para o chat usando o método padrão do FoundryVTT
     const chatMessage = await roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor }),
       flavor: flavor,
-      rollMode: game.settings.get('core', 'rollMode')
+      rollMode: game.settings.get('core', 'rollMode'),
+      flags: flags
     });
 
     // Criar conteúdo adicional para mostrar o dano total
     let additionalContent = `<div style="text-align: center; margin-top: 8px; padding: 4px 8px; background: rgba(0,0,0,0.1); border-radius: 3px;">
-      <strong>${game.i18n.localize("CARDIGAN.DamageTotal")}: ${totalDamage}</strong>
-    </div>`;
+      <strong>${game.i18n.localize("CARDIGAN.DamageTotal")}: ${finalDamage}${isCriticalHit ? ` (${totalDamage} x2)` : ''}</strong>
+    </div>${criticalMessage}`;
 
     // Adicionar informação de munição se aplicável
     if (item.system.ranged && item.system.isFirearm) {
@@ -3013,21 +3058,33 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       // Check for critical failure (natural 1 on any d20)
       const isCriticalFailure = this._checkCriticalFailure(roll, hasAdvantage);
       
+      // Check for critical hit (for all ability rolls)
+      const isCriticalHit = this._checkCriticalHit(roll, hasAdvantage);
+      
       // Process critical failure effects if applicable
       if (isCriticalFailure) {
         await this._processCriticalFailure(item, roll);
       }
       
-      // Use Foundry's native roll-to-chat system
-      await roll.toMessage({
+      // Use Foundry's native roll-to-chat system with colored total
+      const rollData = {
         speaker: ChatMessage.getSpeaker({ actor: this.document }),
         flavor: `<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
                    <i class="fas fa-dice-d20" style="color: #2196F3;"></i>
                    <strong>${flavorText}</strong>
+                   ${isCriticalHit ? '<span style="color: #4CAF50; font-weight: bold; margin-left: 8px;">[CRITICAL HIT]</span>' : ''}
                    ${isCriticalFailure ? '<span style="color: #FF5722; font-weight: bold; margin-left: 8px;">[CRITICAL FAILURE]</span>' : ''}
                  </div>`,
-        rollMode: game.settings.get("core", "rollMode")
-      });
+        rollMode: game.settings.get("core", "rollMode"),
+        flags: {
+          cardigan: {
+            isCriticalHit: isCriticalHit,
+            isCriticalFailure: isCriticalFailure
+          }
+        }
+      };
+      
+      await roll.toMessage(rollData);
 
       return {
         roll: roll,
@@ -3035,7 +3092,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         formula: rollFormula,
         ability: ability,
         hasAdvantage: hasAdvantage,
-        isCriticalFailure: isCriticalFailure
+        isCriticalFailure: isCriticalFailure,
+        isCriticalHit: isCriticalHit
       };
 
     } catch (error) {
@@ -3079,6 +3137,29 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     } catch (error) {
       console.warn("Error checking critical failure:", error);
+      return false;
+    }
+  }
+
+  /**
+   * Check if a roll resulted in a critical hit (for all abilities)
+   * @param {Roll} roll - The roll to check
+   * @param {boolean} hasAdvantage - Whether the roll had advantage
+   * @returns {boolean} Whether the roll is a critical hit
+   * @private
+   */
+  _checkCriticalHit(roll, hasAdvantage) {
+    try {
+      if (!roll || !roll.dice || roll.dice.length === 0) return false;
+      
+      // Find the d20 die in the roll
+      const d20Die = roll.dice.find(die => die.faces === 20);
+      if (!d20Die || !d20Die.results || d20Die.results.length === 0) return false;
+      
+      // Critical hit when total roll is 20 or higher
+      return roll.total >= 20;
+    } catch (error) {
+      console.warn("Error checking critical hit:", error);
       return false;
     }
   }
@@ -3184,24 +3265,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   async _applyCriticalFailureSkillLoss(ability, lossValue) {
     try {
-      console.log(`Applying skill loss: ${ability} -${lossValue}`);
-      
       const abilityData = this.document.system.abilities[ability];
-      console.log(`Current ${ability} data:`, abilityData);
       
       // We need to modify manualValue, not value (which is calculated)
       const currentManualValue = abilityData?.manualValue || 0;
       const newManualValue = currentManualValue - lossValue; // Can go negative as penalties
       
-      console.log(`${ability} manualValue: ${currentManualValue} -> ${newManualValue}`);
-      
       const updateData = {};
       updateData[`system.abilities.${ability}.manualValue`] = newManualValue;
       
-      console.log(`Update data:`, updateData);
-      
-      const result = await this.document.update(updateData);
-      console.log(`Update result:`, result);
+      await this.document.update(updateData);
       
     } catch (error) {
       console.error(`Error applying skill loss for ${ability}:`, error);
@@ -4484,6 +4557,65 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     } catch (error) {
       console.error("[RECIPES] Error cooking recipe:", error);
       ui.notifications.error("Error cooking recipe. Please try again.");
+    }
+  }
+
+  /**
+   * Detect critical results from a roll and return appropriate flags
+   * @param {Roll} roll - The roll to analyze
+   * @param {Object} actor - The actor who made the roll (optional, used for critical hit threshold)
+   * @param {string} abilityKey - The ability key being rolled (optional, used for accuracy-specific logic)
+   * @returns {Object} - Flags object for critical hit/failure, empty if no critical
+   */
+  static _detectCriticalResults(roll, actor = null, abilityKey = null) {
+    if (!roll || !roll.dice || roll.dice.length === 0) return {};
+
+    try {
+      // Evaluate the roll if not already evaluated
+      if (!roll._evaluated) {
+        roll.evaluate({ async: false });
+      }
+
+      const flags = {};
+      
+      // Check for critical failure (total ≤ 1 or natural 1)
+      if (roll.total <= 1) {
+        flags.criticalFailure = true;
+        return { cardigan: flags };
+      }
+
+      // Check for natural 1 on d20
+      const d20Die = roll.dice.find(die => die.faces === 20);
+      if (d20Die && d20Die.results && d20Die.results.length > 0) {
+        const hasNaturalOne = d20Die.results.some(result => result?.result === 1);
+        if (hasNaturalOne) {
+          flags.criticalFailure = true;
+          return { cardigan: flags };
+        }
+      }
+
+      // Check for critical hit - different logic for accuracy vs other rolls
+      if (d20Die && d20Die.results && d20Die.results.length > 0) {
+        // For accuracy rolls, use actor's criticalHit threshold
+        if (abilityKey === 'accuracy' && actor && actor.system?.details?.criticalHit) {
+          const criticalThreshold = actor.system.details.criticalHit;
+          if (roll.total >= criticalThreshold) {
+            flags.criticalHit = true;
+            return { cardigan: flags };
+          }
+        }
+        // For all other rolls, critical hit when total is 20 or higher
+        else if (roll.total >= 20) {
+          flags.criticalHit = true;
+          return { cardigan: flags };
+        }
+      }
+
+      return {};
+
+    } catch (error) {
+      console.warn("Error detecting critical results:", error);
+      return {};
     }
   }
 }
