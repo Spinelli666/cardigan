@@ -565,6 +565,8 @@
       "EnergyModifierDoubleSkill": "Double?",
       "EnergyModifierIsTemporary": "Is Temporary Energy Point?",
       "EnergyModifierAdditionalBonus": "Additional Bonus Choice",
+      "HasArmorBonus": "Temporary Armor Bonus?",
+      "ArmorBonusAmount": "How Much?",
       "HasEffects": "Does it grant any Effect?"
     },
     "NoSkillLossAdded": "No skill loss configured",

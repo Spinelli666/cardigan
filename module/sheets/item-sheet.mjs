@@ -318,6 +318,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup energy modifier toggle visibility for consumable items
     this._setupEnergyModifierToggle();
     
+    // Setup armor bonus toggle visibility for consumable items  
+    this._setupArmorBonusToggle();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -1531,6 +1534,28 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         skillSection.classList.remove('hidden');
       } else {
         skillSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup armor bonus toggle visibility for consumable items
+   * @private
+   */
+  _setupArmorBonusToggle() {
+    const toggle = this.element.querySelector('[data-armor-bonus-toggle]');
+    const armorBonusSection = this.element.querySelector('[data-armor-bonus-section]');
+    
+    if (!toggle || !armorBonusSection) return;
+    
+    // Add event listener for the toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        armorBonusSection.classList.remove('hidden');
+      } else {
+        armorBonusSection.classList.add('hidden');
       }
     });
   }

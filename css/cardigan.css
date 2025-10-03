@@ -5439,6 +5439,74 @@
 .cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-temporary-toggle .checkbox-label:hover {
   color: #f5f5dc;
 }
+.cardigan .tab.modifiers .armor-bonus-toggle {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+}
+.cardigan .tab.modifiers .armor-bonus-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--cardigan-c-beige);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .armor-bonus-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.2);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .armor-bonus-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .armor-bonus-system {
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.2);
+}
+.cardigan .tab.modifiers .armor-bonus-system.hidden {
+  display: none;
+}
+.cardigan .tab.modifiers .armor-bonus-system .form-group {
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .armor-bonus-system .form-group:last-child {
+  margin-bottom: 0;
+}
+.cardigan .tab.modifiers .armor-bonus-system .form-group label {
+  display: block;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.cardigan .tab.modifiers .armor-bonus-system .form-group input[type=number] {
+  width: 100%;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+  border-radius: 4px;
+  color: var(--cardigan-c-beige);
+  font-size: 1rem;
+}
+.cardigan .tab.modifiers .armor-bonus-system .form-group input[type=number]:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .armor-bonus-system .form-group input[type=number]:hover {
+  border-color: rgba(var(--cardigan-c-beige), 0.5);
+}
 .cardigan {
   /* ===== RECIPES TABLE STYLES ===== */
 }

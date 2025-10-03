@@ -440,6 +440,21 @@
     </div>
   </div>
 
+  {{! Armor Bonus System - Temporary Armor Bonus? }}
+  <div class="armor-bonus-toggle">
+    <label class="checkbox-label">
+      <input type="checkbox" name="system.hasArmorBonus" {{checked item.system.hasArmorBonus}} data-dtype="Boolean" data-armor-bonus-toggle />
+      {{localize "CARDIGAN.ItemConsumivel.HasArmorBonus"}}
+    </label>
+  </div>
+
+  <div class="armor-bonus-system {{#unless item.system.hasArmorBonus}}hidden{{/unless}}" data-armor-bonus-section>
+    <div class="form-group armor-bonus-amount">
+      <label for="system.armorBonusAmount">{{localize "CARDIGAN.ItemConsumivel.ArmorBonusAmount"}}</label>
+      <input type="number" name="system.armorBonusAmount" value="{{item.system.armorBonusAmount}}" data-dtype="Number" min="0" max="99" />
+    </div>
+  </div>
+
   {{! Checkbox to control effects visibility }}
   <div class="effects-toggle">
     <label class="checkbox-label">

@@ -413,6 +413,21 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       label: "CARDIGAN.ItemConsumivel.EnergyModifierAdditionalBonus"
     });
 
+    // Armor Bonus System - Temporary Armor Bonus?
+    schema.hasArmorBonus = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasArmorBonus"
+    });
+
+    schema.armorBonusAmount = new fields.NumberField({
+      required: false,
+      initial: 0,
+      min: 0,
+      integer: true,
+      label: "CARDIGAN.ItemConsumivel.ArmorBonusAmount"
+    });
+
     // Controls whether effects section is enabled
     schema.hasEffects = new fields.BooleanField({
       required: true,

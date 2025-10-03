@@ -724,6 +724,35 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           previousBonus: currentEnergyBonus,
           newBonus: newEnergyBonus
         });
+      } else if (doc.type === "efeito" && doc.system.isTemporaryArmor && doc.system.armorBonusValue) {
+        console.log("[TEMPORARY ARMOR] Removing armor bonus on effect deletion via _deleteDoc:", {
+          effectName: doc.name,
+          bonusToRemove: doc.system.armorBonusValue
+        });
+        
+        // Get the actor from the document
+        const actor = doc.parent;
+        
+        // Remove the armor bonus value from Armor Bonus
+        const currentArmorBonus = actor.system.status.armorBonus || 0;
+        const calculatedArmorBonus = currentArmorBonus - doc.system.armorBonusValue;
+        const newArmorBonus = Math.max(0, calculatedArmorBonus); // Only apply Math.max on final result
+        
+        console.log("[TEMPORARY ARMOR] Armor bonus calculation details:", {
+          currentBonus: currentArmorBonus,
+          bonusToRemove: doc.system.armorBonusValue,
+          calculated: calculatedArmorBonus,
+          final: newArmorBonus
+        });
+        
+        await actor.update({
+          'system.status.armorBonus': newArmorBonus
+        });
+        
+        console.log("[TEMPORARY ARMOR] Armor bonus adjusted via _deleteDoc:", {
+          previousBonus: currentArmorBonus,
+          newBonus: newArmorBonus
+        });
       } else if (doc.type === "efeito") {
         console.log("[DEBUG DELETE] Effect item does not match temporary health criteria in _deleteDoc:", {
           isEfeito: doc.type === "efeito",
@@ -3159,6 +3188,25 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         console.log("[CONSUME] Energy modifier not configured or not enabled");
       }
 
+      // Process armor bonus (always applied on consumption)
+      console.log("[CONSUME] Checking armor bonus:", {
+        hasArmorBonus: item.system.hasArmorBonus,
+        armorBonusAmount: item.system.armorBonusAmount
+      });
+
+      if (item.system.hasArmorBonus && item.system.armorBonusAmount > 0) {
+        console.log("[CONSUME] Processing armor bonus for item:", item.name);
+        const armorBonusResult = await this._processArmorBonus(item);
+        if (armorBonusResult) {
+          messages.push(armorBonusResult.message);
+          console.log("[CONSUME] Armor bonus processed, message added:", armorBonusResult.message);
+        } else {
+          console.log("[CONSUME] Armor bonus processing returned null");
+        }
+      } else {
+        console.log("[CONSUME] Armor bonus not configured or not enabled");
+      }
+
       // If we have a roll result with critical effects, they were already processed
       // and stored in the rollResult. We need to collect them for tracking.
       if (rollResult && rollResult.isCriticalFailure) {
@@ -4669,6 +4717,32 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
               previousBonus: currentEnergyBonus,
               newBonus: newEnergyBonus
             });
+          } else if (item.type === "efeito" && item.system.isTemporaryArmor && item.system.armorBonusValue) {
+            console.log("[TEMPORARY ARMOR] Removing armor bonus on effect deletion:", {
+              effectName: item.name,
+              bonusToRemove: item.system.armorBonusValue
+            });
+            
+            // Remove the armor bonus value from Armor Bonus
+            const currentArmorBonus = this.document.system.status.armorBonus || 0;
+            const calculatedArmorBonus = currentArmorBonus - item.system.armorBonusValue;
+            const newArmorBonus = Math.max(0, calculatedArmorBonus); // Only apply Math.max on final result
+            
+            console.log("[TEMPORARY ARMOR] Armor bonus calculation details:", {
+              currentBonus: currentArmorBonus,
+              bonusToRemove: item.system.armorBonusValue,
+              calculated: calculatedArmorBonus,
+              final: newArmorBonus
+            });
+            
+            await this.document.update({
+              'system.status.armorBonus': newArmorBonus
+            });
+            
+            console.log("[TEMPORARY ARMOR] Armor bonus adjusted:", {
+              previousBonus: currentArmorBonus,
+              newBonus: newArmorBonus
+            });
           } else {
             console.log("[DEBUG DELETE] Item does not match temporary health criteria:", {
               isEfeito: item.type === "efeito",
@@ -5824,6 +5898,75 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
     } catch (error) {
       console.error("[ENERGY MODIFIER] Error processing energy modifier:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Process armor bonus effects when consuming an item
+   * @param {Item} item The consumable item being used
+   * @returns {Promise<Object|null>} Result with message or null if error
+   * @private
+   */
+  async _processArmorBonus(item) {
+    try {
+      console.log("[ARMOR BONUS] Processing armor bonus for item:", item.name);
+      
+      if (!item.system.hasArmorBonus || !item.system.armorBonusAmount || item.system.armorBonusAmount <= 0) {
+        console.log("[ARMOR BONUS] No armor bonus configured or amount is 0");
+        return null;
+      }
+      
+      const bonusAmount = item.system.armorBonusAmount;
+      let message = "";
+      let updateResult = null;
+      
+      console.log("[ARMOR BONUS] Applying temporary armor bonus:", bonusAmount);
+      
+      // Apply the armor bonus directly to the actor's Armor Bonus
+      const currentArmorBonus = this.document.system.status.armorBonus || 0;
+      const newArmorBonus = currentArmorBonus + bonusAmount;
+      
+      // Update Armor Bonus
+      updateResult = await this.document.update({
+        'system.status.armorBonus': newArmorBonus
+      });
+      
+      // Create tracking effect item for the effects table
+      const trackingEffectName = `${item.name} (consumed)`;
+      const trackingDescription = `Armor Bonus: +${bonusAmount}`;
+      
+      // Create effect item with armor bonus data
+      const effectItemData = {
+        name: trackingEffectName,
+        type: "efeito",
+        system: {
+          description: trackingDescription,
+          // Store the armor bonus value for removal purposes
+          armorBonusValue: bonusAmount,
+          sourceItemId: item.id,
+          sourceItemName: item.name,
+          isTemporaryArmor: true
+        }
+      };
+      
+      console.log("[ARMOR BONUS] Creating effect item with data:", effectItemData);
+      
+      // Create the tracking effect item in actor's items
+      const createdItems = await this.document.createEmbeddedDocuments("Item", [effectItemData]);
+      console.log("[ARMOR BONUS] Created effect item:", createdItems[0]);
+      console.log("[ARMOR BONUS] Created item system data:", createdItems[0].system);
+      
+      message = `Temporary Armor Bonus added: +${bonusAmount} - Added to Armor Bonus`;
+      console.log("[ARMOR BONUS] Temporary armor tracking effect created with armorBonusValue:", bonusAmount);
+      
+      console.log("[ARMOR BONUS] Update result:", updateResult);
+      
+      console.log("[ARMOR BONUS] Armor bonus processed successfully");
+      return { message };
+      
+    } catch (error) {
+      console.error("[ARMOR BONUS] Error processing armor bonus:", error);
       return null;
     }
   }

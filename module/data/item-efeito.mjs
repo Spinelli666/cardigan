@@ -104,6 +104,18 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
       initial: 0,
     });
 
+    // Temporary armor tracking fields
+    schema.isTemporaryArmor = new fields.BooleanField({
+      required: false,
+      initial: false,
+    });
+
+    schema.armorBonusValue = new fields.NumberField({
+      required: false,
+      nullable: true,
+      initial: 0,
+    });
+
     return schema;
   }
 }
