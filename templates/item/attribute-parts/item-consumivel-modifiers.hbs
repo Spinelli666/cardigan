@@ -455,6 +455,44 @@
     </div>
   </div>
 
+  {{! Status Ailments System - Status Ailments? }}
+  <div class="status-ailments-toggle">
+    <label class="checkbox-label">
+      <input type="checkbox" name="system.hasStatusAilments" {{checked item.system.hasStatusAilments}} data-dtype="Boolean" data-status-ailments-toggle />
+      {{localize "CARDIGAN.ItemConsumivel.HasStatusAilments"}}
+    </label>
+  </div>
+
+  <div class="status-ailments-system {{#unless item.system.hasStatusAilments}}hidden{{/unless}}" data-status-ailments-section>
+    {{! Sanity Modifier Sub-system }}
+    <div class="sanity-modifier-toggle">
+      <label class="checkbox-label">
+        <input type="checkbox" name="system.hasSanityModifier" {{checked item.system.hasSanityModifier}} data-dtype="Boolean" data-sanity-modifier-toggle />
+        {{localize "CARDIGAN.ItemConsumivel.HasSanityModifier"}}
+      </label>
+    </div>
+
+    <div class="sanity-modifier-system {{#unless item.system.hasSanityModifier}}hidden{{/unless}}" data-sanity-modifier-section>
+      <div class="form-group sanity-modifier-type">
+        <div class="sanity-modifier-checkboxes">
+          <label class="checkbox-label">
+            <input type="radio" name="system.sanityModifierType" value="increase" {{#if (eq item.system.sanityModifierType "increase")}}checked{{/if}} data-dtype="String" />
+            {{localize "CARDIGAN.ItemConsumivel.SanityIncrease"}}
+          </label>
+          <label class="checkbox-label">
+            <input type="radio" name="system.sanityModifierType" value="decrease" {{#if (eq item.system.sanityModifierType "decrease")}}checked{{/if}} data-dtype="String" />
+            {{localize "CARDIGAN.ItemConsumivel.SanityDecrease"}}
+          </label>
+        </div>
+      </div>
+      
+      <div class="form-group sanity-modifier-amount">
+        <label for="system.sanityModifierAmount">{{localize "CARDIGAN.ItemConsumivel.SanityModifierAmount"}}</label>
+        <input type="number" name="system.sanityModifierAmount" value="{{item.system.sanityModifierAmount}}" data-dtype="Number" min="1" max="5" />
+      </div>
+    </div>
+  </div>
+
   {{! Checkbox to control effects visibility }}
   <div class="effects-toggle">
     <label class="checkbox-label">

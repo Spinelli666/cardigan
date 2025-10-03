@@ -321,6 +321,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup armor bonus toggle visibility for consumable items  
     this._setupArmorBonusToggle();
     
+    // Setup status ailments toggle visibility for consumable items
+    this._setupStatusAilmentsToggle();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -1556,6 +1559,53 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         armorBonusSection.classList.remove('hidden');
       } else {
         armorBonusSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup status ailments toggle visibility for consumable items
+   * @private
+   */
+  _setupStatusAilmentsToggle() {
+    const toggle = this.element.querySelector('[data-status-ailments-toggle]');
+    const statusAilmentsSection = this.element.querySelector('[data-status-ailments-section]');
+    
+    if (!toggle || !statusAilmentsSection) return;
+    
+    // Add event listener for the toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        statusAilmentsSection.classList.remove('hidden');
+      } else {
+        statusAilmentsSection.classList.add('hidden');
+      }
+    });
+
+    // Setup sanity modifier toggle within status ailments section
+    this._setupSanityModifierToggle();
+  }
+
+  /**
+   * Setup sanity modifier toggle visibility
+   * @private
+   */
+  _setupSanityModifierToggle() {
+    const toggle = this.element.querySelector('[data-sanity-modifier-toggle]');
+    const sanityModifierSection = this.element.querySelector('[data-sanity-modifier-section]');
+    
+    if (!toggle || !sanityModifierSection) return;
+    
+    // Add event listener for the sanity modifier toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        sanityModifierSection.classList.remove('hidden');
+      } else {
+        sanityModifierSection.classList.add('hidden');
       }
     });
   }

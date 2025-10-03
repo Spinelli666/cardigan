@@ -428,6 +428,38 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       label: "CARDIGAN.ItemConsumivel.ArmorBonusAmount"
     });
 
+    // Status Ailments System - Status Ailments?
+    schema.hasStatusAilments = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasStatusAilments"
+    });
+
+    schema.hasSanityModifier = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasSanityModifier"
+    });
+
+    schema.sanityModifierType = new fields.StringField({
+      required: false,
+      initial: "increase",
+      choices: {
+        "increase": "CARDIGAN.ItemConsumivel.SanityIncrease",
+        "decrease": "CARDIGAN.ItemConsumivel.SanityDecrease"
+      },
+      label: "CARDIGAN.ItemConsumivel.SanityModifierType"
+    });
+
+    schema.sanityModifierAmount = new fields.NumberField({
+      required: false,
+      initial: 1,
+      min: 1,
+      max: 5,
+      integer: true,
+      label: "CARDIGAN.ItemConsumivel.SanityModifierAmount"
+    });
+
     // Controls whether effects section is enabled
     schema.hasEffects = new fields.BooleanField({
       required: true,

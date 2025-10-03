@@ -567,6 +567,11 @@
       "EnergyModifierAdditionalBonus": "Additional Bonus Choice",
       "HasArmorBonus": "Temporary Armor Bonus?",
       "ArmorBonusAmount": "How Much?",
+      "HasStatusAilments": "Status Ailments?",
+      "HasSanityModifier": "Administer Sanity?",
+      "SanityIncrease": "Up",
+      "SanityDecrease": "Down",
+      "SanityModifierAmount": "Amount",
       "HasEffects": "Does it grant any Effect?"
     },
     "NoSkillLossAdded": "No skill loss configured",

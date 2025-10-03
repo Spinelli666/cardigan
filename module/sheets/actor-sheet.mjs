@@ -3207,6 +3207,27 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         console.log("[CONSUME] Armor bonus not configured or not enabled");
       }
 
+      // Process status ailments (always applied on consumption)
+      console.log("[CONSUME] Checking status ailments:", {
+        hasStatusAilments: item.system.hasStatusAilments,
+        hasSanityModifier: item.system.hasSanityModifier,
+        sanityModifierType: item.system.sanityModifierType,
+        sanityModifierAmount: item.system.sanityModifierAmount
+      });
+
+      if (item.system.hasStatusAilments && item.system.hasSanityModifier && item.system.sanityModifierAmount > 0) {
+        console.log("[CONSUME] Processing status ailments for item:", item.name);
+        const statusAilmentsResult = await this._processStatusAilments(item);
+        if (statusAilmentsResult) {
+          messages.push(statusAilmentsResult.message);
+          console.log("[CONSUME] Status ailments processed, message added:", statusAilmentsResult.message);
+        } else {
+          console.log("[CONSUME] Status ailments processing returned null");
+        }
+      } else {
+        console.log("[CONSUME] Status ailments not configured or not enabled");
+      }
+
       // If we have a roll result with critical effects, they were already processed
       // and stored in the rollResult. We need to collect them for tracking.
       if (rollResult && rollResult.isCriticalFailure) {
@@ -5967,6 +5988,127 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
     } catch (error) {
       console.error("[ARMOR BONUS] Error processing armor bonus:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Process status ailments effects when consuming an item
+   * @param {Item} item The consumable item being used
+   * @returns {Promise<Object|null>} Result with message or null if error
+   * @private
+   */
+  async _processStatusAilments(item) {
+    try {
+      console.log("[STATUS AILMENTS] Processing status ailments for item:", item.name);
+      console.log("[STATUS AILMENTS] Item configuration:", {
+        hasStatusAilments: item.system.hasStatusAilments,
+        hasSanityModifier: item.system.hasSanityModifier,
+        sanityModifierType: item.system.sanityModifierType,
+        sanityModifierAmount: item.system.sanityModifierAmount
+      });
+      
+      if (!item.system.hasStatusAilments || !item.system.hasSanityModifier || !item.system.sanityModifierAmount) {
+        console.log("[STATUS AILMENTS] No status ailments configured - missing requirements");
+        return null;
+      }
+      
+      const modifierType = item.system.sanityModifierType; // "increase" or "decrease"
+      const amount = item.system.sanityModifierAmount; // 1-5
+      let message = "";
+      
+      console.log("[STATUS AILMENTS] Processing sanity modifier:", {
+        type: modifierType,
+        amount: amount
+      });
+      
+      // Get current sanity value
+      const currentSanity = this.document.system.status.sanity || 0;
+      let newSanity = currentSanity;
+      let chatMessage = "";
+      
+      if (modifierType === "increase") {
+        // Increase sanity (max 5)
+        newSanity = Math.min(currentSanity + amount, 5);
+        message = `Sanity increased by ${amount}: ${currentSanity} → ${newSanity}`;
+        
+        // Generate descriptive chat message based on new sanity level after increase
+        if (newSanity === 0) {
+          chatMessage = `${this.document.name}: Estado mental estabilizado.`;
+        } else if (newSanity > 0) {
+          // Show the current sanity level message after the increase
+          const sanityMessages = {
+            1: "Ansioso, você está estressado, tenso e desconfiado.",
+            2: "Paranoico, você está desesperado, neurótico e pessimista.",
+            3: "Violento, você inconsequente, você está hostil e insensível.",
+            4: "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.",
+            5: "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição."
+          };
+          chatMessage = `${this.document.name}: ${sanityMessages[newSanity]}`;
+        }
+      } else if (modifierType === "decrease") {
+        // Decrease sanity (min 0)
+        if (currentSanity === 0) {
+          message = `Sanity is already at 0 and cannot be decreased further`;
+          console.log("[STATUS AILMENTS] Sanity already at minimum");
+          return { message };
+        }
+        
+        newSanity = Math.max(currentSanity - amount, 0);
+        message = `Sanity decreased by ${amount}: ${currentSanity} → ${newSanity}`;
+        
+        // Generate descriptive chat message based on new sanity level
+        if (newSanity > 0) {
+          const sanityMessages = {
+            1: "Ansioso, você está estressado, tenso e desconfiado.",
+            2: "Paranoico, você está desesperado, neurótico e pessimista.",
+            3: "Violento, você inconsequente, você está hostil e insensível.",
+            4: "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.",
+            5: "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição."
+          };
+          chatMessage = `${this.document.name}: ${sanityMessages[newSanity]}`;
+        } else {
+          chatMessage = `${this.document.name}: Estado mental estabilizado.`;
+        }
+      }
+      
+      console.log("[STATUS AILMENTS] Sanity change:", {
+        current: currentSanity,
+        new: newSanity,
+        change: newSanity - currentSanity
+      });
+      
+      // Update the actor's sanity
+      const updateResult = await this.document.update({
+        'system.status.sanity': newSanity
+      });
+      
+      // Send descriptive message to chat if there's a change in sanity level
+      console.log("[STATUS AILMENTS] Chat message debug:", {
+        chatMessage,
+        newSanity,
+        currentSanity,
+        hasChange: newSanity !== currentSanity,
+        shouldSendMessage: chatMessage && newSanity !== currentSanity
+      });
+      
+      if (chatMessage && newSanity !== currentSanity) {
+        console.log("[STATUS AILMENTS] Sending chat message:", chatMessage);
+        await ChatMessage.create({ 
+          content: chatMessage,
+          speaker: ChatMessage.getSpeaker({ actor: this.document })
+        });
+        console.log("[STATUS AILMENTS] Chat message sent successfully");
+      } else {
+        console.log("[STATUS AILMENTS] Chat message not sent - conditions not met");
+      }
+      
+      console.log("[STATUS AILMENTS] Update result:", updateResult);
+      console.log("[STATUS AILMENTS] Status ailments processed successfully");
+      return { message };
+      
+    } catch (error) {
+      console.error("[STATUS AILMENTS] Error processing status ailments:", error);
       return null;
     }
   }
