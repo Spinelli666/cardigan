@@ -244,6 +244,175 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       { initial: [] }
     );
 
+    // Health buff/debuff system
+    schema.hasHealthModifier = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasHealthModifier"
+    });
+
+    schema.healthModifierType = new fields.StringField({
+      required: false,
+      blank: true,
+      initial: "add",
+      choices: {
+        "add": "CARDIGAN.ItemConsumivel.HealthAdd",
+        "subtract": "CARDIGAN.ItemConsumivel.HealthSubtract"
+      },
+      label: "CARDIGAN.ItemConsumivel.HealthModifierType"
+    });
+
+    schema.healthModifierDice = new fields.StringField({
+      required: false,
+      blank: true,
+      initial: "1d20",
+      choices: {
+        "1d20": "1d20",
+        "1d12": "1d12",
+        "1d10": "1d10",
+        "1d8": "1d8",
+        "1d6": "1d6",
+        "1d4": "1d4"
+      },
+      label: "CARDIGAN.ItemConsumivel.HealthModifierDice"
+    });
+
+    schema.healthModifierQuantity = new fields.NumberField({
+      required: false,
+      initial: 1,
+      min: 1,
+      max: 10,
+      integer: true,
+      label: "CARDIGAN.ItemConsumivel.HealthModifierQuantity"
+    });
+
+    schema.healthModifierAddSkill = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HealthModifierAddSkill"
+    });
+
+    schema.healthModifierSkill = new fields.StringField({
+      required: false,
+      blank: true,
+      initial: "accuracy",
+      choices: {
+        "accuracy": "CARDIGAN.Ability.Accuracy.long",
+        "evasion": "CARDIGAN.Ability.Evasion.long",
+        "strength": "CARDIGAN.Ability.Strength.long",
+        "dexterity": "CARDIGAN.Ability.Dexterity.long",
+        "stamina": "CARDIGAN.Ability.Stamina.long",
+        "stealth": "CARDIGAN.Ability.Stealth.long",
+        "persuasion": "CARDIGAN.Ability.Persuasion.long",
+        "intelligence": "CARDIGAN.Ability.Intelligence.long",
+        "psionics": "CARDIGAN.Ability.Psionics.long"
+      },
+      label: "CARDIGAN.ItemConsumivel.HealthModifierSkill"
+    });
+
+    schema.healthModifierDoubleSkill = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HealthModifierDoubleSkill"
+    });
+
+    schema.healthModifierIsTemporary = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HealthModifierIsTemporary"
+    });
+
+    schema.healthModifierAdditionalBonus = new fields.NumberField({
+      required: false,
+      initial: 0,
+      min: 0,
+      integer: true,
+      label: "CARDIGAN.ItemConsumivel.HealthModifierAdditionalBonus"
+    });
+
+    // Energy Modifier System
+    schema.hasEnergyModifier = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasEnergyModifier"
+    });
+
+    schema.energyModifierType = new fields.StringField({
+      required: true,
+      initial: "add",
+      choices: {
+        "add": "CARDIGAN.ItemConsumivel.EnergyModifierTypeAdd",
+        "subtract": "CARDIGAN.ItemConsumivel.EnergyModifierTypeSubtract"
+      },
+      label: "CARDIGAN.ItemConsumivel.EnergyModifierType"
+    });
+
+    schema.energyModifierDice = new fields.StringField({
+      required: true,
+      initial: "1d4",
+      choices: {
+        "1d4": "1d4",
+        "1d6": "1d6", 
+        "1d8": "1d8",
+        "1d10": "1d10",
+        "1d12": "1d12",
+        "1d20": "1d20"
+      },
+      label: "CARDIGAN.ItemConsumivel.EnergyModifierDice"
+    });
+
+    schema.energyModifierQuantity = new fields.NumberField({
+      required: true,
+      initial: 1,
+      min: 1,
+      max: 10,
+      integer: true,
+      label: "CARDIGAN.ItemConsumivel.EnergyModifierQuantity"
+    });
+
+    schema.energyModifierAddSkill = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.EnergyModifierAddSkill"
+    });
+
+    schema.energyModifierSkill = new fields.StringField({
+      required: true,
+      initial: "accuracy",
+      choices: {
+        "accuracy": "CARDIGAN.Ability.Accuracy.long",
+        "evasion": "CARDIGAN.Ability.Evasion.long",
+        "strength": "CARDIGAN.Ability.Strength.long",
+        "dexterity": "CARDIGAN.Ability.Dexterity.long",
+        "stamina": "CARDIGAN.Ability.Stamina.long",
+        "stealth": "CARDIGAN.Ability.Stealth.long",
+        "persuasion": "CARDIGAN.Ability.Persuasion.long",
+        "intelligence": "CARDIGAN.Ability.Intelligence.long",
+        "psionics": "CARDIGAN.Ability.Psionics.long"
+      },
+      label: "CARDIGAN.ItemConsumivel.EnergyModifierSkill"
+    });
+
+    schema.energyModifierDoubleSkill = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.EnergyModifierDoubleSkill"
+    });
+
+    schema.energyModifierIsTemporary = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.EnergyModifierIsTemporary"
+    });
+
+    schema.energyModifierAdditionalBonus = new fields.NumberField({
+      required: false,
+      initial: 0,
+      min: 0,
+      integer: true,
+      label: "CARDIGAN.ItemConsumivel.EnergyModifierAdditionalBonus"
+    });
+
     // Controls whether effects section is enabled
     schema.hasEffects = new fields.BooleanField({
       required: true,

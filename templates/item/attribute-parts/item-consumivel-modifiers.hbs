@@ -270,6 +270,176 @@
     </div>
   </div>
 
+  {{! Health Modifier System - Buff/Debuff Health }}
+  <div class="health-modifier-toggle">
+    <label class="checkbox-label">
+      <input type="checkbox" name="system.hasHealthModifier" {{checked item.system.hasHealthModifier}} data-dtype="Boolean" data-health-modifier-toggle />
+      {{localize "CARDIGAN.ItemConsumivel.HasHealthModifier"}}
+    </label>
+  </div>
+
+  <div class="health-modifier-system {{#unless item.system.hasHealthModifier}}hidden{{/unless}}" data-health-modifier-section>
+    <div class="form-group health-modifier">
+      <div class="health-modifier-checkboxes">
+        <label class="checkbox-label">
+          <input type="radio" name="system.healthModifierType" value="add" {{#if (eq item.system.healthModifierType "add")}}checked{{/if}} data-dtype="String" />
+          {{localize "CARDIGAN.ItemConsumivel.HealthAdd"}}
+        </label>
+        <label class="checkbox-label">
+          <input type="radio" name="system.healthModifierType" value="subtract" {{#if (eq item.system.healthModifierType "subtract")}}checked{{/if}} data-dtype="String" />
+          {{localize "CARDIGAN.ItemConsumivel.HealthSubtract"}}
+        </label>
+      </div>
+      
+      <div class="health-modifier-dice">
+        <label>{{localize "CARDIGAN.ItemConsumivel.HealthModifierDice"}}</label>
+        <select name="system.healthModifierDice" data-dtype="String">
+          <option value="1d20" {{#if (eq item.system.healthModifierDice "1d20")}}selected{{/if}}>1d20</option>
+          <option value="1d12" {{#if (eq item.system.healthModifierDice "1d12")}}selected{{/if}}>1d12</option>
+          <option value="1d10" {{#if (eq item.system.healthModifierDice "1d10")}}selected{{/if}}>1d10</option>
+          <option value="1d8" {{#if (eq item.system.healthModifierDice "1d8")}}selected{{/if}}>1d8</option>
+          <option value="1d6" {{#if (eq item.system.healthModifierDice "1d6")}}selected{{/if}}>1d6</option>
+          <option value="1d4" {{#if (eq item.system.healthModifierDice "1d4")}}selected{{/if}}>1d4</option>
+        </select>
+      </div>
+      
+      <div class="health-modifier-quantity">
+        <label>{{localize "CARDIGAN.ItemConsumivel.HealthModifierQuantity"}}</label>
+        <input type="number" name="system.healthModifierQuantity" value="{{item.system.healthModifierQuantity}}" min="1" max="10" data-dtype="Number" />
+      </div>
+      
+      <div class="health-modifier-additional-bonus">
+        <label>{{localize "CARDIGAN.ItemConsumivel.HealthModifierAdditionalBonus"}}</label>
+        <input type="number" name="system.healthModifierAdditionalBonus" value="{{item.system.healthModifierAdditionalBonus}}" min="0" data-dtype="Number" />
+      </div>
+      
+      <div class="health-modifier-skill-toggle">
+        <label class="checkbox-label">
+          <input type="checkbox" name="system.healthModifierAddSkill" {{checked item.system.healthModifierAddSkill}} data-dtype="Boolean" data-health-modifier-skill-toggle />
+          {{localize "CARDIGAN.ItemConsumivel.HealthModifierAddSkill"}}
+        </label>
+      </div>
+      
+      <div class="health-modifier-skill-system {{#unless item.system.healthModifierAddSkill}}hidden{{/unless}}" data-health-modifier-skill-section>
+        <div class="health-modifier-skill-controls">
+          <div class="health-modifier-skill-selection">
+            <label>{{localize "CARDIGAN.ItemConsumivel.HealthModifierSkill"}}</label>
+            <select name="system.healthModifierSkill" data-dtype="String">
+              <option value="accuracy" {{#if (eq item.system.healthModifierSkill "accuracy")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Accuracy.long"}}</option>
+              <option value="evasion" {{#if (eq item.system.healthModifierSkill "evasion")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Evasion.long"}}</option>
+              <option value="strength" {{#if (eq item.system.healthModifierSkill "strength")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Strength.long"}}</option>
+              <option value="dexterity" {{#if (eq item.system.healthModifierSkill "dexterity")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Dexterity.long"}}</option>
+              <option value="stamina" {{#if (eq item.system.healthModifierSkill "stamina")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Stamina.long"}}</option>
+              <option value="stealth" {{#if (eq item.system.healthModifierSkill "stealth")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Stealth.long"}}</option>
+              <option value="persuasion" {{#if (eq item.system.healthModifierSkill "persuasion")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Persuasion.long"}}</option>
+              <option value="intelligence" {{#if (eq item.system.healthModifierSkill "intelligence")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Intelligence.long"}}</option>
+              <option value="psionics" {{#if (eq item.system.healthModifierSkill "psionics")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Psionics.long"}}</option>
+            </select>
+          </div>
+          
+          <div class="health-modifier-double-toggle">
+            <label class="checkbox-label">
+              <input type="checkbox" name="system.healthModifierDoubleSkill" {{checked item.system.healthModifierDoubleSkill}} data-dtype="Boolean" />
+              {{localize "CARDIGAN.ItemConsumivel.HealthModifierDoubleSkill"}}
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="health-modifier-temporary-toggle">
+        <label class="checkbox-label">
+          <input type="checkbox" name="system.healthModifierIsTemporary" {{checked item.system.healthModifierIsTemporary}} data-dtype="Boolean" />
+          {{localize "CARDIGAN.ItemConsumivel.HealthModifierIsTemporary"}}
+        </label>
+      </div>
+    </div>
+  </div>
+
+  {{! Energy Modifier System - Buff/Debuff Energy }}
+  <div class="energy-modifier-toggle">
+    <label class="checkbox-label">
+      <input type="checkbox" name="system.hasEnergyModifier" {{checked item.system.hasEnergyModifier}} data-dtype="Boolean" data-energy-modifier-toggle />
+      {{localize "CARDIGAN.ItemConsumivel.HasEnergyModifier"}}
+    </label>
+  </div>
+
+  <div class="energy-modifier-system {{#unless item.system.hasEnergyModifier}}hidden{{/unless}}" data-energy-modifier-section>
+    <div class="form-group energy-modifier">
+      <div class="energy-modifier-checkboxes">
+        <label class="checkbox-label">
+          <input type="radio" name="system.energyModifierType" value="add" {{#if (eq item.system.energyModifierType "add")}}checked{{/if}} data-dtype="String" />
+          {{localize "CARDIGAN.ItemConsumivel.EnergyModifierTypeAdd"}}
+        </label>
+        <label class="checkbox-label">
+          <input type="radio" name="system.energyModifierType" value="subtract" {{#if (eq item.system.energyModifierType "subtract")}}checked{{/if}} data-dtype="String" />
+          {{localize "CARDIGAN.ItemConsumivel.EnergyModifierTypeSubtract"}}
+        </label>
+      </div>
+      
+      <div class="energy-modifier-dice">
+        <label>{{localize "CARDIGAN.ItemConsumivel.EnergyModifierDice"}}</label>
+        <select name="system.energyModifierDice" data-dtype="String">
+          <option value="1d20" {{#if (eq item.system.energyModifierDice "1d20")}}selected{{/if}}>1d20</option>
+          <option value="1d12" {{#if (eq item.system.energyModifierDice "1d12")}}selected{{/if}}>1d12</option>
+          <option value="1d10" {{#if (eq item.system.energyModifierDice "1d10")}}selected{{/if}}>1d10</option>
+          <option value="1d8" {{#if (eq item.system.energyModifierDice "1d8")}}selected{{/if}}>1d8</option>
+          <option value="1d6" {{#if (eq item.system.energyModifierDice "1d6")}}selected{{/if}}>1d6</option>
+          <option value="1d4" {{#if (eq item.system.energyModifierDice "1d4")}}selected{{/if}}>1d4</option>
+        </select>
+      </div>
+      
+      <div class="energy-modifier-quantity">
+        <label>{{localize "CARDIGAN.ItemConsumivel.EnergyModifierQuantity"}}</label>
+        <input type="number" name="system.energyModifierQuantity" value="{{item.system.energyModifierQuantity}}" min="1" max="10" data-dtype="Number" />
+      </div>
+      
+      <div class="energy-modifier-additional-bonus">
+        <label>{{localize "CARDIGAN.ItemConsumivel.EnergyModifierAdditionalBonus"}}</label>
+        <input type="number" name="system.energyModifierAdditionalBonus" value="{{item.system.energyModifierAdditionalBonus}}" min="0" data-dtype="Number" />
+      </div>
+      
+      <div class="energy-modifier-skill-toggle">
+        <label class="checkbox-label">
+          <input type="checkbox" name="system.energyModifierAddSkill" {{checked item.system.energyModifierAddSkill}} data-dtype="Boolean" data-energy-modifier-skill-toggle />
+          {{localize "CARDIGAN.ItemConsumivel.EnergyModifierAddSkill"}}
+        </label>
+      </div>
+      
+      <div class="energy-modifier-skill-system {{#unless item.system.energyModifierAddSkill}}hidden{{/unless}}" data-energy-modifier-skill-section>
+        <div class="energy-modifier-skill-controls">
+          <div class="energy-modifier-skill-selection">
+            <label>{{localize "CARDIGAN.ItemConsumivel.EnergyModifierSkill"}}</label>
+            <select name="system.energyModifierSkill" data-dtype="String">
+              <option value="accuracy" {{#if (eq item.system.energyModifierSkill "accuracy")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Accuracy.long"}}</option>
+              <option value="evasion" {{#if (eq item.system.energyModifierSkill "evasion")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Evasion.long"}}</option>
+              <option value="strength" {{#if (eq item.system.energyModifierSkill "strength")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Strength.long"}}</option>
+              <option value="dexterity" {{#if (eq item.system.energyModifierSkill "dexterity")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Dexterity.long"}}</option>
+              <option value="stamina" {{#if (eq item.system.energyModifierSkill "stamina")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Stamina.long"}}</option>
+              <option value="stealth" {{#if (eq item.system.energyModifierSkill "stealth")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Stealth.long"}}</option>
+              <option value="persuasion" {{#if (eq item.system.energyModifierSkill "persuasion")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Persuasion.long"}}</option>
+              <option value="intelligence" {{#if (eq item.system.energyModifierSkill "intelligence")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Intelligence.long"}}</option>
+              <option value="psionics" {{#if (eq item.system.energyModifierSkill "psionics")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Psionics.long"}}</option>
+            </select>
+          </div>
+          
+          <div class="energy-modifier-double-toggle">
+            <label class="checkbox-label">
+              <input type="checkbox" name="system.energyModifierDoubleSkill" {{checked item.system.energyModifierDoubleSkill}} data-dtype="Boolean" />
+              {{localize "CARDIGAN.ItemConsumivel.EnergyModifierDoubleSkill"}}
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="energy-modifier-temporary-toggle">
+        <label class="checkbox-label">
+          <input type="checkbox" name="system.energyModifierIsTemporary" {{checked item.system.energyModifierIsTemporary}} data-dtype="Boolean" />
+          {{localize "CARDIGAN.ItemConsumivel.EnergyModifierIsTemporary"}}
+        </label>
+      </div>
+    </div>
+  </div>
+
   {{! Checkbox to control effects visibility }}
   <div class="effects-toggle">
     <label class="checkbox-label">

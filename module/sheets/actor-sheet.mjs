@@ -665,6 +665,74 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       content: game.i18n.format('DOCUMENT.DeleteWarning', { name: doc.name }),
     });
     if (performDeletion) {
+      // Check if it's a temporary health effect and adjust Health Bonus before deletion
+      if (doc.type === "efeito" && doc.system.isTemporaryHealth && doc.system.healthBonusValue) {
+        console.log("[TEMPORARY HEALTH] Removing health bonus on effect deletion via _deleteDoc:", {
+          effectName: doc.name,
+          bonusToRemove: doc.system.healthBonusValue
+        });
+        
+        // Get the actor from the document
+        const actor = doc.parent;
+        
+        // Remove the health bonus value from Health Bonus
+        const currentHealthBonus = actor.system.status.healthBonus || 0;
+        const calculatedHealthBonus = currentHealthBonus - doc.system.healthBonusValue;
+        const newHealthBonus = Math.max(0, calculatedHealthBonus); // Only apply Math.max on final result
+        
+        console.log("[TEMPORARY HEALTH] Health bonus calculation details:", {
+          currentBonus: currentHealthBonus,
+          bonusToRemove: doc.system.healthBonusValue,
+          calculated: calculatedHealthBonus,
+          final: newHealthBonus
+        });
+        
+        await actor.update({
+          'system.status.healthBonus': newHealthBonus
+        });
+        
+        console.log("[TEMPORARY HEALTH] Health bonus adjusted via _deleteDoc:", {
+          previousBonus: currentHealthBonus,
+          newBonus: newHealthBonus
+        });
+      } else if (doc.type === "efeito" && doc.system.isTemporaryEnergy && doc.system.energyBonusValue) {
+        console.log("[TEMPORARY ENERGY] Removing energy bonus on effect deletion via _deleteDoc:", {
+          effectName: doc.name,
+          bonusToRemove: doc.system.energyBonusValue
+        });
+        
+        // Get the actor from the document
+        const actor = doc.parent;
+        
+        // Remove the energy bonus value from Energy Bonus
+        const currentEnergyBonus = actor.system.status.energyBonus || 0;
+        const calculatedEnergyBonus = currentEnergyBonus - doc.system.energyBonusValue;
+        const newEnergyBonus = Math.max(0, calculatedEnergyBonus); // Only apply Math.max on final result
+        
+        console.log("[TEMPORARY ENERGY] Energy bonus calculation details:", {
+          currentBonus: currentEnergyBonus,
+          bonusToRemove: doc.system.energyBonusValue,
+          calculated: calculatedEnergyBonus,
+          final: newEnergyBonus
+        });
+        
+        await actor.update({
+          'system.status.energyBonus': newEnergyBonus
+        });
+        
+        console.log("[TEMPORARY ENERGY] Energy bonus adjusted via _deleteDoc:", {
+          previousBonus: currentEnergyBonus,
+          newBonus: newEnergyBonus
+        });
+      } else if (doc.type === "efeito") {
+        console.log("[DEBUG DELETE] Effect item does not match temporary health criteria in _deleteDoc:", {
+          isEfeito: doc.type === "efeito",
+          hasIsTemporaryHealth: !!doc.system.isTemporaryHealth,
+          hasHealthBonusValue: !!doc.system.healthBonusValue,
+          systemData: doc.system
+        });
+      }
+      
       const deleted = await doc.delete();
       deleted.sheet.render(false);
     }
@@ -3051,6 +3119,46 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
       }
 
+      // Process health modifier (always applied on consumption)
+      console.log("[CONSUME] Checking health modifier:", {
+        hasHealthModifier: item.system.hasHealthModifier,
+        healthModifierDice: item.system.healthModifierDice,
+        healthModifierType: item.system.healthModifierType
+      });
+      
+      if (item.system.hasHealthModifier && item.system.healthModifierDice) {
+        console.log("[CONSUME] Processing health modifier for item:", item.name);
+        const healthModifierResult = await this._processHealthModifier(item);
+        if (healthModifierResult) {
+          messages.push(healthModifierResult.message);
+          console.log("[CONSUME] Health modifier processed, message added:", healthModifierResult.message);
+        } else {
+          console.log("[CONSUME] Health modifier processing returned null");
+        }
+      } else {
+        console.log("[CONSUME] Health modifier not configured or not enabled");
+      }
+
+      // Process energy modifier (always applied on consumption)
+      console.log("[CONSUME] Checking energy modifier:", {
+        hasEnergyModifier: item.system.hasEnergyModifier,
+        energyModifierDice: item.system.energyModifierDice,
+        energyModifierType: item.system.energyModifierType
+      });
+      
+      if (item.system.hasEnergyModifier && item.system.energyModifierDice) {
+        console.log("[CONSUME] Processing energy modifier for item:", item.name);
+        const energyModifierResult = await this._processEnergyModifier(item);
+        if (energyModifierResult) {
+          messages.push(energyModifierResult.message);
+          console.log("[CONSUME] Energy modifier processed, message added:", energyModifierResult.message);
+        } else {
+          console.log("[CONSUME] Energy modifier processing returned null");
+        }
+      } else {
+        console.log("[CONSUME] Energy modifier not configured or not enabled");
+      }
+
       // If we have a roll result with critical effects, they were already processed
       // and stored in the rollResult. We need to collect them for tracking.
       if (rollResult && rollResult.isCriticalFailure) {
@@ -4499,6 +4607,76 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         });
         
         if (deleteConfirmed) {
+          // Debug: Log item details before deletion
+          console.log("[DEBUG DELETE] Item details:", {
+            name: item.name,
+            type: item.type,
+            system: item.system,
+            isTemporaryHealth: item.system.isTemporaryHealth,
+            healthBonusValue: item.system.healthBonusValue
+          });
+          
+          // Check if it's a temporary health effect and adjust Health Bonus before deletion
+          if (item.type === "efeito" && item.system.isTemporaryHealth && item.system.healthBonusValue) {
+            console.log("[TEMPORARY HEALTH] Removing health bonus on effect deletion:", {
+              effectName: item.name,
+              bonusToRemove: item.system.healthBonusValue
+            });
+            
+            // Remove the health bonus value from Health Bonus
+            const currentHealthBonus = this.document.system.status.healthBonus || 0;
+            const calculatedHealthBonus = currentHealthBonus - item.system.healthBonusValue;
+            const newHealthBonus = Math.max(0, calculatedHealthBonus); // Only apply Math.max on final result
+            
+            console.log("[TEMPORARY HEALTH] Health bonus calculation details:", {
+              currentBonus: currentHealthBonus,
+              bonusToRemove: item.system.healthBonusValue,
+              calculated: calculatedHealthBonus,
+              final: newHealthBonus
+            });
+            
+            await this.document.update({
+              'system.status.healthBonus': newHealthBonus
+            });
+            
+            console.log("[TEMPORARY HEALTH] Health bonus adjusted:", {
+              previousBonus: currentHealthBonus,
+              newBonus: newHealthBonus
+            });
+          } else if (item.type === "efeito" && item.system.isTemporaryEnergy && item.system.energyBonusValue) {
+            console.log("[TEMPORARY ENERGY] Removing energy bonus on effect deletion:", {
+              effectName: item.name,
+              bonusToRemove: item.system.energyBonusValue
+            });
+            
+            // Remove the energy bonus value from Energy Bonus
+            const currentEnergyBonus = this.document.system.status.energyBonus || 0;
+            const calculatedEnergyBonus = currentEnergyBonus - item.system.energyBonusValue;
+            const newEnergyBonus = Math.max(0, calculatedEnergyBonus); // Only apply Math.max on final result
+            
+            console.log("[TEMPORARY ENERGY] Energy bonus calculation details:", {
+              currentBonus: currentEnergyBonus,
+              bonusToRemove: item.system.energyBonusValue,
+              calculated: calculatedEnergyBonus,
+              final: newEnergyBonus
+            });
+            
+            await this.document.update({
+              'system.status.energyBonus': newEnergyBonus
+            });
+            
+            console.log("[TEMPORARY ENERGY] Energy bonus adjusted:", {
+              previousBonus: currentEnergyBonus,
+              newBonus: newEnergyBonus
+            });
+          } else {
+            console.log("[DEBUG DELETE] Item does not match temporary health criteria:", {
+              isEfeito: item.type === "efeito",
+              hasIsTemporaryHealth: !!item.system.isTemporaryHealth,
+              hasHealthBonusValue: !!item.system.healthBonusValue
+            });
+          }
+          
           return item.delete();
         }
         return null;
@@ -5274,6 +5452,379 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     } catch (error) {
       console.warn("Error detecting critical results:", error);
       return {};
+    }
+  }
+
+  /**
+   * Process health modifier from consumable items
+   * @param {Item} item The consumable item
+   * @returns {Promise<Object|null>} Result object with message
+   * @private
+   */
+  async _processHealthModifier(item) {
+    try {
+      console.log("[HEALTH MODIFIER] Processing health modifier for item:", item.name);
+      
+      const baseDice = item.system.healthModifierDice;
+      const quantity = item.system.healthModifierQuantity || 1;
+      const modifierType = item.system.healthModifierType;
+      
+      console.log("[HEALTH MODIFIER] Base dice:", baseDice);
+      console.log("[HEALTH MODIFIER] Quantity:", quantity);
+      console.log("[HEALTH MODIFIER] Modifier type:", modifierType);
+      
+      if (!baseDice || !modifierType) {
+        console.log("[HEALTH MODIFIER] Missing dice formula or modifier type");
+        return null;
+      }
+      
+      // Build the dice formula with quantity (e.g., "2d20", "3d6")
+      const diceFormula = `${quantity}${baseDice.substring(1)}`; // Remove "1" and add quantity
+      console.log("[HEALTH MODIFIER] Final dice formula:", diceFormula);
+      
+      // Roll the dice
+      const roll = new Roll(diceFormula);
+      await roll.evaluate();
+      
+      let rollTotal = roll.total;
+      const currentHealth = this.document.system.health.value;
+      const maxHealth = this.document.system.health.max;
+      
+      console.log("[HEALTH MODIFIER] Base roll total:", rollTotal);
+      
+      // Add skill bonus if configured
+      let skillBonus = 0;
+      let skillName = "";
+      if (item.system.healthModifierAddSkill && item.system.healthModifierSkill) {
+        const skillKey = item.system.healthModifierSkill;
+        const abilityData = this.document.system.abilities[skillKey];
+        const skillValue = (abilityData?.value || 0) + (abilityData?.totalBonus || 0);
+        
+        // Double the skill value if requested
+        skillBonus = item.system.healthModifierDoubleSkill ? skillValue * 2 : skillValue;
+        skillName = game.i18n.localize(`CARDIGAN.Ability.${skillKey.charAt(0).toUpperCase() + skillKey.slice(1)}.long`);
+        
+        rollTotal += skillBonus;
+        
+        console.log("[HEALTH MODIFIER] Skill bonus:", {
+          skill: skillName,
+          baseValue: skillValue,
+          doubled: item.system.healthModifierDoubleSkill,
+          finalBonus: skillBonus,
+          totalWithSkill: rollTotal
+        });
+      }
+      
+      // Add additional bonus if configured
+      let additionalBonus = 0;
+      if (item.system.healthModifierAdditionalBonus && item.system.healthModifierAdditionalBonus > 0) {
+        additionalBonus = item.system.healthModifierAdditionalBonus;
+        rollTotal += additionalBonus;
+        
+        console.log("[HEALTH MODIFIER] Additional bonus:", {
+          bonus: additionalBonus,
+          totalWithBonus: rollTotal
+        });
+      }
+      
+      console.log("[HEALTH MODIFIER] Final total (dice + skill + bonus):", rollTotal);
+      console.log("[HEALTH MODIFIER] Current health:", currentHealth);
+      console.log("[HEALTH MODIFIER] Max health:", maxHealth);
+      console.log("[HEALTH MODIFIER] Is temporary:", item.system.healthModifierIsTemporary);
+      
+      let formula = `${diceFormula}: ${roll.total}`;
+      if (skillBonus > 0) {
+        formula += ` + ${skillName} ${skillBonus}`;
+      }
+      if (additionalBonus > 0) {
+        formula += ` + Bônus ${additionalBonus}`;
+      }
+      
+      let message;
+      let updateResult;
+      
+      // Check if this is a temporary health point
+      if (item.system.healthModifierIsTemporary) {
+        console.log("[HEALTH MODIFIER] Creating temporary health effect for tracking table");
+        
+        // Apply the health bonus directly to the actor's Health Bonus
+        const healthBonus = modifierType === 'add' ? rollTotal : -rollTotal; // Negative for subtract
+        const currentHealthBonus = this.document.system.status.healthBonus || 0;
+        const newHealthBonus = currentHealthBonus + healthBonus; // Allow negative values temporarily
+        
+        // Update Health Bonus
+        updateResult = await this.document.update({
+          'system.status.healthBonus': newHealthBonus
+        });
+        
+        // Create tracking effect item for the effects table
+        const trackingEffectName = modifierType === 'add' 
+          ? `${item.name} (consumed)` 
+          : `${item.name} (consumed)`;
+        
+        const trackingDescription = modifierType === 'add' 
+          ? `Health Bonus: +${rollTotal} (${formula})`
+          : `Health Bonus: ${rollTotal} (${formula})`;
+        
+        // Create effect item with health bonus data
+        const effectItemData = {
+          name: trackingEffectName,
+          type: "efeito",
+          system: {
+            description: trackingDescription,
+            // Store the health bonus value for removal purposes
+            healthBonusValue: healthBonus,
+            sourceItemId: item.id,
+            sourceItemName: item.name,
+            isTemporaryHealth: true
+          }
+        };
+        
+        console.log("[HEALTH MODIFIER] Creating effect item with data:", effectItemData);
+        
+        // Create the tracking effect item in actor's items
+        const createdItems = await this.document.createEmbeddedDocuments("Item", [effectItemData]);
+        console.log("[HEALTH MODIFIER] Created effect item:", createdItems[0]);
+        console.log("[HEALTH MODIFIER] Created item system data:", createdItems[0].system);
+        
+        if (modifierType === 'add') {
+          message = `Temporary Health added: +${rollTotal} (${formula}) - Added to Health Bonus`;
+        } else {
+          message = `Temporary Health reduced: -${rollTotal} (${formula}) - Removed from Health Bonus`;
+        }
+        console.log("[HEALTH MODIFIER] Temporary health tracking effect created with healthBonusValue:", healthBonus);
+        
+      } else {
+        // Standard health modification (permanent)
+        let newHealth;
+        
+        if (modifierType === 'add') {
+          // Add health (but don't exceed max)
+          newHealth = Math.min(currentHealth + rollTotal, maxHealth);
+          message = `Health restored: +${rollTotal} (${formula}) - Health: ${currentHealth} → ${newHealth}`;
+        } else if (modifierType === 'subtract') {
+          // Subtract health (but don't go below 0)
+          newHealth = Math.max(currentHealth - rollTotal, 0);
+          message = `Health lost: -${rollTotal} (${formula}) - Health: ${currentHealth} → ${newHealth}`;
+        }
+        
+        console.log("[HEALTH MODIFIER] New health calculated:", newHealth);
+        
+        // Update the actor's health
+        console.log("[HEALTH MODIFIER] Updating actor health to:", newHealth);
+        updateResult = await this.document.update({
+          'system.health.value': newHealth
+        });
+      }
+      
+      console.log("[HEALTH MODIFIER] Update result:", updateResult);
+      
+      // Send the roll to chat
+      await roll.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor: this.document }),
+        flavor: `Health Modifier (${modifierType === 'add' ? 'Healing' : 'Damage'})`,
+        rollMode: game.settings.get('core', 'rollMode')
+      });
+      
+      console.log("[HEALTH MODIFIER] Health modifier processed successfully");
+      return { message };
+      
+    } catch (error) {
+      console.error("[HEALTH MODIFIER] Error processing health modifier:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Process energy modifier from consumable items
+   * @param {Item} item The consumable item
+   * @returns {Promise<Object|null>} Result object with message
+   * @private
+   */
+  async _processEnergyModifier(item) {
+    try {
+      console.log("[ENERGY MODIFIER] Processing energy modifier for item:", item.name);
+      
+      const baseDice = item.system.energyModifierDice;
+      const quantity = item.system.energyModifierQuantity || 1;
+      const modifierType = item.system.energyModifierType;
+      
+      console.log("[ENERGY MODIFIER] Base dice:", baseDice);
+      console.log("[ENERGY MODIFIER] Quantity:", quantity);
+      console.log("[ENERGY MODIFIER] Modifier type:", modifierType);
+      
+      if (!baseDice || !modifierType) {
+        console.log("[ENERGY MODIFIER] Missing dice formula or modifier type");
+        return null;
+      }
+      
+      // Build the dice formula with quantity (e.g., "2d20", "3d6")
+      const diceFormula = `${quantity}${baseDice.substring(1)}`; // Remove "1" and add quantity
+      console.log("[ENERGY MODIFIER] Final dice formula:", diceFormula);
+      
+      // Roll the dice
+      const roll = new Roll(diceFormula);
+      await roll.evaluate();
+      
+      let rollTotal = roll.total;
+      const currentEnergy = this.document.system.power.value;
+      const maxEnergy = this.document.system.power.max;
+      
+      console.log("[ENERGY MODIFIER] Base roll total:", rollTotal);
+      
+      // Add skill bonus if configured
+      let skillBonus = 0;
+      let skillName = "";
+      if (item.system.energyModifierAddSkill && item.system.energyModifierSkill) {
+        const skillKey = item.system.energyModifierSkill;
+        
+        console.log("[ENERGY MODIFIER] Debug - Skill check:", {
+          skillKey: skillKey,
+          abilities: this.document.system.abilities,
+          hasAbilities: !!this.document.system.abilities,
+          specificAbility: this.document.system.abilities?.[skillKey]
+        });
+        
+        const abilityData = this.document.system.abilities?.[skillKey];
+        if (!abilityData) {
+          console.warn("[ENERGY MODIFIER] Ability data not found for skill:", skillKey);
+          // Skip skill bonus if ability not found
+        } else {
+          const skillValue = (abilityData?.value || 0) + (abilityData?.totalBonus || 0);
+        
+          // Double the skill value if requested
+          skillBonus = item.system.energyModifierDoubleSkill ? skillValue * 2 : skillValue;
+          skillName = game.i18n.localize(`CARDIGAN.Ability.${skillKey.charAt(0).toUpperCase() + skillKey.slice(1)}.long`);
+          
+          rollTotal += skillBonus;
+          
+          console.log("[ENERGY MODIFIER] Skill bonus:", {
+            skill: skillName,
+            baseValue: skillValue,
+            doubled: item.system.energyModifierDoubleSkill,
+            finalBonus: skillBonus,
+            totalWithSkill: rollTotal
+          });
+        }
+      }
+      
+      // Add additional bonus if configured
+      let additionalBonus = 0;
+      if (item.system.energyModifierAdditionalBonus && item.system.energyModifierAdditionalBonus > 0) {
+        additionalBonus = item.system.energyModifierAdditionalBonus;
+        rollTotal += additionalBonus;
+        
+        console.log("[ENERGY MODIFIER] Additional bonus:", {
+          bonus: additionalBonus,
+          totalWithBonus: rollTotal
+        });
+      }
+      
+      console.log("[ENERGY MODIFIER] Final total (dice + skill + bonus):", rollTotal);
+      console.log("[ENERGY MODIFIER] Current energy:", currentEnergy);
+      console.log("[ENERGY MODIFIER] Max energy:", maxEnergy);
+      console.log("[ENERGY MODIFIER] Is temporary:", item.system.energyModifierIsTemporary);
+      
+      let formula = `${diceFormula}: ${roll.total}`;
+      if (skillBonus > 0) {
+        formula += ` + ${skillName} ${skillBonus}`;
+      }
+      if (additionalBonus > 0) {
+        formula += ` + Bônus ${additionalBonus}`;
+      }
+      
+      let message;
+      let updateResult;
+      
+      // Check if this is a temporary energy point
+      if (item.system.energyModifierIsTemporary) {
+        console.log("[ENERGY MODIFIER] Creating temporary energy effect for tracking table");
+        
+        // Apply the energy bonus directly to the actor's Energy Bonus
+        const energyBonus = modifierType === 'add' ? rollTotal : -rollTotal; // Negative for subtract
+        const currentEnergyBonus = this.document.system.status.energyBonus || 0;
+        const newEnergyBonus = currentEnergyBonus + energyBonus; // Allow negative values temporarily
+        
+        // Update Energy Bonus
+        updateResult = await this.document.update({
+          'system.status.energyBonus': newEnergyBonus
+        });
+        
+        // Create tracking effect item for the effects table
+        const trackingEffectName = modifierType === 'add' 
+          ? `${item.name} (consumed)` 
+          : `${item.name} (consumed)`;
+        
+        const trackingDescription = modifierType === 'add' 
+          ? `Energy Bonus: +${rollTotal} (${formula})`
+          : `Energy Bonus: ${rollTotal} (${formula})`;
+        
+        // Create effect item with energy bonus data
+        const effectItemData = {
+          name: trackingEffectName,
+          type: "efeito",
+          system: {
+            description: trackingDescription,
+            // Store the energy bonus value for removal purposes
+            energyBonusValue: energyBonus,
+            sourceItemId: item.id,
+            sourceItemName: item.name,
+            isTemporaryEnergy: true
+          }
+        };
+        
+        console.log("[ENERGY MODIFIER] Creating effect item with data:", effectItemData);
+        
+        // Create the tracking effect item in actor's items
+        const createdItems = await this.document.createEmbeddedDocuments("Item", [effectItemData]);
+        console.log("[ENERGY MODIFIER] Created effect item:", createdItems[0]);
+        console.log("[ENERGY MODIFIER] Created item system data:", createdItems[0].system);
+        
+        if (modifierType === 'add') {
+          message = `Temporary Energy added: +${rollTotal} (${formula}) - Added to Energy Bonus`;
+        } else {
+          message = `Temporary Energy reduced: -${rollTotal} (${formula}) - Removed from Energy Bonus`;
+        }
+        console.log("[ENERGY MODIFIER] Temporary energy tracking effect created with energyBonusValue:", energyBonus);
+        
+      } else {
+        // Standard energy modification (permanent)
+        let newEnergy;
+        
+        if (modifierType === 'add') {
+          // Add energy (but don't exceed max)
+          newEnergy = Math.min(currentEnergy + rollTotal, maxEnergy);
+          message = `Energy restored: +${rollTotal} (${formula}) - Energy: ${currentEnergy} → ${newEnergy}`;
+        } else if (modifierType === 'subtract') {
+          // Subtract energy (but don't go below 0)
+          newEnergy = Math.max(currentEnergy - rollTotal, 0);
+          message = `Energy lost: -${rollTotal} (${formula}) - Energy: ${currentEnergy} → ${newEnergy}`;
+        }
+        
+        console.log("[ENERGY MODIFIER] New energy calculated:", newEnergy);
+        
+        // Update the actor's energy
+        console.log("[ENERGY MODIFIER] Updating actor energy to:", newEnergy);
+        updateResult = await this.document.update({
+          'system.power.value': newEnergy
+        });
+      }
+      
+      console.log("[ENERGY MODIFIER] Update result:", updateResult);
+      
+      // Send the roll to chat
+      await roll.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor: this.document }),
+        flavor: `Energy Modifier (${modifierType === 'add' ? 'Restoration' : 'Drain'})`,
+        rollMode: game.settings.get('core', 'rollMode')
+      });
+      
+      console.log("[ENERGY MODIFIER] Energy modifier processed successfully");
+      return { message };
+      
+    } catch (error) {
+      console.error("[ENERGY MODIFIER] Error processing energy modifier:", error);
+      return null;
     }
   }
 

@@ -60,6 +60,20 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       armorBonus: new fields.NumberField({ initial: 0, integer: true }) // Bonus to maximum armor
     });
 
+    // Temporary effects for health bonuses from consumables
+    schema.temporaryEffects = new fields.ArrayField(
+      new fields.SchemaField({
+        id: new fields.StringField({ required: true }),
+        name: new fields.StringField({ required: true }),
+        healthBonus: new fields.NumberField({ required: true, integer: true }),
+        source: new fields.StringField({ required: true }),
+        sourceId: new fields.StringField({ required: true }),
+        formula: new fields.StringField({ required: true }),
+        timestamp: new fields.NumberField({ required: true, integer: true })
+      }),
+      { initial: [] }
+    );
+
     // Adiciona campos de detalhes incluindo notas adicionais
     schema.details = new fields.SchemaField({
       name: new fields.StringField({ initial: "" }),

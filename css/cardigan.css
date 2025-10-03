@@ -4907,6 +4907,538 @@
   border: 1px dashed rgba(156, 39, 176, 0.3);
   border-radius: 4px;
 }
+.cardigan .tab.modifiers .health-modifier-toggle {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+}
+.cardigan .tab.modifiers .health-modifier-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--cardigan-c-beige);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .health-modifier-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.3);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .health-modifier-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .health-modifier-system {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+.cardigan .tab.modifiers .health-modifier-system.hidden {
+  display: none;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier {
+  margin: 0;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-checkboxes {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-checkboxes .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-checkboxes .checkbox-label input[type=radio] {
+  margin: 0;
+  transform: scale(1.2);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-checkboxes .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-dice {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-dice label {
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-dice select {
+  flex: 1;
+  min-width: 120px;
+  max-width: 200px;
+  padding: 0.5rem;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  border-radius: 4px;
+  background: rgba(76, 175, 80, 0.1);
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-dice select:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-dice select option {
+  background: #2a2a2a;
+  color: var(--cardigan-c-beige);
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-quantity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-quantity label {
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-quantity input[type=number] {
+  flex: 1;
+  min-width: 80px;
+  max-width: 120px;
+  padding: 0.5rem;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  border-radius: 4px;
+  background: rgba(76, 175, 80, 0.1);
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-quantity input[type=number]:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-additional-bonus {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-additional-bonus label {
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-additional-bonus input[type=number] {
+  flex: 1;
+  min-width: 80px;
+  max-width: 120px;
+  padding: 0.5rem;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  border-radius: 4px;
+  background: rgba(76, 175, 80, 0.1);
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-additional-bonus input[type=number]:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-toggle {
+  margin-top: 1rem;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.2);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-system {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(76, 175, 80, 0.05);
+  border: 1px solid rgba(76, 175, 80, 0.2);
+  border-radius: 4px;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-system.hidden {
+  display: none;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-system .health-modifier-skill-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-system .health-modifier-skill-controls .health-modifier-skill-selection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-system .health-modifier-skill-controls .health-modifier-skill-selection label {
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-system .health-modifier-skill-controls .health-modifier-skill-selection select {
+  flex: 1;
+  min-width: 120px;
+  max-width: 200px;
+  padding: 0.5rem;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  border-radius: 4px;
+  background: rgba(76, 175, 80, 0.1);
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-system .health-modifier-skill-controls .health-modifier-skill-selection select:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-system .health-modifier-skill-controls .health-modifier-skill-selection select option {
+  background: #2a2a2a;
+  color: var(--cardigan-c-beige);
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-system .health-modifier-skill-controls .health-modifier-double-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-system .health-modifier-skill-controls .health-modifier-double-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.2);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-skill-system .health-modifier-skill-controls .health-modifier-double-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-temporary-toggle {
+  margin-top: 1rem;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-temporary-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-temporary-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.2);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .health-modifier-system .form-group.health-modifier .health-modifier-temporary-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .energy-modifier-toggle {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+}
+.cardigan .tab.modifiers .energy-modifier-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--cardigan-c-beige);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .energy-modifier-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.3);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .energy-modifier-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .energy-modifier-system {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+.cardigan .tab.modifiers .energy-modifier-system.hidden {
+  display: none;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier {
+  margin: 0;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-checkboxes {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-checkboxes .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-checkboxes .checkbox-label input[type=radio] {
+  margin: 0;
+  transform: scale(1.2);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-checkboxes .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-dice {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-dice .form-group {
+  flex: 1;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-dice .form-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-dice .form-group select {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-dice .form-group select:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-dice .form-group select:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-quantity {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-quantity .form-group {
+  flex: 1;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-quantity .form-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-quantity .form-group input[type=number] {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-quantity .form-group input[type=number]:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-quantity .form-group input[type=number]:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-additional-bonus {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-additional-bonus .form-group {
+  flex: 1;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-additional-bonus .form-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-additional-bonus .form-group input[type=number] {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-additional-bonus .form-group input[type=number]:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-additional-bonus .form-group input[type=number]:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-toggle {
+  margin: 1rem 0;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.2);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-system {
+  padding: 1rem;
+  margin-top: 0.5rem;
+  background: rgba(76, 175, 80, 0.05);
+  border: 1px solid rgba(76, 175, 80, 0.2);
+  border-radius: 4px;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-system .energy-modifier-skill-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-system .energy-modifier-skill-controls .energy-modifier-skill-selection .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-system .energy-modifier-skill-controls .energy-modifier-skill-selection .form-group label {
+  color: var(--cardigan-c-beige);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-system .energy-modifier-skill-controls .energy-modifier-skill-selection .form-group select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-system .energy-modifier-skill-controls .energy-modifier-skill-selection .form-group select:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-system .energy-modifier-skill-controls .energy-modifier-skill-selection .form-group select:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-system .energy-modifier-skill-controls .energy-modifier-double-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-system .energy-modifier-skill-controls .energy-modifier-double-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.1);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-skill-system .energy-modifier-skill-controls .energy-modifier-double-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-temporary-toggle {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  border-radius: 4px;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-temporary-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-temporary-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.2);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .energy-modifier-system .form-group.energy-modifier .energy-modifier-temporary-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
 .cardigan {
   /* ===== RECIPES TABLE STYLES ===== */
 }

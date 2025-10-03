@@ -312,6 +312,12 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup temporary skill bonus toggle visibility for consumable items
     this._setupTemporarySkillBonusToggle();
     
+    // Setup health modifier toggle visibility for consumable items
+    this._setupHealthModifierToggle();
+    
+    // Setup energy modifier toggle visibility for consumable items
+    this._setupEnergyModifierToggle();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -1436,6 +1442,100 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Setup health modifier toggle visibility for consumable items
+   * @private
+   */
+  _setupHealthModifierToggle() {
+    const toggle = this.element.querySelector('[data-health-modifier-toggle]');
+    const healthModifierSection = this.element.querySelector('[data-health-modifier-section]');
+    
+    if (!toggle || !healthModifierSection) return;
+    
+    // Add event listener for the toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        healthModifierSection.classList.remove('hidden');
+      } else {
+        healthModifierSection.classList.add('hidden');
+      }
+    });
+
+    // Setup skill toggle within health modifier section
+    this._setupHealthModifierSkillToggle();
+  }
+
+  /**
+   * Setup health modifier skill toggle visibility
+   * @private
+   */
+  _setupHealthModifierSkillToggle() {
+    const toggle = this.element.querySelector('[data-health-modifier-skill-toggle]');
+    const skillSection = this.element.querySelector('[data-health-modifier-skill-section]');
+    
+    if (!toggle || !skillSection) return;
+    
+    // Add event listener for the skill toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        skillSection.classList.remove('hidden');
+      } else {
+        skillSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup energy modifier toggle visibility for consumable items
+   * @private
+   */
+  _setupEnergyModifierToggle() {
+    const toggle = this.element.querySelector('[data-energy-modifier-toggle]');
+    const energyModifierSection = this.element.querySelector('[data-energy-modifier-section]');
+    
+    if (!toggle || !energyModifierSection) return;
+    
+    // Add event listener for the toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        energyModifierSection.classList.remove('hidden');
+      } else {
+        energyModifierSection.classList.add('hidden');
+      }
+    });
+
+    // Setup skill toggle within energy modifier section
+    this._setupEnergyModifierSkillToggle();
+  }
+
+  /**
+   * Setup energy modifier skill toggle visibility
+   * @private
+   */
+  _setupEnergyModifierSkillToggle() {
+    const toggle = this.element.querySelector('[data-energy-modifier-skill-toggle]');
+    const skillSection = this.element.querySelector('[data-energy-modifier-skill-section]');
+    
+    if (!toggle || !skillSection) return;
+    
+    // Add event listener for the skill toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        skillSection.classList.remove('hidden');
+      } else {
+        skillSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
    * Creates drag & drop handlers for this application
    * @returns {foundry.applications.ux.DragDrop[]}     An array of DragDrop handlers
    * @private
@@ -1452,6 +1552,53 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         drop: this._onDrop.bind(this),
       };
       return new foundry.applications.ux.DragDrop(d);
+    });
+  }
+
+  /**
+   * Setup energy modifier toggle visibility for consumable items
+   * @private
+   */
+  _setupEnergyModifierToggle() {
+    const toggle = this.element.querySelector('[data-energy-modifier-toggle]');
+    const energyModifierSection = this.element.querySelector('[data-energy-modifier-section]');
+    
+    if (!toggle || !energyModifierSection) return;
+    
+    // Add event listener for the toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        energyModifierSection.classList.remove('hidden');
+      } else {
+        energyModifierSection.classList.add('hidden');
+      }
+    });
+
+    // Setup skill toggle within energy modifier section
+    this._setupEnergyModifierSkillToggle();
+  }
+
+  /**
+   * Setup energy modifier skill toggle visibility
+   * @private
+   */
+  _setupEnergyModifierSkillToggle() {
+    const toggle = this.element.querySelector('[data-energy-modifier-skill-toggle]');
+    const skillSection = this.element.querySelector('[data-energy-modifier-skill-section]');
+    
+    if (!toggle || !skillSection) return;
+    
+    // Add event listener for the skill toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        skillSection.classList.remove('hidden');
+      } else {
+        skillSection.classList.add('hidden');
+      }
     });
   }
 }

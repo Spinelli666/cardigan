@@ -68,6 +68,42 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
       ),
     });
 
+    // Temporary health tracking fields
+    schema.isTemporaryHealth = new fields.BooleanField({
+      required: false,
+      initial: false,
+    });
+
+    schema.healthBonusValue = new fields.NumberField({
+      required: false,
+      nullable: true,
+      initial: 0,
+    });
+
+    schema.sourceItemId = new fields.StringField({
+      required: false,
+      blank: true,
+      initial: '',
+    });
+
+    schema.sourceItemName = new fields.StringField({
+      required: false,
+      blank: true,
+      initial: '',
+    });
+
+    // Temporary energy tracking fields
+    schema.isTemporaryEnergy = new fields.BooleanField({
+      required: false,
+      initial: false,
+    });
+
+    schema.energyBonusValue = new fields.NumberField({
+      required: false,
+      nullable: true,
+      initial: 0,
+    });
+
     return schema;
   }
 }
