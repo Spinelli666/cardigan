@@ -210,6 +210,40 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       { initial: [] }
     );
 
+    // Temporary skill bonus system (always applies on consumption)
+    schema.hasTemporarySkillBonus = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasTemporarySkillBonus"
+    });
+
+    schema.temporarySkillBonus = new fields.ArrayField(
+      new fields.SchemaField({
+        ability: new fields.StringField({
+          required: true,
+          initial: "accuracy",
+          choices: {
+            "accuracy": "CARDIGAN.Ability.Accuracy.long",
+            "evasion": "CARDIGAN.Ability.Evasion.long",
+            "strength": "CARDIGAN.Ability.Strength.long",
+            "dexterity": "CARDIGAN.Ability.Dexterity.long",
+            "stamina": "CARDIGAN.Ability.Stamina.long",
+            "stealth": "CARDIGAN.Ability.Stealth.long",
+            "persuasion": "CARDIGAN.Ability.Persuasion.long",
+            "intelligence": "CARDIGAN.Ability.Intelligence.long",
+            "psionics": "CARDIGAN.Ability.Psionics.long"
+          }
+        }),
+        value: new fields.NumberField({
+          required: true,
+          initial: 1,
+          min: 1,
+          integer: true
+        })
+      }),
+      { initial: [] }
+    );
+
     // Controls whether effects section is enabled
     schema.hasEffects = new fields.BooleanField({
       required: true,

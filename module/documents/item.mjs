@@ -72,24 +72,26 @@ export class CardiganSystemItem extends Item {
         for (const bonus of tracking.appliedSkillBonuses) {
           const abilityData = this.actor.system.abilities[bonus.ability];
           if (abilityData) {
+            const bonusValue = bonus.bonus || bonus.value || 0; // Support both fields
+            
             // Determine if this is a penalty (negative) or bonus (positive)
-            if (bonus.value < 0) {
+            if (bonusValue < 0) {
               // This is a penalty (Critical Failure Skill Loss)
-              // Revert by adding back to manualValue (base value)
+              // Revert by subtracting from manualValue (double negative = positive)
               const currentManualValue = abilityData.manualValue || 0;
-              const newManualValue = currentManualValue - bonus.value; // Double negative = positive
+              const newManualValue = currentManualValue - bonusValue; // Double negative = positive
               updateData[`system.abilities.${bonus.ability}.manualValue`] = newManualValue;
             } else {
-              // This is a bonus (Critical Hit Skill Bonus)
+              // This is a bonus (Critical Hit Skill Bonus or Temporary Skill Bonus)
               // Revert by subtracting from manualBonus
               const currentManualBonus = abilityData.manualBonus || 0;
-              const newManualBonus = currentManualBonus - bonus.value;
+              const newManualBonus = currentManualBonus - bonusValue;
               updateData[`system.abilities.${bonus.ability}.manualBonus`] = newManualBonus;
             }
             
             const abilityName = game.i18n.localize(`CARDIGAN.Ability.${bonus.ability.charAt(0).toUpperCase() + bonus.ability.slice(1)}.long`);
-            const sign = bonus.value >= 0 ? '' : '+';
-            const revertValue = -bonus.value;
+            const sign = bonusValue >= 0 ? '' : '+';
+            const revertValue = -bonusValue;
             revertMessages.push(`${abilityName}: ${sign}${revertValue}`);
           }
         }

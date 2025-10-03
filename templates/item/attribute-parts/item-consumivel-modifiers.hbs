@@ -35,7 +35,9 @@
         {{localize "CARDIGAN.ItemConsumivel.SkillCheckAdvantage"}}
       </label>
     </div>
+  </div>
 
+  <div class="skill-check-system {{#unless item.system.hasSkillCheck}}hidden{{/unless}}" data-skill-check-section>
     {{! Critical Failure Effects System }}
     <div class="critical-failure-effects-toggle">
       <label class="checkbox-label">
@@ -214,6 +216,57 @@
           </div>
         {{/unless}}
       </div>
+    </div>
+  </div>
+
+  {{! Temporary Skill Bonus System - Independent of Skill Check }}
+  <div class="temporary-skill-bonus-toggle">
+    <label class="checkbox-label">
+      <input type="checkbox" name="system.hasTemporarySkillBonus" {{checked item.system.hasTemporarySkillBonus}} data-dtype="Boolean" data-temporary-skill-bonus-toggle />
+      {{localize "CARDIGAN.ItemConsumivel.HasTemporarySkillBonus"}}
+    </label>
+  </div>
+
+  <div class="temporary-skill-bonus-system {{#unless item.system.hasTemporarySkillBonus}}hidden{{/unless}}" data-temporary-skill-bonus-section>
+    <div class="form-group temporary-skill-bonus">
+      <div class="temporary-skill-bonus-header">
+        <label>{{localize "CARDIGAN.ItemConsumivel.TemporarySkillBonus"}}</label>
+        <button type="button" class="add-temporary-skill-bonus-btn" data-action="addTemporarySkillBonus" title="{{localize 'CARDIGAN.ItemConsumivel.AddTemporarySkillBonus'}}">+</button>
+      </div>
+      
+      <div class="temporary-skill-bonus-list" data-temporary-skill-bonus-container>
+        {{#each item.system.temporarySkillBonus as |skillBonus index|}}
+          <div class="temporary-skill-bonus-row" data-temporary-skill-bonus-index="{{index}}">
+            <div class="skill-bonus-controls">
+              <div class="skill-bonus-ability">
+                <label>{{localize "CARDIGAN.ItemConsumivel.TemporarySkillBonusAbility"}}</label>
+                <select name="system.temporarySkillBonus.{{index}}.ability" data-temporary-skill-bonus-ability-select>
+                  <option value="accuracy" {{#if (eq skillBonus.ability "accuracy")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Accuracy.long"}}</option>
+                  <option value="evasion" {{#if (eq skillBonus.ability "evasion")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Evasion.long"}}</option>
+                  <option value="strength" {{#if (eq skillBonus.ability "strength")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Strength.long"}}</option>
+                  <option value="dexterity" {{#if (eq skillBonus.ability "dexterity")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Dexterity.long"}}</option>
+                  <option value="stamina" {{#if (eq skillBonus.ability "stamina")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Stamina.long"}}</option>
+                  <option value="stealth" {{#if (eq skillBonus.ability "stealth")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Stealth.long"}}</option>
+                  <option value="persuasion" {{#if (eq skillBonus.ability "persuasion")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Persuasion.long"}}</option>
+                  <option value="intelligence" {{#if (eq skillBonus.ability "intelligence")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Intelligence.long"}}</option>
+                  <option value="psionics" {{#if (eq skillBonus.ability "psionics")}}selected{{/if}}>{{localize "CARDIGAN.Ability.Psionics.long"}}</option>
+                </select>
+              </div>
+              <div class="skill-bonus-value">
+                <label>{{localize "CARDIGAN.ItemConsumivel.TemporarySkillBonusValue"}}</label>
+                <input type="number" name="system.temporarySkillBonus.{{index}}.value" value="{{skillBonus.value}}" min="1" data-dtype="Number" />
+              </div>
+            </div>
+            <button type="button" class="remove-temporary-skill-bonus-btn" data-action="removeTemporarySkillBonus" data-index="{{index}}" title="{{localize 'CARDIGAN.ItemConsumivel.RemoveTemporarySkillBonus'}}">−</button>
+          </div>
+        {{/each}}
+      </div>
+      
+      {{#unless item.system.temporarySkillBonus.length}}
+        <div class="no-temporary-skill-bonus-message">
+          {{localize "CARDIGAN.NoSkillBonusAdded"}}
+        </div>
+      {{/unless}}
     </div>
   </div>
 

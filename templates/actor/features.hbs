@@ -627,8 +627,8 @@
                   type='button' 
                   class='ability-roll-button'
                   data-action='roll'
-                  data-roll='1d20+@{{key}}.value'
-                  data-label='{{localize (lookup @root.config.abilities key)}} ({{ability.value}}+{{ability.bonus}}={{ability.total}})'
+                  data-roll='1d20+@{{key}}.total'
+                  data-label='{{localize (lookup @root.config.abilities key)}} ({{ability.value}}+{{ability.totalBonus}}={{add ability.value ability.totalBonus}})'
                   data-key='{{key}}'
                 >
                   Roll 1d20

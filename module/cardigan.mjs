@@ -192,6 +192,11 @@ Handlebars.registerHelper('checked', function (value) {
   return value ? 'checked' : '';
 });
 
+// Helper para adição matemática
+Handlebars.registerHelper('add', function (a, b) {
+  return (a || 0) + (b || 0);
+});
+
 // Helper para verificar se há armas ranged na lista
 Handlebars.registerHelper('hasRangedWeapons', function(weapons) {
   if (!weapons || !Array.isArray(weapons)) return false;

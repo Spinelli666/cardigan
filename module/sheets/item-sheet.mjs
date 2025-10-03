@@ -309,6 +309,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup critical hit skill bonus toggle visibility for consumable items
     this._setupCriticalHitSkillBonusToggle();
     
+    // Setup temporary skill bonus toggle visibility for consumable items
+    this._setupTemporarySkillBonusToggle();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -1379,7 +1382,61 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Create drag-and-drop workflow handlers for this Application
+   * Setup temporary skill bonus toggle visibility for consumable items
+   * @private
+   */
+  _setupTemporarySkillBonusToggle() {
+    const toggle = this.element.querySelector('[data-temporary-skill-bonus-toggle]');
+    const temporarySkillBonusSection = this.element.querySelector('[data-temporary-skill-bonus-section]');
+    
+    if (!toggle || !temporarySkillBonusSection) return;
+    
+    // Add event listener for the toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        temporarySkillBonusSection.classList.remove('hidden');
+      } else {
+        temporarySkillBonusSection.classList.add('hidden');
+      }
+    });
+
+    // Setup add/remove skill bonus buttons
+    this._setupTemporarySkillBonusButtons();
+  }
+
+  /**
+   * Setup temporary skill bonus add/remove buttons
+   * @private
+   */
+  _setupTemporarySkillBonusButtons() {
+    // Add skill bonus button
+    const addButton = this.element.querySelector('[data-action="addTemporarySkillBonus"]');
+    if (addButton) {
+      addButton.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const currentSkillBonus = this.document.system.temporarySkillBonus || [];
+        const newSkillBonus = [...currentSkillBonus, { ability: "accuracy", value: 1 }];
+        await this.document.update({ 'system.temporarySkillBonus': newSkillBonus });
+      });
+    }
+
+    // Remove skill bonus buttons
+    const removeButtons = this.element.querySelectorAll('[data-action="removeTemporarySkillBonus"]');
+    removeButtons.forEach(button => {
+      button.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const index = parseInt(button.dataset.index);
+        const currentSkillBonus = this.document.system.temporarySkillBonus || [];
+        const newSkillBonus = currentSkillBonus.filter((_, i) => i !== index);
+        await this.document.update({ 'system.temporarySkillBonus': newSkillBonus });
+      });
+    });
+  }
+
+  /**
+   * Creates drag & drop handlers for this application
    * @returns {foundry.applications.ux.DragDrop[]}     An array of DragDrop handlers
    * @private
    */

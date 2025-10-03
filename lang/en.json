@@ -535,9 +535,16 @@
       "RemoveCriticalHitSkillBonus": "Remove Skill Bonus",
       "CriticalHitSkillBonusAbility": "Ability",
       "CriticalHitSkillBonusValue": "Bonus Value",
+      "HasTemporarySkillBonus": "Temporary Skill Bonus?",
+      "TemporarySkillBonus": "Temporary Skill Bonus",
+      "AddTemporarySkillBonus": "Add Skill Bonus",
+      "RemoveTemporarySkillBonus": "Remove Skill Bonus",
+      "TemporarySkillBonusAbility": "Ability",
+      "TemporarySkillBonusValue": "Bonus Value",
       "HasEffects": "Does it grant any Effect?"
     },
     "NoSkillLossAdded": "No skill loss configured",
+    "NoSkillBonusAdded": "No skill bonus configured",
     "Modifiers": {
       "Title": "Modifiers",
       "Subtitle": "Effects and modifiers applied when using this item",

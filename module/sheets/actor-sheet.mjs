@@ -277,6 +277,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para campos dinâmicos de bonus
     this.#addBonusFieldsListeners();
     
+
+    
     // Adicionar event listeners para campos dinâmicos de valores atuais
     this.#addValueFieldsListeners();
     
@@ -3034,6 +3036,21 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
       }
 
+      // Process temporary skill bonuses (always applied on consumption)
+      if (item.system.hasTemporarySkillBonus && item.system.temporarySkillBonus?.length > 0) {
+        const validBonuses = item.system.temporarySkillBonus.filter(bonus => 
+          bonus.ability && bonus.ability.trim() !== "" && bonus.value && bonus.value !== 0
+        );
+        
+        if (validBonuses.length > 0) {
+          appliedSkillBonuses.push(...validBonuses);
+          const bonusMessages = validBonuses.map(bonus => 
+            `${bonus.ability}: +${bonus.value}`
+          );
+          messages.push(`Applied temporary skill bonuses: ${bonusMessages.join(', ')}`);
+        }
+      }
+
       // If we have a roll result with critical effects, they were already processed
       // and stored in the rollResult. We need to collect them for tracking.
       if (rollResult && rollResult.isCriticalFailure) {
@@ -3060,6 +3077,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         if (item.system.hasCriticalHitSkillBonus && item.system.criticalHitSkillBonus?.length > 0) {
           appliedSkillBonuses.push(...item.system.criticalHitSkillBonus);
         }
+      }
+
+      // Apply skill bonuses directly to abilities
+      if (appliedSkillBonuses.length > 0) {
+        await this._applySkillBonuses(appliedSkillBonuses);
       }
 
       // Create tracking effect item if there were any effects or bonuses applied
@@ -3267,12 +3289,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
       }
       
-      // Apply skill losses
+      // Skill losses will be applied by the unified _applySkillBonuses method
+      // just prepare the messages for chat
       if (item.system.hasCriticalFailureSkillLoss && item.system.criticalFailureSkillLoss?.length > 0) {
         for (const skillLoss of item.system.criticalFailureSkillLoss) {
           if (skillLoss.ability && skillLoss.value > 0) {
-            await this._applyCriticalFailureSkillLoss(skillLoss.ability, skillLoss.value);
-            
             const abilityName = game.i18n.localize(`CARDIGAN.Ability.${skillLoss.ability.charAt(0).toUpperCase() + skillLoss.ability.slice(1)}.long`);
             criticalFailureMessages.push(`Lost <strong>${skillLoss.value}</strong> points from <strong>${abilityName}</strong>`);
           }
@@ -3384,12 +3405,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
       }
       
-      // Apply skill bonuses
+      // Skill bonuses will be applied by the unified _applySkillBonuses method
+      // just prepare the messages for chat
       if (item.system.hasCriticalHitSkillBonus && item.system.criticalHitSkillBonus?.length > 0) {
         for (const skillBonus of item.system.criticalHitSkillBonus) {
           if (skillBonus.ability && skillBonus.value > 0) {
-            await this._applyCriticalHitSkillBonus(skillBonus.ability, skillBonus.value);
-            
             const abilityName = game.i18n.localize(`CARDIGAN.Ability.${skillBonus.ability.charAt(0).toUpperCase() + skillBonus.ability.slice(1)}.long`);
             criticalHitMessages.push(`Gained <strong>${skillBonus.value}</strong> bonus to <strong>${abilityName}</strong>`);
           }
@@ -3478,6 +3498,44 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Apply skill bonuses directly to actor abilities
+   * @param {Array} appliedSkillBonuses - Array of skill bonuses to apply
+   * @private
+   */
+  async _applySkillBonuses(appliedSkillBonuses) {
+    const updateData = {};
+    
+    for (const bonus of appliedSkillBonuses) {
+      const ability = bonus.ability;
+      const bonusValue = bonus.bonus || bonus.value || 0; // Support both bonus and value fields
+      
+      if (ability && bonusValue !== 0) {
+        const abilityData = this.document.system.abilities[ability];
+        
+        if (bonusValue < 0) {
+          // This is a penalty (Critical Failure Skill Loss) - apply to manualValue
+          const currentManualValue = abilityData?.manualValue || 0;
+          const newManualValue = currentManualValue + bonusValue; // bonusValue is negative
+          updateData[`system.abilities.${ability}.manualValue`] = newManualValue;
+          
+          console.log(`[CARDIGAN] Applied ${bonusValue} penalty to ${ability}.manualValue: ${currentManualValue} -> ${newManualValue}`);
+        } else {
+          // This is a bonus (Critical Hit or Temporary Skill Bonus) - apply to manualBonus
+          const currentManualBonus = abilityData?.manualBonus || 0;
+          const newManualBonus = currentManualBonus + bonusValue;
+          updateData[`system.abilities.${ability}.manualBonus`] = newManualBonus;
+          
+          console.log(`[CARDIGAN] Applied ${bonusValue} bonus to ${ability}.manualBonus: ${currentManualBonus} -> ${newManualBonus}`);
+        }
+      }
+    }
+    
+    if (Object.keys(updateData).length > 0) {
+      await this.document.update(updateData);
+    }
+  }
+
+  /**
    * Create a tracking effect item for consumed items
    * @param {Item} originalItem - The original consumed item
    * @param {string} rollType - Type of roll: 'normal', 'critical-failure', 'critical-hit'
@@ -3525,8 +3583,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         effectDescriptions.push('<strong>Applied Skill Bonuses:</strong>');
         for (const bonus of appliedSkillBonuses) {
           const abilityName = game.i18n.localize(`CARDIGAN.Ability.${bonus.ability.charAt(0).toUpperCase() + bonus.ability.slice(1)}.long`);
-          const sign = bonus.value >= 0 ? '+' : '';
-          effectDescriptions.push(`• ${abilityName}: ${sign}${bonus.value}`);
+          const bonusValue = bonus.value || bonus.bonus || 0;
+          const sign = bonusValue >= 0 ? '+' : '';
+          effectDescriptions.push(`• ${abilityName}: ${sign}${bonusValue}`);
         }
       }
 
@@ -5217,4 +5276,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       return {};
     }
   }
+
+
 }

@@ -4750,6 +4750,163 @@
   border: 1px dashed rgba(76, 175, 80, 0.3);
   border-radius: 4px;
 }
+.cardigan .tab.modifiers .temporary-skill-bonus-toggle {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(156, 39, 176, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(156, 39, 176, 0.3);
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #9C27B0;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.3);
+  cursor: pointer;
+  accent-color: #9C27B0;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-toggle .checkbox-label:hover {
+  color: #BA68C8;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system {
+  background: rgba(156, 39, 176, 0.05);
+  border: 1px solid rgba(156, 39, 176, 0.2);
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 0.5rem 0 1.5rem 0;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system.hidden {
+  display: none;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(156, 39, 176, 0.3);
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-header label {
+  color: #9C27B0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-header .add-temporary-skill-bonus-btn {
+  background: #9C27B0;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-header .add-temporary-skill-bonus-btn:hover {
+  background: #BA68C8;
+  transform: scale(1.1);
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(156, 39, 176, 0.08);
+  border: 1px solid rgba(156, 39, 176, 0.2);
+  border-radius: 4px;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls {
+  flex: 1;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-ability,
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-value {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-ability label,
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-value label {
+  color: #9C27B0;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-ability select,
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-ability input,
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-value select,
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-value input {
+  padding: 0.5rem;
+  border: 1px solid rgba(156, 39, 176, 0.4);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--cardigan-c-beige);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-ability select:focus,
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-ability input:focus,
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-value select:focus,
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-value input:focus {
+  border-color: #9C27B0;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(156, 39, 176, 0.2);
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-ability {
+  flex: 2;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-value {
+  flex: 1;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .skill-bonus-controls .skill-bonus-value input {
+  width: 100%;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .remove-temporary-skill-bonus-btn {
+  background: rgba(244, 67, 54, 0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .temporary-skill-bonus-row .remove-temporary-skill-bonus-btn:hover {
+  background: #f44336;
+  transform: scale(1.1);
+}
+.cardigan .tab.modifiers .temporary-skill-bonus-system .no-temporary-skill-bonus-message {
+  text-align: center;
+  color: rgba(156, 39, 176, 0.6);
+  font-style: italic;
+  padding: 1rem;
+  background: rgba(156, 39, 176, 0.05);
+  border: 1px dashed rgba(156, 39, 176, 0.3);
+  border-radius: 4px;
+}
 .cardigan {
   /* ===== RECIPES TABLE STYLES ===== */
 }
