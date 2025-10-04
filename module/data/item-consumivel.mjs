@@ -460,6 +460,149 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       label: "CARDIGAN.ItemConsumivel.SanityModifierAmount"
     });
 
+    // Toxicity modifier fields
+    schema.hasToxicityModifier = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasToxicityModifier"
+    });
+
+    schema.toxicityModifierType = new fields.StringField({
+      required: false,
+      initial: "increase",
+      choices: {
+        "increase": "CARDIGAN.ItemConsumivel.ModifierIncrease",
+        "decrease": "CARDIGAN.ItemConsumivel.ModifierDecrease"
+      },
+      label: "CARDIGAN.ItemConsumivel.ToxicityModifierType"
+    });
+
+    schema.toxicityModifierAmount = new fields.NumberField({
+      required: false,
+      initial: 1,
+      min: 1,
+      max: 5,
+      integer: true,
+      label: "CARDIGAN.ItemConsumivel.ToxicityModifierAmount"
+    });
+
+    // Fracture modifier fields
+    schema.hasFractureModifier = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasFractureModifier"
+    });
+
+    schema.fractureModifierType = new fields.StringField({
+      required: false,
+      initial: "increase",
+      choices: {
+        "increase": "CARDIGAN.ItemConsumivel.ModifierIncrease",
+        "decrease": "CARDIGAN.ItemConsumivel.ModifierDecrease"
+      },
+      label: "CARDIGAN.ItemConsumivel.FractureModifierType"
+    });
+
+    schema.fractureModifierAmount = new fields.NumberField({
+      required: false,
+      initial: 1,
+      min: 1,
+      max: 5,
+      integer: true,
+      label: "CARDIGAN.ItemConsumivel.FractureModifierAmount"
+    });
+
+    // Food and Water system
+    schema.hasFoodAndWater = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasFoodAndWater"
+    });
+
+    // Food modifier fields
+    schema.hasFoodModifier = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasFoodModifier"
+    });
+
+    schema.foodModifierType = new fields.StringField({
+      required: false,
+      initial: "increase",
+      choices: {
+        "increase": "CARDIGAN.ItemConsumivel.ModifierIncrease",
+        "decrease": "CARDIGAN.ItemConsumivel.ModifierDecrease"
+      },
+      label: "CARDIGAN.ItemConsumivel.FoodModifierType"
+    });
+
+    schema.foodModifierAmount = new fields.NumberField({
+      required: false,
+      initial: 1,
+      min: 1,
+      max: 5,
+      integer: true,
+      label: "CARDIGAN.ItemConsumivel.FoodModifierAmount"
+    });
+
+    // Water modifier fields
+    schema.hasWaterModifier = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasWaterModifier"
+    });
+
+    schema.waterModifierType = new fields.StringField({
+      required: false,
+      initial: "increase",
+      choices: {
+        "increase": "CARDIGAN.ItemConsumivel.ModifierIncrease",
+        "decrease": "CARDIGAN.ItemConsumivel.ModifierDecrease"
+      },
+      label: "CARDIGAN.ItemConsumivel.WaterModifierType"
+    });
+
+    schema.waterModifierAmount = new fields.NumberField({
+      required: false,
+      initial: 1,
+      min: 1,
+      max: 5,
+      integer: true,
+      label: "CARDIGAN.ItemConsumivel.WaterModifierAmount"
+    });
+
+    // Movement boost system
+    schema.hasMovementBoost = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasMovementBoost"
+    });
+
+    schema.movementBoostAmount = new fields.NumberField({
+      required: false,
+      initial: 1,
+      min: 1,
+      max: 10,
+      integer: true,
+      label: "CARDIGAN.ItemConsumivel.MovementBoostAmount"
+    });
+
+    // Critical hit boost system
+    schema.hasCriticalHitBoost = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasCriticalHitBoost"
+    });
+
+    schema.criticalHitBoostAmount = new fields.NumberField({
+      required: false,
+      initial: 1,
+      min: 1,
+      max: 5,
+      integer: true,
+      label: "CARDIGAN.ItemConsumivel.CriticalHitBoostAmount"
+    });
+
     // Controls whether effects section is enabled
     schema.hasEffects = new fields.BooleanField({
       required: true,

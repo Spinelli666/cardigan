@@ -66,6 +66,13 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
         }),
         { required: false, initial: [] }
       ),
+      appliedAttributeModifiers: new fields.ArrayField(
+        new fields.SchemaField({
+          type: new fields.StringField({ required: false, blank: true }), // 'movement', 'criticalHit'
+          amount: new fields.NumberField({ required: false, integer: true, initial: 0 }),
+        }),
+        { required: false, initial: [] }
+      ),
     });
 
     // Temporary health tracking fields

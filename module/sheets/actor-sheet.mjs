@@ -753,6 +753,46 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           previousBonus: currentArmorBonus,
           newBonus: newArmorBonus
         });
+      } else if (doc.type === "efeito" && doc.system.consumableTracking?.isTrackingEffect && doc.system.consumableTracking?.appliedAttributeModifiers?.length > 0) {
+        console.log("[ATTRIBUTE MODIFIERS] Reverting attribute modifiers on tracking effect deletion:", {
+          effectName: doc.name,
+          modifiers: doc.system.consumableTracking.appliedAttributeModifiers
+        });
+        
+        // Get the actor from the document
+        const actor = doc.parent;
+        const updateData = {};
+        
+        // Process each attribute modifier
+        for (const modifier of doc.system.consumableTracking.appliedAttributeModifiers) {
+          if (modifier.type === 'movement') {
+            const currentMovementManual = actor.system.details.movementManual || 0;
+            const newMovementManual = currentMovementManual - modifier.amount; // Subtract the amount we added
+            updateData['system.details.movementManual'] = newMovementManual;
+            
+            console.log("[MOVEMENT] Reverting movement boost:", {
+              currentManual: currentMovementManual,
+              amountToRevert: modifier.amount,
+              newManual: newMovementManual
+            });
+          } else if (modifier.type === 'criticalHit') {
+            const currentCriticalHitManual = actor.system.details.criticalHitManual || 0;
+            const newCriticalHitManual = currentCriticalHitManual + modifier.amount; // Add back the amount (reverse the improvement)
+            updateData['system.details.criticalHitManual'] = newCriticalHitManual;
+            
+            console.log("[CRITICAL HIT] Reverting critical hit boost:", {
+              currentManual: currentCriticalHitManual,
+              amountToRevert: modifier.amount,
+              newManual: newCriticalHitManual
+            });
+          }
+        }
+        
+        // Apply all updates at once
+        if (Object.keys(updateData).length > 0) {
+          await actor.update(updateData);
+          console.log("[ATTRIBUTE MODIFIERS] Attribute modifiers reverted:", updateData);
+        }
       } else if (doc.type === "efeito") {
         console.log("[DEBUG DELETE] Effect item does not match temporary health criteria in _deleteDoc:", {
           isEfeito: doc.type === "efeito",
@@ -3228,6 +3268,139 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         console.log("[CONSUME] Status ailments not configured or not enabled");
       }
 
+      // Process toxicity modifier (always applied on consumption)
+      console.log("[CONSUME] Checking toxicity:", {
+        hasToxicityModifier: item.system.hasToxicityModifier,
+        toxicityModifierType: item.system.toxicityModifierType,
+        toxicityModifierAmount: item.system.toxicityModifierAmount
+      });
+
+      if (item.system.hasToxicityModifier && item.system.toxicityModifierAmount > 0) {
+        console.log("[CONSUME] Processing toxicity for item:", item.name);
+        const toxicityResult = await this._processToxicity(item);
+        if (toxicityResult) {
+          messages.push(toxicityResult.message);
+          console.log("[CONSUME] Toxicity processed, message added:", toxicityResult.message);
+        } else {
+          console.log("[CONSUME] Toxicity processing returned null");
+        }
+      } else {
+        console.log("[CONSUME] Toxicity not configured or not enabled");
+      }
+
+      // Process fracture modifier (always applied on consumption)
+      console.log("[CONSUME] Checking fracture:", {
+        hasFractureModifier: item.system.hasFractureModifier,
+        fractureModifierType: item.system.fractureModifierType,
+        fractureModifierAmount: item.system.fractureModifierAmount
+      });
+
+      if (item.system.hasFractureModifier && item.system.fractureModifierAmount > 0) {
+        console.log("[CONSUME] Processing fracture for item:", item.name);
+        const fractureResult = await this._processFracture(item);
+        if (fractureResult) {
+          messages.push(fractureResult.message);
+          console.log("[CONSUME] Fracture processed, message added:", fractureResult.message);
+        } else {
+          console.log("[CONSUME] Fracture processing returned null");
+        }
+      } else {
+        console.log("[CONSUME] Fracture not configured or not enabled");
+      }
+
+      // Process food modifier (always applied on consumption)
+      console.log("[CONSUME] Checking food:", {
+        hasFoodAndWater: item.system.hasFoodAndWater,
+        hasFoodModifier: item.system.hasFoodModifier,
+        foodModifierType: item.system.foodModifierType,
+        foodModifierAmount: item.system.foodModifierAmount
+      });
+
+      if (item.system.hasFoodAndWater && item.system.hasFoodModifier && item.system.foodModifierAmount > 0) {
+        console.log("[CONSUME] Processing food for item:", item.name);
+        const foodResult = await this._processFood(item);
+        if (foodResult) {
+          messages.push(foodResult.message);
+          console.log("[CONSUME] Food processed, message added:", foodResult.message);
+        } else {
+          console.log("[CONSUME] Food processing returned null");
+        }
+      } else {
+        console.log("[CONSUME] Food not configured or not enabled");
+      }
+
+      // Process water modifier (always applied on consumption)
+      console.log("[CONSUME] Checking water:", {
+        hasFoodAndWater: item.system.hasFoodAndWater,
+        hasWaterModifier: item.system.hasWaterModifier,
+        waterModifierType: item.system.waterModifierType,
+        waterModifierAmount: item.system.waterModifierAmount
+      });
+
+      if (item.system.hasFoodAndWater && item.system.hasWaterModifier && item.system.waterModifierAmount > 0) {
+        console.log("[CONSUME] Processing water for item:", item.name);
+        const waterResult = await this._processWater(item);
+        if (waterResult) {
+          messages.push(waterResult.message);
+          console.log("[CONSUME] Water processed, message added:", waterResult.message);
+        } else {
+          console.log("[CONSUME] Water processing returned null");
+        }
+      } else {
+        console.log("[CONSUME] Water not configured or not enabled");
+      }
+
+      // Track applied attribute modifiers for the tracking item
+      const appliedAttributeModifiers = [];
+
+      // Process movement boost
+      console.log("[CONSUME] Checking movement boost:", {
+        hasMovementBoost: item.system.hasMovementBoost,
+        movementBoostAmount: item.system.movementBoostAmount
+      });
+
+      if (item.system.hasMovementBoost && item.system.movementBoostAmount > 0) {
+        console.log("[CONSUME] Processing movement boost for item:", item.name);
+        const movementResult = await this._processMovementBoost(item);
+        if (movementResult) {
+          messages.push(movementResult.message);
+          appliedAttributeModifiers.push({
+            type: 'movement',
+            amount: item.system.movementBoostAmount,
+            label: `Movement +${item.system.movementBoostAmount}`
+          });
+          console.log("[CONSUME] Movement boost processed, message added:", movementResult.message);
+        } else {
+          console.log("[CONSUME] Movement boost processing returned null");
+        }
+      } else {
+        console.log("[CONSUME] Movement boost not configured or not enabled");
+      }
+
+      // Process critical hit boost
+      console.log("[CONSUME] Checking critical hit boost:", {
+        hasCriticalHitBoost: item.system.hasCriticalHitBoost,
+        criticalHitBoostAmount: item.system.criticalHitBoostAmount
+      });
+
+      if (item.system.hasCriticalHitBoost && item.system.criticalHitBoostAmount > 0) {
+        console.log("[CONSUME] Processing critical hit boost for item:", item.name);
+        const criticalHitResult = await this._processCriticalHitBoost(item);
+        if (criticalHitResult) {
+          messages.push(criticalHitResult.message);
+          appliedAttributeModifiers.push({
+            type: 'criticalHit',
+            amount: item.system.criticalHitBoostAmount,
+            label: `Critical Hit -${item.system.criticalHitBoostAmount}`
+          });
+          console.log("[CONSUME] Critical hit boost processed, message added:", criticalHitResult.message);
+        } else {
+          console.log("[CONSUME] Critical hit boost processing returned null");
+        }
+      } else {
+        console.log("[CONSUME] Critical hit boost not configured or not enabled");
+      }
+
       // If we have a roll result with critical effects, they were already processed
       // and stored in the rollResult. We need to collect them for tracking.
       if (rollResult && rollResult.isCriticalFailure) {
@@ -3261,9 +3434,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         await this._applySkillBonuses(appliedSkillBonuses);
       }
 
-      // Create tracking effect item if there were any effects or bonuses applied
-      if (appliedEffects.length > 0 || appliedSkillBonuses.length > 0) {
-        await this._createTrackingEffectItem(item, rollType, appliedEffects, appliedSkillBonuses);
+      // Create tracking effect item if there were any effects, bonuses, or attribute modifiers applied
+      if (appliedEffects.length > 0 || appliedSkillBonuses.length > 0 || appliedAttributeModifiers.length > 0) {
+        await this._createTrackingEffectItem(item, rollType, appliedEffects, appliedSkillBonuses, appliedAttributeModifiers);
       }
 
       // Update item quantity or remove if depleted
@@ -3720,7 +3893,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @param {Array} appliedSkillBonuses - Array of skill bonuses that were applied
    * @private
    */
-  async _createTrackingEffectItem(originalItem, rollType, appliedEffects = [], appliedSkillBonuses = []) {
+  async _createTrackingEffectItem(originalItem, rollType, appliedEffects = [], appliedSkillBonuses = [], appliedAttributeModifiers = []) {
     try {
       // Create descriptive name based on roll type
       let itemName = originalItem.name;
@@ -3766,6 +3939,17 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
       }
 
+      if (appliedAttributeModifiers.length > 0) {
+        effectDescriptions.push('<strong>Applied Attribute Modifiers:</strong>');
+        for (const modifier of appliedAttributeModifiers) {
+          if (modifier.type === 'movement') {
+            effectDescriptions.push(`• Movement: +${modifier.amount}`);
+          } else if (modifier.type === 'criticalHit') {
+            effectDescriptions.push(`• Critical Hit: -${modifier.amount} (improved)`);
+          }
+        }
+      }
+
       if (effectDescriptions.length > 0) {
         description += '<br><br>' + effectDescriptions.join('<br>');
       }
@@ -3785,6 +3969,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
             rollType: rollType,
             appliedEffects: appliedEffects,
             appliedSkillBonuses: appliedSkillBonuses,
+            appliedAttributeModifiers: appliedAttributeModifiers,
           }
         }
       };
@@ -6109,6 +6294,566 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
     } catch (error) {
       console.error("[STATUS AILMENTS] Error processing status ailments:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Process toxicity modifications for consumable items
+   * @param {Item} item - The consumable item with toxicity modifiers
+   * @returns {Object|null} Processing result with message
+   */
+  async _processToxicity(item) {
+    try {
+      console.log("[TOXICITY] Processing toxicity for item:", item.name);
+      console.log("[TOXICITY] Item configuration:", {
+        hasToxicityModifier: item.system.hasToxicityModifier,
+        toxicityModifierType: item.system.toxicityModifierType,
+        toxicityModifierAmount: item.system.toxicityModifierAmount
+      });
+      
+      if (!item.system.hasToxicityModifier || !item.system.toxicityModifierAmount) {
+        console.log("[TOXICITY] No toxicity modifier configured - missing requirements");
+        return null;
+      }
+
+      const modifierType = item.system.toxicityModifierType; // "increase" or "decrease"
+      const amount = item.system.toxicityModifierAmount;
+      let message = "";
+      let chatMessage = "";
+
+      const currentToxicity = this.document.system.status.toxicity || 0;
+      let newToxicity = currentToxicity;
+      
+      if (modifierType === "increase") {
+        // Increase toxicity (max 5)
+        newToxicity = Math.min(currentToxicity + amount, 5);
+        message = `Toxicity increased by ${amount}: ${currentToxicity} → ${newToxicity}`;
+        
+        // Generate descriptive chat message based on new toxicity level after increase
+        if (newToxicity === 0) {
+          chatMessage = `${this.document.name}: Toxinas eliminadas do organismo.`;
+        } else if (newToxicity > 0) {
+          // Show the current toxicity level message after the increase
+          const toxicityMessages = {
+            1: "Levemente intoxicado, você sente náusea e tontura.",
+            2: "Intoxicação moderada, você está enjoado e com visão turva.",
+            3: "Severamente intoxicado, você está vomitando e com dores intensas.",
+            4: "Intoxicação crítica, você está delirando e perdendo consciência.",
+            5: "Envenenamento fatal, você está à beira da morte por toxinas."
+          };
+          chatMessage = `${this.document.name}: ${toxicityMessages[newToxicity]}`;
+        }
+      } else if (modifierType === "decrease") {
+        // Decrease toxicity (min 0)
+        if (currentToxicity === 0) {
+          message = `Toxicity is already at 0 and cannot be decreased further`;
+          console.log("[TOXICITY] Toxicity already at minimum");
+          return { message };
+        }
+        
+        newToxicity = Math.max(currentToxicity - amount, 0);
+        message = `Toxicity decreased by ${amount}: ${currentToxicity} → ${newToxicity}`;
+        
+        // Generate descriptive chat message based on new toxicity level
+        if (newToxicity > 0) {
+          const toxicityMessages = {
+            1: "Levemente intoxicado, você sente náusea e tontura.",
+            2: "Intoxicação moderada, você está enjoado e com visão turva.",
+            3: "Severamente intoxicado, você está vomitando e com dores intensas.",
+            4: "Intoxicação crítica, você está delirando e perdendo consciência.",
+            5: "Envenenamento fatal, você está à beira da morte por toxinas."
+          };
+          chatMessage = `${this.document.name}: ${toxicityMessages[newToxicity]}`;
+        } else {
+          chatMessage = `${this.document.name}: Toxinas eliminadas do organismo.`;
+        }
+      }
+      
+      console.log("[TOXICITY] Toxicity change:", {
+        current: currentToxicity,
+        new: newToxicity,
+        change: newToxicity - currentToxicity
+      });
+      
+      // Update the actor's toxicity
+      const updateResult = await this.document.update({
+        'system.status.toxicity': newToxicity
+      });
+      
+      // Send descriptive message to chat if there's a change in toxicity level
+      console.log("[TOXICITY] Chat message debug:", {
+        chatMessage,
+        newToxicity,
+        currentToxicity,
+        hasChange: newToxicity !== currentToxicity,
+        shouldSendMessage: chatMessage && newToxicity !== currentToxicity
+      });
+      
+      if (chatMessage && newToxicity !== currentToxicity) {
+        console.log("[TOXICITY] Sending chat message:", chatMessage);
+        await ChatMessage.create({ 
+          content: chatMessage,
+          speaker: ChatMessage.getSpeaker({ actor: this.document })
+        });
+        console.log("[TOXICITY] Chat message sent successfully");
+      } else {
+        console.log("[TOXICITY] Chat message not sent - conditions not met");
+      }
+      
+      console.log("[TOXICITY] Update result:", updateResult);
+      console.log("[TOXICITY] Toxicity processed successfully");
+      return { message };
+      
+    } catch (error) {
+      console.error("[TOXICITY] Error processing toxicity:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Process fracture modifications for consumable items
+   * @param {Item} item - The consumable item with fracture modifiers
+   * @returns {Object|null} Processing result with message
+   */
+  async _processFracture(item) {
+    try {
+      console.log("[FRACTURE] Processing fracture for item:", item.name);
+      console.log("[FRACTURE] Item configuration:", {
+        hasFractureModifier: item.system.hasFractureModifier,
+        fractureModifierType: item.system.fractureModifierType,
+        fractureModifierAmount: item.system.fractureModifierAmount
+      });
+      
+      if (!item.system.hasFractureModifier || !item.system.fractureModifierAmount) {
+        console.log("[FRACTURE] No fracture modifier configured - missing requirements");
+        return null;
+      }
+
+      const modifierType = item.system.fractureModifierType; // "increase" or "decrease"
+      const amount = item.system.fractureModifierAmount;
+      let message = "";
+      let chatMessage = "";
+
+      const currentFracture = this.document.system.status.fracture || 0;
+      let newFracture = currentFracture;
+      
+      if (modifierType === "increase") {
+        // Increase fracture (max 5)
+        newFracture = Math.min(currentFracture + amount, 5);
+        message = `Fracture increased by ${amount}: ${currentFracture} → ${newFracture}`;
+        
+        // Generate descriptive chat message based on new fracture level after increase
+        if (newFracture === 0) {
+          chatMessage = `${this.document.name}: Fraturas curadas completamente.`;
+        } else if (newFracture > 0) {
+          // Show the current fracture level message after the increase
+          const fractureMessages = {
+            1: "Fratura leve, você sente dor e desconforto nos movimentos.",
+            2: "Fratura moderada, seus movimentos estão limitados e dolorosos.",
+            3: "Fratura severa, você mal consegue se mover sem dor intensa.",
+            4: "Fratura crítica, seus ossos estão severamente danificados.",
+            5: "Fraturas múltiplas, você está completamente incapacitado."
+          };
+          chatMessage = `${this.document.name}: ${fractureMessages[newFracture]}`;
+        }
+      } else if (modifierType === "decrease") {
+        // Decrease fracture (min 0)
+        if (currentFracture === 0) {
+          message = `Fracture is already at 0 and cannot be decreased further`;
+          console.log("[FRACTURE] Fracture already at minimum");
+          return { message };
+        }
+        
+        newFracture = Math.max(currentFracture - amount, 0);
+        message = `Fracture decreased by ${amount}: ${currentFracture} → ${newFracture}`;
+        
+        // Generate descriptive chat message based on new fracture level
+        if (newFracture > 0) {
+          const fractureMessages = {
+            1: "Fratura leve, você sente dor e desconforto nos movimentos.",
+            2: "Fratura moderada, seus movimentos estão limitados e dolorosos.",
+            3: "Fratura severa, você mal consegue se mover sem dor intensa.",
+            4: "Fratura crítica, seus ossos estão severamente danificados.",
+            5: "Fraturas múltiplas, você está completamente incapacitado."
+          };
+          chatMessage = `${this.document.name}: ${fractureMessages[newFracture]}`;
+        } else {
+          chatMessage = `${this.document.name}: Fraturas curadas completamente.`;
+        }
+      }
+      
+      console.log("[FRACTURE] Fracture change:", {
+        current: currentFracture,
+        new: newFracture,
+        change: newFracture - currentFracture
+      });
+      
+      // Update the actor's fracture
+      const updateResult = await this.document.update({
+        'system.status.fracture': newFracture
+      });
+      
+      // Send descriptive message to chat if there's a change in fracture level
+      console.log("[FRACTURE] Chat message debug:", {
+        chatMessage,
+        newFracture,
+        currentFracture,
+        hasChange: newFracture !== currentFracture,
+        shouldSendMessage: chatMessage && newFracture !== currentFracture
+      });
+      
+      if (chatMessage && newFracture !== currentFracture) {
+        console.log("[FRACTURE] Sending chat message:", chatMessage);
+        await ChatMessage.create({ 
+          content: chatMessage,
+          speaker: ChatMessage.getSpeaker({ actor: this.document })
+        });
+        console.log("[FRACTURE] Chat message sent successfully");
+      } else {
+        console.log("[FRACTURE] Chat message not sent - conditions not met");
+      }
+      
+      console.log("[FRACTURE] Update result:", updateResult);
+      console.log("[FRACTURE] Fracture processed successfully");
+      return { message };
+      
+    } catch (error) {
+      console.error("[FRACTURE] Error processing fracture:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Process food modifications for consumable items
+   * @param {Item} item - The consumable item with food modifiers
+   * @returns {Object|null} Processing result with message
+   */
+  async _processFood(item) {
+    try {
+      console.log("[FOOD] Processing food for item:", item.name);
+      console.log("[FOOD] Item configuration:", {
+        hasFoodModifier: item.system.hasFoodModifier,
+        foodModifierType: item.system.foodModifierType,
+        foodModifierAmount: item.system.foodModifierAmount
+      });
+      
+      if (!item.system.hasFoodModifier || !item.system.foodModifierAmount) {
+        console.log("[FOOD] No food modifier configured - missing requirements");
+        return null;
+      }
+
+      const modifierType = item.system.foodModifierType; // "increase" or "decrease"
+      const amount = item.system.foodModifierAmount;
+      let message = "";
+      let chatMessage = "";
+
+      const currentHunger = this.document.system.status.hunger || 0;
+      let newHunger = currentHunger;
+      
+      if (modifierType === "increase") {
+        // Increase hunger (max 5) - worse condition
+        newHunger = Math.min(currentHunger + amount, 5);
+        message = `Hunger increased by ${amount}: ${currentHunger} → ${newHunger}`;
+        
+        // Generate descriptive chat message based on new hunger level after increase
+        if (newHunger === 0) {
+          chatMessage = `${this.document.name}: Fome saciada completamente.`;
+        } else if (newHunger > 0) {
+          // Show the current hunger level message after the increase
+          const hungerMessages = {
+            1: "Levemente faminto, você sente um leve desconforto no estômago.",
+            2: "Moderadamente faminto, seu estômago está roncando e você pensa em comida.",
+            3: "Muito faminto, a fome está afetando sua concentração e energia.",
+            4: "Extremamente faminto, você está fraco e desesperado por comida.",
+            5: "Morrendo de fome, você está à beira do colapso por desnutrição."
+          };
+          chatMessage = `${this.document.name}: ${hungerMessages[newHunger]}`;
+        }
+      } else if (modifierType === "decrease") {
+        // Decrease hunger (min 0) - better condition, feeding the character
+        if (currentHunger === 0) {
+          message = `Hunger is already at 0 and cannot be decreased further`;
+          console.log("[FOOD] Hunger already at minimum");
+          return { message };
+        }
+        
+        newHunger = Math.max(currentHunger - amount, 0);
+        message = `Hunger decreased by ${amount}: ${currentHunger} → ${newHunger}`;
+        
+        // Generate descriptive chat message based on new hunger level
+        if (newHunger > 0) {
+          const hungerMessages = {
+            1: "Levemente faminto, você sente um leve desconforto no estômago.",
+            2: "Moderadamente faminto, seu estômago está roncando e você pensa em comida.",
+            3: "Muito faminto, a fome está afetando sua concentração e energia.",
+            4: "Extremamente faminto, você está fraco e desesperado por comida.",
+            5: "Morrendo de fome, você está à beira do colapso por desnutrição."
+          };
+          chatMessage = `${this.document.name}: ${hungerMessages[newHunger]}`;
+        } else {
+          chatMessage = `${this.document.name}: Fome saciada completamente.`;
+        }
+      }
+      
+      console.log("[FOOD] Hunger change:", {
+        current: currentHunger,
+        new: newHunger,
+        change: newHunger - currentHunger
+      });
+      
+      // Update the actor's hunger
+      const updateResult = await this.document.update({
+        'system.status.hunger': newHunger
+      });
+      
+      // Send descriptive message to chat if there's a change in hunger level
+      console.log("[FOOD] Chat message debug:", {
+        chatMessage,
+        newHunger,
+        currentHunger,
+        hasChange: newHunger !== currentHunger,
+        shouldSendMessage: chatMessage && newHunger !== currentHunger
+      });
+      
+      if (chatMessage && newHunger !== currentHunger) {
+        console.log("[FOOD] Sending chat message:", chatMessage);
+        await ChatMessage.create({ 
+          content: chatMessage,
+          speaker: ChatMessage.getSpeaker({ actor: this.document })
+        });
+        console.log("[FOOD] Chat message sent successfully");
+      } else {
+        console.log("[FOOD] Chat message not sent - conditions not met");
+      }
+      
+      console.log("[FOOD] Update result:", updateResult);
+      console.log("[FOOD] Food processed successfully");
+      return { message };
+      
+    } catch (error) {
+      console.error("[FOOD] Error processing food:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Process water modifications for consumable items
+   * @param {Item} item - The consumable item with water modifiers
+   * @returns {Object|null} Processing result with message
+   */
+  async _processWater(item) {
+    try {
+      console.log("[WATER] Processing water for item:", item.name);
+      console.log("[WATER] Item configuration:", {
+        hasWaterModifier: item.system.hasWaterModifier,
+        waterModifierType: item.system.waterModifierType,
+        waterModifierAmount: item.system.waterModifierAmount
+      });
+      
+      if (!item.system.hasWaterModifier || !item.system.waterModifierAmount) {
+        console.log("[WATER] No water modifier configured - missing requirements");
+        return null;
+      }
+
+      const modifierType = item.system.waterModifierType; // "increase" or "decrease"
+      const amount = item.system.waterModifierAmount;
+      let message = "";
+      let chatMessage = "";
+
+      const currentThirst = this.document.system.status.thirst || 0;
+      let newThirst = currentThirst;
+      
+      if (modifierType === "increase") {
+        // Increase thirst (max 5) - worse condition
+        newThirst = Math.min(currentThirst + amount, 5);
+        message = `Thirst increased by ${amount}: ${currentThirst} → ${newThirst}`;
+        
+        // Generate descriptive chat message based on new thirst level after increase
+        if (newThirst === 0) {
+          chatMessage = `${this.document.name}: Sede saciada completamente.`;
+        } else if (newThirst > 0) {
+          // Show the current thirst level message after the increase
+          const thirstMessages = {
+            1: "Levemente sedento, você sente a boca um pouco seca.",
+            2: "Moderadamente sedento, você precisa de água e pensa em beber algo.",
+            3: "Muito sedento, a sede está afetando sua capacidade de concentração.",
+            4: "Extremamente sedento, você está desesperado por água e se sente fraco.",
+            5: "Morrendo de sede, você está à beira do colapso por desidratação."
+          };
+          chatMessage = `${this.document.name}: ${thirstMessages[newThirst]}`;
+        }
+      } else if (modifierType === "decrease") {
+        // Decrease thirst (min 0) - better condition, hydrating the character
+        if (currentThirst === 0) {
+          message = `Thirst is already at 0 and cannot be decreased further`;
+          console.log("[WATER] Thirst already at minimum");
+          return { message };
+        }
+        
+        newThirst = Math.max(currentThirst - amount, 0);
+        message = `Thirst decreased by ${amount}: ${currentThirst} → ${newThirst}`;
+        
+        // Generate descriptive chat message based on new thirst level
+        if (newThirst > 0) {
+          const thirstMessages = {
+            1: "Levemente sedento, você sente a boca um pouco seca.",
+            2: "Moderadamente sedento, você precisa de água e pensa em beber algo.",
+            3: "Muito sedento, a sede está afetando sua capacidade de concentração.",
+            4: "Extremamente sedento, você está desesperado por água e se sente fraco.",
+            5: "Morrendo de sede, você está à beira do colapso por desidratação."
+          };
+          chatMessage = `${this.document.name}: ${thirstMessages[newThirst]}`;
+        } else {
+          chatMessage = `${this.document.name}: Sede saciada completamente.`;
+        }
+      }
+      
+      console.log("[WATER] Thirst change:", {
+        current: currentThirst,
+        new: newThirst,
+        change: newThirst - currentThirst
+      });
+      
+      // Update the actor's thirst
+      const updateResult = await this.document.update({
+        'system.status.thirst': newThirst
+      });
+      
+      // Send descriptive message to chat if there's a change in thirst level
+      console.log("[WATER] Chat message debug:", {
+        chatMessage,
+        newThirst,
+        currentThirst,
+        hasChange: newThirst !== currentThirst,
+        shouldSendMessage: chatMessage && newThirst !== currentThirst
+      });
+      
+      if (chatMessage && newThirst !== currentThirst) {
+        console.log("[WATER] Sending chat message:", chatMessage);
+        await ChatMessage.create({ 
+          content: chatMessage,
+          speaker: ChatMessage.getSpeaker({ actor: this.document })
+        });
+        console.log("[WATER] Chat message sent successfully");
+      } else {
+        console.log("[WATER] Chat message not sent - conditions not met");
+      }
+      
+      console.log("[WATER] Update result:", updateResult);
+      console.log("[WATER] Water processed successfully");
+      return { message };
+      
+    } catch (error) {
+      console.error("[WATER] Error processing water:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Process movement boost for consumable items
+   * @param {Item} item - The consumable item with movement boost
+   * @returns {Object|null} Processing result with message
+   */
+  async _processMovementBoost(item) {
+    try {
+      console.log("[MOVEMENT] Processing movement boost for item:", item.name);
+      console.log("[MOVEMENT] Actor system structure:", this.document.system);
+      console.log("[MOVEMENT] Actor details:", this.document.system.details);
+      
+      if (!item.system.hasMovementBoost || !item.system.movementBoostAmount) {
+        console.log("[MOVEMENT] No movement boost configured");
+        return null;
+      }
+
+      const amount = item.system.movementBoostAmount;
+      const currentMovementManual = this.document.system.details.movementManual || 0;
+      const newMovementManual = currentMovementManual + amount;
+      
+      console.log("[MOVEMENT] Current movementManual value:", currentMovementManual);
+      console.log("[MOVEMENT] Amount to add:", amount);
+      console.log("[MOVEMENT] New movementManual value:", newMovementManual);
+
+      // Update the actor's movementManual (which will be added to the auto-calculated value)
+      console.log("[MOVEMENT] About to update actor with:", {
+        'system.details.movementManual': newMovementManual
+      });
+      
+      const updateResult = await this.document.update({
+        'system.details.movementManual': newMovementManual
+      });
+      
+      console.log("[MOVEMENT] Update result:", updateResult);
+      console.log("[MOVEMENT] Actor movementManual after update:", this.document.system.details.movementManual);
+
+      console.log("[MOVEMENT] Movement boost applied:", {
+        currentManual: currentMovementManual,
+        amount: amount,
+        newManual: newMovementManual
+      });
+
+      return { 
+        message: `Movement increased by ${amount}`,
+        type: 'movement',
+        amount: amount
+      };
+      
+    } catch (error) {
+      console.error("[MOVEMENT] Error processing movement boost:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Process critical hit boost for consumable items
+   * @param {Item} item - The consumable item with critical hit boost
+   * @returns {Object|null} Processing result with message
+   */
+  async _processCriticalHitBoost(item) {
+    try {
+      console.log("[CRITICAL HIT] Processing critical hit boost for item:", item.name);
+      console.log("[CRITICAL HIT] Actor system structure:", this.document.system);
+      console.log("[CRITICAL HIT] Actor details:", this.document.system.details);
+      
+      if (!item.system.hasCriticalHitBoost || !item.system.criticalHitBoostAmount) {
+        console.log("[CRITICAL HIT] No critical hit boost configured");
+        return null;
+      }
+
+      const amount = item.system.criticalHitBoostAmount;
+      const currentCriticalHitManual = this.document.system.details.criticalHitManual || 0;
+      const newCriticalHitManual = currentCriticalHitManual - amount; // Subtract to improve (lower is better)
+      
+      console.log("[CRITICAL HIT] Current criticalHitManual value:", currentCriticalHitManual);
+      console.log("[CRITICAL HIT] Amount to subtract:", amount);
+      console.log("[CRITICAL HIT] New criticalHitManual value:", newCriticalHitManual);
+
+      // Update the actor's criticalHitManual (which will be added to the auto-calculated value)
+      console.log("[CRITICAL HIT] About to update actor with:", {
+        'system.details.criticalHitManual': newCriticalHitManual
+      });
+      
+      const updateResult = await this.document.update({
+        'system.details.criticalHitManual': newCriticalHitManual
+      });
+      
+      console.log("[CRITICAL HIT] Update result:", updateResult);
+      console.log("[CRITICAL HIT] Actor criticalHitManual after update:", this.document.system.details.criticalHitManual);
+
+      console.log("[CRITICAL HIT] Critical hit boost applied:", {
+        currentManual: currentCriticalHitManual,
+        amount: amount,
+        newManual: newCriticalHitManual
+      });
+
+      return { 
+        message: `Critical Hit improved by ${amount}`,
+        type: 'criticalHit',
+        amount: amount
+      };
+      
+    } catch (error) {
+      console.error("[CRITICAL HIT] Error processing critical hit boost:", error);
       return null;
     }
   }

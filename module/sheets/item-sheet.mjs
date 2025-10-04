@@ -324,6 +324,15 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup status ailments toggle visibility for consumable items
     this._setupStatusAilmentsToggle();
     
+    // Setup food and water toggle visibility for consumable items
+    this._setupFoodAndWaterToggle();
+    
+    // Setup movement boost toggle visibility for consumable items
+    this._setupMovementBoostToggle();
+    
+    // Setup critical hit boost toggle visibility for consumable items
+    this._setupCriticalHitBoostToggle();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
@@ -1586,6 +1595,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     // Setup sanity modifier toggle within status ailments section
     this._setupSanityModifierToggle();
+    // Setup toxicity modifier toggle within status ailments section
+    this._setupToxicityModifierToggle();
+    // Setup fracture modifier toggle within status ailments section
+    this._setupFractureModifierToggle();
   }
 
   /**
@@ -1606,6 +1619,50 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         sanityModifierSection.classList.remove('hidden');
       } else {
         sanityModifierSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup toxicity modifier toggle visibility
+   * @private
+   */
+  _setupToxicityModifierToggle() {
+    const toggle = this.element.querySelector('[data-toxicity-modifier-toggle]');
+    const toxicityModifierSection = this.element.querySelector('[data-toxicity-modifier-section]');
+    
+    if (!toggle || !toxicityModifierSection) return;
+    
+    // Add event listener for the toxicity modifier toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        toxicityModifierSection.classList.remove('hidden');
+      } else {
+        toxicityModifierSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup fracture modifier toggle visibility
+   * @private
+   */
+  _setupFractureModifierToggle() {
+    const toggle = this.element.querySelector('[data-fracture-modifier-toggle]');
+    const fractureModifierSection = this.element.querySelector('[data-fracture-modifier-section]');
+    
+    if (!toggle || !fractureModifierSection) return;
+    
+    // Add event listener for the fracture modifier toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        fractureModifierSection.classList.remove('hidden');
+      } else {
+        fractureModifierSection.classList.add('hidden');
       }
     });
   }
@@ -1673,6 +1730,121 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         skillSection.classList.remove('hidden');
       } else {
         skillSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup food and water toggle visibility
+   * @private
+   */
+  _setupFoodAndWaterToggle() {
+    const toggle = this.element.querySelector('[data-food-and-water-toggle]');
+    const foodAndWaterSection = this.element.querySelector('[data-food-and-water-section]');
+    
+    if (!toggle || !foodAndWaterSection) return;
+    
+    // Add event listener for the food and water toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        foodAndWaterSection.classList.remove('hidden');
+      } else {
+        foodAndWaterSection.classList.add('hidden');
+      }
+    });
+
+    // Setup food modifier toggle within food and water section
+    this._setupFoodModifierToggle();
+    // Setup water modifier toggle within food and water section
+    this._setupWaterModifierToggle();
+  }
+
+  /**
+   * Setup food modifier toggle visibility
+   * @private
+   */
+  _setupFoodModifierToggle() {
+    const toggle = this.element.querySelector('[data-food-modifier-toggle]');
+    const foodModifierSection = this.element.querySelector('[data-food-modifier-section]');
+    
+    if (!toggle || !foodModifierSection) return;
+    
+    // Add event listener for the food modifier toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        foodModifierSection.classList.remove('hidden');
+      } else {
+        foodModifierSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup water modifier toggle visibility
+   * @private
+   */
+  _setupWaterModifierToggle() {
+    const toggle = this.element.querySelector('[data-water-modifier-toggle]');
+    const waterModifierSection = this.element.querySelector('[data-water-modifier-section]');
+    
+    if (!toggle || !waterModifierSection) return;
+    
+    // Add event listener for the water modifier toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        waterModifierSection.classList.remove('hidden');
+      } else {
+        waterModifierSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup movement boost toggle visibility for consumable items
+   * @private
+   */
+  _setupMovementBoostToggle() {
+    const toggle = this.element.querySelector('[data-movement-boost-toggle]');
+    const movementBoostSection = this.element.querySelector('[data-movement-boost-section]');
+    
+    if (!toggle || !movementBoostSection) return;
+    
+    // Add event listener for the movement boost toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        movementBoostSection.classList.remove('hidden');
+      } else {
+        movementBoostSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup critical hit boost toggle visibility for consumable items
+   * @private
+   */
+  _setupCriticalHitBoostToggle() {
+    const toggle = this.element.querySelector('[data-critical-hit-boost-toggle]');
+    const criticalHitBoostSection = this.element.querySelector('[data-critical-hit-boost-section]');
+    
+    if (!toggle || !criticalHitBoostSection) return;
+    
+    // Add event listener for the critical hit boost toggle checkbox
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        criticalHitBoostSection.classList.remove('hidden');
+      } else {
+        criticalHitBoostSection.classList.add('hidden');
       }
     });
   }

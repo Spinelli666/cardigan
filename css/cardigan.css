@@ -5634,6 +5634,534 @@
 .cardigan .tab.modifiers .status-ailments-system .sanity-modifier-system .form-group input[type=number]:hover {
   border-color: rgba(var(--cardigan-c-beige), 0.5);
 }
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-toggle {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.2);
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.1);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-system {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.1);
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-system.hidden {
+  display: none;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-system .form-group {
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-system .form-group:last-child {
+  margin-bottom: 0;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-system .form-group label {
+  display: block;
+  color: var(--cardigan-c-beige);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-system .form-group .toxicity-modifier-checkboxes {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-system .form-group .toxicity-modifier-checkboxes .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 400;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-system .form-group .toxicity-modifier-checkboxes .checkbox-label input[type=radio] {
+  margin: 0;
+  transform: scale(1.1);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-system .form-group .toxicity-modifier-checkboxes .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-system .form-group input[type=number] {
+  width: 100%;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+  border-radius: 4px;
+  color: var(--cardigan-c-beige);
+  font-size: 1rem;
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-system .form-group input[type=number]:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .status-ailments-system .toxicity-modifier-system .form-group input[type=number]:hover {
+  border-color: rgba(var(--cardigan-c-beige), 0.5);
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-toggle {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.2);
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.1);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-system {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.1);
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-system.hidden {
+  display: none;
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-system .form-group {
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-system .form-group:last-child {
+  margin-bottom: 0;
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-system .form-group label {
+  display: block;
+  color: var(--cardigan-c-beige);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-system .form-group .fracture-modifier-checkboxes {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-system .form-group .fracture-modifier-checkboxes .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 400;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-system .form-group .fracture-modifier-checkboxes .checkbox-label input[type=radio] {
+  margin: 0;
+  transform: scale(1.1);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-system .form-group .fracture-modifier-checkboxes .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-system .form-group input[type=number] {
+  width: 100%;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+  border-radius: 4px;
+  color: var(--cardigan-c-beige);
+  font-size: 1rem;
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-system .form-group input[type=number]:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .status-ailments-system .fracture-modifier-system .form-group input[type=number]:hover {
+  border-color: rgba(var(--cardigan-c-beige), 0.5);
+}
+.cardigan .tab.modifiers .food-and-water-toggle {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.2);
+}
+.cardigan .tab.modifiers .food-and-water-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .food-and-water-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.3);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .food-and-water-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .food-and-water-system {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.2);
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .food-and-water-system.hidden {
+  display: none;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-toggle {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.2);
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.1);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-system {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.1);
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-system.hidden {
+  display: none;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-system .form-group {
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-system .form-group:last-child {
+  margin-bottom: 0;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-system .form-group label {
+  display: block;
+  color: var(--cardigan-c-beige);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-system .form-group .food-modifier-checkboxes {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-system .form-group .food-modifier-checkboxes .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 400;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-system .form-group .food-modifier-checkboxes .checkbox-label input[type=radio] {
+  margin: 0;
+  transform: scale(1.1);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-system .form-group .food-modifier-checkboxes .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-system .form-group input[type=number] {
+  width: 100%;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+  border-radius: 4px;
+  color: var(--cardigan-c-beige);
+  font-size: 1rem;
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-system .form-group input[type=number]:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .food-and-water-system .food-modifier-system .form-group input[type=number]:hover {
+  border-color: rgba(var(--cardigan-c-beige), 0.5);
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-toggle {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.2);
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.1);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-system {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.1);
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-system.hidden {
+  display: none;
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-system .form-group {
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-system .form-group:last-child {
+  margin-bottom: 0;
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-system .form-group label {
+  display: block;
+  color: var(--cardigan-c-beige);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-system .form-group .water-modifier-checkboxes {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-system .form-group .water-modifier-checkboxes .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 400;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-system .form-group .water-modifier-checkboxes .checkbox-label input[type=radio] {
+  margin: 0;
+  transform: scale(1.1);
+  cursor: pointer;
+  accent-color: #4CAF50;
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-system .form-group .water-modifier-checkboxes .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-system .form-group input[type=number] {
+  width: 100%;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+  border-radius: 4px;
+  color: var(--cardigan-c-beige);
+  font-size: 1rem;
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-system .form-group input[type=number]:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+.cardigan .tab.modifiers .food-and-water-system .water-modifier-system .form-group input[type=number]:hover {
+  border-color: rgba(var(--cardigan-c-beige), 0.5);
+}
+.cardigan .tab.modifiers .movement-boost-toggle {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.2);
+}
+.cardigan .tab.modifiers .movement-boost-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .movement-boost-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.3);
+  cursor: pointer;
+  accent-color: #FF9800;
+}
+.cardigan .tab.modifiers .movement-boost-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .movement-boost-system {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.2);
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .movement-boost-system.hidden {
+  display: none;
+}
+.cardigan .tab.modifiers .movement-boost-system .form-group {
+  margin-bottom: 0.75rem;
+}
+.cardigan .tab.modifiers .movement-boost-system .form-group label {
+  display: block;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+.cardigan .tab.modifiers .movement-boost-system .form-group input[type=number] {
+  width: 100%;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+  border-radius: 4px;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+}
+.cardigan .tab.modifiers .movement-boost-system .form-group input[type=number]:focus {
+  outline: none;
+  border-color: #FF9800;
+  box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
+}
+.cardigan .tab.modifiers .movement-boost-system .form-group input[type=number]:hover {
+  border-color: rgba(var(--cardigan-c-beige), 0.5);
+}
+.cardigan .tab.modifiers .critical-hit-boost-toggle {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.2);
+}
+.cardigan .tab.modifiers .critical-hit-boost-toggle .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cardigan-c-beige);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0;
+}
+.cardigan .tab.modifiers .critical-hit-boost-toggle .checkbox-label input[type=checkbox] {
+  margin: 0;
+  transform: scale(1.3);
+  cursor: pointer;
+  accent-color: #E91E63;
+}
+.cardigan .tab.modifiers .critical-hit-boost-toggle .checkbox-label:hover {
+  color: #f5f5dc;
+}
+.cardigan .tab.modifiers .critical-hit-boost-system {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.2);
+  margin-bottom: 1rem;
+}
+.cardigan .tab.modifiers .critical-hit-boost-system.hidden {
+  display: none;
+}
+.cardigan .tab.modifiers .critical-hit-boost-system .form-group {
+  margin-bottom: 0.75rem;
+}
+.cardigan .tab.modifiers .critical-hit-boost-system .form-group label {
+  display: block;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+.cardigan .tab.modifiers .critical-hit-boost-system .form-group input[type=number] {
+  width: 100%;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
+  border-radius: 4px;
+  color: var(--cardigan-c-beige);
+  font-size: 0.9rem;
+}
+.cardigan .tab.modifiers .critical-hit-boost-system .form-group input[type=number]:focus {
+  outline: none;
+  border-color: #E91E63;
+  box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.2);
+}
+.cardigan .tab.modifiers .critical-hit-boost-system .form-group input[type=number]:hover {
+  border-color: rgba(var(--cardigan-c-beige), 0.5);
+}
 .cardigan {
   /* ===== RECIPES TABLE STYLES ===== */
 }
