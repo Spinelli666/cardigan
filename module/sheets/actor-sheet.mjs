@@ -277,6 +277,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para campos dinâmicos de bonus
     this.#addBonusFieldsListeners();
     
+    // Adicionar event listeners para checkboxes das tabelas de profissão
+    this.#addProfessionTableListeners();
+    
 
     
     // Adicionar event listeners para campos dinâmicos de valores atuais
@@ -317,6 +320,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const armas = [];
     const armaduras = [];
     const recipes = [];
+    const culinaryRecipes = [];
+    const tailoringRecipes = [];
+    const tecnomagicRecipes = [];
+    const blacksmithingRecipes = [];
+    const alchemyRecipes = [];
+    const carpentryRecipes = [];
     const spells = {
       0: [],
       1: [],
@@ -389,9 +398,25 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       else if (i.type === 'efeito') {
         efeitos.push(i);
       }
-      // Append to recipes.
-      else if (i.type === 'item-recipe') {
+      // Append to recipes by profession type.
+      else if (i.type === 'item-recipe' || i.type === 'culinary-recipe') {
         recipes.push(i);
+        culinaryRecipes.push(i);
+      }
+      else if (i.type === 'tailoring-recipe') {
+        tailoringRecipes.push(i);
+      }
+      else if (i.type === 'tecnomagic-recipe') {
+        tecnomagicRecipes.push(i);
+      }
+      else if (i.type === 'blacksmithing-recipe') {
+        blacksmithingRecipes.push(i);
+      }
+      else if (i.type === 'alchemy-recipe') {
+        alchemyRecipes.push(i);
+      }
+      else if (i.type === 'carpentry-recipe') {
+        carpentryRecipes.push(i);
       }
       // Append to spells.
       else if (i.type === 'spell') {
@@ -424,6 +449,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.efeitos = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.recipes = recipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.culinaryRecipes = culinaryRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.tailoringRecipes = tailoringRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.tecnomagicRecipes = tecnomagicRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.blacksmithingRecipes = blacksmithingRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.alchemyRecipes = alchemyRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.carpentryRecipes = carpentryRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.armas = armas.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.armaduras = armaduras.sort((a, b) => {
       const orderA = armorTypeOrder[a.system.armorType] || 99;
@@ -5454,6 +5485,43 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     });
     
     console.log(`[${bonusType.toUpperCase()} BLUR] Value: ${userInput}`);
+  }
+
+  /**
+   * Add listeners for all profession table visibility toggles
+   * @private
+   */
+  #addProfessionTableListeners() {
+    const professions = [
+      { name: 'culinary', displayName: 'CULINARY TABLE' },
+      { name: 'tailoring', displayName: 'TAILORING TABLE' },
+      { name: 'tecnomagic', displayName: 'TECNOMAGIC TABLE' },
+      { name: 'blacksmithing', displayName: 'BLACKSMITHING TABLE' },
+      { name: 'alchemy', displayName: 'ALCHEMY TABLE' },
+      { name: 'carpentry', displayName: 'CARPENTRY TABLE' }
+    ];
+
+    professions.forEach(profession => {
+      const toggle = this.element.querySelector(`[data-${profession.name}-table-toggle]`);
+      const tableSection = this.element.querySelector(`[data-${profession.name}-table-section]`);
+      
+      if (!toggle || !tableSection) return;
+      
+      // Add event listener for the profession table toggle checkbox
+      toggle.addEventListener('change', (event) => {
+        const isChecked = event.target.checked;
+        
+        if (isChecked) {
+          tableSection.classList.remove('hidden');
+        } else {
+          tableSection.classList.add('hidden');
+        }
+        
+        console.log(`[${profession.displayName}] Visibility toggled: ${isChecked ? 'visible' : 'hidden'}`);
+      });
+      
+      console.log(`[CARDIGAN] ${profession.displayName} toggle listener added`);
+    });
   }
 
   /**

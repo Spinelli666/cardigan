@@ -107,7 +107,7 @@
     }
   },
   "Item": {
-    "types": ["item-comum", "item-municao", "item-consumivel", "feature", "spell", "efeito", "arma", "armadura"],
+    "types": ["item-comum", "item-municao", "item-consumivel", "item-ingredient", "item-recipe", "culinary-recipe", "tailoring-recipe", "tecnomagic-recipe", "blacksmithing-recipe", "alchemy-recipe", "carpentry-recipe", "feature", "spell", "efeito", "arma", "armadura"],
     "htmlFields": ["description"],
     "templates": {
       "base": {
@@ -143,6 +143,91 @@
       "effect": "",
       "requiresCheck": false,
       "checkDifficulty": 15
+    },
+    "item-ingredient": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": "muito-leve",
+      "price": 0,
+      "ingredientType": "common",
+      "rarity": "common"
+    },
+    "item-recipe": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": "muito-leve",
+      "price": 0,
+      "recipeType": "general",
+      "difficulty": "easy",
+      "requiredIngredients": [],
+      "resultItem": "",
+      "resultQuantity": 1
+    },
+    "culinary-recipe": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": "muito-leve",
+      "price": 0,
+      "recipeType": "culinary",
+      "difficulty": "easy",
+      "requiredIngredients": [],
+      "resultItem": "",
+      "resultQuantity": 1
+    },
+    "tailoring-recipe": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": "muito-leve",
+      "price": 0,
+      "recipeType": "tailoring",
+      "difficulty": "easy",
+      "requiredIngredients": [],
+      "resultItem": "",
+      "resultQuantity": 1
+    },
+    "tecnomagic-recipe": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": "muito-leve",
+      "price": 0,
+      "recipeType": "tecnomagic",
+      "difficulty": "easy",
+      "requiredIngredients": [],
+      "resultItem": "",
+      "resultQuantity": 1
+    },
+    "blacksmithing-recipe": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": "muito-leve",
+      "price": 0,
+      "recipeType": "blacksmithing",
+      "difficulty": "easy",
+      "requiredIngredients": [],
+      "resultItem": "",
+      "resultQuantity": 1
+    },
+    "alchemy-recipe": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": "muito-leve",
+      "price": 0,
+      "recipeType": "alchemy",
+      "difficulty": "easy",
+      "requiredIngredients": [],
+      "resultItem": "",
+      "resultQuantity": 1
+    },
+    "carpentry-recipe": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": "muito-leve",
+      "price": 0,
+      "recipeType": "carpentry",
+      "difficulty": "easy",
+      "requiredIngredients": [],
+      "resultItem": "",
+      "resultQuantity": 1
     },
     "feature": {
       "templates": ["base"]

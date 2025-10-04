@@ -6362,3 +6362,38 @@
 .cardigan .sheet-tabs .item[data-tab=backpack] i::before {
   content: "\f19d";
 }
+.cardigan {
+  /* Culinary Table Toggle */
+}
+.cardigan .culinary-table-toggle .checkbox-label {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(201, 199, 184, 0.3);
+  border-radius: 6px;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+}
+.cardigan .culinary-table-toggle .checkbox-label:hover {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(201, 199, 184, 0.5);
+  color: #f5f5dc;
+}
+.cardigan .culinary-table-toggle .checkbox-label input[type=checkbox] {
+  accent-color: #d4af37;
+  cursor: pointer;
+}
+.cardigan .culinary-table-toggle .checkbox-label i {
+  color: #d4af37;
+}
+.cardigan {
+  /* Culinary Table Container */
+}
+.cardigan .culinary-table-container {
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+.cardigan .culinary-table-container.hidden {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}

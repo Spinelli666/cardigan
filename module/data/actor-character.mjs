@@ -86,7 +86,13 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       additionalNotes: new fields.StringField({ initial: "" }), // Campo para notas adicionais como texto simples
       showAdditionalNotes: new fields.BooleanField({ initial: true }), // Controle de exibição das notas
       showEffectsTab: new fields.BooleanField({ initial: true }), // Controle de exibição da seção de efeitos
-      showWeaponsTable: new fields.BooleanField({ initial: true }) // Controle de exibição da tabela de armas
+      showWeaponsTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de armas
+      showCulinaryTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela culinária
+      showTailoringTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de alfaiataria
+      showTecnomagicTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de tecnomagia
+      showBlacksmithingTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de ferraria
+      showAlchemyTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de alquimia
+      showCarpentryTable: new fields.BooleanField({ initial: true }) // Controle de exibição da tabela de carpintaria
     });
 
     return schema;
