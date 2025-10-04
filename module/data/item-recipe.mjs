@@ -93,6 +93,37 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
       hint: "CARDIGAN.Item.ItemRecipe.effects.hint"
     });
 
+    // Required ingredients for crafting
+    schema.requiredIngredients = new fields.ArrayField(
+      new fields.SchemaField({
+        name: new fields.StringField({
+          required: true,
+          blank: false,
+          initial: "",
+          label: "CARDIGAN.Item.ItemRecipe.IngredientName"
+        }),
+        quantity: new fields.NumberField({
+          required: true,
+          nullable: false,
+          integer: true,
+          initial: 1,
+          min: 1,
+          label: "CARDIGAN.Item.ItemRecipe.IngredientQuantity"
+        }),
+        img: new fields.StringField({
+          required: false,
+          blank: true,
+          initial: "icons/svg/item-bag.svg",
+          label: "CARDIGAN.Item.ItemRecipe.IngredientImage"
+        })
+      }),
+      {
+        initial: [],
+        label: "CARDIGAN.Item.ItemRecipe.RequiredIngredients",
+        hint: "CARDIGAN.Item.ItemRecipe.RequiredIngredientsHint"
+      }
+    );
+
     return schema;
   }
 }

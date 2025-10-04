@@ -161,7 +161,8 @@
         "Description": "Description", 
         "Details": "Details",
         "Effects": "Effects",
-        "Modifiers": "Modifiers"
+        "Modifiers": "Modifiers",
+        "Ingredients": "Ingredients"
       },
       "Backpack": {
         "FIELDS": {
@@ -193,6 +194,65 @@
         },
         "SpellLVL": "Level {level} Spells",
         "AddLVL": "Add LVL {level}"
+      },
+      "ItemRecipe": {
+        "ingredients": {
+          "label": "Ingredients",
+          "hint": "List the ingredients needed for this recipe"
+        },
+        "difficulty": {
+          "label": "Difficulty",
+          "hint": "How difficult is this recipe to cook?",
+          "easy": "Easy",
+          "medium": "Medium", 
+          "hard": "Hard",
+          "master": "Master"
+        },
+        "cookingTime": {
+          "label": "Cooking Time (min)",
+          "hint": "Time in minutes to cook this recipe"
+        },
+        "servings": {
+          "label": "Servings",
+          "hint": "How many servings does this recipe create?"
+        },
+        "consumableType": {
+          "label": "Type",
+          "hint": "What type of consumable does this recipe create?",
+          "food": "Food",
+          "drink": "Drink",
+          "potion": "Potion",
+          "other": "Other"
+        },
+        "preview": "Recipe Preview",
+        "IngredientsTab": "Ingredients",
+        "IngredientsHint": "Manage the ingredients required for this recipe",
+        "AddIngredient": "Add Ingredient",
+        "IngredientName": "Ingredient Name",
+        "IngredientQuantity": "Quantity",
+        "IngredientImage": "Image",
+        "ChangeImage": "Change Image",
+        "RemoveIngredient": "Remove Ingredient",
+        "NoIngredients": "No ingredients added yet",
+        "NoIngredientsHint": "Click 'Add Ingredient' to start building your recipe",
+        "RequiredIngredients": "Required Ingredients",
+        "RequiredIngredientsHint": "List of ingredients that must be consumed when crafting this recipe",
+        "IngredientNamePlaceholder": "Enter ingredient name...",
+        "Quantity": "Quantity",
+        "basic": {
+          "title": "Basic Information"
+        },
+        "process": {
+          "title": "Crafting Process"
+        },
+        "properties": {
+          "title": "Item Properties"
+        },
+        "effects": {
+          "title": "Effects & Notes",
+          "label": "Effects",
+          "hint": "What effects does the cooked item provide?"
+        }
       }
     },
     "Effect": {
@@ -303,7 +363,6 @@
     "NoAmmunition": "has no ammunition!",
     "AmmunitionRemaining": "remaining",
     "IsFirearm": "Is Firearm?",
-    "Weight": "Weight",
     "WeightVeryLight": "Very Light",
     "WeightLight": "Light",
     "WeightMedium": "Medium", 
@@ -344,6 +403,8 @@
     "RecipeDifficulty": "Difficulty",
     "CookRecipe": "Cook Recipe",
     "ShowCulinaryTable": "Show Culinary Table",
+    "CulinaryTable": "Culinary Table",
+    "AddCulinaryRecipe": "Add Culinary Recipe",
     "ShowTailoringTable": "Show Tailoring Table",
     "ShowTecnomagicTable": "Show Tecnomagic Table",
     "ShowBlacksmithingTable": "Show Blacksmithing Table",
@@ -359,6 +420,8 @@
     "AddBlacksmithingRecipe": "Add Blacksmithing Recipe",
     "AddAlchemyRecipe": "Add Alchemy Recipe",
     "AddCarpentryRecipe": "Add Carpentry Recipe",
+    "CraftItem": "Craft Item",
+    "CraftFromRecipe": "Craft from Recipe",
     "SelectItemType": "Select Item Type",
     "SelectItemTypeDescription": "Choose the type of item you want to create:",
     "SelectWeight": "Select Weight",
@@ -666,6 +729,53 @@
       "Normal": "Normal",
       "Hard": "Hard",
       "VeryHard": "Very Hard"
+    },
+    "Arma": {
+      "Title": "Weapon",
+      "Subtitle": "Melee and ranged weapons for combat"
+    },
+    "Armadura": {
+      "Title": "Armor",
+      "Subtitle": "Protective gear and clothing"
+    },
+    "Crafting": {
+      "CraftFromRecipe": "Craft from Recipe",
+      "CraftingFromRecipe": "Crafting from Recipe",
+      "SelectItemType": "Select what type of item to create:",
+      "SuggestedItem": "Suggested item",
+      "CraftingSuccess": "Successfully crafted {itemName} from {recipeName}!",
+      "CraftingError": "Failed to craft item from recipe",
+      "CannotCraft": "Cannot craft: Missing or insufficient ingredients!",
+      "MissingIngredients": "Missing ingredients",
+      "InsufficientIngredients": "Insufficient ingredients",
+      "IngredientsConsumed": "Ingredients consumed during crafting"
+    },
+    "ItemIngredient": {
+      "Title": "Ingredient",
+      "Subtitle": "Crafting materials, herbs, and components",
+      "Quantity": "Quantity",
+      "Weight": "Weight",
+      "Type": "Ingredient Type",
+      "Freshness": "Freshness",
+      "Origin": "Origin", 
+      "CraftingProperties": "Crafting Properties",
+      "Price": "Price",
+      "Types": {
+        "Herb": "Herb",
+        "Mineral": "Mineral",
+        "Animal": "Animal Part",
+        "Magical": "Magical Component",
+        "Chemical": "Chemical",
+        "Other": "Other"
+      },
+      "Rarity": "Rarity",
+      "RarityLevels": {
+        "Common": "Common",
+        "Uncommon": "Uncommon",
+        "Rare": "Rare",
+        "VeryRare": "Very Rare",
+        "Legendary": "Legendary"
+      }
     }
   },
   "TYPES": {
@@ -679,6 +789,12 @@
       "item-consumivel": "Consumable",
       "item-ingredient": "Ingredient",
       "item-recipe": "Recipe",
+      "tailoring-recipe": "Tailoring Recipe",
+      "culinary-recipe": "Culinary Recipe",
+      "tecnomagic-recipe": "Tecnomagic Recipe",
+      "blacksmithing-recipe": "Blacksmithing Recipe",
+      "alchemy-recipe": "Alchemy Recipe",
+      "carpentry-recipe": "Carpentry Recipe",
       "feature": "Feature", 
       "spell": "Spell",
       "efeito": "Efeito",
@@ -686,66 +802,13 @@
       "armadura": "Armor"
     }
   },
-  "ItemIngredient": {
-    "Title": "Ingredient",
-    "Subtitle": "Crafting materials, herbs, and components",
-    "Quantity": "Quantity",
-    "Weight": "Weight",
-    "Price": "Price",
-    "Type": "Ingredient Type",
-    "Rarity": "Rarity",
-    "Freshness": "Freshness",
-    "Origin": "Origin",
-    "CraftingProperties": "Crafting Properties",
-    "Types": {
-      "Herb": "Herb",
-      "Mineral": "Mineral",
-      "Animal": "Animal Part",
-      "Magical": "Magical Component",
-      "Chemical": "Chemical",
-      "Other": "Other"
-    },
-    "RarityLevels": {
-      "Common": "Common",
-      "Uncommon": "Uncommon",
-      "Rare": "Rare",
-      "VeryRare": "Very Rare",
-      "Legendary": "Legendary"
-    },
-    "ItemRecipe": {
-      "ingredients": {
-        "label": "Ingredients",
-        "hint": "List the ingredients needed for this recipe"
-      },
-      "difficulty": {
-        "label": "Difficulty",
-        "hint": "How difficult is this recipe to cook?",
-        "easy": "Easy",
-        "medium": "Medium", 
-        "hard": "Hard",
-        "master": "Master"
-      },
-      "cookingTime": {
-        "label": "Cooking Time (min)",
-        "hint": "Time in minutes to cook this recipe"
-      },
-      "servings": {
-        "label": "Servings",
-        "hint": "How many servings does this recipe create?"
-      },
-      "consumableType": {
-        "label": "Type",
-        "hint": "What type of consumable does this recipe create?",
-        "food": "Food",
-        "drink": "Drink",
-        "potion": "Potion",
-        "other": "Other"
-      },
-      "effects": {
-        "label": "Effects",
-        "hint": "What effects does the cooked item provide?"
-      },
-      "preview": "Recipe Preview"
-    }
-  }
+
+  "Weight": "Weight",
+  "WeightVeryLight": "Very Light",
+  "WeightLight": "Light", 
+  "WeightMedium": "Medium",
+  "WeightHeavy": "Heavy",
+  "WeightVeryHeavy": "Very Heavy",
+  "Quantity": "Quantity",
+  "Price": "Price"
 }

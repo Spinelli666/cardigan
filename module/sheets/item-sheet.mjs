@@ -12,6 +12,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   constructor(options = {}) {
     super(options);
     this.#dragDrop = this.#createDragDropHandlers();
+    console.log('[CARDIGAN DEBUG] ItemSheet constructor');
+    console.log('[CARDIGAN DEBUG] Available actions:', Object.keys(this.constructor.DEFAULT_OPTIONS.actions));
   }
 
   /** @override */
@@ -40,6 +42,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       addEffect: this._addEffect,
       removeEffect: this._removeEffect,
       'use-item': this._useConsumableItem,
+      addIngredient: this._addIngredient,
+      removeIngredient: this._removeIngredient,
+      changeIngredientImage: this._changeIngredientImage,
+      ingredientNameChange: this._onIngredientNameChange,
     },
     form: {
       submitOnChange: true,
@@ -90,6 +96,15 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     attributesArmadura: {
       template: 'systems/cardigan/templates/item/attribute-parts/armadura.hbs',
     },
+    attributesItemRecipe: {
+      template: 'systems/cardigan/templates/item/attribute-parts/item-recipe.hbs',
+    },
+    ingredientsItemRecipe: {
+      template: 'systems/cardigan/templates/item/attribute-parts/ingredients-item-recipe.hbs',
+    },
+    attributesItemIngredient: {
+      template: 'systems/cardigan/templates/item/attribute-parts/item-ingredient.hbs',
+    },
     effects: {
       template: 'systems/cardigan/templates/item/effects.hbs',
     },
@@ -126,6 +141,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'item-consumivel':
         options.parts.push('attributesItemConsumivel', 'modifiersItemConsumivel');
         break;
+      case 'item-ingredient':
+        options.parts.push('attributesItemIngredient');
+        break;
       case 'spell':
         options.parts.push('attributesSpell');
         break;
@@ -138,6 +156,15 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'armadura':
         options.parts.push('attributesArmadura');
+        break;
+      case 'item-recipe':
+      case 'culinary-recipe':
+      case 'tailoring-recipe':
+      case 'tecnomagic-recipe':
+      case 'blacksmithing-recipe':
+      case 'alchemy-recipe':
+      case 'carpentry-recipe':
+        options.parts.push('attributesItemRecipe', 'ingredientsItemRecipe');
         break;
     }
   }
@@ -179,8 +206,16 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesEfeito':
       case 'attributesArma':
       case 'attributesArmadura':
+      case 'attributesItemRecipe':
+      case 'attributesItemIngredient':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
+        break;
+      case 'ingredientsItemRecipe':
+        // Necessary for preserving active tab on re-render
+        context.tab = context.tabs[partId];
+        // Add ingredients list for the recipe
+        context.ingredients = this.item.system.requiredIngredients || [];
         break;
       case 'modifiersItemConsumivel':
         // Necessary for preserving active tab on re-render
@@ -251,8 +286,14 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesEfeito':
         case 'attributesArma':
         case 'attributesArmadura':
+        case 'attributesItemRecipe':
+        case 'attributesItemIngredient':
           tab.id = 'attributes';
           tab.label += 'Details';
+          break;
+        case 'ingredientsItemRecipe':
+          tab.id = 'ingredients';
+          tab.label += 'Ingredients';
           break;
         case 'modifiersItemConsumivel':
           tab.id = 'modifiers';
@@ -277,6 +318,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   _onRender(context, options) {
+    console.log('[CARDIGAN DEBUG] _onRender called');
+    console.log('[CARDIGAN DEBUG] Context:', context);
+    console.log('[CARDIGAN DEBUG] Options:', options);
+    
     this.#dragDrop.forEach((d) => d.bind(this.element));
     
     // Setup mutually exclusive checkboxes for damage abilities
@@ -284,6 +329,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     // Setup conditional visibility for weapon ammunition
     this._setupConditionalAmmunition();
+    
+    // Manual setup for ingredient buttons (fallback)
+    this._setupIngredientListeners();
     
     // Setup conditional visibility for weapon protection
     this._setupConditionalProtection();
@@ -336,6 +384,56 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
+  }
+
+  /**
+   * Setup ingredient listeners manually (fallback for ApplicationV2 issues)
+   * @protected
+   */
+  _setupIngredientListeners() {
+    console.log('[CARDIGAN DEBUG] Setting up ingredient listeners');
+    
+    // Find add ingredient button
+    const addButton = this.element.querySelector('[data-action="addIngredient"]');
+    if (addButton) {
+      console.log('[CARDIGAN DEBUG] Found add ingredient button');
+      addButton.addEventListener('click', (event) => {
+        console.log('[CARDIGAN DEBUG] Add ingredient button clicked!');
+        this._addIngredient(event, event.currentTarget);
+      });
+    } else {
+      console.log('[CARDIGAN DEBUG] Add ingredient button not found');
+    }
+    
+    // Find remove ingredient buttons  
+    const removeButtons = this.element.querySelectorAll('[data-action="removeIngredient"]');
+    console.log('[CARDIGAN DEBUG] Found', removeButtons.length, 'remove buttons');
+    removeButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        console.log('[CARDIGAN DEBUG] Remove ingredient button clicked!');
+        this._removeIngredient(event, event.currentTarget);
+      });
+    });
+    
+    // Find change image buttons
+    const imageButtons = this.element.querySelectorAll('[data-action="changeIngredientImage"]');
+    console.log('[CARDIGAN DEBUG] Found', imageButtons.length, 'image buttons');
+    imageButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        console.log('[CARDIGAN DEBUG] Change image button clicked!');
+        this._changeIngredientImage(event, event.currentTarget);
+      });
+    });
+    
+    // Find ingredient name inputs
+    const nameInputs = this.element.querySelectorAll('[data-action="ingredientNameChange"]');
+    console.log('[CARDIGAN DEBUG] Found', nameInputs.length, 'name inputs');
+    nameInputs.forEach(input => {
+      input.addEventListener('change', (event) => {
+        console.log('[CARDIGAN DEBUG] Ingredient name changed!');
+        this._onIngredientNameChange(event, event.currentTarget);
+      });
+    });
   }
 
   /**
@@ -529,7 +627,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const { img } =
       this.document.constructor.getDefaultArtwork?.(this.document.toObject()) ??
       {};
-    const fp = new FilePicker({
+    const fp = new foundry.applications.apps.FilePicker({
       current,
       type: 'image',
       redirectToRoot: img ? [img] : [],
@@ -1847,5 +1945,229 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         criticalHitBoostSection.classList.add('hidden');
       }
     });
+  }
+
+  /* -------------------------------------------- */
+  /*  INGREDIENT MANAGEMENT                       */
+  /* -------------------------------------------- */
+
+  /**
+   * Search for items by name in game actors' inventories
+   * @param {string} ingredientName - Name to search for
+   * @returns {Array} Array of matching items with actor info
+   * @protected
+   */
+  static _searchItemsByName(ingredientName) {
+    if (!ingredientName || ingredientName.trim() === '') return [];
+    
+    const searchTerm = ingredientName.toLowerCase().trim();
+    const matchingItems = [];
+    
+    // Search through all actors' items
+    for (const actor of game.actors) {
+      if (!actor.items) continue;
+      
+      for (const item of actor.items) {
+        const itemName = item.name.toLowerCase();
+        
+        // Check for exact match or partial match
+        if (itemName === searchTerm || 
+            itemName.includes(searchTerm) || 
+            searchTerm.includes(itemName)) {
+          
+          matchingItems.push({
+            item: item,
+            actor: actor,
+            name: item.name,
+            img: item.img,
+            quantity: item.system.quantity || 1,
+            exactMatch: itemName === searchTerm
+          });
+        }
+      }
+    }
+    
+    // Sort by exact matches first, then by name
+    return matchingItems.sort((a, b) => {
+      if (a.exactMatch && !b.exactMatch) return -1;
+      if (!a.exactMatch && b.exactMatch) return 1;
+      return a.name.localeCompare(b.name);
+    });
+  }
+
+  /**
+   * Auto-fill ingredient data based on name search
+   * @param {string} ingredientName - Name to search for
+   * @param {number} index - Index of the ingredient to update
+   * @protected
+   */
+  async _autoFillIngredient(ingredientName, index) {
+    const item = this.item;
+    const currentIngredients = item.system.toObject().requiredIngredients || [];
+    
+    if (index >= currentIngredients.length) return;
+    
+    const matchingItems = CardiganSystemItemSheet._searchItemsByName(ingredientName);
+    
+    if (matchingItems.length > 0) {
+      const bestMatch = matchingItems[0]; // Get the best match (exact or first partial)
+      const newIngredients = [...currentIngredients];
+      
+      // Update the ingredient with the found item's image
+      newIngredients[index] = {
+        ...newIngredients[index],
+        name: ingredientName, // Keep the user input name
+        img: bestMatch.img || 'icons/svg/item-bag.svg'
+      };
+      
+      console.log('[CARDIGAN DEBUG] _autoFillIngredient', {
+        ingredientName,
+        matchingItems: matchingItems.length,
+        bestMatch: bestMatch.name,
+        newImage: bestMatch.img
+      });
+      
+      await this.item.update({ 'system.requiredIngredients': newIngredients });
+    }
+  }
+
+  /**
+   * Handle adding a new ingredient to the recipe
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  async _addIngredient(event, target) {
+    console.log('[CARDIGAN DEBUG] _addIngredient called - item type:', this.item.type);
+    console.log('[CARDIGAN DEBUG] Event:', event);
+    console.log('[CARDIGAN DEBUG] Target:', target);
+    event.preventDefault();
+    const item = this.item;
+    
+    // Check if this is a recipe type
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    if (!recipeTypes.includes(item.type)) {
+      console.log('[CARDIGAN DEBUG] _addIngredient - Not a recipe type:', item.type);
+      return;
+    }
+
+    const currentIngredients = item.system.toObject().requiredIngredients || [];
+    const newIngredient = {
+      name: 'New Ingredient',
+      quantity: 1,
+      img: 'icons/svg/item-bag.svg'
+    };
+    
+    const newIngredients = [...currentIngredients, newIngredient];
+    
+    console.log('[CARDIGAN DEBUG] _addIngredient', {
+      currentIngredients,
+      newIngredients
+    });
+    
+    return this.item.update({ 'system.requiredIngredients': newIngredients });
+  }
+
+  /**
+   * Handle removing an ingredient from the recipe
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  async _removeIngredient(event, target) {
+    console.log('[CARDIGAN DEBUG] _removeIngredient called');
+    event.preventDefault();
+    const item = this.item;
+    
+    // Check if this is a recipe type
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    if (!recipeTypes.includes(item.type)) {
+      console.log('[CARDIGAN DEBUG] _removeIngredient - Not a recipe type:', item.type);
+      return;
+    }
+
+    const index = parseInt(target.dataset.index);
+    if (isNaN(index)) return;
+
+    const currentIngredients = item.system.toObject().requiredIngredients || [];
+    
+    // Remove the ingredient at the specified index
+    const newIngredients = currentIngredients.filter((_, i) => i !== index);
+    
+    console.log('[CARDIGAN DEBUG] _removeIngredient', {
+      index,
+      currentIngredients,
+      newIngredients
+    });
+    
+    return this.item.update({ 'system.requiredIngredients': newIngredients });
+  }
+
+  /**
+   * Handle changing an ingredient's image
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  async _changeIngredientImage(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    
+    // Check if this is a recipe type
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    if (!recipeTypes.includes(item.type)) return;
+
+    const index = parseInt(target.dataset.index);
+    if (isNaN(index)) return;
+
+    const currentIngredients = item.system.toObject().requiredIngredients || [];
+    if (index >= currentIngredients.length) return;
+
+    // Open file picker to select new image
+    const fp = new foundry.applications.apps.FilePicker({
+      type: "image",
+      callback: (path) => {
+        const newIngredients = [...currentIngredients];
+        newIngredients[index].img = path;
+        
+        console.log('[CARDIGAN DEBUG] _changeIngredientImage', {
+          index,
+          newPath: path,
+          newIngredients
+        });
+        
+        this.item.update({ 'system.requiredIngredients': newIngredients });
+      }
+    });
+    
+    fp.render(true);
+  }
+
+  /**
+   * Handle ingredient name changes for auto-search
+   * @param {Event} event   The originating input event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  async _onIngredientNameChange(event, target) {
+    const item = this.item;
+    
+    // Check if this is a recipe type
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    if (!recipeTypes.includes(item.type)) return;
+
+    const index = parseInt(target.dataset.index);
+    if (isNaN(index)) return;
+
+    const ingredientName = target.value.trim();
+    
+    // Only auto-fill if the name is at least 3 characters long
+    if (ingredientName.length >= 3) {
+      // Debounce the auto-fill to avoid too many requests
+      clearTimeout(this._ingredientSearchTimeout);
+      this._ingredientSearchTimeout = setTimeout(() => {
+        this._autoFillIngredient(ingredientName, index);
+      }, 500); // Wait 500ms after user stops typing
+    }
   }
 }

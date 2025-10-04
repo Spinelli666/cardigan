@@ -2,6 +2,7 @@ const { api, sheets } = foundry.applications;
 import ContextMenu5e from '../applications/context-menu.mjs';
 import { ItemTypeSelectionDialog } from '../applications/item-type-selection-dialog.mjs';
 import { HandSelectionDialog } from '../applications/hand-selection-dialog.mjs';
+import { RecipeCraftingDialog } from '../applications/recipe-crafting-dialog.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -63,6 +64,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       unequipArmor: this._onUnequipArmor,
       consumeItem: this._onConsumeItem,
       cookRecipe: this._onCookRecipe,
+      craftFromRecipe: this._onCraftFromRecipe,
       // Removemos as ações do modal para implementar via event listeners diretos
     },
     // Custom property that's merged into `this.options`
@@ -5741,6 +5743,302 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     } catch (error) {
       console.error("[RECIPES] Error cooking recipe:", error);
       ui.notifications.error("Error cooking recipe. Please try again.");
+    }
+  }
+
+  /**
+   * Validate if actor has all required ingredients for a recipe
+   * @param {Item} recipe - The recipe item to validate
+   * @param {Actor} actor - The actor whose inventory to check
+   * @returns {Object} Validation result with valid boolean and message
+   * @protected
+   */
+  static _validateRecipeIngredients(recipe, actor) {
+    const requiredIngredients = recipe.system.requiredIngredients || [];
+    
+    // If no ingredients required, validation passes
+    if (requiredIngredients.length === 0) {
+      return { valid: true, message: "" };
+    }
+
+    const missing = [];
+    const insufficient = [];
+    
+    for (const required of requiredIngredients) {
+      if (!required.name || !required.quantity) continue;
+      
+      const searchTerm = required.name.toLowerCase().trim();
+      let totalAvailable = 0;
+      
+      // Search through actor's items for matches
+      for (const item of actor.items) {
+        const itemName = item.name.toLowerCase();
+        
+        // Check for exact or partial name match
+        if (itemName === searchTerm || 
+            itemName.includes(searchTerm) || 
+            searchTerm.includes(itemName)) {
+          totalAvailable += (item.system.quantity || 1);
+        }
+      }
+      
+      if (totalAvailable === 0) {
+        missing.push(required.name);
+      } else if (totalAvailable < required.quantity) {
+        insufficient.push({
+          name: required.name,
+          required: required.quantity,
+          available: totalAvailable
+        });
+      }
+    }
+    
+    // Build error message if validation fails
+    if (missing.length > 0 || insufficient.length > 0) {
+      let message = game.i18n.localize("CARDIGAN.Crafting.CannotCraft") + "\n\n";
+      
+      if (missing.length > 0) {
+        message += game.i18n.localize("CARDIGAN.Crafting.MissingIngredients") + ":\n";
+        message += missing.map(name => `• ${name}`).join('\n') + "\n\n";
+      }
+      
+      if (insufficient.length > 0) {
+        message += game.i18n.localize("CARDIGAN.Crafting.InsufficientIngredients") + ":\n";
+        message += insufficient.map(ing => `• ${ing.name}: ${ing.available}/${ing.required}`).join('\n');
+      }
+      
+      return { valid: false, message };
+    }
+    
+    return { valid: true, message: "" };
+  }
+
+  /**
+   * Consume required ingredients from actor's inventory
+   * @param {Item} recipe - The recipe item
+   * @param {Actor} actor - The actor whose ingredients to consume
+   * @returns {boolean} Whether consumption was successful
+   * @protected
+   */
+  static async _consumeRecipeIngredients(recipe, actor) {
+    const requiredIngredients = recipe.system.requiredIngredients || [];
+    
+    if (requiredIngredients.length === 0) {
+      return true;
+    }
+
+    try {
+      for (const required of requiredIngredients) {
+        if (!required.name || !required.quantity) continue;
+        
+        const searchTerm = required.name.toLowerCase().trim();
+        let remainingToConsume = required.quantity;
+        
+        // Find matching items and consume them
+        const matchingItems = actor.items.filter(item => {
+          const itemName = item.name.toLowerCase();
+          return itemName === searchTerm || 
+                 itemName.includes(searchTerm) || 
+                 searchTerm.includes(itemName);
+        }).sort((a, b) => (a.system.quantity || 1) - (b.system.quantity || 1)); // Consume smallest stacks first
+        
+        for (const item of matchingItems) {
+          if (remainingToConsume <= 0) break;
+          
+          const itemQuantity = item.system.quantity || 1;
+          
+          if (itemQuantity <= remainingToConsume) {
+            // Consume entire stack
+            await item.delete();
+            remainingToConsume -= itemQuantity;
+            console.log(`[CRAFTING] Consumed entire stack of ${item.name} (${itemQuantity})`);
+          } else {
+            // Consume partial stack
+            await item.update({
+              "system.quantity": itemQuantity - remainingToConsume
+            });
+            console.log(`[CRAFTING] Consumed ${remainingToConsume} of ${item.name}, ${itemQuantity - remainingToConsume} remaining`);
+            remainingToConsume = 0;
+          }
+        }
+      }
+      
+      return true;
+    } catch (error) {
+      console.error("[CRAFTING] Error consuming ingredients:", error);
+      return false;
+    }
+  }
+
+  /**
+   * Handle crafting from recipe
+   * @param {Event} event - The triggering event
+   * @param {HTMLElement} target - The target element
+   */
+  static async _onCraftFromRecipe(event, target) {
+    console.log("[CRAFTING] _onCraftFromRecipe called!", event, target);
+    event.preventDefault();
+    
+    const itemId = target.dataset.recipeId;
+    const recipeType = target.dataset.recipeType;
+    
+    console.log("[CRAFTING] Recipe ID:", itemId, "Type:", recipeType);
+    
+    const recipe = this.document.items.get(itemId);
+    if (!recipe) {
+      console.log("[CRAFTING] No recipe found with ID:", itemId);
+      ui.notifications.error("Recipe not found!");
+      return;
+    }
+
+    try {
+      // Validate ingredients before showing dialog
+      const ingredientValidation = CardiganSystemActorSheet._validateRecipeIngredients(recipe, this.document);
+      if (!ingredientValidation.valid) {
+        console.log("[CRAFTING] Ingredient validation failed:", ingredientValidation);
+        ui.notifications.error(ingredientValidation.message);
+        return;
+      }
+
+      // Show crafting dialog to select item type
+      const result = await RecipeCraftingDialog.show(this.document, recipe, recipeType);
+      console.log("[CRAFTING] Dialog result:", result);
+      
+      if (!result || !result.itemType) {
+        console.log("[CRAFTING] No item type selected");
+        return;
+      }
+
+      // Create the new item based on selection
+      const itemData = {
+        name: recipe.system.resultItem || recipe.name,
+        type: result.itemType,
+        img: recipe.img || "icons/sundries/miscellaneous/mortar-pestle.svg",
+        system: {
+          quantity: recipe.system.resultQuantity || 1,
+          // Use correct weight for each item type
+          weight: (result.itemType === "arma" || result.itemType === "armadura") ? "leve" : "muito-leve",
+          price: recipe.system.price || 10,
+          description: `Crafted from ${recipe.name} recipe.${recipe.system.description ? `\n\n${recipe.system.description}` : ''}`
+        }
+      };
+
+      // Add type-specific properties
+      switch (result.itemType) {
+        case "item-consumivel":
+          itemData.system.effects = recipe.system.effects || "";
+          itemData.system.consumableType = recipe.system.consumableType || "other";
+          break;
+        case "arma":
+          itemData.system.weaponType = "";
+          itemData.system.melee = true;
+          itemData.system.ranged = false;
+          itemData.system.isFirearm = false;
+          itemData.system.ammunition = { current: 0, max: 0 };
+          itemData.system.damage = { 
+            value: "1d4", 
+            useStrength: false, 
+            useDexterity: false, 
+            total: "1d4" 
+          };
+          itemData.system.properties = [];
+          itemData.system.rightHand = false;
+          itemData.system.leftHand = false;
+          break;
+        case "armadura":
+          itemData.system.armorType = "torso"; // Use valid armor type
+          itemData.system.protecao = 1;
+          itemData.system.armorClass = "";
+          itemData.system.equipped = false;
+          itemData.system.properties = [];
+          itemData.system.skillBonuses = [];
+          itemData.system.magicalArtifact = false;
+          itemData.system.resistenciaFrio = false;
+          itemData.system.bonusVida = 0;
+          itemData.system.bonusEnergia = 0;
+          itemData.system.bonusDeslocamento = { enabled: false, bonus: 0 };
+          itemData.system.durability = { current: 3, max: 3 };
+          break;
+        case "item-municao":
+          itemData.system.ammunitionType = "arrow";
+          break;
+      }
+
+      // Check if item with same name and type already exists
+      const existingItem = this.document.items.find(item => 
+        item.type === result.itemType && 
+        item.name === itemData.name
+      );
+
+      let resultItem;
+      if (existingItem) {
+        // Increase existing item quantity
+        const currentQuantity = existingItem.system.quantity || 1;
+        const quantityToAdd = itemData.system.quantity;
+        const newQuantity = currentQuantity + quantityToAdd;
+        
+        await existingItem.update({
+          "system.quantity": newQuantity
+        });
+        
+        resultItem = existingItem;
+        ui.notifications.info(`Added ${quantityToAdd} more "${itemData.name}" to your backpack! (Total: ${newQuantity})`);
+      } else {
+        // Create new item
+        const newItems = await this.document.createEmbeddedDocuments("Item", [itemData]);
+        resultItem = newItems[0];
+        ui.notifications.info(game.i18n.format("CARDIGAN.Crafting.CraftingSuccess", {
+          itemName: resultItem.name,
+          recipeName: recipe.name
+        }));
+      }
+
+      // Consume ingredients after successful crafting
+      const consumeSuccess = await CardiganSystemActorSheet._consumeRecipeIngredients(recipe, this.document);
+      if (!consumeSuccess) {
+        console.warn("[CRAFTING] Failed to consume ingredients, but item was created");
+        ui.notifications.warn("Item created but some ingredients could not be consumed properly.");
+      } else {
+        console.log("[CRAFTING] Successfully consumed all required ingredients");
+      }
+
+      // Prepare ingredients consumed message
+      const requiredIngredients = recipe.system.requiredIngredients || [];
+      let ingredientsText = "";
+      if (requiredIngredients.length > 0) {
+        ingredientsText = `
+          <div style="margin-top: 8px; padding: 8px; background: rgba(220, 53, 69, 0.1); border-left: 3px solid #dc3545; border-radius: 4px;">
+            <p style="margin: 2px 0; color: #dc3545; font-weight: bold;"><strong>${game.i18n.localize("CARDIGAN.Crafting.IngredientsConsumed")}:</strong></p>
+            ${requiredIngredients.map(ing => `<p style="margin: 1px 0; font-size: 0.9em; color: #c9c7b8;">• ${ing.name} x${ing.quantity}</p>`).join('')}
+          </div>
+        `;
+      }
+
+      // Show crafting success message in chat
+      const messageContent = `
+        <div class="cardigan-craft-message" style="background: linear-gradient(90deg, #1a1a2e 0%, #16213e 100%); border: 2px solid #0f3460; border-radius: 8px; padding: 15px; color: #c9c7b8;">
+          <h3 style="color: #4dabf7; margin-bottom: 10px;">
+            <i class="fas fa-hammer" style="margin-right: 8px; color: #fd7e14;"></i>
+            Crafting Complete!
+          </h3>
+          <p><strong>${this.document.name}</strong> has crafted <strong>"${resultItem.name}"</strong>!</p>
+          <div style="margin-top: 10px; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 4px;">
+            <p style="margin: 2px 0;"><strong>Recipe:</strong> ${recipe.name}</p>
+            <p style="margin: 2px 0;"><strong>Item Type:</strong> ${game.i18n.localize(`TYPES.Item.${result.itemType}`)}</p>
+            <p style="margin: 2px 0;"><strong>Quantity:</strong> ${resultItem.system.quantity}</p>
+          </div>
+          ${ingredientsText}
+        </div>
+      `;
+      
+      ChatMessage.create({
+        content: messageContent,
+        speaker: ChatMessage.getSpeaker({ actor: this.document })
+      });
+
+    } catch (error) {
+      console.error("[CRAFTING] Error crafting from recipe:", error);
+      ui.notifications.error(game.i18n.localize("CARDIGAN.Crafting.CraftingError"));
     }
   }
 

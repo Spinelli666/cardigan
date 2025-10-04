@@ -1,0 +1,86 @@
+{{!-- Ingredients Tab for Recipe Items --}}
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="ingredients">
+  
+  <h2>Recipe Ingredients</h2>
+  
+  <div class="ingredients-header">
+    <h3>Required Ingredients</h3>
+    <p class="hint">Manage the ingredients required for this recipe</p>
+  </div>
+
+  {{#if editable}}
+    <div class="ingredients-controls">
+      <button type="button" class="add-ingredient" data-action="addIngredient">
+        <i class="fas fa-plus"></i>
+        {{localize "CARDIGAN.Item.ItemRecipe.AddIngredient"}}
+      </button>
+    </div>
+  {{/if}}
+
+  <div class="ingredients-list">
+    {{#if system.requiredIngredients}}
+      {{#each system.requiredIngredients as |ingredient index|}}
+        <div class="ingredient-item" data-index="{{index}}">
+          <div class="ingredient-image">
+            <img src="{{ingredient.img}}" alt="{{ingredient.name}}" width="40" height="40" />
+            {{#if ../editable}}
+              <button type="button" class="change-image" data-action="changeIngredientImage" data-index="{{index}}" title="{{localize 'CARDIGAN.Item.ItemRecipe.ChangeImage'}}">
+                <i class="fas fa-image"></i>
+              </button>
+            {{/if}}
+          </div>
+          
+          <div class="ingredient-details">
+            <div class="ingredient-name">
+              {{#if ../editable}}
+                <label>{{localize "CARDIGAN.Item.ItemRecipe.IngredientName"}}:</label>
+                <input 
+                  type="text" 
+                  name="system.requiredIngredients.{{index}}.name" 
+                  value="{{ingredient.name}}" 
+                  placeholder="{{localize 'CARDIGAN.Item.ItemRecipe.IngredientNamePlaceholder'}}"
+                  data-action="ingredientNameChange"
+                  data-index="{{index}}"
+                />
+              {{else}}
+                <span class="ingredient-name-display">{{ingredient.name}}</span>
+              {{/if}}
+            </div>
+            
+            <div class="ingredient-quantity">
+              {{#if ../editable}}
+                <label>{{localize "CARDIGAN.Item.ItemRecipe.Quantity"}}:</label>
+                <input 
+                  type="number" 
+                  name="system.requiredIngredients.{{index}}.quantity" 
+                  value="{{ingredient.quantity}}" 
+                  min="1"
+                  data-dtype="Number"
+                />
+              {{else}}
+                <span class="quantity-display">{{localize "CARDIGAN.Item.ItemRecipe.Quantity"}}: {{ingredient.quantity}}</span>
+              {{/if}}
+            </div>
+          </div>
+          
+          {{#if ../editable}}
+            <div class="ingredient-controls">
+              <button type="button" class="remove-ingredient" data-action="removeIngredient" data-index="{{index}}" title="{{localize 'CARDIGAN.Item.ItemRecipe.RemoveIngredient'}}">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          {{/if}}
+        </div>
+      {{/each}}
+    {{else}}
+      <div class="no-ingredients">
+        <i class="fas fa-leaf"></i>
+        <p>{{localize "CARDIGAN.Item.ItemRecipe.NoIngredients"}}</p>
+        {{#if editable}}
+          <p class="hint">{{localize "CARDIGAN.Item.ItemRecipe.NoIngredientsHint"}}</p>
+        {{/if}}
+      </div>
+    {{/if}}
+  </div>
+
+</section>

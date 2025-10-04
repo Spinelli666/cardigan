@@ -1,151 +1,115 @@
 {{!-- Recipe Item Template --}}
-<section class="tab-content">
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="attributes">
   
-  {{!-- Recipe Information --}}
-  <div class="form-group">
-    <label for="system.ingredients">{{localize "CARDIGAN.Item.ItemRecipe.ingredients.label"}}</label>
-    <textarea
-      name="system.ingredients"
-      placeholder="{{localize 'CARDIGAN.Item.ItemRecipe.ingredients.hint'}}"
-      rows="3"
-    >{{system.ingredients}}</textarea>
-  </div>
+  <div class="recipe-details-form">
+    
+    {{!-- Basic Information --}}
+    <fieldset class="recipe-section">
+      <legend>{{localize "CARDIGAN.Item.ItemRecipe.basic.title"}}</legend>
+      
+      <div class="form-group">
+        <label for="system.difficulty">{{localize "CARDIGAN.Item.ItemRecipe.difficulty.label"}}</label>
+        <select name="system.difficulty">
+          <option value="easy" {{#if (eq system.difficulty "easy")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.difficulty.easy"}}</option>
+          <option value="medium" {{#if (eq system.difficulty "medium")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.difficulty.medium"}}</option>
+          <option value="hard" {{#if (eq system.difficulty "hard")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.difficulty.hard"}}</option>
+          <option value="master" {{#if (eq system.difficulty "master")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.difficulty.master"}}</option>
+        </select>
+      </div>
 
-  <div class="form-row">
-    <div class="form-group">
-      <label for="system.difficulty">{{localize "CARDIGAN.Item.ItemRecipe.difficulty.label"}}</label>
-      <select name="system.difficulty">
-        {{#select system.difficulty}}
-          <option value="easy">{{localize "CARDIGAN.Item.ItemRecipe.difficulty.easy"}}</option>
-          <option value="medium">{{localize "CARDIGAN.Item.ItemRecipe.difficulty.medium"}}</option>
-          <option value="hard">{{localize "CARDIGAN.Item.ItemRecipe.difficulty.hard"}}</option>
-          <option value="master">{{localize "CARDIGAN.Item.ItemRecipe.difficulty.master"}}</option>
-        {{/select}}
-      </select>
-    </div>
+      <div class="form-group">
+        <label for="system.consumableType">{{localize "CARDIGAN.Item.ItemRecipe.consumableType.label"}}</label>
+        <select name="system.consumableType">
+          <option value="food" {{#if (eq system.consumableType "food")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.consumableType.food"}}</option>
+          <option value="drink" {{#if (eq system.consumableType "drink")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.consumableType.drink"}}</option>
+          <option value="potion" {{#if (eq system.consumableType "potion")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.consumableType.potion"}}</option>
+          <option value="other" {{#if (eq system.consumableType "other")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.consumableType.other"}}</option>
+        </select>
+      </div>
+    </fieldset>
 
-    <div class="form-group">
-      <label for="system.cookingTime">{{localize "CARDIGAN.Item.ItemRecipe.cookingTime.label"}}</label>
-      <input
-        type="number"
-        name="system.cookingTime"
-        value="{{system.cookingTime}}"
-        min="1"
-        placeholder="{{localize 'CARDIGAN.Item.ItemRecipe.cookingTime.hint'}}"
-      />
-    </div>
-  </div>
+    {{!-- Crafting Process --}}
+    <fieldset class="recipe-section">
+      <legend>{{localize "CARDIGAN.Item.ItemRecipe.process.title"}}</legend>
+      
+      <div class="form-group">
+        <label for="system.cookingTime">{{localize "CARDIGAN.Item.ItemRecipe.cookingTime.label"}}</label>
+        <input
+          type="number"
+          name="system.cookingTime"
+          value="{{system.cookingTime}}"
+          min="1"
+          placeholder="{{localize 'CARDIGAN.Item.ItemRecipe.cookingTime.hint'}}"
+          data-dtype="Number"
+        />
+      </div>
 
-  <div class="form-row">
-    <div class="form-group">
-      <label for="system.servings">{{localize "CARDIGAN.Item.ItemRecipe.servings.label"}}</label>
-      <input
-        type="number"
-        name="system.servings"
-        value="{{system.servings}}"
-        min="1"
-        placeholder="{{localize 'CARDIGAN.Item.ItemRecipe.servings.hint'}}"
-      />
-    </div>
+      <div class="form-group">
+        <label for="system.servings">{{localize "CARDIGAN.Item.ItemRecipe.servings.label"}}</label>
+        <input
+          type="number"
+          name="system.servings"
+          value="{{system.servings}}"
+          min="1"
+          placeholder="{{localize 'CARDIGAN.Item.ItemRecipe.servings.hint'}}"
+          data-dtype="Number"
+        />
+      </div>
+    </fieldset>
 
-    <div class="form-group">
-      <label for="system.consumableType">{{localize "CARDIGAN.Item.ItemRecipe.consumableType.label"}}</label>
-      <select name="system.consumableType">
-        {{#select system.consumableType}}
-          <option value="food">{{localize "CARDIGAN.Item.ItemRecipe.consumableType.food"}}</option>
-          <option value="drink">{{localize "CARDIGAN.Item.ItemRecipe.consumableType.drink"}}</option>
-          <option value="potion">{{localize "CARDIGAN.Item.ItemRecipe.consumableType.potion"}}</option>
-          <option value="other">{{localize "CARDIGAN.Item.ItemRecipe.consumableType.other"}}</option>
-        {{/select}}
-      </select>
-    </div>
-  </div>
+    {{!-- Item Properties --}}
+    <fieldset class="recipe-section">
+      <legend>{{localize "CARDIGAN.Item.ItemRecipe.properties.title"}}</legend>
+      
+      <div class="form-group">
+        <label for="system.quantity">{{localize "CARDIGAN.Quantity"}}</label>
+        <input
+          type="number"
+          name="system.quantity"
+          value="{{system.quantity}}"
+          min="1"
+          data-dtype="Number"
+        />
+      </div>
 
-  {{!-- Item Properties --}}
-  <div class="form-row">
-    <div class="form-group">
-      <label for="system.quantity">{{localize "Quantity"}}</label>
-      <input
-        type="number"
-        name="system.quantity"
-        value="{{system.quantity}}"
-        min="1"
-      />
-    </div>
+      <div class="form-group">
+        <label for="system.weight">{{localize "CARDIGAN.Weight"}}</label>
+        <select name="system.weight">
+          <option value="muito-leve" {{#if (eq system.weight "muito-leve")}}selected{{/if}}>{{localize "CARDIGAN.WeightType.muito-leve"}}</option>
+          <option value="leve" {{#if (eq system.weight "leve")}}selected{{/if}}>{{localize "CARDIGAN.WeightType.leve"}}</option>
+          <option value="medio" {{#if (eq system.weight "medio")}}selected{{/if}}>{{localize "CARDIGAN.WeightType.medio"}}</option>
+          <option value="pesado" {{#if (eq system.weight "pesado")}}selected{{/if}}>{{localize "CARDIGAN.WeightType.pesado"}}</option>
+          <option value="muito-pesado" {{#if (eq system.weight "muito-pesado")}}selected{{/if}}>{{localize "CARDIGAN.WeightType.muito-pesado"}}</option>
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label for="system.weight">{{localize "CARDIGAN.Weight"}}</label>
-      <select name="system.weight">
-        {{#select system.weight}}
-          <option value="muito-leve">{{localize "CARDIGAN.WeightType.muito-leve"}}</option>
-          <option value="leve">{{localize "CARDIGAN.WeightType.leve"}}</option>
-          <option value="medio">{{localize "CARDIGAN.WeightType.medio"}}</option>
-          <option value="pesado">{{localize "CARDIGAN.WeightType.pesado"}}</option>
-          <option value="muito-pesado">{{localize "CARDIGAN.WeightType.muito-pesado"}}</option>
-        {{/select}}
-      </select>
-    </div>
+      <div class="form-group">
+        <label for="system.price">{{localize "CARDIGAN.Price"}}</label>
+        <input
+          type="number"
+          name="system.price"
+          value="{{system.price}}"
+          min="0"
+          step="0.01"
+          data-dtype="Number"
+        />
+      </div>
+    </fieldset>
 
-    <div class="form-group">
-      <label for="system.price">{{localize "Price"}}</label>
-      <input
-        type="number"
-        name="system.price"
-        value="{{system.price}}"
-        min="0"
-        step="0.01"
-      />
-    </div>
-  </div>
+    {{!-- Effects and Notes --}}
+    <fieldset class="recipe-section">
+      <legend>{{localize "CARDIGAN.Item.ItemRecipe.effects.title"}}</legend>
+      
+      <div class="form-group">
+        <label for="system.effects">{{localize "CARDIGAN.Item.ItemRecipe.effects.label"}}</label>
+        <textarea
+          name="system.effects"
+          placeholder="{{localize 'CARDIGAN.Item.ItemRecipe.effects.hint'}}"
+          rows="3"
+        >{{system.effects}}</textarea>
+      </div>
+    </fieldset>
 
-  {{!-- Effects/Results when cooked --}}
-  <div class="form-group">
-    <label for="system.effects">{{localize "CARDIGAN.Item.ItemRecipe.effects.label"}}</label>
-    <textarea
-      name="system.effects"
-      placeholder="{{localize 'CARDIGAN.Item.ItemRecipe.effects.hint'}}"
-      rows="3"
-    >{{system.effects}}</textarea>
-  </div>
-
-  {{!-- Recipe Preview --}}
-  <div class="recipe-preview" style="margin-top: 20px; padding: 15px; background: rgba(43, 24, 16, 0.3); border: 1px solid rgba(139, 69, 19, 0.5); border-radius: 5px;">
-    <h4 style="color: #d4af37; margin-bottom: 10px;">
-      <i class="fas fa-eye" style="margin-right: 8px;"></i>
-      {{localize "CARDIGAN.Item.ItemRecipe.preview"}}
-    </h4>
-    <div style="color: #c9c7b8; font-size: 14px;">
-      <p><strong>{{localize "CARDIGAN.Item.ItemRecipe.difficulty.label"}}:</strong> 
-        <span class="difficulty-{{system.difficulty}}" style="font-weight: bold;">
-          {{localize (concat "CARDIGAN.Item.ItemRecipe.difficulty." system.difficulty)}}
-        </span>
-      </p>
-      <p><strong>{{localize "CARDIGAN.Item.ItemRecipe.cookingTime.label"}}:</strong> {{system.cookingTime}} min</p>
-      <p><strong>{{localize "CARDIGAN.Item.ItemRecipe.servings.label"}}:</strong> {{system.servings}}</p>
-      <p><strong>{{localize "CARDIGAN.Item.ItemRecipe.consumableType.label"}}:</strong> 
-        {{localize (concat "CARDIGAN.Item.ItemRecipe.consumableType." system.consumableType)}}
-      </p>
-    </div>
   </div>
 
 </section>
-
-<style>
-.difficulty-easy { color: #4caf50; }
-.difficulty-medium { color: #ff9800; }
-.difficulty-hard { color: #f44336; }
-.difficulty-master { color: #9c27b0; }
-
-.recipe-preview {
-  border-left: 4px solid #8B4513;
-}
-
-.form-row {
-  display: flex;
-  gap: 15px;
-}
-
-.form-row .form-group {
-  flex: 1;
-}
-</style>

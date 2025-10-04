@@ -1,0 +1,36 @@
+<div class="recipe-crafting-dialog">
+  <div class="recipe-info">
+    <h3>{{localize "CARDIGAN.Crafting.CraftingFromRecipe"}}</h3>
+    <div class="recipe-details">
+      <strong>{{recipe.name}}</strong>
+      <p>{{recipe.system.description}}</p>
+      {{#if recipe.system.resultItem}}
+        <p><em>{{localize "CARDIGAN.Crafting.SuggestedItem"}}: {{recipe.system.resultItem}}</em></p>
+      {{/if}}
+    </div>
+  </div>
+  
+  <div class="item-type-selection">
+    <h4>{{localize "CARDIGAN.Crafting.SelectItemType"}}</h4>
+    <div class="item-types-grid">
+      {{#each itemTypes}}
+        <div class="item-type-option" data-action="selectItemType" data-item-type="{{type}}">
+          <div class="item-type-icon">
+            <i class="{{icon}}"></i>
+          </div>
+          <div class="item-type-info">
+            <h5>{{localize name}}</h5>
+            <p>{{localize description}}</p>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+  
+  <div class="dialog-buttons">
+    <button type="button" data-action="cancel" class="button cancel">
+      <i class="fas fa-times"></i>
+      {{localize "Cancel"}}
+    </button>
+  </div>
+</div>
