@@ -748,7 +748,16 @@
       "CannotCraft": "Cannot craft: Missing or insufficient ingredients!",
       "MissingIngredients": "Missing ingredients",
       "InsufficientIngredients": "Insufficient ingredients",
-      "IngredientsConsumed": "Ingredients consumed during crafting"
+      "IngredientsConsumed": "Ingredients consumed during crafting",
+      "FilterByProfession": "Filter by Profession",
+      "ShowAll": "Show All",
+      "Required": "Required",
+      "Have": "Have",
+      "Need": "Need",
+      "Missing": "Missing",
+      "Summary": "Summary",
+      "ItemsNeeded": "items still needed",
+      "Tip": "Check your inventory for ingredients with similar names, or acquire the missing materials before crafting."
     },
     "ItemIngredient": {
       "Title": "Ingredient",
@@ -775,6 +784,18 @@
         "Rare": "Rare",
         "VeryRare": "Very Rare",
         "Legendary": "Legendary"
+      },
+      "Profession": "Profession",
+      "Professions": {
+        "General": "General Use",
+        "Alchemy": "Alchemy",
+        "Blacksmithing": "Blacksmithing",
+        "Carpentry": "Carpentry",
+        "Culinary": "Culinary Arts",
+        "Tailoring": "Tailoring",
+        "Tecnomagic": "Tecnomagic",
+        "Enchanting": "Enchanting",
+        "Herbalism": "Herbalism"
       }
     }
   },

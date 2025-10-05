@@ -78,6 +78,41 @@
         </select>
       </div>
     </div>
+
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemIngredient.Profession"}}</label>
+      <div class="form-fields">
+        <select name="system.profession" data-dtype="String">
+          <option value="general" {{#if (eq system.profession "general")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.General"}}
+          </option>
+          <option value="alchemy" {{#if (eq system.profession "alchemy")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Alchemy"}}
+          </option>
+          <option value="blacksmithing" {{#if (eq system.profession "blacksmithing")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Blacksmithing"}}
+          </option>
+          <option value="carpentry" {{#if (eq system.profession "carpentry")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Carpentry"}}
+          </option>
+          <option value="culinary" {{#if (eq system.profession "culinary")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Culinary"}}
+          </option>
+          <option value="tailoring" {{#if (eq system.profession "tailoring")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Tailoring"}}
+          </option>
+          <option value="tecnomagic" {{#if (eq system.profession "tecnomagic")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Tecnomagic"}}
+          </option>
+          <option value="enchanting" {{#if (eq system.profession "enchanting")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Enchanting"}}
+          </option>
+          <option value="herbalism" {{#if (eq system.profession "herbalism")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Herbalism"}}
+          </option>
+        </select>
+      </div>
+    </div>
   </div>
 
   <div class="backpack-form-section">

@@ -6,6 +6,19 @@
   <div class="ingredients-header">
     <h3>Required Ingredients</h3>
     <p class="hint">Manage the ingredients required for this recipe</p>
+    
+    <div class="profession-info">
+      <span class="profession-label">Recipe Profession:</span>
+      <span class="profession-value">
+        {{#if (eq type "alchemy-recipe")}}{{localize "CARDIGAN.ItemIngredient.Professions.Alchemy"}}{{/if}}
+        {{#if (eq type "blacksmithing-recipe")}}{{localize "CARDIGAN.ItemIngredient.Professions.Blacksmithing"}}{{/if}}
+        {{#if (eq type "carpentry-recipe")}}{{localize "CARDIGAN.ItemIngredient.Professions.Carpentry"}}{{/if}}
+        {{#if (eq type "culinary-recipe")}}{{localize "CARDIGAN.ItemIngredient.Professions.Culinary"}}{{/if}}
+        {{#if (eq type "tailoring-recipe")}}{{localize "CARDIGAN.ItemIngredient.Professions.Tailoring"}}{{/if}}
+        {{#if (eq type "tecnomagic-recipe")}}{{localize "CARDIGAN.ItemIngredient.Professions.Tecnomagic"}}{{/if}}
+        {{#if (eq type "item-recipe")}}{{localize "CARDIGAN.ItemIngredient.Professions.General"}}{{/if}}
+      </span>
+    </div>
   </div>
 
   {{#if editable}}

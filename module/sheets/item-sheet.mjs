@@ -1952,47 +1952,156 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   /* -------------------------------------------- */
 
   /**
-   * Search for items by name in game actors' inventories
+   * Search for items by name in all available sources
    * @param {string} ingredientName - Name to search for
-   * @returns {Array} Array of matching items with actor info
+   * @param {boolean} useCache - Whether to use cached results
+   * @param {string} recipeProfession - Profession of the recipe for prioritization
+   * @returns {Promise<Array>} Array of matching items with source info
    * @protected
    */
-  static _searchItemsByName(ingredientName) {
+  static async _searchItemsByName(ingredientName, useCache = true, recipeProfession = null) {
     if (!ingredientName || ingredientName.trim() === '') return [];
     
     const searchTerm = ingredientName.toLowerCase().trim();
+    
+    // Check cache first
+    if (useCache && CardiganSystemItemSheet._ingredientCache.has(searchTerm)) {
+      const cached = CardiganSystemItemSheet._ingredientCache.get(searchTerm);
+      console.log('[CARDIGAN DEBUG] Using cached results for:', searchTerm);
+      return cached;
+    }
+    
     const matchingItems = [];
     
-    // Search through all actors' items
+    // Helper function to check name match
+    const isNameMatch = (itemName) => {
+      const name = itemName.toLowerCase();
+      return name === searchTerm || 
+             name.includes(searchTerm) || 
+             searchTerm.includes(name);
+    };
+
+    // Helper function to get profession priority
+    const getProfessionPriority = (itemProfession) => {
+      if (!itemProfession || !recipeProfession) return 5; // Default priority
+      if (itemProfession === recipeProfession) return 1; // Perfect profession match
+      if (itemProfession === 'general') return 2; // General use items are versatile
+      return 3; // Different profession but still usable
+    };
+    
+    // 1. Search through all actors' items (highest priority)
     for (const actor of game.actors) {
       if (!actor.items) continue;
       
       for (const item of actor.items) {
-        const itemName = item.name.toLowerCase();
-        
-        // Check for exact match or partial match
-        if (itemName === searchTerm || 
-            itemName.includes(searchTerm) || 
-            searchTerm.includes(itemName)) {
+        if (isNameMatch(item.name)) {
+          const itemProfession = item.system.profession || 'general';
+          const professionPriority = getProfessionPriority(itemProfession);
           
           matchingItems.push({
             item: item,
             actor: actor,
+            source: 'actor',
+            sourceLabel: `${actor.name}`,
             name: item.name,
             img: item.img,
             quantity: item.system.quantity || 1,
-            exactMatch: itemName === searchTerm
+            exactMatch: item.name.toLowerCase() === searchTerm,
+            priority: 1,
+            profession: itemProfession,
+            professionPriority: professionPriority
           });
         }
       }
     }
     
-    // Sort by exact matches first, then by name
-    return matchingItems.sort((a, b) => {
+    // 2. Search through sidebar items (medium priority)
+    for (const item of game.items) {
+      if (isNameMatch(item.name)) {
+        const itemProfession = item.system.profession || 'general';
+        const professionPriority = getProfessionPriority(itemProfession);
+        
+        matchingItems.push({
+          item: item,
+          actor: null,
+          source: 'sidebar',
+          sourceLabel: 'Items Directory',
+          name: item.name,
+          img: item.img,
+          quantity: item.system.quantity || 1,
+          exactMatch: item.name.toLowerCase() === searchTerm,
+          priority: 2,
+          profession: itemProfession,
+          professionPriority: professionPriority
+        });
+      }
+    }
+    
+    // 3. Search through relevant compendiums (lowest priority)
+    const relevantPacks = game.packs.filter(pack => 
+      pack.documentName === "Item" && 
+      (pack.metadata.label.toLowerCase().includes('item') ||
+       pack.metadata.label.toLowerCase().includes('ingredient') ||
+       pack.metadata.name.includes('item'))
+    );
+    
+    for (const pack of relevantPacks) {
+      try {
+        const index = await pack.getIndex();
+        for (const indexEntry of index) {
+          if (isNameMatch(indexEntry.name)) {
+            // Load the full document to get the image
+            const item = await pack.getDocument(indexEntry._id);
+            const itemProfession = item.system.profession || 'general';
+            const professionPriority = getProfessionPriority(itemProfession);
+            
+            matchingItems.push({
+              item: item,
+              actor: null,
+              source: 'compendium',
+              sourceLabel: pack.metadata.label,
+              name: item.name,
+              img: item.img,
+              quantity: item.system.quantity || 1,
+              exactMatch: item.name.toLowerCase() === searchTerm,
+              priority: 3,
+              profession: itemProfession,
+              professionPriority: professionPriority
+            });
+          }
+        }
+      } catch (error) {
+        console.warn(`[CARDIGAN] Error searching compendium ${pack.metadata.label}:`, error);
+      }
+    }
+    
+    // Sort by profession match, then priority, then exact matches, then alphabetically
+    const sortedResults = matchingItems.sort((a, b) => {
+      // First by profession priority (if recipe profession is specified)
+      if (recipeProfession && a.professionPriority !== b.professionPriority) {
+        return a.professionPriority - b.professionPriority;
+      }
+      // Then by source priority (actors first)
+      if (a.priority !== b.priority) return a.priority - b.priority;
+      // Then by exact name match
       if (a.exactMatch && !b.exactMatch) return -1;
       if (!a.exactMatch && b.exactMatch) return 1;
+      // Finally alphabetically
       return a.name.localeCompare(b.name);
     });
+    
+    // Cache the results for future use
+    if (useCache) {
+      CardiganSystemItemSheet._ingredientCache.set(searchTerm, sortedResults);
+      
+      // Clear cache after 5 minutes to prevent stale data
+      setTimeout(() => {
+        CardiganSystemItemSheet._ingredientCache.delete(searchTerm);
+      }, 5 * 60 * 1000);
+    }
+    
+    console.log('[CARDIGAN DEBUG] Search results for', searchTerm, ':', sortedResults.length, 'items found');
+    return sortedResults;
   }
 
   /**
@@ -2007,10 +2116,12 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     if (index >= currentIngredients.length) return;
     
-    const matchingItems = CardiganSystemItemSheet._searchItemsByName(ingredientName);
+    // Determine recipe profession from item type
+    const recipeProfession = this._getRecipeProfession(item.type);
+    const matchingItems = await CardiganSystemItemSheet._searchItemsByName(ingredientName, true, recipeProfession);
     
     if (matchingItems.length > 0) {
-      const bestMatch = matchingItems[0]; // Get the best match (exact or first partial)
+      const bestMatch = matchingItems[0]; // Get the best match (highest priority)
       const newIngredients = [...currentIngredients];
       
       // Update the ingredient with the found item's image
@@ -2024,8 +2135,27 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         ingredientName,
         matchingItems: matchingItems.length,
         bestMatch: bestMatch.name,
+        source: bestMatch.source,
+        sourceLabel: bestMatch.sourceLabel,
         newImage: bestMatch.img
       });
+      
+      // Show notification about the source and profession match
+      const sourceMsg = bestMatch.source === 'actor' 
+        ? `encontrado no inventário de ${bestMatch.sourceLabel}`
+        : bestMatch.source === 'sidebar'
+        ? 'encontrado na Sidebar (Items Directory)'
+        : `encontrado no compêndio "${bestMatch.sourceLabel}"`;
+      
+      const professionMsg = bestMatch.profession && recipeProfession && bestMatch.profession === recipeProfession
+        ? ` (profissão compatível: ${bestMatch.profession})`
+        : bestMatch.profession === 'general'
+        ? ` (uso geral)`
+        : bestMatch.profession
+        ? ` (profissão: ${bestMatch.profession})`
+        : '';
+      
+      ui.notifications.info(`Imagem do ingrediente "${bestMatch.name}" ${sourceMsg}${professionMsg}`, { permanent: false });
       
       await this.item.update({ 'system.requiredIngredients': newIngredients });
     }
@@ -2037,7 +2167,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @protected
    */
-  async _addIngredient(event, target) {
+  static async _addIngredient(event, target) {
     console.log('[CARDIGAN DEBUG] _addIngredient called - item type:', this.item.type);
     console.log('[CARDIGAN DEBUG] Event:', event);
     console.log('[CARDIGAN DEBUG] Target:', target);
@@ -2065,7 +2195,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       newIngredients
     });
     
-    return this.item.update({ 'system.requiredIngredients': newIngredients });
+    return item.update({ 'system.requiredIngredients': newIngredients });
   }
 
   /**
@@ -2074,7 +2204,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @protected
    */
-  async _removeIngredient(event, target) {
+  static async _removeIngredient(event, target) {
     console.log('[CARDIGAN DEBUG] _removeIngredient called');
     event.preventDefault();
     const item = this.item;
@@ -2100,7 +2230,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       newIngredients
     });
     
-    return this.item.update({ 'system.requiredIngredients': newIngredients });
+    return item.update({ 'system.requiredIngredients': newIngredients });
   }
 
   /**
@@ -2109,7 +2239,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @protected
    */
-  async _changeIngredientImage(event, target) {
+  static async _changeIngredientImage(event, target) {
     event.preventDefault();
     const item = this.item;
     
@@ -2136,7 +2266,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           newIngredients
         });
         
-        this.item.update({ 'system.requiredIngredients': newIngredients });
+        item.update({ 'system.requiredIngredients': newIngredients });
       }
     });
     
@@ -2149,7 +2279,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @protected
    */
-  async _onIngredientNameChange(event, target) {
+  static async _onIngredientNameChange(event, target) {
     const item = this.item;
     
     // Check if this is a recipe type
@@ -2163,11 +2293,198 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     // Only auto-fill if the name is at least 3 characters long
     if (ingredientName.length >= 3) {
+      // Create a unique key for this item + index
+      const timeoutKey = `${item.id}-${index}`;
+      
       // Debounce the auto-fill to avoid too many requests
-      clearTimeout(this._ingredientSearchTimeout);
-      this._ingredientSearchTimeout = setTimeout(() => {
-        this._autoFillIngredient(ingredientName, index);
+      clearTimeout(CardiganSystemItemSheet._ingredientSearchTimeouts.get(timeoutKey));
+      const timeoutId = setTimeout(async () => {
+        // Find the sheet instance for this item
+        const sheet = Object.values(ui.windows).find(w => w.item?.id === item.id);
+        if (sheet && sheet._autoFillIngredient) {
+          await sheet._autoFillIngredient(ingredientName, index);
+        }
       }, 500); // Wait 500ms after user stops typing
+      
+      CardiganSystemItemSheet._ingredientSearchTimeouts.set(timeoutKey, timeoutId);
     }
   }
+
+  /**
+   * Get profession from recipe type
+   * @param {string} recipeType - The type of recipe
+   * @returns {string} The corresponding profession
+   * @protected
+   */
+  _getRecipeProfession(recipeType) {
+    const professionMap = {
+      'alchemy-recipe': 'alchemy',
+      'blacksmithing-recipe': 'blacksmithing', 
+      'carpentry-recipe': 'carpentry',
+      'culinary-recipe': 'culinary',
+      'tailoring-recipe': 'tailoring',
+      'tecnomagic-recipe': 'tecnomagic',
+      'item-recipe': 'general' // Generic recipes use general ingredients
+    };
+    
+    return professionMap[recipeType] || 'general';
+  }
+
+  /* -------------------------------------------- */
+  /*  INGREDIENT AUTO-UPDATE SYSTEM               */
+  /* -------------------------------------------- */
+
+  /**
+   * Cache for ingredient search results
+   * @type {Map<string, Array>}
+   * @static
+   */
+  static _ingredientCache = new Map();
+
+  /**
+   * Timeout storage for debouncing ingredient searches
+   * @type {Map<string, number>}
+   * @static
+   */
+  static _ingredientSearchTimeouts = new Map();
+
+  /**
+   * Set of open recipe sheets for auto-update
+   * @type {Set<CardiganSystemItemSheet>}
+   * @static
+   */
+  static _openRecipeSheets = new Set();
+
+  /**
+   * Register this sheet for auto-updates if it's a recipe
+   * @protected
+   */
+  _registerForAutoUpdates() {
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    if (recipeTypes.includes(this.item.type)) {
+      CardiganSystemItemSheet._openRecipeSheets.add(this);
+    }
+  }
+
+  /**
+   * Unregister this sheet from auto-updates
+   * @protected
+   */
+  _unregisterFromAutoUpdates() {
+    CardiganSystemItemSheet._openRecipeSheets.delete(this);
+  }
+
+  /**
+   * Auto-update all ingredients in this recipe
+   * @protected
+   */
+  async _autoUpdateAllIngredients() {
+    const currentIngredients = this.item.system.toObject().requiredIngredients || [];
+    let hasChanges = false;
+    const newIngredients = [...currentIngredients];
+    const recipeProfession = this._getRecipeProfession(this.item.type);
+
+    for (let i = 0; i < currentIngredients.length; i++) {
+      const ingredient = currentIngredients[i];
+      if (ingredient.name && ingredient.name.trim().length >= 3) {
+        const matchingItems = await CardiganSystemItemSheet._searchItemsByName(ingredient.name, false, recipeProfession);
+        if (matchingItems.length > 0) {
+          const bestMatch = matchingItems[0];
+          const newImg = bestMatch.img || 'icons/svg/item-bag.svg';
+          
+          if (newImg !== ingredient.img) {
+            newIngredients[i] = {
+              ...ingredient,
+              img: newImg
+            };
+            hasChanges = true;
+          }
+        }
+      }
+    }
+
+    if (hasChanges) {
+      console.log('[CARDIGAN DEBUG] Auto-updating recipe ingredients:', this.item.name);
+      await this.item.update({ 'system.requiredIngredients': newIngredients });
+    }
+  }
+
+  /**
+   * Trigger auto-update for all open recipe sheets
+   * @param {string} changedItemName - Name of the item that changed (optional)
+   * @static
+   */
+  static async _triggerAutoUpdate(changedItemName = null) {
+    // Clear cache to force fresh searches
+    CardiganSystemItemSheet._ingredientCache.clear();
+    
+    // Debounce multiple rapid changes
+    clearTimeout(CardiganSystemItemSheet._autoUpdateTimeout);
+    CardiganSystemItemSheet._autoUpdateTimeout = setTimeout(async () => {
+      console.log('[CARDIGAN DEBUG] Triggering auto-update for', CardiganSystemItemSheet._openRecipeSheets.size, 'recipe sheets');
+      
+      for (const sheet of CardiganSystemItemSheet._openRecipeSheets) {
+        try {
+          await sheet._autoUpdateAllIngredients();
+        } catch (error) {
+          console.error('[CARDIGAN] Error auto-updating recipe:', error);
+        }
+      }
+    }, 1000); // Wait 1 second to batch multiple changes
+  }
+
+  /**
+   * Initialize hooks for monitoring item changes
+   * @static
+   */
+  static _initializeAutoUpdateHooks() {
+    if (CardiganSystemItemSheet._hooksInitialized) return;
+    CardiganSystemItemSheet._hooksInitialized = true;
+
+    // Monitor item creation in actors
+    Hooks.on('createItem', (item, options, userId) => {
+      console.log('[CARDIGAN DEBUG] Item created:', item.name, 'Type:', item.type);
+      CardiganSystemItemSheet._triggerAutoUpdate(item.name);
+    });
+
+    // Monitor item updates in actors and sidebar
+    Hooks.on('updateItem', (item, changes, options, userId) => {
+      if (changes.name || changes.img) {
+        console.log('[CARDIGAN DEBUG] Item updated:', item.name, 'Changes:', Object.keys(changes));
+        CardiganSystemItemSheet._triggerAutoUpdate(item.name);
+      }
+    });
+
+    // Monitor item deletion
+    Hooks.on('deleteItem', (item, options, userId) => {
+      console.log('[CARDIGAN DEBUG] Item deleted:', item.name);
+      CardiganSystemItemSheet._triggerAutoUpdate(item.name);
+    });
+
+    // Monitor actor item changes (for inventory additions/removals)
+    Hooks.on('updateActor', (actor, changes, options, userId) => {
+      if (changes.items) {
+        console.log('[CARDIGAN DEBUG] Actor inventory changed:', actor.name);
+        CardiganSystemItemSheet._triggerAutoUpdate();
+      }
+    });
+
+    console.log('[CARDIGAN] Ingredient auto-update hooks initialized');
+  }
+
+  /** @override */
+  _onRender(context, options) {
+    super._onRender(context, options);
+    
+    // Register for auto-updates and initialize hooks
+    this._registerForAutoUpdates();
+    CardiganSystemItemSheet._initializeAutoUpdateHooks();
+  }
+
+  /** @override */
+  async close(options = {}) {
+    this._unregisterFromAutoUpdates();
+    return super.close(options);
+  }
+
 }

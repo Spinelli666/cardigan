@@ -5793,19 +5793,37 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
     
-    // Build error message if validation fails
+    // Build detailed HTML error message if validation fails
     if (missing.length > 0 || insufficient.length > 0) {
-      let message = game.i18n.localize("CARDIGAN.Crafting.CannotCraft") + "\n\n";
+      let message = `<div style="font-family: monospace;"><strong>🚫 ${game.i18n.localize("CARDIGAN.Crafting.CannotCraft")}</strong><br><br>`;
       
       if (missing.length > 0) {
-        message += game.i18n.localize("CARDIGAN.Crafting.MissingIngredients") + ":\n";
-        message += missing.map(name => `• ${name}`).join('\n') + "\n\n";
+        message += `<strong>❌ ${game.i18n.localize("CARDIGAN.Crafting.MissingIngredients")}:</strong><br>`;
+        // Get required quantities for missing ingredients
+        const missingWithQuantity = missing.map(name => {
+          const required = requiredIngredients.find(ing => ing.name === name);
+          return `&nbsp;&nbsp;&nbsp;• <span style="color: #ff6b6b;">${name}</span> (${game.i18n.localize("CARDIGAN.Crafting.Required")}: <strong>${required?.quantity || 1}</strong>)`;
+        });
+        message += missingWithQuantity.join('<br>') + "<br><br>";
       }
       
       if (insufficient.length > 0) {
-        message += game.i18n.localize("CARDIGAN.Crafting.InsufficientIngredients") + ":\n";
-        message += insufficient.map(ing => `• ${ing.name}: ${ing.available}/${ing.required}`).join('\n');
+        message += `<strong>⚠️ ${game.i18n.localize("CARDIGAN.Crafting.InsufficientIngredients")}:</strong><br>`;
+        const insufficientDetails = insufficient.map(ing => {
+          const stillNeeded = ing.required - ing.available;
+          return `&nbsp;&nbsp;&nbsp;• <span style="color: #ffa500;">${ing.name}</span>: ${game.i18n.localize("CARDIGAN.Crafting.Have")} <span style="color: #ff6b6b;">${ing.available}</span>/<strong>${ing.required}</strong> (${game.i18n.localize("CARDIGAN.Crafting.Missing")} <strong style="color: #ff6b6b;">${stillNeeded}</strong>)`;
+        });
+        message += insufficientDetails.join('<br>');
       }
+      
+      // Add summary and helpful tip
+      const totalMissing = missing.length + insufficient.reduce((sum, ing) => sum + (ing.required - ing.available), 0);
+      message += `<br><div style="background: rgba(255,255,255,0.1); padding: 6px; border-radius: 4px; margin-top: 8px;">`;
+      message += `<strong>${game.i18n.localize("CARDIGAN.Crafting.Summary")}:</strong> ${totalMissing} ${game.i18n.localize("CARDIGAN.Crafting.ItemsNeeded")}`;
+      message += `</div>`;
+      
+      // Add helpful tip
+      message += `<br><div style="background: rgba(100,149,237,0.1); padding: 8px; border-left: 3px solid #6495ed; margin-top: 10px;"><strong>💡 ${game.i18n.localize("CARDIGAN.Crafting.Tip")}</strong></div></div>`;
       
       return { valid: false, message };
     }
