@@ -1,0 +1,82 @@
+{{!-- Recipe Summary Template --}}
+{{!-- Based on weapon-summary and armor-summary structure with Recipe-specific Layout --}}
+<div class="recipe-summary">
+  <div class="summary-content">
+    
+    {{!-- Recipe Type Property (Top Right Corner) --}}
+    <div class="recipe-properties-top-right">
+      {{#if (eq item.type "culinary-recipe")}}
+        <i class="fas fa-utensils"></i>
+        <span class="recipe-type-text">Culinária</span>
+      {{else if (eq item.type "alchemy-recipe")}}
+        <i class="fas fa-flask"></i>
+        <span class="recipe-type-text">Alquimia</span>
+      {{else if (eq item.type "blacksmithing-recipe")}}
+        <i class="fas fa-hammer"></i>
+        <span class="recipe-type-text">Forja</span>
+      {{else if (eq item.type "carpentry-recipe")}}
+        <i class="fas fa-tools"></i>
+        <span class="recipe-type-text">Carpintaria</span>
+      {{else if (eq item.type "tailoring-recipe")}}
+        <i class="fas fa-cut"></i>
+        <span class="recipe-type-text">Alfaiataria</span>
+      {{else if (eq item.type "tecnomagic-recipe")}}
+        <i class="fas fa-cogs"></i>
+        <span class="recipe-type-text">Tecnomágica</span>
+      {{else}}
+        <i class="fas fa-book"></i>
+        <span class="recipe-type-text">Geral</span>
+      {{/if}}
+    </div>
+    
+    {{!-- Horizontal Layout with Image Left and Content Right --}}
+    <div class="recipe-horizontal-layout">
+      
+      {{!-- Recipe Image (Left side) --}}
+      <div class="recipe-image-left">
+        <img src="{{item.img}}" alt="{{item.name}}" width="48" height="48">
+      </div>
+      
+      {{!-- Recipe Content (Right side) --}}
+      <div class="recipe-content-right">
+        {{!-- Recipe Name --}}
+        <div class="recipe-name-right">
+          <h4>{{item.name}}</h4>
+        </div>
+        
+        {{!-- Recipe Type --}}
+        <div class="recipe-type-right">
+          <em>
+            {{#if (eq item.type "culinary-recipe")}}Receita Culinária
+            {{else if (eq item.type "alchemy-recipe")}}Receita de Alquimia
+            {{else if (eq item.type "blacksmithing-recipe")}}Receita de Forja
+            {{else if (eq item.type "carpentry-recipe")}}Receita de Carpintaria
+            {{else if (eq item.type "tailoring-recipe")}}Receita de Alfaiataria
+            {{else if (eq item.type "tecnomagic-recipe")}}Receita Tecnomágica
+            {{else}}Receita Geral
+            {{/if}}
+          </em>
+        </div>
+        
+        {{!-- Recipe Description --}}
+        {{#if enrichedDescription}}
+        <div class="recipe-description-right">
+          {{{enrichedDescription}}}
+        </div>
+        {{/if}}
+        
+        {{!-- Recipe Instructions or Notes (if any special properties) --}}
+        {{#if system.notes}}
+        <div class="recipe-notes-right">
+          <div class="notes-title">NOTAS</div>
+          <div class="notes-content">
+            {{{system.notes}}}
+          </div>
+        </div>
+        {{/if}}
+      </div>
+      
+    </div>
+    
+  </div>
+</div>

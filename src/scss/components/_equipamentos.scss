@@ -877,6 +877,160 @@
 }
 
 // -----------------------------------------
+// Recipe Summary Styles 
+// -----------------------------------------
+
+.recipe-summary {
+  padding: 12px;
+  position: relative;
+  
+  .summary-content {
+    color: $c-black;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  
+  .recipe-properties-top-right {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    align-items: center;
+    color: $c-black;
+    z-index: 1;
+    
+    i {
+      color: var(--cardigan-c-beige);
+      margin-right: 4px;
+      
+      &.fa-utensils {
+        color: #ff9800; // Orange for culinary
+      }
+      
+      &.fa-flask {
+        color: #9c27b0; // Purple for alchemy
+      }
+      
+      &.fa-hammer {
+        color: #795548; // Brown for blacksmithing
+      }
+      
+      &.fa-tools {
+        color: #8bc34a; // Light green for carpentry
+      }
+      
+      &.fa-cut {
+        color: #e91e63; // Pink for tailoring
+      }
+      
+      &.fa-cogs {
+        color: #607d8b; // Blue grey for tecnomagic
+      }
+      
+      &.fa-magic {
+        color: #673ab7; // Deep purple for enchanting
+      }
+      
+      &.fa-leaf {
+        color: #4caf50; // Green for herbalism
+      }
+      
+      &.fa-book {
+        color: #757575; // Grey for general recipes
+      }
+    }
+    
+    .recipe-type-text {
+      margin-left: 2px;
+      color: $c-black;
+      font-size: 11px;
+    }
+  }
+
+  // -----------------------------------------
+  // HORIZONTAL LAYOUT
+  // -----------------------------------------
+  
+  .recipe-horizontal-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 6px 0;
+    margin-top: 4px;
+    
+    // Recipe Image (Left side)
+    .recipe-image-left {
+      flex-shrink: 0;
+      
+      img {
+        width: 48px;
+        height: 48px;
+        border-radius: 4px;
+        border: 2px solid $c-black;
+        background: rgba(0, 0, 0, 0.3);
+      }
+    }
+    
+    // Recipe Content (Right side)
+    .recipe-content-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      
+      // Recipe Name (Right side)
+      .recipe-name-right {
+        h4 {
+          color: $c-black;
+          font-size: 16px;
+          font-weight: bold;
+          margin: 0;
+          text-align: left;
+        }
+      }
+      
+      // Recipe Type (Right side)
+      .recipe-type-right {
+        em {
+          color: $c-black;
+          font-style: italic;
+          font-size: 13px;
+        }
+      }
+      
+      // Recipe Description (Right side)
+      .recipe-description-right {
+        color: $c-black;
+        font-size: 13px;
+        text-align: left;
+        margin: 4px 0;
+        line-height: 1.4;
+      }
+      
+      // Recipe Notes (Right side)
+      .recipe-notes-right {
+        text-align: left;
+        color: $c-black;
+        margin: 4px 0;
+        
+        .notes-title {
+          font-size: 11px;
+          font-weight: bold;
+          color: var(--cardigan-c-beige);
+          margin-bottom: 4px;
+        }
+        
+        .notes-content {
+          font-size: 12px;
+          line-height: 1.4;
+          color: $c-black;
+        }
+      }
+    }
+  }
+}
+
+// -----------------------------------------
 // Weapon Properties Styles
 // -----------------------------------------
 

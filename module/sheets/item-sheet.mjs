@@ -1963,10 +1963,11 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     if (!ingredientName || ingredientName.trim() === '') return [];
     
     const searchTerm = ingredientName.toLowerCase().trim();
+    const cacheKey = `${searchTerm}-${recipeProfession || 'none'}`;
     
     // Check cache first
-    if (useCache && CardiganSystemItemSheet._ingredientCache.has(searchTerm)) {
-      const cached = CardiganSystemItemSheet._ingredientCache.get(searchTerm);
+    if (useCache && CardiganSystemItemSheet._ingredientCache.has(cacheKey)) {
+      const cached = CardiganSystemItemSheet._ingredientCache.get(cacheKey);
       console.log('[CARDIGAN DEBUG] Using cached results for:', searchTerm);
       return cached;
     }
@@ -1989,11 +1990,19 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       return 3; // Different profession but still usable
     };
     
-    // 1. Search through all actors' items (highest priority)
-    for (const actor of game.actors) {
+    // 1. Search through all actors' items (highest priority) - with performance limit
+    let itemsChecked = 0;
+    const maxItemsToCheck = 1000; // Limit to prevent performance issues
+    
+    actorLoop: for (const actor of game.actors) {
       if (!actor.items) continue;
       
       for (const item of actor.items) {
+        if (++itemsChecked > maxItemsToCheck) {
+          console.warn('[CARDIGAN] Search stopped after checking', maxItemsToCheck, 'items for performance');
+          break actorLoop;
+        }
+        
         if (isNameMatch(item.name)) {
           const itemProfession = item.system.profession || 'general';
           const professionPriority = getProfessionPriority(itemProfession);
@@ -2011,67 +2020,84 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
             profession: itemProfession,
             professionPriority: professionPriority
           });
-        }
-      }
-    }
-    
-    // 2. Search through sidebar items (medium priority)
-    for (const item of game.items) {
-      if (isNameMatch(item.name)) {
-        const itemProfession = item.system.profession || 'general';
-        const professionPriority = getProfessionPriority(itemProfession);
-        
-        matchingItems.push({
-          item: item,
-          actor: null,
-          source: 'sidebar',
-          sourceLabel: 'Items Directory',
-          name: item.name,
-          img: item.img,
-          quantity: item.system.quantity || 1,
-          exactMatch: item.name.toLowerCase() === searchTerm,
-          priority: 2,
-          profession: itemProfession,
-          professionPriority: professionPriority
-        });
-      }
-    }
-    
-    // 3. Search through relevant compendiums (lowest priority)
-    const relevantPacks = game.packs.filter(pack => 
-      pack.documentName === "Item" && 
-      (pack.metadata.label.toLowerCase().includes('item') ||
-       pack.metadata.label.toLowerCase().includes('ingredient') ||
-       pack.metadata.name.includes('item'))
-    );
-    
-    for (const pack of relevantPacks) {
-      try {
-        const index = await pack.getIndex();
-        for (const indexEntry of index) {
-          if (isNameMatch(indexEntry.name)) {
-            // Load the full document to get the image
-            const item = await pack.getDocument(indexEntry._id);
-            const itemProfession = item.system.profession || 'general';
-            const professionPriority = getProfessionPriority(itemProfession);
-            
-            matchingItems.push({
-              item: item,
-              actor: null,
-              source: 'compendium',
-              sourceLabel: pack.metadata.label,
-              name: item.name,
-              img: item.img,
-              quantity: item.system.quantity || 1,
-              exactMatch: item.name.toLowerCase() === searchTerm,
-              priority: 3,
-              profession: itemProfession,
-              professionPriority: professionPriority
-            });
+          
+          // If we found an exact match, prioritize it and potentially stop early
+          if (item.name.toLowerCase() === searchTerm && matchingItems.length >= 5) {
+            console.log('[CARDIGAN] Found exact match, stopping early search');
+            break actorLoop;
           }
         }
-      } catch (error) {
-        console.warn(`[CARDIGAN] Error searching compendium ${pack.metadata.label}:`, error);
+      }
+    }
+    
+    // 2. Search through sidebar items (medium priority) - optimized
+    if (matchingItems.length < 10) { // Only search sidebar if we don't have many matches yet
+      for (const item of game.items) {
+        if (isNameMatch(item.name)) {
+          const itemProfession = item.system.profession || 'general';
+          const professionPriority = getProfessionPriority(itemProfession);
+          
+          matchingItems.push({
+            item: item,
+            actor: null,
+            source: 'sidebar',
+            sourceLabel: 'Items Directory',
+            name: item.name,
+            img: item.img,
+            quantity: item.system.quantity || 1,
+            exactMatch: item.name.toLowerCase() === searchTerm,
+            priority: 2,
+            profession: itemProfession,
+            professionPriority: professionPriority
+          });
+        }
+      }
+    }
+    
+    // 3. Search through relevant compendiums (lowest priority) - only if we have few matches
+    if (matchingItems.length < 5) { // Only search compendiums if we really need more results
+      const relevantPacks = game.packs.filter(pack => 
+        pack.documentName === "Item" && 
+        (pack.metadata.label.toLowerCase().includes('item') ||
+         pack.metadata.label.toLowerCase().includes('ingredient') ||
+         pack.metadata.name.includes('item'))
+      );
+      
+      for (const pack of relevantPacks) {
+        try {
+          const index = await pack.getIndex();
+          let compendiumMatches = 0;
+          const maxCompendiumMatches = 3; // Limit compendium matches per pack
+          
+          for (const indexEntry of index) {
+            if (compendiumMatches >= maxCompendiumMatches) break;
+            
+            if (isNameMatch(indexEntry.name)) {
+              // Load the full document to get the image
+              const item = await pack.getDocument(indexEntry._id);
+              const itemProfession = item.system.profession || 'general';
+              const professionPriority = getProfessionPriority(itemProfession);
+              
+              matchingItems.push({
+                item: item,
+                actor: null,
+                source: 'compendium',
+                sourceLabel: pack.metadata.label,
+                name: item.name,
+                img: item.img,
+                quantity: item.system.quantity || 1,
+                exactMatch: item.name.toLowerCase() === searchTerm,
+                priority: 3,
+                profession: itemProfession,
+                professionPriority: professionPriority
+              });
+              
+              compendiumMatches++;
+            }
+          }
+        } catch (error) {
+          console.warn(`[CARDIGAN] Error searching compendium ${pack.metadata.label}:`, error);
+        }
       }
     }
     
@@ -2090,14 +2116,20 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       return a.name.localeCompare(b.name);
     });
     
-    // Cache the results for future use
+    // Cache the results for future use with shorter expiration
     if (useCache) {
-      CardiganSystemItemSheet._ingredientCache.set(searchTerm, sortedResults);
+      CardiganSystemItemSheet._ingredientCache.set(cacheKey, sortedResults);
       
-      // Clear cache after 5 minutes to prevent stale data
+      // Clear cache after 2 minutes to prevent stale data (shorter for better performance)
       setTimeout(() => {
-        CardiganSystemItemSheet._ingredientCache.delete(searchTerm);
-      }, 5 * 60 * 1000);
+        CardiganSystemItemSheet._ingredientCache.delete(cacheKey);
+      }, 2 * 60 * 1000);
+      
+      // Also implement cache size limit
+      if (CardiganSystemItemSheet._ingredientCache.size > 50) {
+        const firstKey = CardiganSystemItemSheet._ingredientCache.keys().next().value;
+        CardiganSystemItemSheet._ingredientCache.delete(firstKey);
+      }
     }
     
     console.log('[CARDIGAN DEBUG] Search results for', searchTerm, ':', sortedResults.length, 'items found');
@@ -2291,8 +2323,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     const ingredientName = target.value.trim();
     
-    // Only auto-fill if the name is at least 3 characters long
-    if (ingredientName.length >= 3) {
+    // Only auto-fill if the name is at least 4 characters long (increased to reduce searches)
+    if (ingredientName.length >= 4) {
       // Create a unique key for this item + index
       const timeoutKey = `${item.id}-${index}`;
       
@@ -2304,7 +2336,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         if (sheet && sheet._autoFillIngredient) {
           await sheet._autoFillIngredient(ingredientName, index);
         }
-      }, 500); // Wait 500ms after user stops typing
+      }, 800); // Increased debounce time to 800ms to reduce frequent searches
       
       CardiganSystemItemSheet._ingredientSearchTimeouts.set(timeoutKey, timeoutId);
     }
@@ -2484,7 +2516,23 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   /** @override */
   async close(options = {}) {
     this._unregisterFromAutoUpdates();
+    this._cleanupTimeouts();
     return super.close(options);
+  }
+
+  /**
+   * Clean up any pending timeouts to prevent memory leaks
+   * @protected
+   */
+  _cleanupTimeouts() {
+    // Clear any pending search timeouts for this item
+    const itemId = this.item.id;
+    for (const [key, timeoutId] of CardiganSystemItemSheet._ingredientSearchTimeouts.entries()) {
+      if (key.startsWith(itemId)) {
+        clearTimeout(timeoutId);
+        CardiganSystemItemSheet._ingredientSearchTimeouts.delete(key);
+      }
+    }
   }
 
 }

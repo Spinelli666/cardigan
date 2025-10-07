@@ -1526,6 +1526,118 @@
 .cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-detailed-properties .property-detail-line:last-child {
   margin-bottom: 0;
 }
+.cardigan .recipe-summary {
+  padding: 12px;
+  position: relative;
+}
+.cardigan .recipe-summary .summary-content {
+  color: var(--cardigan-c-black);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.cardigan .recipe-summary .recipe-properties-top-right {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  color: var(--cardigan-c-black);
+  z-index: 1;
+}
+.cardigan .recipe-summary .recipe-properties-top-right i {
+  color: var(--cardigan-c-beige);
+  margin-right: 4px;
+}
+.cardigan .recipe-summary .recipe-properties-top-right i.fa-utensils {
+  color: #ff9800;
+}
+.cardigan .recipe-summary .recipe-properties-top-right i.fa-flask {
+  color: #9c27b0;
+}
+.cardigan .recipe-summary .recipe-properties-top-right i.fa-hammer {
+  color: #795548;
+}
+.cardigan .recipe-summary .recipe-properties-top-right i.fa-tools {
+  color: #8bc34a;
+}
+.cardigan .recipe-summary .recipe-properties-top-right i.fa-cut {
+  color: #e91e63;
+}
+.cardigan .recipe-summary .recipe-properties-top-right i.fa-cogs {
+  color: #607d8b;
+}
+.cardigan .recipe-summary .recipe-properties-top-right i.fa-magic {
+  color: #673ab7;
+}
+.cardigan .recipe-summary .recipe-properties-top-right i.fa-leaf {
+  color: #4caf50;
+}
+.cardigan .recipe-summary .recipe-properties-top-right i.fa-book {
+  color: #757575;
+}
+.cardigan .recipe-summary .recipe-properties-top-right .recipe-type-text {
+  margin-left: 2px;
+  color: var(--cardigan-c-black);
+  font-size: 11px;
+}
+.cardigan .recipe-summary .recipe-horizontal-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 6px 0;
+  margin-top: 4px;
+}
+.cardigan .recipe-summary .recipe-horizontal-layout .recipe-image-left {
+  flex-shrink: 0;
+}
+.cardigan .recipe-summary .recipe-horizontal-layout .recipe-image-left img {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  border: 2px solid var(--cardigan-c-black);
+  background: rgba(0, 0, 0, 0.3);
+}
+.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right .recipe-name-right h4 {
+  color: var(--cardigan-c-black);
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  text-align: left;
+}
+.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right .recipe-type-right em {
+  color: var(--cardigan-c-black);
+  font-style: italic;
+  font-size: 13px;
+}
+.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right .recipe-description-right {
+  color: var(--cardigan-c-black);
+  font-size: 13px;
+  text-align: left;
+  margin: 4px 0;
+  line-height: 1.4;
+}
+.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right .recipe-notes-right {
+  text-align: left;
+  color: var(--cardigan-c-black);
+  margin: 4px 0;
+}
+.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right .recipe-notes-right .notes-title {
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--cardigan-c-beige);
+  margin-bottom: 4px;
+}
+.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right .recipe-notes-right .notes-content {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--cardigan-c-black);
+}
 .cardigan .weapon-properties .properties-header {
   display: flex;
   align-items: center;

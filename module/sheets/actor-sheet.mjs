@@ -4039,7 +4039,14 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     const expanded = this.expandedSections.get(itemId);
     const isArmor = item.type === 'armadura';
-    const summaryClass = isArmor ? ".armor-summary" : ".weapon-summary";
+    const isWeapon = item.type === 'arma';
+    const isRecipe = item.type?.includes('recipe') || item.type?.includes('-recipe');
+    
+    let summaryClass;
+    if (isArmor) summaryClass = ".armor-summary";
+    else if (isWeapon) summaryClass = ".weapon-summary";
+    else if (isRecipe) summaryClass = ".recipe-summary";
+    else summaryClass = ".weapon-summary"; // fallback
     
     if (expanded) {
       // Collapse
@@ -4062,15 +4069,20 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         };
         
         // Choose template based on item type
-        const template = isArmor 
-          ? "systems/cardigan/templates/armors/armor-summary.hbs"
-          : "systems/cardigan/templates/weapons/weapon-summary.hbs";
+        let template;
+        if (isArmor) {
+          template = "systems/cardigan/templates/armors/armor-summary.hbs";
+        } else if (isRecipe) {
+          template = "systems/cardigan/templates/recipes/recipe-summary.hbs";
+        } else {
+          template = "systems/cardigan/templates/weapons/weapon-summary.hbs";
+        }
         
         const content = await foundry.applications.handlebars.renderTemplate(template, context);
         summary.insertAdjacentHTML("beforeend", content);
         this.expandedSections.set(itemId, true);
       } catch (error) {
-        console.error(`Error creating ${isArmor ? 'armor' : 'weapon'} summary:`, error);
+        console.error(`Error creating ${isArmor ? 'armor' : isRecipe ? 'recipe' : 'weapon'} summary:`, error);
         return;
       }
     }
@@ -4108,7 +4120,14 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     const expanded = this.expandedSections.get(itemId);
     const isArmor = item.type === 'armadura';
-    const summaryClass = isArmor ? ".armor-summary" : ".weapon-summary";
+    const isWeapon = item.type === 'arma';
+    const isRecipe = item.type?.includes('recipe') || item.type?.includes('-recipe');
+    
+    let summaryClass;
+    if (isArmor) summaryClass = ".armor-summary";
+    else if (isWeapon) summaryClass = ".weapon-summary";
+    else if (isRecipe) summaryClass = ".recipe-summary";
+    else summaryClass = ".weapon-summary"; // fallback
     
     if (expanded) {
       // Collapse
@@ -4131,15 +4150,20 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         };
         
         // Choose template based on item type
-        const template = isArmor 
-          ? "systems/cardigan/templates/armors/armor-summary.hbs"
-          : "systems/cardigan/templates/weapons/weapon-summary.hbs";
+        let template;
+        if (isArmor) {
+          template = "systems/cardigan/templates/armors/armor-summary.hbs";
+        } else if (isRecipe) {
+          template = "systems/cardigan/templates/recipes/recipe-summary.hbs";
+        } else {
+          template = "systems/cardigan/templates/weapons/weapon-summary.hbs";
+        }
         
         const content = await foundry.applications.handlebars.renderTemplate(template, context);
         summary.insertAdjacentHTML("beforeend", content);
         this.expandedSections.set(itemId, true);
       } catch (error) {
-        console.error("Error creating weapon summary:", error);
+        console.error(`Error creating ${isArmor ? 'armor' : isRecipe ? 'recipe' : 'weapon'} summary:`, error);
         return;
       }
     }
