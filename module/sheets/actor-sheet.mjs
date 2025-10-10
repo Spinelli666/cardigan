@@ -519,8 +519,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   /**
    * Calculate spaces occupied by a single item based on its weight and quantity
    * Implements Cardigan's backpack space rules:
-   * - Muito Leve: 0 spaces, but +1 space per 10 items accumulated
-   * - Leve: 1 space, but +1 space per 11 items accumulated  
+   * - Leve: 0 spaces, but +1 space per 10 items accumulated
    * - Médio: 1 space each
    * - Pesado: 2 spaces each
    * - Muito Pesado: 4 spaces each
@@ -533,14 +532,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     if (!weight || quantity <= 0) return 0;
 
     switch (weight) {
-      case 'muito-leve':
+      case 'leve':
         // 0 spaces, but +1 space per 10 items
         return Math.floor(quantity / 10);
-      
-      case 'leve':
-        // 1 space per group of 11 items
-        // Examples: 1-11 items = 1 space, 12-22 items = 2 spaces, 23-33 items = 3 spaces
-        return Math.ceil(quantity / 11);
       
       case 'medio':
         // 1 space each
@@ -574,22 +568,19 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
     // Group items by weight for special rules
     const weightGroups = {
-      'muito-leve': 0,
       'leve': 0
     };
 
-    // Add money weight to 'leve' weight group (coins are light)
+    // Calculate money weight separately (30 coins = 1 space)
     const moneyAmount = this.actor?.system?.money || 0;
-    weightGroups['leve'] += moneyAmount;
+    const moneySpaces = Math.floor(moneyAmount / 30);
 
     // First pass: calculate individual item spaces and count weight groups
     backpackItems.forEach(item => {
       const weight = item.system?.weight;
       const quantity = item.system?.quantity || 1;
 
-      if (weight === 'muito-leve') {
-        weightGroups['muito-leve'] += quantity;
-      } else if (weight === 'leve') {
+      if (weight === 'leve') {
         weightGroups['leve'] += quantity;
       } else {
         // For other weights, calculate normally
@@ -598,10 +589,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     });
 
     // Apply special rules for weight groups
-    totalSpaces += this._calculateItemSpaces('muito-leve', weightGroups['muito-leve']);
     totalSpaces += this._calculateItemSpaces('leve', weightGroups['leve']);
+    
+    // Add money spaces (30 coins = 1 space)
+    totalSpaces += moneySpaces;
 
-    console.log(`[BACKPACK SPACES] Total occupied: ${totalSpaces} (includes ${moneyAmount} coins as light items)`);
+    console.log(`[BACKPACK SPACES] Total occupied: ${totalSpaces} (includes ${moneySpaces} spaces from ${moneyAmount} coins)`);
     return totalSpaces;
   }
 
@@ -4057,6 +4050,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       try {
         // Get item data for summary
         const context = {
+          actor: this.actor, // Add actor to context for ingredient checking
           item: item,
           system: item.system,
           enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description || "", {
@@ -4138,6 +4132,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       try {
         // Get item data for summary
         const context = {
+          actor: this.document, // Add actor to context for ingredient checking (static method uses this.document)
           item: item,
           system: item.system,
           enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description || "", {
@@ -5721,7 +5716,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           img: recipe.img,
           system: {
             quantity: recipe.system.servings || 1,
-            weight: recipe.system.weight || "muito-leve",
+            weight: recipe.system.weight || "leve",
             price: Math.ceil(recipe.system.price / 2) || 1,
             effects: []
           }
@@ -5959,7 +5954,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         system: {
           quantity: recipe.system.resultQuantity || 1,
           // Use correct weight for each item type
-          weight: (result.itemType === "arma" || result.itemType === "armadura") ? "leve" : "muito-leve",
+          weight: (result.itemType === "arma" || result.itemType === "armadura") ? "leve" : "leve",
           price: recipe.system.price || 10,
           description: `Crafted from ${recipe.name} recipe.${recipe.system.description ? `\n\n${recipe.system.description}` : ''}`
         }

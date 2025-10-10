@@ -15,7 +15,7 @@
     {{#each weightOptions}}
       <button type="button" class="weight-option" data-weight="{{value}}" title="{{localize description}}">
         <div class="weight-icon">
-          {{#if (eq value "muito-leve")}}
+          {{#if (eq value "leve")}}
             <i class="fas fa-feather"></i>
           {{else if (eq value "leve")}}
             <i class="fas fa-cube"></i>
@@ -32,7 +32,7 @@
           <div class="weight-description">{{localize description}}</div>
         </div>
         <div class="weight-spaces">
-          {{#if (eq value "muito-leve")}}
+          {{#if (eq value "leve")}}
             <span class="spaces-info">+1 espaço / 10 itens</span>
           {{else if (eq value "leve")}}
             <span class="spaces-info">1 espaço / 11 itens</span>

@@ -29,52 +29,63 @@
       {{/if}}
     </div>
     
-    {{!-- Horizontal Layout with Image Left and Content Right --}}
-    <div class="recipe-horizontal-layout">
+    {{!-- Recipe Layout: Image+Info on top, Description below --}}
+    <div class="recipe-layout">
       
-      {{!-- Recipe Image (Left side) --}}
-      <div class="recipe-image-left">
-        <img src="{{item.img}}" alt="{{item.name}}" width="48" height="48">
-      </div>
-      
-      {{!-- Recipe Content (Right side) --}}
-      <div class="recipe-content-right">
-        {{!-- Recipe Name --}}
-        <div class="recipe-name-right">
-          <h4>{{item.name}}</h4>
-        </div>
+      {{!-- Top section: Image and Info side by side --}}
+      <div class="recipe-top-section">
         
-        {{!-- Recipe Type --}}
-        <div class="recipe-type-right">
-          <em>
-            {{#if (eq item.type "culinary-recipe")}}Receita Culinária
-            {{else if (eq item.type "alchemy-recipe")}}Receita de Alquimia
-            {{else if (eq item.type "blacksmithing-recipe")}}Receita de Forja
-            {{else if (eq item.type "carpentry-recipe")}}Receita de Carpintaria
-            {{else if (eq item.type "tailoring-recipe")}}Receita de Alfaiataria
-            {{else if (eq item.type "tecnomagic-recipe")}}Receita Tecnomágica
-            {{else}}Receita Geral
-            {{/if}}
-          </em>
-        </div>
-        
-        {{!-- Recipe Description --}}
-        {{#if enrichedDescription}}
-        <div class="recipe-description-right">
-          {{{enrichedDescription}}}
-        </div>
-        {{/if}}
-        
-        {{!-- Recipe Instructions or Notes (if any special properties) --}}
-        {{#if system.notes}}
-        <div class="recipe-notes-right">
-          <div class="notes-title">NOTAS</div>
-          <div class="notes-content">
-            {{{system.notes}}}
+        {{!-- Left: Image only --}}
+        <div class="recipe-left-section">
+          <div class="recipe-image">
+            <img src="{{item.img}}" alt="{{item.name}}" width="48" height="48">
           </div>
         </div>
-        {{/if}}
+        
+        {{!-- Right: Name and Type --}}
+        <div class="recipe-right-section">
+          <div class="recipe-name">
+            <h4>{{item.name}}</h4>
+          </div>
+          
+          <div class="recipe-type">
+            <em>
+              {{#if (eq item.type "culinary-recipe")}}Receita Culinária
+              {{else if (eq item.type "alchemy-recipe")}}Receita de Alquimia
+              {{else if (eq item.type "blacksmithing-recipe")}}Receita de Forja
+              {{else if (eq item.type "carpentry-recipe")}}Receita de Carpintaria
+              {{else if (eq item.type "tailoring-recipe")}}Receita de Alfaiataria
+              {{else if (eq item.type "tecnomagic-recipe")}}Receita Tecnomágica
+              {{else}}Receita Geral
+              {{/if}}
+            </em>
+          </div>
+        </div>
+        
       </div>
+      
+      {{!-- Ingredients section: Below image and info --}}
+      {{#if system.requiredIngredients}}
+      <div class="recipe-ingredients-section">
+        <div class="ingredients-list">
+          {{#each system.requiredIngredients}}
+          <div class="ingredient-item" title="{{name}}">
+            <div class="ingredient-image" title="{{name}}">
+              <img src="{{img}}" alt="{{name}}" width="24" height="24" title="{{name}}">
+            </div>
+            <div class="ingredient-quantity {{#unless (hasEnoughIngredient name quantity)}}insufficient{{/unless}}" title="{{name}} ({{quantity}} necessário)">{{quantity}}</div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{/if}}
+      
+      {{!-- Bottom section: Description full width --}}
+      {{#if enrichedDescription}}
+      <div class="recipe-description-below">
+        {{{enrichedDescription}}}
+      </div>
+      {{/if}}
       
     </div>
     

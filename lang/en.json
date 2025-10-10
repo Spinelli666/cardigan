@@ -363,7 +363,7 @@
     "NoAmmunition": "has no ammunition!",
     "AmmunitionRemaining": "remaining",
     "IsFirearm": "Is Firearm?",
-    "WeightVeryLight": "Very Light",
+
     "WeightLight": "Light",
     "WeightMedium": "Medium", 
     "WeightHeavy": "Heavy",
@@ -822,14 +822,5 @@
       "arma": "Weapon",
       "armadura": "Armor"
     }
-  },
-
-  "Weight": "Weight",
-  "WeightVeryLight": "Very Light",
-  "WeightLight": "Light", 
-  "WeightMedium": "Medium",
-  "WeightHeavy": "Heavy",
-  "WeightVeryHeavy": "Very Heavy",
-  "Quantity": "Quantity",
-  "Price": "Price"
+  }
 }

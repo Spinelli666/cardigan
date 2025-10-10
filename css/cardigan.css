@@ -1580,63 +1580,96 @@
   color: var(--cardigan-c-black);
   font-size: 11px;
 }
-.cardigan .recipe-summary .recipe-horizontal-layout {
+.cardigan .recipe-summary .recipe-layout {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
   padding: 6px 0;
   margin-top: 4px;
 }
-.cardigan .recipe-summary .recipe-horizontal-layout .recipe-image-left {
+.cardigan .recipe-summary .recipe-layout .recipe-top-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.cardigan .recipe-summary .recipe-layout .recipe-top-section .recipe-left-section {
   flex-shrink: 0;
 }
-.cardigan .recipe-summary .recipe-horizontal-layout .recipe-image-left img {
+.cardigan .recipe-summary .recipe-layout .recipe-top-section .recipe-left-section .recipe-image img {
   width: 48px;
   height: 48px;
   border-radius: 4px;
   border: 2px solid var(--cardigan-c-black);
   background: rgba(0, 0, 0, 0.3);
 }
-.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right {
+.cardigan .recipe-summary .recipe-layout .recipe-top-section .recipe-right-section {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right .recipe-name-right h4 {
+.cardigan .recipe-summary .recipe-layout .recipe-top-section .recipe-right-section .recipe-name h4 {
   color: var(--cardigan-c-black);
   font-size: 16px;
   font-weight: bold;
   margin: 0;
   text-align: left;
 }
-.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right .recipe-type-right em {
+.cardigan .recipe-summary .recipe-layout .recipe-top-section .recipe-right-section .recipe-type em {
   color: var(--cardigan-c-black);
   font-style: italic;
   font-size: 13px;
 }
-.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right .recipe-description-right {
-  color: var(--cardigan-c-black);
-  font-size: 13px;
-  text-align: left;
-  margin: 4px 0;
-  line-height: 1.4;
+.cardigan .recipe-summary .recipe-layout .recipe-ingredients-section {
+  width: 100%;
+  margin: 8px 0;
 }
-.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right .recipe-notes-right {
-  text-align: left;
-  color: var(--cardigan-c-black);
-  margin: 4px 0;
+.cardigan .recipe-summary .recipe-layout .recipe-ingredients-section .ingredients-list {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  align-items: center;
+  overflow-x: auto;
 }
-.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right .recipe-notes-right .notes-title {
+.cardigan .recipe-summary .recipe-layout .recipe-ingredients-section .ingredients-list .ingredient-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 0px;
+}
+.cardigan .recipe-summary .recipe-layout .recipe-ingredients-section .ingredients-list .ingredient-item .ingredient-image {
+  flex-shrink: 0;
+  width: 24px !important;
+  height: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
+}
+.cardigan .recipe-summary .recipe-layout .recipe-ingredients-section .ingredients-list .ingredient-item .ingredient-image img {
+  border-radius: 2px;
+  border: 1px solid var(--cardigan-c-black);
+  background: rgba(0, 0, 0, 0.3);
+}
+.cardigan .recipe-summary .recipe-layout .recipe-ingredients-section .ingredients-list .ingredient-item .ingredient-quantity {
+  color: var(--cardigan-c-black);
   font-size: 11px;
   font-weight: bold;
-  color: var(--cardigan-c-beige);
-  margin-bottom: 4px;
+  min-width: 16px;
+  text-align: center;
 }
-.cardigan .recipe-summary .recipe-horizontal-layout .recipe-content-right .recipe-notes-right .notes-content {
-  font-size: 12px;
-  line-height: 1.4;
+.cardigan .recipe-summary .recipe-layout .recipe-ingredients-section .ingredients-list .ingredient-item .ingredient-quantity.insufficient {
+  color: #dc3545 !important;
+}
+.cardigan .recipe-summary .recipe-layout .recipe-description-below {
+  width: 100%;
   color: var(--cardigan-c-black);
+  font-size: 12px;
+  text-align: left;
+  line-height: 1.4;
+  margin-top: 4px;
 }
 .cardigan .weapon-properties .properties-header {
   display: flex;
@@ -3680,7 +3713,7 @@
   border-radius: 12px;
   border: 1px solid rgba(var(--cardigan-c-tan), 0.3);
 }
-.cardigan .weight-selection-dialog .weight-options .weight-option[data-weight=muito-leve] .weight-icon {
+.cardigan .weight-selection-dialog .weight-options .weight-option[data-weight=leve] .weight-icon {
   color: #74b9ff;
 }
 .cardigan .weight-selection-dialog .weight-options .weight-option[data-weight=leve] .weight-icon {
@@ -3695,7 +3728,7 @@
 .cardigan .weight-selection-dialog .weight-options .weight-option[data-weight=muito-pesado] .weight-icon {
   color: #d63031;
 }
-.cardigan .weight-selection-dialog .weight-options .weight-option:hover[data-weight=muito-leve] .weight-icon {
+.cardigan .weight-selection-dialog .weight-options .weight-option:hover[data-weight=leve] .weight-icon {
   color: #0984e3;
 }
 .cardigan .weight-selection-dialog .weight-options .weight-option:hover[data-weight=leve] .weight-icon {

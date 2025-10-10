@@ -58,7 +58,6 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
     } else {
       // All 5 weights for backpack items
       weightOptions = [
-        { value: 'muito-leve', label: 'CARDIGAN.WeightVeryLight', description: 'CARDIGAN.WeightDescription.VeryLight' },
         { value: 'leve', label: 'CARDIGAN.WeightLight', description: 'CARDIGAN.WeightDescription.Light' },
         { value: 'medio', label: 'CARDIGAN.WeightMedium', description: 'CARDIGAN.WeightDescription.Medium' },
         { value: 'pesado', label: 'CARDIGAN.WeightHeavy', description: 'CARDIGAN.WeightDescription.Heavy' },
@@ -168,7 +167,7 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
    */
   _calculateItemSpaces(weight, quantity) {
     switch (weight) {
-      case 'muito-leve':
+      case 'leve':
         return Math.floor(quantity / 10); // 0 spaces, but +1 per 10 items
       case 'leve':
         return Math.ceil(quantity / 11); // 1 space per 11 items
@@ -193,20 +192,18 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
     if (!backpackItems || !Array.isArray(backpackItems)) return 0;
 
     let totalSpaces = 0;
-    const weightGroups = { 'muito-leve': 0, 'leve': 0 };
+    const weightGroups = { 'leve': 0 };
 
-    // Add money weight to 'leve' weight group (coins are light)
+    // Calculate money weight separately (30 coins = 1 space)
     const moneyAmount = this.actor?.system?.money || 0;
-    weightGroups['leve'] += moneyAmount;
+    const moneySpaces = Math.floor(moneyAmount / 30);
 
     // Group items by weight for special rules
     backpackItems.forEach(item => {
       const weight = item.system?.weight;
       const quantity = item.system?.quantity || 1;
 
-      if (weight === 'muito-leve') {
-        weightGroups['muito-leve'] += quantity;
-      } else if (weight === 'leve') {
+      if (weight === 'leve') {
         weightGroups['leve'] += quantity;
       } else {
         totalSpaces += this._calculateItemSpaces(weight, quantity);
@@ -214,8 +211,10 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
     });
 
     // Apply special rules for weight groups
-    totalSpaces += this._calculateItemSpaces('muito-leve', weightGroups['muito-leve']);
     totalSpaces += this._calculateItemSpaces('leve', weightGroups['leve']);
+    
+    // Add money spaces (30 coins = 1 space)
+    totalSpaces += moneySpaces;
 
     return totalSpaces;
   }
@@ -228,7 +227,6 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
    */
   _getWeightLabel(weight) {
     const labels = {
-      'muito-leve': 'CARDIGAN.WeightVeryLight',
       'leve': 'CARDIGAN.WeightLight',
       'medio': 'CARDIGAN.WeightMedium', 
       'pesado': 'CARDIGAN.WeightHeavy',

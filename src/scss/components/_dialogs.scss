@@ -1071,14 +1071,14 @@
       }
       
       // Color coding for different weights
-      &[data-weight="muito-leve"] .weight-icon { color: #74b9ff; }
+      &[data-weight="leve"] .weight-icon { color: #74b9ff; }
       &[data-weight="leve"] .weight-icon { color: #00b894; }
       &[data-weight="medio"] .weight-icon { color: #fdcb6e; }
       &[data-weight="pesado"] .weight-icon { color: #e17055; }
       &[data-weight="muito-pesado"] .weight-icon { color: #d63031; }
       
       &:hover {
-        &[data-weight="muito-leve"] .weight-icon { color: #0984e3; }
+        &[data-weight="leve"] .weight-icon { color: #0984e3; }
         &[data-weight="leve"] .weight-icon { color: #00a085; }
         &[data-weight="medio"] .weight-icon { color: #e84393; }
         &[data-weight="pesado"] .weight-icon { color: #e84393; }

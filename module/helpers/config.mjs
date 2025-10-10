@@ -208,4 +208,38 @@ export function registerHandlebarsHelpers() {
     args.pop();
     return args.join('');
   });
+
+  /**
+   * Check if player has sufficient ingredient quantity
+   * @param {string} ingredientName - Name of the ingredient to check
+   * @param {number} requiredQuantity - Required quantity for the recipe
+   * @param {Object} options - Handlebars options object containing context
+   * @returns {boolean} - True if player has enough of the ingredient
+   */
+  Handlebars.registerHelper('hasEnoughIngredient', function(ingredientName, requiredQuantity, options) {
+    // Get the actor from the template context
+    const actor = options.data.root.actor;
+    if (!actor || !actor.items) {
+      return false;
+    }
+
+    // Normalize ingredient name for comparison (lowercase, trim spaces)
+    const normalizedIngredientName = ingredientName.toLowerCase().trim();
+    
+    // Find all items with matching name in the actor's inventory
+    let totalQuantity = 0;
+    
+    // Check all items in the actor's inventory
+    const matchingItems = actor.items.filter(item => {
+      const itemName = (item.name || '').toLowerCase().trim();
+      return itemName === normalizedIngredientName;
+    });
+    
+    matchingItems.forEach(item => {
+      const quantity = item.system?.quantity || 0;
+      totalQuantity += quantity;
+    });
+
+    return totalQuantity >= requiredQuantity;
+  });
 }

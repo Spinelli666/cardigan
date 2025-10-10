@@ -214,14 +214,9 @@ Handlebars.registerHelper('calculateItemSpaces', function(weight, quantity) {
   if (!weight || quantity <= 0) return 0;
 
   switch (weight) {
-    case 'muito-leve':
+    case 'leve':
       // 0 spaces, but +1 space per 10 items
       return Math.floor(quantity / 10);
-    
-    case 'leve':
-      // 1 space per group of 11 items
-      // Examples: 1-11 items = 1 space, 12-22 items = 2 spaces, 23-33 items = 3 spaces
-      return Math.ceil(quantity / 11);
     
     case 'medio':
       // 1 space each
@@ -245,8 +240,6 @@ Handlebars.registerHelper('abbreviateWeight', function(weight) {
   if (!weight) return '';
 
   switch (weight) {
-    case 'muito-leve':
-      return 'ML';
     case 'leve':
       return 'L';
     case 'medio':

@@ -117,7 +117,7 @@
     "item-comum": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": "muito-leve",
+      "weight": "leve",
       "price": 0,
       "category": "misc",
       "usage": ""
@@ -125,7 +125,7 @@
     "item-municao": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": "muito-leve",
+      "weight": "leve",
       "price": 0,
       "ammunitionType": "arrow",
       "damageBonus": "",
@@ -135,7 +135,7 @@
     "item-consumivel": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": "muito-leve",
+      "weight": "leve",
       "price": 0,
       "consumableType": "potion",
       "useTime": "action",
@@ -147,7 +147,7 @@
     "item-ingredient": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": "muito-leve",
+      "weight": "leve",
       "price": 0,
       "ingredientType": "common",
       "rarity": "common"
@@ -155,7 +155,7 @@
     "item-recipe": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": "muito-leve",
+      "weight": "leve",
       "price": 0,
       "recipeType": "general",
       "difficulty": "easy",
@@ -166,7 +166,7 @@
     "culinary-recipe": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": "muito-leve",
+      "weight": "leve",
       "price": 0,
       "recipeType": "culinary",
       "difficulty": "easy",
@@ -177,7 +177,7 @@
     "tailoring-recipe": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": "muito-leve",
+      "weight": "leve",
       "price": 0,
       "recipeType": "tailoring",
       "difficulty": "easy",
@@ -188,7 +188,7 @@
     "tecnomagic-recipe": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": "muito-leve",
+      "weight": "leve",
       "price": 0,
       "recipeType": "tecnomagic",
       "difficulty": "easy",
@@ -199,7 +199,7 @@
     "blacksmithing-recipe": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": "muito-leve",
+      "weight": "leve",
       "price": 0,
       "recipeType": "blacksmithing",
       "difficulty": "easy",
@@ -210,7 +210,7 @@
     "alchemy-recipe": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": "muito-leve",
+      "weight": "leve",
       "price": 0,
       "recipeType": "alchemy",
       "difficulty": "easy",
@@ -221,7 +221,7 @@
     "carpentry-recipe": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": "muito-leve",
+      "weight": "leve",
       "price": 0,
       "recipeType": "carpentry",
       "difficulty": "easy",
