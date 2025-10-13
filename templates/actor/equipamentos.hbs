@@ -86,71 +86,25 @@
                 title='{{#if (eq item.system.durability.current 0)}}Arma quebrada - não pode atacar{{else}}Atacar com {{item.name}}{{/if}}'
                 data-action='attackWithWeapon'
                 data-item-id='{{item._id}}'
-                style='color: {{#if (eq item.system.durability.current 0)}}#888; cursor: not-allowed{{else}}#d32f2f{{/if}}; font-size: 16px;'
+                style='color: {{#if (eq item.system.durability.current 0)}}#888; cursor: not-allowed{{else}}#d32f2f{{/if}}; font-size: 16px; margin-right: 5px;'
                 {{#if (eq item.system.durability.current 0)}}disabled{{/if}}
               >
                 <i class='fas fa-crosshairs'></i>
               </a>
-            {{/if}}
-          {{/if}}
-        </div>
-        {{#if (hasRangedWeapons ../armas)}}
-        <div class='item-reload'>
-          {{#if item.system.ranged}}
-            {{#if item.system.isFirearm}}
-              {{#if @root.editable}}
+              {{#if item.system.ranged}}
                 <a
-                  class='item-control reload-ammunition'
-                  title='{{localize "CARDIGAN.ReloadAmmunition"}}'
-                  data-action='reloadAmmunition'
+                  class='item-control manage-ammunition'
+                  title='Manage Ammunition'
+                  data-action='manageAmmunition'
                   data-item-id='{{item._id}}'
-                  style='color: #4caf50; font-size: 16px;'
+                  style='color: #ff9800; font-size: 16px;'
                 >
-                  <i class='fas fa-sync-alt'></i>
+                  <i class='fas fa-circle'></i>
                 </a>
               {{/if}}
             {{/if}}
           {{/if}}
         </div>
-        <div class='item-ammunition'>
-          {{#if item.system.ranged}}
-            {{#if item.system.isFirearm}}
-              {{#if @root.editable}}
-                <input
-                  type='number'
-                  name='items.{{item._id}}.system.ammunition.current'
-                  value='{{item.system.ammunition.current}}'
-                  min='0'
-                  max='{{item.system.ammunition.max}}'
-                  data-dtype='Number'
-                  style='width: 40px; text-align: center;'
-                  title='Munição atual: {{item.system.ammunition.current}}/{{item.system.ammunition.max}}'
-                />/<span style='color: #666;'>{{item.system.ammunition.max}}</span>
-              {{else}}
-                <span title='Munição atual: {{item.system.ammunition.current}}/{{item.system.ammunition.max}}'>
-                  {{item.system.ammunition.current}}/{{item.system.ammunition.max}}
-                </span>
-              {{/if}}
-            {{else}}
-              {{#if @root.editable}}
-                <input
-                  type='number'
-                  name='items.{{item._id}}.system.ammunition.current'
-                  value='{{item.system.ammunition.current}}'
-                  min='0'
-                  data-dtype='Number'
-                  style='width: 50px; text-align: center;'
-                  title='Munição disponível: {{item.system.ammunition.current}}'
-                />
-              {{else}}
-                <span title='Munição disponível: {{item.system.ammunition.current}}'>
-                  {{item.system.ammunition.current}}
-                </span>
-              {{/if}}
-            {{/if}}
-          {{/if}}
-        </div>
-        {{/if}}
         <div class='item-durability'>
           {{#if @root.editable}}
             <input

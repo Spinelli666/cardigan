@@ -22,9 +22,12 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
       melee: new fields.BooleanField({ required: true, initial: false }),
       ranged: new fields.BooleanField({ required: true, initial: false }),
       isFirearm: new fields.BooleanField({ required: true, initial: false }),
-      ammunition: new fields.SchemaField({
-        current: new fields.NumberField({ required: true, nullable: false, initial: 0, min: 0, integer: true }),
-        max: new fields.NumberField({ required: true, nullable: false, initial: 0, min: 0, integer: true })
+      magazine: new fields.NumberField({ 
+        required: true, 
+        nullable: false, 
+        initial: 0, 
+        min: 0, 
+        integer: true 
       }),
       damage: new fields.SchemaField({
         value: new fields.StringField({ ...requiredString, initial: "0" }),

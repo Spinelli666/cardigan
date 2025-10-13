@@ -43,15 +43,10 @@ export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
       }
     });
 
-    schema.damageBonus = new fields.StringField({ required: false, blank: true });
-    
-    schema.rangeModifier = new fields.NumberField({
-      required: false,
-      nullable: false,
-      initial: 0
+    schema.isFirearmAmmo = new fields.BooleanField({
+      required: true,
+      initial: false
     });
-    
-    schema.properties = new fields.StringField({ required: false, blank: true });
 
     return schema;
   }

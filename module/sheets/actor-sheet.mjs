@@ -56,8 +56,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       resetHunger: this._onResetHunger,
       resetThirst: this._onResetThirst,
       showEffectInChat: this._onShowEffectInChat,
-      reloadAmmunition: this._onReloadAmmunition,
+
       attackWithWeapon: this._onAttackWithWeapon,
+      manageAmmunition: this._onManageAmmunition,
       equipWeapon: this._onEquipWeapon,
       unequipWeapon: this._onUnequipWeapon,
       equipArmor: this._onEquipArmor,
@@ -2573,79 +2574,56 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Handle reloading ammunition for firearms
+   * Handle managing ammunition for ranged weapons
    * @param {PointerEvent} event   The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    * @protected
    */
-  static async _onReloadAmmunition(event, target) {
+  static async _onManageAmmunition(event, target) {
     event.preventDefault();
     
     const itemId = target.dataset.itemId;
     const item = this.document.items.get(itemId);
     
-    if (!item || !item.system.isFirearm || !item.system.ranged) {
-      ui.notifications.warn("Esta arma não pode ser recarregada.");
+    if (!item || !item.system.ranged) {
+      ui.notifications.warn("Esta arma não é de longo alcance.");
       return;
     }
 
-    const currentAmmo = item.system.ammunition.current;
-    const maxAmmo = item.system.ammunition.max;
+    // Get all ammunition items from the actor's inventory
+    const ammunitionItems = this.document.items.filter(i => i.type === "item-municao");
     
-    if (currentAmmo >= maxAmmo) {
-      ui.notifications.info("Esta arma já está com munição cheia.");
-      return;
-    }
+    // Debug log
+    console.log("Ammunition items for dialog:", ammunitionItems.map(item => ({
+      name: item.name,
+      img: item.img,
+      quantity: item.system.quantity
+    })));
 
-    // Criar dialog personalizado para entrada de munição
-    const content = `
-      <form>
-        <div class="form-group">
-          <label>${game.i18n.localize("CARDIGAN.ReloadPrompt")}</label>
-          <div style="margin-bottom: 10px;">
-            <strong>${game.i18n.localize("CARDIGAN.CurrentAmmunition")}: ${currentAmmo}/${maxAmmo}</strong>
-          </div>
-          <input type="number" name="reloadAmount" value="1" min="1" max="${maxAmmo - currentAmmo}" 
-                 style="width: 100%; text-align: center;" />
-        </div>
-      </form>
-    `;
+    // Render the ammunition management template
+    const templatePath = "systems/cardigan/templates/dialogs/ammunition-management.hbs";
+    const templateData = {
+      weapon: item,
+      ammunitionItems: ammunitionItems
+    };
 
+    const content = await foundry.applications.handlebars.renderTemplate(templatePath, templateData);
+
+    // Show dialog using the template
     foundry.applications.api.DialogV2.prompt({
-      window: { title: game.i18n.localize("CARDIGAN.ReloadAmmunition") },
+      window: { 
+        title: "Ammunition Management",
+        resizable: true,
+        classes: ["ammunition-dialog", "cardigan-ammunition"]
+      },
       content,
       ok: {
-        icon: "fas fa-sync-alt",
-        label: game.i18n.localize("CARDIGAN.ReloadButton"),
-        callback: async (event, button, dialog) => {
-          const formData = new FormData(button.form);
-          const reloadAmount = parseInt(formData.get("reloadAmount")) || 1;
-          
-          // Validar quantidade
-          if (reloadAmount < 1 || reloadAmount > (maxAmmo - currentAmmo)) {
-            ui.notifications.error(`Quantidade inválida. Máximo possível: ${maxAmmo - currentAmmo}`);
-            return;
-          }
-          
-          // Calcular novos valores
-          const newCurrent = currentAmmo + reloadAmount;
-          const newMax = maxAmmo - reloadAmount;
-          
-          try {
-            await item.update({
-              'system.ammunition.current': newCurrent,
-              'system.ammunition.max': newMax
-            });
-            
-            ui.notifications.info(`Recarregado ${reloadAmount} munições. Agora: ${newCurrent}/${newMax}`);
-          } catch (error) {
-            console.error("Error reloading ammunition:", error);
-            ui.notifications.error(`Erro ao recarregar munição: ${error.message}`);
-          }
-        }
+        icon: "fas fa-check",
+        label: "Close",
+        callback: () => {}
       },
       rejectClose: false,
-      modal: true
+      modal: false
     });
   }
 
@@ -2677,14 +2655,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const accuracyBonus = actor.system.abilities.accuracy.bonus || 0;
     const totalAccuracy = accuracyValue + accuracyBonus;
 
-    // Verificar munição para armas à distância
-    if (item.system.ranged && item.system.isFirearm) {
-      if (item.system.ammunition.current <= 0) {
-        ui.notifications.warn(`${item.name} ${game.i18n.localize("CARDIGAN.NoAmmunition")}`);
-        return;
-      }
-    }
-
     // Fazer a rolagem de ataque (1d20 + Accuracy)
     const roll = new Roll("1d20 + @accuracy", { accuracy: totalAccuracy });
     await roll.evaluate();
@@ -2705,13 +2675,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     if (item.system.damage.useDexterity) {
       totalDamage += actor.system.abilities.dexterity.value || 0;
-    }
-
-    // Consumir munição se for arma à distância de fogo
-    if (item.system.ranged && item.system.isFirearm && item.system.ammunition.current > 0) {
-      await item.update({
-        'system.ammunition.current': item.system.ammunition.current - 1
-      });
     }
 
     // Criar flavor text personalizado
@@ -2764,13 +2727,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     let additionalContent = `<div style="text-align: center; margin-top: 8px; padding: 4px 8px; background: rgba(0,0,0,0.1); border-radius: 3px;">
       <strong>${game.i18n.localize("CARDIGAN.DamageTotal")}: ${finalDamage}${isCriticalHit ? ` (${totalDamage} x2)` : ''}</strong>
     </div>${criticalMessage}`;
-
-    // Adicionar informação de munição se aplicável
-    if (item.system.ranged && item.system.isFirearm) {
-      additionalContent += `<div style="text-align: center; margin-top: 4px; font-size: 12px; color: #666;">
-        <i class="fas fa-bullet"></i> ${game.i18n.localize("CARDIGAN.AmmunitionConsumed")} (${item.system.ammunition.current}/${item.system.ammunition.max} ${game.i18n.localize("CARDIGAN.AmmunitionRemaining")})
-      </div>`;
-    }
 
     // Criar segunda mensagem com o dano total
     await ChatMessage.create({

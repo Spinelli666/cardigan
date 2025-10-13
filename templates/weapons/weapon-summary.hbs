@@ -60,17 +60,7 @@
         </div>
         {{/if}}
         
-        {{!-- Ammunition (only for ranged weapons) --}}
-        {{#if system.ranged}}
-        <div class="weapon-ammunition">
-          <i class="fas fa-circle"></i>
-          {{#if system.isFirearm}}
-          {{system.ammunition.current}}/{{system.ammunition.max}}
-          {{else}}
-          {{system.ammunition.current}}
-          {{/if}}
-        </div>
-        {{/if}}
+
       </div>
       
       {{!-- Durability (Centered below stats row) --}}

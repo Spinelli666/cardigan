@@ -148,7 +148,7 @@ export default class GeneralItemsSelectionDialog extends api.HandlebarsApplicati
         case 'item-municao':
           itemData.system = {
             ...itemData.system, // Keep the selected weight
-            quantity: 20,
+            quantity: 1,
             price: 0,
             ammunitionType: 'arrow'
           };

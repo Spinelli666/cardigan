@@ -65,28 +65,10 @@
 
   <div class="backpack-form-section">
     <div class="form-group">
-      <label>{{localize "CARDIGAN.ItemMunicao.Damage"}}</label>
-      <div class="form-fields">
-        <input type="text" name="system.damageBonus" value="{{system.damageBonus}}" placeholder="+1, +2, etc"/>
-        <span class="help-text">{{localize "CARDIGAN.ItemMunicao.DamageHelp"}}</span>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.ItemMunicao.Range"}}</label>
-      <div class="form-fields">
-        <input type="number" name="system.rangeModifier" value="{{system.rangeModifier}}" data-dtype="Number" step="5"/>
-        <span class="unit">{{localize "CARDIGAN.ItemMunicao.RangeUnit"}}</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="backpack-form-section">
-    <div class="form-group full-width">
-      <label>{{localize "CARDIGAN.ItemMunicao.Properties"}}</label>
-      <div class="form-fields">
-        <textarea name="system.properties" rows="3" placeholder="{{localize 'CARDIGAN.ItemMunicao.PropertiesPlaceholder'}}">{{system.properties}}</textarea>
-      </div>
+      <label class="checkbox">
+        <input type="checkbox" name="system.isFirearmAmmo" {{checked system.isFirearmAmmo}} data-dtype="Boolean"/>
+        Ammunition for Firearm?
+      </label>
     </div>
   </div>
 </section>

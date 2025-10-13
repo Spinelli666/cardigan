@@ -3915,6 +3915,303 @@
 .cardigan .recipe-crafting-dialog .dialog-buttons .button.cancel:hover {
   background: #5a6268;
 }
+.cardigan .ammunition-dialog .ammunition-management-dialog .dialog-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .dialog-header .dialog-title {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: var(--cardigan-c-beige);
+  margin-bottom: 5px;
+  letter-spacing: 2px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .dialog-header .dialog-subtitle {
+  font-size: 1.1em;
+  color: #999;
+  font-weight: normal;
+  margin: 0;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .weapon-info {
+  margin-bottom: 20px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .weapon-info .weapon-display {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border: 1px solid #444;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .weapon-info .weapon-display .weapon-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  border: 1px solid #666;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .weapon-info .weapon-display .weapon-details .weapon-name {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: var(--cardigan-c-beige);
+  margin-bottom: 4px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .weapon-info .weapon-display .weapon-details .weapon-type {
+  font-size: 0.9em;
+  color: #999;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 15px;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #444;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item:hover {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: var(--cardigan-c-beige);
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-image {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-image img {
+  width: 32px !important;
+  height: 32px !important;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #666;
+  display: block;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details {
+  flex: 1 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  min-width: 0;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-name {
+  color: var(--cardigan-c-beige);
+  font-weight: bold;
+  font-size: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-quantity {
+  color: #999;
+  font-size: 0.9em;
+  font-weight: normal;
+  white-space: nowrap;
+  margin-left: 10px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .no-ammunition {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+  font-style: italic;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .no-ammunition p {
+  margin: 0;
+  font-size: 1em;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .magazine-capacity {
+  background: #2a2a2a;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .magazine-capacity .capacity-label {
+  font-weight: bold;
+  color: var(--cardigan-c-beige);
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .magazine-capacity .capacity-value {
+  font-size: 2em;
+  color: #2196F3;
+  font-weight: bold;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .ammunition-controls .form-group {
+  margin-bottom: 15px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .ammunition-controls .form-group label {
+  display: block;
+  color: var(--cardigan-c-beige);
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .ammunition-controls .form-group .ammo-input {
+  width: 100%;
+  padding: 8px;
+  background: #333;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: var(--cardigan-c-beige);
+  text-align: center;
+  font-size: 1.2em;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .ammunition-controls .form-group .ammo-input:focus {
+  border-color: var(--cardigan-c-beige);
+  outline: none;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .ammunition-controls .ammunition-actions {
+  display: flex;
+  gap: 10px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .ammunition-controls .ammunition-actions button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .ammunition-controls .ammunition-actions button.reload-button {
+  background: #4CAF50;
+  color: white;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .ammunition-controls .ammunition-actions button.reload-button:hover {
+  background: #45a049;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .ammunition-controls .ammunition-actions button.empty-button {
+  background: #f44336;
+  color: white;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .ammunition-controls .ammunition-actions button.empty-button:hover {
+  background: #da190b;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .ammunition-controls .ammunition-actions button i {
+  margin-right: 5px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .traditional-weapon-info {
+  text-align: center;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .traditional-weapon-info .traditional-title {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: var(--cardigan-c-beige);
+  margin-bottom: 10px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .traditional-weapon-info .traditional-description {
+  color: #999;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .traditional-weapon-info .ammunition-types {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .traditional-weapon-info .ammunition-types .ammo-type {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border: 1px solid #444;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .traditional-weapon-info .ammunition-types .ammo-type i {
+  font-size: 1.5em;
+  color: var(--cardigan-c-beige);
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .traditional-weapon-info .ammunition-types .ammo-type span {
+  color: #999;
+  font-size: 0.9em;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .dialog-footer {
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 1px solid #444;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .dialog-footer .weapon-stats {
+  display: flex;
+  justify-content: space-around;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .dialog-footer .weapon-stats .stat {
+  text-align: center;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .dialog-footer .weapon-stats .stat .stat-label {
+  display: block;
+  color: #999;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .dialog-footer .weapon-stats .stat .stat-value {
+  color: var(--cardigan-c-beige);
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.cardigan .cardigan .application.ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item,
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item,
+.cardigan dialog.ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item,
+.cardigan .cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item,
+.cardigan dialog.cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  padding: 8px 12px !important;
+  margin-bottom: 8px !important;
+}
+.cardigan .cardigan .application.ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-image,
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-image,
+.cardigan dialog.ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-image,
+.cardigan .cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-image,
+.cardigan dialog.cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-image {
+  flex-shrink: 0 !important;
+  width: 32px !important;
+  height: 32px !important;
+}
+.cardigan .cardigan .application.ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-image img,
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-image img,
+.cardigan dialog.ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-image img,
+.cardigan .cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-image img,
+.cardigan dialog.cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-image img {
+  width: 32px !important;
+  height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+.cardigan .cardigan .application.ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details,
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details,
+.cardigan dialog.ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details,
+.cardigan .cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details,
+.cardigan dialog.cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+.cardigan .cardigan .application.ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-name,
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-name,
+.cardigan dialog.ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-name,
+.cardigan .cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-name,
+.cardigan dialog.cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-name {
+  flex: 1 !important;
+  margin-right: 10px !important;
+}
+.cardigan .cardigan .application.ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-quantity,
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-quantity,
+.cardigan dialog.ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-quantity,
+.cardigan .cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-quantity,
+.cardigan dialog.cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-quantity {
+  flex-shrink: 0 !important;
+}
 .cardigan {
   /* Abilities Container Styles - visual antigo */
 }

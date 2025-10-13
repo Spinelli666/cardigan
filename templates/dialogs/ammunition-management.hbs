@@ -1,0 +1,28 @@
+{{!-- Ammunition Management Dialog Template --}}
+<div class="ammunition-management-dialog">
+  <div class="dialog-header">
+    <h1 class="dialog-title">AMMUNITION</h1>
+    <h2 class="dialog-subtitle">WEAPON MAGAZINE</h2>
+  </div>
+  
+  <div class="ammunition-list">
+    {{#if ammunitionItems}}
+      {{#each ammunitionItems}}
+        <div class="ammunition-item" style="display: flex !important; flex-direction: row !important; align-items: center !important; gap: 12px; padding: 8px 12px; margin-bottom: 8px; background: rgba(0, 0, 0, 0.2); border: 1px solid #444; border-radius: 6px;">
+          <div class="ammunition-image" style="flex-shrink: 0 !important; width: 32px !important; height: 32px !important;">
+            <img src="{{img}}" alt="{{name}}" style="width: 32px !important; height: 32px !important; max-width: 32px !important; max-height: 32px !important; object-fit: cover !important; display: block !important; border-radius: 4px; border: 1px solid #666;" />
+          </div>
+          <div class="ammunition-details" style="flex: 1 !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important;">
+            <span class="ammunition-name" style="color: var(--cardigan-c-beige, #f4f1e8); font-weight: bold; flex: 1; margin-right: 10px;">{{name}}</span>
+            <span class="ammunition-quantity" style="color: #999; font-size: 0.9em; white-space: nowrap; flex-shrink: 0;">Quantity: {{system.quantity}}</span>
+          </div>
+        </div>
+      {{/each}}
+    {{else}}
+      <div class="no-ammunition">
+        <p>No ammunition found in inventory.</p>
+      </div>
+    {{/if}}
+  </div>
+  
+</div>

@@ -36,20 +36,10 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
         </label>
     </div>
 
-    <!-- Conditional Ammunition Section -->
-    <div class="form-group ammunition-section" style="{{#unless item.system.ranged}}display: none;{{/unless}}">
-        <label for="system.ammunition.current">{{localize "CARDIGAN.Ammunition"}}</label>
-        {{#if item.system.isFirearm}}
-            <!-- Firearm: current/max format -->
-            <div class="ammunition-container" style="display: flex; align-items: center; gap: 5px;">
-                <input type="number" name="system.ammunition.current" value="{{item.system.ammunition.current}}" min="0" max="{{item.system.ammunition.max}}" style="width: 60px;"/>
-                <span>/</span>
-                <input type="number" name="system.ammunition.max" value="{{item.system.ammunition.max}}" min="0" style="width: 60px;"/>
-            </div>
-        {{else}}
-            <!-- Non-firearm: current only -->
-            <input type="number" name="system.ammunition.current" value="{{item.system.ammunition.current}}" min="0" style="width: 80px;"/>
-        {{/if}}
+    <!-- Conditional Magazine Section -->
+    <div class="form-group magazine-section" style="{{#unless item.system.isFirearm}}display: none;{{/unless}}">
+        <label for="system.magazine">Weapon Magazine</label>
+        <input type="number" name="system.magazine" value="{{item.system.magazine}}" min="0" style="width: 80px;" placeholder="0"/>
     </div>
 
     <div class="form-group">
