@@ -2590,41 +2590,163 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       return;
     }
 
-    // Get all ammunition items from the actor's inventory
-    const ammunitionItems = this.document.items.filter(i => i.type === "item-municao");
-    
-    // Debug log
-    console.log("Ammunition items for dialog:", ammunitionItems.map(item => ({
-      name: item.name,
-      img: item.img,
-      quantity: item.system.quantity
-    })));
+    // Check if dialog is already open, if so, close it first
+    if (this._ammunitionDialog) {
+      this._ammunitionDialog.close();
+    }
 
-    // Render the ammunition management template
-    const templatePath = "systems/cardigan/templates/dialogs/ammunition-management.hbs";
-    const templateData = {
-      weapon: item,
-      ammunitionItems: ammunitionItems
-    };
-
-    const content = await foundry.applications.handlebars.renderTemplate(templatePath, templateData);
-
-    // Show dialog using the template
-    foundry.applications.api.DialogV2.prompt({
-      window: { 
+    // Create reactive ammunition management dialog
+    const actorSheet = this;
+    actorSheet._ammunitionDialog = new foundry.applications.api.DialogV2({
+      window: {
         title: "Ammunition Management",
         resizable: true,
         classes: ["ammunition-dialog", "cardigan-ammunition"]
       },
-      content,
-      ok: {
+      content: await CardiganSystemActorSheet._renderAmmunitionContent.call(this, item),
+      buttons: [{
+        action: "close",
         icon: "fas fa-check",
         label: "Close",
-        callback: () => {}
-      },
-      rejectClose: false,
-      modal: false
+        callback: () => {
+          actorSheet._ammunitionDialog = null;
+        }
+      }],
+      modal: false,
+      rejectClose: false
     });
+
+    // Setup item change listener for reactive updates
+    CardiganSystemActorSheet._setupAmmunitionDialogListener.call(this, item);
+
+    // Render the dialog
+    actorSheet._ammunitionDialog.render({ force: true });
+  }
+
+  /**
+   * Render ammunition dialog content
+   * @param {Item} weapon - The weapon item
+   * @returns {Promise<string>} The rendered HTML content
+   */
+  static async _renderAmmunitionContent(weapon) {
+    // Get actor from weapon or use this.document if called from instance
+    const actor = weapon.parent || this.document;
+    const ammunitionItems = actor.items.filter(i => i.type === "item-municao");
+    
+    const templatePath = "systems/cardigan/templates/dialogs/ammunition-management.hbs";
+    const templateData = {
+      weapon: weapon,
+      ammunitionItems: ammunitionItems
+    };
+
+    return await foundry.applications.handlebars.renderTemplate(templatePath, templateData);
+  }
+
+  /**
+   * Setup listener for item changes to update ammunition dialog
+   * @param {Item} weapon - The weapon item
+   */
+  static _setupAmmunitionDialogListener(weapon) {
+    const actorSheet = this;
+    
+    // Remove existing listener if any
+    if (actorSheet._ammunitionUpdateHook) {
+      Hooks.off("updateItem", actorSheet._ammunitionUpdateHook);
+    }
+
+    // Create new listener
+    actorSheet._ammunitionUpdateHook = Hooks.on("updateItem", async (item, changes, options, userId) => {
+      if (!actorSheet._ammunitionDialog || !actorSheet._ammunitionDialog.rendered) {
+        return;
+      }
+
+      // Handle ammunition item updates
+      if (item.type === "item-municao") {
+        // Check if quantity changed
+        if (changes.system?.quantity !== undefined) {
+          // Find the specific ammunition item in the dialog
+          const itemElement = actorSheet._ammunitionDialog.element.querySelector(`[data-item-id="${item.id}"]`);
+          if (itemElement) {
+            // Update just the quantity text
+            const quantityElement = itemElement.querySelector('.ammunition-quantity');
+            if (quantityElement) {
+              quantityElement.textContent = `Quantity: ${item.system.quantity}`;
+              quantityElement.setAttribute('data-quantity', item.system.quantity);
+            }
+          }
+        } else {
+          // For other changes (like name, image), re-render full content
+          const newContent = await CardiganSystemActorSheet._renderAmmunitionContent(weapon);
+          const contentElement = actorSheet._ammunitionDialog.element.querySelector('.dialog-content');
+          if (contentElement) {
+            contentElement.innerHTML = newContent;
+          }
+        }
+      }
+      
+      // Handle weapon updates (magazine capacity)
+      else if (item.id === weapon.id && item.type === weapon.type) {
+        // Check if magazine capacity or isFirearm changed
+        if (changes.system?.magazine !== undefined || changes.system?.isFirearm !== undefined) {
+          // Update the capacity display
+          const capacityElement = actorSheet._ammunitionDialog.element.querySelector('.capacity-value');
+          const capacitySection = actorSheet._ammunitionDialog.element.querySelector('.magazine-capacity-section');
+          
+          if (changes.system?.magazine !== undefined && capacityElement) {
+            // Update just the capacity number
+            capacityElement.textContent = item.system.magazine;
+          }
+          
+          if (changes.system?.isFirearm !== undefined) {
+            // Re-render to show/hide capacity section
+            const newContent = await CardiganSystemActorSheet._renderAmmunitionContent(item);
+            const contentElement = actorSheet._ammunitionDialog.element.querySelector('.dialog-content');
+            if (contentElement) {
+              contentElement.innerHTML = newContent;
+            }
+          }
+        }
+      }
+    });
+
+    // Also listen for item creation/deletion
+    actorSheet._ammunitionCreateHook = Hooks.on("createItem", async (item, options, userId) => {
+      if (item.type === "item-municao" && actorSheet._ammunitionDialog && actorSheet._ammunitionDialog.rendered) {
+        const newContent = await CardiganSystemActorSheet._renderAmmunitionContent(weapon);
+        const contentElement = actorSheet._ammunitionDialog.element.querySelector('.dialog-content');
+        if (contentElement) {
+          contentElement.innerHTML = newContent;
+        }
+      }
+    });
+
+    actorSheet._ammunitionDeleteHook = Hooks.on("deleteItem", async (item, options, userId) => {
+      if (item.type === "item-municao" && actorSheet._ammunitionDialog && actorSheet._ammunitionDialog.rendered) {
+        const itemElement = actorSheet._ammunitionDialog.element.querySelector(`[data-item-id="${item.id}"]`);
+        if (itemElement) {
+          itemElement.remove();
+        }
+      }
+    });
+
+    // Cleanup listeners when dialog closes
+    const originalClose = actorSheet._ammunitionDialog.close.bind(actorSheet._ammunitionDialog);
+    actorSheet._ammunitionDialog.close = (...args) => {
+      if (actorSheet._ammunitionUpdateHook) {
+        Hooks.off("updateItem", actorSheet._ammunitionUpdateHook);
+        actorSheet._ammunitionUpdateHook = null;
+      }
+      if (actorSheet._ammunitionCreateHook) {
+        Hooks.off("createItem", actorSheet._ammunitionCreateHook);
+        actorSheet._ammunitionCreateHook = null;
+      }
+      if (actorSheet._ammunitionDeleteHook) {
+        Hooks.off("deleteItem", actorSheet._ammunitionDeleteHook);
+        actorSheet._ammunitionDeleteHook = null;
+      }
+      actorSheet._ammunitionDialog = null;
+      return originalClose(...args);
+    };
   }
 
   /**

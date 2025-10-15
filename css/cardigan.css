@@ -4020,6 +4020,35 @@
   margin: 0;
   font-size: 1em;
 }
+.cardigan .ammunition-dialog .ammunition-management-dialog .magazine-capacity-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #555;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .magazine-capacity-section:hover {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: #666;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .magazine-capacity-section .capacity-label {
+  color: var(--cardigan-c-beige);
+  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 0.5px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .magazine-capacity-section .capacity-value {
+  color: #2196F3;
+  font-weight: bold;
+  font-size: 1.2em;
+  text-shadow: 0 0 4px rgba(33, 150, 243, 0.3);
+  min-width: 40px;
+  text-align: center;
+}
 .cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-content .firearm-info .magazine-capacity {
   background: #2a2a2a;
   border: 1px solid #555;
