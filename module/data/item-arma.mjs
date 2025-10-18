@@ -29,6 +29,18 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
         min: 0, 
         integer: true 
       }),
+      loadedAmmo: new fields.NumberField({ 
+        required: true, 
+        nullable: false, 
+        initial: 0, 
+        min: 0, 
+        integer: true 
+      }),
+      loadedAmmoTypes: new fields.ObjectField({ 
+        required: true, 
+        nullable: false,
+        initial: {}
+      }),
       damage: new fields.SchemaField({
         value: new fields.StringField({ ...requiredString, initial: "0" }),
         useStrength: new fields.BooleanField({ required: true, initial: false }),

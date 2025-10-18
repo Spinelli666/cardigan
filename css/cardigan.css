@@ -999,6 +999,8 @@
   font-weight: bold;
   background: transparent;
   color: #fff;
+  text-align: center;
+  width: 50px;
 }
 .cardigan .tab.equipamentos .item-durability input[type=number]:focus {
   outline: none;
@@ -2356,6 +2358,91 @@
   border-radius: 4px;
   border: 1px dashed #666;
   margin-bottom: 8px;
+}
+.cardigan .effects-system .hand-both {
+  color: #4caf50;
+  font-weight: bold;
+}
+.cardigan .effects-system .hand-primary {
+  color: #2196f3;
+  font-weight: bold;
+}
+.cardigan .effects-system .hand-secondary {
+  color: #ff9800;
+  font-weight: bold;
+}
+.cardigan .effects-system .hand-none {
+  color: #666;
+}
+.cardigan .effects-system .weapon-name-hover {
+  cursor: pointer;
+}
+.cardigan .effects-system .armor-name-hover {
+  cursor: pointer;
+}
+.cardigan .effects-system .attack-weapon {
+  font-size: 16px;
+  margin-right: 5px;
+}
+.cardigan .effects-system .attack-weapon.disabled {
+  color: #888 !important;
+  cursor: not-allowed !important;
+}
+.cardigan .effects-system .attack-weapon:not(.disabled) {
+  color: #d32f2f;
+}
+.cardigan .effects-system .manage-ammunition {
+  color: #ff9800;
+  font-size: 14px;
+}
+.cardigan .effects-system .manage-ammunition.in-attack-column {
+  color: #ff9800;
+  font-size: 16px;
+}
+.cardigan .effects-system .manage-ammunition.in-ammunition-column {
+  color: #ff9800;
+  font-size: 12px;
+  margin-right: 4px;
+}
+.cardigan .effects-system .reload-icon-readonly {
+  color: #999;
+  font-size: 14px;
+}
+.cardigan .effects-system .ammunition-firearm {
+  color: #2196f3;
+  font-weight: bold;
+}
+.cardigan .effects-system .ammunition-ranged {
+  color: #4caf50;
+  font-weight: bold;
+}
+.cardigan .effects-system .ammunition-none {
+  color: #666;
+}
+.cardigan .effects-system .durability-input {
+  width: 50px;
+  text-align: center !important;
+}
+.cardigan .effects-system input.durability-input,
+.cardigan .effects-system .item-durability input[type=number] {
+  width: 50px;
+  text-align: center !important;
+}
+.cardigan .effects-system .unequip-button {
+  color: #ff5722;
+  font-size: 16px;
+}
+.cardigan .effects-system .section-divider {
+  margin: 20px 0;
+  border-bottom: 1px solid #444;
+}
+.cardigan .effects-system .items-section-header {
+  margin-bottom: 10px;
+  color: #c9c7b8;
+  text-align: center;
+}
+.cardigan .effects-system .items-section-header i {
+  margin-right: 8px;
 }
 .cardigan {
   /* Character Details Container Styles */
@@ -3932,6 +4019,72 @@
   font-weight: normal;
   margin: 0;
 }
+.cardigan .ammunition-dialog .ammunition-management-dialog .magazine-capacity-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #555;
+  border-radius: 8px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .magazine-capacity-section .capacity-label {
+  color: var(--cardigan-c-beige, #f4f1e8);
+  font-weight: bold;
+  font-size: 1em;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .magazine-capacity-section .capacity-value {
+  color: #2196F3;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 12px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #444;
+  border-radius: 6px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-image {
+  flex-shrink: 0 !important;
+  width: 32px !important;
+  height: 32px !important;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-image img {
+  width: 32px !important;
+  height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 4px;
+  border: 1px solid #666;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-name {
+  color: var(--cardigan-c-beige, #f4f1e8);
+  font-weight: bold;
+  flex: 1;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-load-input {
+  width: 50px;
+}
 .cardigan .ammunition-dialog .ammunition-management-dialog .weapon-info {
   margin-bottom: 20px;
 }
@@ -3991,9 +4144,43 @@
 .cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details {
   flex: 1 !important;
   display: flex !important;
-  justify-content: space-between !important;
   align-items: center !important;
+  gap: 10px;
   min-width: 0;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-controls .ammunition-load-input {
+  width: 50px;
+  height: 28px;
+  padding: 4px 6px;
+  border: 1px solid #666;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--cardigan-c-beige);
+  font-size: 0.9em;
+  text-align: center;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-controls .ammunition-load-input:focus {
+  outline: none;
+  border-color: var(--cardigan-c-beige);
+  background: rgba(0, 0, 0, 0.5);
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-controls .ammunition-load-input::placeholder {
+  color: #666;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-controls .ammunition-quantity {
+  color: #999;
+  font-size: 0.9em;
+  font-weight: normal;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border: 1px solid #666;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
 }
 .cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-name {
   color: var(--cardigan-c-beige);
@@ -4002,13 +4189,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-quantity {
-  color: #999;
-  font-size: 0.9em;
-  font-weight: normal;
-  white-space: nowrap;
-  margin-left: 10px;
+  flex: 1;
 }
 .cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-list .no-ammunition {
   text-align: center;
@@ -4240,6 +4421,95 @@
 .cardigan .cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-quantity,
 .cardigan dialog.cardigan-ammunition .ammunition-management-dialog .ammunition-list .ammunition-item .ammunition-details .ammunition-quantity {
   flex-shrink: 0 !important;
+}
+.cardigan .ammunition-dialog .magazine-capacity-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #555;
+  border-radius: 8px;
+}
+.cardigan .ammunition-dialog .magazine-capacity-section .capacity-label {
+  color: var(--cardigan-c-beige, #f4f1e8);
+  font-weight: bold;
+  font-size: 1em;
+}
+.cardigan .ammunition-dialog .magazine-capacity-section .capacity-value {
+  color: #2196F3;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.cardigan .ammunition-dialog .ammunition-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 12px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #444;
+  border-radius: 6px;
+}
+.cardigan .ammunition-dialog .ammunition-item .ammunition-image {
+  flex-shrink: 0 !important;
+  width: 32px !important;
+  height: 32px !important;
+}
+.cardigan .ammunition-dialog .ammunition-item .ammunition-image img {
+  width: 32px !important;
+  height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 4px;
+  border: 1px solid #666;
+}
+.cardigan .ammunition-dialog .ammunition-item .ammunition-details {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px;
+}
+.cardigan .ammunition-dialog .ammunition-item .ammunition-details .ammunition-name {
+  color: var(--cardigan-c-beige, #f4f1e8);
+  font-weight: bold;
+  flex: 1;
+}
+.cardigan .ammunition-dialog .ammunition-item .ammunition-details .ammunition-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cardigan .ammunition-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-load-input {
+  width: 50px;
+  padding: 4px 6px;
+  border: 1px solid #666;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--cardigan-c-beige, #f4f1e8);
+  font-size: 0.9em;
+  text-align: center;
+}
+.cardigan .ammunition-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-load-input:focus {
+  outline: none;
+  border-color: #2196F3;
+}
+.cardigan .ammunition-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-quantity {
+  color: var(--cardigan-c-beige, #f4f1e8);
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
+}
+.cardigan .ammunition-dialog .no-ammunition {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  font-style: italic;
 }
 .cardigan {
   /* Abilities Container Styles - visual antigo */

@@ -360,7 +360,9 @@
     "AmmunitionConsumed": "Ammunition consumed",
     "WeaponNotEquipped": "This weapon is not equipped.",
     "WeaponBroken": "This weapon is broken and cannot be used to attack!",
-    "NoAmmunition": "has no ammunition!",
+    "NoAmmunition": "No ammunition loaded!",
+    "AmmunitionUsed": "Ammunition Used",
+    "RemainingAmmo": "Remaining",
     "AmmunitionRemaining": "remaining",
     "IsFirearm": "Is Firearm?",
 

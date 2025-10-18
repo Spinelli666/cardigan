@@ -48,6 +48,11 @@ export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
       initial: false
     });
 
+    schema.isSpecialAmmo = new fields.BooleanField({
+      required: true,
+      initial: false
+    });
+
     return schema;
   }
 }

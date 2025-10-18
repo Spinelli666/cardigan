@@ -1331,6 +1331,82 @@
       }
     }
     
+    .magazine-capacity-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      margin-bottom: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid #555;
+      border-radius: 8px;
+
+      .capacity-label {
+        color: var(--cardigan-c-beige, #f4f1e8);
+        font-weight: bold;
+        font-size: 1em;
+      }
+
+      .capacity-value {
+        color: #2196F3;
+        font-weight: bold;
+        font-size: 1.1em;
+      }
+    }
+
+    .ammunition-item {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 12px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid #444;
+      border-radius: 6px;
+
+      .ammunition-image {
+        flex-shrink: 0 !important;
+        width: 32px !important;
+        height: 32px !important;
+
+        img {
+          width: 32px !important;
+          height: 32px !important;
+          max-width: 32px !important;
+          max-height: 32px !important;
+          object-fit: cover !important;
+          display: block !important;
+          border-radius: 4px;
+          border: 1px solid #666;
+        }
+      }
+
+      .ammunition-details {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 10px;
+
+        .ammunition-name {
+          color: var(--cardigan-c-beige, #f4f1e8);
+          font-weight: bold;
+          flex: 1;
+        }
+
+        .ammunition-controls {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          .ammunition-load-input {
+            width: 50px;
+          }
+        }
+      }
+    }
+
     .weapon-info {
       margin-bottom: 20px;
       
@@ -1401,9 +1477,48 @@
         .ammunition-details {
           flex: 1 !important;
           display: flex !important;
-          justify-content: space-between !important;
           align-items: center !important;
+          gap: 10px;
           min-width: 0;
+          
+          .ammunition-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            
+            .ammunition-load-input {
+              width: 50px;
+              height: 28px;
+              padding: 4px 6px;
+              border: 1px solid #666;
+              border-radius: 4px;
+              background: rgba(0, 0, 0, 0.3);
+              color: $c-beige;
+              font-size: 0.9em;
+              text-align: center;
+              
+              &:focus {
+                outline: none;
+                border-color: $c-beige;
+                background: rgba(0, 0, 0, 0.5);
+              }
+              
+              &::placeholder {
+                color: #666;
+              }
+            }
+            
+            .ammunition-quantity {
+              color: #999;
+              font-size: 0.9em;
+              font-weight: normal;
+              white-space: nowrap;
+              padding: 4px 8px;
+              border: 1px solid #666;
+              border-radius: 4px;
+              background: rgba(0, 0, 0, 0.2);
+            }
+          }
           
           .ammunition-name {
             color: $c-beige;
@@ -1412,14 +1527,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-          }
-          
-          .ammunition-quantity {
-            color: #999;
-            font-size: 0.9em;
-            font-weight: normal;
-            white-space: nowrap;
-            margin-left: 10px;
+            flex: 1;
           }
         }
       }
@@ -1686,5 +1794,112 @@ dialog.cardigan-ammunition {
         }
       }
     }
+  }
+}
+
+// -----------------------------------------
+// Direct Ammunition Dialog Styles (fallback)
+// -----------------------------------------
+.ammunition-dialog {
+  .magazine-capacity-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #555;
+    border-radius: 8px;
+
+    .capacity-label {
+      color: var(--cardigan-c-beige, #f4f1e8);
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .capacity-value {
+      color: #2196F3;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+  }
+
+  .ammunition-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 12px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid #444;
+    border-radius: 6px;
+
+    .ammunition-image {
+      flex-shrink: 0 !important;
+      width: 32px !important;
+      height: 32px !important;
+
+      img {
+        width: 32px !important;
+        height: 32px !important;
+        max-width: 32px !important;
+        max-height: 32px !important;
+        object-fit: cover !important;
+        display: block !important;
+        border-radius: 4px;
+        border: 1px solid #666;
+      }
+    }
+
+    .ammunition-details {
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 10px;
+
+      .ammunition-name {
+        color: var(--cardigan-c-beige, #f4f1e8);
+        font-weight: bold;
+        flex: 1;
+      }
+
+      .ammunition-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .ammunition-load-input {
+          width: 50px;
+          padding: 4px 6px;
+          border: 1px solid #666;
+          border-radius: 4px;
+          background: rgba(0, 0, 0, 0.3);
+          color: var(--cardigan-c-beige, #f4f1e8);
+          font-size: 0.9em;
+          text-align: center;
+
+          &:focus {
+            outline: none;
+            border-color: #2196F3;
+          }
+        }
+
+        .ammunition-quantity {
+          color: var(--cardigan-c-beige, #f4f1e8);
+          font-weight: bold;
+          min-width: 20px;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .no-ammunition {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+    font-style: italic;
   }
 }

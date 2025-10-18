@@ -19,10 +19,8 @@
       <div class='item-formula'>{{localize 'CARDIGAN.Hand'}}</div>
       <div class='item-name'>{{localize 'Name'}}</div>
       <div class='item-attack'></div>
-      {{#if (hasRangedWeapons armas)}}
       <div class='item-reload'></div>
       <div class='item-ammunition'>{{localize 'CARDIGAN.Ammunition'}}</div>
-      {{/if}}
       <div class='item-durability'>{{localize 'CARDIGAN.Durability'}}</div>
       <div class='item-unequip'>{{localize 'CARDIGAN.Unequip'}}</div>
       <div class='item-controls'>
@@ -40,14 +38,14 @@
         <div class='item-formula item-prop'>
           {{#if item.system.rightHand}}
             {{#if item.system.leftHand}}
-              <span style='color: #4caf50; font-weight: bold;'>P+S</span>
+              <span class='hand-both'>P+S</span>
             {{else}}
-              <span style='color: #2196f3; font-weight: bold;'>P</span>
+              <span class='hand-primary'>P</span>
             {{/if}}
           {{else if item.system.leftHand}}
-            <span style='color: #ff9800; font-weight: bold;'>S</span>
+            <span class='hand-secondary'>S</span>
           {{else}}
-            <span style='color: #666;'>-</span>
+            <span class='hand-none'>-</span>
           {{/if}}
         </div>
         <div class='item-name {{#if (eq item.system.durability.current 0)}}item-name-broken{{/if}}'>
@@ -73,7 +71,6 @@
             data-tooltip-class="cardigan-tooltip"
             data-item-id="{{item._id}}"
             data-action="toggleExpand"
-            style="cursor: pointer;"
           >
             {{item.name}}
           </div>
@@ -86,35 +83,53 @@
                 title='{{#if (eq item.system.durability.current 0)}}Arma quebrada - não pode atacar{{else}}Atacar com {{item.name}}{{/if}}'
                 data-action='attackWithWeapon'
                 data-item-id='{{item._id}}'
-                style='color: {{#if (eq item.system.durability.current 0)}}#888; cursor: not-allowed{{else}}#d32f2f{{/if}}; font-size: 16px; margin-right: 5px;'
                 {{#if (eq item.system.durability.current 0)}}disabled{{/if}}
               >
                 <i class='fas fa-crosshairs'></i>
               </a>
-              {{#if item.system.ranged}}
-                <a
-                  class='item-control manage-ammunition'
-                  title='Manage Ammunition'
-                  data-action='manageAmmunition'
-                  data-item-id='{{item._id}}'
-                  style='color: #ff9800; font-size: 16px;'
-                >
-                  <i class='fas fa-circle'></i>
-                </a>
-              {{/if}}
+
             {{/if}}
+          {{/if}}
+        </div>
+        <div class='item-reload'>
+          {{#if (or item.system.ranged item.system.isFirearm)}}
+            {{#if @root.editable}}
+              <a
+                class='item-control manage-ammunition'
+                title='Gerenciar Munição'
+                data-action='manageAmmunition'
+                data-item-id='{{item._id}}'
+              >
+                <i class='fas fa-redo'></i>
+              </a>
+            {{else}}
+              <i class='fas fa-redo reload-icon-readonly' title='Reload'></i>
+            {{/if}}
+          {{else}}
+            <span class='ammunition-none'>-</span>
+          {{/if}}
+        </div>
+        <div class='item-ammunition'>
+          {{#if (or item.system.ranged item.system.isFirearm)}}
+            {{#if item.system.isFirearm}}
+              <span class='ammunition-firearm ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}/{{item.system.magazine}}</span>
+            {{else}}
+              <span class='ammunition-ranged ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}</span>
+            {{/if}}
+          {{else}}
+            <span class='ammunition-none'>-</span>
           {{/if}}
         </div>
         <div class='item-durability'>
           {{#if @root.editable}}
             <input
               type='number'
+              class='durability-input'
               name='items.{{item._id}}.system.durability.current'
               value='{{item.system.durability.current}}'
               min='0'
               max='{{item.system.durability.max}}'
               data-dtype='Number'
-              style='width: 50px; text-align: center;'
               title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'
             />
           {{else}}
@@ -126,11 +141,10 @@
         <div class='item-unequip'>
           {{#if @root.editable}}
             <a
-              class='item-control unequip-weapon'
+              class='item-control unequip-weapon unequip-button'
               title='{{localize "CARDIGAN.UnequipWeapon"}}'
               data-action='unequipWeapon'
               data-item-id='{{item._id}}'
-              style='color: #ff5722; font-size: 16px;'
             >
               <i class='fas fa-times-circle'></i>
             </a>
@@ -159,11 +173,11 @@
   {{/if}}
 
   {{! Spacer between weapons and backpack }}
-  <div style="margin: 20px 0; border-bottom: 1px solid #444;"></div>
+  <div class="section-divider"></div>
 
   {{! Armor Table - Equipped Armors }}
-  <h3 class="items-section-header" style="margin-bottom: 10px; color: #c9c7b8; text-align: center;">
-    <i class="fas fa-shield" style="margin-right: 8px;"></i>
+  <h3 class="items-section-header">
+    <i class="fas fa-shield"></i>
     {{localize "CARDIGAN.ArmorTable"}}
   </h3>
   <ol class='items-list'>
@@ -200,7 +214,6 @@
             data-tooltip-class="cardigan-tooltip"
             data-item-id="{{item._id}}"
             data-action="toggleExpand"
-            style="cursor: pointer;"
           >
             {{item.name}}
           </div>
@@ -215,12 +228,12 @@
           {{#if @root.editable}}
             <input
               type='number'
+              class='durability-input'
               name='items.{{item._id}}.system.durability.current'
               value='{{item.system.durability.current}}'
               min='0'
               max='{{item.system.durability.max}}'
               data-dtype='Number'
-              style='width: 50px; text-align: center;'
               title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'
             />
           {{else}}
@@ -267,7 +280,7 @@
   </ol>
 
   {{! Spacer between armor and backpack }}
-  <div style="margin: 20px 0; border-bottom: 1px solid #444;"></div>
+  <div class="section-divider"></div>
 
   {{! Backpack Capacity Field }}
   <div class='mochila-container horizontal-field'>
@@ -318,8 +331,8 @@
   </div>
 
   {{! Backpack Table - Always Visible }}
-  <h3 class="items-section-header" style="margin-bottom: 10px; color: #c9c7b8; text-align: center;">
-    <i class="fas fa-backpack" style="margin-right: 8px;"></i>
+  <h3 class="items-section-header">
+    <i class="fas fa-backpack"></i>
     {{localize "CARDIGAN.BackpackTable"}}
   </h3>
   <ol class='items-list'>
