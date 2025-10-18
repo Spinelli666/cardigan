@@ -362,6 +362,7 @@
     "WeaponBroken": "This weapon is broken and cannot be used to attack!",
     "NoAmmunition": "No ammunition loaded!",
     "AmmunitionUsed": "Ammunition Used",
+    "SpecialAmmunitionUsed": "Special Ammunition Used",
     "RemainingAmmo": "Remaining",
     "AmmunitionRemaining": "remaining",
     "IsFirearm": "Is Firearm?",

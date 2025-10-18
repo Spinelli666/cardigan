@@ -14,7 +14,7 @@ export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
     schema.quantity = new fields.NumberField({
       ...requiredInteger,
       initial: 1,
-      min: 1,
+      min: 0,
     });
 
     schema.weight = new fields.StringField({

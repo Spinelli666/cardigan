@@ -4082,8 +4082,79 @@
   align-items: center;
   gap: 8px;
 }
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-attack-btn {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid #666;
+  border-radius: 4px;
+  background: rgba(200, 50, 50, 0.3);
+  color: var(--cardigan-c-beige, #f4f1e8);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-attack-btn:hover {
+  background: rgba(255, 80, 80, 0.5);
+  border-color: #ff5050;
+  transform: scale(1.05);
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-attack-btn:active {
+  transform: scale(0.95);
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-attack-btn:disabled {
+  background: rgba(100, 100, 100, 0.3);
+  border-color: #555;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-attack-btn i {
+  pointer-events: none;
+}
 .cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-load-input {
   width: 50px;
+  padding: 4px 6px;
+  border: 1px solid #666;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--cardigan-c-beige, #f4f1e8);
+  font-size: 0.9em;
+  text-align: center;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-auto-load-btn {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid #666;
+  border-radius: 4px;
+  background: rgba(0, 100, 200, 0.3);
+  color: var(--cardigan-c-beige, #f4f1e8);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-auto-load-btn:hover {
+  background: rgba(0, 150, 255, 0.5);
+  border-color: #2196F3;
+  transform: scale(1.05);
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-auto-load-btn:active {
+  transform: scale(0.95);
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-auto-load-btn i {
+  pointer-events: none;
+}
+.cardigan .ammunition-dialog .ammunition-management-dialog .ammunition-item .ammunition-details .ammunition-controls .ammunition-quantity {
+  color: var(--cardigan-c-beige, #f4f1e8);
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
 }
 .cardigan .ammunition-dialog .ammunition-management-dialog .weapon-info {
   margin-bottom: 20px;

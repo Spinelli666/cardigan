@@ -22,7 +22,13 @@
           <div class="ammunition-details" style="flex: 1 !important; display: flex !important; flex-direction: row !important; align-items: center !important; gap: 10px;">
             <span class="ammunition-name" style="color: var(--cardigan-c-beige, #f4f1e8); font-weight: bold; flex: 1;">{{name}}</span>
             <div class="ammunition-controls" style="display: flex; align-items: center; gap: 8px;">
+              <button type="button" class="ammunition-attack-btn" data-item-id="{{_id}}" data-weapon-id="{{@root.weapon._id}}" title="Attack with this ammunition" style="width: 24px; height: 24px; padding: 0; border: 1px solid #666; border-radius: 4px; background: rgba(200, 50, 50, 0.3); color: var(--cardigan-c-beige, #f4f1e8); font-size: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s;">
+                <i class="fas fa-sword"></i>
+              </button>
               <input type="number" class="ammunition-load-input" data-item-id="{{_id}}" min="0" {{#if @root.weapon.system.isFirearm}}max="{{@root.weapon.system.magazine}}"{{/if}} value="{{lookup @root.weapon.system.loadedAmmoTypes _id}}" placeholder="0" style="width: 50px; padding: 4px 6px; border: 1px solid #666; border-radius: 4px; background: rgba(0, 0, 0, 0.3); color: var(--cardigan-c-beige, #f4f1e8); font-size: 0.9em; text-align: center;">
+              <button type="button" class="ammunition-auto-load-btn" data-item-id="{{_id}}" data-quantity="{{system.quantity}}" title="Auto-load ammunition" style="width: 24px; height: 24px; padding: 0; border: 1px solid #666; border-radius: 4px; background: rgba(0, 100, 200, 0.3); color: var(--cardigan-c-beige, #f4f1e8); font-size: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s;">
+                <i class="fas fa-arrow-right"></i>
+              </button>
               <span class="ammunition-quantity" data-quantity="{{system.quantity}}" style="color: var(--cardigan-c-beige, #f4f1e8); font-weight: bold; min-width: 20px; text-align: center;">{{system.quantity}}</span>
             </div>
           </div>
