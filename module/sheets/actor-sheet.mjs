@@ -57,6 +57,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       resetThirst: this._onResetThirst,
       showEffectInChat: this._onShowEffectInChat,
 
+      shortRest: this._onShortRest,
+      longRest: this._onLongRest,
+
       attackWithWeapon: this._onAttackWithWeapon,
       manageAmmunition: this._onManageAmmunition,
       equipWeapon: this._onEquipWeapon,
@@ -432,6 +435,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     console.log(`Final counts: backpack=${backpack.length}, armas=${armas.length}, armaduras=${armaduras.length}`);
     console.log("=== END PREPARE ITEMS DEBUG ===");
 
+    // Add unarmed attacks for free hands
+    this._addUnarmedAttacks(armas);
+
     for (const s of Object.values(spells)) {
       s.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     }
@@ -459,6 +465,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     context.alchemyRecipes = alchemyRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.carpentryRecipes = carpentryRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.armas = armas.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    
+    // Check if there are any non-unarmed weapons to show column headers
+    context.hasNonUnarmedWeapons = armas.some(weapon => !weapon.system.isUnarmed);
+    
+    // Check if there are any ranged weapons to show ammunition-related columns
+    context.hasRangedWeapons = armas.some(weapon => weapon.system.ranged || weapon.system.isFirearm);
+    
     context.armaduras = armaduras.sort((a, b) => {
       const orderA = armorTypeOrder[a.system.armorType] || 99;
       const orderB = armorTypeOrder[b.system.armorType] || 99;
@@ -471,6 +484,88 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Calculate backpack spaces occupied
     context.backpackSpacesOccupied = this._calculateBackpackSpaces(context.backpack);
+  }
+
+  /**
+   * Add unarmed attack options for free hands
+   * @param {Array} armas - The weapons array to modify
+   * @private
+   */
+  _addUnarmedAttacks(armas) {
+    // Check which hands are occupied
+    let rightHandOccupied = false;
+    let leftHandOccupied = false;
+
+    // Check equipped weapons
+    for (const weapon of armas) {
+      if (weapon.system.rightHand) {
+        rightHandOccupied = true;
+      }
+      if (weapon.system.leftHand) {
+        leftHandOccupied = true;
+      }
+    }
+
+    console.log("Hand occupation status:", { rightHandOccupied, leftHandOccupied });
+
+    // Get actor's strength for damage calculation
+    const actorStrength = this.document.system.abilities.strength.value || 0;
+
+    // Create unarmed attack for right hand if free
+    if (!rightHandOccupied) {
+      const rightHandUnarmed = this._createUnarmedAttack(null, actorStrength, true, false);
+      armas.push(rightHandUnarmed);
+      console.log("Added right hand unarmed attack");
+    }
+
+    // Create unarmed attack for left hand if free
+    if (!leftHandOccupied) {
+      const leftHandUnarmed = this._createUnarmedAttack(null, actorStrength, false, true);
+      armas.push(leftHandUnarmed);
+      console.log("Added left hand unarmed attack");
+    }
+  }
+
+  /**
+   * Create a virtual unarmed attack item
+   * @param {string} handName - Name of the hand (e.g., "Mão Primária")
+   * @param {number} strengthValue - Strength value for damage (dano = força)
+   * @param {boolean} rightHand - Whether this is for right hand
+   * @param {boolean} leftHand - Whether this is for left hand
+   * @returns {object} Virtual weapon item
+   * @private
+   */
+  _createUnarmedAttack(handName, strengthValue, rightHand, leftHand) {
+    const totalDamage = strengthValue; // Dano = valor da Força
+
+    return {
+      _id: `unarmed-${rightHand ? 'right' : 'left'}`, // Virtual ID
+      name: `Ataque Desarmado`,
+      type: 'arma',
+      img: 'icons/skills/melee/unarmed-punch-fist.webp', // Default fist icon
+      system: {
+        equipped: true,
+        rightHand: rightHand,
+        leftHand: leftHand,
+        ranged: false,
+        damage: {
+          value: totalDamage,
+          total: totalDamage,
+          useDexterity: false,
+          useStrength: false  // Não usar modificador adicional - dano já foi calculado
+        },
+        durability: {
+          current: 999, // Unarmed attacks don't break
+          max: 999
+        },
+        // Properties for template compatibility
+        properties: [],
+        skillBonuses: {},
+        isUnarmed: true // Flag to identify unarmed attacks
+      },
+      // Template compatibility
+      sort: 1000 // Put unarmed attacks at the end
+    };
   }
 
   /**
@@ -3078,6 +3173,49 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Create a virtual unarmed attack item (static version)
+   * @param {string} handName - Name of the hand (e.g., "Mão Primária")
+   * @param {number} strengthValue - Strength value for damage (dano = força)
+   * @param {boolean} rightHand - Whether this is for right hand
+   * @param {boolean} leftHand - Whether this is for left hand
+   * @returns {object} Virtual weapon item
+   * @private
+   * @static
+   */
+  static _createUnarmedAttack(handName, strengthValue, rightHand, leftHand) {
+    const totalDamage = strengthValue; // Dano = valor da Força
+
+    return {
+      _id: `unarmed-${rightHand ? 'right' : 'left'}`, // Virtual ID
+      name: `Ataque Desarmado`,
+      type: 'arma',
+      img: 'icons/skills/melee/unarmed-punch-fist.webp', // Default fist icon
+      system: {
+        equipped: true,
+        rightHand: rightHand,
+        leftHand: leftHand,
+        ranged: false,
+        damage: {
+          value: totalDamage,
+          total: totalDamage,
+          useDexterity: false,
+          useStrength: false  // Não usar modificador adicional - dano já foi calculado
+        },
+        durability: {
+          current: 999, // Unarmed attacks don't break
+          max: 999
+        },
+        // Properties for template compatibility
+        properties: [],
+        skillBonuses: {},
+        isUnarmed: true // Flag to identify unarmed attacks
+      },
+      // Template compatibility
+      sort: 1000 // Put unarmed attacks at the end
+    };
+  }
+
+  /**
    * Handle attacking with a weapon
    * @param {PointerEvent|Item} eventOrItem   The originating click event or weapon item
    * @param {HTMLElement|string} targetOrAmmoId   The capturing HTML element or specific ammunition ID
@@ -3094,7 +3232,17 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       event.preventDefault();
       
       const itemId = target.dataset.itemId;
-      item = this.document.items.get(itemId);
+      
+      // Handle unarmed attacks (virtual items)
+      if (itemId.startsWith('unarmed-')) {
+        // Create virtual unarmed attack item on the fly
+        const isRightHand = itemId === 'unarmed-right';
+        const actorStrength = this.document.system.abilities.strength.value || 0;
+        
+        item = CardiganSystemActorSheet._createUnarmedAttack(null, actorStrength, isRightHand, !isRightHand);
+      } else {
+        item = this.document.items.get(itemId);
+      }
       specificAmmoId = null; // Use priority order
     } else {
       // Specific ammunition attack from dialog
@@ -3107,16 +3255,18 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     console.log("Attack with weapon triggered", { 
       isSpecificAmmo: !!specificAmmoId, 
       specificAmmoId, 
-      item: item?.name 
+      item: item?.name,
+      isUnarmed: item?.system?.isUnarmed 
     });
     
-    if (!item || (!item.system.rightHand && !item.system.leftHand)) {
+    // Skip equipment check for unarmed attacks
+    if (!item || (!item.system.isUnarmed && !item.system.rightHand && !item.system.leftHand)) {
       ui.notifications.warn(game.i18n.localize("CARDIGAN.WeaponNotEquipped"));
       return;
     }
 
-    // Verificar durabilidade da arma
-    if (item.system.durability.current <= 0) {
+    // Verificar durabilidade da arma (pular para ataques desarmados)
+    if (!item.system.isUnarmed && item.system.durability.current <= 0) {
       ui.notifications.warn(game.i18n.localize("CARDIGAN.WeaponBroken"));
       return;
     }
@@ -7831,6 +7981,207 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       console.error("[CRITICAL HIT] Error processing critical hit boost:", error);
       return null;
     }
+  }
+
+  /**
+   * Handle short rest action
+   * @param {Event} event - The click event
+   * @param {HTMLElement} target - The clicked element
+   */
+  static async _onShortRest(event, target) {
+    event.preventDefault();
+    const actor = this.document;
+    
+    // Confirm rest action using DialogV2
+    const confirmed = await foundry.applications.api.DialogV2.confirm({
+      window: { title: game.i18n.localize("CARDIGAN.Rest.ShortRest") || "Short Rest" },
+      content: `<p>${game.i18n.localize("CARDIGAN.Rest.Confirmation.ShortRest") || "Take a short rest? This will restore some health and power based on your vigor."}</p>`
+    });
+    
+    if (!confirmed) return;
+    
+    await CardiganSystemActorSheet._performRest(actor, "short");
+  }
+
+  /**
+   * Handle long rest action
+   * @param {Event} event - The click event
+   * @param {HTMLElement} target - The clicked element
+   */
+  static async _onLongRest(event, target) {
+    event.preventDefault();
+    const actor = this.document;
+    
+    // Confirm rest action using DialogV2
+    const confirmed = await foundry.applications.api.DialogV2.confirm({
+      window: { title: game.i18n.localize("CARDIGAN.Rest.LongRest") || "Long Rest" },
+      content: `<p>${game.i18n.localize("CARDIGAN.Rest.Confirmation.LongRest") || "Take a long rest? This will restore more health and power, remove certain effects, and potentially remove exhaustion."}</p>`
+    });
+    
+    if (!confirmed) return;
+    
+    await CardiganSystemActorSheet._performRest(actor, "long");
+  }
+
+  /**
+   * Perform the rest mechanics
+   * @param {Actor} actor - The actor taking the rest
+   * @param {string} restType - "short" or "long"
+   */
+  static async _performRest(actor, restType) {
+    try {
+      const actorData = actor.system;
+      
+      // Calculate total stamina (value + bonus) like in the character data model
+      const staminaValue = actorData.abilities?.stamina?.value || 0;
+      const staminaBonus = actorData.abilities?.stamina?.totalBonus || 0;
+      const vigor = staminaValue + staminaBonus;
+      
+      let recoveryRoll;
+      let results = [];
+      
+      if (restType === "short") {
+        // Short rest: 1d20 + 2×vigor
+        recoveryRoll = new Roll("1d20 + @vigor", { vigor: vigor * 2 });
+      } else {
+        // Long rest: 2d20 + 3×vigor
+        recoveryRoll = new Roll("2d20 + @vigor", { vigor: vigor * 3 });
+      }
+      
+      // Roll for recovery (same value for health and energy)
+      await recoveryRoll.evaluate();
+      
+      const recoveredAmount = recoveryRoll.total;
+      
+      // Update health and energy
+      const currentHealth = actorData.health?.value || 0;
+      const maxHealth = actorData.health?.max || 0;
+      const currentPower = actorData.power?.value || 0;
+      const maxPower = actorData.power?.max || 0;
+      
+      const newHealth = Math.min(currentHealth + recoveredAmount, maxHealth);
+      const newPower = Math.min(currentPower + recoveredAmount, maxPower);
+      
+      const updateData = {
+        "system.health.value": newHealth,
+        "system.power.value": newPower
+      };
+      
+      results.push(`Vida Recuperada: ${recoveredAmount}`);
+      results.push(`Energia Recuperada: ${recoveredAmount}`);
+      
+      // Long rest specific effects
+      if (restType === "long") {
+        // Remove certain effects (fracture, sanity, toxicity)
+        const statusUpdates = {};
+        let effectsRemoved = [];
+        
+        if (actorData.status?.fracture > 0) {
+          statusUpdates["system.status.fracture"] = 0;
+          effectsRemoved.push("Fratura");
+        }
+        
+        if (actorData.status?.sanity !== null && actorData.status?.sanity > 0) {
+          statusUpdates["system.status.sanity"] = 0;
+          effectsRemoved.push("Sanidade");
+        }
+        
+        if (actorData.status?.toxicity !== null && actorData.status?.toxicity > 0) {
+          statusUpdates["system.status.toxicity"] = 0;
+          effectsRemoved.push("Toxicidade");
+        }
+        
+        Object.assign(updateData, statusUpdates);
+        
+        if (effectsRemoved.length > 0) {
+          results.push("Efeitos Removidos: " + effectsRemoved.join(", "));
+        }
+      }
+      
+      // Check for exhaustion removal for both short and long rest (only if not wearing heavy armor)
+      const isWearingHeavyArmor = await CardiganSystemActorSheet._checkHeavyArmor(actor);
+      
+      // Find exhaustion effect in actor items (Cardigan uses items for effects, not Active Effects)
+      const exhaustionEffect = actor.items.find(item => {
+        const name = item.name?.toLowerCase() || "";
+        const type = item.type?.toLowerCase() || "";
+        const isExhaustion = (type === "efeito") && 
+                           (name.includes("exaustão") || 
+                            name.includes("exhaustion") ||
+                            name.includes("exaust"));
+        
+        console.log(`[REST] Checking item "${item.name}" (type: ${item.type}): isExhaustion = ${isExhaustion}`);
+        return isExhaustion;
+      });
+      
+      console.log(`[REST] Exhaustion effect found:`, exhaustionEffect ? exhaustionEffect.name : "None");
+      console.log(`[REST] Available effect items:`, actor.items.filter(i => i.type === "efeito").map(e => e.name));
+      
+      if (exhaustionEffect) {
+        if (isWearingHeavyArmor) {
+          results.push("Não é possível remover exaustão enquanto usa armadura pesada");
+        } else {
+          console.log(`[REST] Removing exhaustion effect: ${exhaustionEffect.name}`);
+          await exhaustionEffect.delete();
+          results.push("Exaustão removida");
+        }
+      } else {
+        console.log(`[REST] No exhaustion effect found in items.`);
+      }
+      
+      // Apply all updates
+      await actor.update(updateData);
+      
+      // Show results in chat
+      await CardiganSystemActorSheet._showRestResults(actor, restType, recoveryRoll, results);
+      
+      ui.notifications.info("Descanso realizado com sucesso");
+      
+    } catch (error) {
+      console.error("[REST] Error performing rest:", error);
+      ui.notifications.error("Error performing rest: " + error.message);
+    }
+  }
+
+  /**
+   * Check if actor is wearing heavy armor
+   * @param {Actor} actor - The actor to check
+   * @returns {boolean} - True if wearing heavy armor
+   */
+  static async _checkHeavyArmor(actor) {
+    const equippedArmor = actor.items.filter(item => 
+      item.type === "armadura" && item.system.equipped
+    );
+    
+    return equippedArmor.some(armor => armor.system.weight === "pesado");
+  }
+
+  /**
+   * Show rest results in chat
+   * @param {Actor} actor - The actor who rested
+   * @param {string} restType - "short" or "long"
+   * @param {Roll} recoveryRoll - The recovery roll
+   * @param {Array} results - Array of result messages
+   */
+  static async _showRestResults(actor, restType, recoveryRoll, results) {
+    const restLabel = restType === "short" 
+      ? (game.i18n.localize("CARDIGAN.Rest.ShortRest") || "Descanso Curto")
+      : (game.i18n.localize("CARDIGAN.Rest.LongRest") || "Descanso Longo");
+    
+    // Create flavor text with additional effects
+    let flavor = `<h3>${restLabel}</h3>`;
+    if (results.length > 0) {
+      flavor += `<div class="rest-effects">`;
+      flavor += results.map(result => `<div>• ${result}</div>`).join("");
+      flavor += `</div>`;
+    }
+    
+    // Send roll to chat like skill tests
+    await recoveryRoll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor }),
+      flavor: flavor,
+      rollMode: game.settings.get('core', 'rollMode')
+    });
   }
 
 

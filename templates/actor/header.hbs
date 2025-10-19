@@ -18,6 +18,17 @@
         placeholder='Name'
       />
     </div>
+    
+    {{#unless (eq actor.type "npc")}}
+    <div class='rest-buttons flexrow flex-center'>
+      <button type='button' class='rest-button short-rest' data-action='shortRest' title='Short Rest (1d20 + 2×Vigor)'>
+        <i class='fas fa-moon'></i> Short Rest
+      </button>
+      <button type='button' class='rest-button long-rest' data-action='longRest' title='Long Rest (2d20 + 3×Vigor)'>
+        <i class='fas fa-bed'></i> Long Rest
+      </button>
+    </div>
+    {{/unless}}
     {{! The grid classes are defined in scss/global/_grid.scss. To use,
       use both the "grid" and "grid-Ncol" class where "N" can be any number
       from 1 to 12 and will create that number of columns.  }}

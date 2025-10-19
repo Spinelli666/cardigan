@@ -164,7 +164,11 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const strengthBonus = this.abilities?.strength?.bonus || 0;
     const strengthTotalBonus = this.abilities?.strength?.totalBonus || 0;
     const totalStrength = strengthValue + strengthBonus + strengthTotalBonus;
-    this.backpack.max = Math.floor(totalStrength / 2);
+    const baseBackpackCapacity = Math.floor(totalStrength / 2);
+    
+    // Add armor backpack space bonuses
+    const armorBackpackBonus = this._armorBackpackSpaceBonus || 0;
+    this.backpack.max = baseBackpackCapacity + armorBackpackBonus;
     
     // CAMPO DE TESTE: Implementa lógica de campo manual com bônus automático
     // Exemplo: se stamina é 2, bônus automático é 10 (2 * 5)
@@ -375,6 +379,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     let armorEnergyBonus = 0;
     let armorProtectionBonus = 0;
     let armorMovementBonus = 0;
+    let armorBackpackSpaceBonus = 0;
 
     // Get all armors from the actor
     const armors = this.parent?.items?.filter(item => item.type === 'armadura') || [];
@@ -423,6 +428,11 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       if (armor.system.bonusDeslocamento && armor.system.bonusDeslocamento.enabled && armor.system.bonusDeslocamento.bonus > 0) {
         armorMovementBonus += armor.system.bonusDeslocamento.bonus;
       }
+      
+      // Backpack space bonus
+      if (armor.system.bonusEspacoMochila && armor.system.bonusEspacoMochila.enabled && armor.system.bonusEspacoMochila.bonus > 0) {
+        armorBackpackSpaceBonus += armor.system.bonusEspacoMochila.bonus;
+      }
     }
 
     // Calculate protection bonuses from equipped weapons with protection enabled
@@ -455,6 +465,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     this._armorEnergyBonus = armorEnergyBonus; 
     this._armorProtectionBonus = armorProtectionBonus;
     this._armorMovementBonus = armorMovementBonus;
+    this._armorBackpackSpaceBonus = armorBackpackSpaceBonus;
 
     // Recalculate ability totals with armor bonuses included
     for (const key in this.abilities) {

@@ -511,6 +511,8 @@
     "Energy": "Energy", 
     "MovementBonus": "Movement Bonus",
     "Meters": "meters",
+    "BackpackSpaceBonus": "Increases Backpack Space",
+    "Slots": "slots",
     "SelectArmorTypeTitle": "Select Armor Type",
     "SelectArmorTypeDescription": "Choose which type of armor you want to create:",
     "ConfirmUnequipArmor": "Confirm Unequip Armor",
@@ -824,6 +826,30 @@
       "efeito": "Efeito",
       "arma": "Weapon",
       "armadura": "Armor"
+    },
+    "Rest": {
+      "ShortRest": "Short Rest",
+      "LongRest": "Long Rest",
+      "ShortRestTitle": "Short Rest (1d20 + 2×Vigor)",
+      "LongRestTitle": "Long Rest (2d20 + 3×Vigor)",
+      "RestDialog": {
+        "Title": "Rest Results",
+        "HealthRecovered": "Vida Recuperada: {amount}",
+        "PowerRecovered": "Energia Recuperada: {amount}",
+        "EffectsRemoved": "Effects Removed",
+        "ArmorTooHeavy": "Cannot remove exhaustion while wearing heavy armor",
+        "ExhaustionRemoved": "Exhaustion removed",
+        "RestCompleted": "Rest completed successfully",
+        "HealthRecovery": "Health Recovery",
+        "PowerRecovery": "Energy Recovery",
+        "Fracture": "Fracture",
+        "Sanity": "Sanity",
+        "Toxicity": "Toxicity"
+      },
+      "Confirmation": {
+        "ShortRest": "Take a short rest? This will restore some health and power based on your vigor.",
+        "LongRest": "Take a long rest? This will restore more health and power, remove certain effects, and potentially remove exhaustion."
+      }
     }
   }
 }

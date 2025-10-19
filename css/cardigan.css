@@ -7704,3 +7704,92 @@
   font-style: italic;
   color: #6d6960;
 }
+.cardigan {
+  /* Rest System Styles */
+  /* Rest Button Container */
+}
+.cardigan .rest-buttons {
+  gap: 8px;
+  margin: 8px 0;
+  justify-content: center;
+}
+.cardigan {
+  /* Base Rest Button Styles */
+}
+.cardigan .rest-button {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  border: 1px solid #2d5aa0;
+  border-radius: 6px;
+  color: white;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 100px;
+  height: 32px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.cardigan .rest-button:hover {
+  background: linear-gradient(135deg, #357abd, #2d5aa0);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.cardigan .rest-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.cardigan .rest-button:focus {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+.cardigan .rest-button {
+  /* Icon styling */
+}
+.cardigan .rest-button i {
+  font-size: 14px;
+}
+.cardigan .rest-button {
+  /* Short Rest specific styles */
+}
+.cardigan .rest-button.short-rest {
+  background: linear-gradient(135deg, #27ae60, #219a52);
+  border-color: #1e8449;
+}
+.cardigan .rest-button.short-rest:hover {
+  background: linear-gradient(135deg, #219a52, #1e8449);
+}
+.cardigan .rest-button {
+  /* Long Rest specific styles */
+}
+.cardigan .rest-button.long-rest {
+  background: linear-gradient(135deg, #8e44ad, #7d3c98);
+  border-color: #6c3483;
+}
+.cardigan .rest-button.long-rest:hover {
+  background: linear-gradient(135deg, #7d3c98, #6c3483);
+}
+.cardigan {
+  /* Rest Results in Chat */
+}
+.cardigan .rest-effects {
+  margin-top: 8px;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid var(--cardigan-c-beige);
+}
+.cardigan .rest-effects div {
+  margin: 2px 0;
+  font-size: 0.9em;
+  color: var(--cardigan-c-dark);
+}
+.cardigan .rest-effects div:first-child {
+  margin-top: 0;
+}
+.cardigan .rest-effects div:last-child {
+  margin-bottom: 0;
+}

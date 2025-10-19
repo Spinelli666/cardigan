@@ -96,6 +96,18 @@ export default class ArmorData extends BaseItemData {
           initial: 0
         })
       }),
+
+      // Backpack space bonus
+      bonusEspacoMochila: new SchemaField({
+        enabled: new BooleanField({initial: false}),
+        bonus: new NumberField({
+          required: true,
+          nullable: false,
+          integer: true,
+          initial: 0,
+          min: 0
+        })
+      }),
       
       // Weight and price
       weight: new StringField({

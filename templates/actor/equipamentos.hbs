@@ -19,10 +19,26 @@
       <div class='item-formula'>{{localize 'CARDIGAN.Hand'}}</div>
       <div class='item-name'>{{localize 'Name'}}</div>
       <div class='item-attack'></div>
-      <div class='item-reload'></div>
-      <div class='item-ammunition'>{{localize 'CARDIGAN.Ammunition'}}</div>
-      <div class='item-durability'>{{localize 'CARDIGAN.Durability'}}</div>
-      <div class='item-unequip'>{{localize 'CARDIGAN.Unequip'}}</div>
+      <div class='item-reload'>
+        {{#if hasRangedWeapons}}
+          {{localize 'CARDIGAN.ReloadButton'}}
+        {{/if}}
+      </div>
+      <div class='item-ammunition'>
+        {{#if hasRangedWeapons}}
+          {{localize 'CARDIGAN.Ammunition'}}
+        {{/if}}
+      </div>
+      <div class='item-durability'>
+        {{#if hasNonUnarmedWeapons}}
+          {{localize 'CARDIGAN.Durability'}}
+        {{/if}}
+      </div>
+      <div class='item-unequip'>
+        {{#if hasNonUnarmedWeapons}}
+          {{localize 'CARDIGAN.Unequip'}}
+        {{/if}}
+      </div>
       <div class='item-controls'>
     </li>
     {{#each armas as |item id|}}
@@ -92,72 +108,78 @@
           {{/if}}
         </div>
         <div class='item-reload'>
-          {{#if (or item.system.ranged item.system.isFirearm)}}
-            {{#if @root.editable}}
-              <a
-                class='item-control manage-ammunition'
-                title='Gerenciar Munição'
-                data-action='manageAmmunition'
-                data-item-id='{{item._id}}'
-              >
-                <i class='fas fa-redo'></i>
-              </a>
-            {{else}}
-              <i class='fas fa-redo reload-icon-readonly' title='Reload'></i>
+          {{#unless item.system.isUnarmed}}
+            {{#if (or item.system.ranged item.system.isFirearm)}}
+              {{#if @root.editable}}
+                <a
+                  class='item-control manage-ammunition'
+                  title='Gerenciar Munição'
+                  data-action='manageAmmunition'
+                  data-item-id='{{item._id}}'
+                >
+                  <i class='fas fa-redo'></i>
+                </a>
+              {{else}}
+                <i class='fas fa-redo reload-icon-readonly' title='Reload'></i>
+              {{/if}}
             {{/if}}
-          {{else}}
-            <span class='ammunition-none'>-</span>
-          {{/if}}
+          {{/unless}}
         </div>
         <div class='item-ammunition'>
-          {{#if (or item.system.ranged item.system.isFirearm)}}
-            {{#if item.system.isFirearm}}
-              <span class='ammunition-firearm ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}/{{item.system.magazine}}</span>
-            {{else}}
-              <span class='ammunition-ranged ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}</span>
+          {{#unless item.system.isUnarmed}}
+            {{#if (or item.system.ranged item.system.isFirearm)}}
+              {{#if item.system.isFirearm}}
+                <span class='ammunition-firearm ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}/{{item.system.magazine}}</span>
+              {{else}}
+                <span class='ammunition-ranged ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}</span>
+              {{/if}}
             {{/if}}
-          {{else}}
-            <span class='ammunition-none'>-</span>
-          {{/if}}
+          {{/unless}}
         </div>
         <div class='item-durability'>
-          {{#if @root.editable}}
-            <input
-              type='number'
-              class='durability-input'
-              name='items.{{item._id}}.system.durability.current'
-              value='{{item.system.durability.current}}'
-              min='0'
-              max='{{item.system.durability.max}}'
-              data-dtype='Number'
-              title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'
-            />
-          {{else}}
-            <span title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'>
-              {{item.system.durability.current}}
-            </span>
-          {{/if}}
+          {{#unless item.system.isUnarmed}}
+            {{#if @root.editable}}
+              <input
+                type='number'
+                class='durability-input'
+                name='items.{{item._id}}.system.durability.current'
+                value='{{item.system.durability.current}}'
+                min='0'
+                max='{{item.system.durability.max}}'
+                data-dtype='Number'
+                title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'
+              />
+            {{else}}
+              <span title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'>
+                {{item.system.durability.current}}
+              </span>
+            {{/if}}
+          {{/unless}}
         </div>
         <div class='item-unequip'>
-          {{#if @root.editable}}
-            <a
-              class='item-control unequip-weapon unequip-button'
-              title='{{localize "CARDIGAN.UnequipWeapon"}}'
-              data-action='unequipWeapon'
-              data-item-id='{{item._id}}'
-            >
-              <i class='fas fa-times-circle'></i>
-            </a>
-          {{/if}}
+          {{#unless item.system.isUnarmed}}
+            {{#if @root.editable}}
+              <a
+                class='item-control unequip-weapon unequip-button'
+                title='{{localize "CARDIGAN.UnequipWeapon"}}'
+                data-action='unequipWeapon'
+                data-item-id='{{item._id}}'
+              >
+                <i class='fas fa-times-circle'></i>
+              </a>
+            {{/if}}
+          {{/unless}}
         </div>
         <div class='item-controls'>
-          {{#if @root.editable}}
-            {{!-- Context Menu Button (Three Dots) --}}
-            <button type="button" class="unbutton item-control always-interactive" data-context-menu
-                    data-tooltip="Opções Adicionais" data-tooltip-direction="UP">
-              <i class="fa-solid fa-ellipsis-vertical" inert></i>
-            </button>
-          {{/if}}
+          {{#unless item.system.isUnarmed}}
+            {{#if @root.editable}}
+              {{!-- Context Menu Button (Three Dots) --}}
+              <button type="button" class="unbutton item-control always-interactive" data-context-menu
+                      data-tooltip="Opções Adicionais" data-tooltip-direction="UP">
+                <i class="fa-solid fa-ellipsis-vertical" inert></i>
+              </button>
+            {{/if}}
+          {{/unless}}
         </div>
         </div>
         

@@ -369,6 +369,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup armor bonus toggle visibility for consumable items  
     this._setupArmorBonusToggle();
     
+    // Setup conditional fields for armor items
+    this._setupArmorConditionalFields();
+    
     // Setup status ailments toggle visibility for consumable items
     this._setupStatusAilmentsToggle();
     
@@ -1668,6 +1671,34 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         armorBonusSection.classList.add('hidden');
       }
     });
+  }
+
+  /**
+   * Setup conditional fields for armor items (movement bonus and backpack space bonus)
+   * @private
+   */
+  _setupArmorConditionalFields() {
+    // Setup movement bonus conditional field
+    const movementCheckbox = this.element.querySelector('input[data-conditional-trigger="movement"]');
+    const movementValue = this.element.querySelector('.movement-value');
+    
+    if (movementCheckbox && movementValue) {
+      movementCheckbox.addEventListener('change', (event) => {
+        const isChecked = event.target.checked;
+        movementValue.style.display = isChecked ? 'block' : 'none';
+      });
+    }
+
+    // Setup backpack space bonus conditional field
+    const backpackCheckbox = this.element.querySelector('input[data-conditional-trigger="backpack"]');
+    const backpackValue = this.element.querySelector('.backpack-value');
+    
+    if (backpackCheckbox && backpackValue) {
+      backpackCheckbox.addEventListener('change', (event) => {
+        const isChecked = event.target.checked;
+        backpackValue.style.display = isChecked ? 'block' : 'none';
+      });
+    }
   }
 
   /**

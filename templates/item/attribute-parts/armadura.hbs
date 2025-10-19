@@ -122,4 +122,16 @@ Template para itens do tipo armadura com aba Detail
         </div>
     </div>
 
+    <!-- Backpack Space Bonus -->
+    <div class="form-group backpack-space-bonus">
+        <label style="display: flex; align-items: center; gap: 5px;">
+            <input type="checkbox" name="system.bonusEspacoMochila.enabled" {{checked item.system.bonusEspacoMochila.enabled}} data-conditional-trigger="backpack"/>
+            {{localize "CARDIGAN.BackpackSpaceBonus"}}
+        </label>
+        <div class="backpack-value" style="{{#unless item.system.bonusEspacoMochila.enabled}}display: none;{{/unless}} margin-top: 5px;">
+            <input type="number" name="system.bonusEspacoMochila.bonus" value="{{item.system.bonusEspacoMochila.bonus}}" style="width: 80px;" placeholder="0" min="0"/>
+            <span style="margin-left: 5px;">{{localize "CARDIGAN.Slots"}}</span>
+        </div>
+    </div>
+
 </section>

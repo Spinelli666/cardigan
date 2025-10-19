@@ -1,0 +1,91 @@
+/* Rest System Styles */
+
+/* Rest Button Container */
+.rest-buttons {
+  gap: 8px;
+  margin: 8px 0;
+  justify-content: center;
+}
+
+/* Base Rest Button Styles */
+.rest-button {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  border: 1px solid #2d5aa0;
+  border-radius: 6px;
+  color: white;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 100px;
+  height: 32px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background: linear-gradient(135deg, #357abd, #2d5aa0);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+  }
+
+  /* Icon styling */
+  i {
+    font-size: 14px;
+  }
+
+  /* Short Rest specific styles */
+  &.short-rest {
+    background: linear-gradient(135deg, #27ae60, #219a52);
+    border-color: #1e8449;
+
+    &:hover {
+      background: linear-gradient(135deg, #219a52, #1e8449);
+    }
+  }
+
+  /* Long Rest specific styles */
+  &.long-rest {
+    background: linear-gradient(135deg, #8e44ad, #7d3c98);
+    border-color: #6c3483;
+
+    &:hover {
+      background: linear-gradient(135deg, #7d3c98, #6c3483);
+    }
+  }
+}
+
+/* Rest Results in Chat */
+.rest-effects {
+  margin-top: 8px;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid var(--cardigan-c-beige);
+
+  div {
+    margin: 2px 0;
+    font-size: 0.9em;
+    color: var(--cardigan-c-dark);
+    
+    &:first-child {
+      margin-top: 0;
+    }
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
