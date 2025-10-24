@@ -195,6 +195,21 @@
         "SpellLVL": "Level {level} Spells",
         "AddLVL": "Add LVL {level}"
       },
+      "Skill": {
+        "Description": "Description",
+        "Effect": "Effect",
+        "Requirements": "Requirements",
+        "Type": "Skill Type",
+        "SkillDescription": "Skill Description",
+        "SkillEffect": "Skill Effect",
+        "Prerequisites": "Prerequisites",
+        "DescriptionPlaceholder": "Describe what this skill represents and its general purpose...",
+        "EffectPlaceholder": "Describe the mechanical effects and benefits of this skill...",
+        "PrerequisitesPlaceholder": "List any prerequisites or requirements for learning this skill...",
+        "Types": {
+          "Extra": "Extra"
+        }
+      },
       "ItemRecipe": {
         "ingredients": {
           "label": "Ingredients",
@@ -329,6 +344,7 @@
     "AddWeapon": "Add Weapon",
     "EditItem": "Edit Item", 
     "DeleteItem": "Delete Item",
+    "ShowInChat": "Show in Chat",
     "Equipped": "Equipped",
     "Damage": "Damage",
     "DamageType": "Damage Type",
@@ -825,7 +841,8 @@
       "spell": "Spell",
       "efeito": "Efeito",
       "arma": "Weapon",
-      "armadura": "Armor"
+      "armadura": "Armor",
+      "skill": "Skill"
     },
     "Rest": {
       "ShortRest": "Short Rest",
@@ -849,6 +866,26 @@
       "Confirmation": {
         "ShortRest": "Take a short rest? This will restore some health and power based on your vigor.",
         "LongRest": "Take a long rest? This will restore more health and power, remove certain effects, and potentially remove exhaustion."
+      }
+    },
+    "SkillsTable": "Skills",
+    "SkillName": "Skill Name",
+    "SkillType": "Type", 
+    "SkillLevel": "Level",
+    "AssociatedAbility": "Ability",
+    "Modifier": "Modifier",
+    "AddSkill": "Add Skill",
+    "RollSkill": "Roll Skill",
+    "PassiveSkill": "Passive Skill",
+    "Item": {
+      "Skill": {
+        "BasicInfo": "Basic Information",
+        "Description": "Skill Description",
+        "Effect": "Skill Effect",
+        "Prerequisites": "Prerequisites",
+        "DescriptionPlaceholder": "Describe what this skill does...",
+        "EffectPlaceholder": "Describe the effects of using this skill...",
+        "PrerequisitesPlaceholder": "List any prerequisites for this skill..."
       }
     }
   }

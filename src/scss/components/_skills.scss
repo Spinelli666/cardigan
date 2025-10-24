@@ -1,0 +1,176 @@
+/* ===== SKILLS TABLE STYLES ===== */
+
+.skills-table-container {
+  // Use existing items-list styling
+  
+  .skill-item {
+    // Skills inherit the standard item styling
+    
+    .skill-chat {
+      color: #4caf50 !important;
+      
+      &:hover {
+        color: #66bb6a !important;
+        text-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+      }
+    }
+  }
+}
+
+/* ===== SKILL FORM STYLES ===== */
+
+.skill-details-form {
+  padding: 10px;
+  
+  .skill-section {
+    border: 1px solid rgba(139, 69, 19, 0.4);
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: rgba(43, 24, 16, 0.2);
+    
+    legend {
+      color: #d4af37;
+      font-weight: bold;
+      font-size: 14px;
+      padding: 0 10px;
+      background: rgba(43, 24, 16, 0.8);
+      border: 1px solid rgba(139, 69, 19, 0.6);
+      border-radius: 3px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: #c9c7b8;
+        font-weight: normal;
+        font-size: 13px;
+        
+        &.checkbox-label {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+          
+          input[type="checkbox"] {
+            accent-color: #d4af37;
+            cursor: pointer;
+            transform: scale(1.2);
+          }
+        }
+      }
+      
+      input, select, textarea {
+        width: 100%;
+        padding: 6px 10px;
+        border: 1px solid rgba(139, 69, 19, 0.6);
+        border-radius: 3px;
+        background: rgba(43, 24, 16, 0.4);
+        color: #c9c7b8;
+        font-size: 13px;
+        
+        &:focus {
+          outline: none;
+          border-color: #d4af37;
+          box-shadow: 0 0 3px rgba(212, 175, 55, 0.3);
+        }
+      }
+      
+      .form-row {
+        display: flex;
+        gap: 10px;
+        align-items: end;
+        
+        input, select {
+          flex: 1;
+        }
+        
+        .skill-rank-display {
+          color: #d4af37;
+          font-weight: bold;
+          font-size: 12px;
+          padding: 6px 10px;
+          background: rgba(212, 175, 55, 0.1);
+          border: 1px solid rgba(212, 175, 55, 0.3);
+          border-radius: 3px;
+          min-width: 100px;
+          text-align: center;
+        }
+      }
+      
+      .hint {
+        font-size: 11px;
+        color: #a59b85;
+        font-style: italic;
+        margin-top: 5px;
+      }
+    }
+    
+    &.skill-calculations {
+      background: rgba(212, 175, 55, 0.05);
+      border-color: rgba(212, 175, 55, 0.3);
+      
+      .calculation-display {
+        display: flex;
+        gap: 20px;
+        
+        .calc-item {
+          flex: 1;
+          text-align: center;
+          
+          label {
+            display: block;
+            color: #a59b85;
+            font-size: 11px;
+            margin-bottom: 5px;
+          }
+          
+          .calc-value {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* ===== SKILL CREATE BUTTON ===== */
+
+.item-create[data-type="skill"] {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  color: #2b1810;
+  border: 1px solid #d4af37;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  
+  &:hover {
+    background: linear-gradient(135deg, #e6c757 0%, #d4af37 100%);
+    border-color: #e6c757;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  i {
+    font-size: 10px;
+  }
+}

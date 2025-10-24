@@ -133,9 +133,9 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const staminaTotalBonus = this.abilities?.stamina?.totalBonus ?? 0;
     const totalStamina = stamina + staminaTotalBonus;
     
-    // Regra: cada level até 10 adiciona +5 à vida e energia máxima
+    // Regra: cada level de 2 até 10 adiciona +5 à vida e energia máxima (level 1 não dá bonus)
     const level = this.attributes?.level?.value ?? 0;
-    const levelBonus = Math.min(level, 10) * 5;
+    const levelBonus = Math.max(0, Math.min(level, 10) - 1) * 5;
     
     // NOVA REGRA FRATURA: cada ponto de Fratura reduz vida e energia máxima em 5
     const fractureLevel = this.status?.fracture ?? 0;

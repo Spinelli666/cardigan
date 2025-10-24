@@ -70,6 +70,7 @@ Hooks.once('init', function () {
     "alchemy-recipe": models.CardiganSystemItemRecipe,
     "carpentry-recipe": models.CardiganSystemItemRecipe,
     feature: models.CardiganSystemFeature,
+    skill: models.CardiganSystemSkill,
     spell: models.CardiganSystemSpell,
     efeito: models.CardiganSystemEfeito,
     arma: models.CardiganSystemArma,
@@ -82,15 +83,17 @@ Hooks.once('init', function () {
   console.log('[CARDIGAN] CardiganSystemItemMunicao model:', models.CardiganSystemItemMunicao);
   console.log('[CARDIGAN] CardiganSystemItemConsumivel model:', models.CardiganSystemItemConsumivel);
   console.log('[CARDIGAN] CardiganSystemEfeito model:', models.CardiganSystemEfeito);
+  console.log('[CARDIGAN] CardiganSystemSkill model:', models.CardiganSystemSkill);
   console.log('[CARDIGAN] CardiganSystemArma model:', models.CardiganSystemArma);
   console.log('[CARDIGAN] CardiganSystemArmadura model:', models.CardiganSystemArmadura);
   
   // Verify document types (using modern documentTypes instead of deprecated template)
   console.log('[CARDIGAN] Document types from system.json:', game.system?.documentTypes?.Item);
   
-  // Verify that CONFIG recognizes the backpack type
+  // Verify that CONFIG recognizes the backpack and skill types
   console.log('[CARDIGAN] CONFIG.Item.dataModels keys:', Object.keys(CONFIG.Item.dataModels));
   console.log('[CARDIGAN] Does CONFIG have backpack?', 'backpack' in CONFIG.Item.dataModels);
+  console.log('[CARDIGAN] Does CONFIG have skill?', 'skill' in CONFIG.Item.dataModels);
 
   // Active Effects are never copied to the Actor,
   // but will still apply to the Actor from within the Item
@@ -373,3 +376,100 @@ Hooks.once('ready', function () {
     console.error('[CARDIGAN] Error testing item creation:', error);
   }
 });
+
+/* -------------------------------------------- */
+/*  Chat Message Hooks                          */
+/* -------------------------------------------- */
+
+// Add event listeners for skill attack buttons in chat messages
+Hooks.on('renderChatMessageHTML', (message, html) => {
+  console.log("renderChatMessageHTML hook triggered");
+  
+  // Add click handler for skill attack buttons
+  const attackButtons = html.querySelectorAll('.cardigan-skill-attack-btn');
+  console.log("Found attack buttons:", attackButtons.length);
+  
+  attackButtons.forEach((button, index) => {
+    console.log(`Setting up listener for button ${index}:`, button);
+    button.addEventListener('click', async (event) => {
+      console.log("Attack button clicked!");
+      const actorId = button.dataset.actorId;
+      console.log("Actor ID from button:", actorId);
+      
+      if (actorId) {
+        await rollSkillAttack(actorId);
+      }
+    });
+  });
+});
+
+/**
+ * Roll attack for Acerto Debilitante skill
+ * @param {string} actorId - The actor ID
+ */
+async function rollSkillAttack(actorId) {
+  try {
+    const actor = game.actors.get(actorId);
+    if (!actor) {
+      ui.notifications.error("Ator não encontrado");
+      return;
+    }
+
+    // Obter valores de precisão - debug extensivo
+    console.log("Full actor system:", actor.system);
+    console.log("Abilities:", actor.system.abilities);
+    console.log("Accuracy object:", actor.system.abilities.accuracy);
+    
+    const accuracyObj = actor.system.abilities.accuracy;
+    
+    // Usar os mesmos campos que o sistema usa internamente
+    const accuracyValue = accuracyObj.value || 0;
+    const accuracyTotalBonus = accuracyObj.totalBonus || 0;
+    const totalAccuracy = accuracyValue + accuracyTotalBonus;
+    
+    // Alternativa: usar o total já calculado pelo sistema
+    const calculatedTotal = accuracyObj.total || totalAccuracy;
+
+    console.log("Debug - Accuracy values:", {
+      rawValue: accuracyObj.value,
+      rawBonus: accuracyObj.bonus,
+      rawTotalBonus: accuracyObj.totalBonus,
+      rawTotal: accuracyObj.total,
+      parsedValue: accuracyValue,
+      parsedTotalBonus: accuracyTotalBonus,
+      calculatedTotal: calculatedTotal,
+      manualTotal: totalAccuracy,
+      fullAccuracy: accuracyObj
+    });
+
+    // Usar o getRollData() method como o sistema faz internamente
+    const rollData = actor.getRollData();
+    console.log("Roll data:", rollData);
+    console.log("Accuracy from rollData:", rollData.accuracy);
+
+    // Usar o valor correto - preferir o getRollData se disponível
+    const finalAccuracy = rollData.accuracy?.total || calculatedTotal;
+    
+    // Criar e rolar o dado usando getRollData
+    const roll = new Roll("1d20 + @accuracy.total", rollData);
+    await roll.evaluate();
+
+    // Criar flavor para a rolagem
+    const flavor = `<h3><i class="fas fa-crosshairs"></i> Acerto Debilitante</h3>
+      <p><strong>${actor.name}</strong> realiza um ataque preciso nos pontos vitais!</p>
+      <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
+        d20 + Precisão Total (${finalAccuracy})
+      </div>`;
+
+    // Enviar rolagem para o chat
+    await roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor }),
+      flavor: flavor,
+      rollMode: game.settings.get('core', 'rollMode')
+    });
+
+  } catch (error) {
+    console.error("Error rolling skill attack:", error);
+    ui.notifications.error(`Erro ao rolar ataque: ${error.message}`);
+  }
+}

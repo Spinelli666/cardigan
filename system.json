@@ -66,6 +66,9 @@
         },
         "armadura": {
             "htmlFields": ["description"]
+        },
+        "skill": {
+            "htmlFields": ["description"]
         }
     }
   },
@@ -108,6 +111,13 @@
       "type": "Item",
       "system": "cardigan",
       "path": "packs/efeitos-cardigan"
+    },
+    {
+      "name": "skills-cardigan",
+      "label": "Skills do Cardigan",
+      "type": "Item",
+      "system": "cardigan",
+      "path": "packs/skills-cardigan"
     }
   ],
   "packFolders": [
@@ -115,6 +125,11 @@
       "name": "Efeitos do Cardigan",
       "sorting": "a",
       "packs": ["efeitos-cardigan"]
+    },
+    {
+      "name": "Skills do Cardigan",
+      "sorting": "m",
+      "packs": ["skills-cardigan"]
     }
   ],
   "socket": false,

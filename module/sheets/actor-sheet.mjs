@@ -56,6 +56,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       resetHunger: this._onResetHunger,
       resetThirst: this._onResetThirst,
       showEffectInChat: this._onShowEffectInChat,
+      skillToChat: this._onSkillToChat,
 
       shortRest: this._onShortRest,
       longRest: this._onLongRest,
@@ -326,6 +327,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const armas = [];
     const armaduras = [];
     const recipes = [];
+    const skills = [];
     const culinaryRecipes = [];
     const tailoringRecipes = [];
     const tecnomagicRecipes = [];
@@ -404,6 +406,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       else if (i.type === 'efeito') {
         efeitos.push(i);
       }
+      // Append to skills.
+      else if (i.type === 'skill') {
+        skills.push(i);
+      }
       // Append to recipes by profession type.
       else if (i.type === 'item-recipe' || i.type === 'culinary-recipe') {
         recipes.push(i);
@@ -458,6 +464,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.efeitos = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.recipes = recipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skills = skills.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.culinaryRecipes = culinaryRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.tailoringRecipes = tailoringRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.tecnomagicRecipes = tecnomagicRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
@@ -1387,6 +1394,70 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     } catch (error) {
       console.error("Error showing effect in chat:", error);
       ui.notifications.error(`Erro ao mostrar efeito no chat: ${error.message}`);
+    }
+  }
+
+  /**
+   * Show skill description in chat
+   * @param {Event} event   The triggering event
+   * @param {HTMLElement} target  The targeted element
+   * @protected
+   */
+  static async _onSkillToChat(event, target) {
+    event.preventDefault();
+    
+    try {
+      const itemId = target.dataset.itemId;
+      const skill = this.document.items.get(itemId);
+      
+      if (!skill) {
+        ui.notifications.error("Skill não encontrada");
+        return;
+      }
+      
+      const actorName = this.document.name;
+      const skillName = skill.name;
+      const skillDescription = skill.system.description || "";
+      
+      // Criar o conteúdo da mensagem
+      let content = `<div class="cardigan-skill-message">
+        <h3 style="margin: 0 0 8px 0; color: #b5b3a4; border-bottom: 1px solid #c9c7b8; padding-bottom: 4px;">
+          <i class="fas fa-star" style="margin-right: 6px;"></i>Skill: ${skillName}
+        </h3>
+        <p style="margin: 4px 0; font-weight: bold;">
+          <strong>${actorName}</strong> demonstra conhecimento em: <em style="color: #b5b3a4;">${skillName}</em>
+        </p>`;
+      
+      if (skillDescription && skillDescription.trim() !== "") {
+        content += `<div style="margin-top: 8px; padding: 6px; background: rgba(0,0,0,0.1); border-left: 3px solid #4caf50; border-radius: 3px;">
+          <div style="margin: 0;">${skillDescription}</div>
+        </div>`;
+      }
+      
+      // Adicionar botão de ataque apenas para "Acerto Debilitante"
+      if (skillName === "Acerto Debilitante") {
+        const actorId = this.document.id;
+        console.log("Adding attack button for skill:", skillName, "actorId:", actorId);
+        content += `<div style="margin-top: 8px; text-align: center;">
+          <button class="cardigan-skill-attack-btn" data-actor-id="${actorId}"
+                  style="padding: 6px 12px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
+            <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque
+          </button>
+        </div>`;
+      }
+      
+      content += `</div>`;
+      
+      // Enviar mensagem para o chat
+      await ChatMessage.create({
+        content: content,
+        speaker: ChatMessage.getSpeaker({ actor: this.document }),
+        style: CONST.CHAT_MESSAGE_STYLES.OTHER
+      });
+      
+    } catch (error) {
+      console.error("Error showing skill in chat:", error);
+      ui.notifications.error(`Erro ao mostrar skill no chat: ${error.message}`);
     }
   }
 
@@ -5734,6 +5805,14 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           return item.delete();
         }
         return null;
+      case "rollSkill":
+        // Roll a skill check
+        const skillId = target.dataset.skillId;
+        const skillItem = this.document.items.get(skillId);
+        if (skillItem && skillItem.system.rollSkillCheck) {
+          return skillItem.system.rollSkillCheck();
+        }
+        return null;
 
     }
   }
@@ -8183,6 +8262,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       rollMode: game.settings.get('core', 'rollMode')
     });
   }
+
 
 
 }

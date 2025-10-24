@@ -1,0 +1,23 @@
+{
+  "_id": "F6gH7iI8jJ9kK0lM",
+  "_key": "!items!F6gH7iI8jJ9kK0lM",
+  "name": "Acerto Debilitante",
+  "type": "skill",
+  "img": "icons/skills/melee/strike-flail-destructive-orange.webp",
+  "system": {
+    "skillDescription": "Você mira com cautela nos pontos vitais do inimigo.\n\n⋆ Após acertar um ataque role 1d6; O resultado corresponde a um ponto vital acertado no seu alvo, adicionando um efeito extra neste ataque:\n\n6 ‣ Cabeça: O alvo recebe Atordoado¹.\n5 ‣ Torso: O alvo recebe Sangramento¹.\n4 e 3 ‣ Braços: O alvo recebe Desvantagem no próximo ataque.\n2 e 1 ‣ Pernas: O alvo recebe Caído¹.",
+    "skillType": "extra",
+    "description": "<p>Você mira com cautela nos pontos vitais do inimigo.</p><p><strong>⋆ Após acertar um ataque role 1d6; O resultado corresponde a um ponto vital acertado no seu alvo, adicionando um efeito extra neste ataque:</strong></p><ul><li><strong>6 ‣ Cabeça:</strong> O alvo recebe Atordoado¹.</li><li><strong>5 ‣ Torso:</strong> O alvo recebe Sangramento¹.</li><li><strong>4 e 3 ‣ Braços:</strong> O alvo recebe Desvantagem no próximo ataque.</li><li><strong>2 e 1 ‣ Pernas:</strong> O alvo recebe Caído¹.</li></ul>"
+  },
+  "effects": [],
+  "folder": null,
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

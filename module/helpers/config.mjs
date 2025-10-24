@@ -29,6 +29,26 @@ CARDIGAN.abilityAbbreviations = {
 };
 
 /**
+ * The set of Skill Types used within the system.
+ * @type {Object}
+ */
+CARDIGAN.skillTypes = {
+  extra: 'CARDIGAN.Item.Skill.Types.Extra'
+};
+
+/**
+ * The set of Skill Ranks used within the system.
+ * @type {Object}
+ */
+CARDIGAN.skillRanks = {
+  untrained: 'CARDIGAN.Item.Skill.Ranks.untrained',
+  trained: 'CARDIGAN.Item.Skill.Ranks.trained',
+  proficient: 'CARDIGAN.Item.Skill.Ranks.proficient',
+  expert: 'CARDIGAN.Item.Skill.Ranks.expert',
+  master: 'CARDIGAN.Item.Skill.Ranks.master'
+};
+
+/**
  * Register Handlebars helpers for the Cardigan system
  */
 export function registerHandlebarsHelpers() {

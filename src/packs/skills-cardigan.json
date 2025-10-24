@@ -1,0 +1,33 @@
+{
+  "label": "Skills do Cardigan",
+  "type": "Item",
+  "system": "cardigan",
+  "path": "packs/skills-cardigan",
+  "entries": [
+    {
+      "name": "Atletismo",
+      "type": "skill",
+      "_id": "A1bC2dE3fG4hI5jK"
+    },
+    {
+      "name": "Furtividade", 
+      "type": "skill",
+      "_id": "B2cD3eF4gH5iJ6kL"
+    },
+    {
+      "name": "Persuasão",
+      "type": "skill", 
+      "_id": "C3dE4fF5gH6iJ7kL"
+    },
+    {
+      "name": "Investigação",
+      "type": "skill",
+      "_id": "D4eF5gG6hH7iJ8kL"
+    },
+    {
+      "name": "Magia Arcana",
+      "type": "skill",
+      "_id": "E5fG6hH7iI8jJ9kK"
+    }
+  ]
+}
