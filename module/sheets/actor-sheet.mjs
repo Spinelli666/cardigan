@@ -471,7 +471,40 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     context.blacksmithingRecipes = blacksmithingRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.alchemyRecipes = alchemyRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.carpentryRecipes = carpentryRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.armas = armas.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    // Custom sort for weapons: Primary hand first, then secondary hand, then by sort order
+    context.armas = armas.sort((a, b) => {
+      // Primary hand weapons (rightHand) always come first
+      const aIsPrimary = a.system.rightHand && !a.system.leftHand;
+      const bIsPrimary = b.system.rightHand && !b.system.leftHand;
+      
+      // Ambidextrous weapons (both hands) come after primary
+      const aIsAmbidextrous = a.system.rightHand && a.system.leftHand;
+      const bIsAmbidextrous = b.system.rightHand && b.system.leftHand;
+      
+      // Secondary hand weapons (leftHand only) come last
+      const aIsSecondary = !a.system.rightHand && a.system.leftHand;
+      const bIsSecondary = !b.system.rightHand && b.system.leftHand;
+      
+      // Priority order: Primary > Ambidextrous > Secondary > Unarmed
+      const getPriority = (weapon) => {
+        if (weapon.system.isUnarmed && weapon.system.rightHand) return 10; // Unarmed primary
+        if (weapon.system.isUnarmed && weapon.system.leftHand) return 30; // Unarmed secondary  
+        if (weapon.system.rightHand && !weapon.system.leftHand) return 0; // Primary hand
+        if (weapon.system.rightHand && weapon.system.leftHand) return 1; // Ambidextrous
+        if (!weapon.system.rightHand && weapon.system.leftHand) return 20; // Secondary hand
+        return 40; // Fallback
+      };
+      
+      const priorityA = getPriority(a);
+      const priorityB = getPriority(b);
+      
+      if (priorityA !== priorityB) {
+        return priorityA - priorityB;
+      }
+      
+      // If same priority, sort by original sort order
+      return (a.sort || 0) - (b.sort || 0);
+    });
     
     // Check if there are any non-unarmed weapons to show column headers
     context.hasNonUnarmedWeapons = armas.some(weapon => !weapon.system.isUnarmed);
@@ -515,8 +548,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
     console.log("Hand occupation status:", { rightHandOccupied, leftHandOccupied });
 
-    // Get actor's strength for damage calculation
-    const actorStrength = this.document.system.abilities.strength.value || 0;
+    // Get actor's total strength for damage calculation (value + bonuses)
+    const strengthValue = this.document.system.abilities.strength.value || 0;
+    const strengthBonus = this.document.system.abilities.strength.totalBonus || 0;
+    const actorStrength = strengthValue + strengthBonus;
 
     // Create unarmed attack for right hand if free
     if (!rightHandOccupied) {
@@ -543,7 +578,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   _createUnarmedAttack(handName, strengthValue, rightHand, leftHand) {
-    const totalDamage = strengthValue; // Dano = valor da Força
+    // Apply minimum damage rule: if strength is 0, minimum damage is 1
+    const totalDamage = strengthValue > 0 ? strengthValue : 1;
 
     return {
       _id: `unarmed-${rightHand ? 'right' : 'left'}`, // Virtual ID
@@ -1422,11 +1458,23 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       // Criar o conteúdo da mensagem
       let content = `<div class="cardigan-skill-message">
         <h3 style="margin: 0 0 8px 0; color: #b5b3a4; border-bottom: 1px solid #c9c7b8; padding-bottom: 4px;">
-          <i class="fas fa-star" style="margin-right: 6px;"></i>Skill: ${skillName}
-        </h3>
-        <p style="margin: 4px 0; font-weight: bold;">
-          <strong>${actorName}</strong> demonstra conhecimento em: <em style="color: #b5b3a4;">${skillName}</em>
-        </p>`;
+          ${skillName}
+        </h3>`;
+      
+      // Special handling for Acerto Debilitante - add energy button before description
+      let hasEnergyButton = false;
+      if (skillName === "Acerto Debilitante") {
+        try {
+          const { AcertoDebilitanteSkill } = await import('../skills/skills/acerto-debilitante.mjs');
+          const energyButton = AcertoDebilitanteSkill.generateEnergyButton(this.document.id);
+          if (energyButton) {
+            content += energyButton;
+            hasEnergyButton = true;
+          }
+        } catch (error) {
+          console.error(`Error generating energy button for ${skillName}:`, error);
+        }
+      }
       
       if (skillDescription && skillDescription.trim() !== "") {
         content += `<div style="margin-top: 8px; padding: 6px; background: rgba(0,0,0,0.1); border-left: 3px solid #4caf50; border-radius: 3px;">
@@ -1434,16 +1482,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         </div>`;
       }
       
-      // Adicionar botão de ataque apenas para "Acerto Debilitante"
-      if (skillName === "Acerto Debilitante") {
-        const actorId = this.document.id;
-        console.log("Adding attack button for skill:", skillName, "actorId:", actorId);
-        content += `<div style="margin-top: 8px; text-align: center;">
-          <button class="cardigan-skill-attack-btn" data-actor-id="${actorId}"
-                  style="padding: 6px 12px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
-            <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque
-          </button>
-        </div>`;
+      // Use the modern Skills System to generate interactive buttons (remaining buttons)
+      try {
+        const { getSkillManager } = await import('../skills/index.mjs');
+        const skillManager = await getSkillManager();
+        const skillButtons = skillManager.generateSkillButtons(skillName, this.document.id);
+        if (skillButtons) {
+          content += skillButtons;
+        }
+      } catch (error) {
+        console.error(`Error generating buttons for skill ${skillName}:`, error);
       }
       
       content += `</div>`;
@@ -3254,7 +3302,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @static
    */
   static _createUnarmedAttack(handName, strengthValue, rightHand, leftHand) {
-    const totalDamage = strengthValue; // Dano = valor da Força
+    // Apply minimum damage rule: if strength is 0, minimum damage is 1
+    const totalDamage = strengthValue > 0 ? strengthValue : 1;
 
     return {
       _id: `unarmed-${rightHand ? 'right' : 'left'}`, // Virtual ID
@@ -3308,7 +3357,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       if (itemId.startsWith('unarmed-')) {
         // Create virtual unarmed attack item on the fly
         const isRightHand = itemId === 'unarmed-right';
-        const actorStrength = this.document.system.abilities.strength.value || 0;
+        const strengthValue = this.document.system.abilities.strength.value || 0;
+        const strengthBonus = this.document.system.abilities.strength.totalBonus || 0;
+        const actorStrength = strengthValue + strengthBonus;
         
         item = CardiganSystemActorSheet._createUnarmedAttack(null, actorStrength, isRightHand, !isRightHand);
       } else {

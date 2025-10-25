@@ -8,6 +8,8 @@ import { CardiganSystemItemSheet } from './sheets/item-sheet.mjs';
 import { CARDIGAN, registerHandlebarsHelpers } from './helpers/config.mjs';
 // Import DataModel classes
 import * as models from './data/_module.mjs';
+// Import Skills System
+import { initializeSkillsSystem, getSkillManager } from './skills/index.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -135,6 +137,11 @@ Hooks.once('init', function () {
   // Register helper for "selected" attribute
   Handlebars.registerHelper('selected', function (value, expectedValue) {
     return value === expectedValue ? 'selected' : '';
+  });
+
+  // Initialize Skills System
+  initializeSkillsSystem().catch(error => {
+    console.error('[CARDIGAN] Failed to initialize Skills System:', error);
   });
 });
 
@@ -382,94 +389,18 @@ Hooks.once('ready', function () {
 /* -------------------------------------------- */
 
 // Add event listeners for skill attack buttons in chat messages
-Hooks.on('renderChatMessageHTML', (message, html) => {
-  console.log("renderChatMessageHTML hook triggered");
+// Modern Skills System - Handle chat button interactions
+Hooks.on('renderChatMessageHTML', async (message, html) => {
+  console.log("[CARDIGAN] renderChatMessageHTML hook triggered");
   
-  // Add click handler for skill attack buttons
-  const attackButtons = html.querySelectorAll('.cardigan-skill-attack-btn');
-  console.log("Found attack buttons:", attackButtons.length);
-  
-  attackButtons.forEach((button, index) => {
-    console.log(`Setting up listener for button ${index}:`, button);
-    button.addEventListener('click', async (event) => {
-      console.log("Attack button clicked!");
-      const actorId = button.dataset.actorId;
-      console.log("Actor ID from button:", actorId);
-      
-      if (actorId) {
-        await rollSkillAttack(actorId);
-      }
-    });
-  });
+  try {
+    // Get the skill manager and delegate button handling
+    const skillManager = await getSkillManager();
+    skillManager.handleChatButtons(html);
+  } catch (error) {
+    console.error('[CARDIGAN] Error handling chat buttons:', error);
+  }
 });
 
-/**
- * Roll attack for Acerto Debilitante skill
- * @param {string} actorId - The actor ID
- */
-async function rollSkillAttack(actorId) {
-  try {
-    const actor = game.actors.get(actorId);
-    if (!actor) {
-      ui.notifications.error("Ator não encontrado");
-      return;
-    }
-
-    // Obter valores de precisão - debug extensivo
-    console.log("Full actor system:", actor.system);
-    console.log("Abilities:", actor.system.abilities);
-    console.log("Accuracy object:", actor.system.abilities.accuracy);
-    
-    const accuracyObj = actor.system.abilities.accuracy;
-    
-    // Usar os mesmos campos que o sistema usa internamente
-    const accuracyValue = accuracyObj.value || 0;
-    const accuracyTotalBonus = accuracyObj.totalBonus || 0;
-    const totalAccuracy = accuracyValue + accuracyTotalBonus;
-    
-    // Alternativa: usar o total já calculado pelo sistema
-    const calculatedTotal = accuracyObj.total || totalAccuracy;
-
-    console.log("Debug - Accuracy values:", {
-      rawValue: accuracyObj.value,
-      rawBonus: accuracyObj.bonus,
-      rawTotalBonus: accuracyObj.totalBonus,
-      rawTotal: accuracyObj.total,
-      parsedValue: accuracyValue,
-      parsedTotalBonus: accuracyTotalBonus,
-      calculatedTotal: calculatedTotal,
-      manualTotal: totalAccuracy,
-      fullAccuracy: accuracyObj
-    });
-
-    // Usar o getRollData() method como o sistema faz internamente
-    const rollData = actor.getRollData();
-    console.log("Roll data:", rollData);
-    console.log("Accuracy from rollData:", rollData.accuracy);
-
-    // Usar o valor correto - preferir o getRollData se disponível
-    const finalAccuracy = rollData.accuracy?.total || calculatedTotal;
-    
-    // Criar e rolar o dado usando getRollData
-    const roll = new Roll("1d20 + @accuracy.total", rollData);
-    await roll.evaluate();
-
-    // Criar flavor para a rolagem
-    const flavor = `<h3><i class="fas fa-crosshairs"></i> Acerto Debilitante</h3>
-      <p><strong>${actor.name}</strong> realiza um ataque preciso nos pontos vitais!</p>
-      <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
-        d20 + Precisão Total (${finalAccuracy})
-      </div>`;
-
-    // Enviar rolagem para o chat
-    await roll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor }),
-      flavor: flavor,
-      rollMode: game.settings.get('core', 'rollMode')
-    });
-
-  } catch (error) {
-    console.error("Error rolling skill attack:", error);
-    ui.notifications.error(`Erro ao rolar ataque: ${error.message}`);
-  }
-}
+// Skills functions have been moved to module/skills/ for better organization
+// All skill-related functionality is now handled by the SkillManager system
