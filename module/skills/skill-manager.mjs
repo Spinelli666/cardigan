@@ -26,6 +26,9 @@ export class SkillManager {
       }
     }
 
+    // Set up the chat message hook to handle skill buttons
+    Hooks.on('renderChatMessageHTML', this.#onRenderChatMessageHTML.bind(this));
+
     console.log(`[CARDIGAN] Skill Manager initialized with ${this.#skillRegistry.size} skills`);
   }
 
@@ -102,60 +105,171 @@ export class SkillManager {
     }
   }
 
+
+
   /**
-   * Handle chat button events
+   * Setup dynamic tooltip handlers for buttons that need real-time updates (HTML version)
+   * @param {string} skillName - Name of the skill
+   * @param {BaseSkill} skillClass - The skill class
    * @param {HTMLElement} html - The chat HTML element
+   * @private
    */
-  static handleChatButtons(html) {
-    console.log("SkillManager: Setting up chat button handlers");
+  static #setupDynamicTooltipsHTML(skillName, skillClass, html) {
+    const tooltipButtons = html.querySelectorAll('.cardigan-dynamic-tooltip');
+    console.log(`Setting up dynamic tooltips for ${tooltipButtons.length} buttons`);
 
-    // Find all skill buttons and add event listeners
-    this.#skillRegistry.forEach((skillClass, skillName) => {
-      if (!skillClass.hasInteractiveButtons) {
-        return;
-      }
+    tooltipButtons.forEach(button => {
+      // Remove any existing tooltip
+      button.removeAttribute('title');
+      
+      // Remove existing listeners to avoid duplicates
+      button.removeEventListener('mouseenter', button._tooltipEnterHandler);
+      button.removeEventListener('mouseleave', button._tooltipLeaveHandler);
+      
+      // Add hover event listeners
+      button._tooltipEnterHandler = async (event) => {
+        const actorId = event.target.getAttribute('data-actor-id');
+        const buttonSkillName = event.target.getAttribute('data-skill');
+        
+        if (actorId && buttonSkillName === skillName) {
+          try {
+            let tooltipText;
+            
+            // Check if this is a secondary attack button
+            if (event.target.classList.contains('cardigan-skill-attack-secondary-btn')) {
+              if (typeof skillClass._generateSecondaryWeaponTooltip === 'function') {
+                tooltipText = await skillClass._generateSecondaryWeaponTooltip(actorId);
+              } else {
+                tooltipText = 'Tooltip secundário não disponível';
+              }
+            } else if (typeof skillClass._generateWeaponTooltip === 'function') {
+              tooltipText = await skillClass._generateWeaponTooltip(actorId);
+            } else {
+              tooltipText = 'Tooltip não disponível';
+            }
+            
+            event.target.setAttribute('title', tooltipText);
+          } catch (error) {
+            console.error('Error generating dynamic tooltip:', error);
+            event.target.setAttribute('title', 'Erro ao carregar tooltip');
+          }
+        }
+      };
 
-      try {
-        this.#setupSkillButtonListeners(html, skillClass);
-      } catch (error) {
-        console.error(`Error setting up button listeners for skill ${skillName}:`, error);
-      }
+      button._tooltipLeaveHandler = (event) => {
+        // Keep the tooltip for user experience, but it will be refreshed on next hover
+      };
+      
+      button.addEventListener('mouseenter', button._tooltipEnterHandler);
+      button.addEventListener('mouseleave', button._tooltipLeaveHandler);
     });
   }
 
   /**
-   * Setup button event listeners for a specific skill
+   * Setup dynamic tooltip handlers for buttons that need real-time updates
    * @param {HTMLElement} html - The chat HTML element
-   * @param {BaseSkill} skillClass - The skill class
    * @private
    */
-  static #setupSkillButtonListeners(html, skillClass) {
-    const skillName = skillClass.skillName;
-    const buttonSelectors = this.#getButtonSelectorsForSkill(skillName);
+  static #setupDynamicTooltips(html) {
+    const tooltipButtons = html.querySelectorAll('.cardigan-dynamic-tooltip');
+    console.log(`Setting up dynamic tooltips for ${tooltipButtons.length} buttons`);
 
-    buttonSelectors.forEach(({ selector, buttonType }) => {
-      const buttons = html.querySelectorAll(selector);
-      console.log(`Found ${buttons.length} ${buttonType} buttons for ${skillName}`);
-
-      buttons.forEach((button, index) => {
-        console.log(`Setting up listener for ${skillName} ${buttonType} button ${index}:`, button);
+    tooltipButtons.forEach(button => {
+      // Remove any existing tooltip
+      button.removeAttribute('title');
+      
+      // Add hover event listeners
+      button.addEventListener('mouseenter', async (event) => {
+        const actorId = event.target.getAttribute('data-actor-id');
+        const skillName = event.target.getAttribute('data-skill');
         
-        button.addEventListener('click', async (event) => {
-          console.log(`${skillName} ${buttonType} button clicked!`);
-          const actorId = button.dataset.actorId;
-          console.log(`Actor ID from ${buttonType} button:`, actorId);
-
-          if (actorId) {
+        if (actorId && skillName) {
+          const skillClass = this.getSkill(skillName);
+          if (skillClass) {
             try {
-              await skillClass.handleButtonClick(buttonType, actorId);
+              let tooltipText;
+              
+              // Check if this is a secondary attack button
+              if (event.target.classList.contains('cardigan-skill-attack-secondary-btn')) {
+                if (typeof skillClass._generateSecondaryWeaponTooltip === 'function') {
+                  tooltipText = await skillClass._generateSecondaryWeaponTooltip(actorId);
+                } else {
+                  tooltipText = 'Tooltip secundário não disponível';
+                }
+              } else if (typeof skillClass._generateWeaponTooltip === 'function') {
+                tooltipText = await skillClass._generateWeaponTooltip(actorId);
+              } else {
+                tooltipText = 'Tooltip não disponível';
+              }
+              
+              event.target.setAttribute('title', tooltipText);
             } catch (error) {
-              console.error(`Error handling ${buttonType} button click for ${skillName}:`, error);
-              ui.notifications.error(`Erro ao executar ação da skill: ${error.message}`);
+              console.error('Error generating dynamic tooltip:', error);
+              event.target.setAttribute('title', 'Erro ao carregar tooltip');
             }
           }
-        });
+        }
+      });
+
+      // Optional: Clear tooltip on mouse leave to ensure fresh data next time
+      button.addEventListener('mouseleave', (event) => {
+        // Keep the tooltip for user experience, but it will be refreshed on next hover
       });
     });
+  }
+
+
+
+  /**
+   * Handle chat message rendering to set up event listeners for skill buttons
+   * @param {ChatMessage} message - The chat message being rendered
+   * @param {HTMLElement} html - The HTML content of the message
+   * @private
+   */
+  static #onRenderChatMessageHTML(message, html) {
+    // Look for skill buttons in the rendered message
+    const skillButtons = html.querySelectorAll('[class*="cardigan-skill-"]');
+    
+    if (skillButtons.length > 0) {
+      // Set up event listeners for each skill button
+      skillButtons.forEach((button) => {
+        const skillName = button.dataset.skill;
+        const actorId = button.dataset.actorId;
+        
+        if (skillName && actorId) {
+          const skillClass = this.getSkill(skillName);
+          if (skillClass) {
+            // Determine button type from class
+            let buttonType = 'unknown';
+            if (button.classList.contains('cardigan-skill-attack-btn')) buttonType = 'attack';
+            else if (button.classList.contains('cardigan-skill-attack-secondary-btn')) buttonType = 'attack-secondary';
+            else if (button.classList.contains('cardigan-skill-energy-btn')) buttonType = 'energy';
+            else if (button.classList.contains('cardigan-skill-d6-btn')) buttonType = 'd6';
+            
+            // Remove any existing listeners to avoid duplicates
+            button.removeEventListener('click', button._skillManagerHandler);
+            
+            // Add click handler
+            button._skillManagerHandler = async (event) => {
+              event.preventDefault();
+              try {
+                await skillClass.handleButtonClick(buttonType, actorId);
+              } catch (error) {
+                console.error(`Error handling ${buttonType} button click for ${skillName}:`, error);
+                ui.notifications.error(`Erro ao executar ação da skill: ${error.message}`);
+              }
+            };
+            
+            button.addEventListener('click', button._skillManagerHandler);
+            
+            // Set up dynamic tooltips for attack buttons
+            if (buttonType === 'attack' || buttonType === 'attack-secondary') {
+              this.#setupDynamicTooltipsHTML(skillName, skillClass, html);
+            }
+          }
+        }
+      });
+    }
   }
 
   /**
@@ -167,8 +281,10 @@ export class SkillManager {
   static #getButtonSelectorsForSkill(skillName) {
     // Use only specific selectors to avoid duplicate event listeners
     return [
+      { selector: `.cardigan-skill-attack-secondary-btn[data-skill="${skillName}"]`, buttonType: 'attack-secondary' },
       { selector: `.cardigan-skill-attack-btn[data-skill="${skillName}"]`, buttonType: 'attack' },
-      { selector: `.cardigan-skill-energy-btn[data-skill="${skillName}"]`, buttonType: 'energy' }
+      { selector: `.cardigan-skill-energy-btn[data-skill="${skillName}"]`, buttonType: 'energy' },
+      { selector: `.cardigan-skill-d6-btn[data-skill="${skillName}"]`, buttonType: 'd6' }
     ];
   }
 

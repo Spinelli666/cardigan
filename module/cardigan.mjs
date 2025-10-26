@@ -388,19 +388,8 @@ Hooks.once('ready', function () {
 /*  Chat Message Hooks                          */
 /* -------------------------------------------- */
 
-// Add event listeners for skill attack buttons in chat messages
-// Modern Skills System - Handle chat button interactions
-Hooks.on('renderChatMessageHTML', async (message, html) => {
-  console.log("[CARDIGAN] renderChatMessageHTML hook triggered");
-  
-  try {
-    // Get the skill manager and delegate button handling
-    const skillManager = await getSkillManager();
-    skillManager.handleChatButtons(html);
-  } catch (error) {
-    console.error('[CARDIGAN] Error handling chat buttons:', error);
-  }
-});
+// Modern Skills System - Chat button interactions are now handled
+// directly by the SkillManager using the renderChatMessageHTML hook
 
 // Skills functions have been moved to module/skills/ for better organization
 // All skill-related functionality is now handled by the SkillManager system

@@ -33,6 +33,7 @@ CARDIGAN.abilityAbbreviations = {
  * @type {Object}
  */
 CARDIGAN.skillTypes = {
+  general: 'CARDIGAN.Item.Skill.Types.General',
   extra: 'CARDIGAN.Item.Skill.Types.Extra'
 };
 

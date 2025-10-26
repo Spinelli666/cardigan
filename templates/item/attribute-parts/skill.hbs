@@ -1,4 +1,4 @@
-{{! Skill Attributes Tab }}
+{{! Skill Details Tab }}
 <section class='tab attributes {{tab.cssClass}}' data-group='primary' data-tab='attributes'>
   <div class="skill-details-form">
     
@@ -9,23 +9,9 @@
       <div class="form-group">
         <label for="system.skillType">{{localize "CARDIGAN.Item.Skill.Type"}}</label>
         <select name="system.skillType" data-dtype="String">
-          {{selectOptions config.CARDIGAN.skillTypes selected=system.skillType localize=true}}
+          <option value="general" {{#if (eq system.skillType "general")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Types.General"}}</option>
+          <option value="extra" {{#if (eq system.skillType "extra")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Types.Extra"}}</option>
         </select>
-      </div>
-    </fieldset>
-
-    {{! Skill Description Section }}
-    <fieldset class="skill-section">
-      <legend>{{localize "CARDIGAN.Item.Skill.Description"}}</legend>
-      
-      <div class="form-group">
-        <label for="system.skillDescription">{{localize "CARDIGAN.Item.Skill.SkillDescription"}}</label>
-        <textarea 
-          name="system.skillDescription" 
-          rows="6" 
-          data-dtype="String"
-          placeholder="{{localize 'CARDIGAN.Item.Skill.DescriptionPlaceholder'}}"
-        >{{system.skillDescription}}</textarea>
       </div>
     </fieldset>
 

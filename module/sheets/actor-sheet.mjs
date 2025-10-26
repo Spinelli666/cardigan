@@ -3,6 +3,7 @@ import ContextMenu5e from '../applications/context-menu.mjs';
 import { ItemTypeSelectionDialog } from '../applications/item-type-selection-dialog.mjs';
 import { HandSelectionDialog } from '../applications/hand-selection-dialog.mjs';
 import { RecipeCraftingDialog } from '../applications/recipe-crafting-dialog.mjs';
+import { AdvantageSelectionDialog } from '../applications/advantage-selection-dialog.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -1072,8 +1073,38 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       const label = dataset.label || 'Roll';
       
       try {
-        // Create the roll
-        const roll = new Roll(dataset.roll, this.document.getRollData());
+        // Show advantage selection dialog
+        const advantageType = await AdvantageSelectionDialog.show();
+        if (!advantageType) return; // User cancelled
+
+        let rollFormula = dataset.roll;
+        let rollDescription = "Rolagem Normal";
+        
+        // Modify the formula based on advantage type
+        switch (advantageType) {
+          case 'normal':
+            // Keep original formula
+            rollDescription = "Rolagem Normal";
+            break;
+            
+          case 'advantage':
+            // Replace d20 with 2d20kh (keep highest)
+            rollFormula = rollFormula.replace(/1?d20/g, '2d20kh');
+            rollDescription = "Rolagem com Vantagem";
+            break;
+            
+          case 'disadvantage':
+            // Replace d20 with 2d20kl (keep lowest)
+            rollFormula = rollFormula.replace(/1?d20/g, '2d20kl');
+            rollDescription = "Rolagem com Desvantagem";
+            break;
+            
+          default:
+            return;
+        }
+        
+        // Create the roll with modified formula
+        const roll = new Roll(rollFormula, this.document.getRollData());
         
         // Evaluate the roll
         await roll.evaluate();
@@ -1082,10 +1113,15 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         const abilityKey = dataset.key || null;
         const flags = this.constructor._detectCriticalResults(roll, this.document, abilityKey);
         
+        // Create custom flavor text showing the advantage type
+        const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
+          <strong>${label}</strong> - ${rollDescription}
+        </div>`;
+        
         // Send to chat
         const message = await roll.toMessage({
           speaker: ChatMessage.getSpeaker({ actor: this.document }),
-          flavor: label,
+          flavor: flavorText,
           rollMode: game.settings.get('core', 'rollMode'),
           flags: flags
         });
@@ -1461,10 +1497,19 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           ${skillName}
         </h3>`;
       
-      // Special handling for Acerto Debilitante - add energy button before description
+      // Special handling for Acerto Debilitante - add skill type and energy button before description
       let hasEnergyButton = false;
       if (skillName === "Acerto Debilitante") {
         try {
+          // Get skill type from the skill item
+          const skillType = skill.system.skillType || 'general';
+          const skillTypeLabel = skillType === 'extra' ? 'EXTRA' : 'GENERAL';
+          
+          // Add skill type display
+          content += `<div style="text-align: center; margin: 8px 0; padding: 4px 8px; background: rgba(45, 55, 72, 0.8); color: #e2e2e2; border-radius: 3px; font-size: 12px; font-weight: bold;">
+            ${skillTypeLabel}
+          </div>`;
+          
           const { AcertoDebilitanteSkill } = await import('../skills/skills/acerto-debilitante.mjs');
           const energyButton = AcertoDebilitanteSkill.generateEnergyButton(this.document.id);
           if (energyButton) {
@@ -3407,12 +3452,42 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }
 
     const actor = this.document;
-    const accuracyValue = actor.system.abilities.accuracy.value || 0;
-    const accuracyBonus = actor.system.abilities.accuracy.bonus || 0;
-    const totalAccuracy = accuracyValue + accuracyBonus;
+    
+    // Show advantage selection dialog
+    const advantageType = await AdvantageSelectionDialog.show();
+    if (!advantageType) return; // User cancelled
+    
+    // Use getRollData() method for consistent roll data like in skills
+    const rollData = actor.getRollData();
 
-    // Fazer a rolagem de ataque (1d20 + Accuracy)
-    const roll = new Roll("1d20 + @accuracy", { accuracy: totalAccuracy });
+    let rollFormula;
+    let rollDescription = "";
+    
+    switch (advantageType) {
+      case 'normal':
+        // Normal roll - 1d20
+        rollFormula = "1d20 + @accuracy.total";
+        rollDescription = "Rolagem Normal";
+        break;
+        
+      case 'advantage':
+        // Advantage - roll 2d20, keep highest
+        rollFormula = "2d20kh + @accuracy.total";
+        rollDescription = "Rolagem com Vantagem";
+        break;
+        
+      case 'disadvantage':
+        // Disadvantage - roll 2d20, keep lowest
+        rollFormula = "2d20kl + @accuracy.total";
+        rollDescription = "Rolagem com Desvantagem";
+        break;
+        
+      default:
+        return;
+    }
+
+    // Fazer a rolagem de ataque com a fórmula escolhida
+    const roll = new Roll(rollFormula, rollData);
     await roll.evaluate();
 
     // Calcular dano total da arma
@@ -3433,8 +3508,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       totalDamage += actor.system.abilities.dexterity.value || 0;
     }
 
-    // Criar flavor text personalizado
-    const flavor = `${game.i18n.localize("CARDIGAN.AttackWith")} ${item.name}`;
+    // Criar flavor text personalizado com tipo de rolagem
+    const flavor = `<div style="text-align: center; margin-bottom: 4px;">
+      <strong>${game.i18n.localize("CARDIGAN.AttackWith")} ${item.name}</strong> - ${rollDescription}
+    </div>`;
 
     // Detect critical results - use accuracy logic for weapon attacks
     const flags = this.constructor._detectCriticalResults(roll, actor, 'accuracy');

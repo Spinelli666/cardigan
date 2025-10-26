@@ -207,6 +207,7 @@
         "EffectPlaceholder": "Describe the mechanical effects and benefits of this skill...",
         "PrerequisitesPlaceholder": "List any prerequisites or requirements for learning this skill...",
         "Types": {
+          "General": "General",
           "Extra": "Extra"
         }
       },

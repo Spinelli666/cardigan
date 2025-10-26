@@ -96,6 +96,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     attributesArmadura: {
       template: 'systems/cardigan/templates/item/attribute-parts/armadura.hbs',
     },
+    attributesSkill: {
+      template: 'systems/cardigan/templates/item/attribute-parts/skill.hbs',
+    },
     attributesItemRecipe: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-recipe.hbs',
     },
@@ -157,6 +160,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'armadura':
         options.parts.push('attributesArmadura');
         break;
+      case 'skill':
+        options.parts.push('attributesSkill');
+        break;
       case 'item-recipe':
       case 'culinary-recipe':
       case 'tailoring-recipe':
@@ -208,6 +214,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesArmadura':
       case 'attributesItemRecipe':
       case 'attributesItemIngredient':
+      case 'attributesSkill':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
         break;
@@ -286,6 +293,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesEfeito':
         case 'attributesArma':
         case 'attributesArmadura':
+        case 'attributesSkill':
         case 'attributesItemRecipe':
         case 'attributesItemIngredient':
           tab.id = 'attributes';

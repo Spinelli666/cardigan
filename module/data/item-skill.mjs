@@ -26,7 +26,10 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
     schema.skillType = new fields.StringField({
       required: false,
       initial: 'general',
-      choices: CONFIG.CARDIGAN.skillTypes,
+      choices: () => CONFIG.CARDIGAN?.skillTypes || {
+        general: 'General',
+        extra: 'Extra'
+      },
       label: 'CARDIGAN.Item.Skill.Type'
     });
 

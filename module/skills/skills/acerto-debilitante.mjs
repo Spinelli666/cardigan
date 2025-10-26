@@ -1,4 +1,5 @@
 import { BaseSkill } from '../base-skill.mjs';
+import { AdvantageSelectionDialog } from '../../applications/advantage-selection-dialog.mjs';
 
 /**
  * Acerto Debilitante - Combat skill with interactive buttons
@@ -37,11 +38,13 @@ export class AcertoDebilitanteSkill extends BaseSkill {
    * @returns {string} HTML string for buttons
    */
   static generateChatButtons(actorId) {
-    const tooltipData = this.#generateWeaponTooltip(actorId);
     return `<div style="margin-top: 8px; text-align: center; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-      <button class="cardigan-skill-attack-btn" data-actor-id="${actorId}" data-skill="${this.skillName}"
-              style="padding: 6px 12px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;"
-              title="${tooltipData}">
+      <button class="cardigan-skill-attack-secondary-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${this.skillName}"
+              style="padding: 6px 12px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
+        <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque S
+      </button>
+      <button class="cardigan-skill-attack-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${this.skillName}"
+              style="padding: 6px 12px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
         <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque
       </button>
     </div>`;
@@ -62,12 +65,11 @@ export class AcertoDebilitanteSkill extends BaseSkill {
   }
 
   /**
-   * Generate weapon tooltip for attack button
+   * Generate weapon tooltip for attack button (public method for dynamic tooltips)
    * @param {string} actorId - The actor ID
    * @returns {string} Tooltip text with weapon information
-   * @private
    */
-  static #generateWeaponTooltip(actorId) {
+  static _generateWeaponTooltip(actorId) {
     try {
       const actor = this.getActor(actorId);
       if (!actor) return "Nenhuma arma encontrada";
@@ -87,6 +89,30 @@ export class AcertoDebilitanteSkill extends BaseSkill {
   }
 
   /**
+   * Generate secondary weapon tooltip for attack secondary button (public method for dynamic tooltips)
+   * @param {string} actorId - The actor ID
+   * @returns {string} Tooltip text with secondary weapon information
+   */
+  static _generateSecondaryWeaponTooltip(actorId) {
+    try {
+      const actor = this.getActor(actorId);
+      if (!actor) return "Nenhuma arma encontrada";
+
+      // Find secondary hand weapon (leftHand only, excluding ambidextrous)
+      const secondaryWeapon = this.#getSecondaryWeapon(actor);
+      if (!secondaryWeapon) {
+        // No secondary weapon equipped - show unarmed attack
+        return this.#formatUnarmedTooltip(actor);
+      }
+
+      return this.#formatWeaponTooltip(secondaryWeapon, actor);
+    } catch (error) {
+      console.error("Error generating secondary weapon tooltip:", error);
+      return "Erro ao carregar informações da arma";
+    }
+  }
+
+  /**
    * Get the primary weapon for attack (rightHand priority, then ambidextrous)
    * @param {Actor} actor - The actor
    * @returns {Item|null} Primary weapon or null
@@ -101,28 +127,40 @@ export class AcertoDebilitanteSkill extends BaseSkill {
       (item.system.rightHand || item.system.leftHand)
     );
 
-    console.log("Debug - All REAL equipped weapons:", realWeapons.map(w => ({
-      name: w.name,
-      rightHand: w.system.rightHand,
-      leftHand: w.system.leftHand,
-      id: w._id
-    })));
-
     // Check if right hand is occupied by a REAL weapon
     const rightHandWeapon = realWeapons.find(weapon => weapon.system.rightHand);
     
-    console.log("Debug - Right hand weapon:", rightHandWeapon?.name || "EMPTY (unarmed)");
-    
     // If right hand has a real weapon, return it (priority over secondary hand)
     if (rightHandWeapon) {
-      console.log("Debug - Using right hand weapon:", rightHandWeapon.name);
       return rightHandWeapon;
     }
     
     // If right hand is empty (unarmed), do NOT show secondary hand weapons
     // Return null to show unarmed attack instead
-    console.log("Debug - Right hand is unarmed, showing unarmed attack (ignoring secondary weapons)");
     return null;
+  }
+
+  /**
+   * Get the secondary weapon for attack (leftHand only, excluding ambidextrous)
+   * @param {Actor} actor - The actor
+   * @returns {Item|null} Secondary weapon or null
+   * @private
+   */
+  static #getSecondaryWeapon(actor) {
+    // Get all REAL weapons (not virtual unarmed attacks) that are equipped
+    const realWeapons = actor.items.filter(item => 
+      item.type === 'arma' && 
+      item.system.equipped && 
+      !item.system.isUnarmed && // Exclude virtual unarmed attacks
+      (item.system.rightHand || item.system.leftHand)
+    );
+
+    // Find secondary hand weapon (leftHand only, NOT ambidextrous)
+    const secondaryWeapon = realWeapons.find(weapon => 
+      weapon.system.leftHand && !weapon.system.rightHand
+    );
+    
+    return secondaryWeapon || null;
   }
 
   /**
@@ -228,8 +266,14 @@ export class AcertoDebilitanteSkill extends BaseSkill {
       case 'attack':
         await this.rollAttack(actorId);
         break;
+      case 'attack-secondary':
+        await this.rollAttack(actorId); // Same attack roll, just different tooltip
+        break;
       case 'energy':
         await this.spendEnergy(actorId);
+        break;
+      case 'd6':
+        await this.rollD6(actorId);
         break;
       default:
         console.warn(`Acerto Debilitante: Unknown button type: ${buttonType}`);
@@ -254,12 +298,33 @@ export class AcertoDebilitanteSkill extends BaseSkill {
     let content = `<div class="cardigan-skill-message" style="text-align: center; padding: 8px; background: rgba(76,175,80,0.1); border: 1px solid #4caf50; border-radius: 3px;">
       <h4 style="margin: 0 0 8px 0; color: #4caf50;">
         <i class="fas fa-crosshairs" style="margin-right: 6px;"></i>${skill.name}
-      </h4>
-      <div style="text-align: left; margin: 8px 0; color: #333;">
+      </h4>`;
+
+    // Add skill type if available
+    if (skill.system.skillType) {
+      // Directly map the known skill types
+      let skillTypeText = skill.system.skillType;
+      
+      // Convert known types to display names
+      if (skillTypeText === 'extra') {
+        skillTypeText = 'EXTRA';
+      } else {
+        skillTypeText = skillTypeText.toUpperCase();
+      }
+      
+      content += `<div style="margin: 4px 0; color: #666; font-style: italic; font-size: 0.9em; text-align: center;">
+        ${skillTypeText}
+      </div>`;
+    }
+
+    // Add energy button
+    content += this.generateEnergyButton(actorId);
+
+    content += `<div style="text-align: left; margin: 8px 0; color: #333;">
         ${skill.system.skillDescription || 'Ataque preciso com gasto de energia.'}
       </div>`;
 
-    // Add interactive buttons
+    // Add attack buttons (bottom)
     content += this.generateChatButtons(actorId);
     content += `</div>`;
 
@@ -276,54 +341,127 @@ export class AcertoDebilitanteSkill extends BaseSkill {
       const actor = this.getActor(actorId);
       if (!actor) return;
 
-      // Get precision values with extensive debugging
-      console.log("Full actor system:", actor.system);
-      console.log("Abilities:", actor.system.abilities);
-      console.log("Accuracy object:", actor.system.abilities.accuracy);
-      
-      const accuracyObj = actor.system.abilities.accuracy;
-      
-      // Use the same fields that the system uses internally
-      const accuracyValue = accuracyObj.value || 0;
-      const accuracyTotalBonus = accuracyObj.totalBonus || 0;
-      const totalAccuracy = accuracyValue + accuracyTotalBonus;
-      
-      // Alternative: use the total already calculated by the system
-      const calculatedTotal = accuracyObj.total || totalAccuracy;
+      // Show advantage selection dialog
+      const advantageType = await AdvantageSelectionDialog.show();
+      if (!advantageType) return; // User cancelled
 
-      console.log("Debug - Accuracy values:", {
-        rawValue: accuracyObj.value,
-        rawBonus: accuracyObj.bonus,
-        rawTotalBonus: accuracyObj.totalBonus,
-        rawTotal: accuracyObj.total,
-        parsedValue: accuracyValue,
-        parsedTotalBonus: accuracyTotalBonus,
-        calculatedTotal: calculatedTotal,
-        manualTotal: totalAccuracy,
-        fullAccuracy: accuracyObj
-      });
-
-      // Use the getRollData() method as the system does internally
+      // Get roll data
       const rollData = actor.getRollData();
-      console.log("Roll data:", rollData);
-      console.log("Accuracy from rollData:", rollData.accuracy);
-
-      // Use the correct value - prefer getRollData if available
-      const finalAccuracy = rollData.accuracy?.total || calculatedTotal;
       
-      // Create and roll the dice using getRollData
-      const roll = new Roll("1d20 + @accuracy.total", rollData);
+      let roll;
+      let rollDescription = "";
+      
+      switch (advantageType) {
+        case 'normal':
+          // Normal roll - 1d20
+          roll = new Roll("1d20 + @accuracy.total", rollData);
+          rollDescription = "Rolagem Normal";
+          break;
+          
+        case 'advantage':
+          // Advantage - roll 2d20, keep highest
+          roll = new Roll("2d20kh + @accuracy.total", rollData);
+          rollDescription = "Rolagem com Vantagem";
+          break;
+          
+        case 'disadvantage':
+          // Disadvantage - roll 2d20, keep lowest
+          roll = new Roll("2d20kl + @accuracy.total", rollData);
+          rollDescription = "Rolagem com Desvantagem";
+          break;
+          
+        default:
+          return;
+      }
+
       await roll.evaluate();
 
-      // Send roll to chat without flavor text
+      // Create custom flavor text showing the advantage type
+      const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
+        <strong>${this.skillName}</strong> - ${rollDescription}
+      </div>`;
+
+      // Create enhanced flavor text with 1d6 button included
+      const enhancedFlavorText = `${flavorText}
+      <div style="text-align: center; margin-top: 8px; padding: 8px; background: rgba(0,0,0,0.05); border-radius: 3px;">
+        <button class="cardigan-skill-d6-btn" data-actor-id="${actorId}" data-skill="${this.skillName}"
+                style="padding: 6px 12px; background: #ff9800; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
+          <i class="fas fa-dice-six" style="margin-right: 4px;"></i>Rolar 1d6
+        </button>
+      </div>`;
+
+      // Send roll to chat with enhanced flavor that includes the 1d6 button
       await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor }),
+        flavor: enhancedFlavorText,
         rollMode: game.settings.get('core', 'rollMode')
       });
 
     } catch (error) {
       console.error("Error rolling skill attack:", error);
       ui.notifications.error(`Erro ao rolar ataque: ${error.message}`);
+    }
+  }
+
+  /**
+   * Roll 1d6 for Acerto Debilitante
+   * @param {string} actorId - The actor ID
+   * @returns {Promise<void>}
+   */
+  static async rollD6(actorId) {
+    try {
+      const actor = this.getActor(actorId);
+      if (!actor) return;
+
+      // Show advantage selection dialog for 1d6 as well
+      const advantageType = await AdvantageSelectionDialog.show();
+      if (!advantageType) return; // User cancelled
+
+      let rollFormula;
+      let rollDescription = "";
+      
+      switch (advantageType) {
+        case 'normal':
+          // Normal roll - 1d6
+          rollFormula = "1d6";
+          rollDescription = "Rolagem Normal";
+          break;
+          
+        case 'advantage':
+          // Advantage - roll 2d6, keep highest
+          rollFormula = "2d6kh";
+          rollDescription = "Rolagem com Vantagem";
+          break;
+          
+        case 'disadvantage':
+          // Disadvantage - roll 2d6, keep lowest
+          rollFormula = "2d6kl";
+          rollDescription = "Rolagem com Desvantagem";
+          break;
+          
+        default:
+          return;
+      }
+
+      // Create and evaluate the roll
+      const roll = new Roll(rollFormula);
+      await roll.evaluate();
+
+      // Create custom flavor text
+      const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
+        <strong>${this.skillName}</strong> - 1d6 ${rollDescription}
+      </div>`;
+
+      // Send roll to chat
+      await roll.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor }),
+        flavor: flavorText,
+        rollMode: game.settings.get('core', 'rollMode')
+      });
+
+    } catch (error) {
+      console.error("Error rolling 1d6:", error);
+      ui.notifications.error(`Erro ao rolar 1d6: ${error.message}`);
     }
   }
 
