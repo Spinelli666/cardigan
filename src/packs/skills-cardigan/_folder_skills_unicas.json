@@ -1,0 +1,18 @@
+{
+  "_id": "Sk6UnicasZx7CvBn",
+  "_key": "!folders!Sk6UnicasZx7CvBn",
+  "name": "Únicas",
+  "type": "Item",
+  "color": "#ffc107",
+  "sorting": "a",
+  "folder": null,
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

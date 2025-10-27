@@ -1,0 +1,42 @@
+<div class="effects-application-content">
+  <div class="target-tokens-preview" style="margin-bottom: 20px;">
+    <h3><i class="fas fa-crosshairs"></i> Tokens Alvo ({{tokenCount}})</h3>
+    <div class="tokens-list" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+      {{#each tokens}}
+      <div class="token-preview" style="display: flex; align-items: center; background: rgba(255,255,255,0.1); padding: 6px; border-radius: 4px;">
+        <img src="{{img}}" alt="{{name}}" style="width: 24px; height: 24px; border-radius: 50%; margin-right: 6px;">
+        <span style="font-size: 12px;">{{name}}</span>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="effects-selection" style="margin-bottom: 20px;">
+    <h3><i class="fas fa-magic"></i> Selecionar Efeitos</h3>
+    <p style="font-size: 12px; color: #999; margin-bottom: 8px;">
+      Clique nos efeitos para selecionar/deselecionar
+    </p>
+    <div id="effects-list" style="max-height: 300px; overflow-y: auto; border: 1px solid #666; border-radius: 4px; background: rgba(0,0,0,0.2);">
+      {{#each effects}}
+      <div class="effect-option" style="display: flex; align-items: center; padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: background-color 0.2s;" data-effect-id="{{id}}">
+        <input type="checkbox" id="effect-{{id}}" value="{{id}}" style="margin-right: 8px; cursor: pointer;">
+        <label for="effect-{{id}}" style="flex: 1; cursor: pointer; font-size: 12px;">{{name}}</label>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="application-info" style="background: rgba(255, 193, 7, 0.1); border-left: 4px solid #ffc107; padding: 8px; border-radius: 4px; font-size: 12px; margin-bottom: 20px;">
+    <i class="fas fa-info-circle" style="color: #ffc107; margin-right: 4px;"></i>
+    Os efeitos selecionados serão adicionados à tabela de efeitos de cada token alvo.
+  </div>
+  
+  <div class="dialog-buttons" style="display: flex; gap: 8px; justify-content: flex-end;">
+    <button type="button" data-action="apply" style="background: #4caf50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
+      <i class="fas fa-check"></i> Aplicar Efeitos
+    </button>
+    <button type="button" data-action="cancel" style="background: #666; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
+      <i class="fas fa-times"></i> Cancelar
+    </button>
+  </div>
+</div>

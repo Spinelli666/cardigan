@@ -24,6 +24,89 @@ export class AcertoDebilitanteSkill extends BaseSkill {
   }
 
   /**
+   * This skill supports expansion functionality
+   * @returns {boolean}
+   */
+  static supportsExpansion() {
+    return true;
+  }
+
+  /**
+   * Get the expanded content for this skill
+   * @param {string} actorId - The actor ID
+   * @returns {string} HTML content to show when expanded
+   */
+  static getExpandedContent(actorId) {
+    // Custom expanded content without the generic green "Aplicar Efeitos" button
+    // since we have our own purple one in the main buttons
+    
+    if (!game || !game.user) {
+      return '<div style="color: #666; font-style: italic; text-align: center;">Sistema não disponível</div>';
+    }
+
+    const targetedTokens = Array.from(game.user.targets);
+    
+    if (targetedTokens.length === 0) {
+      return `
+        <div style="
+          background: rgba(255, 193, 7, 0.1); 
+          border-left: 4px solid #ffc107; 
+          padding: 12px; 
+          margin: 8px 0; 
+          border-radius: 6px;
+          text-align: center;
+          color: #856404;
+        ">
+          <i class="fas fa-exclamation-triangle" style="margin-right: 6px;"></i>
+          <strong>Nenhum token alvo selecionado</strong><br>
+          <small>Use T ou Shift+T para mirar em tokens</small>
+        </div>
+      `;
+    }
+
+    const tokensHtml = targetedTokens.map(token => {
+      const actor = token.actor;
+      if (!actor) return '';
+
+      // Get token image
+      const tokenImg = token.document.texture.src || actor.img || 'icons/svg/mystery-man.svg';
+
+      return `
+        <img src="${tokenImg}" alt="${actor.name}" title="${actor.name}"
+             style="width: 32px; height: 32px; border-radius: 50%; margin: 4px; border: 2px solid #4caf50; cursor: pointer;">
+      `;
+    }).filter(html => html !== '').join('');
+
+    const htmlContent = `
+      <div class="cardigan-expanded-content" style="
+        background: rgba(76, 175, 80, 0.1); 
+        border-left: 4px solid #4caf50; 
+        padding: 12px; 
+        margin: 8px 0; 
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+      ">
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
+          <i class="fas fa-crosshairs" style="color: #4caf50; margin-right: 6px;"></i>
+          <strong style="color: #4caf50;">Tokens Alvo:</strong>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; margin-bottom: 12px;">
+          ${tokensHtml}
+        </div>
+        <div style="text-align: center;">
+          <button class="cardigan-skill-apply-effects-btn" data-actor-id="${actorId}" data-skill="${this.skillName}"
+                  style="padding: 6px 12px; background: #9c27b0; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
+            <i class="fas fa-magic" style="margin-right: 4px;"></i>Aplicar Efeitos
+          </button>
+        </div>
+      </div>
+    `;
+    
+    return htmlContent;
+  }
+
+  /**
    * Initialize the Acerto Debilitante skill
    * @returns {Promise<void>}
    */
@@ -38,7 +121,9 @@ export class AcertoDebilitanteSkill extends BaseSkill {
    * @returns {string} HTML string for buttons
    */
   static generateChatButtons(actorId) {
-    return `<div style="margin-top: 8px; text-align: center; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+    const expandButton = this._generateExpandButton(actorId);
+    
+    return `<div style="margin-top: 8px; text-align: center; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; align-items: center;">
       <button class="cardigan-skill-attack-secondary-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${this.skillName}"
               style="padding: 6px 12px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
         <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque S
@@ -47,6 +132,7 @@ export class AcertoDebilitanteSkill extends BaseSkill {
               style="padding: 6px 12px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
         <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque
       </button>
+      ${expandButton}
     </div>`;
   }
 
@@ -75,7 +161,7 @@ export class AcertoDebilitanteSkill extends BaseSkill {
       if (!actor) return "Nenhuma arma encontrada";
 
       // Find primary hand weapon (rightHand first, then ambidextrous weapons)
-      const primaryWeapon = this.#getPrimaryWeapon(actor);
+      const primaryWeapon = this._getPrimaryWeapon(actor);
       if (!primaryWeapon) {
         // No weapon equipped - show unarmed attack
         return this.#formatUnarmedTooltip(actor);
@@ -99,7 +185,7 @@ export class AcertoDebilitanteSkill extends BaseSkill {
       if (!actor) return "Nenhuma arma encontrada";
 
       // Find secondary hand weapon (leftHand only, excluding ambidextrous)
-      const secondaryWeapon = this.#getSecondaryWeapon(actor);
+      const secondaryWeapon = this._getSecondaryWeapon(actor);
       if (!secondaryWeapon) {
         // No secondary weapon equipped - show unarmed attack
         return this.#formatUnarmedTooltip(actor);
@@ -112,56 +198,7 @@ export class AcertoDebilitanteSkill extends BaseSkill {
     }
   }
 
-  /**
-   * Get the primary weapon for attack (rightHand priority, then ambidextrous)
-   * @param {Actor} actor - The actor
-   * @returns {Item|null} Primary weapon or null
-   * @private
-   */
-  static #getPrimaryWeapon(actor) {
-    // Get all REAL weapons (not virtual unarmed attacks) that are equipped
-    const realWeapons = actor.items.filter(item => 
-      item.type === 'arma' && 
-      item.system.equipped && 
-      !item.system.isUnarmed && // Exclude virtual unarmed attacks
-      (item.system.rightHand || item.system.leftHand)
-    );
 
-    // Check if right hand is occupied by a REAL weapon
-    const rightHandWeapon = realWeapons.find(weapon => weapon.system.rightHand);
-    
-    // If right hand has a real weapon, return it (priority over secondary hand)
-    if (rightHandWeapon) {
-      return rightHandWeapon;
-    }
-    
-    // If right hand is empty (unarmed), do NOT show secondary hand weapons
-    // Return null to show unarmed attack instead
-    return null;
-  }
-
-  /**
-   * Get the secondary weapon for attack (leftHand only, excluding ambidextrous)
-   * @param {Actor} actor - The actor
-   * @returns {Item|null} Secondary weapon or null
-   * @private
-   */
-  static #getSecondaryWeapon(actor) {
-    // Get all REAL weapons (not virtual unarmed attacks) that are equipped
-    const realWeapons = actor.items.filter(item => 
-      item.type === 'arma' && 
-      item.system.equipped && 
-      !item.system.isUnarmed && // Exclude virtual unarmed attacks
-      (item.system.rightHand || item.system.leftHand)
-    );
-
-    // Find secondary hand weapon (leftHand only, NOT ambidextrous)
-    const secondaryWeapon = realWeapons.find(weapon => 
-      weapon.system.leftHand && !weapon.system.rightHand
-    );
-    
-    return secondaryWeapon || null;
-  }
 
   /**
    * Format weapon tooltip based on weapon type
@@ -267,7 +304,7 @@ export class AcertoDebilitanteSkill extends BaseSkill {
         await this.rollAttack(actorId);
         break;
       case 'attack-secondary':
-        await this.rollAttack(actorId); // Same attack roll, just different tooltip
+        await this.rollSecondaryAttack(actorId);
         break;
       case 'energy':
         await this.spendEnergy(actorId);
@@ -275,8 +312,52 @@ export class AcertoDebilitanteSkill extends BaseSkill {
       case 'd6':
         await this.rollD6(actorId);
         break;
+      case 'apply-effects':
+        await this.showFilteredEffectsDialog(actorId);
+        break;
+      case 'expand':
+        await super.handleButtonClick(buttonType, actorId); // Use base class expand functionality
+        break;
       default:
         console.warn(`Acerto Debilitante: Unknown button type: ${buttonType}`);
+    }
+  }
+
+  /**
+   * Show effects application dialog with filtered effects for Acerto Debilitante
+   * @param {string} actorId - The actor ID
+   * @returns {Promise<void>}
+   */
+  static async showFilteredEffectsDialog(actorId) {
+    // Get currently targeted tokens
+    if (!game || !game.user) {
+      ui.notifications.error("Sistema não disponível!");
+      return;
+    }
+
+    const targetedTokens = Array.from(game.user.targets);
+    
+    if (targetedTokens.length === 0) {
+      ui.notifications.warn("Nenhum token alvo selecionado! Use T ou Shift+T para mirar em tokens.");
+      return;
+    }
+
+    // Define specific effects for Acerto Debilitante
+    const acertoDebilitanteEffects = ["Atordoado", "Sangramento", "Caído"];
+
+    // Import the effects dialog
+    const { EffectsApplicationDialog } = await import('../../applications/effects-application-dialog.mjs');
+
+    // Open the effects application dialog with filtered effects and custom title
+    try {
+      await EffectsApplicationDialog.show(
+        targetedTokens, 
+        acertoDebilitanteEffects, 
+        "Acerto Debilitante - Aplicar Efeitos"
+      );
+    } catch (error) {
+      console.error("Erro ao abrir dialog de aplicação de efeitos:", error);
+      ui.notifications.error("Erro ao abrir dialog de efeitos. Verifique o console para mais detalhes.");
     }
   }
 
@@ -331,50 +412,44 @@ export class AcertoDebilitanteSkill extends BaseSkill {
     await this.createChatMessage({ content, actor });
   }
 
+
+
   /**
-   * Roll attack for Acerto Debilitante (d20 + Precision)
+   * Roll attack for Acerto Debilitante
    * @param {string} actorId - The actor ID
    * @returns {Promise<void>}
    */
   static async rollAttack(actorId) {
-    try {
-      const actor = this.getActor(actorId);
-      if (!actor) return;
-
-      // Show advantage selection dialog
-      const advantageType = await AdvantageSelectionDialog.show();
-      if (!advantageType) return; // User cancelled
-
+    // Use the base class method for ammunition checking and advantage selection
+    await this._performPrimaryAttack(actorId, async (actor, advantageType, rollWithCriticals) => {
       // Get roll data
       const rollData = actor.getRollData();
       
-      let roll;
+      let formula;
       let rollDescription = "";
       
       switch (advantageType) {
         case 'normal':
           // Normal roll - 1d20
-          roll = new Roll("1d20 + @accuracy.total", rollData);
+          formula = "1d20 + @accuracy.total";
           rollDescription = "Rolagem Normal";
           break;
           
         case 'advantage':
           // Advantage - roll 2d20, keep highest
-          roll = new Roll("2d20kh + @accuracy.total", rollData);
+          formula = "2d20kh + @accuracy.total";
           rollDescription = "Rolagem com Vantagem";
           break;
           
         case 'disadvantage':
           // Disadvantage - roll 2d20, keep lowest
-          roll = new Roll("2d20kl + @accuracy.total", rollData);
+          formula = "2d20kl + @accuracy.total";
           rollDescription = "Rolagem com Desvantagem";
           break;
           
         default:
           return;
       }
-
-      await roll.evaluate();
 
       // Create custom flavor text showing the advantage type
       const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
@@ -390,17 +465,63 @@ export class AcertoDebilitanteSkill extends BaseSkill {
         </button>
       </div>`;
 
-      // Send roll to chat with enhanced flavor that includes the 1d6 button
-      await roll.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor }),
-        flavor: enhancedFlavorText,
-        rollMode: game.settings.get('core', 'rollMode')
-      });
+      // Use the critical-enabled roll function from base class
+      await rollWithCriticals(formula, rollData, enhancedFlavorText);
+    });
+  }  /**
+   * Roll secondary attack for Acerto Debilitante (uses secondary hand weapon)
+   * @param {string} actorId - The actor ID
+   * @returns {Promise<void>}
+   */
+  static async rollSecondaryAttack(actorId) {
+    // Use the base class method for ammunition checking and advantage selection
+    await this._performSecondaryAttack(actorId, async (actor, advantageType, rollWithCriticals) => {
+      // Get roll data
+      const rollData = actor.getRollData();
+      
+      let formula;
+      let rollDescription = "";
+      
+      switch (advantageType) {
+        case 'normal':
+          // Normal roll - 1d20
+          formula = "1d20 + @accuracy.total";
+          rollDescription = "Rolagem Normal";
+          break;
+          
+        case 'advantage':
+          // Advantage - roll 2d20, keep highest
+          formula = "2d20kh + @accuracy.total";
+          rollDescription = "Rolagem com Vantagem";
+          break;
+          
+        case 'disadvantage':
+          // Disadvantage - roll 2d20, keep lowest
+          formula = "2d20kl + @accuracy.total";
+          rollDescription = "Rolagem com Desvantagem";
+          break;
+          
+        default:
+          return;
+      }
 
-    } catch (error) {
-      console.error("Error rolling skill attack:", error);
-      ui.notifications.error(`Erro ao rolar ataque: ${error.message}`);
-    }
+      // Create custom flavor text showing the advantage type for secondary attack
+      const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
+        <strong>${this.skillName} - Ataque Secundário</strong> - ${rollDescription}
+      </div>`;
+
+      // Create enhanced flavor text with 1d6 button included
+      const enhancedFlavorText = `${flavorText}
+      <div style="text-align: center; margin-top: 8px; padding: 8px; background: rgba(0,0,0,0.05); border-radius: 3px;">
+        <button class="cardigan-skill-d6-btn" data-actor-id="${actorId}" data-skill="${this.skillName}"
+                style="padding: 6px 12px; background: #ff9800; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
+          <i class="fas fa-dice-six" style="margin-right: 4px;"></i>Rolar 1d6
+        </button>
+      </div>`;
+
+      // Use the critical-enabled roll function from base class
+      await rollWithCriticals(formula, rollData, enhancedFlavorText);
+    });
   }
 
   /**

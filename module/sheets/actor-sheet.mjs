@@ -329,6 +329,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const armaduras = [];
     const recipes = [];
     const skills = [];
+    const skillsAndarilho = [];
+    const skillsGuerreiro = [];
+    const skillsLadino = [];
+    const skillsFeiticeiro = [];
+    const skillsRaciais = [];
+    const skillsUnicas = [];
     const culinaryRecipes = [];
     const tailoringRecipes = [];
     const tecnomagicRecipes = [];
@@ -410,6 +416,28 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       // Append to skills.
       else if (i.type === 'skill') {
         skills.push(i);
+        
+        // Also categorize by skill class
+        switch (i.system.skillClass) {
+          case 'andarilho':
+            skillsAndarilho.push(i);
+            break;
+          case 'guerreiro':
+            skillsGuerreiro.push(i);
+            break;
+          case 'ladino':
+            skillsLadino.push(i);
+            break;
+          case 'feiticeiro':
+            skillsFeiticeiro.push(i);
+            break;
+          case 'raciais':
+            skillsRaciais.push(i);
+            break;
+          case 'unicas':
+            skillsUnicas.push(i);
+            break;
+        }
       }
       // Append to recipes by profession type.
       else if (i.type === 'item-recipe' || i.type === 'culinary-recipe') {
@@ -466,6 +494,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     context.efeitos = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.recipes = recipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.skills = skills.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skillsAndarilho = skillsAndarilho.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skillsGuerreiro = skillsGuerreiro.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skillsLadino = skillsLadino.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skillsFeiticeiro = skillsFeiticeiro.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skillsRaciais = skillsRaciais.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skillsUnicas = skillsUnicas.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.culinaryRecipes = culinaryRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.tailoringRecipes = tailoringRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.tecnomagicRecipes = tecnomagicRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));

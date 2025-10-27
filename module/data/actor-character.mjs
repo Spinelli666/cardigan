@@ -92,7 +92,13 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       showTecnomagicTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de tecnomagia
       showBlacksmithingTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de ferraria
       showAlchemyTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de alquimia
-      showCarpentryTable: new fields.BooleanField({ initial: true }) // Controle de exibição da tabela de carpintaria
+      showCarpentryTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de carpintaria
+      showSkillsAndarilhoTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de skills Andarilho
+      showSkillsGuerreiroTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de skills Guerreiro
+      showSkillsLadinoTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de skills Ladino
+      showSkillsFeiticeiroTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de skills Feiticeiro
+      showSkillsRaciaisTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de skills Raciais
+      showSkillsUnicasTable: new fields.BooleanField({ initial: true }) // Controle de exibição da tabela de skills Únicas
     });
 
     return schema;

@@ -2,15 +2,36 @@
 <section class='tab attributes {{tab.cssClass}}' data-group='primary' data-tab='attributes'>
   <div class="skill-details-form">
     
-    {{! Skill Type Section }}
+    {{! Skill Classification Section }}
     <fieldset class="skill-section">
-      <legend>{{localize "CARDIGAN.Item.Skill.Type"}}</legend>
+      <legend>Skill Classification</legend>
       
       <div class="form-group">
         <label for="system.skillType">{{localize "CARDIGAN.Item.Skill.Type"}}</label>
         <select name="system.skillType" data-dtype="String">
           <option value="general" {{#if (eq system.skillType "general")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Types.General"}}</option>
           <option value="extra" {{#if (eq system.skillType "extra")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Types.Extra"}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="system.skillCategory">{{localize "CARDIGAN.Item.Skill.Category"}}</label>
+        <select name="system.skillCategory" data-dtype="String">
+          <option value="offensive" {{#if (eq system.skillCategory "offensive")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Categories.Offensive"}}</option>
+          <option value="defensive" {{#if (eq system.skillCategory "defensive")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Categories.Defensive"}}</option>
+          <option value="support" {{#if (eq system.skillCategory "support")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Categories.Support"}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="system.skillClass">{{localize "CARDIGAN.Item.Skill.Class"}}</label>
+        <select name="system.skillClass" data-dtype="String">
+          <option value="andarilho" {{#if (eq system.skillClass "andarilho")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Classes.Andarilho"}}</option>
+          <option value="guerreiro" {{#if (eq system.skillClass "guerreiro")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Classes.Guerreiro"}}</option>
+          <option value="ladino" {{#if (eq system.skillClass "ladino")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Classes.Ladino"}}</option>
+          <option value="feiticeiro" {{#if (eq system.skillClass "feiticeiro")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Classes.Feiticeiro"}}</option>
+          <option value="raciais" {{#if (eq system.skillClass "raciais")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Classes.Raciais"}}</option>
+          <option value="unicas" {{#if (eq system.skillClass "unicas")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Classes.Unicas"}}</option>
         </select>
       </div>
     </fieldset>

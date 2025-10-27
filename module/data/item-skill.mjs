@@ -33,6 +33,31 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       label: 'CARDIGAN.Item.Skill.Type'
     });
 
+    schema.skillCategory = new fields.StringField({
+      required: false,
+      initial: 'offensive',
+      choices: () => CONFIG.CARDIGAN?.skillCategories || {
+        offensive: 'Offensive',
+        defensive: 'Defensive',
+        support: 'Support'
+      },
+      label: 'CARDIGAN.Item.Skill.Category'
+    });
+
+    schema.skillClass = new fields.StringField({
+      required: false,
+      initial: 'andarilho',
+      choices: () => CONFIG.CARDIGAN?.skillClasses || {
+        andarilho: 'Andarilho',
+        guerreiro: 'Guerreiro',
+        ladino: 'Ladino',
+        feiticeiro: 'Feiticeiro',
+        raciais: 'Raciais',
+        unicas: 'Únicas'
+      },
+      label: 'CARDIGAN.Item.Skill.Class'
+    });
+
     return schema;
   }
 

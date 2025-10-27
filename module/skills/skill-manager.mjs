@@ -227,12 +227,14 @@ export class SkillManager {
    * @private
    */
   static #onRenderChatMessageHTML(message, html) {
-    // Look for skill buttons in the rendered message
-    const skillButtons = html.querySelectorAll('[class*="cardigan-skill-"]');
+    // Look for skill buttons in the rendered message (including apply effects button)
+    const skillButtons = html.querySelectorAll('[class*="cardigan-skill-"], .cardigan-apply-effects-btn');
+    console.log(`[CARDIGAN] Found ${skillButtons.length} skill buttons in chat message`);
     
     if (skillButtons.length > 0) {
       // Set up event listeners for each skill button
       skillButtons.forEach((button) => {
+        console.log(`[CARDIGAN] Processing button:`, button.className, button.dataset);
         const skillName = button.dataset.skill;
         const actorId = button.dataset.actorId;
         
@@ -245,6 +247,9 @@ export class SkillManager {
             else if (button.classList.contains('cardigan-skill-attack-secondary-btn')) buttonType = 'attack-secondary';
             else if (button.classList.contains('cardigan-skill-energy-btn')) buttonType = 'energy';
             else if (button.classList.contains('cardigan-skill-d6-btn')) buttonType = 'd6';
+            else if (button.classList.contains('cardigan-skill-expand-btn')) buttonType = 'expand';
+            else if (button.classList.contains('cardigan-apply-effects-btn')) buttonType = 'apply-effects';
+            else if (button.classList.contains('cardigan-skill-apply-effects-btn')) buttonType = 'apply-effects';
             
             // Remove any existing listeners to avoid duplicates
             button.removeEventListener('click', button._skillManagerHandler);
@@ -252,6 +257,7 @@ export class SkillManager {
             // Add click handler
             button._skillManagerHandler = async (event) => {
               event.preventDefault();
+              console.log(`[CARDIGAN] Button clicked: ${buttonType} for skill ${skillName}`);
               try {
                 await skillClass.handleButtonClick(buttonType, actorId);
               } catch (error) {
@@ -284,7 +290,10 @@ export class SkillManager {
       { selector: `.cardigan-skill-attack-secondary-btn[data-skill="${skillName}"]`, buttonType: 'attack-secondary' },
       { selector: `.cardigan-skill-attack-btn[data-skill="${skillName}"]`, buttonType: 'attack' },
       { selector: `.cardigan-skill-energy-btn[data-skill="${skillName}"]`, buttonType: 'energy' },
-      { selector: `.cardigan-skill-d6-btn[data-skill="${skillName}"]`, buttonType: 'd6' }
+      { selector: `.cardigan-skill-d6-btn[data-skill="${skillName}"]`, buttonType: 'd6' },
+      { selector: `.cardigan-skill-expand-btn[data-skill="${skillName}"]`, buttonType: 'expand' },
+      { selector: `.cardigan-skill-apply-effects-btn[data-skill="${skillName}"]`, buttonType: 'apply-effects' },
+      { selector: `.cardigan-apply-effects-btn`, buttonType: 'apply-effects' }
     ];
   }
 

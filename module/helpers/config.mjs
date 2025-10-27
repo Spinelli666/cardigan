@@ -38,6 +38,29 @@ CARDIGAN.skillTypes = {
 };
 
 /**
+ * The set of Skill Categories used within the system.
+ * @type {Object}
+ */
+CARDIGAN.skillCategories = {
+  offensive: 'CARDIGAN.Item.Skill.Categories.Offensive',
+  defensive: 'CARDIGAN.Item.Skill.Categories.Defensive',
+  support: 'CARDIGAN.Item.Skill.Categories.Support'
+};
+
+/**
+ * The set of Skill Classes used within the system.
+ * @type {Object}
+ */
+CARDIGAN.skillClasses = {
+  andarilho: 'CARDIGAN.Item.Skill.Classes.Andarilho',
+  guerreiro: 'CARDIGAN.Item.Skill.Classes.Guerreiro',
+  ladino: 'CARDIGAN.Item.Skill.Classes.Ladino',
+  feiticeiro: 'CARDIGAN.Item.Skill.Classes.Feiticeiro',
+  raciais: 'CARDIGAN.Item.Skill.Classes.Raciais',
+  unicas: 'CARDIGAN.Item.Skill.Classes.Unicas'
+};
+
+/**
  * The set of Skill Ranks used within the system.
  * @type {Object}
  */

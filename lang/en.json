@@ -199,7 +199,7 @@
         "Description": "Description",
         "Effect": "Effect",
         "Requirements": "Requirements",
-        "Type": "Skill Type",
+        "Type": "Skill Action Type",
         "SkillDescription": "Skill Description",
         "SkillEffect": "Skill Effect",
         "Prerequisites": "Prerequisites",
@@ -209,6 +209,21 @@
         "Types": {
           "General": "General",
           "Extra": "Extra"
+        },
+        "Category": "Skill Category",
+        "Categories": {
+          "Offensive": "Habilidades Ofensivas",
+          "Defensive": "Habilidades Defensivas",
+          "Support": "Habilidades Suportes"
+        },
+        "Class": "Skill Class",
+        "Classes": {
+          "Andarilho": "Andarilho",
+          "Guerreiro": "Guerreiro",
+          "Ladino": "Ladino",
+          "Feiticeiro": "Feiticeiro",
+          "Raciais": "Raciais",
+          "Unicas": "Únicas"
         }
       },
       "ItemRecipe": {
@@ -430,11 +445,23 @@
     "ShowBlacksmithingTable": "Show Blacksmithing Table",
     "ShowAlchemyTable": "Show Alchemy Table",
     "ShowCarpentryTable": "Show Carpentry Table",
+    "ShowSkillsAndarilhoTable": "Show Andarilho Skills Table",
+    "ShowSkillsGuerreiroTable": "Show Guerreiro Skills Table",
+    "ShowSkillsLadinoTable": "Show Ladino Skills Table",
+    "ShowSkillsFeiticeiroTable": "Show Feiticeiro Skills Table",
+    "ShowSkillsRaciaisTable": "Show Raciais Skills Table",
+    "ShowSkillsUnicasTable": "Show Únicas Skills Table",
     "TailoringTable": "Tailoring Table",
     "TecnomagicTable": "Tecnomagic Table",
     "BlacksmithingTable": "Blacksmithing Table",
     "AlchemyTable": "Alchemy Table",
     "CarpentryTable": "Carpentry Table",
+    "AndarilhoSkillsTable": "Andarilho Skills",
+    "GuerreiroSkillsTable": "Guerreiro Skills",
+    "LadinoSkillsTable": "Ladino Skills",
+    "FeiticeiroSkillsTable": "Feiticeiro Skills",
+    "RaciaisSkillsTable": "Raciais Skills",
+    "UnicasSkillsTable": "Únicas Skills",
     "AddTailoringRecipe": "Add Tailoring Recipe",
     "AddTecnomagicRecipe": "Add Tecnomagic Recipe",
     "AddBlacksmithingRecipe": "Add Blacksmithing Recipe",

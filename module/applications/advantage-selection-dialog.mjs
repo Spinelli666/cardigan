@@ -18,7 +18,6 @@ export class AdvantageSelectionDialog extends foundry.applications.api.DialogV2 
       width: 400,
       height: "auto"
     },
-    modal: true,
     classes: ["cardigan-advantage-dialog"]
   };
 
