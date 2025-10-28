@@ -142,12 +142,33 @@ export class AcertoDebilitanteSkill extends BaseSkill {
    * @returns {string} HTML string for energy button
    */
   static generateEnergyButton(actorId) {
-    return `<div style="margin: 8px 0; text-align: center;">
-      <button class="cardigan-skill-energy-btn" data-actor-id="${actorId}" data-skill="${this.skillName}"
-              style="padding: 6px 12px; background: #2196f3; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
-        <i class="fas fa-bolt" style="margin-right: 4px;"></i>Gastar Energia (-10)
-      </button>
-    </div>`;
+    try {
+      const actor = this.getActor(actorId);
+      if (!actor) {
+        return ''; // No button if actor not found
+      }
+
+      // Get the skill item to check energy cost
+      const skill = actor.items.find(item => item.type === 'skill' && item.name === this.skillName);
+      if (!skill || !skill.system.hasEnergyCost) {
+        return ''; // No button if skill doesn't have energy cost
+      }
+
+      const energyCost = skill.system.energyCost || 0;
+      if (energyCost <= 0) {
+        return ''; // No button if energy cost is 0 or negative
+      }
+
+      return `<div style="margin: 8px 0; text-align: center;">
+        <button class="cardigan-skill-energy-btn" data-actor-id="${actorId}" data-skill="${this.skillName}"
+                style="padding: 6px 12px; background: #2196f3; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
+          <i class="fas fa-bolt" style="margin-right: 4px;"></i>Gastar Energia (-${energyCost})
+        </button>
+      </div>`;
+    } catch (error) {
+      console.error("Error generating energy button:", error);
+      return ''; // Return empty if error
+    }
   }
 
   /**
@@ -587,20 +608,53 @@ export class AcertoDebilitanteSkill extends BaseSkill {
   }
 
   /**
-   * Spend energy for Acerto Debilitante (10 power cost)
+   * Spend energy for Acerto Debilitante (configurable power cost)
    * @param {string} actorId - The actor ID
    * @returns {Promise<void>}
    */
   static async spendEnergy(actorId) {
     try {
       const actor = this.getActor(actorId);
-      if (!actor) return;
+      if (!actor) {
+        console.error("Actor not found for ID:", actorId);
+        ui.notifications.error("Personagem não encontrado");
+        return;
+      }
 
-      const energyCost = 10;
+      console.log("Actor found:", {
+        name: actor.name,
+        id: actor.id,
+        type: actor.type,
+        systemData: actor.system
+      });
+
+      // Get the skill item from the actor to check energy cost
+      const skill = actor.items.find(item => item.type === 'skill' && item.name === this.skillName);
+      if (!skill) {
+        ui.notifications.error("Skill não encontrada no personagem");
+        return;
+      }
+
+      // Check if the skill has energy cost configured
+      if (!skill.system.hasEnergyCost) {
+        ui.notifications.info(`${this.skillName} não gasta energia`);
+        return;
+      }
+
+      const energyCost = skill.system.energyCost || 0;
+      
+      // If energy cost is 0, don't spend anything
+      if (energyCost <= 0) {
+        ui.notifications.info(`${this.skillName} não tem custo de energia configurado`);
+        return;
+      }
       const currentEnergy = actor.system.power.value || 0;
       const maxEnergy = actor.system.power.max || 0;
 
-      console.log("Energy check:", {
+      console.log("Energy check detailed:", {
+        actorName: actor.name,
+        actorId: actor.id,
+        powerField: actor.system.power,
         currentEnergy,
         maxEnergy,
         energyCost,
@@ -624,11 +678,19 @@ export class AcertoDebilitanteSkill extends BaseSkill {
         return;
       }
 
-      // Spend energy using the base class method
-      const success = await this.spendResource(actor, 'power', energyCost);
-      if (!success) return;
-
+      // Calculate new energy value
       const newEnergy = Math.max(0, currentEnergy - energyCost);
+
+      // Update actor's power (energy) directly
+      await actor.update({
+        'system.power.value': newEnergy
+      });
+
+      console.log(`${this.skillName} spent ${energyCost} energy:`, {
+        actor: actor.name,
+        before: currentEnergy,
+        after: newEnergy
+      });
 
       // Create success message in chat
       await this.createSkillChatMessage(

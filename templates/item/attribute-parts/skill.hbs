@@ -36,5 +36,62 @@
       </div>
     </fieldset>
 
+    {{! Energy Cost Section }}
+    <fieldset class="skill-section">
+      <legend>Energy Settings</legend>
+      
+      <div class="form-group">
+        <label for="system.hasEnergyCost">
+          <input type="checkbox" name="system.hasEnergyCost" data-dtype="Boolean" {{#if system.hasEnergyCost}}checked{{/if}}>
+          {{localize "CARDIGAN.Item.Skill.HasEnergyCost"}}
+        </label>
+      </div>
+
+      {{#if system.hasEnergyCost}}
+      <div class="form-group">
+        <label for="system.energyCost">{{localize "CARDIGAN.Item.Skill.EnergyCost"}}</label>
+        <input type="number" name="system.energyCost" value="{{system.energyCost}}" data-dtype="Number" min="0" step="1">
+      </div>
+      {{/if}}
+    </fieldset>
+
+    {{! Custom Effects Section }}
+    <fieldset class="skill-section">
+      <legend>{{localize "CARDIGAN.Item.Skill.CustomEffects"}}</legend>
+      
+      <div class="form-group">
+        <label for="system.hasCustomEffects">
+          <input type="checkbox" name="system.hasCustomEffects" data-dtype="Boolean" {{#if system.hasCustomEffects}}checked{{/if}}>
+          {{localize "CARDIGAN.Item.Skill.HasCustomEffects"}}
+        </label>
+      </div>
+
+      {{#if system.hasCustomEffects}}
+      <div class="form-group">
+        <button type="button" data-action="configureSkillEffects" data-tooltip="{{localize 'CARDIGAN.Item.Skill.ConfigureEffects'}}">
+          <i class="fas fa-cog"></i> {{localize "CARDIGAN.Item.Skill.ConfigureEffects"}}
+        </button>
+      </div>
+
+      {{#if system.customEffects.length}}
+      <div class="selected-effects">
+        <h4>{{localize "CARDIGAN.Item.Skill.SelectedEffects"}}</h4>
+        <div class="effects-list">
+          {{#each system.customEffects}}
+          <div class="effect-item">
+            <img src="{{img}}" alt="{{name}}" width="24" height="24">
+            <span>{{name}}</span>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{else}}
+      <div class="no-effects">
+        <em>{{localize "CARDIGAN.Item.Skill.NoEffectsSelected"}}</em>
+      </div>
+      {{/if}}
+      {{/if}}
+    </fieldset>
+
   </div>
 </section>

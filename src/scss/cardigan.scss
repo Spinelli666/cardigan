@@ -30,3 +30,6 @@
   @import 'components/skills';
   @import 'components/rest';
 }
+
+/* Dialog styles outside of .cardigan scope */
+@import 'dialogs/skill-effects-dialog';

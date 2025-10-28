@@ -58,6 +58,37 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       label: 'CARDIGAN.Item.Skill.Class'
     });
 
+    // Energy consumption fields
+    schema.hasEnergyCost = new fields.BooleanField({
+      required: false,
+      initial: false,
+      label: 'CARDIGAN.Item.Skill.HasEnergyCost'
+    });
+
+    schema.energyCost = new fields.NumberField({
+      required: false,
+      initial: 0,
+      integer: true,
+      min: 0,
+      label: 'CARDIGAN.Item.Skill.EnergyCost'
+    });
+
+    // Custom effects system
+    schema.hasCustomEffects = new fields.BooleanField({
+      required: false,
+      initial: false,
+      label: 'CARDIGAN.Item.Skill.HasCustomEffects'
+    });
+
+    schema.customEffects = new fields.ArrayField(
+      new fields.SchemaField({
+        id: new fields.StringField({ required: true }),
+        name: new fields.StringField({ required: true }),
+        img: new fields.StringField({ required: false, initial: '' })
+      }),
+      { initial: [] }
+    );
+
     return schema;
   }
 

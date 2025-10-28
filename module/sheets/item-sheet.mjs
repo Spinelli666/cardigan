@@ -46,6 +46,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       removeIngredient: this._removeIngredient,
       changeIngredientImage: this._changeIngredientImage,
       ingredientNameChange: this._onIngredientNameChange,
+      configureSkillEffects: this._configureSkillEffects,
     },
     form: {
       submitOnChange: true,
@@ -347,6 +348,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup mutually exclusive checkboxes for effect apply/remove
     this._setupEffectCheckboxes();
     
+    // Setup skill effects configuration button
+    this._setupSkillEffectsButton();
+    
     // Setup skill check toggle visibility for consumable items
     this._setupSkillCheckToggle();
     
@@ -615,6 +619,15 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         }
       });
     });
+  }
+
+  /**
+   * Setup skill effects configuration button
+   * @protected
+   */
+  _setupSkillEffectsButton() {
+    // No need for manual setup since we're using data-action
+    console.log('[CARDIGAN DEBUG] Skill effects button setup called');
   }
 
   /**************
@@ -917,6 +930,43 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     });
     
     return this.submit({ updateData: { 'system.modifiers.skillEffects': newEffects } });
+  }
+
+  /**
+   * Handle configuring custom effects for skills
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _configureSkillEffects(event, target) {
+    console.log('[CARDIGAN DEBUG] _configureSkillEffects called');
+    event.preventDefault();
+    const item = this.item;
+    console.log('[CARDIGAN DEBUG] Item:', item);
+    
+    if (item.type !== 'skill') {
+      console.log('[CARDIGAN DEBUG] Item is not a skill, returning');
+      return;
+    }
+
+    try {
+      console.log('[CARDIGAN DEBUG] Importing dialog...');
+      // Import the dialog class dynamically
+      const { SkillEffectsSelectionDialog } = await import('../applications/skill-effects-selection-dialog.mjs');
+      
+      console.log('[CARDIGAN DEBUG] Creating dialog...');
+      // Open the effects selection dialog
+      const dialog = new SkillEffectsSelectionDialog({
+        item: item,
+        selectedEffects: item.system.customEffects || []
+      });
+      
+      console.log('[CARDIGAN DEBUG] Rendering dialog...');
+      dialog.render(true);
+    } catch (error) {
+      console.error('[CARDIGAN ERROR] Error in _configureSkillEffects:', error);
+      ui.notifications.error(`Erro ao abrir dialog: ${error.message}`);
+    }
   }
 
   /**

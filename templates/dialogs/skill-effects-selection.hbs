@@ -1,0 +1,41 @@
+<div class="skill-effects-selection-dialog">
+  <div class="dialog-content">
+    <p>Selecione os efeitos que esta skill poderá aplicar quando usada:</p>
+    
+    <div class="effects-container">
+      {{#if positiveEffects.length}}
+      <div class="effects-section positive">
+        <h3><i class="fas fa-plus-circle"></i> Efeitos Positivos</h3>
+        <div class="effects-grid">
+          {{#each positiveEffects}}
+          <div class="effect-option" data-effect-id="{{id}}">
+            <input type="checkbox" id="effect-{{id}}" {{#if selected}}checked{{/if}}>
+            <label for="effect-{{id}}" class="effect-label">
+              <img src="{{img}}" alt="{{name}}" width="32" height="32">
+              <span class="effect-name">{{name}}</span>
+            </label>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{/if}}
+
+      {{#if negativeEffects.length}}
+      <div class="effects-section negative">
+        <h3><i class="fas fa-minus-circle"></i> Efeitos Negativos</h3>
+        <div class="effects-grid">
+          {{#each negativeEffects}}
+          <div class="effect-option" data-effect-id="{{id}}">
+            <input type="checkbox" id="effect-{{id}}" {{#if selected}}checked{{/if}}>
+            <label for="effect-{{id}}" class="effect-label">
+              <img src="{{img}}" alt="{{name}}" width="32" height="32">
+              <span class="effect-name">{{name}}</span>
+            </label>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{/if}}
+    </div>
+  </div>
+</div>

@@ -9,6 +9,26 @@
     "skillType": "extra",
     "skillCategory": "offensive",
     "skillClass": "andarilho",
+    "hasEnergyCost": true,
+    "energyCost": 10,
+    "hasCustomEffects": true,
+    "customEffects": [
+      {
+        "id": "eE7fF8gG9hH0iI1J",
+        "name": "Atordoado",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      },
+      {
+        "id": "Z2aA3bB4cCd5eE6F",
+        "name": "Sangramento",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      },
+      {
+        "id": "mN2nO3oP4pQ5qR6r",
+        "name": "Caído",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      }
+    ],
     "description": "<p>Você mira com cautela nos pontos vitais do inimigo.</p><p><strong>⋆ Após acertar um ataque role 1d6; O resultado corresponde a um ponto vital acertado no seu alvo, adicionando um efeito extra neste ataque:</strong></p><ul><li><strong>6 ‣ Cabeça:</strong> O alvo recebe Atordoado¹.</li><li><strong>5 ‣ Torso:</strong> O alvo recebe Sangramento¹.</li><li><strong>4 e 3 ‣ Braços:</strong> O alvo recebe Desvantagem no próximo ataque.</li><li><strong>2 e 1 ‣ Pernas:</strong> O alvo recebe Caído¹.</li></ul>"
   },
   "effects": [],

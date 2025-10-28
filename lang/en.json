@@ -224,7 +224,15 @@
           "Feiticeiro": "Feiticeiro",
           "Raciais": "Raciais",
           "Unicas": "Únicas"
-        }
+        },
+        "HasEnergyCost": "Gasta Energia?",
+        "EnergyCost": "Custo de Energia",
+        "HasCustomEffects": "Adicionar Efeitos",
+        "CustomEffects": "Efeitos Selecionados",
+        "ConfigureEffects": "Configurar Efeitos",
+        "SelectEffects": "Selecionar Efeitos",
+        "SelectedEffects": "Efeitos Selecionados",
+        "NoEffectsSelected": "Nenhum efeito selecionado"
       },
       "ItemRecipe": {
         "ingredients": {
@@ -914,6 +922,12 @@
         "DescriptionPlaceholder": "Describe what this skill does...",
         "EffectPlaceholder": "Describe the effects of using this skill...",
         "PrerequisitesPlaceholder": "List any prerequisites for this skill..."
+      }
+    },
+    "Dialogs": {
+      "SkillEffectsSelection": {
+        "Title": "Selecionar Efeitos para Skill",
+        "Description": "Selecione os efeitos que esta skill poderá aplicar quando usada:"
       }
     }
   }
