@@ -89,7 +89,18 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       { initial: [] }
     );
 
-
+    // Enhancements system - array of 3 enhancements
+    schema.enhancements = new fields.ArrayField(
+      new fields.SchemaField({
+        name: new fields.StringField({ required: false, initial: '' }),
+        description: new fields.HTMLField({ required: false, initial: '' })
+      }),
+      { initial: [
+        { name: '', description: '' },
+        { name: '', description: '' },
+        { name: '', description: '' }
+      ]}
+    );
 
     return schema;
   }

@@ -8,37 +8,67 @@
       
       <div class="enhancement-item">
         <div class="enhancement-header">
-          <h3>{{localize "CARDIGAN.Item.Skill.Enhancement1"}}</h3>
+          <h3>
+            {{#if system.enhancements.0.name}}
+              {{system.enhancements.0.name}}
+            {{else}}
+              {{localize "CARDIGAN.Item.Skill.Enhancement1"}}
+            {{/if}}
+          </h3>
           <button type="button" data-action="configureEnhancement1" class="enhancement-config-btn">
             <i class="fas fa-cog"></i> {{localize "CARDIGAN.Item.Skill.Configure"}}
           </button>
         </div>
         <div class="enhancement-description">
-          <em>{{localize "CARDIGAN.Item.Skill.NoEnhancementConfigured"}}</em>
+          {{#if enrichedEnhancements.0.description}}
+            {{{enrichedEnhancements.0.description}}}
+          {{else}}
+            <em>{{localize "CARDIGAN.Item.Skill.NoEnhancementConfigured"}}</em>
+          {{/if}}
         </div>
       </div>
 
       <div class="enhancement-item">
         <div class="enhancement-header">
-          <h3>{{localize "CARDIGAN.Item.Skill.Enhancement2"}}</h3>
+          <h3>
+            {{#if system.enhancements.1.name}}
+              {{system.enhancements.1.name}}
+            {{else}}
+              {{localize "CARDIGAN.Item.Skill.Enhancement2"}}
+            {{/if}}
+          </h3>
           <button type="button" data-action="configureEnhancement2" class="enhancement-config-btn">
             <i class="fas fa-cog"></i> {{localize "CARDIGAN.Item.Skill.Configure"}}
           </button>
         </div>
         <div class="enhancement-description">
-          <em>{{localize "CARDIGAN.Item.Skill.NoEnhancementConfigured"}}</em>
+          {{#if enrichedEnhancements.1.description}}
+            {{{enrichedEnhancements.1.description}}}
+          {{else}}
+            <em>{{localize "CARDIGAN.Item.Skill.NoEnhancementConfigured"}}</em>
+          {{/if}}
         </div>
       </div>
 
       <div class="enhancement-item">
         <div class="enhancement-header">  
-          <h3>{{localize "CARDIGAN.Item.Skill.Enhancement3"}}</h3>
+          <h3>
+            {{#if system.enhancements.2.name}}
+              {{system.enhancements.2.name}}
+            {{else}}
+              {{localize "CARDIGAN.Item.Skill.Enhancement3"}}
+            {{/if}}
+          </h3>
           <button type="button" data-action="configureEnhancement3" class="enhancement-config-btn">
             <i class="fas fa-cog"></i> {{localize "CARDIGAN.Item.Skill.Configure"}}
           </button>
         </div>
         <div class="enhancement-description">
-          <em>{{localize "CARDIGAN.Item.Skill.NoEnhancementConfigured"}}</em>
+          {{#if enrichedEnhancements.2.description}}
+            {{{enrichedEnhancements.2.description}}}
+          {{else}}
+            <em>{{localize "CARDIGAN.Item.Skill.NoEnhancementConfigured"}}</em>
+          {{/if}}
         </div>
       </div>
 

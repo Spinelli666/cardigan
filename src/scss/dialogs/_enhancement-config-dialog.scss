@@ -1,0 +1,94 @@
+/* Enhancement Configuration Dialog Styles */
+.enhancement-config-dialog {
+  padding: 20px;
+  
+  .form-group {
+    margin-bottom: 20px;
+    
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: var(--color-text-dark-primary);
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--color-border-light-tertiary);
+      border-radius: 4px;
+      font-size: 14px;
+      
+      &:focus {
+        outline: none;
+        border-color: var(--color-border-highlight);
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      }
+    }
+    
+    &.description-group {
+      prose-mirror {
+        min-height: 200px;
+        border: 1px solid var(--color-border-light-tertiary);
+        border-radius: 4px;
+        
+        .ProseMirror {
+          padding: 12px;
+          min-height: 180px;
+        }
+      }
+    }
+  }
+}
+
+/* Dialog window styling */
+.skill-enhancement-config-dialog {
+  .window-content {
+    background: var(--color-bg-light);
+  }
+  
+  .dialog-content {
+    padding: 0;
+  }
+  
+  .dialog-buttons {
+    border-top: 1px solid var(--color-border-light-tertiary);
+    padding: 15px 20px;
+    text-align: right;
+    gap: 10px;
+    display: flex;
+    justify-content: flex-end;
+    
+    button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      min-width: 80px;
+      
+      &[data-action="save"] {
+        background: var(--color-bg-option);
+        color: white;
+        
+        &:hover {
+          background: var(--color-bg-option-hover);
+        }
+      }
+      
+      &[data-action="cancel"] {
+        background: var(--color-border-light-tertiary);
+        color: var(--color-text-dark-primary);
+        
+        &:hover {
+          background: var(--color-border-light-secondary);
+        }
+      }
+      
+      i {
+        margin-right: 6px;
+      }
+    }
+  }
+}

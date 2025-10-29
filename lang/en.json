@@ -261,6 +261,15 @@
           "RequirementsPlaceholder": "List any requirements or conditions for this enhancement..."
         }
       },
+      "EnhancementConfig": {
+        "Title": "Configure Enhancement {enhancement}",
+        "Name": "Enhancement Name",
+        "NamePlaceholder": "Enter enhancement name...",
+        "Description": "Description",
+        "DescriptionTab": "Description",
+        "Save": "Save Enhancement",
+        "Cancel": "Cancel"
+      },
       "ItemRecipe": {
         "ingredients": {
           "label": "Ingredients",

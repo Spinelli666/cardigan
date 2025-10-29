@@ -1,0 +1,14 @@
+<div class="enhancement-config-dialog">
+  <form>
+    <div class="form-group description-group">
+      <label for="enhancement-description">Description</label>
+      <prose-mirror
+        name="description"
+        data-document-uuid="{{@root.document.uuid}}"
+        value="{{enhancement.description}}"
+        collaborate="true"
+        toggled="true"
+      >{{{enrichedDescription}}}</prose-mirror>
+    </div>
+  </form>
+</div>

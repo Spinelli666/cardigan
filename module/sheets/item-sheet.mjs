@@ -1,4 +1,5 @@
 import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
+import SkillEnhancementConfigDialog from '../applications/skill-enhancement-config-dialog.mjs';
 
 const { api, sheets } = foundry.applications;
 
@@ -228,6 +229,25 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'enhancementsSkill':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
+        
+        // Enrich enhancement descriptions for display
+        if (this.item.system.enhancements) {
+          context.enrichedEnhancements = [];
+          for (let i = 0; i < this.item.system.enhancements.length; i++) {
+            const enhancement = this.item.system.enhancements[i];
+            context.enrichedEnhancements[i] = {
+              name: enhancement.name,
+              description: await foundry.applications.ux.TextEditor.enrichHTML(
+                enhancement.description,
+                {
+                  secrets: this.document.isOwner,
+                  rollData: this.document.getRollData(),
+                  relativeTo: this.document,
+                }
+              )
+            };
+          }
+        }
         break;
 
       case 'ingredientsItemRecipe':
@@ -989,9 +1009,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @param {Event} event      The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    */
-  static async _configureEnhancement1(event, target) {
-    console.log('[CARDIGAN DEBUG] _configureEnhancement1 called');
-    ui.notifications.info("Configuração de Aprimoramento 1 - Em desenvolvimento");
+  async _configureEnhancement1(event, target) {
+    await this._configureEnhancement(0);
   }
 
   /**
@@ -999,9 +1018,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @param {Event} event      The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    */
-  static async _configureEnhancement2(event, target) {
-    console.log('[CARDIGAN DEBUG] _configureEnhancement2 called');
-    ui.notifications.info("Configuração de Aprimoramento 2 - Em desenvolvimento");
+  async _configureEnhancement2(event, target) {
+    await this._configureEnhancement(1);
   }
 
   /**
@@ -1009,9 +1027,36 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @param {Event} event      The originating click event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
    */
-  static async _configureEnhancement3(event, target) {
-    console.log('[CARDIGAN DEBUG] _configureEnhancement3 called');
-    ui.notifications.info("Configuração de Aprimoramento 3 - Em desenvolvimento");
+  async _configureEnhancement3(event, target) {
+    await this._configureEnhancement(2);
+  }
+
+  /**
+   * Open the enhancement configuration dialog
+   * @param {number} enhancementIndex The index of the enhancement (0, 1, or 2)
+   */
+  async _configureEnhancement(enhancementIndex) {
+    // Ensure enhancements array exists and has the right structure
+    const enhancements = this.item.system.enhancements || [
+      { name: '', description: '' },
+      { name: '', description: '' },
+      { name: '', description: '' }
+    ];
+    
+    // Get the current enhancement data
+    const enhancementData = enhancements[enhancementIndex] || { name: '', description: '' };
+
+    try {
+      const dialog = new SkillEnhancementConfigDialog({
+        skill: this.item,
+        enhancementIndex,
+        enhancementData: foundry.utils.deepClone(enhancementData),
+      });
+
+      await dialog.render(true);
+    } catch (error) {
+      console.error('Error creating or rendering dialog:', error);
+    }
   }
 
 
@@ -2669,6 +2714,37 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         CardiganSystemItemSheet._ingredientSearchTimeouts.delete(key);
       }
     }
+  }
+
+  /**
+   * Handle post-render operations to add manual event listeners
+   * @param {ApplicationRenderContext} context
+   * @param {RenderOptions} options
+   */
+  _onRender(context, options) {
+    super._onRender(context, options);
+    
+    // Add manual event listeners for enhancement configuration buttons
+    const enhancementButtons = this.element.querySelectorAll('.enhancement-config-btn');
+    enhancementButtons.forEach((button, index) => {
+      button.addEventListener('click', (event) => {
+        console.log(`Enhancement button ${index + 1} clicked manually!`);
+        ui.notifications.info(`Manual Enhancement ${index + 1} clicked!`);
+        
+        // Call the appropriate configuration method
+        switch(index) {
+          case 0:
+            this._configureEnhancement1(event, button);
+            break;
+          case 1:
+            this._configureEnhancement2(event, button);
+            break;
+          case 2:
+            this._configureEnhancement3(event, button);
+            break;
+        }
+      });
+    });
   }
 
 }
