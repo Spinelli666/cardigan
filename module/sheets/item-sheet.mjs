@@ -47,6 +47,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       changeIngredientImage: this._changeIngredientImage,
       ingredientNameChange: this._onIngredientNameChange,
       configureSkillEffects: this._configureSkillEffects,
+      configureEnhancement1: this._configureEnhancement1,
+      configureEnhancement2: this._configureEnhancement2,
+      configureEnhancement3: this._configureEnhancement3,
     },
     form: {
       submitOnChange: true,
@@ -99,6 +102,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     },
     attributesSkill: {
       template: 'systems/cardigan/templates/item/attribute-parts/skill.hbs',
+    },
+    enhancementsSkill: {
+      template: 'systems/cardigan/templates/item/attribute-parts/skill-enhancements.hbs',
     },
     attributesItemRecipe: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-recipe.hbs',
@@ -162,7 +168,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         options.parts.push('attributesArmadura');
         break;
       case 'skill':
-        options.parts.push('attributesSkill');
+        options.parts.push('attributesSkill', 'enhancementsSkill');
         break;
       case 'item-recipe':
       case 'culinary-recipe':
@@ -219,6 +225,11 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
         break;
+      case 'enhancementsSkill':
+        // Necessary for preserving active tab on re-render
+        context.tab = context.tabs[partId];
+        break;
+
       case 'ingredientsItemRecipe':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
@@ -299,6 +310,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesItemIngredient':
           tab.id = 'attributes';
           tab.label += 'Details';
+          break;
+        case 'enhancementsSkill':
+          tab.id = 'enhancements';
+          tab.label += 'Enhancements';
           break;
         case 'ingredientsItemRecipe':
           tab.id = 'ingredients';
@@ -968,6 +983,38 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       ui.notifications.error(`Erro ao abrir dialog: ${error.message}`);
     }
   }
+
+  /**
+   * Handle configuring enhancement 1
+   * @param {Event} event      The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   */
+  static async _configureEnhancement1(event, target) {
+    console.log('[CARDIGAN DEBUG] _configureEnhancement1 called');
+    ui.notifications.info("Configuração de Aprimoramento 1 - Em desenvolvimento");
+  }
+
+  /**
+   * Handle configuring enhancement 2
+   * @param {Event} event      The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   */
+  static async _configureEnhancement2(event, target) {
+    console.log('[CARDIGAN DEBUG] _configureEnhancement2 called');
+    ui.notifications.info("Configuração de Aprimoramento 2 - Em desenvolvimento");
+  }
+
+  /**
+   * Handle configuring enhancement 3
+   * @param {Event} event      The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   */
+  static async _configureEnhancement3(event, target) {
+    console.log('[CARDIGAN DEBUG] _configureEnhancement3 called');
+    ui.notifications.info("Configuração de Aprimoramento 3 - Em desenvolvimento");
+  }
+
+
 
   /**
    * Handle using a consumable item

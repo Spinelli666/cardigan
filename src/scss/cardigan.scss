@@ -14,6 +14,15 @@
 
 /* Styles limited to cardigan sheets */
 .cardigan {
+  // Tab visibility control for item sheets
+  .tab:not(.active) {
+    display: none !important;
+  }
+  
+  .tab.active {
+    display: block !important;
+  }
+
   @import 'components/forms';
   @import 'components/resource';
   @import 'components/items';
@@ -28,6 +37,7 @@
   @import 'components/consumivel-modifiers';
   @import 'components/recipes';
   @import 'components/skills';
+  @import 'components/skill-enhancements';
   @import 'components/rest';
 }
 

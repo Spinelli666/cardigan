@@ -162,7 +162,8 @@
         "Details": "Details",
         "Effects": "Effects",
         "Modifiers": "Modifiers",
-        "Ingredients": "Ingredients"
+        "Ingredients": "Ingredients",
+        "Enhancements": "Enhancements"
       },
       "Backpack": {
         "FIELDS": {
@@ -232,7 +233,33 @@
         "ConfigureEffects": "Configurar Efeitos",
         "SelectEffects": "Selecionar Efeitos",
         "SelectedEffects": "Efeitos Selecionados",
-        "NoEffectsSelected": "Nenhum efeito selecionado"
+        "NoEffectsSelected": "Nenhum efeito selecionado",
+        "Enhancements": "Aprimoramentos",
+        "Enhancement1": "Aprimoramento 1",
+        "Enhancement2": "Aprimoramento 2",
+        "Enhancement3": "Aprimoramento 3",
+        "ConfigureEnhancement1": "Configurar Aprimoramento 1",
+        "ConfigureEnhancement2": "Configurar Aprimoramento 2",
+        "ConfigureEnhancement3": "Configurar Aprimoramento 3",
+        "ConfigureButton": "Configurar",
+        "Configure": "Configurar",
+        "NoEnhancementConfigured": "Nenhum aprimoramento configurado",
+        "EnhancementDescription": "Descrição do Aprimoramento",
+        "Enhancement1Description": "Descrição do Aprimoramento 1",
+        "Enhancement2Description": "Descrição do Aprimoramento 2",
+        "Enhancement3Description": "Descrição do Aprimoramento 3",
+        "EnhancementDescriptionPlaceholder": "Descreva os efeitos e benefícios deste aprimoramento...",
+        "EnergySettings": "Configurações de Energia",
+        "Enhancements": {
+          "Label": "Skill Enhancements",
+          "Hint": "Configure advanced skill enhancements and upgrades.",
+          "Description": "Enhancement Description",
+          "Requirements": "Requirements",
+          "Level": "Enhancement Level",
+          "Cost": "Enhancement Cost",
+          "DescriptionPlaceholder": "Describe the enhancement effects and benefits...",
+          "RequirementsPlaceholder": "List any requirements or conditions for this enhancement..."
+        }
       },
       "ItemRecipe": {
         "ingredients": {

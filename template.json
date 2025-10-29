@@ -107,7 +107,7 @@
     }
   },
   "Item": {
-    "types": ["item-comum", "item-municao", "item-consumivel", "item-ingredient", "item-recipe", "culinary-recipe", "tailoring-recipe", "tecnomagic-recipe", "blacksmithing-recipe", "alchemy-recipe", "carpentry-recipe", "feature", "spell", "efeito", "arma", "armadura"],
+    "types": ["item-comum", "item-municao", "item-consumivel", "item-ingredient", "item-recipe", "culinary-recipe", "tailoring-recipe", "tecnomagic-recipe", "blacksmithing-recipe", "alchemy-recipe", "carpentry-recipe", "feature", "spell", "efeito", "arma", "armadura", "skill"],
     "htmlFields": ["description"],
     "templates": {
       "base": {
@@ -293,6 +293,16 @@
         "current": 3,
         "max": 3
       }
+    },
+    "skill": {
+      "templates": ["base"],
+      "skillType": "general",
+      "skillCategory": "miscellaneous", 
+      "skillClass": "general",
+      "hasEnergyCost": false,
+      "energyCost": 0,
+      "hasCustomEffects": false,
+      "customEffects": []
     }
   }
 }

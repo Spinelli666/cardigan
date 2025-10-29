@@ -89,6 +89,8 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       { initial: [] }
     );
 
+
+
     return schema;
   }
 
