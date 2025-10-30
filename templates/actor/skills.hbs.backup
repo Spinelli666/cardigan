@@ -168,15 +168,15 @@
             <div class='item-type'>
               {{#if skill.system.skillType}}
                 <span class="skill-type-badge" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(33,150,243,0.2); color: #2196f3;">
-                  {{localize (lookup @root.config.skillTypes skill.system.skillType)}}
+                  {{lookup @root.config.skillTypes skill.system.skillType}}
                 </span>
               {{/if}}
             </div>
             <div class='item-enhancements'>
               <div class="enhancement-checkboxes" style="display: flex; gap: 8px; justify-content: center;">
-                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked (lookup skill.system.acquiredEnhancements 0)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked (lookup skill.system.acquiredEnhancements 1)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked (lookup skill.system.acquiredEnhancements 2)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
+                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked skill.system.acquiredEnhancements.0}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
+                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked skill.system.acquiredEnhancements.1}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
+                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked skill.system.acquiredEnhancements.2}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
               </div>
             </div>
             <div class='item-controls'>
@@ -222,8 +222,6 @@
     <ol class='items-list'>
       <li class='item flexrow items-header'>
         <div class='item-name'>Skill Name</div>
-        <div class='item-type'>Type</div>
-        <div class='item-enhancements'>Enhancements</div>
         <div class='item-controls'>
           {{#if @root.editable}}
             <a class='item-control item-create' title='Add Guerreiro Skill' data-action='createDoc' data-document-class='Item' data-type='skill' data-name='New Guerreiro Skill'>
@@ -259,20 +257,6 @@
                 {{#if skill.system.isPassive}}
                   <i class="fas fa-shield-alt" title="{{localize 'CARDIGAN.PassiveSkill'}}" style="color: #4caf50; margin-left: 5px;"></i>
                 {{/if}}
-              </div>
-            </div>
-            <div class='item-type'>
-              {{#if skill.system.skillType}}
-                <span class="skill-type-badge" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(33,150,243,0.2); color: #2196f3;">
-                  {{localize (lookup @root.config.skillTypes skill.system.skillType)}}
-                </span>
-              {{/if}}
-            </div>
-            <div class='item-enhancements'>
-              <div class="enhancement-checkboxes" style="display: flex; gap: 8px; justify-content: center;">
-                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked (lookup skill.system.acquiredEnhancements 0)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked (lookup skill.system.acquiredEnhancements 1)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked (lookup skill.system.acquiredEnhancements 2)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
               </div>
             </div>
             <div class='item-controls'>
@@ -318,8 +302,6 @@
     <ol class='items-list'>
       <li class='item flexrow items-header'>
         <div class='item-name'>Skill Name</div>
-        <div class='item-type'>Type</div>
-        <div class='item-enhancements'>Enhancements</div>
         <div class='item-controls'>
           {{#if @root.editable}}
             <a class='item-control item-create' title='Add Ladino Skill' data-action='createDoc' data-document-class='Item' data-type='skill' data-name='New Ladino Skill'>
@@ -355,20 +337,6 @@
                 {{#if skill.system.isPassive}}
                   <i class="fas fa-shield-alt" title="{{localize 'CARDIGAN.PassiveSkill'}}" style="color: #4caf50; margin-left: 5px;"></i>
                 {{/if}}
-              </div>
-            </div>
-            <div class='item-type'>
-              {{#if skill.system.skillType}}
-                <span class="skill-type-badge" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(33,150,243,0.2); color: #2196f3;">
-                  {{localize (lookup @root.config.skillTypes skill.system.skillType)}}
-                </span>
-              {{/if}}
-            </div>
-            <div class='item-enhancements'>
-              <div class="enhancement-checkboxes" style="display: flex; gap: 8px; justify-content: center;">
-                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked (lookup skill.system.acquiredEnhancements 0)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked (lookup skill.system.acquiredEnhancements 1)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked (lookup skill.system.acquiredEnhancements 2)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
               </div>
             </div>
             <div class='item-controls'>
@@ -414,8 +382,6 @@
     <ol class='items-list'>
       <li class='item flexrow items-header'>
         <div class='item-name'>Skill Name</div>
-        <div class='item-type'>Type</div>
-        <div class='item-enhancements'>Enhancements</div>
         <div class='item-controls'>
           {{#if @root.editable}}
             <a class='item-control item-create' title='Add Feiticeiro Skill' data-action='createDoc' data-document-class='Item' data-type='skill' data-name='New Feiticeiro Skill'>
@@ -451,20 +417,6 @@
                 {{#if skill.system.isPassive}}
                   <i class="fas fa-shield-alt" title="{{localize 'CARDIGAN.PassiveSkill'}}" style="color: #4caf50; margin-left: 5px;"></i>
                 {{/if}}
-              </div>
-            </div>
-            <div class='item-type'>
-              {{#if skill.system.skillType}}
-                <span class="skill-type-badge" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(33,150,243,0.2); color: #2196f3;">
-                  {{localize (lookup @root.config.skillTypes skill.system.skillType)}}
-                </span>
-              {{/if}}
-            </div>
-            <div class='item-enhancements'>
-              <div class="enhancement-checkboxes" style="display: flex; gap: 8px; justify-content: center;">
-                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked (lookup skill.system.acquiredEnhancements 0)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked (lookup skill.system.acquiredEnhancements 1)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked (lookup skill.system.acquiredEnhancements 2)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
               </div>
             </div>
             <div class='item-controls'>
@@ -510,8 +462,6 @@
     <ol class='items-list'>
       <li class='item flexrow items-header'>
         <div class='item-name'>Skill Name</div>
-        <div class='item-type'>Type</div>
-        <div class='item-enhancements'>Enhancements</div>
         <div class='item-controls'>
           {{#if @root.editable}}
             <a class='item-control item-create' title='Add Raciais Skill' data-action='createDoc' data-document-class='Item' data-type='skill' data-name='New Raciais Skill'>
@@ -547,20 +497,6 @@
                 {{#if skill.system.isPassive}}
                   <i class="fas fa-shield-alt" title="{{localize 'CARDIGAN.PassiveSkill'}}" style="color: #4caf50; margin-left: 5px;"></i>
                 {{/if}}
-              </div>
-            </div>
-            <div class='item-type'>
-              {{#if skill.system.skillType}}
-                <span class="skill-type-badge" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(33,150,243,0.2); color: #2196f3;">
-                  {{localize (lookup @root.config.skillTypes skill.system.skillType)}}
-                </span>
-              {{/if}}
-            </div>
-            <div class='item-enhancements'>
-              <div class="enhancement-checkboxes" style="display: flex; gap: 8px; justify-content: center;">
-                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked (lookup skill.system.acquiredEnhancements 0)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked (lookup skill.system.acquiredEnhancements 1)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked (lookup skill.system.acquiredEnhancements 2)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
               </div>
             </div>
             <div class='item-controls'>
@@ -606,8 +542,6 @@
     <ol class='items-list'>
       <li class='item flexrow items-header'>
         <div class='item-name'>Skill Name</div>
-        <div class='item-type'>Type</div>
-        <div class='item-enhancements'>Enhancements</div>
         <div class='item-controls'>
           {{#if @root.editable}}
             <a class='item-control item-create' title='Add Únicas Skill' data-action='createDoc' data-document-class='Item' data-type='skill' data-name='New Únicas Skill'>
@@ -643,20 +577,6 @@
                 {{#if skill.system.isPassive}}
                   <i class="fas fa-shield-alt" title="{{localize 'CARDIGAN.PassiveSkill'}}" style="color: #4caf50; margin-left: 5px;"></i>
                 {{/if}}
-              </div>
-            </div>
-            <div class='item-type'>
-              {{#if skill.system.skillType}}
-                <span class="skill-type-badge" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(33,150,243,0.2); color: #2196f3;">
-                  {{localize (lookup @root.config.skillTypes skill.system.skillType)}}
-                </span>
-              {{/if}}
-            </div>
-            <div class='item-enhancements'>
-              <div class="enhancement-checkboxes" style="display: flex; gap: 8px; justify-content: center;">
-                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked (lookup skill.system.acquiredEnhancements 0)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked (lookup skill.system.acquiredEnhancements 1)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked (lookup skill.system.acquiredEnhancements 2)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
               </div>
             </div>
             <div class='item-controls'>

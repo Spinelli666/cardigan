@@ -102,6 +102,12 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       ]}
     );
 
+    // Acquired enhancements - which enhancements the player has unlocked
+    schema.acquiredEnhancements = new fields.ArrayField(
+      new fields.BooleanField({ required: false, initial: false }),
+      { initial: [false, false, false] }
+    );
+
     return schema;
   }
 

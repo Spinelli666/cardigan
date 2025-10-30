@@ -112,7 +112,6 @@ export class AcertoDebilitanteSkill extends BaseSkill {
    */
   static async initialize() {
     await super.initialize();
-    console.log('[CARDIGAN] Acerto Debilitante skill initialized with 2 buttons: Attack, Energy');
   }
 
   /**
@@ -318,7 +317,6 @@ export class AcertoDebilitanteSkill extends BaseSkill {
    * @returns {Promise<void>}
    */
   static async handleButtonClick(buttonType, actorId) {
-    console.log(`Acerto Debilitante: Handling ${buttonType} button click for actor ${actorId}`);
     
     switch (buttonType) {
       case 'attack':
@@ -621,13 +619,6 @@ export class AcertoDebilitanteSkill extends BaseSkill {
         return;
       }
 
-      console.log("Actor found:", {
-        name: actor.name,
-        id: actor.id,
-        type: actor.type,
-        systemData: actor.system
-      });
-
       // Get the skill item from the actor to check energy cost
       const skill = actor.items.find(item => item.type === 'skill' && item.name === this.skillName);
       if (!skill) {
@@ -650,16 +641,6 @@ export class AcertoDebilitanteSkill extends BaseSkill {
       }
       const currentEnergy = actor.system.power.value || 0;
       const maxEnergy = actor.system.power.max || 0;
-
-      console.log("Energy check detailed:", {
-        actorName: actor.name,
-        actorId: actor.id,
-        powerField: actor.system.power,
-        currentEnergy,
-        maxEnergy,
-        energyCost,
-        hasEnough: currentEnergy >= energyCost
-      });
 
       // Check if has enough energy
       if (currentEnergy < energyCost) {
@@ -684,12 +665,6 @@ export class AcertoDebilitanteSkill extends BaseSkill {
       // Update actor's power (energy) directly
       await actor.update({
         'system.power.value': newEnergy
-      });
-
-      console.log(`${this.skillName} spent ${energyCost} energy:`, {
-        actor: actor.name,
-        before: currentEnergy,
-        after: newEnergy
       });
 
       // Create success message in chat

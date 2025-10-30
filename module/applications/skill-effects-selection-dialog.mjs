@@ -92,11 +92,6 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
       this.negativeEffects = allEffects.filter(effect => 
         effect.folder === 'Efeitos Negativos'
       );
-
-      console.log("Loaded effects for selection:", {
-        positive: this.positiveEffects.length,
-        negative: this.negativeEffects.length
-      });
     } catch (error) {
       console.error("Error loading effects from compendium:", error);
       ui.notifications.error("Erro ao carregar efeitos do compêndio");
@@ -105,13 +100,11 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
 
   static async #onConfirm(event, target) {
     try {
-      console.log('[CARDIGAN DEBUG] Confirming effects selection');
       
       // Get selected effects
       const selectedEffects = [];
       const checkboxes = this.element.querySelectorAll('input[type="checkbox"]:checked');
       
-      console.log('[CARDIGAN DEBUG] Found checkboxes:', checkboxes.length);
       
       checkboxes.forEach(checkbox => {
         const effectId = checkbox.closest('.effect-option').dataset.effectId;
@@ -127,7 +120,6 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
         }
       });
 
-      console.log('[CARDIGAN DEBUG] Selected effects:', selectedEffects);
 
       // Update the item with selected effects
       await this.item.update({

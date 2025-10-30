@@ -121,7 +121,6 @@ export class ItemTypeSelectionDialog extends api.HandlebarsApplicationMixin(
           }
         };
         
-        console.log('[ARMOR CREATION] Create data:', createData);
         
         const document = await itemClass.create(createData, {
           parent: this.actor,
@@ -169,7 +168,6 @@ export class ItemTypeSelectionDialog extends api.HandlebarsApplicationMixin(
           }
         };
         
-        console.log('[WEAPON CREATION] Create data:', createData);
         
         const document = await itemClass.create(createData, {
           parent: this.actor,
@@ -202,11 +200,6 @@ export class ItemTypeSelectionDialog extends api.HandlebarsApplicationMixin(
       
       // Debug logging for backpack creation
       if (itemType === 'backpack') {
-        console.log('[BACKPACK CREATION] Item class:', itemClass);
-        console.log('[BACKPACK CREATION] Create data:', createData);
-        console.log('[BACKPACK CREATION] Available item types:', Object.keys(CONFIG.Item.dataModels || {}));
-        console.log('[BACKPACK CREATION] Item class TYPES:', itemClass.TYPES);
-        console.log('[BACKPACK CREATION] System document types:', game.system?.documentTypes?.Item);
       }
       
       const document = await itemClass.create(createData, {

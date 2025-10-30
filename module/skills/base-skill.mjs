@@ -103,12 +103,6 @@ export class BaseSkill {
     try {
       const roll = new Roll(formula);
       await roll.evaluate();
-      
-      console.log(`${this.skillName} roll:`, {
-        actor: actor.name,
-        formula: roll.formula,
-        result: roll.total
-      });
 
       return roll;
     } catch (error) {
@@ -150,12 +144,6 @@ export class BaseSkill {
 
       await actor.update({
         [`system.resources.${resourceType}.value`]: newAmount
-      });
-
-      console.log(`${this.skillName} spent ${amount} ${resourceType}:`, {
-        actor: actor.name,
-        before: currentAmount,
-        after: newAmount
       });
 
       return true;
@@ -552,13 +540,6 @@ export class BaseSkill {
     const loadedAmmoTypes = weapon.system.loadedAmmoTypes || {};
     const hasAnyAmmunition = Object.values(loadedAmmoTypes).some(amount => amount > 0);
     
-    console.log("Skill attack ammo check:", { 
-      weaponName: weapon.name,
-      skillName: this.skillName,
-      loadedAmmoTypes, 
-      hasAnyAmmunition 
-    });
-    
     if (!hasAnyAmmunition) {
       ui.notifications.warn(game.i18n.localize("CARDIGAN.NoAmmunition") || "Sem munição disponível!");
       return false;
@@ -586,7 +567,6 @@ export class BaseSkill {
       if (!isSpecial && ammoAmount > 0) {
         consumedAmmoType = ammoId;
         consumedAmmoItem = ammoItem;
-        console.log(`Selected NORMAL ammo for ${this.skillName} attack: ${ammoItem.name} (${ammoId})`);
         break;
       }
     }
@@ -601,7 +581,6 @@ export class BaseSkill {
         if (isSpecial && ammoAmount > 0) {
           consumedAmmoType = ammoId;
           consumedAmmoItem = ammoItem;
-          console.log(`Selected SPECIAL ammo for ${this.skillName} attack: ${ammoItem.name} (${ammoId})`);
           break;
         }
       }
@@ -612,7 +591,6 @@ export class BaseSkill {
       const updatedLoadedAmmoTypes = { ...loadedAmmoTypes };
       updatedLoadedAmmoTypes[consumedAmmoType] = Math.max(0, updatedLoadedAmmoTypes[consumedAmmoType] - 1);
       
-      console.log(`${this.skillName}: Reduced ${consumedAmmoType} from ${loadedAmmoTypes[consumedAmmoType]} to ${updatedLoadedAmmoTypes[consumedAmmoType]}`);
       
       // Calculate new total
       const newLoaded = Object.values(updatedLoadedAmmoTypes).reduce((sum, amount) => sum + amount, 0);
@@ -622,7 +600,6 @@ export class BaseSkill {
         'system.loadedAmmoTypes': updatedLoadedAmmoTypes
       });
       
-      console.log(`${this.skillName}: Ammunition consumed successfully. New loaded: ${newLoaded}`);
       return true;
     }
 
@@ -807,6 +784,5 @@ export class BaseSkill {
    * @returns {Promise<void>}
    */
   static async initialize() {
-    console.log(`Initializing skill: ${this.skillName}`);
   }
 }

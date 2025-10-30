@@ -16,7 +16,6 @@ export { AcertoDebilitanteSkill } from './skills/acerto-debilitante.mjs';
  * @returns {Promise<void>}
  */
 export async function initializeSkillsSystem() {
-  console.log('[CARDIGAN] Initializing Skills System...');
   
   try {
     // Register all skills with the manager
@@ -29,8 +28,6 @@ export async function initializeSkillsSystem() {
     // Initialize the skill system
     await SkillManager.initialize();
     
-    console.log('[CARDIGAN] Skills System initialized successfully');
-    console.log('[CARDIGAN] Skills stats:', SkillManager.getStats());
     
   } catch (error) {
     console.error('[CARDIGAN] Failed to initialize Skills System:', error);

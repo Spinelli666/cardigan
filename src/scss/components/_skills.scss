@@ -383,3 +383,96 @@
     }
   }
 }
+
+/* ===== SKILLS TABLE COLUMN STYLES ===== */
+
+.skill-table-container {
+  .items-header {
+    display: grid;
+    grid-template-columns: 1fr 120px 150px 120px;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 12px;
+    
+    .item-name {
+      flex: none;
+      width: auto;
+    }
+    
+    .item-type {
+      text-align: center;
+      font-weight: bold;
+      color: #d4af37;
+    }
+    
+    .item-enhancements {
+      text-align: center;
+      font-weight: bold;
+      color: #d4af37;
+    }
+    
+    .item-controls {
+      flex: none;
+      width: auto;
+      text-align: right;
+    }
+  }
+  
+  .skill-item {
+    .item-row {
+      display: grid;
+      grid-template-columns: 1fr 120px 150px 120px;
+      gap: 10px;
+      align-items: center;
+      padding: 8px 12px;
+      
+      .item-name {
+        flex: none;
+        width: auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .item-type {
+        text-align: center;
+        
+        .skill-type-badge {
+          display: inline-block;
+          white-space: nowrap;
+        }
+      }
+      
+      .item-enhancements {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        .enhancement-checkboxes {
+          input[type="checkbox"] {
+            margin: 0;
+            cursor: pointer;
+            accent-color: #4caf50;
+            
+            &:hover {
+              transform: scale(1.1);
+              transition: transform 0.1s ease;
+            }
+            
+            &:checked {
+              accent-color: #66bb6a;
+            }
+          }
+        }
+      }
+      
+      .item-controls {
+        flex: none;
+        width: auto;
+        display: flex;
+        justify-content: flex-end;
+        gap: 4px;
+      }
+    }
+  }
+}

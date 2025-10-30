@@ -111,7 +111,6 @@ export default class GeneralItemsSelectionDialog extends api.HandlebarsApplicati
    * @param {string} name - The item name
    */
   async _createItem(type, name) {
-    console.log(`[GeneralItemsSelectionDialog] Creating ${type} item with name: ${name}`);
     
     try {
       // Show weight selection dialog for backpack items
@@ -165,10 +164,8 @@ export default class GeneralItemsSelectionDialog extends api.HandlebarsApplicati
           break;
       }
 
-      console.log(`[GeneralItemsSelectionDialog] Item data:`, itemData);
       
       const item = await this.actor.createEmbeddedDocuments('Item', [itemData]);
-      console.log(`[GeneralItemsSelectionDialog] Successfully created item:`, item);
       
       // Close this dialog
       this.close();
@@ -208,14 +205,12 @@ export default class GeneralItemsSelectionDialog extends api.HandlebarsApplicati
    * @param {HTMLElement} target
    */
   async _onBack(event, target) {
-    console.log('[GeneralItemsSelectionDialog] Back button clicked');
     
     // Close this dialog
     this.close();
     
     // Reopen parent dialog if it exists
     if (this.parentDialog) {
-      console.log('[GeneralItemsSelectionDialog] Reopening parent dialog');
       this.parentDialog.element.style.display = 'block';
       await this.parentDialog.render(true);
     }
@@ -227,7 +222,6 @@ export default class GeneralItemsSelectionDialog extends api.HandlebarsApplicati
    * @param {HTMLElement} target
    */
   async _onCancel(event, target) {
-    console.log('[GeneralItemsSelectionDialog] Cancel button clicked');
     
     this.close();
     

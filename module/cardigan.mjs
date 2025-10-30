@@ -80,22 +80,10 @@ Hooks.once('init', function () {
   };
 
   // Debug logging
-  console.log('[CARDIGAN] Registered Item types:', Object.keys(CONFIG.Item.dataModels));
-  console.log('[CARDIGAN] CardiganSystemItemComum model:', models.CardiganSystemItemComum);
-  console.log('[CARDIGAN] CardiganSystemItemMunicao model:', models.CardiganSystemItemMunicao);
-  console.log('[CARDIGAN] CardiganSystemItemConsumivel model:', models.CardiganSystemItemConsumivel);
-  console.log('[CARDIGAN] CardiganSystemEfeito model:', models.CardiganSystemEfeito);
-  console.log('[CARDIGAN] CardiganSystemSkill model:', models.CardiganSystemSkill);
-  console.log('[CARDIGAN] CardiganSystemArma model:', models.CardiganSystemArma);
-  console.log('[CARDIGAN] CardiganSystemArmadura model:', models.CardiganSystemArmadura);
   
   // Verify document types (using modern documentTypes instead of deprecated template)
-  console.log('[CARDIGAN] Document types from system.json:', game.system?.documentTypes?.Item);
   
   // Verify that CONFIG recognizes the backpack and skill types
-  console.log('[CARDIGAN] CONFIG.Item.dataModels keys:', Object.keys(CONFIG.Item.dataModels));
-  console.log('[CARDIGAN] Does CONFIG have backpack?', 'backpack' in CONFIG.Item.dataModels);
-  console.log('[CARDIGAN] Does CONFIG have skill?', 'skill' in CONFIG.Item.dataModels);
 
   // Active Effects are never copied to the Actor,
   // but will still apply to the Actor from within the Item
@@ -150,7 +138,6 @@ Hooks.once('init', function () {
 /* -------------------------------------------- */
 
 Hooks.on('updateItem', function (item, updates, options, userId) {
-  console.log('[CARDIGAN] updateItem hook triggered:', item.name, updates);
   
   // Update actor sheets if item belongs to an actor
   if (item.parent && item.parent.documentName === 'Actor') {
@@ -160,7 +147,6 @@ Hooks.on('updateItem', function (item, updates, options, userId) {
     );
     
     actorSheets.forEach(sheet => {
-      console.log('[CARDIGAN] Re-rendering actor sheet for:', item.parent.name);
       // Force immediate re-render
       sheet.render(false);
     });
@@ -173,7 +159,6 @@ Hooks.on('updateItem', function (item, updates, options, userId) {
   );
   
   itemSheets.forEach(sheet => {
-    console.log('[CARDIGAN] Re-rendering item sheet for:', item.name);
     // Force immediate re-render with fresh data
     sheet.render(true); // true forces full re-render
   });
@@ -369,16 +354,10 @@ function rollItemMacro(itemUuid) {
 
 Hooks.once('ready', function () {
   // Verify system is properly loaded
-  console.log('[CARDIGAN] System ready - verifying configuration...');
-  console.log('[CARDIGAN] Available Item types in CONFIG:', Object.keys(CONFIG.Item.dataModels));
-  console.log('[CARDIGAN] System document types:', game.system?.documentTypes?.Item);
-  console.log('[CARDIGAN] Backpack model available:', !!CONFIG.Item.dataModels.backpack);
   
   // Test if we can create a backpack item
   try {
     const itemClass = getDocumentClass("Item");
-    console.log('[CARDIGAN] Item class:', itemClass);
-    console.log('[CARDIGAN] Item class supports backpack:', itemClass.TYPES.includes('backpack'));
   } catch (error) {
     console.error('[CARDIGAN] Error testing item creation:', error);
   }

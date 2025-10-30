@@ -13,8 +13,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   constructor(options = {}) {
     super(options);
     this.#dragDrop = this.#createDragDropHandlers();
-    console.log('[CARDIGAN DEBUG] ItemSheet constructor');
-    console.log('[CARDIGAN DEBUG] Available actions:', Object.keys(this.constructor.DEFAULT_OPTIONS.actions));
   }
 
   /** @override */
@@ -362,9 +360,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   _onRender(context, options) {
-    console.log('[CARDIGAN DEBUG] _onRender called');
-    console.log('[CARDIGAN DEBUG] Context:', context);
-    console.log('[CARDIGAN DEBUG] Options:', options);
     
     this.#dragDrop.forEach((d) => d.bind(this.element));
     
@@ -441,46 +436,36 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   _setupIngredientListeners() {
-    console.log('[CARDIGAN DEBUG] Setting up ingredient listeners');
     
     // Find add ingredient button
     const addButton = this.element.querySelector('[data-action="addIngredient"]');
     if (addButton) {
-      console.log('[CARDIGAN DEBUG] Found add ingredient button');
       addButton.addEventListener('click', (event) => {
-        console.log('[CARDIGAN DEBUG] Add ingredient button clicked!');
         this._addIngredient(event, event.currentTarget);
       });
     } else {
-      console.log('[CARDIGAN DEBUG] Add ingredient button not found');
     }
     
     // Find remove ingredient buttons  
     const removeButtons = this.element.querySelectorAll('[data-action="removeIngredient"]');
-    console.log('[CARDIGAN DEBUG] Found', removeButtons.length, 'remove buttons');
     removeButtons.forEach(button => {
       button.addEventListener('click', (event) => {
-        console.log('[CARDIGAN DEBUG] Remove ingredient button clicked!');
         this._removeIngredient(event, event.currentTarget);
       });
     });
     
     // Find change image buttons
     const imageButtons = this.element.querySelectorAll('[data-action="changeIngredientImage"]');
-    console.log('[CARDIGAN DEBUG] Found', imageButtons.length, 'image buttons');
     imageButtons.forEach(button => {
       button.addEventListener('click', (event) => {
-        console.log('[CARDIGAN DEBUG] Change image button clicked!');
         this._changeIngredientImage(event, event.currentTarget);
       });
     });
     
     // Find ingredient name inputs
     const nameInputs = this.element.querySelectorAll('[data-action="ingredientNameChange"]');
-    console.log('[CARDIGAN DEBUG] Found', nameInputs.length, 'name inputs');
     nameInputs.forEach(input => {
       input.addEventListener('change', (event) => {
-        console.log('[CARDIGAN DEBUG] Ingredient name changed!');
         this._onIngredientNameChange(event, event.currentTarget);
       });
     });
@@ -662,7 +647,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    */
   _setupSkillEffectsButton() {
     // No need for manual setup since we're using data-action
-    console.log('[CARDIGAN DEBUG] Skill effects button setup called');
   }
 
   /**************
@@ -780,17 +764,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    */
   static async _addWeaponProperty(event, target) {
     event.preventDefault();
-    console.log('[CARDIGAN DEBUG] _addWeaponProperty called', { 
-      event, 
-      target, 
-      item: this.item,
-      itemType: this.item?.type,
-      itemSystem: this.item?.system 
-    });
     
     const item = this.item;
     if (item.type !== 'arma' && item.type !== 'armadura') {
-      console.log('[CARDIGAN DEBUG] Item is not arma or armadura type, returning');
       return;
     }
 
@@ -799,10 +775,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const filteredProperties = currentProperties.filter(prop => prop && prop.trim() !== '');
     const newProperties = [...filteredProperties, ''];
     
-    console.log('[CARDIGAN DEBUG] Current properties:', currentProperties);
-    console.log('[CARDIGAN DEBUG] Filtered properties:', filteredProperties);
-    console.log('[CARDIGAN DEBUG] New properties:', newProperties);
-    console.log('[CARDIGAN DEBUG] Submitting update...');
     
     return this.submit({ updateData: { 'system.properties': newProperties } });
   }
@@ -829,13 +801,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Filter out any empty strings and use the clean array
     const finalProperties = newProperties.filter(prop => prop && prop.trim() !== '');
     
-    console.log('[CARDIGAN DEBUG] _removeWeaponProperty', {
-      index,
-      currentProperties,
-      newProperties,
-      finalProperties
-    });
-    
     return this.submit({ updateData: { 'system.properties': finalProperties } });
   }
 
@@ -847,17 +812,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    */
   static async _addSkillBonus(event, target) {
     event.preventDefault();
-    console.log('[CARDIGAN DEBUG] _addSkillBonus called', { 
-      event, 
-      target, 
-      item: this.item,
-      itemType: this.item?.type,
-      itemSystem: this.item?.system 
-    });
     
     const item = this.item;
     if (item.type !== 'arma' && item.type !== 'armadura') {
-      console.log('[CARDIGAN DEBUG] Item is not arma or armadura type, returning');
       return;
     }
 
@@ -870,10 +827,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Always use 'accuracy' as default skill to ensure valid data
     const newSkillBonuses = [...filteredSkillBonuses, { skill: 'accuracy', bonus: 0 }];
     
-    console.log('[CARDIGAN DEBUG] Current skill bonuses:', currentSkillBonuses);
-    console.log('[CARDIGAN DEBUG] Filtered skill bonuses:', filteredSkillBonuses);
-    console.log('[CARDIGAN DEBUG] New skill bonuses:', newSkillBonuses);
-    console.log('[CARDIGAN DEBUG] Submitting update...');
     
     return this.submit({ updateData: { 'system.skillBonuses': newSkillBonuses } });
   }
@@ -902,13 +855,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       sb && typeof sb.skill === 'string' && sb.skill.trim() !== ''
     );
     
-    console.log('[CARDIGAN DEBUG] _removeSkillBonus', {
-      index,
-      currentSkillBonuses,
-      newSkillBonuses,
-      finalSkillBonuses
-    });
-    
     return this.submit({ updateData: { 'system.skillBonuses': finalSkillBonuses } });
   }
 
@@ -932,12 +878,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     };
     const newEffects = [...currentEffects, newEffect];
     
-    console.log('[CARDIGAN DEBUG] _addSkillEffect', {
-      currentEffects,
-      newEffect,
-      newEffects
-    });
-    
     return this.submit({ updateData: { 'system.modifiers.skillEffects': newEffects } });
   }
 
@@ -958,12 +898,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const currentEffects = item.system.toObject().modifiers?.skillEffects || [];
     const newEffects = currentEffects.filter((_, i) => i !== index);
     
-    console.log('[CARDIGAN DEBUG] _removeSkillEffect', {
-      index,
-      currentEffects,
-      newEffects
-    });
-    
     return this.submit({ updateData: { 'system.modifiers.skillEffects': newEffects } });
   }
 
@@ -974,29 +908,22 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   static async _configureSkillEffects(event, target) {
-    console.log('[CARDIGAN DEBUG] _configureSkillEffects called');
     event.preventDefault();
     const item = this.item;
-    console.log('[CARDIGAN DEBUG] Item:', item);
     
     if (item.type !== 'skill') {
-      console.log('[CARDIGAN DEBUG] Item is not a skill, returning');
       return;
     }
 
     try {
-      console.log('[CARDIGAN DEBUG] Importing dialog...');
       // Import the dialog class dynamically
       const { SkillEffectsSelectionDialog } = await import('../applications/skill-effects-selection-dialog.mjs');
       
-      console.log('[CARDIGAN DEBUG] Creating dialog...');
       // Open the effects selection dialog
       const dialog = new SkillEffectsSelectionDialog({
-        item: item,
         selectedEffects: item.system.customEffects || []
       });
       
-      console.log('[CARDIGAN DEBUG] Rendering dialog...');
       dialog.render(true);
     } catch (error) {
       console.error('[CARDIGAN ERROR] Error in _configureSkillEffects:', error);
@@ -1088,12 +1015,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       speaker: ChatMessage.getSpeaker({ actor: item.actor }),
       content: chatMessage,
       type: CONST.CHAT_MESSAGE_TYPES.OTHER
-    });
-    
-    console.log('[CARDIGAN DEBUG] _useConsumableItem', {
-      item: item.name,
-      consumeOnUse,
-      remainingQuantity: item.system.quantity
     });
   }
 
@@ -1236,7 +1157,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     // Perform the sort
     const sortUpdates = SortingHelpers.performIntegerSort(effect, {
-      target,
       siblings,
     });
     const updateData = sortUpdates.map((u) => {
@@ -1323,11 +1243,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     const newEffects = [...filteredEffects, { effectId: '', apply: false, remove: false }];
     
-    console.log('[CARDIGAN DEBUG] _addEffect', {
       currentEffects,
       filteredEffects,
       newEffects
-    });
     
     return this.submit({ updateData: { 'system.effects': newEffects } });
   }
@@ -1356,12 +1274,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       effect && typeof effect.effectId === 'string' && effect.effectId.trim() !== ''
     );
     
-    console.log('[CARDIGAN DEBUG] _removeEffect', {
       index,
       currentEffects,
       newEffects,
       finalEffects
-    });
     
     return this.submit({ updateData: { 'system.effects': finalEffects } });
   }
@@ -2149,7 +2065,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Check cache first
     if (useCache && CardiganSystemItemSheet._ingredientCache.has(cacheKey)) {
       const cached = CardiganSystemItemSheet._ingredientCache.get(cacheKey);
-      console.log('[CARDIGAN DEBUG] Using cached results for:', searchTerm);
       return cached;
     }
     
@@ -2204,7 +2119,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           
           // If we found an exact match, prioritize it and potentially stop early
           if (item.name.toLowerCase() === searchTerm && matchingItems.length >= 5) {
-            console.log('[CARDIGAN] Found exact match, stopping early search');
             break actorLoop;
           }
         }
@@ -2313,7 +2227,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       }
     }
     
-    console.log('[CARDIGAN DEBUG] Search results for', searchTerm, ':', sortedResults.length, 'items found');
     return sortedResults;
   }
 
@@ -2344,15 +2257,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         img: bestMatch.img || 'icons/svg/item-bag.svg'
       };
       
-      console.log('[CARDIGAN DEBUG] _autoFillIngredient', {
-        ingredientName,
-        matchingItems: matchingItems.length,
-        bestMatch: bestMatch.name,
-        source: bestMatch.source,
-        sourceLabel: bestMatch.sourceLabel,
-        newImage: bestMatch.img
-      });
-      
       // Show notification about the source and profession match
       const sourceMsg = bestMatch.source === 'actor' 
         ? `encontrado no inventário de ${bestMatch.sourceLabel}`
@@ -2381,16 +2285,12 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   static async _addIngredient(event, target) {
-    console.log('[CARDIGAN DEBUG] _addIngredient called - item type:', this.item.type);
-    console.log('[CARDIGAN DEBUG] Event:', event);
-    console.log('[CARDIGAN DEBUG] Target:', target);
     event.preventDefault();
     const item = this.item;
     
     // Check if this is a recipe type
     const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
     if (!recipeTypes.includes(item.type)) {
-      console.log('[CARDIGAN DEBUG] _addIngredient - Not a recipe type:', item.type);
       return;
     }
 
@@ -2403,10 +2303,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     const newIngredients = [...currentIngredients, newIngredient];
     
-    console.log('[CARDIGAN DEBUG] _addIngredient', {
       currentIngredients,
       newIngredients
-    });
     
     return item.update({ 'system.requiredIngredients': newIngredients });
   }
@@ -2418,14 +2316,12 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   static async _removeIngredient(event, target) {
-    console.log('[CARDIGAN DEBUG] _removeIngredient called');
     event.preventDefault();
     const item = this.item;
     
     // Check if this is a recipe type
     const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
     if (!recipeTypes.includes(item.type)) {
-      console.log('[CARDIGAN DEBUG] _removeIngredient - Not a recipe type:', item.type);
       return;
     }
 
@@ -2437,11 +2333,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Remove the ingredient at the specified index
     const newIngredients = currentIngredients.filter((_, i) => i !== index);
     
-    console.log('[CARDIGAN DEBUG] _removeIngredient', {
       index,
       currentIngredients,
       newIngredients
-    });
     
     return item.update({ 'system.requiredIngredients': newIngredients });
   }
@@ -2472,12 +2366,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       callback: (path) => {
         const newIngredients = [...currentIngredients];
         newIngredients[index].img = path;
-        
-        console.log('[CARDIGAN DEBUG] _changeIngredientImage', {
-          index,
-          newPath: path,
-          newIngredients
-        });
         
         item.update({ 'system.requiredIngredients': newIngredients });
       }
@@ -2617,7 +2505,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     }
 
     if (hasChanges) {
-      console.log('[CARDIGAN DEBUG] Auto-updating recipe ingredients:', this.item.name);
       await this.item.update({ 'system.requiredIngredients': newIngredients });
     }
   }
@@ -2634,7 +2521,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Debounce multiple rapid changes
     clearTimeout(CardiganSystemItemSheet._autoUpdateTimeout);
     CardiganSystemItemSheet._autoUpdateTimeout = setTimeout(async () => {
-      console.log('[CARDIGAN DEBUG] Triggering auto-update for', CardiganSystemItemSheet._openRecipeSheets.size, 'recipe sheets');
       
       for (const sheet of CardiganSystemItemSheet._openRecipeSheets) {
         try {
@@ -2656,33 +2542,28 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     // Monitor item creation in actors
     Hooks.on('createItem', (item, options, userId) => {
-      console.log('[CARDIGAN DEBUG] Item created:', item.name, 'Type:', item.type);
       CardiganSystemItemSheet._triggerAutoUpdate(item.name);
     });
 
     // Monitor item updates in actors and sidebar
     Hooks.on('updateItem', (item, changes, options, userId) => {
       if (changes.name || changes.img) {
-        console.log('[CARDIGAN DEBUG] Item updated:', item.name, 'Changes:', Object.keys(changes));
         CardiganSystemItemSheet._triggerAutoUpdate(item.name);
       }
     });
 
     // Monitor item deletion
     Hooks.on('deleteItem', (item, options, userId) => {
-      console.log('[CARDIGAN DEBUG] Item deleted:', item.name);
       CardiganSystemItemSheet._triggerAutoUpdate(item.name);
     });
 
     // Monitor actor item changes (for inventory additions/removals)
     Hooks.on('updateActor', (actor, changes, options, userId) => {
       if (changes.items) {
-        console.log('[CARDIGAN DEBUG] Actor inventory changed:', actor.name);
         CardiganSystemItemSheet._triggerAutoUpdate();
       }
     });
 
-    console.log('[CARDIGAN] Ingredient auto-update hooks initialized');
   }
 
   /** @override */
@@ -2728,7 +2609,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const enhancementButtons = this.element.querySelectorAll('.enhancement-config-btn');
     enhancementButtons.forEach((button, index) => {
       button.addEventListener('click', (event) => {
-        console.log(`Enhancement button ${index + 1} clicked manually!`);
         ui.notifications.info(`Manual Enhancement ${index + 1} clicked!`);
         
         // Call the appropriate configuration method

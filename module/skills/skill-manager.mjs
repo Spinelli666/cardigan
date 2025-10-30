@@ -15,7 +15,6 @@ export class SkillManager {
    * @returns {Promise<void>}
    */
   static async initialize() {
-    console.log('[CARDIGAN] Initializing Skill Manager...');
     
     // Initialize all registered skills
     for (const [skillName, skillClass] of this.#skillRegistry) {
@@ -29,7 +28,6 @@ export class SkillManager {
     // Set up the chat message hook to handle skill buttons
     Hooks.on('renderChatMessageHTML', this.#onRenderChatMessageHTML.bind(this));
 
-    console.log(`[CARDIGAN] Skill Manager initialized with ${this.#skillRegistry.size} skills`);
   }
 
   /**
@@ -48,7 +46,6 @@ export class SkillManager {
       }
 
       this.#skillRegistry.set(skillName, skillClass);
-      console.log(`[CARDIGAN] Registered skill: ${skillName}`);
     } catch (error) {
       console.error("Error registering skill:", error);
     }
@@ -116,7 +113,6 @@ export class SkillManager {
    */
   static #setupDynamicTooltipsHTML(skillName, skillClass, html) {
     const tooltipButtons = html.querySelectorAll('.cardigan-dynamic-tooltip');
-    console.log(`Setting up dynamic tooltips for ${tooltipButtons.length} buttons`);
 
     tooltipButtons.forEach(button => {
       // Remove any existing tooltip
@@ -172,7 +168,6 @@ export class SkillManager {
    */
   static #setupDynamicTooltips(html) {
     const tooltipButtons = html.querySelectorAll('.cardigan-dynamic-tooltip');
-    console.log(`Setting up dynamic tooltips for ${tooltipButtons.length} buttons`);
 
     tooltipButtons.forEach(button => {
       // Remove any existing tooltip
@@ -229,12 +224,10 @@ export class SkillManager {
   static #onRenderChatMessageHTML(message, html) {
     // Look for skill buttons in the rendered message (including apply effects button)
     const skillButtons = html.querySelectorAll('[class*="cardigan-skill-"], .cardigan-apply-effects-btn');
-    console.log(`[CARDIGAN] Found ${skillButtons.length} skill buttons in chat message`);
     
     if (skillButtons.length > 0) {
       // Set up event listeners for each skill button
       skillButtons.forEach((button) => {
-        console.log(`[CARDIGAN] Processing button:`, button.className, button.dataset);
         const skillName = button.dataset.skill;
         const actorId = button.dataset.actorId;
         
@@ -257,7 +250,6 @@ export class SkillManager {
             // Add click handler
             button._skillManagerHandler = async (event) => {
               event.preventDefault();
-              console.log(`[CARDIGAN] Button clicked: ${buttonType} for skill ${skillName}`);
               try {
                 await skillClass.handleButtonClick(buttonType, actorId);
               } catch (error) {
@@ -305,7 +297,6 @@ export class SkillManager {
    */
   static async handleSkillToChat(skillName, actorId) {
     try {
-      console.log(`SkillManager: Handling skill to chat - ${skillName} for actor ${actorId}`);
       
       const skillClass = this.getSkill(skillName);
       if (skillClass && typeof skillClass.handleSkillToChat === 'function') {

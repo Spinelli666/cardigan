@@ -8037,6 +8037,80 @@
 .cardigan .enhancements-section .enhancement-field input[type=number] {
   text-align: center;
 }
+.cardigan {
+  /* ===== SKILLS TABLE COLUMN STYLES ===== */
+}
+.cardigan .skill-table-container .items-header {
+  display: grid;
+  grid-template-columns: 1fr 120px 150px 120px;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 12px;
+}
+.cardigan .skill-table-container .items-header .item-name {
+  flex: none;
+  width: auto;
+}
+.cardigan .skill-table-container .items-header .item-type {
+  text-align: center;
+  font-weight: bold;
+  color: #d4af37;
+}
+.cardigan .skill-table-container .items-header .item-enhancements {
+  text-align: center;
+  font-weight: bold;
+  color: #d4af37;
+}
+.cardigan .skill-table-container .items-header .item-controls {
+  flex: none;
+  width: auto;
+  text-align: right;
+}
+.cardigan .skill-table-container .skill-item .item-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 150px 120px;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 12px;
+}
+.cardigan .skill-table-container .skill-item .item-row .item-name {
+  flex: none;
+  width: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cardigan .skill-table-container .skill-item .item-row .item-type {
+  text-align: center;
+}
+.cardigan .skill-table-container .skill-item .item-row .item-type .skill-type-badge {
+  display: inline-block;
+  white-space: nowrap;
+}
+.cardigan .skill-table-container .skill-item .item-row .item-enhancements {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cardigan .skill-table-container .skill-item .item-row .item-enhancements .enhancement-checkboxes input[type=checkbox] {
+  margin: 0;
+  cursor: pointer;
+  accent-color: #4caf50;
+}
+.cardigan .skill-table-container .skill-item .item-row .item-enhancements .enhancement-checkboxes input[type=checkbox]:hover {
+  transform: scale(1.1);
+  transition: transform 0.1s ease;
+}
+.cardigan .skill-table-container .skill-item .item-row .item-enhancements .enhancement-checkboxes input[type=checkbox]:checked {
+  accent-color: #66bb6a;
+}
+.cardigan .skill-table-container .skill-item .item-row .item-controls {
+  flex: none;
+  width: auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+}
 .cardigan .skill-enhancements-tab {
   padding: 1rem;
   max-height: 400px;

@@ -489,39 +489,20 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
    * @private
    */
   async _checkAndApplyExhaustionEffect(hungerLevel, thirstLevel) {
-    console.log(`[CARDIGAN DEBUG] Verificando exaustão - Fome: ${hungerLevel}, Sede: ${thirstLevel}`);
     
     const shouldHaveExhaustion = hungerLevel === 3 || thirstLevel === 3;
-    console.log(`[CARDIGAN DEBUG] Deve ter exaustão: ${shouldHaveExhaustion}`);
-    
-    // Verificar efeitos existentes de forma mais detalhada
-    console.log(`[CARDIGAN DEBUG] Total de efeitos no ator:`, this.parent.effects.size);
-    console.log(`[CARDIGAN DEBUG] Lista de todos os efeitos:`, this.parent.effects.map(e => ({
-      name: e.name,
-      id: e.id,
-      flags: e.flags
-    })));
     
     const currentExhaustionEffect = this.parent.effects.find(effect => {
       const isExhaustion = effect.name === "Exaustão" || 
                           effect.label === "Exaustão" ||
                           effect.flags?.cardigan?.source === "hunger_thirst";
-      console.log(`[CARDIGAN DEBUG] Verificando efeito "${effect.name}": é exaustão? ${isExhaustion}`);
       return isExhaustion;
     });
     
-    console.log(`[CARDIGAN DEBUG] Efeito atual encontrado:`, currentExhaustionEffect ? {
-      name: currentExhaustionEffect.name,
-      id: currentExhaustionEffect.id,
-      flags: currentExhaustionEffect.flags
-    } : null);
-    
     if (shouldHaveExhaustion && !currentExhaustionEffect) {
-      console.log(`[CARDIGAN DEBUG] Aplicando efeito de exaustão...`);
       // Aplicar efeito de exaustão
       await this._applyExhaustionEffect(hungerLevel, thirstLevel);
     } else if (!shouldHaveExhaustion && currentExhaustionEffect) {
-      console.log(`[CARDIGAN DEBUG] Removendo efeito de exaustão...`);
       // Remover efeito de exaustão
       await currentExhaustionEffect.delete();
       
@@ -535,7 +516,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
         speaker: ChatMessage.getSpeaker({ actor: this.parent })
       });
     } else {
-      console.log(`[CARDIGAN DEBUG] Nenhuma ação necessária. shouldHave: ${shouldHaveExhaustion}, current: ${!!currentExhaustionEffect}`);
     }
   }
 
@@ -547,7 +527,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
    */
   async _applyExhaustionEffect(hungerLevel, thirstLevel) {
     try {
-      console.log(`[CARDIGAN DEBUG] Aplicando efeito de exaustão - Fome: ${hungerLevel}, Sede: ${thirstLevel}`);
 
       // Buscar o compêndio de efeitos
       const pack = game.packs.get("cardigan.efeitos-cardigan");
@@ -593,7 +572,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       setTimeout(async () => {
         try {
           await this.parent.createEmbeddedDocuments('ActiveEffect', [effectData]);
-          console.log('[CARDIGAN DEBUG] ActiveEffect de exaustão criado com sucesso!');
         } catch (error) {
           console.error('[CARDIGAN] Erro ao criar ActiveEffect:', error);
         }
@@ -604,7 +582,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
         this.parent.sheet.render(false);
       }
       
-      console.log(`[CARDIGAN DEBUG] Efeito de exaustão aplicado com sucesso!`);
       
       // Mensagem no chat
       const cause = this._getExhaustionCause(hungerLevel, thirstLevel);
@@ -683,10 +660,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
    * Pode ser chamado no console: actor.system.testExhaustionSystem()
    */
   testExhaustionSystem() {
-    console.log(`[CARDIGAN TEST] Testando sistema de exaustão...`);
-    console.log(`[CARDIGAN TEST] Valores atuais - Fome: ${this.status?.hunger}, Sede: ${this.status?.thirst}`);
-    console.log(`[CARDIGAN TEST] Total de efeitos no ator: ${this.parent.effects.size}`);
-    console.log(`[CARDIGAN TEST] Lista de efeitos:`, this.parent.effects.map(e => e.name));
     
     // Forçar verificação
     this._checkAndApplyExhaustionEffect(this.status?.hunger ?? 0, this.status?.thirst ?? 0);
@@ -699,42 +672,22 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
    * @private
    */
   async _checkAndApplyToxicityEffects(toxicityLevel) {
-    console.log(`[CARDIGAN DEBUG] Verificando toxicidade - Nível: ${toxicityLevel}`);
     
     const shouldHaveToxicityEffects = toxicityLevel === 5;
-    console.log(`[CARDIGAN DEBUG] Deve ter efeitos de toxicidade: ${shouldHaveToxicityEffects}`);
-    
-    // Verificar efeitos existentes de toxicidade
-    console.log(`[CARDIGAN DEBUG] Total de efeitos no ator:`, this.parent.effects.size);
-    console.log(`[CARDIGAN DEBUG] Lista de todos os efeitos:`, this.parent.effects.map(e => ({
-      name: e.name,
-      id: e.id,
-      flags: e.flags
-    })));
     
     const currentToxicityEffects = this.parent.effects.filter(effect => {
       const isToxicityEffect = effect.flags?.cardigan?.source === "toxicity_level5";
-      console.log(`[CARDIGAN DEBUG] Verificando efeito "${effect.name}": é efeito de toxicidade? ${isToxicityEffect}`);
       return isToxicityEffect;
     });
-    
-    console.log(`[CARDIGAN DEBUG] Efeitos de toxicidade atuais:`, currentToxicityEffects.map(e => ({
-      name: e.name,
-      id: e.id
-    })));
 
     if (shouldHaveToxicityEffects && currentToxicityEffects.length === 0) {
-      console.log(`[CARDIGAN DEBUG] Aplicando efeitos de toxicidade...`);
       await this._applyToxicityEffects(toxicityLevel);
     } else if (!shouldHaveToxicityEffects && currentToxicityEffects.length > 0) {
-      console.log(`[CARDIGAN DEBUG] Removendo efeitos de toxicidade existentes...`);
       const effectIds = currentToxicityEffects.map(effect => effect.id);
-      console.log(`[CARDIGAN DEBUG] IDs dos efeitos a remover:`, effectIds);
       
       if (effectIds.length > 0) {
         try {
           await this.parent.deleteEmbeddedDocuments('ActiveEffect', effectIds);
-          console.log(`[CARDIGAN DEBUG] ${effectIds.length} efeito(s) de toxicidade removido(s)`);
           
           // Forçar atualização da ficha
           if (this.parent.sheet && this.parent.sheet.rendered) {
@@ -745,7 +698,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
         }
       }
     } else {
-      console.log(`[CARDIGAN DEBUG] Nenhuma mudança necessária nos efeitos de toxicidade`);
     }
   }
 
@@ -756,7 +708,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
    */
   async _applyToxicityEffects(toxicityLevel) {
     try {
-      console.log(`[CARDIGAN DEBUG] Iniciando aplicação dos efeitos de toxicidade...`);
       
       // Buscar os efeitos no compêndio
       const pack = game.packs.get('cardigan.efeitos-cardigan');
@@ -765,16 +716,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
         return;
       }
 
-      console.log(`[CARDIGAN DEBUG] Carregando compêndio...`);
       const packContent = await pack.getDocuments();
-      console.log(`[CARDIGAN DEBUG] Compêndio carregado com ${packContent.length} itens`);
       
       // Buscar os efeitos específicos com nomes corretos do compêndio
       const unconsciousItem = packContent.find(item => item.name === "Inconsciente・Sono");
       const intoxicatedItem = packContent.find(item => item.name === "Intoxicado");
       
-      console.log(`[CARDIGAN DEBUG] Efeito Inconsciente・Sono encontrado:`, unconsciousItem ? unconsciousItem.name : 'NÃO ENCONTRADO');
-      console.log(`[CARDIGAN DEBUG] Efeito Intoxicado encontrado:`, intoxicatedItem ? intoxicatedItem.name : 'NÃO ENCONTRADO');
 
       if (!unconsciousItem || !intoxicatedItem) {
         console.error('[CARDIGAN] Efeitos "Inconsciente・Sono" ou "Intoxicado" não encontrados no compêndio');
@@ -819,18 +766,14 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
         }
       ];
       
-      console.log(`[CARDIGAN DEBUG] Criando efeitos com dados:`, effectsData);
       
       const createdEffects = await this.parent.createEmbeddedDocuments('ActiveEffect', effectsData);
-      console.log(`[CARDIGAN DEBUG] Efeitos criados:`, createdEffects);
-      console.log(`[CARDIGAN DEBUG] Total de efeitos no ator após criação:`, this.parent.effects.size);
       
       // Forçar atualização da ficha
       if (this.parent.sheet && this.parent.sheet.rendered) {
         this.parent.sheet.render(false);
       }
       
-      console.log(`[CARDIGAN DEBUG] Efeitos de toxicidade aplicados com sucesso!`);
       
       // Mensagem no chat com nomes corretos
       ChatMessage.create({
@@ -889,10 +832,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
    * Pode ser chamado no console: actor.system.testToxicitySystem()
    */
   testToxicitySystem() {
-    console.log(`[CARDIGAN TEST] Testando sistema de toxicidade...`);
-    console.log(`[CARDIGAN TEST] Valor atual de Toxicidade: ${this.status?.toxicity}`);
-    console.log(`[CARDIGAN TEST] Total de efeitos no ator: ${this.parent.effects.size}`);
-    console.log(`[CARDIGAN TEST] Lista de efeitos:`, this.parent.effects.map(e => e.name));
     
     // Forçar verificação
     this._checkAndApplyToxicityEffects(this.status?.toxicity ?? 0);
@@ -924,11 +863,9 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
           bonus: v.totalBonus || 0,      // Total bonus (manual + weapons)
           total: (v.value || 0) + (v.totalBonus || 0)  // Combined total
         };
-        console.log(`[CARDIGAN] RollData: ${k} = {value: ${data[k].value}, bonus: ${data[k].bonus}, total: ${data[k].total}}`);
       }
     }
 
-    console.log(`[CARDIGAN] RollData final:`, data);
     return data;
   }
 }

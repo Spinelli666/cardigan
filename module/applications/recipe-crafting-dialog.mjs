@@ -99,7 +99,6 @@ export class RecipeCraftingDialog extends api.HandlebarsApplicationMixin(
     const itemType = target.dataset.itemType;
     if (!itemType) return;
 
-    console.log(`[CRAFTING] Selected item type: ${itemType}`);
     
     // Resolve with the selected item type
     if (this.resolve) {
@@ -119,7 +118,6 @@ export class RecipeCraftingDialog extends api.HandlebarsApplicationMixin(
    * @param {HTMLElement} target
    */
   async _onCancel(event, target) {
-    console.log('[CRAFTING] Dialog cancelled');
     if (this.reject) {
       this.reject(new Error('Dialog cancelled'));
     }
