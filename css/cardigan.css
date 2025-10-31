@@ -224,6 +224,52 @@
   text-align: center;
 }
 
+/* ---------------------------------- */
+/*  Custom Tooltips                   */
+/* ---------------------------------- */
+#tooltip.cardigan-tooltip {
+  font-family: "Roboto", sans-serif;
+  font-size: 13px;
+  text-align: start;
+  color: var(--color-text-light-primary, #f0f0f0);
+  border-radius: 5px;
+  padding: 8px 12px;
+  background: #2a2a2a;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.45);
+  border: 2px solid #d4af37;
+  max-width: 300px;
+}
+#tooltip.cardigan-tooltip .item-tooltip .header h3 {
+  margin: 0 0 4px 0;
+  padding: 0;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.25em;
+  font-weight: bold;
+  color: #f0f0f0;
+  line-height: 1.2;
+}
+#tooltip.cardigan-tooltip .item-tooltip .header .subtitle {
+  font-size: 0.9em;
+  color: #b0b0b0;
+  font-style: italic;
+  margin-bottom: 6px;
+}
+#tooltip.cardigan-tooltip .item-tooltip .content {
+  padding: 6px 0 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+#tooltip.cardigan-tooltip .item-tooltip .content p {
+  margin: 0;
+  padding: 0;
+  color: #e0e0e0;
+  line-height: 1.4;
+}
+#tooltip.cardigan-tooltip .item-tooltip .content p em {
+  font-style: italic;
+  color: #c0c0c0;
+}
+
 /* Styles limited to cardigan sheets */
 .cardigan .tab:not(.active) {
   display: none !important;

@@ -6,6 +6,7 @@ import { CardiganSystemActorSheet } from './sheets/actor-sheet.mjs';
 import { CardiganSystemItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
 import { CARDIGAN, registerHandlebarsHelpers } from './helpers/config.mjs';
+import CardiganTooltips from './helpers/tooltips.mjs';
 // Import DataModel classes
 import * as models from './data/_module.mjs';
 // Import Skills System
@@ -33,6 +34,9 @@ globalThis.cardigan = {
 };
 
 Hooks.once('init', function () {
+  // Assign to game object
+  game.cardigan = globalThis.cardigan;
+  
   // Add custom constants for configuration.
   CONFIG.CARDIGAN = CARDIGAN;
 
@@ -126,6 +130,9 @@ Hooks.once('init', function () {
   Handlebars.registerHelper('selected', function (value, expectedValue) {
     return value === expectedValue ? 'selected' : '';
   });
+
+  // Configure tooltips
+  game.cardigan.tooltips = new CardiganTooltips();
 
   // Initialize Skills System
   initializeSkillsSystem().catch(error => {
@@ -262,6 +269,9 @@ Handlebars.registerHelper('truncate', function(str, length) {
 Hooks.once('ready', function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => createDocMacro(data, slot));
+  
+  // Initialize tooltips observer
+  game.cardigan.tooltips.observe();
   
   // Hook to color roll totals based on critical success/failure
   Hooks.on('renderChatMessageHTML', (chatMessage, html) => {

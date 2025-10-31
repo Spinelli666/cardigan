@@ -13,6 +13,41 @@ export class CardiganSystemItem extends Item {
   }
 
   /**
+   * Render a rich tooltip for this item.
+   * @param {object} [enrichmentOptions={}]  Options for text enrichment.
+   * @returns {Promise<{content: string, classes: string[]}>}
+   */
+  async richTooltip(enrichmentOptions = {}) {
+    // Get the description from the item
+    let description = '';
+    if (this.system?.description) {
+      // Enrich the description using the modern Foundry v13 API - keeps HTML formatting
+      const TextEditor = foundry.applications.ux.TextEditor.implementation;
+      description = await TextEditor.enrichHTML(this.system.description, {
+        secrets: this.isOwner,
+        relativeTo: this,
+        ...enrichmentOptions
+      });
+    }
+
+    // Build the tooltip content with rich HTML formatting
+    const content = `
+      <div class="item-tooltip">
+        <div class="header">
+          <h3>${this.name}</h3>
+          ${this.system.type?.label ? `<div class="subtitle">${this.system.type.label}</div>` : ''}
+        </div>
+        ${description ? `<div class="content">${description}</div>` : ''}
+      </div>
+    `;
+
+    return {
+      content,
+      classes: ['cardigan-tooltip', 'item-tooltip']
+    };
+  }
+
+  /**
    * Perform preliminary operations before an Item document is deleted.
    * @param {object} options - Additional options which modify the deletion request
    * @param {User} user      - The User requesting the document deletion

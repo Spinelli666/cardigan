@@ -17,12 +17,6 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       label: 'CARDIGAN.Item.base.description'
     });
 
-    schema.skillDescription = new fields.StringField({
-      required: false,
-      initial: '',
-      label: 'CARDIGAN.Item.Skill.Description'
-    });
-
     schema.skillType = new fields.StringField({
       required: false,
       initial: 'general',
@@ -115,9 +109,6 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
 
   prepareDerivedData() {
     super.prepareDerivedData();
-    
-    // Gerar descrição para o template padrão
-    this._generateCombinedDescription();
 
     // Calcular custo de energia efetivo baseado em aprimoramentos ativos
     this._calculateEffectiveEnergyCost();
@@ -154,12 +145,5 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
     }
 
     this.effectiveEnergyCost = effectiveCost;
-  }
-
-  _generateCombinedDescription() {
-    // Usar apenas a descrição da skill
-    if (this.skillDescription && !this.description) {
-      this.description = `<p>${this.skillDescription}</p>`;
-    }
   }
 }
