@@ -288,7 +288,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para checkboxes das tabelas de profissão
     this.#addProfessionTableListeners();
     
-
+    // Adicionar event listeners para checkboxes de aprimoramentos de skills
+    this.#addEnhancementCheckboxListeners();
     
     // Adicionar event listeners para campos dinâmicos de valores atuais
     this.#addValueFieldsListeners();
@@ -6506,6 +6507,67 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
       console.log(`[CARDIGAN] ${profession.displayName} toggle listener added`);
     });
+  }
+
+  /**
+   * Add listeners for skill enhancement checkboxes
+   * @private
+   */
+  #addEnhancementCheckboxListeners() {
+    // Get all enhancement checkboxes
+    const checkboxes = this.element.querySelectorAll('input[type="checkbox"][name^="system.acquiredEnhancements"][data-item-id]');
+    
+    checkboxes.forEach(checkbox => {
+      // Remove any existing listeners to prevent duplicates
+      checkbox.removeEventListener('change', checkbox._enhancementHandler);
+      
+      // Create handler
+      checkbox._enhancementHandler = async (event) => {
+        const itemId = checkbox.dataset.itemId;
+        const item = this.actor.items.get(itemId);
+        
+        if (!item) {
+          console.error('[CARDIGAN] Item not found for enhancement checkbox:', itemId);
+          return;
+        }
+        
+        // Parse the enhancement index from the name (e.g., "system.acquiredEnhancements.1" -> index 1)
+        const match = checkbox.name.match(/system\.acquiredEnhancements\.(\d+)/);
+        if (!match) {
+          console.error('[CARDIGAN] Could not parse enhancement index from:', checkbox.name);
+          return;
+        }
+        
+        const index = parseInt(match[1]);
+        const isChecked = checkbox.checked;
+        
+        console.log(`[CARDIGAN] Enhancement ${index} for skill ${item.name} changed to:`, isChecked);
+        
+        // Update the item's acquiredEnhancements array
+        const currentEnhancements = item.system.acquiredEnhancements || [false, false, false];
+        const newEnhancements = [...currentEnhancements];
+        newEnhancements[index] = isChecked;
+        
+        try {
+          await item.update({
+            'system.acquiredEnhancements': newEnhancements
+          }, {
+            render: false  // Prevent automatic re-render to avoid checkbox state issues
+          });
+          
+          console.log(`[CARDIGAN] Updated skill ${item.name} enhancements:`, newEnhancements);
+          
+        } catch (error) {
+          console.error('[CARDIGAN] Error updating enhancement:', error);
+          // Revert checkbox on error
+          checkbox.checked = !isChecked;
+        }
+      };
+      
+      checkbox.addEventListener('change', checkbox._enhancementHandler);
+    });
+    
+    console.log(`[CARDIGAN] Enhancement checkbox listeners added (${checkboxes.length} checkboxes)`);
   }
 
   /**

@@ -153,7 +153,8 @@ export class AcertoDebilitanteSkill extends BaseSkill {
         return ''; // No button if skill doesn't have energy cost
       }
 
-      const energyCost = skill.system.energyCost || 0;
+      // Use effective energy cost (considers active enhancements)
+      const energyCost = skill.system.effectiveEnergyCost ?? (skill.system.energyCost || 0);
       if (energyCost <= 0) {
         return ''; // No button if energy cost is 0 or negative
       }
@@ -632,7 +633,8 @@ export class AcertoDebilitanteSkill extends BaseSkill {
         return;
       }
 
-      const energyCost = skill.system.energyCost || 0;
+      // Use effective energy cost (considers active enhancements)
+      const energyCost = skill.system.effectiveEnergyCost ?? (skill.system.energyCost || 0);
       
       // If energy cost is 0, don't spend anything
       if (energyCost <= 0) {

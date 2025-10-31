@@ -50,9 +50,11 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
     // Pass the document for template access
     context.document = this.skill;
 
-    // Prepare the enhancement data (only description now)
+    // Prepare the enhancement data
     context.enhancement = {
       description: this.enhancementData.description || '',
+      hasEnergy: this.enhancementData.hasEnergy || false,
+      energyCost: this.enhancementData.energyCost || 0,
     };
 
     // Enrich the description for display (like biography system)
@@ -78,7 +80,23 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
     return context;
   }
 
+  _onRender(context, options) {
+    super._onRender(context, options);
 
+    // Add event listener to toggle energy cost input visibility
+    const checkbox = this.element.querySelector('input[name="hasEnergy"]');
+    const energyInput = this.element.querySelector('.energy-cost-input');
+    
+    if (checkbox && energyInput) {
+      // Set initial visibility
+      energyInput.style.display = checkbox.checked ? 'block' : 'none';
+      
+      // Toggle on change
+      checkbox.addEventListener('change', (e) => {
+        energyInput.style.display = e.target.checked ? 'block' : 'none';
+      });
+    }
+  }
 
   /**
    * Handle applying the changes (save and close)
@@ -95,7 +113,7 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
 
     // Ensure we have enough slots
     while (currentEnhancements.length <= this.enhancementIndex) {
-      currentEnhancements.push({ name: '', description: '' });
+      currentEnhancements.push({ name: '', description: '', hasEnergy: false, energyCost: 0 });
     }
 
     // Fixed names for each enhancement
@@ -109,6 +127,8 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
     currentEnhancements[this.enhancementIndex] = {
       name: enhancementNames[this.enhancementIndex] || `Aprimoramento ${this.enhancementIndex + 1}`,
       description: data.description || '',
+      hasEnergy: data.hasEnergy || false,
+      energyCost: data.hasEnergy ? (parseInt(data.energyCost) || 0) : 0,
     };
 
     // Update the skill item

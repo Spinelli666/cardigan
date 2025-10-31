@@ -29,6 +29,27 @@
         "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
       }
     ],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p>Pode rolar 2d6 e ficar com o resultado que preferir.</p>",
+        "hasEnergy": false,
+        "energyCost": 0
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p>Reduz o custo de energia dessa habilidade para 5.</p>",
+        "hasEnergy": true,
+        "energyCost": 5
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p>Após usar essa habilidade você testa Persuasão contra todos inimigos que tiveram visão do ataque; Se passar, todos recebem Intimidado de você.</p>",
+        "hasEnergy": false,
+        "energyCost": 0
+      }
+    ],
+    "acquiredEnhancements": [false, false, false],
     "description": "<p>Você mira com cautela nos pontos vitais do inimigo.</p><p><strong>⋆ Após acertar um ataque role 1d6; O resultado corresponde a um ponto vital acertado no seu alvo, adicionando um efeito extra neste ataque:</strong></p><ul><li><strong>6 ‣ Cabeça:</strong> O alvo recebe Atordoado¹.</li><li><strong>5 ‣ Torso:</strong> O alvo recebe Sangramento¹.</li><li><strong>4 e 3 ‣ Braços:</strong> O alvo recebe Desvantagem no próximo ataque.</li><li><strong>2 e 1 ‣ Pernas:</strong> O alvo recebe Caído¹.</li></ul>"
   },
   "effects": [],

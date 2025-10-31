@@ -93,12 +93,14 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
     schema.enhancements = new fields.ArrayField(
       new fields.SchemaField({
         name: new fields.StringField({ required: false, initial: '' }),
-        description: new fields.HTMLField({ required: false, initial: '' })
+        description: new fields.HTMLField({ required: false, initial: '' }),
+        hasEnergy: new fields.BooleanField({ required: false, initial: false }),
+        energyCost: new fields.NumberField({ required: false, initial: 0, min: 0, integer: true })
       }),
       { initial: [
-        { name: '', description: '' },
-        { name: '', description: '' },
-        { name: '', description: '' }
+        { name: '', description: '', hasEnergy: false, energyCost: 0 },
+        { name: '', description: '', hasEnergy: false, energyCost: 0 },
+        { name: '', description: '', hasEnergy: false, energyCost: 0 }
       ]}
     );
 
@@ -116,6 +118,42 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
     
     // Gerar descrição para o template padrão
     this._generateCombinedDescription();
+
+    // Calcular custo de energia efetivo baseado em aprimoramentos ativos
+    this._calculateEffectiveEnergyCost();
+  }
+
+  /**
+   * Calcula o custo de energia efetivo da skill baseado em aprimoramentos ativos
+   */
+  _calculateEffectiveEnergyCost() {
+    // Se a skill não gasta energia, não há o que calcular
+    if (!this.hasEnergyCost) {
+      this.effectiveEnergyCost = 0;
+      return;
+    }
+
+    // Começa com o custo padrão
+    let effectiveCost = this.energyCost || 0;
+
+    // Verifica cada aprimoramento ativo
+    if (this.acquiredEnhancements && Array.isArray(this.acquiredEnhancements)) {
+      for (let i = 0; i < this.acquiredEnhancements.length; i++) {
+        // Se o aprimoramento está ativo
+        if (this.acquiredEnhancements[i] === true) {
+          const enhancement = this.enhancements?.[i];
+          
+          // Se o aprimoramento tem modificação de energia
+          if (enhancement?.hasEnergy && enhancement.energyCost !== undefined) {
+            // Usa o custo do aprimoramento
+            effectiveCost = enhancement.energyCost;
+            break; // Usa apenas o primeiro aprimoramento ativo com energia
+          }
+        }
+      }
+    }
+
+    this.effectiveEnergyCost = effectiveCost;
   }
 
   _generateCombinedDescription() {
