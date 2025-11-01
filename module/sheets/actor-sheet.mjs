@@ -4989,11 +4989,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const expanded = this.expandedSections.get(itemId);
     const isArmor = item.type === 'armadura';
     const isWeapon = item.type === 'arma';
+    const isSkill = item.type === 'skill';
     const isRecipe = item.type?.includes('recipe') || item.type?.includes('-recipe');
     
     let summaryClass;
     if (isArmor) summaryClass = ".armor-summary";
     else if (isWeapon) summaryClass = ".weapon-summary";
+    else if (isSkill) summaryClass = ".skill-summary";
     else if (isRecipe) summaryClass = ".recipe-summary";
     else summaryClass = ".weapon-summary"; // fallback
     
@@ -5009,6 +5011,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           actor: this.actor, // Add actor to context for ingredient checking
           item: item,
           system: item.system,
+          config: CONFIG.CARDIGAN,
           enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description || "", {
             secrets: item.isOwner,
             documents: true,
@@ -5022,6 +5025,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         let template;
         if (isArmor) {
           template = "systems/cardigan/templates/armors/armor-summary.hbs";
+        } else if (isSkill) {
+          template = "systems/cardigan/templates/skills/skill-summary.hbs";
         } else if (isRecipe) {
           template = "systems/cardigan/templates/recipes/recipe-summary.hbs";
         } else {
@@ -5032,7 +5037,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         summary.insertAdjacentHTML("beforeend", content);
         this.expandedSections.set(itemId, true);
       } catch (error) {
-        console.error(`Error creating ${isArmor ? 'armor' : isRecipe ? 'recipe' : 'weapon'} summary:`, error);
+        console.error(`Error creating ${isArmor ? 'armor' : isSkill ? 'skill' : isRecipe ? 'recipe' : 'weapon'} summary:`, error);
         return;
       }
     }
@@ -5071,11 +5076,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const expanded = this.expandedSections.get(itemId);
     const isArmor = item.type === 'armadura';
     const isWeapon = item.type === 'arma';
+    const isSkill = item.type === 'skill';
     const isRecipe = item.type?.includes('recipe') || item.type?.includes('-recipe');
     
     let summaryClass;
     if (isArmor) summaryClass = ".armor-summary";
     else if (isWeapon) summaryClass = ".weapon-summary";
+    else if (isSkill) summaryClass = ".skill-summary";
     else if (isRecipe) summaryClass = ".recipe-summary";
     else summaryClass = ".weapon-summary"; // fallback
     
@@ -5091,6 +5098,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           actor: this.document, // Add actor to context for ingredient checking (static method uses this.document)
           item: item,
           system: item.system,
+          config: CONFIG.CARDIGAN,
           enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description || "", {
             secrets: item.isOwner,
             documents: true,
@@ -5104,6 +5112,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         let template;
         if (isArmor) {
           template = "systems/cardigan/templates/armors/armor-summary.hbs";
+        } else if (isSkill) {
+          template = "systems/cardigan/templates/skills/skill-summary.hbs";
         } else if (isRecipe) {
           template = "systems/cardigan/templates/recipes/recipe-summary.hbs";
         } else {
@@ -5114,7 +5124,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         summary.insertAdjacentHTML("beforeend", content);
         this.expandedSections.set(itemId, true);
       } catch (error) {
-        console.error(`Error creating ${isArmor ? 'armor' : isRecipe ? 'recipe' : 'weapon'} summary:`, error);
+        console.error(`Error creating ${isArmor ? 'armor' : isSkill ? 'skill' : isRecipe ? 'recipe' : 'weapon'} summary:`, error);
         return;
       }
     }

@@ -1,0 +1,37 @@
+{{! Skill Summary - Expanded view when clicking on skill name }}
+<div class="skill-summary">
+  <div class="skill-header">
+    {{! Skill Image }}
+    <div class="skill-image-container">
+      <img src="{{item.img}}" alt="{{item.name}}" class="skill-image" />
+    </div>
+    
+    {{! Skill Name }}
+    <h3 class="skill-name">{{item.name}}</h3>
+    
+    {{! Skill Type }}
+    {{#if system.skillType}}
+      <div class="skill-type">
+        <span class="skill-type-badge">
+          {{localize (lookup config.skillTypes system.skillType)}}
+        </span>
+      </div>
+    {{/if}}
+    
+    {{! Energy Cost }}
+    {{#if system.hasEnergyCost}}
+      <div class="skill-energy">
+        <i class="fas fa-bolt" style="color: #ffc107;"></i>
+        <span class="energy-label">Energia Gastada:</span>
+        <span class="energy-value">{{system.energyCost}}</span>
+      </div>
+    {{/if}}
+  </div>
+  
+  {{! Skill Description }}
+  {{#if enrichedDescription}}
+    <div class="skill-description">
+      {{{enrichedDescription}}}
+    </div>
+  {{/if}}
+</div>

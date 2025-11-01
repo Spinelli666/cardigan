@@ -14,6 +14,11 @@
   border: 2px solid #d4af37;
   max-width: 300px;
 
+  // Hide document type icons in tooltip content
+  .content-link i {
+    display: none !important;
+  }
+
   .item-tooltip {
     .header {
       h3 {
