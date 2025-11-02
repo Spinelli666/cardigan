@@ -268,6 +268,53 @@ export class SkillManager {
         }
       });
     }
+    
+    // Set up enhancement emoji tooltips
+    this.#setupEnhancementTooltips(html);
+  }
+
+  /**
+   * Set up tooltips for enhancement emojis
+   * @param {HTMLElement} html - The HTML content of the message
+   * @private
+   */
+  static async #setupEnhancementTooltips(html) {
+    const enhancementEmojis = html.querySelectorAll('.enhancement-emoji[data-enhancement]');
+    
+    for (const emoji of enhancementEmojis) {
+      try {
+        const enhancementData = JSON.parse(emoji.dataset.enhancement);
+        
+        // Enrich the description HTML with UUIDs and other content
+        const enrichedDescription = await foundry.applications.ux.TextEditor.enrichHTML(
+          enhancementData.description,
+          {
+            secrets: false,
+            async: true,
+            relativeTo: await fromUuid(enhancementData.actorUuid)
+          }
+        );
+        
+        // Create the tooltip content
+        const tooltipContent = `
+          <div class="enhancement-tooltip">
+            <div class="enhancement-header">
+              <strong>${enhancementData.name}</strong>
+              <span class="enhancement-status ${enhancementData.acquired ? 'acquired' : 'not-acquired'}">${enhancementData.status}</span>
+            </div>
+            <div class="enhancement-description">
+              ${enrichedDescription}
+            </div>
+          </div>
+        `;
+        
+        // Set the tooltip
+        emoji.dataset.tooltip = tooltipContent;
+        emoji.dataset.tooltipClass = 'cardigan-enhancement-tooltip';
+      } catch (error) {
+        console.error('Error setting up enhancement tooltip:', error);
+      }
+    }
   }
 
   /**

@@ -291,7 +291,28 @@ export class BaseSkill {
           const filterStyle = isAcquired ? '' : 'filter: grayscale(100%); opacity: 0.4;';
           const emoji = enhancementEmojis[i] || '⭐';
           
-          emojisHtml += `<span style="font-size: 24px; margin: 0 8px; ${filterStyle}" title="Enhancement ${i + 1}${isAcquired ? ' (Acquired)' : ' (Not Acquired)'}">${emoji}</span>`;
+          // Get the enhancement name and description for tooltip
+          const enhancementName = enhancement.name || `Enhancement ${i + 1}`;
+          const statusText = isAcquired ? '✓ Acquired' : '✗ Not Acquired';
+          
+          // Store enhancement data in data attributes for async enrichment
+          const enhancementData = {
+            name: enhancementName,
+            description: enhancement.description,
+            status: statusText,
+            acquired: isAcquired,
+            actorUuid: actor.uuid,
+            skillName: this.skillName,
+            index: i
+          };
+          
+          // Use data attributes to store enhancement info
+          emojisHtml += `<span 
+            class="enhancement-emoji" 
+            style="font-size: 24px; margin: 0 8px; cursor: help; ${filterStyle}" 
+            data-enhancement='${JSON.stringify(enhancementData).replace(/'/g, "&apos;")}'
+            data-tooltip-direction="UP"
+          >${emoji}</span>`;
         }
       }
 

@@ -50,11 +50,25 @@
       }
     }
 
-    .enhancement-description {
-      color: var(--color-text-light-6);
-      font-style: italic;
-      font-size: 0.9rem;
-      min-height: 1.2rem;
+    .enhancement-content {
+      margin-top: 0.5rem;
+      
+      .enhancement-name {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        color: var(--color-text-primary);
+      }
+
+      .enhancement-description {
+        font-size: 0.9rem;
+        color: var(--color-text-secondary);
+        font-style: italic;
+      }
+
+      .no-content {
+        color: var(--color-text-hint);
+        font-style: italic;
+      }
     }
   }
 }
