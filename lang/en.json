@@ -163,7 +163,8 @@
         "Effects": "Effects",
         "Modifiers": "Modifiers",
         "Ingredients": "Ingredients",
-        "Enhancements": "Enhancements"
+        "Enhancements": "Enhancements",
+        "Enhancement": "Enhancement"
       },
       "Backpack": {
         "FIELDS": {

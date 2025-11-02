@@ -315,9 +315,10 @@ export class AcertoDebilitanteSkill extends BaseSkill {
    * Handle button clicks for this skill
    * @param {string} buttonType - Type of button clicked
    * @param {string} actorId - The actor ID
+   * @param {HTMLElement} buttonElement - The button element that was clicked
    * @returns {Promise<void>}
    */
-  static async handleButtonClick(buttonType, actorId) {
+  static async handleButtonClick(buttonType, actorId, buttonElement) {
     
     switch (buttonType) {
       case 'attack':
@@ -336,7 +337,7 @@ export class AcertoDebilitanteSkill extends BaseSkill {
         await this.showFilteredEffectsDialog(actorId);
         break;
       case 'expand':
-        await super.handleButtonClick(buttonType, actorId); // Use base class expand functionality
+        await super.handleButtonClick(buttonType, actorId, buttonElement); // Use base class expand functionality
         break;
       default:
         console.warn(`Acerto Debilitante: Unknown button type: ${buttonType}`);
@@ -422,8 +423,11 @@ export class AcertoDebilitanteSkill extends BaseSkill {
     content += this.generateEnergyButton(actorId);
 
     content += `<div style="text-align: left; margin: 8px 0; color: #333;">
-        ${skill.system.skillDescription || 'Ataque preciso com gasto de energia.'}
+        ${skill.system.description || 'Ataque preciso com gasto de energia.'}
       </div>`;
+
+    // Add enhancement emojis before buttons
+    content += this.generateEnhancementEmojis(actorId);
 
     // Add attack buttons (bottom)
     content += this.generateChatButtons(actorId);

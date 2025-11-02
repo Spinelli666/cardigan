@@ -1522,66 +1522,18 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         return;
       }
       
-      const actorName = this.document.name;
       const skillName = skill.name;
-      const skillDescription = skill.system.description || "";
+      const actorId = this.document.id;
       
-      // Criar o conteúdo da mensagem
-      let content = `<div class="cardigan-skill-message">
-        <h3 style="margin: 0 0 8px 0; color: #b5b3a4; border-bottom: 1px solid #c9c7b8; padding-bottom: 4px;">
-          ${skillName}
-        </h3>`;
-      
-      // Special handling for Acerto Debilitante - add skill type and energy button before description
-      let hasEnergyButton = false;
-      if (skillName === "Acerto Debilitante") {
-        try {
-          // Get skill type from the skill item
-          const skillType = skill.system.skillType || 'general';
-          const skillTypeLabel = skillType === 'extra' ? 'EXTRA' : 'GENERAL';
-          
-          // Add skill type display
-          content += `<div style="text-align: center; margin: 8px 0; padding: 4px 8px; background: rgba(45, 55, 72, 0.8); color: #e2e2e2; border-radius: 3px; font-size: 12px; font-weight: bold;">
-            ${skillTypeLabel}
-          </div>`;
-          
-          const { AcertoDebilitanteSkill } = await import('../skills/skills/acerto-debilitante.mjs');
-          const energyButton = AcertoDebilitanteSkill.generateEnergyButton(this.document.id);
-          if (energyButton) {
-            content += energyButton;
-            hasEnergyButton = true;
-          }
-        } catch (error) {
-          console.error(`Error generating energy button for ${skillName}:`, error);
-        }
-      }
-      
-      if (skillDescription && skillDescription.trim() !== "") {
-        content += `<div style="margin-top: 8px; padding: 6px; background: rgba(0,0,0,0.1); border-left: 3px solid #4caf50; border-radius: 3px;">
-          <div style="margin: 0;">${skillDescription}</div>
-        </div>`;
-      }
-      
-      // Use the modern Skills System to generate interactive buttons (remaining buttons)
+      // Use the SkillManager to handle skill-to-chat
       try {
         const { getSkillManager } = await import('../skills/index.mjs');
         const skillManager = await getSkillManager();
-        const skillButtons = skillManager.generateSkillButtons(skillName, this.document.id);
-        if (skillButtons) {
-          content += skillButtons;
-        }
+        await skillManager.handleSkillToChat(skillName, actorId);
       } catch (error) {
-        console.error(`Error generating buttons for skill ${skillName}:`, error);
+        console.error(`Error showing skill ${skillName} in chat:`, error);
+        ui.notifications.error(`Erro ao mostrar skill no chat: ${error.message}`);
       }
-      
-      content += `</div>`;
-      
-      // Enviar mensagem para o chat
-      await ChatMessage.create({
-        content: content,
-        speaker: ChatMessage.getSpeaker({ actor: this.document }),
-        style: CONST.CHAT_MESSAGE_STYLES.OTHER
-      });
       
     } catch (error) {
       console.error("Error showing skill in chat:", error);
@@ -5021,6 +4973,35 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           })
         };
         
+        // Process enhancements for skills
+        if (isSkill && item.system.enhancements && Array.isArray(item.system.enhancements)) {
+          const enhancements = [];
+          for (let i = 0; i < item.system.enhancements.length; i++) {
+            const enhancement = item.system.enhancements[i];
+            const isAcquired = item.system.acquiredEnhancements?.[i] === true;
+            
+            // Only show enhancements that have a description
+            if (enhancement?.description) {
+              enhancements.push({
+                number: i + 1,
+                name: enhancement.name || `Enhancement ${i + 1}`,
+                description: enhancement.description,
+                acquired: isAcquired,
+                enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(enhancement.description, {
+                  secrets: item.isOwner,
+                  documents: true,
+                  links: true,
+                  rolls: true,
+                  rollData: item.getRollData?.() || {}
+                })
+              });
+            }
+          }
+          if (enhancements.length > 0) {
+            context.enhancements = enhancements;
+          }
+        }
+        
         // Choose template based on item type
         let template;
         if (isArmor) {
@@ -5044,6 +5025,88 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Update CSS classes
     itemContainer.classList.toggle("collapsed", expanded);
+  }
+
+  /**
+   * Refresh the expanded summary for an item without collapsing/expanding
+   * Used when enhancement checkboxes change
+   * @param {string} itemId - The ID of the item
+   * @param {object} item - The item object
+   * @private
+   */
+  async _refreshExpandedSummary(itemId, item) {
+    const itemContainer = this.element.querySelector(`[data-item-id="${itemId}"]`)?.closest('.item-row, .item');
+    if (!itemContainer) {
+      console.warn("Could not find item container for refresh");
+      return;
+    }
+
+    const summary = itemContainer.querySelector(":scope > .item-description > .wrapper");
+    if (!summary) {
+      console.warn("Could not find summary wrapper for refresh");
+      return;
+    }
+
+    const isSkill = item.type === 'skill';
+    if (!isSkill) return; // Only refresh for skills
+
+    // Remove old summary
+    const oldSummary = summary.querySelector(".skill-summary");
+    if (oldSummary) {
+      oldSummary.remove();
+    }
+
+    // Rebuild context
+    try {
+      const context = {
+        actor: this.actor,
+        item: item,
+        system: item.system,
+        config: CONFIG.CARDIGAN,
+        enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description || "", {
+          secrets: item.isOwner,
+          documents: true,
+          links: true,
+          rolls: true,
+          rollData: item.getRollData?.() || {}
+        })
+      };
+
+      // Process enhancements for skills
+      if (item.system.enhancements && Array.isArray(item.system.enhancements)) {
+        const enhancements = [];
+        for (let i = 0; i < item.system.enhancements.length; i++) {
+          const enhancement = item.system.enhancements[i];
+          const isAcquired = item.system.acquiredEnhancements?.[i] === true;
+          
+          // Only show enhancements that have a description
+          if (enhancement?.description) {
+            enhancements.push({
+              number: i + 1,
+              name: enhancement.name || `Enhancement ${i + 1}`,
+              description: enhancement.description,
+              acquired: isAcquired,
+              enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(enhancement.description, {
+                secrets: item.isOwner,
+                documents: true,
+                links: true,
+                rolls: true,
+                rollData: item.getRollData?.() || {}
+              })
+            });
+          }
+        }
+        if (enhancements.length > 0) {
+          context.enhancements = enhancements;
+        }
+      }
+
+      const template = "systems/cardigan/templates/skills/skill-summary.hbs";
+      const content = await foundry.applications.handlebars.renderTemplate(template, context);
+      summary.insertAdjacentHTML("beforeend", content);
+    } catch (error) {
+      console.error("Error refreshing skill summary:", error);
+    }
   }
 
   /**
@@ -5107,6 +5170,35 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
             rollData: item.getRollData?.() || {}
           })
         };
+        
+        // If skill, process enhancements
+        if (isSkill && item.system.enhancements && Array.isArray(item.system.enhancements)) {
+          const enhancements = [];
+          for (let i = 0; i < item.system.enhancements.length; i++) {
+            const enhancement = item.system.enhancements[i];
+            const isAcquired = item.system.acquiredEnhancements?.[i] === true;
+            
+            // Only show enhancements that have a description
+            if (enhancement && enhancement.description) {
+              enhancements.push({
+                number: i + 1,
+                name: enhancement.name || `Enhancement ${i + 1}`,
+                description: enhancement.description,
+                acquired: isAcquired,
+                enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(enhancement.description, {
+                  secrets: item.isOwner,
+                  documents: true,
+                  links: true,
+                  rolls: true,
+                  rollData: item.getRollData?.() || {}
+                })
+              });
+            }
+          }
+          if (enhancements.length > 0) {
+            context.enhancements = enhancements;
+          }
+        }
         
         // Choose template based on item type
         let template;
@@ -6566,6 +6658,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           });
           
           console.log(`[CARDIGAN] Updated skill ${item.name} enhancements:`, newEnhancements);
+          
+          // Update expanded summary if it's currently open
+          const itemContainer = this.element.querySelector(`[data-item-id="${itemId}"]`)?.closest('.item-row, .item');
+          if (itemContainer && this.expandedSections?.get(itemId)) {
+            console.log(`[CARDIGAN] Refreshing expanded summary for ${item.name}`);
+            await this._refreshExpandedSummary(itemId, item);
+          }
           
         } catch (error) {
           console.error('[CARDIGAN] Error updating enhancement:', error);

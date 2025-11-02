@@ -8294,6 +8294,122 @@
   font-style: italic;
   color: #e0ddc8;
 }
+.cardigan .skill-summary .skill-enhancements-display {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(43, 24, 16, 0.2);
+  border: 1px solid rgba(139, 69, 19, 0.4);
+  border-radius: 6px;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-title {
+  margin: 0 0 15px 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  font-size: 17px;
+  font-weight: bold;
+  color: #d4af37;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+  padding-bottom: 10px;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 8px;
+  align-items: start;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display.not-acquired {
+  opacity: 0.5;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display.not-acquired .enhancement-number {
+  color: #888;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display.not-acquired .enhancement-bullet {
+  color: #888;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display.not-acquired .enhancement-description {
+  color: #777;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display.not-acquired .enhancement-description strong {
+  color: #999;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display.not-acquired .enhancement-description em {
+  color: #888;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display.not-acquired .enhancement-description code {
+  color: #888;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display.not-acquired .enhancement-description .content-link {
+  color: #6a8aa5;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display.not-acquired .enhancement-description .content-link:hover {
+  color: #7a9ab5;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-number {
+  color: #d4af37;
+  font-weight: bold;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-bullet {
+  color: #d4af37;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-description {
+  color: #c9c7b8;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-description p {
+  margin: 0 0 8px 0;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-description p:last-child {
+  margin-bottom: 0;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-description .content-link {
+  color: #64b5f6;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-description .content-link:hover {
+  color: #90caf9;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-description strong {
+  color: #d4af37;
+  font-weight: bold;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-description em {
+  font-style: italic;
+  color: #a59b85;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-description code {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  color: #4caf50;
+}
 .cardigan .skill-enhancements-tab {
   padding: 1rem;
   max-height: 400px;

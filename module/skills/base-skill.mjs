@@ -256,7 +256,60 @@ export class BaseSkill {
   }
 
   /**
-   * Generate expand button HTML if supported
+   * Generate enhancement emojis display for chat
+   * Shows 3 emojis representing the enhancements
+   * Grayscale when not acquired, colored when acquired
+   * @param {string} actorId - The actor ID
+   * @returns {string} HTML string for enhancement emojis
+   */
+  static generateEnhancementEmojis(actorId) {
+    try {
+      const actor = this.getActor(actorId);
+      if (!actor) {
+        return ''; // No display if actor not found
+      }
+
+      // Get the skill item to check enhancements
+      const skill = actor.items.find(item => item.type === 'skill' && item.name === this.skillName);
+      if (!skill || !skill.system.enhancements || !Array.isArray(skill.system.enhancements)) {
+        return ''; // No display if no enhancements
+      }
+
+      // Define emojis for each enhancement (you can customize these)
+      const enhancementEmojis = ['⚔️', '🎯', '💀'];
+      
+      let emojisHtml = '';
+      for (let i = 0; i < 3; i++) {
+        const enhancement = skill.system.enhancements[i];
+        const isAcquired = skill.system.acquiredEnhancements?.[i] === true;
+        
+        // Check if enhancement has content
+        const hasContent = enhancement?.description?.trim();
+        
+        if (hasContent) {
+          // Apply grayscale filter if not acquired
+          const filterStyle = isAcquired ? '' : 'filter: grayscale(100%); opacity: 0.4;';
+          const emoji = enhancementEmojis[i] || '⭐';
+          
+          emojisHtml += `<span style="font-size: 24px; margin: 0 8px; ${filterStyle}" title="Enhancement ${i + 1}${isAcquired ? ' (Acquired)' : ' (Not Acquired)'}">${emoji}</span>`;
+        }
+      }
+
+      if (!emojisHtml) {
+        return ''; // No emojis to display
+      }
+
+      return `<div style="margin: 12px 0; text-align: center; padding: 8px; background: rgba(0,0,0,0.03); border-radius: 4px;">
+        ${emojisHtml}
+      </div>`;
+    } catch (error) {
+      console.error("Error generating enhancement emojis:", error);
+      return ''; // Return empty if error
+    }
+  }
+
+  /**
+   * Generate expand button HTML
    * @param {string} actorId - The actor ID
    * @returns {string} HTML string for expand button or empty
    * @protected
@@ -286,11 +339,12 @@ export class BaseSkill {
    * Handle button clicks for base functionality
    * @param {string} buttonType - Type of button clicked
    * @param {string} actorId - The actor ID
+   * @param {HTMLElement} buttonElement - The button element that was clicked
    * @returns {Promise<void>}
    */
-  static async handleButtonClick(buttonType, actorId) {
+  static async handleButtonClick(buttonType, actorId, buttonElement) {
     if (buttonType === 'expand') {
-      await this._handleExpandClick(actorId);
+      await this._handleExpandClick(actorId, buttonElement);
     } else if (buttonType === 'apply-effects') {
       await this._handleApplyEffectsClick();
     } else {
@@ -301,70 +355,73 @@ export class BaseSkill {
   /**
    * Handle expand button click - toggle expanded content
    * @param {string} actorId - The actor ID
+   * @param {HTMLElement} buttonElement - The button element that was clicked
    * @returns {Promise<void>}
    * @private
    */
-  static async _handleExpandClick(actorId) {
+  static async _handleExpandClick(actorId, buttonElement) {
     if (!this.supportsExpansion()) {
       console.warn(`${this.skillName}: Expansion not supported but expand button was clicked`);
       return;
     }
 
-    // Find all chat messages with this skill's buttons
-    const chatMessages = document.querySelectorAll('.chat-message');
-    
-    for (const messageElement of chatMessages) {
-      const expandButton = messageElement.querySelector(`button[data-skill="${this.skillName}"][data-actor-id="${actorId}"].cardigan-skill-expand-btn`);
-      if (!expandButton) continue;
+    // Find the chat message containing this button
+    const messageElement = buttonElement.closest('.chat-message');
+    if (!messageElement) {
+      console.warn(`${this.skillName}: Could not find chat message element`);
+      return;
+    }
 
-      // Find or create the expanded content container
-      let expandedContainer = messageElement.querySelector('.cardigan-skill-expanded-content');
+    const expandButton = buttonElement;
+
+    // Find or create the expanded content container
+    let expandedContainer = messageElement.querySelector('.cardigan-skill-expanded-content');
+    
+    if (expandedContainer) {
+      // Toggle visibility
+      const isVisible = expandedContainer.style.display !== 'none';
+      expandedContainer.style.display = isVisible ? 'none' : 'block';
       
-      if (expandedContainer) {
-        // Toggle visibility
-        const isVisible = expandedContainer.style.display !== 'none';
-        expandedContainer.style.display = isVisible ? 'none' : 'block';
-        
-                  // Handle refresh interval and hooks
-        if (isVisible) {
-          // Hiding - clear interval and hook
-          if (expandedContainer._refreshInterval) {
-            clearInterval(expandedContainer._refreshInterval);
-            expandedContainer._refreshInterval = null;
-          }
-          if (expandedContainer._hookId && Hooks) {
-            Hooks.off('targetToken', expandedContainer._hookId);
-            expandedContainer._hookId = null;
-          }
-          expandButton.innerHTML = '<i class="fas fa-chevron-down" style="margin-right: 2px;"></i>Expandir';
-        } else {
-          // Showing - start interval, hook, and update content
-          const updateContent = () => {
-            expandedContainer.innerHTML = this.getExpandedContent(actorId);
-          };
-          
-          updateContent();
-          
-          // Listen for token targeting changes
-          if (Hooks) {
-            expandedContainer._hookId = Hooks.on('targetToken', updateContent);
-          }
-          
-          // Fallback refresh
-          expandedContainer._refreshInterval = setInterval(updateContent, 3000);
-          expandButton.innerHTML = '<i class="fas fa-chevron-up" style="margin-right: 2px;"></i>Recolher';
+      // Handle refresh interval and hooks
+      if (isVisible) {
+        // Hiding - clear interval and hook
+        if (expandedContainer._refreshInterval) {
+          clearInterval(expandedContainer._refreshInterval);
+          expandedContainer._refreshInterval = null;
         }
+        if (expandedContainer._hookId && Hooks) {
+          Hooks.off('targetToken', expandedContainer._hookId);
+          expandedContainer._hookId = null;
+        }
+        expandButton.innerHTML = '<i class="fas fa-chevron-down" style="margin-right: 2px;"></i>Expandir';
       } else {
-        // Create expanded content container
-        expandedContainer = document.createElement('div');
-        expandedContainer.className = 'cardigan-skill-expanded-content';
-        expandedContainer.style.cssText = `
-          margin-top: 8px; 
-          padding: 12px; 
-          background: rgba(76, 175, 80, 0.1); 
-          border-radius: 6px; 
-          border-left: 4px solid #4caf50;
-          font-size: 14px;
+        // Showing - start interval, hook, and update content
+        const updateContent = () => {
+          expandedContainer.innerHTML = this.getExpandedContent(actorId);
+        };
+        
+        updateContent();
+        
+        // Listen for token targeting changes
+        if (Hooks) {
+          expandedContainer._hookId = Hooks.on('targetToken', updateContent);
+        }
+        
+        // Fallback refresh
+        expandedContainer._refreshInterval = setInterval(updateContent, 3000);
+        expandButton.innerHTML = '<i class="fas fa-chevron-up" style="margin-right: 2px;"></i>Recolher';
+      }
+    } else {
+      // Create expanded content container
+      expandedContainer = document.createElement('div');
+      expandedContainer.className = 'cardigan-skill-expanded-content';
+      expandedContainer.style.cssText = `
+        margin-top: 8px; 
+        padding: 12px; 
+        background: rgba(76, 175, 80, 0.1); 
+        border-radius: 6px; 
+        border-left: 4px solid #4caf50;
+        font-size: 14px;
           color: #333;
           box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         `;
@@ -442,7 +499,6 @@ export class BaseSkill {
         // Update button to "Recolher"
         expandButton.innerHTML = '<i class="fas fa-chevron-up" style="margin-right: 2px;"></i>Recolher';
       }
-    }
   }
 
   /**

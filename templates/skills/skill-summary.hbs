@@ -34,4 +34,22 @@
       {{{enrichedDescription}}}
     </div>
   {{/if}}
+  
+  {{! Enhancements Section }}
+  {{#if enhancements}}
+    <div class="skill-enhancements-display">
+      <h4 class="enhancements-title">{{localize "CARDIGAN.Item.Tabs.Enhancements"}}</h4>
+      <div class="enhancements-list-display">
+        {{#each enhancements}}
+          {{#if this.description}}
+            <div class="enhancement-item-display {{#unless this.acquired}}not-acquired{{/unless}}">
+              <span class="enhancement-number">{{localize "CARDIGAN.Item.Tabs.Enhancement"}} {{this.number}}</span>
+              <span class="enhancement-bullet">‣</span>
+              <div class="enhancement-description">{{{this.enrichedDescription}}}</div>
+            </div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+  {{/if}}
 </div>

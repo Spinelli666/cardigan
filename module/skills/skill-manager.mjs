@@ -251,7 +251,7 @@ export class SkillManager {
             button._skillManagerHandler = async (event) => {
               event.preventDefault();
               try {
-                await skillClass.handleButtonClick(buttonType, actorId);
+                await skillClass.handleButtonClick(buttonType, actorId, button);
               } catch (error) {
                 console.error(`Error handling ${buttonType} button click for ${skillName}:`, error);
                 ui.notifications.error(`Erro ao executar ação da skill: ${error.message}`);
@@ -318,6 +318,8 @@ export class SkillManager {
    * @private
    */
   static async #defaultSkillToChat(skillName, actorId) {
+    console.log(`[SkillManager] Default skill to chat: ${skillName}`, { actorId });
+    
     const actor = game.actors.get(actorId);
     if (!actor) {
       ui.notifications.error("Ator não encontrado");
@@ -330,13 +332,64 @@ export class SkillManager {
       return;
     }
 
+    console.log(`[SkillManager] Skill data:`, {
+      name: skill.name,
+      type: skill.system.skillType,
+      hasEnergyCost: skill.system.hasEnergyCost,
+      energyCost: skill.system.energyCost
+    });
+
     let content = `<div class="cardigan-skill-message" style="text-align: center; padding: 8px; background: rgba(76,175,80,0.1); border: 1px solid #4caf50; border-radius: 3px;">
       <h4 style="margin: 0 0 8px 0; color: #4caf50;">
         <i class="fas fa-star" style="margin-right: 6px;"></i>${skill.name}
-      </h4>
-      <div style="text-align: left; margin: 8px 0; color: #333;">
-        ${skill.system.skillDescription || 'Sem descrição disponível.'}
+      </h4>`;
+
+    // Add skill type badge if available (same style as Acerto Debilitante)
+    if (skill.system.skillType) {
+      let skillTypeText = skill.system.skillType;
+      
+      // Convert known types to display names
+      const typeMap = {
+        'passive': 'PASSIVE',
+        'active': 'ACTIVE',
+        'reaction': 'REACTION',
+        'extra': 'EXTRA',
+        'bonus': 'BONUS',
+        'free': 'FREE'
+      };
+      
+      skillTypeText = typeMap[skillTypeText.toLowerCase()] || skillTypeText.toUpperCase();
+      
+      content += `<div style="margin: 4px 0; color: #666; font-style: italic; font-size: 0.9em; text-align: center;">
+        ${skillTypeText}
       </div>`;
+    }
+
+    // Add energy button if skill has energy cost
+    if (skill.system.hasEnergyCost) {
+      const energyCost = skill.system.effectiveEnergyCost ?? (skill.system.energyCost || 0);
+      if (energyCost > 0) {
+        content += `<div style="margin: 8px 0; text-align: center;">
+          <button class="cardigan-skill-energy-btn" data-actor-id="${actorId}" data-skill="${skillName}"
+                  style="padding: 6px 12px; background: #2196f3; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
+            <i class="fas fa-bolt" style="margin-right: 4px;"></i>Gastar Energia (-${energyCost})
+          </button>
+        </div>`;
+      }
+    }
+
+    content += `<div style="text-align: left; margin: 8px 0; color: #333;">
+        ${skill.system.description || 'Sem descrição disponível.'}
+      </div>`;
+
+    // Add enhancement emojis if skill class supports it
+    const skillClass = this.getSkill(skillName);
+    if (skillClass && typeof skillClass.generateEnhancementEmojis === 'function') {
+      const emojis = skillClass.generateEnhancementEmojis(actorId);
+      if (emojis) {
+        content += emojis;
+      }
+    }
 
     // Add interactive buttons if available
     const buttons = this.generateSkillButtons(skillName, actorId);

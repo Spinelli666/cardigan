@@ -1,0 +1,5 @@
+2025/11/02-12:38:10.043405 70b5e51ff6c0 Delete type=3 #1
+2025/11/02-12:38:10.047258 70b5deffd6c0 Level-0 table #5: started
+2025/11/02-12:38:10.077180 70b5deffd6c0 Level-0 table #5: 1848 bytes OK
+2025/11/02-12:38:10.107528 70b5deffd6c0 Delete type=0 #3
+2025/11/02-12:38:10.107659 70b5deffd6c0 Manual compaction at level-0 from '!folders!Sk1AndarilhoXy7Z' @ 72057594037927935 : 1 .. '!items!F6gH7iI8jJ9kK0lM' @ 0 : 0; will stop at (end)

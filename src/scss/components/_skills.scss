@@ -623,4 +623,148 @@
       color: #e0ddc8;
     }
   }
+  
+  // Enhancements display section
+  .skill-enhancements-display {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(43, 24, 16, 0.2);
+    border: 1px solid rgba(139, 69, 19, 0.4);
+    border-radius: 6px;
+    
+    .enhancements-title {
+      margin: 0 0 15px 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      font-size: 17px;
+      font-weight: bold;
+      color: #d4af37;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+      padding-bottom: 10px;
+    }
+    
+    .enhancements-list-display {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      
+      .enhancement-item-display {
+        display: grid;
+        grid-template-columns: auto auto 1fr;
+        gap: 8px;
+        align-items: start;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(139, 69, 19, 0.3);
+        border-radius: 4px;
+        transition: background 0.2s ease;
+        
+        &:hover {
+          background: rgba(0, 0, 0, 0.3);
+        }
+        
+        // Style for enhancements not acquired (grayed out)
+        &.not-acquired {
+          opacity: 0.5;
+          background: rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(139, 69, 19, 0.2);
+          
+          .enhancement-number {
+            color: #888;
+          }
+          
+          .enhancement-bullet {
+            color: #888;
+          }
+          
+          .enhancement-description {
+            color: #777;
+            
+            strong {
+              color: #999;
+            }
+            
+            em {
+              color: #888;
+            }
+            
+            code {
+              color: #888;
+            }
+            
+            .content-link {
+              color: #6a8aa5;
+              
+              &:hover {
+                color: #7a9ab5;
+              }
+            }
+          }
+        }
+        
+        .enhancement-number {
+          color: #d4af37;
+          font-weight: bold;
+          font-size: 13px;
+          white-space: nowrap;
+        }
+        
+        .enhancement-bullet {
+          color: #d4af37;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 1.4;
+        }
+        
+        .enhancement-description {
+          color: #c9c7b8;
+          font-size: 14px;
+          line-height: 1.6;
+          
+          p {
+            margin: 0 0 8px 0;
+            
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+          
+          // Style for content links
+          .content-link {
+            color: #64b5f6;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            
+            &:hover {
+              color: #90caf9;
+            }
+          }
+          
+          // Style for formatted text
+          strong {
+            color: #d4af37;
+            font-weight: bold;
+          }
+          
+          em {
+            font-style: italic;
+            color: #a59b85;
+          }
+          
+          code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #4caf50;
+          }
+        }
+      }
+    }
+  }
 }
