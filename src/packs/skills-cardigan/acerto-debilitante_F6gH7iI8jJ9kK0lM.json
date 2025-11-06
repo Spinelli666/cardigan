@@ -3,7 +3,7 @@
   "_key": "!items!F6gH7iI8jJ9kK0lM",
   "name": "Acerto Debilitante",
   "type": "skill",
-  "img": "icons/skills/melee/strike-flail-destructive-orange.webp",
+  "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillType": "extra",
     "skillCategory": "offensive",

@@ -3,7 +3,7 @@
   "_key": "!items!G7hH8iI9jJ0kK1lL",
   "name": "Fogo Rápido",
   "type": "skill",
-  "img": "icons/skills/melee/strike-flail-destructive-orange.webp",
+  "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillType": "active",
     "skillCategory": "offensive",
