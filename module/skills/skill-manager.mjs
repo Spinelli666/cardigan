@@ -590,8 +590,164 @@ export class SkillManager {
         await this.#expandDefaultSkill(actor, skillName, button);
         break;
         
+      case 'energy':
+        // Spend energy for unregistered skills
+        await this.#spendEnergyForUnregisteredSkill(actor, skillName);
+        break;
+        
+      case 'apply-effects':
+        // Apply custom effects for unregistered skills
+        await this.#applyCustomEffectsForUnregisteredSkill(actor, skillName);
+        break;
+        
       default:
         ui.notifications.warn(`Ação não implementada: ${buttonType}`);
+    }
+  }
+
+  /**
+   * Spend energy for unregistered skills (generic implementation)
+   * @param {Actor} actor - The actor
+   * @param {string} skillName - The skill name
+   * @private
+   */
+  static async #spendEnergyForUnregisteredSkill(actor, skillName) {
+    try {
+      // Get the skill item from the actor
+      const skill = actor.items.find(item => item.type === 'skill' && item.name === skillName);
+      if (!skill) {
+        ui.notifications.error("Skill não encontrada no personagem");
+        return;
+      }
+
+      // Check if the skill has energy cost configured
+      if (!skill.system.hasEnergyCost) {
+        ui.notifications.info(`${skillName} não gasta energia`);
+        return;
+      }
+
+      // Use effective energy cost (considers active enhancements)
+      const energyCost = skill.system.effectiveEnergyCost ?? (skill.system.energyCost || 0);
+      
+      // If energy cost is 0, don't spend anything
+      if (energyCost <= 0) {
+        ui.notifications.info(`${skillName} não tem custo de energia configurado`);
+        return;
+      }
+
+      const currentEnergy = actor.system.power.value || 0;
+
+      // Check if has enough energy
+      if (currentEnergy < energyCost) {
+        ui.notifications.warn(`${actor.name} não tem energia suficiente! (Atual: ${currentEnergy}, Necessário: ${energyCost})`);
+        
+        // Still show message in chat informing about the attempt
+        const content = `<div class="cardigan-skill-message" style="text-align: center; padding: 8px; background: rgba(255,193,7,0.1); border: 1px solid #ffc107; border-radius: 3px;">
+          <h4 style="margin: 0 0 4px 0; color: #ffc107;">
+            <i class="fas fa-exclamation-triangle" style="margin-right: 6px;"></i>${skillName}
+          </h4>
+          <p style="margin: 4px 0; color: #666;">
+            <strong>${actor.name}</strong> tentou usar <strong>${skillName}</strong> mas não tem energia suficiente!
+          </p>
+          <div style="margin: 8px 0; padding: 8px; background: rgba(255,193,7,0.2); border-radius: 3px;">
+            Energia atual: <strong>${currentEnergy}</strong> | Necessário: <strong>${energyCost}</strong>
+          </div>
+        </div>`;
+        
+        await ChatMessage.create({
+          content,
+          speaker: ChatMessage.getSpeaker({ actor }),
+          style: CONST.CHAT_MESSAGE_STYLES.OTHER
+        });
+        return;
+      }
+
+      // Calculate new energy value
+      const newEnergy = Math.max(0, currentEnergy - energyCost);
+
+      // Update actor's power (energy) directly
+      await actor.update({
+        'system.power.value': newEnergy
+      });
+
+      // Create success message in chat
+      const content = `<div class="cardigan-skill-message" style="text-align: center; padding: 8px; background: rgba(33,150,243,0.1); border: 1px solid #2196f3; border-radius: 3px;">
+        <h4 style="margin: 0 0 4px 0; color: #2196f3;">
+          <i class="fas fa-bolt" style="margin-right: 6px;"></i>${skillName}
+        </h4>
+        <p style="margin: 4px 0; color: #666;">
+          <strong>${actor.name}</strong> gastou <strong>${energyCost}</strong> de energia para potencializar <strong>${skillName}</strong>!
+        </p>
+        <div style="margin: 8px 0; padding: 8px; background: rgba(33,150,243,0.2); border-radius: 3px;">
+          Energia: <strong>${currentEnergy}</strong> → <strong>${newEnergy}</strong> (-${energyCost})
+        </div>
+      </div>`;
+
+      await ChatMessage.create({
+        content,
+        speaker: ChatMessage.getSpeaker({ actor }),
+        style: CONST.CHAT_MESSAGE_STYLES.OTHER
+      });
+
+      // Show notification as well
+      ui.notifications.info(`${actor.name} gastou ${energyCost} de energia! (${currentEnergy} → ${newEnergy})`);
+
+    } catch (error) {
+      console.error("Error spending skill energy:", error);
+      ui.notifications.error(`Erro ao gastar energia: ${error.message}`);
+    }
+  }
+
+  /**
+   * Apply custom effects for unregistered skills (generic implementation)
+   * @param {Actor} actor - The actor
+   * @param {string} skillName - The skill name
+   * @private
+   */
+  static async #applyCustomEffectsForUnregisteredSkill(actor, skillName) {
+    try {
+      // Get currently targeted tokens
+      if (!game || !game.user) {
+        ui.notifications.error("Sistema não disponível!");
+        return;
+      }
+
+      const targetedTokens = Array.from(game.user.targets);
+      
+      if (targetedTokens.length === 0) {
+        ui.notifications.warn("Nenhum token alvo selecionado! Use T ou Shift+T para mirar em tokens.");
+        return;
+      }
+
+      // Get the skill item
+      const skill = actor.items.find(item => item.type === 'skill' && item.name === skillName);
+      if (!skill) {
+        ui.notifications.error("Skill não encontrada no personagem");
+        return;
+      }
+
+      // Check if skill has custom effects configured
+      if (!skill.system.hasCustomEffects || !skill.system.customEffects || skill.system.customEffects.length === 0) {
+        ui.notifications.info(`${skillName} não tem efeitos personalizados configurados`);
+        return;
+      }
+
+      // Extract effect names from customEffects
+      const effectNames = skill.system.customEffects.map(effect => effect.name);
+
+      // Import the effects dialog
+      const { EffectsApplicationDialog } = await import('../applications/effects-application-dialog.mjs');
+
+      // Open the effects application dialog with filtered effects
+      await EffectsApplicationDialog.show(
+        targetedTokens, 
+        effectNames, 
+        `${skillName} - Aplicar Efeitos`
+      );
+
+    } catch (error) {
+      console.error("Erro ao abrir dialog de aplicação de efeitos:", error);
+      ui.notifications.error("Erro ao abrir dialog de efeitos. Verifique o console para mais detalhes.");
     }
   }
 
@@ -839,20 +995,110 @@ export class SkillManager {
     if (!messageElement) return;
 
     // Check if already expanded
-    const existingExpanded = messageElement.querySelector('.cardigan-expanded-content');
-    if (existingExpanded) {
-      existingExpanded.remove();
-      button.innerHTML = '<i class="fas fa-chevron-down" style="margin-right: 4px;"></i>Expandir';
-      return;
+    let expandedContainer = messageElement.querySelector('.cardigan-skill-expanded-content');
+    
+    if (expandedContainer) {
+      // Toggle visibility
+      const isVisible = expandedContainer.style.display !== 'none';
+      expandedContainer.style.display = isVisible ? 'none' : 'block';
+      
+      // Handle refresh interval and hooks
+      if (isVisible) {
+        // Hiding - clear interval and hook
+        if (expandedContainer._refreshInterval) {
+          clearInterval(expandedContainer._refreshInterval);
+          expandedContainer._refreshInterval = null;
+        }
+        if (expandedContainer._hookId && Hooks) {
+          Hooks.off('targetToken', expandedContainer._hookId);
+          expandedContainer._hookId = null;
+        }
+        button.innerHTML = '<i class="fas fa-chevron-down" style="margin-right: 4px;"></i>Expandir';
+      } else {
+        // Showing - start interval, hook, and update content
+        const updateContent = () => {
+          expandedContainer.innerHTML = this.#generateExpandedContentForSkill(actor, skillName);
+          // Setup event listeners for apply effects button after updating content
+          this.#setupApplyEffectsButtonListener(expandedContainer, actor, skillName);
+        };
+        
+        updateContent();
+        
+        // Listen for token targeting changes
+        if (Hooks) {
+          expandedContainer._hookId = Hooks.on('targetToken', updateContent);
+        }
+        
+        // Fallback refresh every 500ms
+        expandedContainer._refreshInterval = setInterval(updateContent, 500);
+        button.innerHTML = '<i class="fas fa-chevron-up" style="margin-right: 4px;"></i>Recolher';
+      }
+    } else {
+      // Create expanded content container
+      expandedContainer = document.createElement('div');
+      expandedContainer.className = 'cardigan-skill-expanded-content';
+      
+      // Set up auto-refresh for token content
+      const updateContent = () => {
+        expandedContainer.innerHTML = this.#generateExpandedContentForSkill(actor, skillName);
+        // Setup event listeners for apply effects button after updating content
+        this.#setupApplyEffectsButtonListener(expandedContainer, actor, skillName);
+      };
+      
+      // Initial content
+      updateContent();
+      
+      // Listen for token targeting changes
+      if (Hooks) {
+        expandedContainer._hookId = Hooks.on('targetToken', updateContent);
+      }
+      
+      // Fallback refresh every 500ms
+      expandedContainer._refreshInterval = setInterval(updateContent, 500);
+      
+      // Insert after button container
+      const buttonContainer = button.closest('div[style*="display: flex"]') || button.parentElement;
+      buttonContainer.insertAdjacentElement('afterend', expandedContainer);
+      button.innerHTML = '<i class="fas fa-chevron-up" style="margin-right: 4px;"></i>Recolher';
     }
+  }
 
-    // Create expanded content
+  /**
+   * Setup event listener for apply effects button
+   * @param {HTMLElement} container - The container element
+   * @param {Actor} actor - The actor
+   * @param {string} skillName - The skill name
+   * @private
+   */
+  static #setupApplyEffectsButtonListener(container, actor, skillName) {
+    const applyButton = container.querySelector('.cardigan-skill-apply-effects-btn');
+    if (applyButton) {
+      // Remove existing listener to avoid duplicates
+      applyButton.removeEventListener('click', applyButton._clickHandler);
+      
+      // Add new listener
+      applyButton._clickHandler = async (event) => {
+        event.preventDefault();
+        await this.#applyCustomEffectsForUnregisteredSkill(actor, skillName);
+      };
+      
+      applyButton.addEventListener('click', applyButton._clickHandler);
+    }
+  }
+
+  /**
+   * Generate expanded content HTML for a skill
+   * @param {Actor} actor - The actor
+   * @param {string} skillName - The skill name
+   * @returns {string} HTML content
+   * @private
+   */
+  static #generateExpandedContentForSkill(actor, skillName) {
     const targetedTokens = Array.from(game.user.targets);
-    let expandedHtml = '';
 
     if (targetedTokens.length === 0) {
-      expandedHtml = `
-        <div class="cardigan-expanded-content" style="
+      return `
+        <div style="
           background: rgba(255, 193, 7, 0.1); 
           border-left: 4px solid #ffc107; 
           padding: 12px; 
@@ -866,39 +1112,47 @@ export class SkillManager {
           <small>Use T ou Shift+T para mirar em tokens</small>
         </div>
       `;
-    } else {
-      const tokensHtml = targetedTokens.map(token => {
-        const tokenActor = token.actor;
-        if (!tokenActor) return '';
-        const tokenImg = token.document.texture.src || tokenActor.img || 'icons/svg/mystery-man.svg';
-        return `<img src="${tokenImg}" alt="${tokenActor.name}" title="${tokenActor.name}"
-                 style="width: 32px; height: 32px; border-radius: 50%; margin: 4px; border: 2px solid #4caf50; cursor: pointer;">`;
-      }).filter(html => html !== '').join('');
-
-      expandedHtml = `
-        <div class="cardigan-expanded-content" style="
-          background: rgba(76, 175, 80, 0.1); 
-          border-left: 4px solid #4caf50; 
-          padding: 12px; 
-          margin: 8px 0; 
-          border-radius: 6px;
-          text-align: center;
-        ">
-          <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
-            <i class="fas fa-crosshairs" style="color: #4caf50; margin-right: 6px;"></i>
-            <strong style="color: #4caf50;">Tokens Alvo:</strong>
-          </div>
-          <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
-            ${tokensHtml}
-          </div>
-        </div>
-      `;
     }
 
-    // Insert expanded content after the button container
-    const buttonContainer = button.closest('div[style*="display: flex"]') || button.parentElement;
-    buttonContainer.insertAdjacentHTML('afterend', expandedHtml);
-    button.innerHTML = '<i class="fas fa-chevron-up" style="margin-right: 4px;"></i>Recolher';
+    const tokensHtml = targetedTokens.map(token => {
+      const tokenActor = token.actor;
+      if (!tokenActor) return '';
+      const tokenImg = token.document.texture.src || tokenActor.img || 'icons/svg/mystery-man.svg';
+      return `<img src="${tokenImg}" alt="${tokenActor.name}" title="${tokenActor.name}"
+               style="width: 32px; height: 32px; border-radius: 50%; margin: 4px; border: 2px solid #4caf50; cursor: pointer;">`;
+    }).filter(html => html !== '').join('');
+
+    // Check if skill has custom effects to show apply button
+    const skill = actor.items.find(item => item.type === 'skill' && item.name === skillName);
+    const hasCustomEffects = skill && skill.system.hasCustomEffects && skill.system.customEffects && skill.system.customEffects.length > 0;
+
+    return `
+      <div style="
+        background: rgba(76, 175, 80, 0.1); 
+        border-left: 4px solid #4caf50; 
+        padding: 12px; 
+        margin: 8px 0; 
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+      ">
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
+          <i class="fas fa-crosshairs" style="color: #4caf50; margin-right: 6px;"></i>
+          <strong style="color: #4caf50;">Tokens Alvo:</strong>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; margin-bottom: ${hasCustomEffects ? '12px' : '0'};">
+          ${tokensHtml}
+        </div>
+        ${hasCustomEffects ? `
+          <div style="text-align: center;">
+            <button class="cardigan-skill-apply-effects-btn" data-actor-id="${actor.id}" data-skill="${skillName}"
+                    style="padding: 6px 12px; background: #9c27b0; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
+              <i class="fas fa-magic" style="margin-right: 4px;"></i>Aplicar Efeitos
+            </button>
+          </div>
+        ` : ''}
+      </div>
+    `;
   }
 
   /**

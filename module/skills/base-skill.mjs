@@ -236,14 +236,13 @@ export class BaseSkill {
           ${tokensHtml}
         </div>
         <div style="text-align: center;">
-          <button class="cardigan-apply-effects-btn" data-skill="${this.skillName}" data-actor-id="${actorId}" style="
+          <button class="cardigan-skill-apply-effects-btn" data-skill="${this.skillName}" data-actor-id="${actorId}" style="
             padding: 6px 12px; 
-            background: #4caf50; 
+            background: #9c27b0; 
             color: white; 
             border: none; 
-            border-radius: 4px; 
+            border-radius: 3px; 
             cursor: pointer; 
-            font-size: 12px;
             font-weight: bold;
           ">
             <i class="fas fa-magic" style="margin-right: 4px;"></i>Aplicar Efeitos
@@ -336,14 +335,31 @@ export class BaseSkill {
    * @protected
    */
   static _generateExpandButton(actorId) {
-    if (!this.supportsExpansion()) {
-      return ''; // No expand button if not supported
+    // Check if skill explicitly supports expansion (like Acerto Debilitante)
+    if (this.supportsExpansion()) {
+      return `<button class="cardigan-skill-expand-btn" data-actor-id="${actorId}" data-skill="${this.skillName}"
+                style="padding: 4px 8px; background: #9e9e9e; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; margin-left: 4px;">
+          <i class="fas fa-chevron-down" style="margin-right: 2px;"></i>Expandir
+        </button>`;
     }
 
-    return `<button class="cardigan-skill-expand-btn" data-actor-id="${actorId}" data-skill="${this.skillName}"
-              style="padding: 4px 8px; background: #9e9e9e; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; margin-left: 4px;">
-        <i class="fas fa-chevron-down" style="margin-right: 2px;"></i>Expandir
-      </button>`;
+    // Check if skill has custom effects configured (for generic skills)
+    try {
+      const actor = this.getActor(actorId);
+      if (actor) {
+        const skill = actor.items.find(item => item.type === 'skill' && item.name === this.skillName);
+        if (skill && skill.system.hasCustomEffects && skill.system.customEffects && skill.system.customEffects.length > 0) {
+          return `<button class="cardigan-skill-expand-btn" data-actor-id="${actorId}" data-skill="${this.skillName}"
+                    style="padding: 4px 8px; background: #9e9e9e; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; margin-left: 4px;">
+              <i class="fas fa-chevron-down" style="margin-right: 2px;"></i>Expandir
+            </button>`;
+        }
+      }
+    } catch (error) {
+      console.warn(`Error checking custom effects for ${this.skillName}:`, error);
+    }
+
+    return ''; // No expand button if not supported
   }
 
   /**
@@ -367,9 +383,152 @@ export class BaseSkill {
     if (buttonType === 'expand') {
       await this._handleExpandClick(actorId, buttonElement);
     } else if (buttonType === 'apply-effects') {
-      await this._handleApplyEffectsClick();
+      await this.showCustomEffectsDialog(actorId);
+    } else if (buttonType === 'energy') {
+      await this.spendEnergy(actorId);
     } else {
       console.warn(`${this.skillName}: Button click handler not implemented for type: ${buttonType}`);
+    }
+  }
+
+  /**
+   * Generic method to spend energy for skills
+   * Can be overridden by subclasses for custom behavior
+   * @param {string} actorId - The actor ID
+   * @returns {Promise<void>}
+   */
+  static async spendEnergy(actorId) {
+    try {
+      const actor = this.getActor(actorId);
+      if (!actor) {
+        console.error("Actor not found for ID:", actorId);
+        ui.notifications.error("Personagem não encontrado");
+        return;
+      }
+
+      // Get the skill item from the actor to check energy cost
+      const skill = actor.items.find(item => item.type === 'skill' && item.name === this.skillName);
+      if (!skill) {
+        ui.notifications.error("Skill não encontrada no personagem");
+        return;
+      }
+
+      // Check if the skill has energy cost configured
+      if (!skill.system.hasEnergyCost) {
+        ui.notifications.info(`${this.skillName} não gasta energia`);
+        return;
+      }
+
+      // Use effective energy cost (considers active enhancements)
+      const energyCost = skill.system.effectiveEnergyCost ?? (skill.system.energyCost || 0);
+      
+      // If energy cost is 0, don't spend anything
+      if (energyCost <= 0) {
+        ui.notifications.info(`${this.skillName} não tem custo de energia configurado`);
+        return;
+      }
+
+      const currentEnergy = actor.system.power.value || 0;
+      const maxEnergy = actor.system.power.max || 0;
+
+      // Check if has enough energy
+      if (currentEnergy < energyCost) {
+        ui.notifications.warn(`${actor.name} não tem energia suficiente! (Atual: ${currentEnergy}, Necessário: ${energyCost})`);
+        
+        // Still show message in chat informing about the attempt
+        await this.createSkillChatMessage(
+          actor,
+          this.skillName,
+          `tentou usar <strong>${this.skillName}</strong> mas não tem energia suficiente!`,
+          `Energia atual: <strong>${currentEnergy}</strong> | Necessário: <strong>${energyCost}</strong>`,
+          "rgba(255,193,7,0.1)",
+          "#ffc107",
+          "fas fa-exclamation-triangle"
+        );
+        return;
+      }
+
+      // Calculate new energy value
+      const newEnergy = Math.max(0, currentEnergy - energyCost);
+
+      // Update actor's power (energy) directly
+      await actor.update({
+        'system.power.value': newEnergy
+      });
+
+      // Create success message in chat
+      await this.createSkillChatMessage(
+        actor,
+        this.skillName,
+        `gastou <strong>${energyCost}</strong> de energia para potencializar <strong>${this.skillName}</strong>!`,
+        `Energia: <strong>${currentEnergy}</strong> → <strong>${newEnergy}</strong> (-${energyCost})`,
+        "rgba(33,150,243,0.1)",
+        "#2196f3",
+        "fas fa-bolt"
+      );
+
+      // Show notification as well
+      ui.notifications.info(`${actor.name} gastou ${energyCost} de energia! (${currentEnergy} → ${newEnergy})`);
+
+    } catch (error) {
+      console.error("Error spending skill energy:", error);
+      ui.notifications.error(`Erro ao gastar energia: ${error.message}`);
+    }
+  }
+
+  /**
+   * Generic method to show effects dialog for skills with custom effects
+   * Can be overridden by subclasses for custom behavior
+   * @param {string} actorId - The actor ID
+   * @returns {Promise<void>}
+   */
+  static async showCustomEffectsDialog(actorId) {
+    try {
+      // Get currently targeted tokens
+      if (!game || !game.user) {
+        ui.notifications.error("Sistema não disponível!");
+        return;
+      }
+
+      const targetedTokens = Array.from(game.user.targets);
+      
+      if (targetedTokens.length === 0) {
+        ui.notifications.warn("Nenhum token alvo selecionado! Use T ou Shift+T para mirar em tokens.");
+        return;
+      }
+
+      // Get the actor and skill
+      const actor = this.getActor(actorId);
+      if (!actor) return;
+
+      const skill = actor.items.find(item => item.type === 'skill' && item.name === this.skillName);
+      if (!skill) {
+        ui.notifications.error("Skill não encontrada no personagem");
+        return;
+      }
+
+      // Check if skill has custom effects configured
+      if (!skill.system.hasCustomEffects || !skill.system.customEffects || skill.system.customEffects.length === 0) {
+        ui.notifications.info(`${this.skillName} não tem efeitos personalizados configurados`);
+        return;
+      }
+
+      // Extract effect names from customEffects
+      const effectNames = skill.system.customEffects.map(effect => effect.name);
+
+      // Import the effects dialog
+      const { EffectsApplicationDialog } = await import('../applications/effects-application-dialog.mjs');
+
+      // Open the effects application dialog with filtered effects
+      await EffectsApplicationDialog.show(
+        targetedTokens, 
+        effectNames, 
+        `${this.skillName} - Aplicar Efeitos`
+      );
+
+    } catch (error) {
+      console.error("Erro ao abrir dialog de aplicação de efeitos:", error);
+      ui.notifications.error("Erro ao abrir dialog de efeitos. Verifique o console para mais detalhes.");
     }
   }
 
