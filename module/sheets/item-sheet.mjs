@@ -157,8 +157,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         options.parts.push('attributesSpell');
         break;
       case 'efeito':
-        // Para efeitos: apenas descrição, SEM abas de Attributes e Effects
-        // Efeitos só têm descrição
+        // Efeitos têm descrição e podem ter atributos básicos se necessário
+        options.parts.push('attributesEfeito');
         break;
       case 'arma':
         options.parts.push('attributesArma');
@@ -221,6 +221,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesItemRecipe':
       case 'attributesItemIngredient':
       case 'attributesSkill':
+      case 'attributesEfeito':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
         break;

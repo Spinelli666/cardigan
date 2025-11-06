@@ -210,7 +210,8 @@
         "PrerequisitesPlaceholder": "List any prerequisites or requirements for learning this skill...",
         "Types": {
           "General": "General",
-          "Extra": "Extra"
+          "Extra": "Extra",
+          "Active": "Active"
         },
         "Category": "Skill Category",
         "Categories": {

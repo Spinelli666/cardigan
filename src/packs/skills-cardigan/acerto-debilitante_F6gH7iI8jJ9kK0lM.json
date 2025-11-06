@@ -26,6 +26,11 @@
         "id": "mN2nO3oP4pQ5qR6r",
         "name": "Caído",
         "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      },
+      {
+        "id": "G1hI2jK3lM4nO5pQ",
+        "name": "Intimidado",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
       }
     ],
     "enhancements": [
@@ -48,7 +53,7 @@
         "energyCost": 0
       }
     ],
-    "acquiredEnhancements": [false, true, false],
+    "acquiredEnhancements": [false, false, false],
     "description": "<p><em>\"Você mira com cautela nos pontos vitais do inimigo.\"</em></p><p><strong>⋆ </strong>Após acertar um ataque role <code>1d6</code>; O resultado corresponde a um ponto vital acertado no seu alvo, adicionando um efeito extra neste ataque:</p><p></p><blockquote><p><strong>6 ‣ Cabeça:</strong> O alvo recebe @UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹.</p><p><strong>5 ‣ Torso:</strong> O alvo recebe @UUID[Compendium.cardigan.efeitos-cardigan.Item.Z2aA3bB4cCd5eE6F]{Sangramento}¹.</p><p><strong>4 e 3 ‣ Braços:</strong> O alvo recebe Desvantagem no próximo ataque.</p><p><strong>2 e 1 ‣ Pernas:</strong> O alvo recebe @UUID[Compendium.cardigan.efeitos-cardigan.Item.mN2nO3oP4pQ5qR6r]{Caído}¹.</p></blockquote>"
   },
   "effects": [],

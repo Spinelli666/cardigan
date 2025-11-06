@@ -14,6 +14,41 @@
 @import 'global/tooltips';
 @import 'global/chat';
 
+/* ProseMirror editor styles for item sheets */
+.item.sheet {
+  prose-mirror {
+    .editor-content {
+      overflow: visible !important;
+      max-height: none !important;
+      position: relative !important;
+      
+      .ProseMirror {
+        overflow: visible !important;
+        max-height: none !important;
+        min-height: 200px;
+      }
+    }
+  }
+  
+  .tab[data-tab="description"] {
+    prose-mirror {
+      display: block;
+      height: 100%;
+      
+      .editor-content {
+        height: 100%;
+        overflow: visible !important;
+        position: relative !important;
+        
+        .ProseMirror {
+          overflow: visible !important;
+          max-height: none !important;
+        }
+      }
+    }
+  }
+}
+
 /* Styles limited to cardigan sheets */
 .cardigan {
   // Tab visibility control for item sheets

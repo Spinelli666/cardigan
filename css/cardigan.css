@@ -280,6 +280,31 @@
   display: none !important;
 }
 
+/* ProseMirror editor styles for item sheets */
+.item.sheet prose-mirror .editor-content {
+  overflow: visible !important;
+  max-height: none !important;
+  position: relative !important;
+}
+.item.sheet prose-mirror .editor-content .ProseMirror {
+  overflow: visible !important;
+  max-height: none !important;
+  min-height: 200px;
+}
+.item.sheet .tab[data-tab=description] prose-mirror {
+  display: block;
+  height: 100%;
+}
+.item.sheet .tab[data-tab=description] prose-mirror .editor-content {
+  height: 100%;
+  overflow: visible !important;
+  position: relative !important;
+}
+.item.sheet .tab[data-tab=description] prose-mirror .editor-content .ProseMirror {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
 /* Styles limited to cardigan sheets */
 .cardigan .tab:not(.active) {
   display: none !important;
