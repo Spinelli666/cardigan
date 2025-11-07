@@ -312,6 +312,131 @@ export class AcertoDebilitanteSkill extends BaseSkill {
   }
 
   /**
+   * Generate HTML tooltip for weapon (public method for dynamic tooltips)
+   * @param {string} actorId - The actor ID
+   * @returns {string} HTML tooltip content
+   */
+  static _generateWeaponTooltipHTML(actorId) {
+    try {
+      const actor = this.getActor(actorId);
+      if (!actor) return this.#createTooltipHTML("Sem Arma", "—", "Nenhuma arma equipada");
+
+      const primaryWeapon = this._getPrimaryWeapon(actor);
+      if (!primaryWeapon) {
+        return this.#formatUnarmedTooltipHTML(actor);
+      }
+
+      return this.#formatWeaponTooltipHTML(primaryWeapon, actor);
+    } catch (error) {
+      console.error("Error generating weapon tooltip HTML:", error);
+      return this.#createTooltipHTML("Erro", "—", "Erro ao carregar informações");
+    }
+  }
+
+  /**
+   * Generate HTML tooltip for secondary weapon (public method for dynamic tooltips)
+   * @param {string} actorId - The actor ID
+   * @returns {string} HTML tooltip content
+   */
+  static _generateSecondaryWeaponTooltipHTML(actorId) {
+    try {
+      const actor = this.getActor(actorId);
+      if (!actor) return this.#createTooltipHTML("Sem Arma", "—", "Nenhuma arma equipada");
+
+      const secondaryWeapon = this._getSecondaryWeapon(actor);
+      if (!secondaryWeapon) {
+        return this.#formatUnarmedTooltipHTML(actor);
+      }
+
+      return this.#formatWeaponTooltipHTML(secondaryWeapon, actor);
+    } catch (error) {
+      console.error("Error generating secondary weapon tooltip HTML:", error);
+      return this.#createTooltipHTML("Erro", "—", "Erro ao carregar informações");
+    }
+  }
+
+  /**
+   * Format weapon tooltip as HTML
+   * @param {Item} weapon - The weapon item
+   * @param {Actor} actor - The actor
+   * @returns {string} Formatted HTML tooltip
+   * @private
+   */
+  static #formatWeaponTooltipHTML(weapon, actor) {
+    const weaponName = weapon.name;
+    const damageTotal = weapon.system.damage.total || "0";
+    const damageBreakdown = this.#calculateDamageBreakdown(weapon, actor);
+    
+    let subtitle = "";
+    
+    // Determine weapon type and create subtitle
+    if (weapon.system.isFirearm && weapon.system.ranged) {
+      const currentAmmo = weapon.system.loadedAmmo || 0;
+      const maxAmmo = weapon.system.magazine || 0;
+      subtitle = `[${currentAmmo}/${maxAmmo}] Munição`;
+    } else if (weapon.system.ranged && !weapon.system.melee) {
+      const currentAmmo = weapon.system.loadedAmmo || 0;
+      subtitle = `[${currentAmmo}] Munição`;
+    } else {
+      subtitle = weapon.system.melee ? "Corpo a Corpo" : "Arma";
+    }
+    
+    return this.#createTooltipHTML(weaponName, damageTotal, damageBreakdown, subtitle);
+  }
+
+  /**
+   * Format unarmed attack tooltip as HTML
+   * @param {Actor} actor - The actor
+   * @returns {string} Formatted HTML tooltip
+   * @private
+   */
+  static #formatUnarmedTooltipHTML(actor) {
+    const strengthValue = actor.system.abilities?.strength?.value || 0;
+    const strengthTotalBonus = actor.system.abilities?.strength?.totalBonus || 0;
+    const totalStrength = strengthValue + strengthTotalBonus;
+    const unarmedDamage = totalStrength > 0 ? totalStrength : 1;
+    
+    let damageBreakdown;
+    if (totalStrength > 0) {
+      if (strengthTotalBonus > 0) {
+        damageBreakdown = `${strengthValue} + ${strengthTotalBonus} (Força)`;
+      } else {
+        damageBreakdown = `${strengthValue} (Força)`;
+      }
+    } else {
+      damageBreakdown = "1 (mínimo)";
+    }
+    
+    return this.#createTooltipHTML("Ataque Desarmado", String(unarmedDamage), damageBreakdown, "Corpo a Corpo");
+  }
+
+  /**
+   * Create HTML tooltip structure
+   * @param {string} title - Tooltip title (weapon name)
+   * @param {string} damage - Total damage
+   * @param {string} breakdown - Damage breakdown
+   * @param {string} subtitle - Optional subtitle (weapon type/ammo info)
+   * @returns {string} HTML tooltip
+   * @private
+   */
+  static #createTooltipHTML(title, damage, breakdown, subtitle = "") {
+    return `
+      <div class="cardigan-attack-tooltip">
+        <div class="attack-tooltip-header">
+          <strong>${title}</strong>
+        </div>
+        ${subtitle ? `<div class="attack-tooltip-subtitle">${subtitle}</div>` : ''}
+        <div class="attack-tooltip-damage">
+          <span class="damage-value">${damage}</span>
+        </div>
+        <div class="attack-tooltip-breakdown">
+          ${breakdown}
+        </div>
+      </div>
+    `.trim();
+  }
+
+  /**
    * Handle button clicks for this skill
    * @param {string} buttonType - Type of button clicked
    * @param {string} actorId - The actor ID
