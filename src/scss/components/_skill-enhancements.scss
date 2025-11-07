@@ -63,6 +63,26 @@
         font-size: 0.9rem;
         color: var(--color-text-secondary);
         font-style: italic;
+        
+        // Controlar tamanho das imagens na descrição
+        img {
+          max-width: 100%;
+          height: 1em; // Altura igual ao tamanho da fonte
+          width: auto;
+          vertical-align: middle !important;
+          display: inline !important;
+          margin: 0 0.2em;
+          object-fit: contain;
+        }
+        
+        // Garantir que parágrafos permitam texto ao lado de imagens
+        p {
+          display: inline;
+          
+          img {
+            display: inline !important;
+          }
+        }
       }
 
       .no-content {

@@ -36,6 +36,26 @@
         .ProseMirror {
           padding: 12px;
           min-height: 180px;
+          
+          // Controlar tamanho das imagens - importante para colagem
+          img {
+            max-width: 100% !important;
+            height: 5em !important; // Força altura igual à fonte
+            width: auto !important;
+            vertical-align: middle !important;
+            display: inline !important;
+            margin: 0 0.2em !important;
+            object-fit: contain !important;
+          }
+          
+          // Garantir que parágrafos com imagens permitam texto ao lado
+          p {
+            display: inline !important;
+            
+            img {
+              display: inline !important;
+            }
+          }
         }
       }
     }

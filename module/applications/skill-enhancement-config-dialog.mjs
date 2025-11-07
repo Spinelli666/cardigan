@@ -96,6 +96,82 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
         energyInput.style.display = e.target.checked ? 'block' : 'none';
       });
     }
+
+    // Handle image paste to force small size
+    const proseMirror = this.element.querySelector('prose-mirror');
+    if (proseMirror) {
+      const editor = proseMirror.querySelector('.ProseMirror');
+      if (editor) {
+        // Observer to resize images when they're added
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+              if (node.nodeName === 'IMG') {
+                node.style.height = '5em';
+                node.style.width = 'auto';
+                node.style.maxWidth = '100%';
+                node.style.display = 'inline';
+                node.style.verticalAlign = 'middle';
+                node.style.margin = '0 0.2em';
+                node.style.objectFit = 'contain';
+              }
+              // Check children for images
+              if (node.querySelectorAll) {
+                const images = node.querySelectorAll('img');
+                images.forEach((img) => {
+                  img.style.height = '5em';
+                  img.style.width = 'auto';
+                  img.style.maxWidth = '100%';
+                  img.style.display = 'inline';
+                  img.style.verticalAlign = 'middle';
+                  img.style.margin = '0 0.2em';
+                  img.style.objectFit = 'contain';
+                });
+              }
+              // Se o nó é um parágrafo, garantir que seja inline
+              if (node.nodeName === 'P') {
+                node.style.display = 'inline';
+              }
+            });
+          });
+        });
+
+        observer.observe(editor, {
+          childList: true,
+          subtree: true,
+        });
+
+        // Store observer to disconnect later
+        this._imageObserver = observer;
+
+        // Also handle existing images
+        const existingImages = editor.querySelectorAll('img');
+        existingImages.forEach((img) => {
+          img.style.height = '5em';
+          img.style.width = 'auto';
+          img.style.maxWidth = '100%';
+          img.style.display = 'inline';
+          img.style.verticalAlign = 'middle';
+          img.style.margin = '0 0.2em';
+          img.style.objectFit = 'contain';
+        });
+        
+        // Garantir que parágrafos sejam inline
+        const paragraphs = editor.querySelectorAll('p');
+        paragraphs.forEach((p) => {
+          p.style.display = 'inline';
+        });
+      }
+    }
+  }
+
+  _onClose(options) {
+    // Cleanup observer
+    if (this._imageObserver) {
+      this._imageObserver.disconnect();
+      this._imageObserver = null;
+    }
+    return super._onClose(options);
   }
 
   /**

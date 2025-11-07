@@ -16,7 +16,47 @@
 
 /* ProseMirror editor styles for item sheets */
 .item.sheet {
+  // CSS global para qualquer prose-mirror em item sheets
   prose-mirror {
+    img {
+      max-width: 100% !important;
+      height: 1em !important;
+      width: auto !important;
+      vertical-align: middle !important;
+      display: inline !important;
+      margin: 0 0.2em !important;
+      object-fit: contain !important;
+    }
+    
+    p {
+      display: inline !important;
+      
+      img {
+        display: inline !important;
+      }
+    }
+    
+    // CSS direto no ProseMirror também
+    .ProseMirror {
+      img {
+        max-width: 100% !important;
+        height: 1em !important;
+        width: auto !important;
+        vertical-align: middle !important;
+        display: inline !important;
+        margin: 0 0.2em !important;
+        object-fit: contain !important;
+      }
+      
+      p {
+        display: inline !important;
+        
+        img {
+          display: inline !important;
+        }
+      }
+    }
+    
     .editor-content {
       overflow: visible !important;
       max-height: none !important;
@@ -26,11 +66,50 @@
         overflow: visible !important;
         max-height: none !important;
         min-height: 200px;
+        
+        // Controlar tamanho de imagens em todas as descriptions
+        img {
+          max-width: 100% !important;
+          height: 1em !important;
+          width: auto !important;
+          vertical-align: middle !important;
+          display: inline !important;
+          margin: 0 0.2em !important;
+          object-fit: contain !important;
+        }
+        
+        // Garantir que parágrafos com imagens permitam texto ao lado
+        p {
+          display: inline !important;
+          
+          img {
+            display: inline !important;
+          }
+        }
       }
     }
   }
   
   .tab[data-tab="description"] {
+    // CSS direto na tab também
+    img {
+      max-width: 100% !important;
+      height: 1em !important;
+      width: auto !important;
+      vertical-align: middle !important;
+      display: inline !important;
+      margin: 0 0.2em !important;
+      object-fit: contain !important;
+    }
+    
+    p {
+      display: inline !important;
+      
+      img {
+        display: inline !important;
+      }
+    }
+    
     prose-mirror {
       display: block;
       height: 100%;
@@ -45,6 +124,44 @@
           max-height: none !important;
         }
       }
+    }
+  }
+}
+
+// Controle de imagens em biography de actors
+.actor.sheet {
+  .tab.biography {
+    prose-mirror {
+      .ProseMirror {
+        img {
+          max-width: 100% !important;
+          height: 1em !important;
+          width: auto !important;
+          vertical-align: middle !important;
+          display: inline !important;
+          margin: 0 0.2em !important;
+          object-fit: contain !important;
+        }
+        
+        // Garantir que parágrafos com imagens permitam texto ao lado
+        p {
+          display: inline !important;
+          
+          img {
+            display: inline !important;
+          }
+        }
+      }
+    }
+    
+    // Também na visualização (quando não editável)
+    img {
+      max-width: 100%;
+      height: 1em;
+      width: auto;
+      vertical-align: middle !important;
+      display: inline !important;
+      margin: 0 0.2em !important;
     }
   }
 }

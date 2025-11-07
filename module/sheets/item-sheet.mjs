@@ -427,9 +427,105 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup critical hit boost toggle visibility for consumable items
     this._setupCriticalHitBoostToggle();
     
+    // Setup image resize in description editor
+    this._setupDescriptionImageResize();
+    
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
+  }
+
+  /**
+   * Setup automatic image resizing in description prose-mirror editor
+   * @protected
+   */
+  _setupDescriptionImageResize() {
+    const proseMirror = this.element.querySelector('.tab[data-tab="description"] prose-mirror');
+    if (!proseMirror) {
+      console.log('prose-mirror not found in description tab');
+      return;
+    }
+    
+    const editor = proseMirror.querySelector('.ProseMirror');
+    if (!editor) {
+      console.log('.ProseMirror element not found');
+      return;
+    }
+    
+    console.log('Setting up image resize observer for item description');
+    
+    // Function to resize an image
+    const resizeImage = (img) => {
+      img.style.setProperty('height', '1em', 'important');
+      img.style.setProperty('width', 'auto', 'important');
+      img.style.setProperty('max-width', '100%', 'important');
+      img.style.setProperty('display', 'inline', 'important');
+      img.style.setProperty('vertical-align', 'middle', 'important');
+      img.style.setProperty('margin', '0 0.2em', 'important');
+      img.style.setProperty('object-fit', 'contain', 'important');
+    };
+    
+    // Observer to resize images when they're added
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          // Small delay to let Foundry finish its processing
+          setTimeout(() => {
+            if (node.nodeName === 'IMG') {
+              console.log('Image added, resizing:', node);
+              resizeImage(node);
+            }
+            // Check children for images
+            if (node.querySelectorAll) {
+              const images = node.querySelectorAll('img');
+              images.forEach((img) => {
+                console.log('Child image found, resizing:', img);
+                resizeImage(img);
+              });
+            }
+            // Se o nó é um parágrafo, garantir que seja inline
+            if (node.nodeName === 'P') {
+              node.style.setProperty('display', 'inline', 'important');
+            }
+          }, 10);
+        });
+      });
+    });
+
+    observer.observe(editor, {
+      childList: true,
+      subtree: true,
+    });
+
+    // Store observer to disconnect later
+    this._descriptionImageObserver = observer;
+
+    // Also handle existing images
+    console.log('Resizing existing images in editor');
+    const existingImages = editor.querySelectorAll('img');
+    existingImages.forEach((img) => {
+      console.log('Existing image found, resizing:', img);
+      resizeImage(img);
+    });
+    
+    // Garantir que parágrafos sejam inline
+    const paragraphs = editor.querySelectorAll('p');
+    paragraphs.forEach((p) => {
+      p.style.setProperty('display', 'inline', 'important');
+    });
+  }
+
+  /**
+   * Cleanup when closing the sheet
+   * @override
+   */
+  _onClose(options) {
+    // Cleanup description image observer
+    if (this._descriptionImageObserver) {
+      this._descriptionImageObserver.disconnect();
+      this._descriptionImageObserver = null;
+    }
+    return super._onClose?.(options);
   }
 
   /**

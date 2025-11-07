@@ -65,6 +65,25 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      
+      // Controlar tamanho de imagens inline
+      img {
+        max-width: 100%;
+        height: 1em !important;
+        width: auto !important;
+        vertical-align: middle !important;
+        display: inline !important;
+        margin: 0 0.2em;
+        object-fit: contain;
+      }
+      
+      p {
+        display: inline;
+        
+        img {
+          display: inline !important;
+        }
+      }
     }
   }
 

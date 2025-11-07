@@ -2,6 +2,33 @@
 // Equipment Tab Specific Styles - Using Backpack Table Style
 // -----------------------------------------
 
+// Global control for images in all descriptions
+.item-description,
+.weapon-description,
+.armor-description,
+.recipe-description,
+.weapon-description-center,
+.armor-description-center,
+.recipe-description-below {
+  img {
+    max-width: 100%;
+    height: 1em !important;
+    width: auto !important;
+    vertical-align: middle !important;
+    display: inline !important;
+    margin: 0 0.2em;
+    object-fit: contain;
+  }
+  
+  p {
+    display: inline;
+    
+    img {
+      display: inline !important;
+    }
+  }
+}
+
 .tab.equipamentos {
   // Inherits existing styles from items lists
   // Additional specific styling if needed

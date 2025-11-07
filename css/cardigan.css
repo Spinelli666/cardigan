@@ -281,6 +281,36 @@
 }
 
 /* ProseMirror editor styles for item sheets */
+.item.sheet prose-mirror img {
+  max-width: 100% !important;
+  height: 1em !important;
+  width: auto !important;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em !important;
+  object-fit: contain !important;
+}
+.item.sheet prose-mirror p {
+  display: inline !important;
+}
+.item.sheet prose-mirror p img {
+  display: inline !important;
+}
+.item.sheet prose-mirror .ProseMirror img {
+  max-width: 100% !important;
+  height: 1em !important;
+  width: auto !important;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em !important;
+  object-fit: contain !important;
+}
+.item.sheet prose-mirror .ProseMirror p {
+  display: inline !important;
+}
+.item.sheet prose-mirror .ProseMirror p img {
+  display: inline !important;
+}
 .item.sheet prose-mirror .editor-content {
   overflow: visible !important;
   max-height: none !important;
@@ -290,6 +320,36 @@
   overflow: visible !important;
   max-height: none !important;
   min-height: 200px;
+}
+.item.sheet prose-mirror .editor-content .ProseMirror img {
+  max-width: 100% !important;
+  height: 1em !important;
+  width: auto !important;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em !important;
+  object-fit: contain !important;
+}
+.item.sheet prose-mirror .editor-content .ProseMirror p {
+  display: inline !important;
+}
+.item.sheet prose-mirror .editor-content .ProseMirror p img {
+  display: inline !important;
+}
+.item.sheet .tab[data-tab=description] img {
+  max-width: 100% !important;
+  height: 1em !important;
+  width: auto !important;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em !important;
+  object-fit: contain !important;
+}
+.item.sheet .tab[data-tab=description] p {
+  display: inline !important;
+}
+.item.sheet .tab[data-tab=description] p img {
+  display: inline !important;
 }
 .item.sheet .tab[data-tab=description] prose-mirror {
   display: block;
@@ -303,6 +363,30 @@
 .item.sheet .tab[data-tab=description] prose-mirror .editor-content .ProseMirror {
   overflow: visible !important;
   max-height: none !important;
+}
+
+.actor.sheet .tab.biography prose-mirror .ProseMirror img {
+  max-width: 100% !important;
+  height: 1em !important;
+  width: auto !important;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em !important;
+  object-fit: contain !important;
+}
+.actor.sheet .tab.biography prose-mirror .ProseMirror p {
+  display: inline !important;
+}
+.actor.sheet .tab.biography prose-mirror .ProseMirror p img {
+  display: inline !important;
+}
+.actor.sheet .tab.biography img {
+  max-width: 100%;
+  height: 1em;
+  width: auto;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em !important;
 }
 
 /* Styles limited to cardigan sheets */
@@ -591,6 +675,21 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.cardigan .effects-list .effect-name .effect-description img {
+  max-width: 100%;
+  height: 1em !important;
+  width: auto !important;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em;
+  object-fit: contain;
+}
+.cardigan .effects-list .effect-name .effect-description p {
+  display: inline;
+}
+.cardigan .effects-list .effect-name .effect-description p img {
+  display: inline !important;
 }
 .cardigan .effects-list .effect-controls {
   display: flex;
@@ -943,6 +1042,39 @@
   text-align: center;
   color: #666;
   font-style: italic;
+}
+.cardigan .item-description img,
+.cardigan .weapon-description img,
+.cardigan .armor-description img,
+.cardigan .recipe-description img,
+.cardigan .weapon-description-center img,
+.cardigan .armor-description-center img,
+.cardigan .recipe-description-below img {
+  max-width: 100%;
+  height: 1em !important;
+  width: auto !important;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em;
+  object-fit: contain;
+}
+.cardigan .item-description p,
+.cardigan .weapon-description p,
+.cardigan .armor-description p,
+.cardigan .recipe-description p,
+.cardigan .weapon-description-center p,
+.cardigan .armor-description-center p,
+.cardigan .recipe-description-below p {
+  display: inline;
+}
+.cardigan .item-description p img,
+.cardigan .weapon-description p img,
+.cardigan .armor-description p img,
+.cardigan .recipe-description p img,
+.cardigan .weapon-description-center p img,
+.cardigan .armor-description-center p img,
+.cardigan .recipe-description-below p img {
+  display: inline !important;
 }
 .cardigan .tab.equipamentos .item-formula {
   text-align: center;
@@ -8279,9 +8411,19 @@
 }
 .cardigan .skill-summary .skill-description p {
   margin: 0 0 10px 0;
+  display: inline;
 }
 .cardigan .skill-summary .skill-description p:last-child {
   margin-bottom: 0;
+}
+.cardigan .skill-summary .skill-description img {
+  max-width: 100%;
+  height: 1em !important;
+  width: auto !important;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em;
+  object-fit: contain;
 }
 .cardigan .skill-summary .skill-description .content-link {
   color: #64b5f6;
@@ -8406,9 +8548,19 @@
 }
 .cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-description p {
   margin: 0 0 8px 0;
+  display: inline;
 }
 .cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-description p:last-child {
   margin-bottom: 0;
+}
+.cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-description img {
+  max-width: 100%;
+  height: 1em !important;
+  width: auto !important;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em;
+  object-fit: contain;
 }
 .cardigan .skill-summary .skill-enhancements-display .enhancements-list-display .enhancement-item-display .enhancement-description .content-link {
   color: #64b5f6;
@@ -8491,6 +8643,21 @@
   font-size: 0.9rem;
   color: var(--color-text-secondary);
   font-style: italic;
+}
+.cardigan .skill-enhancements-tab .enhancement-item .enhancement-content .enhancement-description img {
+  max-width: 100%;
+  height: 1em;
+  width: auto;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em;
+  object-fit: contain;
+}
+.cardigan .skill-enhancements-tab .enhancement-item .enhancement-content .enhancement-description p {
+  display: inline;
+}
+.cardigan .skill-enhancements-tab .enhancement-item .enhancement-content .enhancement-description p img {
+  display: inline !important;
 }
 .cardigan .skill-enhancements-tab .enhancement-item .enhancement-content .no-content {
   color: var(--color-text-hint);
@@ -8738,6 +8905,21 @@
   padding: 12px;
   min-height: 180px;
 }
+.enhancement-config-dialog .form-group.description-group prose-mirror .ProseMirror img {
+  max-width: 100% !important;
+  height: 5em !important;
+  width: auto !important;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em !important;
+  object-fit: contain !important;
+}
+.enhancement-config-dialog .form-group.description-group prose-mirror .ProseMirror p {
+  display: inline !important;
+}
+.enhancement-config-dialog .form-group.description-group prose-mirror .ProseMirror p img {
+  display: inline !important;
+}
 .enhancement-config-dialog .form-group.energy-group {
   margin-top: 20px;
   padding-top: 20px;
@@ -8874,12 +9056,22 @@
 }
 #tooltip.cardigan-enhancement-tooltip .enhancement-tooltip .enhancement-description p {
   margin: 0.5rem 0;
+  display: inline;
 }
 #tooltip.cardigan-enhancement-tooltip .enhancement-tooltip .enhancement-description p:first-child {
   margin-top: 0;
 }
 #tooltip.cardigan-enhancement-tooltip .enhancement-tooltip .enhancement-description p:last-child {
   margin-bottom: 0;
+}
+#tooltip.cardigan-enhancement-tooltip .enhancement-tooltip .enhancement-description img {
+  max-width: 100%;
+  height: 1em !important;
+  width: auto !important;
+  vertical-align: middle !important;
+  display: inline !important;
+  margin: 0 0.2em;
+  object-fit: contain;
 }
 #tooltip.cardigan-enhancement-tooltip .enhancement-tooltip .enhancement-description ul, #tooltip.cardigan-enhancement-tooltip .enhancement-tooltip .enhancement-description ol {
   margin: 0.5rem 0;
