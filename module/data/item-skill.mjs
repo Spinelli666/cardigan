@@ -17,15 +17,24 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       label: 'CARDIGAN.Item.base.description'
     });
 
-    schema.skillType = new fields.StringField({
-      required: false,
-      initial: 'general',
-      choices: () => CONFIG.CARDIGAN?.skillTypes || {
-        general: 'General',
-        extra: 'Extra'
-      },
-      label: 'CARDIGAN.Item.Skill.Type'
-    });
+    // Skill Action Types - agora permite múltiplas seleções
+    schema.skillActionTypes = new fields.ArrayField(
+      new fields.StringField({
+        required: false,
+        blank: true,
+        choices: () => CONFIG.CARDIGAN?.skillTypes || {
+          general: 'General',
+          extra: 'Extra',
+          active: 'Active',
+          foco: 'FOCO'
+        }
+      }),
+      {
+        required: false,
+        initial: ['general'],
+        label: 'CARDIGAN.Item.Skill.ActionTypes'
+      }
+    );
 
     schema.skillCategory = new fields.StringField({
       required: false,

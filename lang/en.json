@@ -202,6 +202,7 @@
         "Effect": "Effect",
         "Requirements": "Requirements",
         "Type": "Skill Action Type",
+        "ActionTypes": "Skill Action Types",
         "SkillDescription": "Skill Description",
         "SkillEffect": "Skill Effect",
         "Prerequisites": "Prerequisites",
@@ -211,7 +212,8 @@
         "Types": {
           "General": "General",
           "Extra": "Extra",
-          "Active": "Active"
+          "Active": "Active",
+          "Foco": "FOCO"
         },
         "Category": "Skill Category",
         "Categories": {
@@ -542,6 +544,9 @@
     "AddProperty": "Add Property",
     "RemoveProperty": "Remove Property",
     "SelectProperty": "Select Property",
+    "AddActionType": "Add Action Type",
+    "RemoveActionType": "Remove Action Type",
+    "SelectActionType": "Select Action Type",
     "SkillBonuses": "Skill Bonuses",
     "AddSkillBonus": "Add Skill Bonus",
     "RemoveSkillBonus": "Remove Skill Bonus",

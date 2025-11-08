@@ -35,7 +35,8 @@ CARDIGAN.abilityAbbreviations = {
 CARDIGAN.skillTypes = {
   general: 'CARDIGAN.Item.Skill.Types.General',
   extra: 'CARDIGAN.Item.Skill.Types.Extra',
-  active: 'CARDIGAN.Item.Skill.Types.Active'
+  active: 'CARDIGAN.Item.Skill.Types.Active',
+  foco: 'CARDIGAN.Item.Skill.Types.Foco'
 };
 
 /**

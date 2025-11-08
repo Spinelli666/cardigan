@@ -262,6 +262,34 @@ Handlebars.registerHelper('truncate', function(str, length) {
   return str.substring(0, length) + '...';
 });
 
+// Helper para verificar se um array inclui um valor
+Handlebars.registerHelper('includes', function(array, value) {
+  if (!array || !Array.isArray(array)) return false;
+  return array.includes(value);
+});
+
+// Helper para formatar skill action types com separador |
+Handlebars.registerHelper('formatSkillActionTypes', function(actionTypes) {
+  if (!actionTypes || !Array.isArray(actionTypes) || actionTypes.length === 0) {
+    return '';
+  }
+  
+  // Se tiver apenas um, retorna sem separador
+  if (actionTypes.length === 1) {
+    const type = actionTypes[0];
+    const localizationKey = CONFIG.CARDIGAN?.skillTypes?.[type] || type;
+    return game.i18n.localize(localizationKey);
+  }
+  
+  // Se tiver dois ou mais, junta com " | "
+  return actionTypes
+    .map(type => {
+      const localizationKey = CONFIG.CARDIGAN?.skillTypes?.[type] || type;
+      return game.i18n.localize(localizationKey);
+    })
+    .join(' | ');
+});
+
 /* -------------------------------------------- */
 /*  Ready Hook                                  */
 /* -------------------------------------------- */

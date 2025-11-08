@@ -34,6 +34,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       toggleEffect: this._toggleEffect,
       addWeaponProperty: this._addWeaponProperty,
       removeWeaponProperty: this._removeWeaponProperty,
+      addSkillActionType: this._addSkillActionType,
+      removeSkillActionType: this._removeSkillActionType,
       addSkillBonus: this._addSkillBonus,
       removeSkillBonus: this._removeSkillBonus,
       'add-skill-effect': this._addSkillEffect,
@@ -899,6 +901,58 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const finalProperties = newProperties.filter(prop => prop && prop.trim() !== '');
     
     return this.submit({ updateData: { 'system.properties': finalProperties } });
+  }
+
+  /**
+   * Handle adding a new skill action type
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _addSkillActionType(event, target) {
+    event.preventDefault();
+    
+    const item = this.item;
+    if (item.type !== 'skill') {
+      return;
+    }
+
+    const currentActionTypes = item.system.toObject().skillActionTypes || [];
+    // Filter out any empty strings
+    const filteredActionTypes = currentActionTypes.filter(type => type && type.trim() !== '');
+    
+    // Find a default value that's not already in the list
+    const availableTypes = ['general', 'extra', 'active', 'foco'];
+    const defaultType = availableTypes.find(type => !filteredActionTypes.includes(type)) || 'general';
+    
+    const newActionTypes = [...filteredActionTypes, defaultType];
+    
+    return this.submit({ updateData: { 'system.skillActionTypes': newActionTypes } });
+  }
+
+  /**
+   * Handle removing a skill action type
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _removeSkillActionType(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    if (item.type !== 'skill') return;
+
+    const index = parseInt(target.dataset.index);
+    if (isNaN(index)) return;
+
+    const currentActionTypes = item.system.toObject().skillActionTypes || [];
+    
+    // Remove the action type at the specified index
+    const newActionTypes = currentActionTypes.filter((_, i) => i !== index);
+    
+    // Filter out any empty strings and use the clean array
+    const finalActionTypes = newActionTypes.filter(type => type && type.trim() !== '');
+    
+    return this.submit({ updateData: { 'system.skillActionTypes': finalActionTypes } });
   }
 
   /**
@@ -2692,6 +2746,34 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         CardiganSystemItemSheet._ingredientSearchTimeouts.delete(key);
       }
     }
+  }
+
+  /**
+   * Override to process checkbox arrays correctly
+   * @param {FormDataExtended} formData
+   * @returns {Object}
+   */
+  async _processFormData(event, form, formData) {
+    const submitData = foundry.utils.expandObject(formData.object);
+    
+    // Process skillActionTypes - filter out empty strings
+    if (this.item.type === 'skill' && submitData.system?.skillActionTypes) {
+      // If it's an object (from form data), convert to array
+      if (typeof submitData.system.skillActionTypes === 'object' && !Array.isArray(submitData.system.skillActionTypes)) {
+        submitData.system.skillActionTypes = Object.values(submitData.system.skillActionTypes);
+      }
+      
+      // Filter out empty strings and trim whitespace
+      submitData.system.skillActionTypes = submitData.system.skillActionTypes
+        .filter(type => type && type.trim() !== '');
+      
+      // If empty after filtering, set to default
+      if (submitData.system.skillActionTypes.length === 0) {
+        submitData.system.skillActionTypes = ['general'];
+      }
+    }
+    
+    return submitData;
   }
 
   /**

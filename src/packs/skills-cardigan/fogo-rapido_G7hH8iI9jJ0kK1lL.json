@@ -5,7 +5,7 @@
   "type": "skill",
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
-    "skillType": "active",
+    "skillActionTypes": ["active"],
     "skillCategory": "offensive",
     "skillClass": "andarilho",
     "hasEnergyCost": true,

@@ -9,11 +9,11 @@
     {{! Skill Name }}
     <h3 class="skill-name">{{item.name}}</h3>
     
-    {{! Skill Type }}
-    {{#if system.skillType}}
+    {{! Skill Action Types }}
+    {{#if system.skillActionTypes}}
       <div class="skill-type">
         <span class="skill-type-badge">
-          {{localize (lookup config.skillTypes system.skillType)}}
+          {{formatSkillActionTypes system.skillActionTypes}}
         </span>
       </div>
     {{/if}}

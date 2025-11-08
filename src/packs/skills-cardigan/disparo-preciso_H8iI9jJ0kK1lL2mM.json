@@ -1,0 +1,49 @@
+{
+  "_id": "H8iI9jJ0kK1lL2mM",
+  "_key": "!items!H8iI9jJ0kK1lL2mM",
+  "name": "Disparo Preciso",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/wanderer.webp",
+  "system": {
+    "skillActionTypes": ["general"],
+    "skillCategory": "offensive",
+    "skillClass": "andarilho",
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0
+      },
+      {
+        "name": "",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0
+      },
+      {
+        "name": "",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0
+      }
+    ],
+    "acquiredEnhancements": [false, false, false],
+    "description": ""
+  },
+  "effects": [],
+  "folder": "Sk1AndarilhoXy7Z",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": 1699999999999,
+    "modifiedTime": 1699999999999,
+    "lastModifiedBy": "foundry"
+  }
+}

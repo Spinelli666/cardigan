@@ -509,7 +509,7 @@ export class SkillManager {
 
     console.log(`[SkillManager] Skill data:`, {
       name: skill.name,
-      type: skill.system.skillType,
+      actionTypes: skill.system.skillActionTypes,
       hasEnergyCost: skill.system.hasEnergyCost,
       energyCost: skill.system.energyCost
     });
@@ -519,24 +519,18 @@ export class SkillManager {
         <i class="fas fa-star" style="margin-right: 6px;"></i>${skill.name}
       </h4>`;
 
-    // Add skill type badge if available (same style as Acerto Debilitante)
-    if (skill.system.skillType) {
-      let skillTypeText = skill.system.skillType;
-      
-      // Convert known types to display names
-      const typeMap = {
-        'passive': 'PASSIVE',
-        'active': 'ACTIVE',
-        'reaction': 'REACTION',
-        'extra': 'EXTRA',
-        'bonus': 'BONUS',
-        'free': 'FREE'
-      };
-      
-      skillTypeText = typeMap[skillTypeText.toLowerCase()] || skillTypeText.toUpperCase();
+    // Add skill action types badge if available
+    if (skill.system.skillActionTypes && Array.isArray(skill.system.skillActionTypes) && skill.system.skillActionTypes.length > 0) {
+      // Format action types with | separator
+      const formattedTypes = skill.system.skillActionTypes
+        .map(type => {
+          const localizationKey = CONFIG.CARDIGAN?.skillTypes?.[type] || type;
+          return game.i18n.localize(localizationKey);
+        })
+        .join(' | ');
       
       content += `<div style="margin: 4px 0; color: #666; font-style: italic; font-size: 0.9em; text-align: center;">
-        ${skillTypeText}
+        ${formattedTypes}
       </div>`;
     }
 

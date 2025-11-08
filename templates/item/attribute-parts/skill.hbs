@@ -6,12 +6,39 @@
     <fieldset class="skill-section">
       <legend>Skill Classification</legend>
       
-      <div class="form-group">
-        <label for="system.skillType">{{localize "CARDIGAN.Item.Skill.Type"}}</label>
-        <select name="system.skillType" data-dtype="String">
-          <option value="general" {{#if (eq system.skillType "general")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Types.General"}}</option>
-          <option value="extra" {{#if (eq system.skillType "extra")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Types.Extra"}}</option>
-        </select>
+      <div class="form-group skill-action-types">
+        <div class="action-types-header">
+          <label>{{localize "CARDIGAN.Item.Skill.ActionTypes"}}</label>
+          <button type="button" class="add-action-type-btn" data-action="addSkillActionType" title="{{localize 'CARDIGAN.AddActionType'}}">+</button>
+        </div>
+        
+        <div class="action-types-list" data-action-types-container>
+          {{#if system.skillActionTypes.length}}
+            {{#each system.skillActionTypes as |actionType index|}}
+              <div class="action-type-row" data-action-type-index="{{index}}">
+                <select name="system.skillActionTypes.{{index}}" data-action-type-select>
+                  <option value="">{{localize "CARDIGAN.SelectActionType"}}</option>
+                  <option value="general" {{selected actionType "general"}}>{{localize "CARDIGAN.Item.Skill.Types.General"}}</option>
+                  <option value="extra" {{selected actionType "extra"}}>{{localize "CARDIGAN.Item.Skill.Types.Extra"}}</option>
+                  <option value="active" {{selected actionType "active"}}>{{localize "CARDIGAN.Item.Skill.Types.Active"}}</option>
+                  <option value="foco" {{selected actionType "foco"}}>{{localize "CARDIGAN.Item.Skill.Types.Foco"}}</option>
+                </select>
+                <button type="button" class="remove-action-type-btn" data-action="removeSkillActionType" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveActionType'}}">−</button>
+              </div>
+            {{/each}}
+          {{else}}
+            <div class="action-type-row" data-action-type-index="0">
+              <select name="system.skillActionTypes.0" data-action-type-select>
+                <option value="">{{localize "CARDIGAN.SelectActionType"}}</option>
+                <option value="general">{{localize "CARDIGAN.Item.Skill.Types.General"}}</option>
+                <option value="extra">{{localize "CARDIGAN.Item.Skill.Types.Extra"}}</option>
+                <option value="active">{{localize "CARDIGAN.Item.Skill.Types.Active"}}</option>
+                <option value="foco">{{localize "CARDIGAN.Item.Skill.Types.Foco"}}</option>
+              </select>
+              <button type="button" class="remove-action-type-btn" data-action="removeSkillActionType" data-index="0" title="{{localize 'CARDIGAN.RemoveActionType'}}">−</button>
+            </div>
+          {{/if}}
+        </div>
       </div>
 
       <div class="form-group">
