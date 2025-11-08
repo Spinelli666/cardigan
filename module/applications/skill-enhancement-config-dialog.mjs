@@ -24,7 +24,7 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
       height: 500,
     },
     actions: {
-      cancel: SkillEnhancementConfigDialog.#onCancel,
+      save: SkillEnhancementConfigDialog.#onSave,
     },
   };
 
@@ -70,9 +70,9 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
     // Footer buttons
     context.buttons = [
       {
-        type: 'button',
-        action: 'cancel',
-        label: 'Aplicar',
+        type: 'submit',
+        action: 'save',
+        label: 'CARDIGAN.EnhancementConfig.Apply',
         icon: 'fas fa-check',
       },
     ];
@@ -177,9 +177,10 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
   /**
    * Handle applying the changes (save and close)
    */
-  static async #onCancel(event, target) {
+  static async #onSave(event, target) {
     // Get form data from the prose-mirror editor
-    const formData = new foundry.applications.ux.FormDataExtended(this.element.querySelector('form'));
+    const form = this.element.querySelector('form');
+    const formData = new foundry.applications.ux.FormDataExtended(form);
     const data = formData.object;
 
     // Get current enhancements array

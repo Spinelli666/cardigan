@@ -36,7 +36,8 @@ CARDIGAN.skillTypes = {
   general: 'CARDIGAN.Item.Skill.Types.General',
   extra: 'CARDIGAN.Item.Skill.Types.Extra',
   active: 'CARDIGAN.Item.Skill.Types.Active',
-  foco: 'CARDIGAN.Item.Skill.Types.Foco'
+  foco: 'CARDIGAN.Item.Skill.Types.Foco',
+  deslocamento: 'CARDIGAN.Item.Skill.Types.Deslocamento'
 };
 
 /**

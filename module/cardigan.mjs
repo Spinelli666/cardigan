@@ -141,6 +141,32 @@ Hooks.once('init', function () {
 });
 
 /* -------------------------------------------- */
+/*  Setup Hook - Text Enrichers                 */
+/* -------------------------------------------- */
+
+Hooks.once('setup', () => {
+  // Enricher para imagens inline no ProseMirror
+  // Uso: ::systems/cardigan/assets/images/exemplo.png::
+  CONFIG.TextEditor.enrichers.push({
+    pattern: /::([^:]+)::/gim,
+    enricher: async (match, options) => {
+      const imagePath = match[1].trim();
+      
+      // Cria elemento img com display inline
+      const img = document.createElement("img");
+      img.src = imagePath;
+      img.style.display = "inline";
+      img.style.verticalAlign = "middle";
+      img.style.maxHeight = "1.5em"; // Altura padrão do texto
+      img.style.maxWidth = "100px";  // Largura máxima razoável
+      img.alt = imagePath.split('/').pop(); // Nome do arquivo como alt
+      
+      return img;
+    }
+  });
+});
+
+/* -------------------------------------------- */
 /*  Item Update Hook for Bidirectional Sync    */
 /* -------------------------------------------- */
 

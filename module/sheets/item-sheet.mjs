@@ -439,82 +439,12 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
   /**
    * Setup automatic image resizing in description prose-mirror editor
+   * REMOVIDO - Deixando ProseMirror funcionar com comportamento padrão
    * @protected
    */
   _setupDescriptionImageResize() {
-    const proseMirror = this.element.querySelector('.tab[data-tab="description"] prose-mirror');
-    if (!proseMirror) {
-      console.log('prose-mirror not found in description tab');
-      return;
-    }
-    
-    const editor = proseMirror.querySelector('.ProseMirror');
-    if (!editor) {
-      console.log('.ProseMirror element not found');
-      return;
-    }
-    
-    console.log('Setting up image resize observer for item description');
-    
-    // Function to resize an image
-    const resizeImage = (img) => {
-      img.style.setProperty('height', '1em', 'important');
-      img.style.setProperty('width', 'auto', 'important');
-      img.style.setProperty('max-width', '100%', 'important');
-      img.style.setProperty('display', 'inline', 'important');
-      img.style.setProperty('vertical-align', 'middle', 'important');
-      img.style.setProperty('margin', '0 0.2em', 'important');
-      img.style.setProperty('object-fit', 'contain', 'important');
-    };
-    
-    // Observer to resize images when they're added
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          // Small delay to let Foundry finish its processing
-          setTimeout(() => {
-            if (node.nodeName === 'IMG') {
-              console.log('Image added, resizing:', node);
-              resizeImage(node);
-            }
-            // Check children for images
-            if (node.querySelectorAll) {
-              const images = node.querySelectorAll('img');
-              images.forEach((img) => {
-                console.log('Child image found, resizing:', img);
-                resizeImage(img);
-              });
-            }
-            // Se o nó é um parágrafo, garantir que seja inline
-            if (node.nodeName === 'P') {
-              node.style.setProperty('display', 'inline', 'important');
-            }
-          }, 10);
-        });
-      });
-    });
-
-    observer.observe(editor, {
-      childList: true,
-      subtree: true,
-    });
-
-    // Store observer to disconnect later
-    this._descriptionImageObserver = observer;
-
-    // Also handle existing images
-    console.log('Resizing existing images in editor');
-    const existingImages = editor.querySelectorAll('img');
-    existingImages.forEach((img) => {
-      console.log('Existing image found, resizing:', img);
-      resizeImage(img);
-    });
-    
-    // Garantir que parágrafos sejam inline
-    const paragraphs = editor.querySelectorAll('p');
-    paragraphs.forEach((p) => {
-      p.style.setProperty('display', 'inline', 'important');
-    });
+    // Código removido para deixar o ProseMirror funcionar naturalmente
+    // sem nenhuma customização de tamanho ou comportamento de imagens
   }
 
   /**
@@ -2753,28 +2683,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @param {FormDataExtended} formData
    * @returns {Object}
    */
-  async _processFormData(event, form, formData) {
-    const submitData = foundry.utils.expandObject(formData.object);
-    
-    // Process skillActionTypes - filter out empty strings
-    if (this.item.type === 'skill' && submitData.system?.skillActionTypes) {
-      // If it's an object (from form data), convert to array
-      if (typeof submitData.system.skillActionTypes === 'object' && !Array.isArray(submitData.system.skillActionTypes)) {
-        submitData.system.skillActionTypes = Object.values(submitData.system.skillActionTypes);
-      }
-      
-      // Filter out empty strings and trim whitespace
-      submitData.system.skillActionTypes = submitData.system.skillActionTypes
-        .filter(type => type && type.trim() !== '');
-      
-      // If empty after filtering, set to default
-      if (submitData.system.skillActionTypes.length === 0) {
-        submitData.system.skillActionTypes = ['general'];
-      }
-    }
-    
-    return submitData;
-  }
+  // Removido _processFormData para permitir que ApplicationV2 salve automaticamente
+  // A lógica de processamento de skillActionTypes foi movida para prepareData no modelo
 
   /**
    * Handle post-render operations to add manual event listeners

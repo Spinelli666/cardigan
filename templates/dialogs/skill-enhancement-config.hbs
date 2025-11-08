@@ -4,7 +4,10 @@
       <label for="enhancement-description">Descrição</label>
       <prose-mirror
         name="description"
-        editable="true"
+        data-document-u-u-i-d="{{document.uuid}}"
+        value="{{enhancement.description}}"
+        collaborate="true"
+        toggled="true"
       >{{{enrichedDescription}}}</prose-mirror>
     </div>
 

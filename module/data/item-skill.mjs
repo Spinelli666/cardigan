@@ -26,7 +26,8 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
           general: 'General',
           extra: 'Extra',
           active: 'Active',
-          foco: 'FOCO'
+          foco: 'FOCO',
+          deslocamento: 'Deslocamento'
         }
       }),
       {
@@ -118,6 +119,14 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
 
   prepareDerivedData() {
     super.prepareDerivedData();
+
+    // Clean up skillActionTypes - remove empty strings
+    if (this.skillActionTypes && Array.isArray(this.skillActionTypes)) {
+      this.skillActionTypes = this.skillActionTypes.filter(type => type && type.trim() !== '');
+      if (this.skillActionTypes.length === 0) {
+        this.skillActionTypes = ['general'];
+      }
+    }
 
     // Calcular custo de energia efetivo baseado em aprimoramentos ativos
     this._calculateEffectiveEnergyCost();

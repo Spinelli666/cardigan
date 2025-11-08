@@ -213,7 +213,8 @@
           "General": "General",
           "Extra": "Extra",
           "Active": "Active",
-          "Foco": "FOCO"
+          "Foco": "FOCO",
+          "Deslocamento": "Deslocamento"
         },
         "Category": "Skill Category",
         "Categories": {
@@ -271,6 +272,7 @@
         "NamePlaceholder": "Enter enhancement name...",
         "Description": "Description",
         "DescriptionTab": "Description",
+        "Apply": "Apply",
         "Save": "Save Enhancement",
         "Cancel": "Cancel"
       },

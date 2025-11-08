@@ -5,35 +5,41 @@
   "type": "skill",
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
-    "skillActionTypes": ["general"],
+    "skillActionTypes": ["foco", "deslocamento"],
     "skillCategory": "offensive",
     "skillClass": "andarilho",
     "hasEnergyCost": false,
     "energyCost": 0,
-    "hasCustomEffects": false,
-    "customEffects": [],
+    "hasCustomEffects": true,
+    "customEffects": [
+      {
+        "id": "jK7kL8lM9mN0nO1o",
+        "name": "Incendiado",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      } 
+    ],
     "enhancements": [
       {
-        "name": "",
-        "description": "",
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">O disparo ignora <code>1d12</code> <em>Armadura</em>.</p>",
         "hasEnergy": false,
         "energyCost": 0
       },
       {
-        "name": "",
-        "description": "",
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Pode testar <em>Destreza</em> para ganhar metade da sua <em>Destreza</em> como ::systems/cardigan/assets/images/outros/deslocamento.webp:: <em>Deslocamento</em> após o uso dessa habilidade.</p>",
         "hasEnergy": false,
         "energyCost": 0
       },
       {
-        "name": "",
-        "description": "",
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Pode ganhar <strong><code>2⚙️</code></strong> para <em>Encandecer</em> o disparo e causar <strong><code>🔥@UUID[Compendium.cardigan.efeitos-cardigan.Item.jK7kL8lM9mN0nO1o]{Incendiado}¹</code></strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0
       }
     ],
     "acquiredEnhancements": [false, false, false],
-    "description": ""
+    "description": "<p style=\"text-align: justify;\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p>* Essa habilidade sacrifica seu turno de ::systems/cardigan/assets/images/outros/deslocamento.webp:: <em>Deslocamento</em> para realizar um disparo com sua Arma à Distância que ignora <strong><code>💔PV Temporário</code></strong> e <strong><code>1d8</code> Armadura</strong> do alvo inimigo.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",
@@ -42,8 +48,8 @@
     "coreVersion": "12.328",
     "systemId": "cardigan",
     "systemVersion": "3.0.7",
-    "createdTime": 1699999999999,
-    "modifiedTime": 1699999999999,
-    "lastModifiedBy": "foundry"
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
   }
 }
