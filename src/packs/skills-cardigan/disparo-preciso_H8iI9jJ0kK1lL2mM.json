@@ -39,7 +39,7 @@
       }
     ],
     "acquiredEnhancements": [false, false, false],
-    "description": "<p style=\"text-align: justify;\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p>* Essa habilidade sacrifica seu turno de ::systems/cardigan/assets/images/outros/deslocamento.webp:: <em>Deslocamento</em> para realizar um disparo com sua Arma à Distância que ignora <strong><code>💔PV Temporário</code></strong> e <strong><code>1d8</code> Armadura</strong> do alvo inimigo.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p style=\"text-align: justify\">* Essa habilidade sacrifica seu turno de ::systems/cardigan/assets/images/outros/deslocamento.webp:: <em>Deslocamento</em> para realizar um disparo com sua Arma à Distância que ignora <strong><code>💔PV Temporário</code></strong> e <strong><code>1d8</code> Armadura</strong> do alvo inimigo.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

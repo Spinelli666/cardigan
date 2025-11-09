@@ -214,7 +214,8 @@
           "Extra": "Extra",
           "Active": "Active",
           "Foco": "FOCO",
-          "Deslocamento": "Deslocamento"
+          "Deslocamento": "Deslocamento",
+          "Passiva": "Passiva"
         },
         "Category": "Skill Category",
         "Categories": {

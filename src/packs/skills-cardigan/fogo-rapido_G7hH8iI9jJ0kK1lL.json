@@ -21,25 +21,25 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p>Se acertar todos os testes pode repetir a habilidade no mesmo turno.</p>",
+        "description": "<p style=\"text-align: justify\">Se acertar todos os testes pode repetir a habilidade no mesmo turno.</p>",
         "hasEnergy": false,
         "energyCost": 0
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p>Se acertar apenas um ataque pode recanalizar essa habilidade no mesmo turno; este efeito só ocorre uma vez.</p>",
+        "description": "<p style=\"text-align: justify\">Se acertar apenas um ataque pode recanalizar essa habilidade no mesmo turno; este efeito só ocorre uma vez.</p>",
         "hasEnergy": false,
         "energyCost": 0
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p>Reduz o custo de <em>Encandecer</em> para <code>2⚙️</code>.</p>",
+        "description": "<p style=\"text-align: justify\">Reduz o custo de <em>Encandecer</em> para <code>2⚙️</code>.</p>",
         "hasEnergy": false,
         "energyCost": 0
       }
     ],
     "acquiredEnhancements": [false, false, false],
-    "description": "<p><em>\"Você dispara uma saraivada de projéteis freneticamente.\"</em></p><p>Com sua Arma à Distância equipada em sua mão principal, você realiza quatro ataques consecutivos, rolando <strong>4x</strong> Testes de Precisão:</p><ul><li><p>O <strong>primeiro acerto</strong> da sequência causa seu dano total.</p></li><li><p>Os <strong>acertos consecutivos</strong> causam metade do seu dano total.</p></li><li><p>Não é possível realizar um Acerto Crítico nos acertos consecutivos após o primeiro, e os últimos dois ataques não custam munição.</p></li></ul><hr><p>::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Encandecer</strong> ‣ Com uma Ação Simples e a custo de <strong><code>4⚙️Componentes</code></strong> pode encandecer seus disparos causando a condição <strong><code>🔥@UUID[Compendium.cardigan.efeitos-cardigan.Item.jK7kL8lM9mN0nO1o]{Incendiado}¹</code></strong>.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Você dispara uma saraivada de projéteis freneticamente.\"</em></p><p></p><p style=\"text-align: justify\">Com sua Arma à Distância equipada em sua mão principal, você realiza quatro ataques consecutivos, rolando <strong>4x</strong> Testes de Precisão:</p><ul><li><p style=\"text-align: justify\">O <strong>primeiro acerto</strong> da sequência causa seu dano total.</p></li><li><p style=\"text-align: justify\">Os <strong>acertos consecutivos</strong> causam metade do seu dano total.</p></li><li><p style=\"text-align: justify\">Não é possível realizar um Acerto Crítico nos acertos consecutivos após o primeiro, e os últimos dois ataques não custam munição.</p></li></ul><hr><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Encandecer</strong> ‣ Com uma Ação Simples e a custo de <strong><code>4⚙️Componentes</code></strong> pode encandecer seus disparos causando a condição <strong><code>🔥@UUID[Compendium.cardigan.efeitos-cardigan.Item.jK7kL8lM9mN0nO1o]{Incendiado}¹</code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",
