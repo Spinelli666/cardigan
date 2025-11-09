@@ -19,10 +19,13 @@ export default class CardiganTooltips {
    * @type {HTMLElement}
    */
   get tooltip() {
+    if (!this.#tooltip) {
+      this.#tooltip = document.getElementById("tooltip");
+    }
     return this.#tooltip;
   }
 
-  #tooltip = document.getElementById("tooltip");
+  #tooltip;
 
   /* -------------------------------------------- */
   /*  Methods                                     */
@@ -32,6 +35,10 @@ export default class CardiganTooltips {
    * Initialize the mutation observer.
    */
   observe() {
+    if (!this.tooltip) {
+      console.warn('[CARDIGAN] Tooltip element not found, skipping observer initialization');
+      return;
+    }
     this.#observer?.disconnect();
     this.#observer = new MutationObserver(this._onMutation.bind(this));
     this.#observer.observe(this.tooltip, { attributeFilter: ["class"], attributeOldValue: true });
@@ -47,6 +54,8 @@ export default class CardiganTooltips {
   _onMutation(mutationList) {
     let isActive = false;
     const tooltip = this.tooltip;
+    if (!tooltip) return;
+    
     for ( const { type, attributeName, oldValue } of mutationList ) {
       if ( (type === "attributes") && (attributeName === "class") ) {
         const difference = new Set(tooltip.classList).difference(new Set(oldValue?.split(" ")));
@@ -104,6 +113,8 @@ export default class CardiganTooltips {
    * @protected
    */
   _positionItemTooltip(direction) {
+    if (!this.tooltip) return;
+    
     if ( !direction ) {
       direction = TooltipManager.TOOLTIP_DIRECTIONS.LEFT;
       game.tooltip._setAnchor(direction);

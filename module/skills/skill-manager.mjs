@@ -432,13 +432,7 @@ export class SkillManager {
         // Set the tooltip using Foundry's tooltip system
         emoji.dataset.tooltip = tooltipContent;
         emoji.dataset.tooltipClass = 'cardigan-enhancement-tooltip';
-        
-        // Activate tooltip manually for this element
-        game.tooltip.activate(emoji, {
-          text: tooltipContent,
-          cssClass: 'cardigan-enhancement-tooltip',
-          direction: 'UP'
-        });
+        emoji.dataset.tooltipDirection = 'UP';
       } catch (error) {
         console.error('Error setting up enhancement tooltip:', error);
       }
@@ -611,6 +605,10 @@ export class SkillManager {
     if (buttons) {
       content += buttons;
     } else {
+      // Check if skill has custom effects to show expand button
+      const skill = actor.items.find(item => item.type === 'skill' && item.name === skillName);
+      const hasCustomEffects = skill?.system?.hasCustomEffects && skill?.system?.customEffects?.length > 0;
+      
       // Add default attack buttons for all skills (same style as Acerto Debilitante)
       content += `<div style="text-align: center; margin: 12px 0; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; align-items: center;">
         <button class="cardigan-skill-attack-simple-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${skillName}"
@@ -621,10 +619,10 @@ export class SkillManager {
                 style="display: inline-block; padding: 8px 16px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
           <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque
         </button>
-        <button class="cardigan-skill-expand-btn" data-actor-id="${actorId}" data-skill="${skillName}"
+        ${hasCustomEffects ? `<button class="cardigan-skill-expand-btn" data-actor-id="${actorId}" data-skill="${skillName}"
                 style="display: inline-block; padding: 4px 12px; background: #9e9e9e; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px;">
           <i class="fas fa-chevron-down" style="margin-right: 4px;"></i>Expandir
-        </button>
+        </button>` : ''}
       </div>`;
     }
 
