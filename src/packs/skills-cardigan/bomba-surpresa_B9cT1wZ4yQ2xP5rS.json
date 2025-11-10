@@ -1,0 +1,60 @@
+{
+  "_id": "B9cT1wZ4yQ2xP5rS",
+  "_key": "!items!B9cT1wZ4yQ2xP5rS",
+  "name": "Bomba Surpresa",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/wanderer.webp",
+  "system": {
+    "skillActionTypes": ["simples", "reacao"],
+    "skillCategory": "defensive",
+    "skillClass": "andarilho",
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": true,
+    "customEffects": [
+            {
+        "id": "w4xY6z7A8bC9dE0F",
+        "name": "Fratura",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      },
+      {
+        "id": "jK7kL8lM9mN0nO1o",
+        "name": "Incendiado",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      }
+    ],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Você recebe <em>Vantagem</em> no teste de <em>Furtividade</em> para esconder a bomba.</p>",
+        "hasEnergy": false,
+        "energyCost": 0
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Aumenta a área de efeito da Bomba para <em>9x9m</em>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Reduz o custo para <strong><code>15⚙️Componentes</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0
+      }
+    ],
+    "acquiredEnhancements": [false, false, false],
+    "description": "<p><p style=\"text-align: center\">\"Salve-se quem puder!\"</p><p></p><p style=\"text-align: justify\">* A custo de <strong><code>20⚙️Componentes</code></strong> você cria uma <strong>Bomba</strong>:<br><br><strong><code>Bomba:</code></strong> || <strong>::systems/cardigan/assets/images/armas/espada.webp::40+DES</strong> || <code>Efeito Bomba:</code></p><ul><li><p style=\"text-align: justify\">Explode em uma área <em>7x7m</em>, causando o dano da arma a todos no alcance e aplica <strong><code>2⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong> e <strong><code>🔥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Incendiado}¹</code></strong>. Bomba Surpresa não permite testar <strong>Vigor</strong> para resistir ao dano ou aos Efeitos Negativos.</p></li></ul><p style=\"text-align: justify\"><strong>* Arremesso</strong>: Alcance equivalente a <strong><code>Força OU Destreza</code></strong> + <strong><code>2</code></strong>.</p><p style=\"text-align: justify\"></p><p style=\"text-align: justify\">* Você pode escolher o tamanho do pavio da bomba, detemrinando se ela explodirá no impacto, na próxima rodada, ou depois de duas rodadas. Você também pode testar <strong>Furtividade</strong> para posicionar a bomba discretamente aos seus pés, possibilitando o verdadeiro efeito surpresa.</p>"
+  },
+  "effects": [],
+  "folder": "Sk1AndarilhoXy7Z",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

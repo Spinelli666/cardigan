@@ -27,7 +27,10 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
           extra: 'Extra',
           active: 'Active',
           foco: 'FOCO',
-          deslocamento: 'Deslocamento'
+          deslocamento: 'Deslocamento',
+          passiva: 'Passiva',
+          simples: 'Simples',
+          reacao: 'Reação'
         }
       }),
       {

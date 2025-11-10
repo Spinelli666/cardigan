@@ -21,13 +21,13 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">Pode comandar o Companheiro de até 20 metros de distância</p>",
+        "description": "<p style=\"text-align: justify;\">Pode comandar o Companheiro de até 20 metros de distância.</p>",
         "hasEnergy": false,
         "energyCost": 0
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Seu Companheiro recebe a habilidade <strong>::systems/cardigan/assets/images/paths/warrior.webp::Defender</strong></p>",
+        "description": "<p style=\"text-align: justify;\">Seu Companheiro recebe a habilidade <strong>::systems/cardigan/assets/images/paths/warrior.webp::Defender</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0
       }

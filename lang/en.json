@@ -215,7 +215,9 @@
           "Active": "Active",
           "Foco": "FOCO",
           "Deslocamento": "Deslocamento",
-          "Passiva": "Passiva"
+          "Passiva": "Passiva",
+          "Simples": "Simples",
+          "Reacao": "Reação"
         },
         "Category": "Skill Category",
         "Categories": {
