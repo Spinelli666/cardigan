@@ -1,0 +1,48 @@
+{
+  "_id": "C5dE8fF1gG4hH7iJ",
+  "_key": "!items!C5dE8fF1gG4hH7iJ",
+  "name": "Curandeiro",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/wanderer.webp",
+  "system": {
+    "skillActionTypes": ["postura","simples"],
+    "skillClass": "andarilho",
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Aumenta a cura adicional de <em>Tônico Curativo</em> para <strong><code>+2d20💔PV</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Bandagem Curativa cura <strong><code>+1d6💔PV</code></strong> por rodada.</p>",
+        "hasEnergy": false,
+        "energyCost": 0
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Bandagem Curativa tem duração estendida para <em>4 rodadas</em>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0
+      }
+    ],
+    "acquiredEnhancements": [false, false, false],
+    "description": "<p style=\"text-align: center\"><em>\"Tratar dos outros é sua especialidade. Você é o herói dos heróis.\"</em></p><p style=\"text-align: justify\">* Toda cura de <strong>::systems/cardigan/assets/images/outros/tonico_milagroso.webp::Tônico Curativo</strong> criado por você recupera <strong>+1d20💔PV</strong>.</p><p style=\"text-align: justify\">* Vocẽ aprende a criar <strong>::systems/cardigan/assets/images/outros/bandagem.webp::Bandagens Curativas</strong> à custo de <strong><code>5 Componentes</code></strong> cada. O tempo de produção de uma bandagem é de <em>1 minuto</em> ou uma <em>Ação Ativa</em>.</p><p></p><p style=\"text-align: justify\"><strong>::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp::Remendar ‣</strong> Pode marcar seus aliados adjacentes com uma <strong>::systems/cardigan/assets/images/outros/bandagem.webp::Bandagem Curativa</strong> para que eles recuperem <strong>+1d4💔PV</strong> <em>instantâneo</em> a cada rodada, com <strong>3 Rodadas</strong> de duração.</p><p style=\"text-align: justify\">Pode testar <em>Inteligência</em> para remover <strong><code>🩸@UUID[Compendium.cardigan.efeitos-cardigan.Item.Z2aA3bB4cCd5eE6F]{Sangramento}</code></strong> com uma bandagem.</p><p style=\"text-align: justify\"><strong><code>💤@UUID[Compendium.cardigan.efeitos-cardigan.Item.xY2yZ3zA4bB5cC6D]{Inconsciente}</code></strong> cancela o efeito.</p><p></p><p style=\"text-align: justify\"><strong>::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp::Tratar ‣</strong> Com uma <strong>::systems/cardigan/assets/images/outros/bandagem.webp::Bandagem Curativa</strong>, concede uma única <code>❤️‍🔥Dádiva de Vida</code> à um personagem Inconsciente que esteja testando contra a morte no Teste de Julgamento.</p>"
+  },
+  "effects": [],
+  "folder": "Sk1AndarilhoXy7Z",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

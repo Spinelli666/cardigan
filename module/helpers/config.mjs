@@ -40,17 +40,8 @@ CARDIGAN.skillTypes = {
   deslocamento: 'CARDIGAN.Item.Skill.Types.Deslocamento',
   passiva: 'CARDIGAN.Item.Skill.Types.Passiva',
   simples: 'CARDIGAN.Item.Skill.Types.Simples',
-  reacao: 'CARDIGAN.Item.Skill.Types.Reacao'
-};
-
-/**
- * The set of Skill Categories used within the system.
- * @type {Object}
- */
-CARDIGAN.skillCategories = {
-  offensive: 'CARDIGAN.Item.Skill.Categories.Offensive',
-  defensive: 'CARDIGAN.Item.Skill.Categories.Defensive',
-  support: 'CARDIGAN.Item.Skill.Categories.Support'
+  reacao: 'CARDIGAN.Item.Skill.Types.Reacao',
+  postura: 'CARDIGAN.Item.Skill.Types.Postura'
 };
 
 /**

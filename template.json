@@ -297,7 +297,6 @@
     "skill": {
       "templates": ["base"],
       "skillType": "general",
-      "skillCategory": "miscellaneous", 
       "skillClass": "general",
       "hasEnergyCost": false,
       "energyCost": 0,

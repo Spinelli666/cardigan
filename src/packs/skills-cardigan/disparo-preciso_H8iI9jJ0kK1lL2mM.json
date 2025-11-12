@@ -5,8 +5,7 @@
   "type": "skill",
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
-    "skillActionTypes": ["foco", "deslocamento"],
-    "skillCategory": "offensive",
+    "skillActionTypes": ["foco","deslocamento"],
     "skillClass": "andarilho",
     "hasEnergyCost": false,
     "energyCost": 0,
@@ -16,7 +15,7 @@
         "id": "jK7kL8lM9mN0nO1o",
         "name": "Incendiado",
         "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
-      } 
+      }
     ],
     "enhancements": [
       {

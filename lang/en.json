@@ -217,13 +217,8 @@
           "Deslocamento": "Deslocamento",
           "Passiva": "Passiva",
           "Simples": "Simples",
-          "Reacao": "Reação"
-        },
-        "Category": "Skill Category",
-        "Categories": {
-          "Offensive": "Habilidades Ofensivas",
-          "Defensive": "Habilidades Defensivas",
-          "Support": "Habilidades Suportes"
+          "Reacao": "Reação",
+          "Postura": "Postura"
         },
         "Class": "Skill Class",
         "Classes": {

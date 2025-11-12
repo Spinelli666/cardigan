@@ -8879,16 +8879,18 @@
 }
 .enhancement-config-dialog .form-group.description-group prose-mirror .ProseMirror img {
   max-width: 100% !important;
-  height: 5em !important;
+  height: 10em !important;
   width: auto !important;
   vertical-align: middle !important;
   display: inline !important;
-  margin: 0 0.25em !important;
+  margin: 0 0.2em !important;
   object-fit: contain !important;
+}
+.enhancement-config-dialog .form-group.description-group prose-mirror .ProseMirror p {
+  display: inline !important;
 }
 .enhancement-config-dialog .form-group.description-group prose-mirror .ProseMirror p img {
   display: inline !important;
-  vertical-align: middle !important;
 }
 .enhancement-config-dialog .form-group.energy-group {
   margin-top: 20px;
