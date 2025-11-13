@@ -8,7 +8,7 @@ export { BaseSkill } from './base-skill.mjs';
 export { SkillManager } from './skill-manager.mjs';
 
 // Individual skill implementations
-export { AcertoDebilitanteSkill } from './skills/acerto-debilitante.mjs';
+// (Skills customizadas serão adicionadas aqui no futuro)
 
 /**
  * Initialize all skills and register them with the SkillManager
@@ -20,14 +20,16 @@ export async function initializeSkillsSystem() {
   try {
     // Register all skills with the manager
     const { SkillManager } = await import('./skill-manager.mjs');
-    const { AcertoDebilitanteSkill } = await import('./skills/acerto-debilitante.mjs');
     
-    // Register skills
-    SkillManager.registerSkill(AcertoDebilitanteSkill);
+    // Register custom skills here when created
+    // Example:
+    // const { CustomSkill } = await import('./skills/custom-skill.mjs');
+    // SkillManager.registerSkill(CustomSkill);
     
     // Initialize the skill system
     await SkillManager.initialize();
     
+    console.log('[CARDIGAN] Skills System initialized successfully');
     
   } catch (error) {
     console.error('[CARDIGAN] Failed to initialize Skills System:', error);
