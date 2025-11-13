@@ -668,12 +668,62 @@
     
     p {
       margin: 0 0 10px 0;
-      display: inline; // Permitir texto ao lado de imagens
+      display: block; // Permitir quebras de linha
       
       &:last-child {
         margin-bottom: 0;
       }
     }
+    
+    // Suporte para listas
+    ul, ol {
+      margin: 10px 0;
+      padding-left: 25px;
+      display: block;
+      
+      li {
+        margin: 5px 0;
+        display: list-item;
+      }
+    }
+    
+    ul {
+      list-style-type: disc;
+    }
+    
+    ol {
+      list-style-type: decimal;
+    }
+    
+    // Quebras de linha
+    br {
+      display: block;
+      content: "";
+      margin: 5px 0;
+    }
+    
+    // Divisores horizontais
+    hr {
+      border: none;
+      border-top: 1px solid rgba(139, 69, 19, 0.4);
+      margin: 15px 0;
+      display: block;
+    }
+    
+    // Headings dentro da descrição
+    h1, h2, h3, h4, h5, h6 {
+      color: #d4af37;
+      margin: 15px 0 10px 0;
+      display: block;
+      font-weight: bold;
+    }
+    
+    h1 { font-size: 18px; }
+    h2 { font-size: 16px; }
+    h3 { font-size: 15px; }
+    h4 { font-size: 14px; }
+    h5 { font-size: 13px; }
+    h6 { font-size: 12px; }
     
     // Controlar tamanho de imagens inline
     img {
@@ -834,14 +884,64 @@
           
           p {
             margin: 0 0 8px 0;
-            display: inline; // Permitir texto ao lado de imagens
+            display: block; // Permitir quebras de linha
             
             &:last-child {
               margin-bottom: 0;
             }
           }
           
-          // Controlar tamanho de imagens inline
+          // Suporte para listas
+          ul, ol {
+            margin: 8px 0;
+            padding-left: 25px;
+            display: block;
+            
+            li {
+              margin: 3px 0;
+              display: list-item;
+            }
+          }
+          
+          ul {
+            list-style-type: disc;
+          }
+          
+          ol {
+            list-style-type: decimal;
+          }
+          
+          // Quebras de linha
+          br {
+            display: block;
+            content: "";
+            margin: 3px 0;
+          }
+          
+          // Divisores horizontais
+          hr {
+            border: none;
+            border-top: 1px solid rgba(139, 69, 19, 0.4);
+            margin: 10px 0;
+            display: block;
+          }
+          
+          // Headings dentro da descrição
+          h1, h2, h3, h4, h5, h6 {
+            color: #d4af37;
+            margin: 10px 0 6px 0;
+            display: block;
+            font-weight: bold;
+          }
+          
+          h1 { font-size: 16px; }
+          h2 { font-size: 15px; }
+          h3 { font-size: 14px; }
+          h4 { font-size: 13px; }
+          h5 { font-size: 12px; }
+          h6 { font-size: 11px; }
+          
+          // Imagens inline
           img {
             max-width: 100%;
             height: 1em !important;
