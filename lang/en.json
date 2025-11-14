@@ -5,6 +5,55 @@
     }
   },
   "CARDIGAN": {
+    "Common": {
+      "Save": "Salvar",
+      "Cancel": "Cancelar",
+      "Delete": "Deletar",
+      "Edit": "Editar",
+      "Configure": "Configurar",
+      "Apply": "Aplicar",
+      "Create": "Criar",
+      "Add": "Adicionar",
+      "Remove": "Remover",
+      "Close": "Fechar",
+      "Confirm": "Confirmar",
+      "Yes": "Sim",
+      "No": "Não",
+      "Description": "Descrição",
+      "Name": "Nome",
+      "Cost": "Custo",
+      "Type": "Tipo",
+      "Level": "Nível",
+      "Value": "Valor",
+      "Quantity": "Quantidade",
+      "Weight": "Peso",
+      "Price": "Preço",
+      "Details": "Detalhes",
+      "Effects": "Efeitos",
+      "Properties": "Propriedades",
+      "Requirements": "Requisitos",
+      "Actions": "Ações",
+      "None": "Nenhum",
+      "Unknown": "Desconhecido",
+      "Search": "Buscar",
+      "Filter": "Filtrar",
+      "Sort": "Ordenar",
+      "Select": "Selecionar",
+      "Selected": "Selecionado",
+      "Available": "Disponível",
+      "Equipped": "Equipado",
+      "Unequipped": "Desequipado",
+      "Active": "Ativo",
+      "Inactive": "Inativo",
+      "Enabled": "Habilitado",
+      "Disabled": "Desabilitado",
+      "Normal": "Normal",
+      "Advantage": "Vantagem",
+      "Disadvantage": "Desvantagem",
+      "Confirm": "Confirmar",
+      "ApplyEffects": "Aplicar Efeitos",
+      "SelectEffects": "Selecionar Efeitos"
+    },
     "Compendium": {
       "EfeitosCardigan": "Cardigan Effects",
       "EfeitosPositivos": "Positive Effects",
@@ -158,7 +207,6 @@
     "Item": {
       "Tabs": {
         "Attributes": "Details",
-        "Description": "Description", 
         "Details": "Details",
         "Effects": "Effects",
         "Modifiers": "Modifiers",
@@ -198,7 +246,6 @@
         "AddLVL": "Add LVL {level}"
       },
       "Skill": {
-        "Description": "Description",
         "Effect": "Effect",
         "Requirements": "Requirements",
         "Type": "Skill Action Type",
@@ -244,8 +291,6 @@
         "ConfigureEnhancement1": "Configurar Aprimoramento 1",
         "ConfigureEnhancement2": "Configurar Aprimoramento 2",
         "ConfigureEnhancement3": "Configurar Aprimoramento 3",
-        "ConfigureButton": "Configurar",
-        "Configure": "Configurar",
         "NoEnhancementConfigured": "Nenhum aprimoramento configurado",
         "EnhancementDescription": "Descrição do Aprimoramento",
         "Enhancement1Description": "Descrição do Aprimoramento 1",
@@ -253,6 +298,12 @@
         "Enhancement3Description": "Descrição do Aprimoramento 3",
         "EnhancementDescriptionPlaceholder": "Descreva os efeitos e benefícios deste aprimoramento...",
         "EnergySettings": "Configurações de Energia",
+        "EnhancementConfig": {
+          "ModifyEnergyCost": "Modificar Custo de Energia",
+          "NewEnergyCost": "Novo Custo de Energia",
+          "EnergyCostHint": "Este valor substituirá o custo de energia padrão da skill quando este aprimoramento estiver ativo.",
+          "ApplyEffects": "Aplicar Efeitos"
+        },
         "Enhancements": {
           "Label": "Skill Enhancements",
           "Hint": "Configure advanced skill enhancements and upgrades.",
@@ -267,12 +318,7 @@
       "EnhancementConfig": {
         "Title": "Configure Enhancement {enhancement}",
         "Name": "Enhancement Name",
-        "NamePlaceholder": "Enter enhancement name...",
-        "Description": "Description",
-        "DescriptionTab": "Description",
-        "Apply": "Apply",
-        "Save": "Save Enhancement",
-        "Cancel": "Cancel"
+        "NamePlaceholder": "Enter enhancement name..."
       },
       "ItemRecipe": {
         "ingredients": {
@@ -317,7 +363,6 @@
         "RequiredIngredients": "Required Ingredients",
         "RequiredIngredientsHint": "List of ingredients that must be consumed when crafting this recipe",
         "IngredientNamePlaceholder": "Enter ingredient name...",
-        "Quantity": "Quantity",
         "basic": {
           "title": "Basic Information"
         },
@@ -533,7 +578,6 @@
     "SelectGeneralItemType": "Select General Item Type", 
     "SelectGeneralItemTypeDescription": "Choose the specific type of general item you want to create:",
     "Back": "Back",
-    "Quantity": "Quantity",
     "Spaces": "Spaces",
     "RightHand": "Primary Hand",
     "LeftHand": "Secondary Hand",
@@ -627,9 +671,6 @@
     "ItemComum": {
       "Title": "Common Item",
       "Subtitle": "General equipment and miscellaneous items",
-      "Quantity": "Quantity",
-      "Weight": "Weight",
-      "Price": "Price",
       "Category": "Category",
       "Usage": "Usage Instructions",
       "UsagePlaceholder": "Describe how this item is used...",
@@ -643,9 +684,6 @@
     "ItemMunicao": {
       "Title": "Ammunition",
       "Subtitle": "Arrows, bullets, bolts and other projectiles",
-      "Quantity": "Quantity",
-      "Weight": "Weight",
-      "Price": "Price",
       "Type": "Ammunition Type",
       "Units": "units",
       "Damage": "Damage Bonus",
@@ -665,9 +703,6 @@
     "ItemConsumivel": {
       "Title": "Consumable",
       "Subtitle": "Potions, food, temporary use items",
-      "Quantity": "Quantity",
-      "Weight": "Weight",
-      "Price": "Price",
       "Type": "Consumable Type",
       "Units": "units",
       "UseTime": "Use Time",
@@ -862,13 +897,10 @@
     "ItemIngredient": {
       "Title": "Ingredient",
       "Subtitle": "Crafting materials, herbs, and components",
-      "Quantity": "Quantity",
-      "Weight": "Weight",
       "Type": "Ingredient Type",
       "Freshness": "Freshness",
       "Origin": "Origin", 
       "CraftingProperties": "Crafting Properties",
-      "Price": "Price",
       "Types": {
         "Herb": "Herb",
         "Mineral": "Mineral",

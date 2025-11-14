@@ -11,14 +11,14 @@
 
   <div class="backpack-form-section">
     <div class="form-group">
-      <label>{{localize "CARDIGAN.ItemIngredient.Quantity"}}</label>
+      <label>{{localize "CARDIGAN.Common.Quantity"}}</label>
       <div class="form-fields">
         <input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="1"/>
       </div>
     </div>
 
     <div class="form-group">
-      <label>{{localize "CARDIGAN.ItemIngredient.Weight"}}</label>
+      <label>{{localize "CARDIGAN.Common.Weight"}}</label>
       <select name="system.weight">
         <option value="leve" {{selected system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
         <option value="leve" {{selected system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
@@ -117,7 +117,7 @@
 
   <div class="backpack-form-section">
     <div class="form-group">
-      <label>{{localize "CARDIGAN.ItemIngredient.Price"}}</label>
+      <label>{{localize "CARDIGAN.Common.Price"}}</label>
       <div class="form-fields">
         <input type="number" name="system.price" value="{{system.price}}" data-dtype="Number" min="0"/>
         <span class="unit">{{localize "CARDIGAN.Currency.Gold"}}</span>

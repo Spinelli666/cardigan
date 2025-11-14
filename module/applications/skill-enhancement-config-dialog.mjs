@@ -70,10 +70,18 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
     // Footer buttons
     context.buttons = [
       {
+        type: 'button',
+        action: 'cancel',
+        label: 'CARDIGAN.Common.Cancel',
+        icon: 'fas fa-times',
+        class: 'default'
+      },
+      {
         type: 'submit',
         action: 'save',
-        label: 'CARDIGAN.EnhancementConfig.Apply',
+        label: 'CARDIGAN.Common.Save',
         icon: 'fas fa-check',
+        class: 'primary'
       },
     ];
 

@@ -1,7 +1,7 @@
 <div class="enhancement-config-dialog">
   <form>
     <div class="form-group description-group">
-      <label for="enhancement-description">Descrição</label>
+      <label for="enhancement-description">{{localize "CARDIGAN.Common.Description"}}</label>
       <prose-mirror
         name="description"
         data-document-u-u-i-d="{{document.uuid}}"
@@ -14,11 +14,11 @@
     <div class="form-group energy-group">
       <label class="checkbox">
         <input type="checkbox" name="hasEnergy" {{#if enhancement.hasEnergy}}checked{{/if}} />
-        <span>Modificar Custo de Energia</span>
+        <span>{{localize "CARDIGAN.Item.Skill.EnhancementConfig.ModifyEnergyCost"}}</span>
       </label>
       
       <div class="energy-cost-input" style="display: {{#if enhancement.hasEnergy}}block{{else}}none{{/if}};">
-        <label for="energyCost">Novo Custo de Energia</label>
+        <label for="energyCost">{{localize "CARDIGAN.Item.Skill.EnhancementConfig.NewEnergyCost"}}</label>
         <input 
           type="number" 
           name="energyCost" 
@@ -27,8 +27,15 @@
           min="0" 
           placeholder="Ex: 5"
         />
-        <p class="hint">Este valor substituirá o custo de energia padrão da skill quando este aprimoramento estiver ativo.</p>
+        <p class="hint">{{localize "CARDIGAN.Item.Skill.EnhancementConfig.EnergyCostHint"}}</p>
       </div>
+    </div>
+
+    <div class="form-group effects-group">
+      <label class="checkbox">
+        <input type="checkbox" name="hasEffects" {{#if enhancement.hasEffects}}checked{{/if}} />
+        <span>{{localize "CARDIGAN.Item.Skill.EnhancementConfig.ApplyEffects"}}</span>
+      </label>
     </div>
   </form>
 </div>

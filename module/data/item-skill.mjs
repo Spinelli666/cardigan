@@ -91,12 +91,13 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
         name: new fields.StringField({ required: false, initial: '' }),
         description: new fields.HTMLField({ required: false, initial: '' }),
         hasEnergy: new fields.BooleanField({ required: false, initial: false }),
-        energyCost: new fields.NumberField({ required: false, initial: 0, min: 0, integer: true })
+        energyCost: new fields.NumberField({ required: false, initial: 0, min: 0, integer: true }),
+        hasEffects: new fields.BooleanField({ required: false, initial: false })
       }),
       { initial: [
-        { name: '', description: '', hasEnergy: false, energyCost: 0 },
-        { name: '', description: '', hasEnergy: false, energyCost: 0 },
-        { name: '', description: '', hasEnergy: false, energyCost: 0 }
+        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false },
+        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false },
+        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false }
       ]}
     );
 

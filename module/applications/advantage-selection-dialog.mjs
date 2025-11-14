@@ -42,25 +42,25 @@ export class AdvantageSelectionDialog extends foundry.applications.api.DialogV2 
         buttons: [
           {
             action: "normal",
-            label: "Normal",
+            label: "CARDIGAN.Common.Normal",
             icon: "fas fa-dice-d20",
             callback: () => resolve("normal")
           },
           {
             action: "advantage", 
-            label: "Vantagem",
+            label: "CARDIGAN.Common.Advantage",
             icon: "fas fa-arrow-up",
             callback: () => resolve("advantage")
           },
           {
             action: "disadvantage",
-            label: "Desvantagem", 
+            label: "CARDIGAN.Common.Disadvantage", 
             icon: "fas fa-arrow-down",
             callback: () => resolve("disadvantage")
           },
           {
             action: "cancel",
-            label: "Cancelar",
+            label: "CARDIGAN.Common.Cancel",
             icon: "fas fa-times",
             callback: () => resolve(null)
           }

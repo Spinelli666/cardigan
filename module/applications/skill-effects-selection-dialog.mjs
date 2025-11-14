@@ -49,13 +49,13 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
         {
           type: "submit",
           action: "confirm",
-          label: "Confirmar",
+          label: "CARDIGAN.Common.Confirm",
           icon: "fas fa-check"
         },
         {
           type: "button", 
           action: "cancel",
-          label: "Cancelar",
+          label: "CARDIGAN.Common.Cancel",
           icon: "fas fa-times"
         }
       ]
