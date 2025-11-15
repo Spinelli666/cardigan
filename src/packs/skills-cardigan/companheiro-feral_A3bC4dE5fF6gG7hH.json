@@ -16,21 +16,27 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">Você pode usar sua Ação de Deslocamento para Ordenar o Companheiro.</p>",
+        "description": "<p style=\"text-align: justify;\">Você pode usar sua Ação de ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Deslocamento</em> para <em>Ordenar</em> o Companheiro.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">Pode comandar o Companheiro de até 20 metros de distância.</p>",
+        "description": "<p style=\"text-align: justify;\">Pode comandar o Companheiro de até <em>20m</em> de distância.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       },
       {
         "name": "Aprimoramento 3",
         "description": "<p style=\"text-align: justify;\">Seu Companheiro recebe a habilidade <strong>::systems/cardigan/assets/images/paths/warrior.webp::Defender</strong>.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       }
     ],
     "acquiredEnhancements": [
@@ -38,7 +44,7 @@
       false,
       false
     ],
-    "description": "<p><p style=\"text-align: center\">\"Você tenta se conectar e domar uma criatura selvagem.\"</p><p></p><p style=\"text-align: justify\"><strong>* Domar ‣</strong> Pode usar essa habilidade em uma ::systems/cardigan/assets/images/bestiario/feral.webp::<strong>Criatura Feral</strong> de nível igual ou inferior ao seu que ainda não tenha atacado, testando <strong>Persuasão</strong> para domá-la. Comprar esta habilidade na criação de ficha permite escolher seu Companheiro inicial.</p><p></p><p style=\"text-align: justify\"><strong>* Especial ‣</strong> O Companheiro possui sua própria ficha de personagem com o <strong>Nível</strong> e ::systems/cardigan/assets/images/outros/xp.webp:: equivalente ao seu.</p><p></p><ul><li><p style=\"text-align: justify\"><em>Enquanto estiver até 10 metros de seu Companheiro pode usar:</em></p></li></ul><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Ordenar ‣</strong> Você pode gastar uma Ação Simples e Ação Ativa. Você também pode usar essa ação para enviar o Companheiro um turno com <em>Deslocamento</em>, <em>Ação Simples</em>, e <em>Ação Ativa</em>. Você também pode usar essa ação para enviar o Companheiro para caçar <strong><code>⚙️Componentes</code></strong> para você em uma cena.</p><p></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp:: <strong>Ataque Sincronizado ‣</strong> Sempre que desferir um Acerto Crítico seu Companheiro realizará um ataque simples extra no mesmo alvo acertado.</p>"
+    "description": "<p><p style=\"text-align: center\"><em>\"Você tenta se conectar e domar uma criatura selvagem.\"</em></p><p></p><p style=\"text-align: justify\"><strong>* Domar ‣</strong> Pode usar essa habilidade em uma ::systems/cardigan/assets/images/bestiario/feral.webp::<strong>Criatura Feral</strong> de nível igual ou inferior ao seu que ainda não tenha atacado, testando <strong>Persuasão</strong> para domá-la. Comprar esta habilidade na criação de ficha permite escolher seu Companheiro inicial.</p><p></p><p style=\"text-align: justify\"><strong>* Especial ‣</strong> O Companheiro possui sua própria ficha de personagem com o <strong>Nível</strong> e ::systems/cardigan/assets/images/outros/xp.webp:: equivalente ao seu.</p><p></p><ul><li><p style=\"text-align: justify\"><em>Enquanto estiver até 10 metros de seu Companheiro pode usar:</em></p></li></ul><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Ordenar ‣</strong> Você pode gastar uma Ação Simples e Ação Ativa. Você também pode usar essa ação para enviar o Companheiro um turno com <em>Deslocamento</em>, <em>Ação Simples</em>, e <em>Ação Ativa</em>. Você também pode usar essa ação para enviar o Companheiro para caçar <strong><code>⚙️Componentes</code></strong> para você em uma cena.</p><p></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp:: <strong>Ataque Sincronizado ‣</strong> Sempre que desferir um Acerto Crítico seu Companheiro realizará um ataque simples extra no mesmo alvo acertado.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

@@ -18,19 +18,25 @@
         "name": "Aprimoramento 1",
         "description": "<p style=\"text-align: justify\">Aumenta seu saque de <strong><code>⚙️Componentes</code></strong> para <code>1d10</code>.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       },
       {
         "name": "Aprimoramento 2",
         "description": "<p style=\"text-align: justify\">Aumenta em mais <strong>10</strong> seu total de <em>Espaços de Inventário</em>.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       },
       {
         "name": "Aprimoramento 3",
         "description": "<p style=\"text-align: justify\">Quando for criar um item que custe <strong><code>⚙️Componentes</code></strong> pode rolar um teste de <em>Inteligência</em> <code>Dif.20</code> para <strong>duplicar</strong> sua criação.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       }
     ],
     "acquiredEnhancements": [

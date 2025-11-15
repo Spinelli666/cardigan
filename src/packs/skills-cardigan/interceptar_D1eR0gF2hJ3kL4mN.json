@@ -18,19 +18,25 @@
         "name": "Aprimoramento 1",
         "description": "<p style=\"text-align: justify;\">Se o inimigo realizar ataques consecutivos, esta habilidade intercepta todos eles.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       },
       {
         "name": "Aprimoramento 2",
         "description": "<p style=\"text-align: justify;\">Remove o custo de munição desta habilidade.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       },
       {
         "name": "Aprimoramento 3",
         "description": "<p style=\"text-align: justify;\">Permite interceptar ataques realizados com Armas Marciais Leves.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       }
     ],
     "acquiredEnhancements": [

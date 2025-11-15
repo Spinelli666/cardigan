@@ -1002,6 +1002,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       
       // Open the effects selection dialog
       const dialog = new SkillEffectsSelectionDialog({
+        item: item,
         selectedEffects: item.system.customEffects || []
       });
       

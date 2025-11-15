@@ -92,12 +92,20 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
         description: new fields.HTMLField({ required: false, initial: '' }),
         hasEnergy: new fields.BooleanField({ required: false, initial: false }),
         energyCost: new fields.NumberField({ required: false, initial: 0, min: 0, integer: true }),
-        hasEffects: new fields.BooleanField({ required: false, initial: false })
+        hasEffects: new fields.BooleanField({ required: false, initial: false }),
+        customEffects: new fields.ArrayField(
+          new fields.SchemaField({
+            id: new fields.StringField({ required: true }),
+            name: new fields.StringField({ required: true }),
+            img: new fields.StringField({ required: false, initial: '' })
+          }),
+          { initial: [] }
+        )
       }),
       { initial: [
-        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false },
-        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false },
-        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false }
+        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false, customEffects: [] },
+        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false, customEffects: [] },
+        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false, customEffects: [] }
       ]}
     );
 
@@ -123,6 +131,9 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
 
     // Calcular custo de energia efetivo baseado em aprimoramentos ativos
     this._calculateEffectiveEnergyCost();
+    
+    // Calcular efeitos efetivos (base + aprimoramentos ativos)
+    this._calculateEffectiveEffects();
   }
 
   /**
@@ -156,5 +167,46 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
     }
 
     this.effectiveEnergyCost = effectiveCost;
+  }
+
+  /**
+   * Calcula os efeitos efetivos da skill (base + aprimoramentos ativos)
+   * Retorna array combinado de todos os efeitos customizados
+   */
+  _calculateEffectiveEffects() {
+    const allEffects = [];
+    
+    // Adiciona efeitos base da skill
+    if (this.hasCustomEffects && this.customEffects && Array.isArray(this.customEffects)) {
+      allEffects.push(...this.customEffects);
+    }
+
+    // Adiciona efeitos dos aprimoramentos ativos
+    if (this.acquiredEnhancements && Array.isArray(this.acquiredEnhancements)) {
+      for (let i = 0; i < this.acquiredEnhancements.length; i++) {
+        // Se o aprimoramento está ativo
+        if (this.acquiredEnhancements[i] === true) {
+          const enhancement = this.enhancements?.[i];
+          
+          // Se o aprimoramento tem efeitos customizados
+          if (enhancement?.hasEffects && enhancement.customEffects && Array.isArray(enhancement.customEffects)) {
+            allEffects.push(...enhancement.customEffects);
+          }
+        }
+      }
+    }
+
+    // Remove duplicatas baseado no ID
+    const uniqueEffects = [];
+    const seenIds = new Set();
+    
+    for (const effect of allEffects) {
+      if (!seenIds.has(effect.id)) {
+        seenIds.add(effect.id);
+        uniqueEffects.push(effect);
+      }
+    }
+
+    this.effectiveCustomEffects = uniqueEffects;
   }
 }

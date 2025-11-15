@@ -8,6 +8,8 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
     this.item = options.item;
     this.effects = [];
     this.selectedEffects = options.selectedEffects || [];
+    this.enhancementIndex = options.enhancementIndex; // undefined for base skill, 0-2 for enhancements
+    this.parentDialog = options.parentDialog; // Reference to parent dialog (for enhancements)
   }
 
   static DEFAULT_OPTIONS = {
@@ -73,6 +75,8 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
       // Load all documents from the pack
       const documents = await pack.getDocuments();
       
+      console.log('[CARDIGAN DEBUG] Selected effects on load:', this.selectedEffects);
+      
       const allEffects = documents
         .filter(doc => doc.type === 'efeito')
         .map(effect => ({
@@ -83,6 +87,9 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
           folder: effect.folder?.name || 'Sem Categoria'
         }))
         .sort((a, b) => a.name.localeCompare(b.name));
+
+      console.log('[CARDIGAN DEBUG] All effects loaded:', allEffects.length);
+      console.log('[CARDIGAN DEBUG] Effects marked as selected:', allEffects.filter(e => e.selected).map(e => e.name));
 
       // Separate into positive and negative effects
       this.positiveEffects = allEffects.filter(effect => 
@@ -105,9 +112,11 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
       const selectedEffects = [];
       const checkboxes = this.element.querySelectorAll('input[type="checkbox"]:checked');
       
+      console.log('[CARDIGAN DEBUG] Checkboxes found:', checkboxes.length);
       
       checkboxes.forEach(checkbox => {
         const effectId = checkbox.closest('.effect-option').dataset.effectId;
+        console.log('[CARDIGAN DEBUG] Processing effect ID:', effectId);
         // Search in both positive and negative effects
         const allEffects = [...(this.positiveEffects || []), ...(this.negativeEffects || [])];
         const effect = allEffects.find(e => e.id === effectId);
@@ -117,16 +126,56 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
             name: effect.name,
             img: effect.img
           });
+          console.log('[CARDIGAN DEBUG] Added effect:', effect.name);
         }
       });
 
+      console.log('[CARDIGAN DEBUG] Total selected effects:', selectedEffects.length, selectedEffects);
 
-      // Update the item with selected effects
-      await this.item.update({
-        'system.customEffects': selectedEffects
-      });
+      // Check if this is for an enhancement or the base skill
+      if (this.enhancementIndex !== undefined) {
+        // Save to enhancement
+        const currentEnhancements = foundry.utils.deepClone(this.item.system.enhancements || []);
+        
+        // Ensure we have enough slots
+        while (currentEnhancements.length <= this.enhancementIndex) {
+          currentEnhancements.push({ 
+            name: '', 
+            description: '', 
+            hasEnergy: false, 
+            energyCost: 0, 
+            hasEffects: false,
+            customEffects: []
+          });
+        }
+        
+        // Update the specific enhancement's effects
+        currentEnhancements[this.enhancementIndex].customEffects = selectedEffects;
+        
+        console.log('[CARDIGAN DEBUG] Updating enhancement:', this.enhancementIndex, currentEnhancements);
+        
+        await this.item.update({
+          'system.enhancements': currentEnhancements
+        });
+        
+        // Update parent dialog if it exists
+        if (this.parentDialog) {
+          this.parentDialog.enhancementData.customEffects = selectedEffects;
+          this.parentDialog.render(true); // Re-render parent to show updated effects
+        }
+        
+        ui.notifications.info(`${selectedEffects.length} efeitos selecionados para aprimoramento ${this.enhancementIndex + 1}`);
+      } else {
+        // Save to base skill
+        console.log('[CARDIGAN DEBUG] Updating base skill custom effects:', selectedEffects);
+        
+        await this.item.update({
+          'system.customEffects': selectedEffects
+        });
+        
+        ui.notifications.info(`${selectedEffects.length} efeitos selecionados para ${this.item.name}`);
+      }
 
-      ui.notifications.info(`${selectedEffects.length} efeitos selecionados para ${this.item.name}`);
       this.close();
     } catch (error) {
       console.error('[CARDIGAN ERROR] Error confirming effects:', error);

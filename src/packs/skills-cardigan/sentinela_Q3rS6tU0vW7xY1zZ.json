@@ -19,19 +19,25 @@
         "name": "Aprimoramento 1",
         "description": "<p style=\"text-align: justify\">Pode focar em um alvo adicional.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       },
       {
         "name": "Aprimoramento 2",
         "description": "<p style=\"text-align: justify\">Pode focar em mais um alvo adicional</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       },
       {
         "name": "Aprimoramento 3",
         "description": "<p style=\"text-align: justify\">Não recebe contra-ataques de inimigos focados.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       }
     ],
     "acquiredEnhancements": [
@@ -39,7 +45,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Você entra em foco absoluto e persegue um inimigo\"</em></p><p></p><p style=\"text-align: justify\">* Ao ativar essa habilidade de <em>Foco</em> você marca um inimigo em seu campo de visão para vigiar. A partir daí, toda vez que ese alvo tentar usar uma ação de ::systems/cardigan/assets/images/outros/deslocamento.webp::<strong>Deslocamento</strong> você pode realizar um ataque simples contra ele.</p><p style=\"text-align: justify;\">* Enquanto <em>Sentinela</em> estiver ativo você é capaz de detectar armadilhas e inimigos ocultos por Furtividade sem necessidade de testes.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Você entra em foco absoluto e persegue um inimigo\"</em></p><p></p><p style=\"text-align: justify\">* Ao ativar essa habilidade de <em>Foco</em> você marca um inimigo em seu campo de visão para vigiar. A partir daí, toda vez que ese alvo tentar usar uma ação de ::systems/cardigan/assets/images/outros/deslocamento.webp::<strong>Deslocamento</strong> você pode realizar um ataque simples contra ele.</p><p style=\"text-align: justify;\">* Enquanto <em>Sentinela</em> estiver ativo você é capaz de detectar armadilhas e inimigos ocultos por <em>Furtividade</em> sem necessidade de testes.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

@@ -5,7 +5,9 @@
   "type": "skill",
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
-    "skillActionTypes": ["extra"],
+    "skillActionTypes": [
+      "extra"
+    ],
     "skillClass": "andarilho",
     "hasEnergyCost": true,
     "energyCost": 10,
@@ -25,11 +27,6 @@
         "id": "mN2nO3oP4pQ5qR6r",
         "name": "Caído",
         "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
-      },
-      {
-        "id": "G1hI2jK3lM4nO5pQ",
-        "name": "Intimidado",
-        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
       }
     ],
     "enhancements": [
@@ -37,22 +34,38 @@
         "name": "Aprimoramento 1",
         "description": "<p style=\"text-align: justify\">Pode rolar <code>2d6</code> e ficar com o resultado que preferir.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       },
       {
         "name": "Aprimoramento 2",
         "description": "<p style=\"text-align: justify\">Reduz o custo de energia dessa habilidade para <code>5⚡</code>.</p>",
         "hasEnergy": true,
-        "energyCost": 5
+        "energyCost": 5,
+        "hasEffects": false,
+        "customEffects": []
       },
       {
         "name": "Aprimoramento 3",
         "description": "<p style=\"text-align: justify\">Os efeitos desta habilidade também aplicam <strong><code>1⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong> adicional</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+          {
+            "id": "w4xY6z7A8bC9dE0F",
+            "name": "Fratura",
+            "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+          }
+        ]
       }
     ],
-    "acquiredEnhancements": [false, false, false],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
     "description": "<p style=\"text-align: center\"><em>\"Você mira com cautela nos pontos vitais do inimigo.\"</em></p><p></p><p style=\"text-align: justify\">⋆ Após acertar um ataque role <strong><code>1d6</code></strong>; O resultado corresponde a um ponto vital acertado no seu alvo, adicionando um efeito extra neste ataque:</p><p></p><blockquote><p><strong>6 ‣ Cabeça:</strong> O alvo recebe <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong>.</p><p><strong>5 ‣ Torso:</strong> O alvo recebe <strong><code>🩸@UUID[Compendium.cardigan.efeitos-cardigan.Item.Z2aA3bB4cCd5eE6F]{Sangramento}²</code></strong>.</p><p style=\"text-align: justify\"><strong>4</strong> e <strong>3 ‣ Braços:</strong> O alvo recebe <strong><code>👋@UUID[Compendium.cardigan.efeitos-cardigan.Item.hH7iI8jJ9kK0lL1M]{Desarmado}</code></strong> e <strong>-1</strong> <em>Durabilidade</em> na arma equipada.</p><p style=\"text-align: justify\"><strong>2</strong> e <strong>1 ‣ Pernas:</strong> O alvo recebe <strong><code>🏃‍♂️@UUID[Compendium.cardigan.efeitos-cardigan.Item.mN2nO3oP4pQ5qR6r]{Caído}¹</strong></code>.</p></blockquote>"
   },
   "effects": [],

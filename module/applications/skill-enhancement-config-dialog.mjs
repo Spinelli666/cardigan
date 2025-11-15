@@ -25,6 +25,7 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
     },
     actions: {
       save: SkillEnhancementConfigDialog.#onSave,
+      configureEnhancementEffects: SkillEnhancementConfigDialog.#onConfigureEffects,
     },
   };
 
@@ -55,6 +56,8 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
       description: this.enhancementData.description || '',
       hasEnergy: this.enhancementData.hasEnergy || false,
       energyCost: this.enhancementData.energyCost || 0,
+      hasEffects: this.enhancementData.hasEffects || false,
+      customEffects: this.enhancementData.customEffects || [],
     };
 
     // Enrich the description for display (like biography system)
@@ -92,16 +95,30 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
     super._onRender(context, options);
 
     // Add event listener to toggle energy cost input visibility
-    const checkbox = this.element.querySelector('input[name="hasEnergy"]');
+    const energyCheckbox = this.element.querySelector('input[name="hasEnergy"]');
     const energyInput = this.element.querySelector('.energy-cost-input');
     
-    if (checkbox && energyInput) {
+    if (energyCheckbox && energyInput) {
       // Set initial visibility
-      energyInput.style.display = checkbox.checked ? 'block' : 'none';
+      energyInput.style.display = energyCheckbox.checked ? 'block' : 'none';
       
       // Toggle on change
-      checkbox.addEventListener('change', (e) => {
+      energyCheckbox.addEventListener('change', (e) => {
         energyInput.style.display = e.target.checked ? 'block' : 'none';
+      });
+    }
+
+    // Add event listener to toggle effects config visibility
+    const effectsCheckbox = this.element.querySelector('input[name="hasEffects"]');
+    const effectsConfig = this.element.querySelector('.effects-config');
+    
+    if (effectsCheckbox && effectsConfig) {
+      // Set initial visibility
+      effectsConfig.style.display = effectsCheckbox.checked ? 'block' : 'none';
+      
+      // Toggle on change
+      effectsCheckbox.addEventListener('change', (e) => {
+        effectsConfig.style.display = e.target.checked ? 'block' : 'none';
       });
     }
 
@@ -183,6 +200,31 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
   }
 
   /**
+   * Handle configuring custom effects for this enhancement
+   */
+  static async #onConfigureEffects(event, target) {
+    event.preventDefault();
+
+    try {
+      // Import the effects selection dialog
+      const { SkillEffectsSelectionDialog } = await import('./skill-effects-selection-dialog.mjs');
+      
+      // Open the effects selection dialog with current enhancement effects
+      const dialog = new SkillEffectsSelectionDialog({
+        item: this.skill,
+        selectedEffects: this.enhancementData.customEffects || [],
+        enhancementIndex: this.enhancementIndex,
+        parentDialog: this, // Pass reference to parent dialog
+      });
+      
+      dialog.render(true);
+    } catch (error) {
+      console.error('[CARDIGAN ERROR] Error opening effects dialog:', error);
+      ui.notifications.error(`Erro ao abrir dialog de efeitos: ${error.message}`);
+    }
+  }
+
+  /**
    * Handle applying the changes (save and close)
    */
   static async #onSave(event, target) {
@@ -214,6 +256,8 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
       description: data.description || '',
       hasEnergy: data.hasEnergy || false,
       energyCost: data.hasEnergy ? (parseInt(data.energyCost) || 0) : 0,
+      hasEffects: data.hasEffects || false,
+      customEffects: this.enhancementData.customEffects || [],
     };
 
     // Update the skill item

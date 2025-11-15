@@ -7,6 +7,36 @@ import { EffectsApplicationDialog } from '../applications/effects-application-di
 export class BaseSkill {
   
   /**
+   * Check if a skill has any effects to apply (base effects OR active enhancement effects)
+   * @param {Item} skill - The skill item
+   * @returns {boolean} True if skill has effects to apply
+   * @protected
+   */
+  static hasAnyEffects(skill) {
+    if (!skill || skill.type !== 'skill') return false;
+    
+    // Check base effects
+    if (skill.system.hasCustomEffects && skill.system.customEffects && skill.system.customEffects.length > 0) {
+      return true;
+    }
+    
+    // Check active enhancement effects
+    if (skill.system.enhancements && skill.system.acquiredEnhancements) {
+      for (let i = 0; i < 3; i++) {
+        const enhancement = skill.system.enhancements[i];
+        const isAcquired = skill.system.acquiredEnhancements[i];
+        
+        // If enhancement is active and has effects
+        if (isAcquired && enhancement?.hasEffects && enhancement.customEffects && enhancement.customEffects.length > 0) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  }
+  
+  /**
    * The name of the skill (should be overridden by subclasses)
    * @type {string}
    */
@@ -348,7 +378,7 @@ export class BaseSkill {
       const actor = this.getActor(actorId);
       if (actor) {
         const skill = actor.items.find(item => item.type === 'skill' && item.name === this.skillName);
-        if (skill && skill.system.hasCustomEffects && skill.system.customEffects && skill.system.customEffects.length > 0) {
+        if (this.hasAnyEffects(skill)) {
           return `<button class="cardigan-skill-expand-btn" data-actor-id="${actorId}" data-skill="${this.skillName}"
                     style="padding: 4px 8px; background: #9e9e9e; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; margin-left: 4px;">
               <i class="fas fa-chevron-down" style="margin-right: 2px;"></i>Expandir
@@ -507,14 +537,35 @@ export class BaseSkill {
         return;
       }
 
-      // Check if skill has custom effects configured
-      if (!skill.system.hasCustomEffects || !skill.system.customEffects || skill.system.customEffects.length === 0) {
+      // Collect all effects: base effects + active enhancements effects
+      let allEffects = [];
+      
+      // Add base custom effects
+      if (skill.system.hasCustomEffects && skill.system.customEffects && skill.system.customEffects.length > 0) {
+        allEffects = [...skill.system.customEffects];
+      }
+      
+      // Add effects from active enhancements
+      if (skill.system.enhancements && skill.system.acquiredEnhancements) {
+        for (let i = 0; i < 3; i++) {
+          const enhancement = skill.system.enhancements[i];
+          const isAcquired = skill.system.acquiredEnhancements[i];
+          
+          // Check if enhancement is acquired/active and has effects
+          if (isAcquired && enhancement?.hasEffects && enhancement.customEffects && enhancement.customEffects.length > 0) {
+            allEffects = [...allEffects, ...enhancement.customEffects];
+          }
+        }
+      }
+      
+      // Check if there are any effects to show
+      if (allEffects.length === 0) {
         ui.notifications.info(`${this.skillName} não tem efeitos personalizados configurados`);
         return;
       }
 
-      // Extract effect names from customEffects
-      const effectNames = skill.system.customEffects.map(effect => effect.name);
+      // Extract effect names from all collected effects (remove duplicates)
+      const effectNames = [...new Set(allEffects.map(effect => effect.name))];
 
       // Import the effects dialog
       const { EffectsApplicationDialog } = await import('../applications/effects-application-dialog.mjs');

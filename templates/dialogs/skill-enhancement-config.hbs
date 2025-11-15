@@ -36,6 +36,30 @@
         <input type="checkbox" name="hasEffects" {{#if enhancement.hasEffects}}checked{{/if}} />
         <span>{{localize "CARDIGAN.Item.Skill.EnhancementConfig.ApplyEffects"}}</span>
       </label>
+      
+      <div class="effects-config" style="display: {{#if enhancement.hasEffects}}block{{else}}none{{/if}};">
+        <button type="button" class="configure-effects-btn" data-action="configureEnhancementEffects">
+          <i class="fas fa-cog"></i> {{localize "CARDIGAN.Item.Skill.ConfigureEffects"}}
+        </button>
+        
+        {{#if enhancement.customEffects.length}}
+        <div class="selected-effects">
+          <h4>{{localize "CARDIGAN.Item.Skill.SelectedEffects"}}</h4>
+          <div class="effects-list">
+            {{#each enhancement.customEffects}}
+            <div class="effect-item">
+              <img src="{{img}}" alt="{{name}}" width="24" height="24">
+              <span>{{name}}</span>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+        {{else}}
+        <div class="no-effects">
+          <em>{{localize "CARDIGAN.Item.Skill.NoEffectsSelected"}}</em>
+        </div>
+        {{/if}}
+      </div>
     </div>
   </form>
 </div>

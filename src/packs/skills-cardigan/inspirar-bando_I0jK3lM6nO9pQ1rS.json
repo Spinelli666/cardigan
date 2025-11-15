@@ -17,11 +17,6 @@
         "id": "k8JmN5PrQwX7VzBt",
         "name": "Inspirado",
         "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
-      },
-      {
-        "id": "X9yZ1aB2c3D4eF5g",
-        "name": "Imparável",
-        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
       }
     ],
     "enhancements": [
@@ -29,19 +24,31 @@
         "name": "Aprimoramento 1",
         "description": "<p style=\"text-align: justify;\">Os efeitos se estendem por mais uma rodada.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
       },
       {
         "name": "Aprimoramento 2",
         "description": "<p style=\"text-align: justify;\">Também aplica <strong><code>🐂@UUID[Compendium.cardigan.efeitos-cardigan.Item.X9yZ1aB2c3D4eF5g]{Imparável}</code></strong>.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+          {
+            "id": "X9yZ1aB2c3D4eF5g",
+            "name": "Imparável",
+            "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+          }
+        ]
       },
       {
         "name": "Aprimoramento 3",
         "description": "<p style=\"text-align: justify;\">Sobe a categoria de dado dessa habilidade para <strong><code>1d8</code></strong>.</p>",
         "hasEnergy": false,
-        "energyCost": 0
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": []
       }
     ],
     "acquiredEnhancements": [

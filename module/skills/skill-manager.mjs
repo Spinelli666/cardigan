@@ -13,6 +13,35 @@ export class SkillManager {
   static #skillRegistry = new Map();
 
   /**
+   * Check if a skill has any effects to apply (base effects OR active enhancement effects)
+   * @param {Item} skill - The skill item
+   * @returns {boolean} True if skill has effects to apply
+   */
+  static hasAnyEffects(skill) {
+    if (!skill || skill.type !== 'skill') return false;
+    
+    // Check base effects
+    if (skill.system.hasCustomEffects && skill.system.customEffects && skill.system.customEffects.length > 0) {
+      return true;
+    }
+    
+    // Check active enhancement effects
+    if (skill.system.enhancements && skill.system.acquiredEnhancements) {
+      for (let i = 0; i < 3; i++) {
+        const enhancement = skill.system.enhancements[i];
+        const isAcquired = skill.system.acquiredEnhancements[i];
+        
+        // If enhancement is active and has effects
+        if (isAcquired && enhancement?.hasEffects && enhancement.customEffects && enhancement.customEffects.length > 0) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  }
+
+  /**
    * Initialize the skill system
    * @returns {Promise<void>}
    */
@@ -605,9 +634,9 @@ export class SkillManager {
     if (buttons) {
       content += buttons;
     } else {
-      // Check if skill has custom effects to show expand button
+      // Check if skill has custom effects to show expand button (base or active enhancements)
       const skill = actor.items.find(item => item.type === 'skill' && item.name === skillName);
-      const hasCustomEffects = skill?.system?.hasCustomEffects && skill?.system?.customEffects?.length > 0;
+      const hasCustomEffects = this.hasAnyEffects(skill);
       
       // Add default attack buttons for all skills (same style as Acerto Debilitante)
       content += `<div style="text-align: center; margin: 12px 0; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; align-items: center;">
@@ -815,14 +844,35 @@ export class SkillManager {
         return;
       }
 
-      // Check if skill has custom effects configured
-      if (!skill.system.hasCustomEffects || !skill.system.customEffects || skill.system.customEffects.length === 0) {
+      // Collect all effects: base effects + active enhancements effects
+      let allEffects = [];
+      
+      // Add base custom effects
+      if (skill.system.hasCustomEffects && skill.system.customEffects && skill.system.customEffects.length > 0) {
+        allEffects = [...skill.system.customEffects];
+      }
+      
+      // Add effects from active enhancements
+      if (skill.system.enhancements && skill.system.acquiredEnhancements) {
+        for (let i = 0; i < 3; i++) {
+          const enhancement = skill.system.enhancements[i];
+          const isAcquired = skill.system.acquiredEnhancements[i];
+          
+          // Check if enhancement is acquired/active and has effects
+          if (isAcquired && enhancement?.hasEffects && enhancement.customEffects && enhancement.customEffects.length > 0) {
+            allEffects = [...allEffects, ...enhancement.customEffects];
+          }
+        }
+      }
+      
+      // Check if there are any effects to show
+      if (allEffects.length === 0) {
         ui.notifications.info(`${skillName} não tem efeitos personalizados configurados`);
         return;
       }
 
-      // Extract effect names from customEffects
-      const effectNames = skill.system.customEffects.map(effect => effect.name);
+      // Extract effect names from all collected effects (remove duplicates)
+      const effectNames = [...new Set(allEffects.map(effect => effect.name))];
 
       // Import the effects dialog
       const { EffectsApplicationDialog } = await import('../applications/effects-application-dialog.mjs');
@@ -1211,9 +1261,9 @@ export class SkillManager {
                style="width: 32px; height: 32px; border-radius: 50%; margin: 4px; border: 2px solid #4caf50; cursor: pointer;">`;
     }).filter(html => html !== '').join('');
 
-    // Check if skill has custom effects to show apply button
+    // Check if skill has custom effects to show apply button (base or active enhancements)
     const skill = actor.items.find(item => item.type === 'skill' && item.name === skillName);
-    const hasCustomEffects = skill && skill.system.hasCustomEffects && skill.system.customEffects && skill.system.customEffects.length > 0;
+    const hasCustomEffects = this.hasAnyEffects(skill);
 
     return `
       <div style="
