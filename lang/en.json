@@ -278,6 +278,7 @@
         },
         "HasEnergyCost": "Gasta Energia?",
         "EnergyCost": "Custo de Energia",
+        "EnergySpent": "Energia Gasta",
         "HasCustomEffects": "Adicionar Efeitos",
         "CustomEffects": "Efeitos Selecionados",
         "ConfigureEffects": "Configurar Efeitos",

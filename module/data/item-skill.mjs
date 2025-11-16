@@ -70,6 +70,13 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       label: 'CARDIGAN.Item.Skill.EnergyCost'
     });
 
+    // Track if energy has been spent (for toggle functionality)
+    schema.energySpent = new fields.BooleanField({
+      required: false,
+      initial: false,
+      label: 'CARDIGAN.Item.Skill.EnergySpent'
+    });
+
     // Custom effects system
     schema.hasCustomEffects = new fields.BooleanField({
       required: false,

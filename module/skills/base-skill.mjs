@@ -460,45 +460,111 @@ export class BaseSkill {
 
       const currentEnergy = actor.system.power.value || 0;
       const maxEnergy = actor.system.power.max || 0;
+      
+      // Check if energy was already spent (toggle mode)
+      const energySpent = skill.system.energySpent || false;
 
-      // Check if has enough energy
-      if (currentEnergy < energyCost) {
-        ui.notifications.warn(`${actor.name} não tem energia suficiente! (Atual: ${currentEnergy}, Necessário: ${energyCost})`);
+      if (energySpent) {
+        // RECOVER ENERGY - Toggle back
+        const newEnergy = Math.min(maxEnergy, currentEnergy + energyCost);
+
+        // Update actor's power (energy) and skill state
+        await actor.update({
+          'system.power.value': newEnergy
+        });
         
-        // Still show message in chat informing about the attempt
+        await skill.update({
+          'system.energySpent': false
+        });
+
+        // Create recovery message in chat
         await this.createSkillChatMessage(
           actor,
           this.skillName,
-          `tentou usar <strong>${this.skillName}</strong> mas não tem energia suficiente!`,
-          `Energia atual: <strong>${currentEnergy}</strong> | Necessário: <strong>${energyCost}</strong>`,
-          "rgba(255,193,7,0.1)",
-          "#ffc107",
-          "fas fa-exclamation-triangle"
+          `recuperou <strong>${energyCost}</strong> de energia de <strong>${this.skillName}</strong>!`,
+          `Energia: <strong>${currentEnergy}</strong> → <strong>${newEnergy}</strong> (+${energyCost})`,
+          "rgba(76,175,80,0.1)",
+          "#4caf50",
+          "fas fa-redo"
         );
-        return;
+
+        // Show notification
+        ui.notifications.info(`${actor.name} recuperou ${energyCost} de energia! (${currentEnergy} → ${newEnergy})`);
+        
+        // Update the existing chat message instead of creating a new one
+        const chatMessageId = skill.getFlag('cardigan', 'lastChatMessageId');
+        const chatMessage = chatMessageId ? game.messages.get(chatMessageId) : null;
+        
+        if (chatMessage) {
+          // Update existing message by re-rendering the skill
+          const SkillManager = (await import('./skill-manager.mjs')).default;
+          await SkillManager.updateSkillChatMessage(chatMessage, this.skillName, actorId);
+        } else {
+          // Fallback: Re-render the skill in chat with updated button state
+          const SkillManager = (await import('./skill-manager.mjs')).default;
+          await SkillManager.handleSkillToChat(this.skillName, actorId);
+        }
+
+      } else {
+        // SPEND ENERGY - First time or after recovery
+        
+        // Check if has enough energy
+        if (currentEnergy < energyCost) {
+          ui.notifications.warn(`${actor.name} não tem energia suficiente! (Atual: ${currentEnergy}, Necessário: ${energyCost})`);
+          
+          // Still show message in chat informing about the attempt
+          await this.createSkillChatMessage(
+            actor,
+            this.skillName,
+            `tentou usar <strong>${this.skillName}</strong> mas não tem energia suficiente!`,
+            `Energia atual: <strong>${currentEnergy}</strong> | Necessário: <strong>${energyCost}</strong>`,
+            "rgba(255,193,7,0.1)",
+            "#ffc107",
+            "fas fa-exclamation-triangle"
+          );
+          return;
+        }
+
+        // Calculate new energy value
+        const newEnergy = Math.max(0, currentEnergy - energyCost);
+
+        // Update actor's power (energy) and skill state
+        await actor.update({
+          'system.power.value': newEnergy
+        });
+        
+        await skill.update({
+          'system.energySpent': true
+        });
+
+        // Create success message in chat
+        await this.createSkillChatMessage(
+          actor,
+          this.skillName,
+          `gastou <strong>${energyCost}</strong> de energia para potencializar <strong>${this.skillName}</strong>!`,
+          `Energia: <strong>${currentEnergy}</strong> → <strong>${newEnergy}</strong> (-${energyCost})`,
+          "rgba(33,150,243,0.1)",
+          "#2196f3",
+          "fas fa-bolt"
+        );
+
+        // Show notification as well
+        ui.notifications.info(`${actor.name} gastou ${energyCost} de energia! (${currentEnergy} → ${newEnergy})`);
+        
+        // Update the existing chat message instead of creating a new one
+        const chatMessageId = skill.getFlag('cardigan', 'lastChatMessageId');
+        const chatMessage = chatMessageId ? game.messages.get(chatMessageId) : null;
+        
+        if (chatMessage) {
+          // Update existing message by re-rendering the skill
+          const SkillManager = (await import('./skill-manager.mjs')).default;
+          await SkillManager.updateSkillChatMessage(chatMessage, this.skillName, actorId);
+        } else {
+          // Fallback: Re-render the skill in chat with updated button state
+          const SkillManager = (await import('./skill-manager.mjs')).default;
+          await SkillManager.handleSkillToChat(this.skillName, actorId);
+        }
       }
-
-      // Calculate new energy value
-      const newEnergy = Math.max(0, currentEnergy - energyCost);
-
-      // Update actor's power (energy) directly
-      await actor.update({
-        'system.power.value': newEnergy
-      });
-
-      // Create success message in chat
-      await this.createSkillChatMessage(
-        actor,
-        this.skillName,
-        `gastou <strong>${energyCost}</strong> de energia para potencializar <strong>${this.skillName}</strong>!`,
-        `Energia: <strong>${currentEnergy}</strong> → <strong>${newEnergy}</strong> (-${energyCost})`,
-        "rgba(33,150,243,0.1)",
-        "#2196f3",
-        "fas fa-bolt"
-      );
-
-      // Show notification as well
-      ui.notifications.info(`${actor.name} gastou ${energyCost} de energia! (${currentEnergy} → ${newEnergy})`);
 
     } catch (error) {
       console.error("Error spending skill energy:", error);

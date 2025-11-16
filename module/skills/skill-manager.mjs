@@ -561,10 +561,15 @@ export class SkillManager {
     if (skill.system.hasEnergyCost) {
       const energyCost = skill.system.effectiveEnergyCost ?? (skill.system.energyCost || 0);
       if (energyCost > 0) {
+        const energySpent = skill.system.energySpent || false;
+        const buttonColor = energySpent ? '#4caf50' : '#2196f3'; // Green if spent (can recover), blue if not spent
+        const buttonIcon = energySpent ? 'fa-redo' : 'fa-bolt';
+        const buttonText = energySpent ? `Recuperar Energia (+${energyCost})` : `Gastar Energia (-${energyCost})`;
+        
         content += `<div style="margin: 8px 0; text-align: center;">
           <button class="cardigan-skill-energy-btn" data-actor-id="${actorId}" data-skill="${skillName}"
-                  style="padding: 6px 12px; background: #2196f3; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
-            <i class="fas fa-bolt" style="margin-right: 4px;"></i>Gastar Energia (-${energyCost})
+                  style="padding: 6px 12px; background: ${buttonColor}; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
+            <i class="fas ${buttonIcon}" style="margin-right: 4px;"></i>${buttonText}
           </button>
         </div>`;
       }
@@ -657,10 +662,18 @@ export class SkillManager {
 
     content += `</div>`;
 
-    await ChatMessage.create({
+    const chatMessage = await ChatMessage.create({
       content,
       speaker: ChatMessage.getSpeaker({ actor }),
-      style: CONST.CHAT_MESSAGE_STYLES.OTHER
+      style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+      flags: {
+        cardigan: {
+          skillName: skillName,
+          actorId: actorId,
+          isSkillMessage: true,
+          energySpent: false // Each message starts with energy NOT spent
+        }
+      }
     });
   }
 
@@ -710,7 +723,7 @@ export class SkillManager {
         
       case 'energy':
         // Spend energy for unregistered skills
-        await this.#spendEnergyForUnregisteredSkill(actor, skillName);
+        await this.#spendEnergyForUnregisteredSkill(actor, skillName, button);
         break;
         
       case 'apply-effects':
@@ -724,13 +737,28 @@ export class SkillManager {
   }
 
   /**
-   * Spend energy for unregistered skills (generic implementation)
+   * Spend energy for unregistered skills (generic implementation with toggle)
    * @param {Actor} actor - The actor
    * @param {string} skillName - The skill name
+   * @param {HTMLElement} button - The button that was clicked
    * @private
    */
-  static async #spendEnergyForUnregisteredSkill(actor, skillName) {
+  static async #spendEnergyForUnregisteredSkill(actor, skillName, button) {
     try {
+      // Get the chat message from the button
+      const messageElement = button.closest('.message');
+      if (!messageElement) {
+        console.error("Could not find message element");
+        return;
+      }
+      
+      const messageId = messageElement.dataset.messageId;
+      const chatMessage = game.messages.get(messageId);
+      if (!chatMessage) {
+        console.error("Could not find chat message");
+        return;
+      }
+      
       // Get the skill item from the actor
       const skill = actor.items.find(item => item.type === 'skill' && item.name === skillName);
       if (!skill) {
@@ -754,65 +782,209 @@ export class SkillManager {
       }
 
       const currentEnergy = actor.system.power.value || 0;
+      const maxEnergy = actor.system.power.max || 0;
+      
+      // Check if energy was already spent (toggle mode) - USE MESSAGE STATE
+      const energySpent = chatMessage.getFlag('cardigan', 'energySpent') || false;
 
-      // Check if has enough energy
-      if (currentEnergy < energyCost) {
-        ui.notifications.warn(`${actor.name} não tem energia suficiente! (Atual: ${currentEnergy}, Necessário: ${energyCost})`);
-        
-        // Still show message in chat informing about the attempt
-        const content = `<div class="cardigan-skill-message" style="text-align: center; padding: 8px; background: rgba(255,193,7,0.1); border: 1px solid #ffc107; border-radius: 3px;">
-          <h4 style="margin: 0 0 4px 0; color: #ffc107;">
-            <i class="fas fa-exclamation-triangle" style="margin-right: 6px;"></i>${skillName}
-          </h4>
-          <p style="margin: 4px 0; color: #666;">
-            <strong>${actor.name}</strong> tentou usar <strong>${skillName}</strong> mas não tem energia suficiente!
-          </p>
-          <div style="margin: 8px 0; padding: 8px; background: rgba(255,193,7,0.2); border-radius: 3px;">
-            Energia atual: <strong>${currentEnergy}</strong> | Necessário: <strong>${energyCost}</strong>
-          </div>
-        </div>`;
-        
-        await ChatMessage.create({
-          content,
-          speaker: ChatMessage.getSpeaker({ actor }),
-          style: CONST.CHAT_MESSAGE_STYLES.OTHER
+      if (energySpent) {
+        // RECOVER ENERGY - Toggle back
+        const newEnergy = Math.min(maxEnergy, currentEnergy + energyCost);
+
+        // Update actor's power (energy)
+        await actor.update({
+          'system.power.value': newEnergy
         });
-        return;
+        
+        // Update message state
+        await chatMessage.setFlag('cardigan', 'energySpent', false);
+
+        // Show notification
+        ui.notifications.info(`${actor.name} recuperou ${energyCost} de energia! (${currentEnergy} → ${newEnergy})`);
+        
+        // Update the existing chat message with new state
+        await this.updateSkillChatMessage(chatMessage, skillName, actor.id);
+
+      } else {
+        // SPEND ENERGY - First time or after recovery
+        
+        // Check if has enough energy
+        if (currentEnergy < energyCost) {
+          ui.notifications.warn(`${actor.name} não tem energia suficiente! (Atual: ${currentEnergy}, Necessário: ${energyCost})`);
+          
+          // Still show message in chat informing about the attempt
+          const content = `<div class="cardigan-skill-message" style="text-align: center; padding: 8px; background: rgba(255,193,7,0.1); border: 1px solid #ffc107; border-radius: 3px;">
+            <h4 style="margin: 0 0 4px 0; color: #ffc107;">
+              <i class="fas fa-exclamation-triangle" style="margin-right: 6px;"></i>${skillName}
+            </h4>
+            <p style="margin: 4px 0; color: #666;">
+              <strong>${actor.name}</strong> tentou usar <strong>${skillName}</strong> mas não tem energia suficiente!
+            </p>
+            <div style="margin: 8px 0; padding: 8px; background: rgba(255,193,7,0.2); border-radius: 3px;">
+              Energia atual: <strong>${currentEnergy}</strong> | Necessário: <strong>${energyCost}</strong>
+            </div>
+          </div>`;
+          
+          await ChatMessage.create({
+            content,
+            speaker: ChatMessage.getSpeaker({ actor }),
+            style: CONST.CHAT_MESSAGE_STYLES.OTHER
+          });
+          return;
+        }
+
+        // Calculate new energy value
+        const newEnergy = Math.max(0, currentEnergy - energyCost);
+
+        // Update actor's power (energy)
+        await actor.update({
+          'system.power.value': newEnergy
+        });
+        
+        // Update message state
+        await chatMessage.setFlag('cardigan', 'energySpent', true);
+
+        // Show notification
+        ui.notifications.info(`${actor.name} gastou ${energyCost} de energia! (${currentEnergy} → ${newEnergy})`);
+        
+        // Update the existing chat message with new state
+        await this.updateSkillChatMessage(chatMessage, skillName, actor.id);
       }
-
-      // Calculate new energy value
-      const newEnergy = Math.max(0, currentEnergy - energyCost);
-
-      // Update actor's power (energy) directly
-      await actor.update({
-        'system.power.value': newEnergy
-      });
-
-      // Create success message in chat
-      const content = `<div class="cardigan-skill-message" style="text-align: center; padding: 8px; background: rgba(33,150,243,0.1); border: 1px solid #2196f3; border-radius: 3px;">
-        <h4 style="margin: 0 0 4px 0; color: #2196f3;">
-          <i class="fas fa-bolt" style="margin-right: 6px;"></i>${skillName}
-        </h4>
-        <p style="margin: 4px 0; color: #666;">
-          <strong>${actor.name}</strong> gastou <strong>${energyCost}</strong> de energia para potencializar <strong>${skillName}</strong>!
-        </p>
-        <div style="margin: 8px 0; padding: 8px; background: rgba(33,150,243,0.2); border-radius: 3px;">
-          Energia: <strong>${currentEnergy}</strong> → <strong>${newEnergy}</strong> (-${energyCost})
-        </div>
-      </div>`;
-
-      await ChatMessage.create({
-        content,
-        speaker: ChatMessage.getSpeaker({ actor }),
-        style: CONST.CHAT_MESSAGE_STYLES.OTHER
-      });
-
-      // Show notification as well
-      ui.notifications.info(`${actor.name} gastou ${energyCost} de energia! (${currentEnergy} → ${newEnergy})`);
 
     } catch (error) {
       console.error("Error spending skill energy:", error);
       ui.notifications.error(`Erro ao gastar energia: ${error.message}`);
+    }
+  }
+
+  /**
+   * Update an existing skill chat message with new content
+   * @param {ChatMessage} chatMessage - The chat message to update
+   * @param {string} skillName - The skill name
+   * @param {string} actorId - The actor ID
+   */
+  static async updateSkillChatMessage(chatMessage, skillName, actorId) {
+    try {
+      const actor = game.actors.get(actorId);
+      if (!actor) return;
+
+      const skill = actor.items.find(item => item.type === 'skill' && item.name === skillName);
+      if (!skill) return;
+
+      // Regenerate the skill content with updated button state
+      let content = `<div class="cardigan-skill-message" style="text-align: center; padding: 8px; background: rgba(76,175,80,0.1); border: 1px solid #4caf50; border-radius: 3px;">
+        <h4 style="margin: 0 0 8px 0; color: #4caf50;">
+          <i class="fas fa-star" style="margin-right: 6px;"></i>${skill.name}
+        </h4>`;
+
+      // Add skill action types badge if available
+      if (skill.system.skillActionTypes && Array.isArray(skill.system.skillActionTypes) && skill.system.skillActionTypes.length > 0) {
+        const formattedTypes = skill.system.skillActionTypes
+          .map(type => {
+            const localizationKey = CONFIG.CARDIGAN?.skillTypes?.[type] || type;
+            return game.i18n.localize(localizationKey);
+          })
+          .join(' | ');
+        
+        content += `<div style="margin: 4px 0; color: #666; font-style: italic; font-size: 0.9em; text-align: center;">
+          ${formattedTypes}
+        </div>`;
+      }
+
+      // Add energy button if skill has energy cost - WITH UPDATED STATE FROM MESSAGE
+      if (skill.system.hasEnergyCost) {
+        const energyCost = skill.system.effectiveEnergyCost ?? (skill.system.energyCost || 0);
+        if (energyCost > 0) {
+          const energySpent = chatMessage.getFlag('cardigan', 'energySpent') || false;
+          const buttonColor = energySpent ? '#4caf50' : '#2196f3';
+          const buttonIcon = energySpent ? 'fa-redo' : 'fa-bolt';
+          const buttonText = energySpent ? `Recuperar Energia (+${energyCost})` : `Gastar Energia (-${energyCost})`;
+          
+          content += `<div style="margin: 8px 0; text-align: center;">
+            <button class="cardigan-skill-energy-btn" data-actor-id="${actorId}" data-skill="${skillName}"
+                    style="padding: 6px 12px; background: ${buttonColor}; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
+              <i class="fas ${buttonIcon}" style="margin-right: 4px;"></i>${buttonText}
+            </button>
+          </div>`;
+        }
+      }
+
+      content += `<div style="text-align: left; margin: 8px 0; color: #333;">
+          ${skill.system.description || 'Sem descrição disponível.'}
+        </div>`;
+
+      // Add enhancement emojis if available
+      const enhancementEmojis = ['⭐', '💎', '🔥'];
+      let emojisHtml = '';
+      
+      if (skill.system.enhancements && Array.isArray(skill.system.enhancements)) {
+        for (let i = 0; i < skill.system.enhancements.length; i++) {
+          const enhancement = skill.system.enhancements[i];
+          const isAcquired = skill.system.acquiredEnhancements?.[i] === true;
+          const hasContent = enhancement?.description?.trim();
+          
+          if (hasContent) {
+            const filterStyle = isAcquired ? '' : 'filter: grayscale(100%); opacity: 0.4;';
+            const emoji = enhancementEmojis[i] || '⭐';
+            const enhancementName = enhancement.name || `Aprimoramento ${i + 1}`;
+            const statusText = isAcquired ? '✓ Adquirido' : '✗ Não Adquirido';
+            
+            const enhancementData = {
+              name: enhancementName,
+              description: enhancement.description,
+              status: statusText,
+              acquired: isAcquired,
+              actorUuid: actor.uuid,
+              skillName: skill.name,
+              index: i
+            };
+            
+            emojisHtml += `<span 
+              class="enhancement-emoji" 
+              style="font-size: 24px; margin: 0 8px; cursor: help; ${filterStyle}" 
+              data-enhancement='${JSON.stringify(enhancementData).replace(/'/g, "&apos;")}'
+              data-tooltip-direction="UP"
+            >${emoji}</span>`;
+          }
+        }
+        
+        if (emojisHtml) {
+          content += `<div style="margin: 12px 0; text-align: center; padding: 8px; background: rgba(0,0,0,0.03); border-radius: 4px;">
+            ${emojisHtml}
+          </div>`;
+        }
+      }
+
+      // Add interactive buttons
+      const buttons = this.generateSkillButtons(skillName, actorId);
+      if (buttons) {
+        content += buttons;
+      } else {
+        const hasCustomEffects = this.hasAnyEffects(skill);
+        
+        content += `<div style="text-align: center; margin: 12px 0; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; align-items: center;">
+          <button class="cardigan-skill-attack-simple-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${skillName}"
+                  style="display: inline-block; padding: 8px 16px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
+            <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque S
+          </button>
+          <button class="cardigan-skill-attack-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${skillName}"
+                  style="display: inline-block; padding: 8px 16px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
+            <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque
+          </button>
+          ${hasCustomEffects ? `<button class="cardigan-skill-expand-btn" data-actor-id="${actorId}" data-skill="${skillName}"
+                  style="display: inline-block; padding: 4px 12px; background: #9e9e9e; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px;">
+            <i class="fas fa-chevron-down" style="margin-right: 4px;"></i>Expandir
+          </button>` : ''}
+        </div>`;
+      }
+
+      content += `</div>`;
+
+      // Update the chat message content
+      await chatMessage.update({ content });
+
+    } catch (error) {
+      console.error("Error updating skill chat message:", error);
     }
   }
 
