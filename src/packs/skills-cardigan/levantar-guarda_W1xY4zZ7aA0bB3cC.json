@@ -1,0 +1,61 @@
+{
+  "_id": "W1xY4zZ7aA0bB3cC",
+  "_key": "!items!W1xY4zZ7aA0bB3cC",
+  "name": "Levantar a Guarda",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "foco",
+      "active"
+    ],
+    "skillClass": "guerreiro",
+    "hasEnergyCost": true,
+    "energyCost": 10,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Caso receba um segundo ataque na próxima rodada, adicione <em>Vantagem</em> à <em>Evasão</em> novamente.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Evadir criticamente recupera a <code>⚡Energia</code> gasta nesta habilidade.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Agora pode usar esta habilidade com uma <strong>::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp::Ação Simples</strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Você se posiciona com cuidado, preparado para qualquer ataque próximo.\"</em></p><p></p><p style=\"text-align: justify;\">* Recebe <strong>Vantagem</strong> no próximo teste de <strong>Evasão</strong>.</p><p style=\"text-align: justify;\">* Reduza pela metade todo dano recebido até sua próxima rodada.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

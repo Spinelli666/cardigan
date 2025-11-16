@@ -7,7 +7,7 @@
   "system": {
     "skillActionTypes": [
       "foco",
-      "ativa"
+      "active"
     ],
     "skillClass": "andarilho",
     "hasEnergyCost": true,

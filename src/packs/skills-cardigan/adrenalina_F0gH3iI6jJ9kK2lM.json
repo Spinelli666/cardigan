@@ -1,0 +1,60 @@
+{
+  "_id": "F0gH3iI6jJ9kK2lM",
+  "_key": "!items!F0gH3iI6jJ9kK2lM",
+  "name": "Adrenalina",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+        "passiva"
+    ],
+    "skillClass": "guerreiro",
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Sempre que derrotar um inimigo recebe uma ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Ação de Deslocamento</em></p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Aumenta para <strong><code>1d8💔PVT</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Aumenta para <strong><code>1d12⚡️PET</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Quando você começa a lutar é difícil de controlar a sede de sangue.\"</em></p><p></p><p style=\"text-align: justify\">* A cada rodada sem tomar dano você recebe <storng><code>1d4💔PV Temporário</code></strong>, mas este bônus não pode passar de <strong><code>15💔PVT</code></strong>, embora ainda seja cumulativo com bônus de PVT recebido de outras fontas.</p><p style=\"text-align: justify\">* Sempre que derrotar um inimigo recupera <storng><code>1d8⚡️PE Temporário</strong></code>.</p><p style=\"text-align: justify\">* Sempre que derrotar um inimigo recebe uma ::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp::<em>Ação Ativa</em> extra.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

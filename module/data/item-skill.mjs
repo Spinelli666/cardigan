@@ -30,7 +30,8 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
           deslocamento: 'Deslocamento',
           passiva: 'Passiva',
           simples: 'Simples',
-          reacao: 'Reação'
+          reacao: 'Reação',
+          postura: 'Postura'
         }
       }),
       {

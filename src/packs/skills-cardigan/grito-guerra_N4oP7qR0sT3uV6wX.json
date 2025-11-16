@@ -1,0 +1,60 @@
+{
+  "_id": "N4oP7qR0sT3uV6wX",
+  "_key": "!items!N4oP7qR0sT3uV6wX",
+  "name": "Grito de Guerra",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+        "active"
+    ],
+    "skillClass": "guerreiro",
+    "hasEnergyCost": true,
+    "energyCost": 5,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Se realizar um <em>Acerto Crítico</em> no teste de <strong>Persuasão</strong> contra um inimigo, automaticamente intimidará todos os outros inimigos que podem escutá-lo.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Pode somar o <em>dobro</em> da <strong>Persuasão</strong> no dano contra inimigos intimidados.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Aliados a até <em>20m</em> também recebem os bônus dessa habilidade.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Com um grito barbárico você faz seus inimigos tremerem as pernas!\"</em></p><p></p><p style=\"text-align: justify\">* Você testa <strong>Persuasão</strong> contra todos inimigos que podem escutá-lo, e com um sucesso você intimida este inimigo.</p><blockquote><p style=\"text-align: justify\"><strong><code>❗️@UUID[Compendium.cardigan.efeitos-cardigan.Item.G1hI2jK3lM4nO5pQ]{Intimidado}</code></strong> ‣ Tem <strong>-2</strong> em testes de <strong>Perícia</strong> contra quem o intimidou, e quem o intimidou pode somar <strong>Persuasão</strong> no dano contra você.</p></blockquote><p style=\"text-align: justify\">* Aliados adjacentes ao seu personagem também recebem os bônus.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "_id": "V5wX8yY1zZ4aB7cC",
+  "_key": "!items!V5wX8yY1zZ4aB7cC",
+  "name": "Golpe Perfeito",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "foco",
+      "simples"
+    ],
+    "skillClass": "guerreiro",
+    "hasEnergyCost": true,
+    "energyCost": 5,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dado desta habilidade para <code>1d8</code>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Não realizar ações até terminar o <em>Foco</em> rende um <em>Acerto Crítico</em> garantido.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">O dano total sob efeito desta habilidade ignora toda <strong>::systems/cardigan/assets/images/armas/escudo.webp::Armadura</strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Tomando uma postura defensiva rápida, você defende um aliado próximo.\"</em></p><p></p><p style=\"text-align: justify\">* Quando um alvo até <em>2 metros</em> for visado por um Ataque Físico ou Feitiço, você pode utilizar esta técnica para ser o alvo deste ataque, deslocando seu personagem para a frente do aliado defendido, se possível.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "_id": "U0vW3xY6zZ9aA2bB",
+  "_key": "!items!U0vW3xY6zZ9aA2bB",
+  "name": "Ciclone de Aço",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "active"
+    ],
+    "skillClass": "guerreiro",
+    "hasEnergyCost": true,
+    "energyCost": 10,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\"><em>Acerto Crítico</em> instantaneamente acerta um ataque simples em outro inimigo adjacente.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">O segundo ataque agora pode ser usado ao acertar apenas um inimigo.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Remove o custo de <code>⚡Energia</code> desta habilidade.</p>",
+        "hasEnergy": true,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Você desfere um golpe giratório com sua arma.\"</em></p><p></p><p style=\"text-align: justify\">* Com uma Arma Marcial você acerta todos os alvos ao redor do seu personagem.</p><p style=\"text-align: justify\">Você deve realizar um teste de <em>Precisão</em> normal para cada inimigo no alcance da sua arma.</p><p style=\"text-align: justify\">* Se acertar dois ou mais inimigos com esta habilidade você pode brandir sua arma no sentido contrário e retornar com mais um ataque em todos inimigos adjacentes.</p><p style=\"text-align: justify\">Este efeito só ocorre uma vez.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

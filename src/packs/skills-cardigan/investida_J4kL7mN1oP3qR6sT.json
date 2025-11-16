@@ -1,0 +1,67 @@
+{
+  "_id": "J4kL7mN1oP3qR6sT",
+  "_key": "!items!J4kL7mN1oP3qR6sT",
+  "name": "Investida",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "active",
+      "deslocamento"
+    ],
+    "skillClass": "guerreiro",
+    "hasEnergyCost": true,
+    "energyCost": 15,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Recebe <em>Vantagem</em> nos dados de dano dessa habilidade,</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">O último inimigo atringido recebe <strong><code>🏃‍♂️@UUID[Compendium.cardigan.efeitos-cardigan.Item.mN2nO3oP4pQ5qR6r]{Caído}¹</code></strong> automaticamente.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+            {
+                "id": "mN2nO3oP4pQ5qR6r",
+                "name": "Caído",
+                "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+            }
+        ]
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dano por metro percorrido para <code>1d8+2</code>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Para cima deles!\"</em></p><p></p><p style=\"text-align: justify;\">* Você corre em linha reta até um destino a sua escolha podendo atravessar e derrubar qualquer criatura em seu caminho. A Investida utiliza sua <strong>::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp::Ação Ativa</strong> e sua <strong>::systems/cardigan/assets/images/outros/deslocamento.webp::Ação de Deslocamento</strong> que também será usada para medir a distância possível da Investida.</p><p>* Para <em>cada metro</em> percorrido até cada inimigo você causa <strong><code>1d4+2</code></strong> de dano além do dano base.</p><p style=\"text-align: justify;\">* Você pode realizar a técnica <strong>::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp::Arremessar</strong> no último inimigo atingido sem testar <strong>Agarrar</strong>.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "_id": "P8vQ2rR3sS4tT5uU",
+  "_key": "!items!P8vQ2rR3sS4tT5uU",
+  "name": "Provocar",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "simples"
+    ],
+    "skillClass": "guerreiro",
+    "hasEnergyCost": true,
+    "energyCost": 5,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dado de bônus para <code>1d10</code></p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Estende a duração do efeito por mais uma rodada.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Para cada inimigo provocado você também recebe <strong><code>1d6⚡️PE Temporário</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Você estufa o peito e os chama pra briga!\"</em></p><p></p><p style=\"text-align: justify\">* Ao ativar esta habilidade você deve realizar um teste de <strong>Persuasão</strong> contra cada inimigo que tenha visão do seu personagem. Com sucesso, você os provoca a atacar apenas seu personagem por <strong>duas rodadas</strong>.</p><p style=\"text-align: justify\">* Para cada inimigo provocado você recebe <strong><code>1d6💔PV Temporário</code></strong>.</p><p style=\"text-align: justify\">* Os <strong><code>💔PVT</strong></code> são removidos ao encerrar o efeito de provocação, e você não pode utilizar essa habilidade novamente por duas rodadas.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

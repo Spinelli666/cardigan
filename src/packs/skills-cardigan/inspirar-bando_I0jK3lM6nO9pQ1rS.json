@@ -6,7 +6,7 @@
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillActionTypes": [
-      "ativa"
+      "active"
     ],
     "skillClass": "andarilho",
     "hasEnergyCost": true,
@@ -16,7 +16,7 @@
       {
         "id": "k8JmN5PrQwX7VzBt",
         "name": "Inspirado",
-        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+        "img": "systems/cardigan/assets/images/effects/effects_positive.svg"
       }
     ],
     "enhancements": [
@@ -38,7 +38,7 @@
           {
             "id": "X9yZ1aB2c3D4eF5g",
             "name": "Imparável",
-            "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+            "img": "systems/cardigan/assets/images/effects/effects_positive.svg"
           }
         ]
       },
