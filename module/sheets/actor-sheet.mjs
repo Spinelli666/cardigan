@@ -4894,8 +4894,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         type: 'efeito',
         system: {
           description: description,
-          efeitoType: 'consumable-tracking',
-          active: true,
+          efeitoType: 'positivo', // Tracking effects are positive
           consumableTracking: {
             isTrackingEffect: true,
             originalItemName: originalItem.name,

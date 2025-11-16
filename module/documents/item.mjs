@@ -13,6 +13,76 @@ export class CardiganSystemItem extends Item {
   }
 
   /**
+   * Perform preliminary operations after an Item document is created.
+   * @param {object} data     - The initial data object provided to the document creation request
+   * @param {object} options  - Additional options which modify the creation request
+   * @param {string} userId   - The id of the User requesting the document creation
+   * @override
+   */
+  async _onCreate(data, options, userId) {
+    await super._onCreate(data, options, userId);
+    
+    console.log(`[Item._onCreate] Item created: ${this.name}, type: ${this.type}, hasActor: ${!!this.actor}, userId: ${userId}, game.user.id: ${game.user.id}`);
+    
+    // Only run on the client that initiated the action (avoid duplicate application)
+    if (userId !== game.user.id) return;
+    
+    // Check if this effect should be blocked (e.g., by Imparável)
+    if (this.type === 'efeito' && this.actor) {
+      const shouldBlock = await this._checkIfEffectBlocked();
+      if (shouldBlock) {
+        console.log(`[Item._onCreate] Effect ${this.name} was blocked, deleting...`);
+        // Delete this item immediately as it was blocked
+        await this.delete();
+        return;
+      }
+    }
+    
+    // Apply custom effect logic when an effect item is added to an actor
+    if (this.type === 'efeito' && this.actor) {
+      console.log(`[Item._onCreate] Applying custom effect for: ${this.name}`);
+      await this._applyCustomEffect();
+    }
+  }
+
+  /**
+   * Check if this effect should be blocked by another effect (like Imparável)
+   * @private
+   * @returns {Promise<boolean>}
+   */
+  async _checkIfEffectBlocked() {
+    try {
+      const { ImparavelEffect } = await import('../effects/index.mjs');
+      return ImparavelEffect.shouldBlockEffect(this.actor, this.name);
+    } catch (error) {
+      console.error('[Item._checkIfEffectBlocked] Error checking if effect blocked:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Apply custom effect logic using the EffectManager
+   * @private
+   */
+  async _applyCustomEffect() {
+    console.log(`[Item._applyCustomEffect] Trying to apply effect: ${this.name}`);
+    try {
+      const { EffectManager } = await import('../effects/index.mjs');
+      console.log(`[Item._applyCustomEffect] EffectManager imported successfully`);
+      await EffectManager.applyEffect(this, this.actor);
+      console.log(`[Item._applyCustomEffect] Effect applied successfully`);
+    } catch (error) {
+      // If there's no custom effect registered for this item, that's okay
+      // It just means this effect doesn't have custom logic
+      if (error.message && error.message.includes('No custom effect registered')) {
+        console.log(`[Item._applyCustomEffect] No custom effect logic for: ${this.name}`);
+      } else {
+        console.error('[Item._applyCustomEffect] Error applying custom effect:', error);
+      }
+    }
+  }
+
+  /**
    * Render a rich tooltip for this item.
    * @param {object} [enrichmentOptions={}]  Options for text enrichment.
    * @returns {Promise<{content: string, classes: string[]}>}
@@ -57,9 +127,38 @@ export class CardiganSystemItem extends Item {
   async _preDelete(options, user) {
     await super._preDelete(options, user);
     
+    console.log(`[Item._preDelete] Item deleting: ${this.name}, type: ${this.type}, hasActor: ${!!this.actor}, userId: ${user.id}, game.user.id: ${game.user.id}`);
+    
+    // Only run on the client that initiated the action
+    if (user.id !== game.user.id) return;
+    
+    // Remove custom effect logic when an effect item is removed from an actor
+    if (this.type === 'efeito' && this.actor) {
+      console.log(`[Item._preDelete] Removing custom effect for: ${this.name}`);
+      await this._removeCustomEffect();
+    }
+    
     // If this is a tracking effect item, revert its effects
     if (this.type === 'efeito' && this.system.consumableTracking?.isTrackingEffect) {
       await this._revertTrackingEffects();
+    }
+  }
+
+  /**
+   * Remove custom effect logic using the EffectManager
+   * @private
+   */
+  async _removeCustomEffect() {
+    try {
+      const { EffectManager } = await import('../effects/index.mjs');
+      await EffectManager.removeEffect(this, this.actor);
+    } catch (error) {
+      // If there's no custom effect registered for this item, that's okay
+      if (error.message && error.message.includes('No custom effect registered')) {
+        console.log(`No custom effect logic for: ${this.name}`);
+      } else {
+        console.error('Error removing custom effect:', error);
+      }
     }
   }
 

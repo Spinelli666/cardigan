@@ -1,21 +1,13 @@
 {{!-- 
 Template simplificado para itens do tipo efeito
-Sem abas de Duração e Mudanças
+Aba Details com campo de tipo (dropdown)
 --}}
-<div class="tab-content" data-tab="attributes">
+<section class='tab {{tab.cssClass}}' data-group='primary' data-tab='attributes'>
   <div class="form-group">
-    {{formInput systemFields.efeitoType 
-      name="system.efeitoType" 
-      value=item.system.efeitoType 
-      placeholder="Tipo do Efeito"
-      localize=true}}
+    <label>{{localize "CARDIGAN.Item.Efeito.FIELDS.efeitoType.label"}}</label>
+    <select name="system.efeitoType">
+      <option value="positivo" {{selected item.system.efeitoType "positivo"}}>{{localize "CARDIGAN.Item.Efeito.Types.Positivo"}}</option>
+      <option value="negativo" {{selected item.system.efeitoType "negativo"}}>{{localize "CARDIGAN.Item.Efeito.Types.Negativo"}}</option>
+    </select>
   </div>
-  
-  <div class="form-group">
-    {{formInput systemFields.active 
-      name="system.active" 
-      value=item.system.active 
-      label="Ativo"
-      localize=true}}
-  </div>
-</div>
+</section>

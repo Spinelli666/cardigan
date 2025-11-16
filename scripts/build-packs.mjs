@@ -1,10 +1,10 @@
 import { compilePack } from "@foundryvtt/foundryvtt-cli";
-import { promises as fs } from "fs";
 import path from "path";
+import { fileURLToPath } from 'url';
 
-const SYSTEM_ID = process.cwd();
-const yaml = false;
-const folders = true;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const SYSTEM_ROOT = path.resolve(__dirname, '..');
 
 console.log("Compilando compêndios do sistema Cardigan...");
 
@@ -12,18 +12,18 @@ try {
   // Compilar efeitos-cardigan
   console.log("Compilando compêndio efeitos-cardigan...");
   await compilePack(
-    `${SYSTEM_ID}/src/packs/efeitos-cardigan`,
-    `${SYSTEM_ID}/packs/efeitos-cardigan`,
-    { yaml, recursive: folders }
+    path.join(SYSTEM_ROOT, 'src', 'packs', 'efeitos-cardigan'),
+    path.join(SYSTEM_ROOT, 'packs', 'efeitos-cardigan'),
+    { yaml: false, recursive: true }
   );
   console.log("✅ Compêndio efeitos-cardigan compilado!");
 
   // Compilar skills-cardigan
   console.log("Compilando compêndio skills-cardigan...");
   await compilePack(
-    `${SYSTEM_ID}/src/packs/skills-cardigan`,
-    `${SYSTEM_ID}/packs/skills-cardigan`,
-    { yaml, recursive: folders }
+    path.join(SYSTEM_ROOT, 'src', 'packs', 'skills-cardigan'),
+    path.join(SYSTEM_ROOT, 'packs', 'skills-cardigan'),
+    { yaml: false, recursive: true }
   );
   console.log("✅ Compêndio skills-cardigan compilado!");
 

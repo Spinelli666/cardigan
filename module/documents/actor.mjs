@@ -10,6 +10,46 @@ export class CardiganSystemActor extends Actor {
     // prepareBaseData(), prepareEmbeddedDocuments() (including active effects),
     // prepareDerivedData().
     super.prepareData();
+    
+    // After all data is prepared, check if Persistência should enforce minimum HP
+    this._enforcePersistenciaMinHP();
+  }
+
+  /**
+   * Enforce Persistência minimum HP if the effect is active
+   * This runs after all data preparation to ensure HP doesn't stay below 1
+   * @private
+   */
+  async _enforcePersistenciaMinHP() {
+    // Only for characters
+    if (this.type !== 'character') return;
+    
+    // Check if actor has Persistência effect
+    const hasPersistencia = this.items.some(item => 
+      item.type === 'efeito' && item.name === 'Persistência'
+    );
+    
+    if (!hasPersistencia) return;
+    
+    // Check current HP - use this.system.health.value (not status.health)
+    const currentHP = this.system.health?.value ?? 0;
+    
+    // If HP is below 1, update it to 1 (persist to database)
+    if (currentHP < 1) {
+      console.log(`[Persistência] Enforcing minimum HP for ${this.name}: ${currentHP} → 1`);
+      
+      // Use update to persist the change
+      // Use a flag to prevent infinite loops
+      if (!this._enforcingPersistencia) {
+        this._enforcingPersistencia = true;
+        await this.update({
+          'system.health.value': 1
+        }, { render: false }); // Don't re-render to avoid flicker
+        this._enforcingPersistencia = false;
+        
+        ui.notifications.info(`${this.name} tem Persistência ativa! HP restaurado para 1.`);
+      }
+    }
   }
 
   /** @override */
@@ -51,5 +91,31 @@ export class CardiganSystemActor extends Actor {
    */
   getRollData() {
     return { ...super.getRollData(), ...(this.system.getRollData?.() ?? null) };
+  }
+
+  /**
+   * Perform preliminary operations before an Actor document is updated.
+   * @param {object} changed - The differential data that is changed relative to the documents prior values
+   * @param {object} options - Additional options which modify the update request
+   * @param {User} user      - The User requesting the document update
+   * @returns {boolean|void} - Explicitly return false to prevent the update
+   * @override
+   */
+  async _preUpdate(changed, options, user) {
+    await super._preUpdate(changed, options, user);
+    
+    // Check if HP is being updated - use system.health.value (not status.health)
+    if (changed.system?.health?.value !== undefined) {
+      const newHP = changed.system.health.value;
+      
+      // Apply Persistência protection if active
+      const { PersistenciaEffect } = await import('../effects/index.mjs');
+      const protectedHP = PersistenciaEffect.protectHP(this, newHP);
+      
+      // If HP was protected, update the changed data
+      if (protectedHP !== newHP) {
+        changed.system.health.value = protectedHP;
+      }
+    }
   }
 }

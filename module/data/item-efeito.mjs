@@ -17,9 +17,10 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
     const schema = super.defineSchema();
 
     schema.efeitoType = new fields.StringField({
-      required: false,
-      blank: true,
-      initial: '',
+      required: true,
+      blank: false,
+      initial: 'negativo',
+      choices: CONFIG.CARDIGAN.efeitoTypes,
     });
 
     schema.duration = new fields.NumberField({
@@ -27,11 +28,6 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
       nullable: true,
       integer: true,
       initial: 0,
-    });
-
-    schema.active = new fields.BooleanField({
-      required: false,
-      initial: false,
     });
 
     // Tracking system for consumable items

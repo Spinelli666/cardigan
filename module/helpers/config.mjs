@@ -70,6 +70,15 @@ CARDIGAN.skillRanks = {
 };
 
 /**
+ * The set of Effect Types used within the system.
+ * @type {Object}
+ */
+CARDIGAN.efeitoTypes = {
+  positivo: 'CARDIGAN.Item.Efeito.Types.Positivo',
+  negativo: 'CARDIGAN.Item.Efeito.Types.Negativo'
+};
+
+/**
  * Register Handlebars helpers for the Cardigan system
  */
 export function registerHandlebarsHelpers() {

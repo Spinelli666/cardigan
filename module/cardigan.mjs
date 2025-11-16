@@ -11,6 +11,8 @@ import CardiganTooltips from './helpers/tooltips.mjs';
 import * as models from './data/_module.mjs';
 // Import Skills System
 import { initializeSkillsSystem, getSkillManager } from './skills/index.mjs';
+// Import Effects System
+import { initializeEffects } from './effects/index.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -137,6 +139,11 @@ Hooks.once('init', function () {
   // Initialize Skills System
   initializeSkillsSystem().catch(error => {
     console.error('[CARDIGAN] Failed to initialize Skills System:', error);
+  });
+
+  // Initialize Effects System
+  initializeEffects().catch(error => {
+    console.error('[CARDIGAN] Failed to initialize Effects System:', error);
   });
 });
 

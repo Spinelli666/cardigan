@@ -914,7 +914,7 @@ export class SkillManager {
         </div>`;
 
       // Add enhancement emojis if available
-      const enhancementEmojis = ['⭐', '💎', '🔥'];
+      const enhancementEmojis = ['⚔️', '🎯', '💀'];
       let emojisHtml = '';
       
       if (skill.system.enhancements && Array.isArray(skill.system.enhancements)) {

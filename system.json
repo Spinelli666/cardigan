@@ -90,7 +90,7 @@
       "thumbnail": "systems/cardigan/assets/cardigan-logo.png"
     }
   ],
-  "version": "1.1.8",
+  "version": "1.3.0",
   "compatibility": {
     "minimum": "12.328",
     "verified": "12.328"

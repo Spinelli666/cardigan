@@ -315,6 +315,17 @@
           "RequirementsPlaceholder": "List any requirements or conditions for this enhancement..."
         }
       },
+      "Efeito": {
+        "Types": {
+          "Positivo": "Positive",
+          "Negativo": "Negative"
+        },
+        "FIELDS": {
+          "efeitoType": {
+            "label": "Effect Type"
+          }
+        }
+      },
       "EnhancementConfig": {
         "Title": "Configure Enhancement {enhancement}",
         "Name": "Enhancement Name",
