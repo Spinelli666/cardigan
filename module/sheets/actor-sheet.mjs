@@ -1144,8 +1144,15 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         // Evaluate the roll
         await roll.evaluate();
         
-        // Detect critical results, passing the ability key if available
+        // Check for Sangramento effect and apply damage if rolling an ability
         const abilityKey = dataset.key || null;
+        if (abilityKey) {
+          const abilityLabel = label || dataset.label || '';
+          const { SangramentoEffect } = await import('../effects/index.mjs');
+          await SangramentoEffect.applyBleedingDamage(this.document, abilityLabel, abilityKey);
+        }
+        
+        // Detect critical results, passing the ability key if available
         const flags = this.constructor._detectCriticalResults(roll, this.document, abilityKey);
         
         // Create custom flavor text showing the advantage type
@@ -1414,12 +1421,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
       ui.notifications.info("Fome resetada.");
       
-      // Verificar efeito de exaustão após reset
-      setTimeout(() => {
-        const hungerLevel = this.document.system.status?.hunger ?? 0;
-        const thirstLevel = this.document.system.status?.thirst ?? 0;
-        this.document.system._checkAndApplyExhaustionEffect(hungerLevel, thirstLevel);
-      }, 200);
+      // Efeito de exaustão será gerenciado automaticamente pelo ExaustaoEffect
     } catch (error) {
       console.error("Error resetting Hunger:", error);
       ui.notifications.error(`Erro ao resetar Fome: ${error.message}`);
@@ -1448,12 +1450,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
       ui.notifications.info("Sede resetada.");
       
-      // Verificar efeito de exaustão após reset
-      setTimeout(() => {
-        const hungerLevel = this.document.system.status?.hunger ?? 0;
-        const thirstLevel = this.document.system.status?.thirst ?? 0;
-        this.document.system._checkAndApplyExhaustionEffect(hungerLevel, thirstLevel);
-      }, 200);
+      // Efeito de exaustão será gerenciado automaticamente pelo ExaustaoEffect
     } catch (error) {
       console.error("Error resetting Thirst:", error);
       ui.notifications.error(`Erro ao resetar Sede: ${error.message}`);
@@ -1902,14 +1899,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         // Gerar mensagem para chat
         this.#sendFieldMessage(field, newValue);
         
-        // Verificar efeito de exaustão se for hunger ou thirst
-        if (field === 'hunger' || field === 'thirst') {
-          setTimeout(() => {
-            const hungerLevel = this.actor.system.status?.hunger ?? 0;
-            const thirstLevel = this.actor.system.status?.thirst ?? 0;
-            this.actor.system._checkAndApplyExhaustionEffect(hungerLevel, thirstLevel);
-          }, 200);
-        }
+        // Efeito de exaustão será gerenciado automaticamente pelo ExaustaoEffect
       });
     });
   }
@@ -1994,14 +1984,22 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     this.#setupIndependentRadios(hungerCheckboxes, 'hunger');
     this.#setupIndependentRadios(thirstCheckboxes, 'thirst');
 
-    // Adicionar listeners para os grupos sequenciais (giftOfLife, deathSentence, sanity, toxicity)
+    // Adicionar listeners para os grupos sequenciais (giftOfLife, deathSentence, sanity, toxicity, fracture)
     html.querySelectorAll('.sequential-group').forEach(group => {
       const field = group.dataset.field;
       const checkboxes = group.querySelectorAll('input[type="checkbox"]');
       
       checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', async (ev) => {
+        // Remover listener anterior se existir
+        if (checkbox._sequentialHandler) {
+          checkbox.removeEventListener('change', checkbox._sequentialHandler);
+        }
+        
+        // Criar e armazenar o handler
+        checkbox._sequentialHandler = async (ev) => {
           ev.preventDefault();
+          ev.stopPropagation(); // Previne que o evento chegue ao handler do formulário
+          ev.stopImmediatePropagation(); // Garante que nenhum outro listener seja executado
           const level = parseInt(ev.target.dataset.level);
           const currentValue = this.actor.system.status?.[field] ?? null;
           let newValue = null;
@@ -2054,7 +2052,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
               speaker: ChatMessage.getSpeaker({ actor: this.actor })
             });
           }
-        });
+        };
+        
+        // Adicionar o listener
+        checkbox.addEventListener('change', checkbox._sequentialHandler);
       });
     });
   }

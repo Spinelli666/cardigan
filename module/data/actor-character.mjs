@@ -223,24 +223,10 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const manualMovementValue = this.details.movementManual ?? 0; // Valor manual
     this.details.movement = autoMovementValue + manualMovementValue; // Total = automático + manual
 
-    // Verificar estado de Hunger e aplicar efeito de exaustão automaticamente
+    // Verificar estado de Hunger
     const hungerLevel = this.status?.hunger ?? 0;
     const thirstLevel = this.status?.thirst ?? 0;
     
-    // Nova lógica: aplicar efeito de exaustão quando fome OU sede = 3
-    // Usar setTimeout para não bloquear o prepareDerivedData com async
-    if ((hungerLevel === 3 || thirstLevel === 3)) {
-      setTimeout(() => {
-        this._checkAndApplyExhaustionEffect(hungerLevel, thirstLevel);
-      }, 100);
-    } else {
-      // Verificar se precisa remover efeito existente
-      setTimeout(() => {
-        this._checkAndApplyExhaustionEffect(hungerLevel, thirstLevel);
-      }, 100);
-    }
-
-    // Verificar estado de Hunger
     if (hungerLevel === 0) {
       this.status.hungerMessage = ""; // Nenhuma marcada = sem mensagem (estado normal)
     } else if (hungerLevel === 1) {
@@ -481,189 +467,18 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     }
   }
 
-  /**
-   * Verifica e aplica/remove o efeito de exaustão baseado em fome e sede
-   * Aplica apenas quando fome OU sede chegam ao nível 3 (máximo)
-   * @param {number} hungerLevel - Nível atual de fome (0-3)
-   * @param {number} thirstLevel - Nível atual de sede (0-3)
-   * @private
-   */
-  async _checkAndApplyExhaustionEffect(hungerLevel, thirstLevel) {
-    
-    const shouldHaveExhaustion = hungerLevel === 3 || thirstLevel === 3;
-    
-    const currentExhaustionEffect = this.parent.effects.find(effect => {
-      const isExhaustion = effect.name === "Exaustão" || 
-                          effect.label === "Exaustão" ||
-                          effect.flags?.cardigan?.source === "hunger_thirst";
-      return isExhaustion;
-    });
-    
-    if (shouldHaveExhaustion && !currentExhaustionEffect) {
-      // Aplicar efeito de exaustão
-      await this._applyExhaustionEffect(hungerLevel, thirstLevel);
-    } else if (!shouldHaveExhaustion && currentExhaustionEffect) {
-      // Remover efeito de exaustão
-      await currentExhaustionEffect.delete();
-      
-      // Forçar atualização da ficha
-      if (this.parent.sheet && this.parent.sheet.rendered) {
-        this.parent.sheet.render(false);
-      }
-      
-      ChatMessage.create({
-        content: `${this.parent.name}: Efeito de Exaustão removido (fome e sede normalizadas).`,
-        speaker: ChatMessage.getSpeaker({ actor: this.parent })
-      });
-    } else {
-    }
-  }
-
-  /**
-   * Aplica o efeito de exaustão na ficha do personagem (apenas visual, sem penalidades)
-   * @param {number} hungerLevel - Nível atual de fome
-   * @param {number} thirstLevel - Nível atual de sede
-   * @private
-   */
-  async _applyExhaustionEffect(hungerLevel, thirstLevel) {
-    try {
-
-      // Buscar o compêndio de efeitos
-      const pack = game.packs.get("cardigan.efeitos-cardigan");
-      if (!pack) {
-        console.error('[CARDIGAN] Compêndio de efeitos não encontrado!');
-        return;
-      }
-
-      // Buscar o efeito de exaustão no compêndio
-      const exhaustionItem = pack.index.find(item => item.name === "Exaustão");
-      if (!exhaustionItem) {
-        console.error('[CARDIGAN] Efeito "Exaustão" não encontrado no compêndio!');
-        return;
-      }
-
-      // Carregar o item completo do compêndio
-      const originalItem = await pack.getDocument(exhaustionItem._id);
-      
-      const effectData = {
-        name: 'Exaustão',
-        img: originalItem?.img || 'icons/svg/downgrade.svg',
-        origin: this.parent.uuid,
-        disabled: false,
-        duration: {
-          rounds: undefined,
-          seconds: undefined,
-          turns: undefined
-        },
-        flags: {
-          core: { statusId: 'exhaustion' },
-          cardigan: { 
-            applied: 'auto',
-            cause: this._getExhaustionCause(hungerLevel, thirstLevel),
-            description: this._generateExhaustionDescription(originalItem),
-            descriptionPlainText: this._generateExhaustionDescriptionPlainText(originalItem)
-          }
-        },
-        changes: [],
-        description: this._generateExhaustionDescription(originalItem)
-      };
-
-      // Usar setTimeout para evitar problemas com async dentro de prepareDerivedData
-      setTimeout(async () => {
-        try {
-          await this.parent.createEmbeddedDocuments('ActiveEffect', [effectData]);
-        } catch (error) {
-          console.error('[CARDIGAN] Erro ao criar ActiveEffect:', error);
-        }
-      }, 10);
-
-      // Forçar atualização da ficha
-      if (this.parent.sheet && this.parent.sheet.rendered) {
-        this.parent.sheet.render(false);
-      }
-      
-      
-      // Mensagem no chat
-      const cause = this._getExhaustionCause(hungerLevel, thirstLevel);
-      ChatMessage.create({
-        content: `${this.parent.name}: Efeito de Exaustão aplicado automaticamente devido a ${cause}.`,
-        speaker: ChatMessage.getSpeaker({ actor: this.parent })
-      });
-      
-    } catch (error) {
-      console.error('[CARDIGAN] Erro ao aplicar efeito de exaustão:', error);
-    }
-  }
-
-  /**
-   * Gera descrição do efeito de exaustão usando a descrição do compêndio
-   * @param {Item} originalItem - Item original do compêndio
-   * @returns {string} Descrição do efeito
-   * @private
-   */
-  _generateExhaustionDescription(originalItem) {
-    if (!originalItem?.system?.description) {
-      return `
-        <h3>Exaustão</h3>
-        <p><strong>Tipo:</strong> Efeito Negativo</p>
-        <p><strong>Descrição:</strong> O personagem está exausto devido à fome e/ou sede extrema. Sua capacidade de ação está severamente comprometida.</p>
-        <hr>
-        <p><em>Aplicado automaticamente devido à ${this._getExhaustionCause(this.status.hunger, this.status.thirst)}.</em></p>
-      `;
-    }
-
-    return `
-      <h3>Exaustão</h3>
-      <p><strong>Tipo:</strong> Efeito Negativo</p>
-      ${originalItem.system.description}
-      <hr>
-      <p><em>Aplicado automaticamente devido à ${this._getExhaustionCause(this.status.hunger, this.status.thirst)}.</em></p>
-    `;
-  }
-
-  /**
-   * Gera versão texto simples da descrição de exaustão para tooltips
-   * @param {Item} originalItem - Item original do compêndio
-   * @returns {string} Descrição em texto simples
-   * @private
-   */
-  _generateExhaustionDescriptionPlainText(originalItem) {
-    if (!originalItem?.system?.description) {
-      return `O personagem está exausto devido à fome e/ou sede extrema. Sua capacidade de ação está severamente comprometida.`;
-    }
-
-    // Remove tags HTML e limpa a descrição
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = originalItem.system.description;
-    const cleanDescription = tempDiv.textContent || tempDiv.innerText || '';
-    
-    return cleanDescription.trim();
-  }
-
-  /**
-   * Obtém a causa da exaustão para mensagens
-   * @param {number} hungerLevel - Nível de fome
-   * @param {number} thirstLevel - Nível de sede
-   * @returns {string} Causa da exaustão
-   * @private
-   */
-  _getExhaustionCause(hungerLevel, thirstLevel) {
-    const causes = [];
-    if (hungerLevel === 3) causes.push(`fome crítica`);
-    if (thirstLevel === 3) causes.push(`sede crítica`);
-    
-    return causes.join(' e ');
-  }
-
-  /**
-   * Método de teste para verificar o sistema de exaustão manualmente
-   * Pode ser chamado no console: actor.system.testExhaustionSystem()
-   */
-  testExhaustionSystem() {
-    
-    // Forçar verificação
-    this._checkAndApplyExhaustionEffect(this.status?.hunger ?? 0, this.status?.thirst ?? 0);
-  }
+  /* ========================================
+   * DEPRECATED: Legacy Exhaustion System
+   * This code has been replaced by ExaustaoEffect in module/effects/effects/exaustao.mjs
+   * Keeping here temporarily for reference, can be removed in future versions
+   * ======================================== 
+  async _checkAndApplyExhaustionEffect(hungerLevel, thirstLevel) { ... }
+  async _applyExhaustionEffect(hungerLevel, thirstLevel) { ... }
+  _generateExhaustionDescription(originalItem) { ... }
+  _generateExhaustionDescriptionPlainText(originalItem) { ... }
+  _getExhaustionCause(hungerLevel, thirstLevel) { ... }
+  testExhaustionSystem() { ... }
+  ======================================== */
 
   /**
    * Verifica e aplica/remove os efeitos de toxicidade baseado no nível

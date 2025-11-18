@@ -9,6 +9,9 @@ export { default as EffectManager } from './effect-manager.mjs';
 export { default as VelozEffect } from './effects/veloz.mjs';
 export { default as ImparavelEffect } from './effects/imparavel.mjs';
 export { default as PersistenciaEffect } from './effects/persistencia.mjs';
+export { FraturaEffect } from './effects/fratura.mjs';
+export { ExaustaoEffect } from './effects/exaustao.mjs';
+export { SangramentoEffect } from './effects/sangramento.mjs';
 
 /**
  * Initialize the effects system
@@ -19,11 +22,20 @@ export async function initializeEffects() {
   const VelozEffect = (await import('./effects/veloz.mjs')).default;
   const ImparavelEffect = (await import('./effects/imparavel.mjs')).default;
   const PersistenciaEffect = (await import('./effects/persistencia.mjs')).default;
+  const { FraturaEffect } = await import('./effects/fratura.mjs');
+  const { ExaustaoEffect } = await import('./effects/exaustao.mjs');
+  const { SangramentoEffect } = await import('./effects/sangramento.mjs');
   const { default: EffectManager } = await import('./effect-manager.mjs');
   
   EffectManager.register('Veloz', VelozEffect);
   EffectManager.register('Imparável', ImparavelEffect);
   EffectManager.register('Persistência', PersistenciaEffect);
+  EffectManager.register('Fratura', FraturaEffect);
+  EffectManager.register('Exaustão', ExaustaoEffect);
+  EffectManager.register('Sangramento', SangramentoEffect);
+  
+  // Register Sangramento hooks for ability rolls
+  SangramentoEffect.registerHooks();
   
   console.log('[Effects System] Initialized with custom effects:', Array.from(EffectManager.getRegisteredEffects()));
 }

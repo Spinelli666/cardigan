@@ -118,4 +118,20 @@ export class CardiganSystemActor extends Actor {
       }
     }
   }
+
+  /**
+   * Perform follow-up operations after an Actor document is updated.
+   * @param {object} changed - The differential data that was changed relative to the documents prior values
+   * @param {object} options - Additional options which modify the update request
+   * @param {string} userId  - The id of the User requesting the document update
+   * @override
+   */
+  async _onUpdate(changed, options, userId) {
+    await super._onUpdate(changed, options, userId);
+    
+    // Sync status-based effects
+    const { FraturaEffect, ExaustaoEffect } = await import('../effects/index.mjs');
+    await FraturaEffect.onActorUpdate(this, changed, userId);
+    await ExaustaoEffect.onActorUpdate(this, changed, userId);
+  }
 }
