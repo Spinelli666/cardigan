@@ -2,11 +2,11 @@ import BaseEffect from '../base-effect.mjs';
 
 /**
  * Sangramento Effect
- * When active, removes 4 HP from the actor every time they roll Precisão, Evasão, Força, or Destreza
+ * When active, removes 5 HP from the actor every time they roll Precisão, Evasão, Força, or Destreza
  */
 export class SangramentoEffect extends BaseEffect {
   static effectName = 'Sangramento';
-  static HP_DAMAGE = 4; // HP damage per ability roll
+  static HP_DAMAGE = 5; // HP damage per ability roll
   static AFFECTED_ABILITIES = ['accuracy', 'evasion', 'strength', 'dexterity']; // Abilities that trigger bleeding
 
   /**

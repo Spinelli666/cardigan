@@ -6,7 +6,6 @@ export { default as BaseEffect } from './base-effect.mjs';
 export { default as EffectManager } from './effect-manager.mjs';
 
 // Export custom effect implementations
-export { default as VelozEffect } from './effects/veloz.mjs';
 export { default as ImparavelEffect } from './effects/imparavel.mjs';
 export { default as PersistenciaEffect } from './effects/persistencia.mjs';
 export { FraturaEffect } from './effects/fratura.mjs';
@@ -19,7 +18,6 @@ export { SangramentoEffect } from './effects/sangramento.mjs';
  */
 export async function initializeEffects() {
   // Import custom effects and register them
-  const VelozEffect = (await import('./effects/veloz.mjs')).default;
   const ImparavelEffect = (await import('./effects/imparavel.mjs')).default;
   const PersistenciaEffect = (await import('./effects/persistencia.mjs')).default;
   const { FraturaEffect } = await import('./effects/fratura.mjs');
@@ -27,7 +25,6 @@ export async function initializeEffects() {
   const { SangramentoEffect } = await import('./effects/sangramento.mjs');
   const { default: EffectManager } = await import('./effect-manager.mjs');
   
-  EffectManager.register('Veloz', VelozEffect);
   EffectManager.register('Imparável', ImparavelEffect);
   EffectManager.register('Persistência', PersistenciaEffect);
   EffectManager.register('Fratura', FraturaEffect);

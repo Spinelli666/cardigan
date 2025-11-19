@@ -10,7 +10,11 @@ module/effects/
 ├── effect-manager.mjs        # Gerenciador de efeitos customizados
 ├── index.mjs                 # Ponto de exportação central
 └── effects/                  # Implementações customizadas
-    └── veloz.mjs            # Exemplo: Efeito Veloz (+4m movimento)
+    ├── imparavel.mjs        # Exemplo: Efeito Imparável
+    ├── persistencia.mjs     # Exemplo: Efeito Persistência
+    ├── fratura.mjs          # Exemplo: Efeito Fratura
+    ├── exaustao.mjs         # Exemplo: Efeito Exaustão
+    └── sangramento.mjs      # Exemplo: Efeito Sangramento
 ```
 
 ## Como Criar um Efeito Customizado
@@ -124,41 +128,6 @@ No arquivo JSON do efeito no compêndio (`src/packs/efeitos-cardigan/`), remova 
 ```bash
 rm -rf packs/efeitos-cardigan
 npx fvtt package pack efeitos-cardigan --in src/packs/efeitos-cardigan --out packs/efeitos-cardigan
-```
-
-## Exemplo Completo: Efeito Veloz
-
-O efeito Veloz adiciona +4m de movimento ao personagem:
-
-```javascript
-// module/effects/effects/veloz.mjs
-import BaseEffect from '../base-effect.mjs';
-
-export default class VelozEffect extends BaseEffect {
-  static MOVEMENT_BONUS = 4;
-
-  async apply(actor) {
-    const currentMovement = actor.system.details.movementManual || 0;
-    const newMovement = currentMovement + VelozEffect.MOVEMENT_BONUS;
-    
-    await actor.update({
-      'system.details.movementManual': newMovement
-    });
-    
-    ui.notifications.info(`${actor.name} ganhou +${VelozEffect.MOVEMENT_BONUS}m de movimento!`);
-  }
-
-  async remove(actor) {
-    const currentMovement = actor.system.details.movementManual || 0;
-    const newMovement = currentMovement - VelozEffect.MOVEMENT_BONUS;
-    
-    await actor.update({
-      'system.details.movementManual': newMovement
-    });
-    
-    ui.notifications.info(`${actor.name} perdeu ${VelozEffect.MOVEMENT_BONUS}m de movimento.`);
-  }
-}
 ```
 
 ## Exemplo Avançado: Efeito Imparável
