@@ -45,7 +45,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Tomando uma postura defensiva rápida, você defende um aliado próximo.\"</em></p><p></p><p style=\"text-align: justify\">* Quando um alvo até <em>2 metros</em> for visado por um Ataque Físico ou Feitiço, você pode utilizar esta técnica para ser o alvo deste ataque, deslocando seu personagem para a frente do aliado defendido, se possível.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Você planeja onde, quando e como acertar seu inimigo com todo talento e atenção.\"</em></p><p></p><p style=\"text-align: justify\">* Ao usar essa habilidade você começa a preparar o golpe perfeito, e assim entra o efeito de <strong>Foco</strong>. Você leva uma rodada para canalizar esta habilidade e receber qualquer tipo de <em>dano</em> ou <em>Efeito Negativo</em> cancela sua canalização.</p><p></p><p style=\"text-align: justify\">* Em sua próxima rodada de ataque você terá <strong><code>+1</code> Precisão</strong> e causará <strong><code>+1d6</code></strong> de dano por ponto de <strong>Força</strong>, cumulativo com seu dano base ou de outra habilidade.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",
