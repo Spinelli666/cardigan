@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
   "system": {
-    "description": "<p style=\"text-align: justify;\">Ao ter seus pontos de vida reduzidos a 0 ou menos, imediatamente retorna a ter 1 ponto de vida.</p>",
+    "description": "<p style=\"text-align: justify;\">Ao ter seus <code>💔PV</code> reduzidos a <code>0</code> ou menos, imediatamente retorna a ter <code>1💔PV</code></p>",
     "efeitoType": "positivo"
   },
   "effects": [],

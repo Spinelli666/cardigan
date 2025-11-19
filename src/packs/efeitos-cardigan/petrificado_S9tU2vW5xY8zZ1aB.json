@@ -1,11 +1,11 @@
 {
-  "_id": "bB3cCd4eEf5fF6gG",
-  "_key": "!items!bB3cCd4eEf5fF6gG",
-  "name": "Lento",
+  "_id": "S9tU2vW5xY8zZ1aB",
+  "_key": "!items!S9tU2vW5xY8zZ1aB",
+  "name": "Petrificado",
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
   "system": {
-    "description": "<p style=\"text-align: justify\">Recebe <strong>-5m</strong> de ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Deslocamento</em>.</p>",
+    "description": "<p style=\"text-align: justify\">Está paralisado e não pode realizar nenhuma ação ou teste até terminar o efeito, mas recebe </strong>20::systems/cardigan/assets/images/armas/escudo.webp::</strong></p>",
     "efeitoType": "negativo"
   },
   "effects": [],

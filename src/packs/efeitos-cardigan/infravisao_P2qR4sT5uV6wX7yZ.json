@@ -1,11 +1,11 @@
 {
-  "_id": "a6BcV8dE7FgH9iJk",
-  "_key": "!items!a6BcV8dE7FgH9iJk",
-  "name": "Muito Satisfeito",
+  "_id": "P2qR4sT5uV6wX7yZ",
+  "_key": "!items!P2qR4sT5uV6wX7yZ",
+  "name": "Infravisão",
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
   "system": {
-    "description": "<p style=\"text-align: justify;\">Recebe PVs e PEs temporários adicionais enquanto estiver saciado e hidratado por produções da ocupação de Culinária.</p>",
+    "description": "<p style=\"text-align: justify;\">Você consegue enxergar no escuro e possui <em>Vantagem</em> para detectar personagens furtivos.</p>",
     "efeitoType": "positivo"
   },
   "effects": [],

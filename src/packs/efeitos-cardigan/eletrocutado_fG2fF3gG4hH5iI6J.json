@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
   "system": {
-    "description": "<p style=\"text-align: justify\">Recebe <strong>Atordoado¹</strong> e <code>1d12⚡️</code> dano elétrico instantâneo.</p>",
+    "description": "<p style=\"text-align: justify\">Recebe <code>15⚡️</code> dano elétrico instantâneo e deve testar Vigor contra <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong> adicionalmente.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

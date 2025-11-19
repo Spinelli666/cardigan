@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
   "system": {
-    "description": "<p style=\"text-align: justify\">Sempre que realizar testes de <em>Precisão, Evasão, Força e Destreza</em>, você recebe <strong>4</strong> de Dano Físico. Fora de Combate este efeito ocorre a cada <strong>10</strong> minutos.</p>",
+    "description": "<p style=\"text-align: justify\">Sempre que realizar testes de <em>Precisão, Evasão, Força e Destreza</em>, você recebe <strong>5</strong> de Dano Físico. Fora de Combate este efeito ocorre a cada <strong>10</strong> minutos. Pode ser removido com <strong>::systems/cardigan/assets/images/outros/bandagem.webp::Bandagem Curativa</strong> e <strong>::systems/cardigan/assets/images/outros/conjunto_cirurgico.webp::Conjunto Cirúrgico</strong>.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

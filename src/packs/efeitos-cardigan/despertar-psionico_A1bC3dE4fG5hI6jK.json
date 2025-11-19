@@ -1,11 +1,11 @@
 {
   "_id": "A1bC3dE4fG5hI6jK",
   "_key": "!items!A1bC3dE4fG5hI6jK",
-  "name": "Visão Verdadeira",
+  "name": "Despertar Psiônico",
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
   "system": {
-    "description": "<p style=\"text-align: justify;\">Você se torna capaz de enxergar através do Véu, percebendo rastros de magia, criaturas e objetos magicamente ocultos, além de armadilhas e passagens secretas.</p>",
+    "description": "<p style=\"text-align: justify;\">Você se torna capaz de enxergar através do Véu da Realidade, percebendo rastros de energia paranormal e fendas dimensionais, criaturas e objetos ocultos, além de auras de poder e de humor. Nesse estado, com devido treinamento, o despertado é capaz de dobrar a realidade ao seu favor e realizar milagres à custo de sua própria sanidade e energia vital.</p>",
     "efeitoType": "positivo"
   },
   "effects": [],

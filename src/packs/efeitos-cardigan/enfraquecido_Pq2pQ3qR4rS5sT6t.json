@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
   "system": {
-    "description": "<p style=\"text-align: justify\">Até o final do seu próximo turno, sempre que você causar qualquer tipo de dano ou regeneração de Pontos de Vida, este valor será reduzido pela metade.</p>",
+    "description": "<p style=\"text-align: justify\">Até o final do seu próximo turno, sempre que você causar qualquer tipo de dano ou regeneração de <code>💔PV</code>, este valor será <code>reduzido pela metade</code>.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],
