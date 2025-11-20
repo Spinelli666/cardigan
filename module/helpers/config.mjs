@@ -293,3 +293,4 @@ export function registerHandlebarsHelpers() {
     return totalQuantity >= requiredQuantity;
   });
 }
+

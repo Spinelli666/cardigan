@@ -305,6 +305,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     console.log('Setting up armor tooltips...');
     this.#setupArmorTooltips();
     
+    // Setup effect tooltips with enriched HTML
+    this.#setupEffectTooltips();
+    
     // Setup context menu for weapons
     this.#setupContextMenus();
     
@@ -5705,6 +5708,55 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     html += '</div>';
     
     return html;
+  }
+
+  /**
+   * Setup effect tooltips with enriched HTML descriptions
+   * @private
+   */
+  #setupEffectTooltips() {
+    // Select all effect items in the features section
+    const effectItems = this.element.querySelectorAll('.effect-item[data-item-uuid]');
+    
+    effectItems.forEach(element => {
+      const uuid = element.dataset.itemUuid;
+      
+      // Add mouse enter/leave listeners
+      element.addEventListener('mouseenter', async (event) => {
+        const item = await fromUuid(uuid);
+        if (!item) return;
+        
+        // Enrich the description HTML
+        let enrichedDescription = '';
+        if (item.system?.description) {
+          // Use modern Foundry v13 API for TextEditor
+          const TextEditor = foundry.applications.ux.TextEditor.implementation;
+          enrichedDescription = await TextEditor.enrichHTML(item.system.description, {
+            secrets: item.isOwner,
+            relativeTo: item
+          });
+        }
+        
+        // Create tooltip HTML
+        const tooltipHTML = `
+          <div class="effect-tooltip" style="max-width: 300px; padding: 8px;">
+            <div style="margin-bottom: 6px;">
+              <strong>${item.name}</strong>
+            </div>
+            ${enrichedDescription ? `<div style="font-size: 12px;">${enrichedDescription}</div>` : ''}
+          </div>
+        `;
+        
+        game.tooltip.activate(event.currentTarget, {
+          html: tooltipHTML,
+          cssClass: "tooltip cardigan-tooltip effect-tooltip"
+        });
+      });
+      
+      element.addEventListener('mouseleave', () => {
+        game.tooltip.deactivate();
+      });
+    });
   }
 
   /**

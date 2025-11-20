@@ -91,8 +91,7 @@ export class CardiganSystemItem extends Item {
     // Get the description from the item
     let description = '';
     if (this.system?.description) {
-      // Enrich the description using the modern Foundry v13 API - keeps HTML formatting
-      const TextEditor = foundry.applications.ux.TextEditor.implementation;
+      // Enrich the description using TextEditor.enrichHTML
       description = await TextEditor.enrichHTML(this.system.description, {
         secrets: this.isOwner,
         relativeTo: this,

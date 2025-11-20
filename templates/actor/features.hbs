@@ -752,13 +752,12 @@
                 
                 <div class='effect-name'>
                   <h4 
-                    data-tooltip="{{efeito.name}}{{#if efeito.system.description}}<br><em>{{efeito.system.description}}</em>{{/if}}"
-                    data-tooltip-direction="UP"
-                    data-tooltip-class="cardigan-tooltip"
+                    data-tooltip-class="cardigan-tooltip effect-tooltip"
                     data-action="showEffectInChat"
                     data-effect-name="{{efeito.name}}"
                     data-effect-description="{{efeito.system.description}}"
-                    class="clickable-effect"
+                    class="clickable-effect effect-item"
+                    data-item-uuid="{{efeito.uuid}}"
                   >
                     {{efeito.name}}
                   </h4>
