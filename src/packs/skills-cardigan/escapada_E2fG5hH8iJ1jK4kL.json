@@ -1,0 +1,60 @@
+{
+  "_id": "E2fG5hH8iJ1jK4kL",
+  "_key": "!items!E2fG5hH8iJ1jK4kL",
+  "name": "Escapada",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "reacao"
+    ],
+    "skillClass": "ladino",
+    "hasEnergyCost": true,
+    "energyCost": 10,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\">O ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Deslocamento</em> possui a técnica <em>Correr</em>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\">Se redirecionar o ataque para um aliado ele recebe <em>Vantagem</em> na <em>Evasão</em>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\">Ao terminar o ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Deslocamento</em> você recebe uma ::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp::<em>Ação Ativa</em>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Eles não podem te matar se não podem te pegar.\"</em><p style=\"text-align: justify\">* Ao ser alvo de um ataque pode redirecioná-lo para um aliado ou inimigo adjacente realizar a <strong>Evasão</strong> por você.</p><p style=\"text-align: justify\">* Na ausência de um alvo próximo você recebe um turno de ::systems/cardigan/assets/images/outros/deslocamento.webp::<strong>Deslocamento</strong> adicional que ocorre antes do ataque inimigo.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

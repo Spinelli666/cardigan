@@ -1,0 +1,66 @@
+{
+  "_id": "T1uV4wX7yZ0zZ3aA",
+  "_key": "!items!T1uV4wX7yZ0zZ3aA",
+  "name": "Irritante",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "simples"
+    ],
+    "skillClass": "ladino",
+    "hasEnergyCost": true,
+    "energyCost": 15,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\">Aumenta o bônus de ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Deslocamento</em> para <strong><code>+2m</code></strong> por inimigo.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\">Inimigos provocados recebem <strong><code>💢@UUID[Compendium.cardigan.efeitos-cardigan.Item.R6sT7uV8wX9yZ0aB]{Irado}</code></strong></p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+            {
+                "id": "R6sT7uV8wX9yZ0aB",
+                "name": "Irado",
+                "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+            }
+        ]
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\">Para cada inimigo provocado você também recebe <strong><code>+1</code></strong> Evasão</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Vocẽ é bom em despertar o pior nas pessoas. Parabéns.\"</em><p style=\"text-align: justify\">* Ao ativar esta habilidade você deve realizar um teste de <strong>Persuasão</strong> contra cada inimigo que possa ouvir seu personagem. Com sucesso, você os provoca a atacar apenas seu personagem por <strong>duas rodadas</strong>.</p><p style=\"text-align: justify\">* Para cada inimigo provocado você recebe <strong><code>+1m</code></strong> de ::systems/cardigan/assets/images/outros/deslocamento.webp::<strong>Deslocamento.</strong></p><p style=\"text-align: justify\">* O bônus temporário é removido ao encerrar o efeito de provocação, e você não pode utilizar essa habilidade novamente por duas rodadas.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

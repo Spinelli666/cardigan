@@ -1,0 +1,84 @@
+{
+  "_id": "G5hI8jJ1kL4mN7oP",
+  "_key": "!items!G5hI8jJ1kL4mN7oP",
+  "name": "Enganar",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "active"
+    ],
+    "skillClass": "ladino",
+    "hasEnergyCost": true,
+    "energyCost": 10,
+    "hasCustomEffects": true,
+    "customEffects": [
+      {
+        "id": "eE7fF8gG9hH0iI1J",
+        "name": "Atordoado",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      }
+    ],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\">Se não atacá-lo, ao final do efeito ele recebe <strong><code>🪄@UUID[Compendium.cardigan.efeitos-cardigan.Item.jK2kL3lM4mN5nO6o]{Encantado}¹</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+            {
+                "id": "jK2kL3lM4mN5nO6o",
+                "name": "Encantado",
+                "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+            }            
+        ]
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\">Inimigos provocados recebem <strong><code>❗️@UUID[Compendium.cardigan.efeitos-cardigan.Item.G1hI2jK3lM4nO5pQ]{Intimidado}²</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+            {
+                "id": "G1hI2jK3lM4nO5pQ",
+                "name": "Intimidado",
+                "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+            }
+        ]
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\">Se realizar um <em>Acerto Crítico</em> ele recebe <strong><code>♨️@UUID[Compendium.cardigan.efeitos-cardigan.Item.A1bC2dE3fG4hI5jK]{Apavorado}²</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+            {
+                "id": "A1bC2dE3fG4hI5jK",
+                "name": "Apavorado",
+                "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+            }            
+        ]
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Definitivamente você fala demais.\"</em><p style=\"text-align: justify\">* Você começa a gritar tantas mentiras absurdas para um inimigo que chega a soar convincente. Você testa <strong>Persuasão</strong> contra o alvo e caso tenha sucesso irá aplicar <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong>.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

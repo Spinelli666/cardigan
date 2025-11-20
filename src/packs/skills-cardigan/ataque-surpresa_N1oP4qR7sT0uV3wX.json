@@ -1,0 +1,60 @@
+{
+  "_id": "N1oP4qR7sT0uV3wX",
+  "_key": "!items!N1oP4qR7sT0uV3wX",
+  "name": "Ataque Surpresa",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "reacao"
+    ],
+    "skillClass": "ladino",
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\">Recebe <em>Vantagem</em> neste ataque.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\">Pode realizar uma habilidade de ataque ao invés de um ataque simples.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\">Você recebe imunidade contra esta mesma habilidade.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"A vida é cheia de oportunidade.\"</em></p><p><p style=\"text-align: justify\">* Sempre que um inimigo adjacente usar uma ação de ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Deslocamento</em> você pode realizar um ataque simples contra ele.</p><p style=\"text-align: justify\">* Sempre que um aliado adjacente atacar um inimigo adjacente você também pode realizar um ataque simples contra este mesmo inimigo.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

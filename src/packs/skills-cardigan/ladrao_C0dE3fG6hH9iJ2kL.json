@@ -1,0 +1,61 @@
+{
+  "_id": "C0dE3fG6hH9iJ2kL",
+  "_key": "!items!C0dE3fG6hH9iJ2kL",
+  "name": "Ladrão",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "postura",
+      "simples"
+    ],
+    "skillClass": "ladino",
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\">Pode usar esta habilidade uma segunda vez em um mesmo alvo.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\">Com um <em>Acerto Crítico</em> sempre receberá <strong>Moedas</strong> adicionalmente.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\">Com um <em>Acerto Crítico</em> recebe <em>Vantagem</em> na rolagem da tabela de itens.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Se roubar os outros fosse uma qualidade, você seria talentoso pra caramba.\"</em></p><p><p style=\"text-align: justify\">* Com esta postura você recebe <em>Vantagem</em> em testes de <em>Furtividade</em> da ação <strong>Furtar</strong>.</p><p></p><p style=\"text-align: justify\"><strong>::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp::Mão Leve ‣</strong> Ao tentar <em>Furtar</em> um alvo com <em>inventário</em> que tenha tocado ou atacado, pode optar por gerar um item aleatório desta lista ao rolar <strong><code>1d6</code></strong> para determiná-lo:</p><blockquote><ul><li><p style=\"text-align: justify\"><strong><code>1</code> ⬩ Gazua ⬩</strong></p></li><li><p style=\"text-align: justify\"><strong><code>2</code> ⬩ Moedas ⬩</strong></p></li><li><p style=\"text-align: justify\"><strong><code>3</code> ⬩ Bomba de Fumaça ⬩ 💣</strong></p></li><li><p style=\"text-align: justify\"><strong><code>4</code> ⬩ Veneno Ardente ⬩ ::systems/cardigan/assets/images/outros/tonico_alquimico.webp::</strong></p></li><li><p style=\"text-align: justify\"><strong><code>5</code> ⬩ Tônico Revigorante ⬩ ::systems/cardigan/assets/images/outros/tonico_revigorante.webp::</strong></p></li><li><p style=\"text-align: justify\"><strong><code>6</code> ⬩ Tônico Milagroso ⬩ ::systems/cardigan/assets/images/outros/tonico_milagroso.webp::</strong></p></li></ul></blockquote><p></p><p style=\"text-align: justify\">* <em>Mão Leve</em> só pode ser usado uma vez por alvo, não funciona em personagens de jogadores e não recebe o bônus de Vantagem. Alternativamente você pode usar este teste para esconder um objeto no inventário do alvo.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

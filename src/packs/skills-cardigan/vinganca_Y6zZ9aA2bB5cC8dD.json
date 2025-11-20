@@ -1,0 +1,60 @@
+{
+  "_id": "Y6zZ9aA2bB5cC8dD",
+  "_key": "!items!Y6zZ9aA2bB5cC8dD",
+  "name": "Vingança",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "reacao"
+    ],
+    "skillClass": "ladino",
+    "hasEnergyCost": true,
+    "energyCost": 5,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\">Remove o custo de <code>⚡Energia</code>.</p>",
+        "hasEnergy": true,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\">Possibilita usar habilidades de ataque para contra-atacar.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\">Antes de realizar o contra-ataque você pode utilizar um ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Deslocamento</em> em direção ao alvo dessa habilidade.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Olho por olho, certo?\"</em></p><p><p style=\"text-align: justify\">* Quando for alvo de um ataque você pode contra-atacar após o encerramento do turno inimigo.</p><p style=\"text-align: justify\">* Você não pode contra-atacar com habilidades, apenas ataques simples.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

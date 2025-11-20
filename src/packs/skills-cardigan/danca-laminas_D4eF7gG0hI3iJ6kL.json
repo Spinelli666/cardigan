@@ -1,0 +1,66 @@
+{
+  "_id": "D4eF7gG0hI3iJ6kL",
+  "_key": "!items!D4eF7gG0hI3iJ6kL",
+  "name": "Dança das Lâminas",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "active"
+    ],
+    "skillClass": "ladino",
+    "hasEnergyCost": true,
+    "energyCost": 15,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\">Remove o limite de apenas quatro adagas em um mesmo alvo.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\">Pode recuperar <em>duas</em> adagas com uma mesma ::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp::<strong>Ação Simples</strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\">Suas Adagas possuem a <em>Propriedade Ferir</em>, aplicando <strong><code>🩸@UUID[Compendium.cardigan.efeitos-cardigan.Item.Z2aA3bB4cCd5eE6F]{Sangramento}</code></strong> em um <em>Acerto Crítico</em>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+            {
+                "id": "Z2aA3bB4cCd5eE6F",
+                "name": "Sangramento",
+                "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+            }
+        ]
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Você gira lançando um leque de facas para todos os lados.\"</em></p><p><p style=\"text-align: justify\">* Com uma única ação você arremessa todas as <strong>Adagas</strong> que tenha acumulado em seu inventário ao mesmo tempo, realizando um ataque de <em>Arremesso</em> em cada inimigo no alcance.</p><p></p><p>* Você pode selecionar múltiplos alvos e arremessar até <strong>quatro Adagas</strong> em cada um.</p><p></p><p style=\"text-align: justify\">* Pode recuperar todas as Adagas de um cadáver com uma única ::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp::<strong>Ação Simples</strong>, ou apenas uma Adaga por vez caso o alvo ainda esteja vivo.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

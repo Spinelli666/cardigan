@@ -92,7 +92,7 @@ export class CardiganSystemItem extends Item {
     let description = '';
     if (this.system?.description) {
       // Enrich the description using TextEditor.enrichHTML
-      description = await TextEditor.enrichHTML(this.system.description, {
+      description = await foundry.applications.ux.TextEditor.enrichHTML(this.system.description, {
         secrets: this.isOwner,
         relativeTo: this,
         ...enrichmentOptions

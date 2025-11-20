@@ -1,0 +1,72 @@
+{
+  "_id": "P3qR6sT9uV2wX5yZ",
+  "_key": "!items!P3qR6sT9uV2wX5yZ",
+  "name": "Desaparecer",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "simples"
+    ],
+    "skillClass": "ladino",
+    "hasEnergyCost": true,
+    "energyCost": 10,
+    "hasCustomEffects": true,
+    "customEffects": [
+       {
+        "id": "P2qR4sT5uV6wX7yZ",
+        "name": "Infravisão",
+        "img": "systems/cardigan/assets/images/effects/effects_positive.svg"
+      }       
+    ],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\">Os ataques furtivos possuem <em>Vantagem Aprimorada</em>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\">Estende a duração do efeito por mais uma rodada.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\">Inimigos dentro da área de fumaça recebem <strong><code></code>💨@UUID[Compendium.cardigan.efeitos-cardigan.Item.Pq2pQ3qR4rS5sT6t]{Enfraquecido}</strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+            {
+                "id": "Pq2pQ3qR4rS5sT6t",
+                "name": "Enfraquecido",
+                "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+            }
+        ]
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Popularmente utilizado para saídas dramáticas. Seja criativo.\"</em><p style=\"text-align: justify\">* Ao usar uma <strong>Bomba de Fumaça</strong> - um item que aplica <strong><code>👁️@UUID[Compendium.cardigan.efeitos-cardigan.Item.pP3qQ4rR5sS6tT7u]{Cego}</code></strong> por <strong>2 Rodadas</strong>, adquirível com a habilidade ::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp::<strong>Mão Leve</strong> de <strong>Ladrão</strong> - você agora propaga fumaça pelo dobro da área de Bomba <code>(14x14m)</code>.</p><p style=\"text-align: justify\">* Gastar esta habilidade ao arremessar a bomba garante à você e seus aliados o efeito <strong><code>👁️‍🗨️@UUID[Compendium.cardigan.efeitos-cardigan.Item.P2qR4sT5uV6wX7yZ]{Infravisão}</code></strong>, permitindo enxergar através da nuvem de fumaça, o que garante <em>Vantagem</em> em <em>Precisão</em> contra inimigos afetados sem quebrar o efeito <strong>Furtivo</strong>.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

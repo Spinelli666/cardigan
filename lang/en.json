@@ -265,7 +265,8 @@
           "Passiva": "Passiva",
           "Simples": "Simples",
           "Reacao": "Reação",
-          "Postura": "Postura"
+          "Postura": "Postura",
+          "Iniciativa": "Iniciativa"
         },
         "Class": "Skill Class",
         "Classes": {

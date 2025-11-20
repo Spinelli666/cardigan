@@ -1,0 +1,66 @@
+{
+  "_id": "R2sT5uV8wX1yZ4zZ",
+  "_key": "!items!R2sT5uV8wX1yZ4zZ",
+  "name": "Emboscar",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "iniciativa"
+    ],
+    "skillClass": "ladino",
+    "hasEnergyCost": true,
+    "energyCost": 20,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\">Habilidades não possuem custo de <code>⚡Energia</code> durante a primeira rodada.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\">Recebe <em>Vantagem Aprimorada</em>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\">Acertar um inimigo durante <em>Emboscar</em> também aplica <strong><code>❗️@UUID[Compendium.cardigan.efeitos-cardigan.Item.G1hI2jK3lM4nO5pQ]{Intimidado}³</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+            {
+                "id": "G1hI2jK3lM4nO5pQ",
+                "name": "Intimidado",
+                "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+            }
+        ]
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Ninguém arma uma cilada como você.\"</em><p style=\"text-align: justify\">* Ao usar essa habilidade antes de iniciar um combate ou durante o turno de <em>Iniciativa</em> você e todos seus aliados recebem <strong>duas rodadas</strong> de ação antes dos inimigos emboscados poderem realizar seus turnos.</p><p style=\"text-align: justify\">* Durante a primeira rodada você e seus aliados possuem <strong>Vantagem</strong> em todo teste de ataque e <strong><code>🪽@UUID[Compendium.cardigan.efeitos-cardigan.Item.L2mN4oPqR3sT5uVw]{Veloz}</code></strong> em seu ::systems/cardigan/assets/images/outros/deslocamento.webp::<strong>Deslocamento</strong>.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

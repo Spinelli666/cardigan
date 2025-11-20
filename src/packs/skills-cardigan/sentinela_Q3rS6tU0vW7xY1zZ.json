@@ -25,7 +25,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Pode focar em mais um alvo adicional</p>",
+        "description": "<p style=\"text-align: justify\">Pode focar em mais um alvo adicional.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

@@ -41,7 +41,8 @@ CARDIGAN.skillTypes = {
   passiva: 'CARDIGAN.Item.Skill.Types.Passiva',
   simples: 'CARDIGAN.Item.Skill.Types.Simples',
   reacao: 'CARDIGAN.Item.Skill.Types.Reacao',
-  postura: 'CARDIGAN.Item.Skill.Types.Postura'
+  postura: 'CARDIGAN.Item.Skill.Types.Postura',
+  iniciativa: 'CARDIGAN.Item.Skill.Types.Iniciativa'
 };
 
 /**
