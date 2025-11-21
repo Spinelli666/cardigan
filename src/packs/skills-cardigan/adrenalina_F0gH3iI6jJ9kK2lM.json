@@ -16,7 +16,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">Sempre que derrotar um inimigo recebe uma ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Ação de Deslocamento</em></p>",
+        "description": "<p style=\"text-align: justify;\">Sempre que derrotar um inimigo recebe uma ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Ação de Deslocamento</em></p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

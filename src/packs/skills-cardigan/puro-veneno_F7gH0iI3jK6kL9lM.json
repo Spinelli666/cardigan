@@ -44,7 +44,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Então você não liga de jogar sujo?\"</em><p style=\"text-align: justify\">* Inimigos não podem testar <em>Vigor</em> para resistir aos efeitos de seus venenos.</p><p style=\"text-align: justify\">* ::systems/cardigan/assets/images/outros/tonico_alquimico.webp::<strong>Veneno Ardente</strong> agora causa <code>20🐍</code> de dano Venenoso instantaneamente.</strong></p><p style=\"text-align: justify\">* Ao usar a habilidade <strong>Desaparecer</strong>, pode gastar uma dose de qualquer tipo de Veneno que possua para criar uma nuvem venenosa que aplicará o efeito em área.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Então você não liga de jogar sujo?\"</em><p style=\"text-align: justify\">* Inimigos não podem testar <em>Vigor</em> para resistir aos efeitos de seus venenos.</p><p style=\"text-align: justify\">* ::systems/cardigan/assets/images/alquimia/tonico_alquimico.webp::<strong>Veneno Ardente</strong> agora causa <code>20🐍</code> de dano Venenoso instantaneamente.</strong></p><p style=\"text-align: justify\">* Ao usar a habilidade <strong>Desaparecer</strong>, pode gastar uma dose de qualquer tipo de Veneno que possua para criar uma nuvem venenosa que aplicará o efeito em área.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

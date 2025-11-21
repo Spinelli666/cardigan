@@ -50,7 +50,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Ninguém arma uma cilada como você.\"</em><p style=\"text-align: justify\">* Ao usar essa habilidade antes de iniciar um combate ou durante o turno de <em>Iniciativa</em> você e todos seus aliados recebem <strong>duas rodadas</strong> de ação antes dos inimigos emboscados poderem realizar seus turnos.</p><p style=\"text-align: justify\">* Durante a primeira rodada você e seus aliados possuem <strong>Vantagem</strong> em todo teste de ataque e <strong><code>🪽@UUID[Compendium.cardigan.efeitos-cardigan.Item.L2mN4oPqR3sT5uVw]{Veloz}</code></strong> em seu ::systems/cardigan/assets/images/outros/deslocamento.webp::<strong>Deslocamento</strong>.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Ninguém arma uma cilada como você.\"</em><p style=\"text-align: justify\">* Ao usar essa habilidade antes de iniciar um combate ou durante o turno de <em>Iniciativa</em> você e todos seus aliados recebem <strong>duas rodadas</strong> de ação antes dos inimigos emboscados poderem realizar seus turnos.</p><p style=\"text-align: justify\">* Durante a primeira rodada você e seus aliados possuem <strong>Vantagem</strong> em todo teste de ataque e <strong><code>🪽@UUID[Compendium.cardigan.efeitos-cardigan.Item.L2mN4oPqR3sT5uVw]{Veloz}</code></strong> em seu ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<strong>Deslocamento</strong>.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

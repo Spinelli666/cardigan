@@ -16,7 +16,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">O ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Deslocamento</em> possui a técnica <em>Correr</em>.</p>",
+        "description": "<p style=\"text-align: justify\">O ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Deslocamento</em> possui a técnica <em>Correr</em>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -32,7 +32,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Ao terminar o ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Deslocamento</em> você recebe uma ::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp::<em>Ação Ativa</em>.</p>",
+        "description": "<p style=\"text-align: justify\">Ao terminar o ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Deslocamento</em> você recebe uma ::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp::<em>Ação Ativa</em>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -44,7 +44,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Eles não podem te matar se não podem te pegar.\"</em><p style=\"text-align: justify\">* Ao ser alvo de um ataque pode redirecioná-lo para um aliado ou inimigo adjacente realizar a <strong>Evasão</strong> por você.</p><p style=\"text-align: justify\">* Na ausência de um alvo próximo você recebe um turno de ::systems/cardigan/assets/images/outros/deslocamento.webp::<strong>Deslocamento</strong> adicional que ocorre antes do ataque inimigo.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Eles não podem te matar se não podem te pegar.\"</em><p style=\"text-align: justify\">* Ao ser alvo de um ataque pode redirecioná-lo para um aliado ou inimigo adjacente realizar a <strong>Evasão</strong> por você.</p><p style=\"text-align: justify\">* Na ausência de um alvo próximo você recebe um turno de ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<strong>Deslocamento</strong> adicional que ocorre antes do ataque inimigo.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

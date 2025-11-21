@@ -32,7 +32,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Antes de realizar o contra-ataque você pode utilizar um ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Deslocamento</em> em direção ao alvo dessa habilidade.</p>",
+        "description": "<p style=\"text-align: justify\">Antes de realizar o contra-ataque você pode utilizar um ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Deslocamento</em> em direção ao alvo dessa habilidade.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

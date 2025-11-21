@@ -16,7 +16,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">Você pode usar sua Ação de ::systems/cardigan/assets/images/outros/deslocamento.webp::<em>Deslocamento</em> para <em>Ordenar</em> o Companheiro.</p>",
+        "description": "<p style=\"text-align: justify;\">Você pode usar sua Ação de ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Deslocamento</em> para <em>Ordenar</em> o Companheiro.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
