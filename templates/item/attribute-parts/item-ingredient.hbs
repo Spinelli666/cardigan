@@ -5,7 +5,6 @@
   data-tab='attributes'
 >
   <div class="item-ingredient-header">
-    <h3><i class="fas fa-seedling"></i> {{localize "CARDIGAN.ItemIngredient.Title"}}</h3>
     <p class="item-subtitle">{{localize "CARDIGAN.ItemIngredient.Subtitle"}}</p>
   </div>
 
@@ -18,9 +17,8 @@
     </div>
 
     <div class="form-group">
-      <label>{{localize "CARDIGAN.Common.Weight"}}</label>
+      <label>{{localize "CARDIGAN.Weight"}}</label>
       <select name="system.weight">
-        <option value="leve" {{selected system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
         <option value="leve" {{selected system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
         <option value="medio" {{selected system.weight "medio"}}>{{localize "CARDIGAN.WeightMedium"}}</option>
         <option value="pesado" {{selected system.weight "pesado"}}>{{localize "CARDIGAN.WeightHeavy"}}</option>

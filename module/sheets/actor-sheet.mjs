@@ -505,12 +505,22 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Apply profession filter
     if (this.professionFilter && this.professionFilter !== 'all') {
       sortedBackpack = sortedBackpack.filter(item => {
-        // Only filter items that have a profession field (ingredients)
-        if (item.type === 'item-ingredient' && item.system.profession) {
+        // Only filter items that have a profession field (ingredients, consumables, common items)
+        if (item.system.profession) {
           return item.system.profession === this.professionFilter;
         }
-        // Non-ingredient items always pass through
-        return true;
+        // Items without profession field (weapons, armor, etc) don't show in profession-specific filters
+        return false;
+      });
+    } else if (this.professionFilter === 'all') {
+      // "All Items" shows only items without profession field OR with profession set to "general"
+      sortedBackpack = sortedBackpack.filter(item => {
+        // Items without profession field always show (weapons, armor, ammunition, etc)
+        if (!item.system.profession) {
+          return true;
+        }
+        // Items with profession field only show if set to "general"
+        return item.system.profession === 'general';
       });
     }
     

@@ -504,6 +504,7 @@
     "AmmunitionRemaining": "remaining",
     "IsFirearm": "Is Firearm?",
 
+    "Weight": "Weight",
     "WeightLight": "Light",
     "WeightMedium": "Medium", 
     "WeightHeavy": "Heavy",
@@ -907,7 +908,6 @@
       "Tip": "Check your inventory for ingredients with similar names, or acquire the missing materials before crafting."
     },
     "ItemIngredient": {
-      "Title": "Ingredient",
       "Subtitle": "Crafting materials, herbs, and components",
       "Type": "Ingredient Type",
       "Freshness": "Freshness",
