@@ -27,6 +27,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Track expanded sections for items (similar to D&D5e)
     this.expandedSections = new Map();
+    
+    // Track profession filter state
+    this.professionFilter = 'all';
   }
 
   /** @override */
@@ -71,6 +74,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       consumeItem: this._onConsumeItem,
       cookRecipe: this._onCookRecipe,
       craftFromRecipe: this._onCraftFromRecipe,
+      filterProfession: this._onFilterProfession,
       // Removemos as ações do modal para implementar via event listeners diretos
     },
     // Custom property that's merged into `this.options`
@@ -151,6 +155,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
     // Offloading context prep to a helper function
     this._prepareItems(context);
+    
+    // Add profession filter state to context
+    context.professionFilter = this.professionFilter || 'all';
 
     return context;
   }
@@ -493,7 +500,21 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     };
 
     // Sort then assign
-    context.backpack = backpack.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    let sortedBackpack = backpack.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    
+    // Apply profession filter
+    if (this.professionFilter && this.professionFilter !== 'all') {
+      sortedBackpack = sortedBackpack.filter(item => {
+        // Only filter items that have a profession field (ingredients)
+        if (item.type === 'item-ingredient' && item.system.profession) {
+          return item.system.profession === this.professionFilter;
+        }
+        // Non-ingredient items always pass through
+        return true;
+      });
+    }
+    
+    context.backpack = sortedBackpack;
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.efeitos = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.recipes = recipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
@@ -7263,6 +7284,24 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       console.error("[CRAFTING] Error crafting from recipe:", error);
       ui.notifications.error(game.i18n.localize("CARDIGAN.Crafting.CraftingError"));
     }
+  }
+
+  /**
+   * Handle profession filter change
+   * @param {Event} event - The triggering event
+   * @param {HTMLElement} target - The target element
+   */
+  static _onFilterProfession(event, target) {
+    event.preventDefault();
+    const profession = target.value;
+    
+    console.log("[FILTER] Changing profession filter to:", profession);
+    
+    // Update the filter state
+    this.professionFilter = profession;
+    
+    // Re-render to apply the filter
+    this.render();
   }
 
   /**

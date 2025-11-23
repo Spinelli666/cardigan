@@ -86,9 +86,7 @@ export default class CardiganSystemItemIngredient extends CardiganSystemItemBase
         "carpentry": "CARDIGAN.ItemIngredient.Professions.Carpentry",
         "culinary": "CARDIGAN.ItemIngredient.Professions.Culinary",
         "tailoring": "CARDIGAN.ItemIngredient.Professions.Tailoring",
-        "tecnomagic": "CARDIGAN.ItemIngredient.Professions.Tecnomagic",
-        "enchanting": "CARDIGAN.ItemIngredient.Professions.Enchanting",
-        "herbalism": "CARDIGAN.ItemIngredient.Professions.Herbalism"
+        "tecnomagic": "CARDIGAN.ItemIngredient.Professions.Tecnomagic"
       }
     });
 
