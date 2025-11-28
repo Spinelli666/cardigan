@@ -26,6 +26,7 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
     actions: {
       save: SkillEnhancementConfigDialog.#onSave,
       configureEnhancementEffects: SkillEnhancementConfigDialog.#onConfigureEffects,
+      configureEnhancementLinkedSkills: SkillEnhancementConfigDialog.#onConfigureLinkedSkills,
     },
   };
 
@@ -58,6 +59,8 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
       energyCost: this.enhancementData.energyCost || 0,
       hasEffects: this.enhancementData.hasEffects || false,
       customEffects: this.enhancementData.customEffects || [],
+      hasLinkedSkills: this.enhancementData.hasLinkedSkills || false,
+      linkedSkills: this.enhancementData.linkedSkills || [],
     };
 
     // Enrich the description for display (like biography system)
@@ -119,6 +122,20 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
       // Toggle on change
       effectsCheckbox.addEventListener('change', (e) => {
         effectsConfig.style.display = e.target.checked ? 'block' : 'none';
+      });
+    }
+
+    // Add event listener to toggle linked skills config visibility
+    const linkedSkillsCheckbox = this.element.querySelector('input[name="hasLinkedSkills"]');
+    const linkedSkillsConfig = this.element.querySelector('.linked-skills-config');
+    
+    if (linkedSkillsCheckbox && linkedSkillsConfig) {
+      // Set initial visibility
+      linkedSkillsConfig.style.display = linkedSkillsCheckbox.checked ? 'block' : 'none';
+      
+      // Toggle on change
+      linkedSkillsCheckbox.addEventListener('change', (e) => {
+        linkedSkillsConfig.style.display = e.target.checked ? 'block' : 'none';
       });
     }
 
@@ -225,6 +242,99 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
   }
 
   /**
+   * Handle configuring linked skills for this enhancement
+   */
+  static async #onConfigureLinkedSkills(event, target) {
+    event.preventDefault();
+
+    try {
+      // Import the linked skills dialog
+      const { SkillLinkedSkillsDialog } = await import('./skill-linked-skills-dialog.mjs');
+      
+      // Open the linked skills selection dialog
+      const dialog = new SkillLinkedSkillsDialog({
+        item: this.skill,
+        selectedSkills: this.enhancementData.linkedSkills || [],
+        onConfirm: async (selectedSkills) => {
+          // Update the enhancement data with selected skills
+          this.enhancementData.linkedSkills = selectedSkills;
+          
+          // Update the display without full re-render
+          this._updateLinkedSkillsDisplay(selectedSkills);
+          
+          ui.notifications.info(`${selectedSkills.length} skill(s) vinculada(s) selecionada(s)`);
+        }
+      });
+      
+      dialog.render(true);
+    } catch (error) {
+      console.error('[CARDIGAN ERROR] Error opening linked skills dialog:', error);
+      ui.notifications.error(`Erro ao abrir dialog de skills vinculadas: ${error.message}`);
+    }
+  }
+
+  /**
+   * Update the linked skills display without full re-render
+   * @param {Array} selectedSkills - The newly selected skills
+   * @private
+   */
+  _updateLinkedSkillsDisplay(selectedSkills) {
+    const container = this.element.querySelector('.linked-skills-config');
+    if (!container) return;
+
+    // Remove old display sections
+    const oldSelected = container.querySelector('.selected-skills');
+    const oldNoSkills = container.querySelector('.no-skills');
+    if (oldSelected) oldSelected.remove();
+    if (oldNoSkills) oldNoSkills.remove();
+
+    // Create new display
+    if (selectedSkills && selectedSkills.length > 0) {
+      const selectedDiv = document.createElement('div');
+      selectedDiv.className = 'selected-skills';
+      
+      const title = document.createElement('h4');
+      title.textContent = game.i18n.localize('CARDIGAN.Item.Skill.LinkedSkills');
+      selectedDiv.appendChild(title);
+      
+      const skillsList = document.createElement('div');
+      skillsList.className = 'skills-list';
+      
+      selectedSkills.forEach(skill => {
+        const skillItem = document.createElement('div');
+        skillItem.className = 'skill-item';
+        
+        if (skill.img) {
+          const img = document.createElement('img');
+          img.src = skill.img;
+          img.alt = skill.name;
+          img.width = 24;
+          img.height = 24;
+          skillItem.appendChild(img);
+        }
+        
+        const span = document.createElement('span');
+        span.textContent = skill.name;
+        skillItem.appendChild(span);
+        
+        skillsList.appendChild(skillItem);
+      });
+      
+      selectedDiv.appendChild(skillsList);
+      container.appendChild(selectedDiv);
+    } else {
+      const noSkillsDiv = document.createElement('div');
+      noSkillsDiv.className = 'no-skills';
+      
+      const em = document.createElement('em');
+      em.textContent = game.i18n.localize('CARDIGAN.Item.Skill.NoSkillsSelected');
+      noSkillsDiv.appendChild(em);
+      
+      container.appendChild(noSkillsDiv);
+    }
+  }
+
+  /**
    * Handle applying the changes (save and close)
    */
   static async #onSave(event, target) {
@@ -258,6 +368,8 @@ export default class SkillEnhancementConfigDialog extends foundry.applications.a
       energyCost: data.hasEnergy ? (parseInt(data.energyCost) || 0) : 0,
       hasEffects: data.hasEffects || false,
       customEffects: this.enhancementData.customEffects || [],
+      hasLinkedSkills: data.hasLinkedSkills || false,
+      linkedSkills: this.enhancementData.linkedSkills || [],
     };
 
     // Update the skill item

@@ -8,6 +8,7 @@ export class SkillLinkedSkillsDialog extends foundry.applications.api.Handlebars
     this.item = options.item;
     this.skills = [];
     this.selectedSkills = options.selectedSkills || [];
+    this.onConfirmCallback = options.onConfirm || null; // Custom callback
   }
 
   static DEFAULT_OPTIONS = {
@@ -139,10 +140,15 @@ export class SkillLinkedSkillsDialog extends foundry.applications.api.Handlebars
 
       console.log('[CARDIGAN DEBUG] Total selected skills:', selectedSkills.length, selectedSkills);
 
-      // Update the item with selected skills
-      await this.item.update({
-        'system.linkedSkills': selectedSkills
-      });
+      // Use custom callback if provided, otherwise update item directly
+      if (this.onConfirmCallback) {
+        await this.onConfirmCallback(selectedSkills);
+      } else {
+        // Default behavior: Update the item with selected skills
+        await this.item.update({
+          'system.linkedSkills': selectedSkills
+        });
+      }
 
       ui.notifications.info(`${selectedSkills.length} skill(s) vinculada(s) selecionada(s)`);
       this.close();

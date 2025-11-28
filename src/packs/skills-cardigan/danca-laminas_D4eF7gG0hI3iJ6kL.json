@@ -20,7 +20,9 @@
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
-        "customEffects": []
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
       },
       {
         "name": "Aprimoramento 2",
@@ -28,7 +30,9 @@
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
-        "customEffects": []
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
       },
       {
         "name": "Aprimoramento 3",
@@ -37,12 +41,14 @@
         "energyCost": 0,
         "hasEffects": true,
         "customEffects": [
-            {
-                "id": "Z2aA3bB4cCd5eE6F",
-                "name": "Sangramento",
-                "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
-            }
-        ]
+          {
+            "id": "Z2aA3bB4cCd5eE6F",
+            "name": "Sangramento",
+            "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+          }
+        ],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
       }
     ],
     "acquiredEnhancements": [

@@ -13,11 +13,11 @@
     "energyCost": 10,
     "hasCustomEffects": true,
     "customEffects": [
-       {
+      {
         "id": "P2qR4sT5uV6wX7yZ",
         "name": "Infravisão",
         "img": "systems/cardigan/assets/images/effects/effects_positive.svg"
-      }       
+      }
     ],
     "enhancements": [
       {
@@ -26,7 +26,9 @@
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
-        "customEffects": []
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
       },
       {
         "name": "Aprimoramento 2",
@@ -34,7 +36,9 @@
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
-        "customEffects": []
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
       },
       {
         "name": "Aprimoramento 3",
@@ -43,12 +47,14 @@
         "energyCost": 0,
         "hasEffects": true,
         "customEffects": [
-            {
-                "id": "Pq2pQ3qR4rS5sT6t",
-                "name": "Enfraquecido",
-                "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
-            }
-        ]
+          {
+            "id": "Pq2pQ3qR4rS5sT6t",
+            "name": "Enfraquecido",
+            "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+          }
+        ],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
       }
     ],
     "acquiredEnhancements": [

@@ -9048,42 +9048,62 @@
 
 /* Enhancement Configuration Dialog Styles */
 .enhancement-config-dialog {
+  padding: 0;
+}
+.enhancement-config-dialog form {
   padding: 20px;
 }
 .enhancement-config-dialog .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
-.enhancement-config-dialog .form-group label {
+.enhancement-config-dialog .form-group label:not(.checkbox) {
   display: block;
-  font-weight: bold;
-  margin-bottom: 8px;
+  font-weight: 600;
+  margin-bottom: 10px;
   color: var(--color-text-dark-primary);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 .enhancement-config-dialog .form-group input[type=text] {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid var(--color-border-light-tertiary);
+  padding: 10px 14px;
+  border: 1px solid #d0d0d0;
   border-radius: 4px;
   font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 .enhancement-config-dialog .form-group input[type=text]:focus {
   outline: none;
-  border-color: var(--color-border-highlight);
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+.enhancement-config-dialog .form-group.description-group label {
+  margin-bottom: 8px;
 }
 .enhancement-config-dialog .form-group.description-group prose-mirror {
   min-height: 200px;
-  border: 1px solid var(--color-border-light-tertiary);
-  border-radius: 4px;
-  background: white;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.enhancement-config-dialog .form-group.description-group prose-mirror:focus-within {
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 .enhancement-config-dialog .form-group.description-group prose-mirror .ProseMirror {
-  padding: 12px;
-  min-height: 180px;
+  padding: 14px;
+  min-height: 186px;
+  background: transparent;
+}
+.enhancement-config-dialog .form-group.description-group prose-mirror .ProseMirror:focus {
+  outline: none;
 }
 .enhancement-config-dialog .form-group.description-group prose-mirror .ProseMirror img {
   max-width: 100% !important;
-  height: 10em !important;
+  height: 5em !important;
   width: auto !important;
   vertical-align: middle !important;
   display: inline !important;
@@ -9092,85 +9112,231 @@
 }
 .enhancement-config-dialog .form-group.description-group prose-mirror .ProseMirror p {
   display: inline !important;
+  margin: 0 !important;
 }
 .enhancement-config-dialog .form-group.description-group prose-mirror .ProseMirror p img {
   display: inline !important;
 }
-.enhancement-config-dialog .form-group.energy-group {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid var(--color-border-light-tertiary);
+.enhancement-config-dialog .form-group.energy-group, .enhancement-config-dialog .form-group.effects-group, .enhancement-config-dialog .form-group.linked-skills-group {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 2px solid #e0e0e0;
 }
-.enhancement-config-dialog .form-group.energy-group label.checkbox {
+.enhancement-config-dialog .form-group.energy-group label.checkbox, .enhancement-config-dialog .form-group.effects-group label.checkbox, .enhancement-config-dialog .form-group.linked-skills-group label.checkbox {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   cursor: pointer;
   font-weight: normal;
   margin-bottom: 0;
+  padding: 12px;
+  background: rgba(76, 175, 80, 0.05);
+  border-radius: 6px;
+  transition: background-color 0.2s;
 }
-.enhancement-config-dialog .form-group.energy-group label.checkbox input[type=checkbox] {
-  width: 18px;
-  height: 18px;
+.enhancement-config-dialog .form-group.energy-group label.checkbox:hover, .enhancement-config-dialog .form-group.effects-group label.checkbox:hover, .enhancement-config-dialog .form-group.linked-skills-group label.checkbox:hover {
+  background: rgba(76, 175, 80, 0.1);
+}
+.enhancement-config-dialog .form-group.energy-group label.checkbox input[type=checkbox], .enhancement-config-dialog .form-group.effects-group label.checkbox input[type=checkbox], .enhancement-config-dialog .form-group.linked-skills-group label.checkbox input[type=checkbox] {
+  width: 20px;
+  height: 20px;
   cursor: pointer;
+  accent-color: #4CAF50;
 }
-.enhancement-config-dialog .form-group.energy-group label.checkbox span {
+.enhancement-config-dialog .form-group.energy-group label.checkbox span, .enhancement-config-dialog .form-group.effects-group label.checkbox span, .enhancement-config-dialog .form-group.linked-skills-group label.checkbox span {
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
+  color: var(--color-text-dark-primary);
 }
 .enhancement-config-dialog .form-group.energy-group .energy-cost-input {
-  margin-top: 15px;
-  padding: 15px;
-  background: var(--color-bg-light);
-  border: 1px solid var(--color-border-light-tertiary);
-  border-radius: 4px;
+  margin-top: 16px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  border-left: 4px solid #4CAF50;
 }
 .enhancement-config-dialog .form-group.energy-group .energy-cost-input label {
   display: block;
   font-weight: 600;
-  margin-bottom: 8px;
-  font-size: 14px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  text-transform: none;
+  letter-spacing: normal;
 }
 .enhancement-config-dialog .form-group.energy-group .energy-cost-input input[type=number] {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid var(--color-border-light-tertiary);
+  padding: 10px 14px;
+  border: 1px solid #d0d0d0;
   border-radius: 4px;
   font-size: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 .enhancement-config-dialog .form-group.energy-group .energy-cost-input input[type=number]:focus {
   outline: none;
-  border-color: var(--color-border-highlight);
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 .enhancement-config-dialog .form-group.energy-group .energy-cost-input .hint {
   margin-top: 8px;
   font-size: 12px;
-  color: var(--color-text-light-secondary);
+  color: #666;
   font-style: italic;
-  line-height: 1.4;
+  line-height: 1.5;
 }
-.enhancement-config-dialog .form-group.effects-group {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid var(--color-border-light-tertiary);
+.enhancement-config-dialog .form-group.effects-group .effects-config {
+  margin-top: 16px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  border-left: 4px solid #2196F3;
 }
-.enhancement-config-dialog .form-group.effects-group label.checkbox {
+.enhancement-config-dialog .form-group.effects-group .effects-config .configure-effects-btn {
+  width: 100%;
+  padding: 10px 16px;
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  font-weight: normal;
-  margin-bottom: 0;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.2s, transform 0.1s;
 }
-.enhancement-config-dialog .form-group.effects-group label.checkbox input[type=checkbox] {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
+.enhancement-config-dialog .form-group.effects-group .effects-config .configure-effects-btn:hover {
+  background: #1976D2;
+  transform: translateY(-1px);
 }
-.enhancement-config-dialog .form-group.effects-group label.checkbox span {
+.enhancement-config-dialog .form-group.effects-group .effects-config .configure-effects-btn:active {
+  transform: translateY(0);
+}
+.enhancement-config-dialog .form-group.effects-group .effects-config .configure-effects-btn i {
+  font-size: 14px;
+}
+.enhancement-config-dialog .form-group.effects-group .effects-config .selected-effects,
+.enhancement-config-dialog .form-group.effects-group .effects-config .no-effects {
+  margin-top: 16px;
+}
+.enhancement-config-dialog .form-group.effects-group .effects-config .selected-effects h4 {
+  margin: 0 0 12px 0;
+  font-size: 13px;
   font-weight: 600;
-  font-size: 16px;
+  color: var(--color-text-dark-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.enhancement-config-dialog .form-group.effects-group .effects-config .selected-effects .effects-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.enhancement-config-dialog .form-group.effects-group .effects-config .selected-effects .effects-list .effect-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.enhancement-config-dialog .form-group.effects-group .effects-config .selected-effects .effects-list .effect-item img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 3px;
+}
+.enhancement-config-dialog .form-group.effects-group .effects-config .selected-effects .effects-list .effect-item span {
+  font-weight: 500;
+}
+.enhancement-config-dialog .form-group.effects-group .effects-config .no-effects {
+  text-align: center;
+  padding: 16px;
+  color: #999;
+  font-size: 13px;
+  font-style: italic;
+}
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config {
+  margin-top: 16px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  border-left: 4px solid #FF9800;
+}
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config .configure-linked-skills-btn {
+  width: 100%;
+  padding: 10px 16px;
+  background: #FF9800;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config .configure-linked-skills-btn:hover {
+  background: #F57C00;
+  transform: translateY(-1px);
+}
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config .configure-linked-skills-btn:active {
+  transform: translateY(0);
+}
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config .configure-linked-skills-btn i {
+  font-size: 14px;
+}
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config .selected-skills,
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config .no-skills {
+  margin-top: 16px;
+}
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config .selected-skills h4 {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-dark-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config .selected-skills .skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config .selected-skills .skills-list .skill-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config .selected-skills .skills-list .skill-item img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 3px;
+}
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config .selected-skills .skills-list .skill-item span {
+  font-weight: 500;
+}
+.enhancement-config-dialog .form-group.linked-skills-group .linked-skills-config .no-skills {
+  text-align: center;
+  padding: 16px;
+  color: #999;
+  font-size: 13px;
+  font-style: italic;
 }
 
 /* Dialog window styling */

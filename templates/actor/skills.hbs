@@ -187,7 +187,7 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless skill.system.isLinkedSkill}}
+                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
                   <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
                   <i class='fas fa-trash'></i>
                 </a>
@@ -285,7 +285,7 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless skill.system.isLinkedSkill}}
+                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
                   <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
                   <i class='fas fa-trash'></i>
                 </a>
@@ -383,7 +383,7 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless skill.system.isLinkedSkill}}
+                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
                   <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
                   <i class='fas fa-trash'></i>
                 </a>
@@ -481,7 +481,7 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless skill.system.isLinkedSkill}}
+                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
                   <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
                   <i class='fas fa-trash'></i>
                 </a>
@@ -579,7 +579,7 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless skill.system.isLinkedSkill}}
+                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
                   <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
                   <i class='fas fa-trash'></i>
                 </a>
@@ -677,7 +677,7 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless skill.system.isLinkedSkill}}
+                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
                   <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
                   <i class='fas fa-trash'></i>
                 </a>
@@ -760,7 +760,7 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless skill.system.isLinkedSkill}}
+                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
                   <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
                   <i class='fas fa-trash'></i>
                 </a>
@@ -839,7 +839,7 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless skill.system.isLinkedSkill}}
+                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
                   <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
                   <i class='fas fa-trash'></i>
                 </a>
@@ -918,7 +918,7 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless skill.system.isLinkedSkill}}
+                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
                   <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
                   <i class='fas fa-trash'></i>
                 </a>
@@ -997,7 +997,7 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless skill.system.isLinkedSkill}}
+                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
                   <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
                   <i class='fas fa-trash'></i>
                 </a>
@@ -1076,7 +1076,7 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless skill.system.isLinkedSkill}}
+                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
                   <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
                   <i class='fas fa-trash'></i>
                 </a>
@@ -1155,7 +1155,7 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless skill.system.isLinkedSkill}}
+                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
                   <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
                   <i class='fas fa-trash'></i>
                 </a>

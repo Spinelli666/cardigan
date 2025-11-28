@@ -6742,6 +6742,18 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           
           console.log(`[CARDIGAN] Updated skill ${item.name} enhancements:`, newEnhancements);
           
+          // Handle linked skills for this enhancement
+          const enhancement = item.system.enhancements?.[index];
+          if (enhancement && enhancement.hasLinkedSkills && enhancement.linkedSkills?.length > 0) {
+            if (isChecked) {
+              // Add linked skills
+              await this._addEnhancementLinkedSkills(item, index, enhancement.linkedSkills);
+            } else {
+              // Remove linked skills
+              await this._removeEnhancementLinkedSkills(item, index);
+            }
+          }
+          
           // Update expanded summary if it's currently open
           const itemContainer = this.element.querySelector(`[data-item-id="${itemId}"]`)?.closest('.item-row, .item');
           if (itemContainer && this.expandedSections?.get(itemId)) {
@@ -6760,6 +6772,83 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     });
     
     console.log(`[CARDIGAN] Enhancement checkbox listeners added (${checkboxes.length} checkboxes)`);
+  }
+
+  /**
+   * Add linked skills when an enhancement is acquired
+   * @param {Item} parentSkill - The parent skill item
+   * @param {number} enhancementIndex - Index of the enhancement (0, 1, or 2)
+   * @param {Array} linkedSkills - Array of linked skill data
+   * @private
+   */
+  async _addEnhancementLinkedSkills(parentSkill, enhancementIndex, linkedSkills) {
+    if (!linkedSkills || linkedSkills.length === 0) return;
+
+    console.log(`[CARDIGAN] Adding ${linkedSkills.length} linked skills for enhancement ${enhancementIndex} of ${parentSkill.name}`);
+
+    const skillsToAdd = [];
+    for (const linkedSkill of linkedSkills) {
+      try {
+        // Get the skill from compendium
+        const skillDoc = await fromUuid(linkedSkill.uuid);
+        if (!skillDoc) {
+          console.warn(`[CARDIGAN] Could not find skill with UUID: ${linkedSkill.uuid}`);
+          continue;
+        }
+
+        // Check if skill already exists in actor
+        const existingSkill = this.actor.items.find(i => 
+          i.type === 'skill' && i.name === skillDoc.name
+        );
+
+        if (existingSkill) {
+          console.log(`[CARDIGAN] Skill ${skillDoc.name} already exists, skipping`);
+          continue;
+        }
+
+        // Prepare skill data with enhancement linked flag
+        const skillData = skillDoc.toObject();
+        skillData.system.enhancementLinkedSkill = {
+          isEnhancementLinked: true,
+          parentSkillId: parentSkill.id,
+          parentSkillName: parentSkill.name,
+          enhancementIndex: enhancementIndex
+        };
+
+        skillsToAdd.push(skillData);
+      } catch (error) {
+        console.error(`[CARDIGAN] Error processing linked skill:`, error);
+      }
+    }
+
+    if (skillsToAdd.length > 0) {
+      await this.actor.createEmbeddedDocuments('Item', skillsToAdd);
+      ui.notifications.info(`${skillsToAdd.length} skill(s) vinculada(s) adicionada(s) pelo aprimoramento ${enhancementIndex + 1} de ${parentSkill.name}`);
+    }
+  }
+
+  /**
+   * Remove linked skills when an enhancement is unacquired
+   * @param {Item} parentSkill - The parent skill item
+   * @param {number} enhancementIndex - Index of the enhancement (0, 1, or 2)
+   * @private
+   */
+  async _removeEnhancementLinkedSkills(parentSkill, enhancementIndex) {
+    console.log(`[CARDIGAN] Removing linked skills for enhancement ${enhancementIndex} of ${parentSkill.name}`);
+
+    // Find all skills linked to this enhancement
+    const linkedSkills = this.actor.items.filter(item => 
+      item.type === 'skill' &&
+      item.system.enhancementLinkedSkill?.isEnhancementLinked === true &&
+      item.system.enhancementLinkedSkill?.parentSkillId === parentSkill.id &&
+      item.system.enhancementLinkedSkill?.enhancementIndex === enhancementIndex
+    );
+
+    if (linkedSkills.length > 0) {
+      const idsToDelete = linkedSkills.map(s => s.id);
+      await this.actor.deleteEmbeddedDocuments('Item', idsToDelete);
+      ui.notifications.info(`${linkedSkills.length} skill(s) vinculada(s) removida(s) do aprimoramento ${enhancementIndex + 1} de ${parentSkill.name}`);
+    }
   }
 
   /**

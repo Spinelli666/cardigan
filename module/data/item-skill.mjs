@@ -117,6 +117,17 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       label: 'CARDIGAN.Item.Skill.IsLinkedSkill'
     });
 
+    // Enhancement linked skill tracking
+    schema.enhancementLinkedSkill = new fields.SchemaField({
+      isEnhancementLinked: new fields.BooleanField({ required: false, initial: false }),
+      parentSkillId: new fields.StringField({ required: false, initial: '' }),
+      parentSkillName: new fields.StringField({ required: false, initial: '' }),
+      enhancementIndex: new fields.NumberField({ required: false, initial: -1, integer: true })
+    }, {
+      required: false,
+      initial: { isEnhancementLinked: false, parentSkillId: '', parentSkillName: '', enhancementIndex: -1 }
+    });
+
     // Enhancements system - array of 3 enhancements
     schema.enhancements = new fields.ArrayField(
       new fields.SchemaField({
@@ -132,12 +143,22 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
             img: new fields.StringField({ required: false, initial: '' })
           }),
           { initial: [] }
+        ),
+        hasLinkedSkills: new fields.BooleanField({ required: false, initial: false }),
+        linkedSkills: new fields.ArrayField(
+          new fields.SchemaField({
+            id: new fields.StringField({ required: false, initial: '' }),
+            name: new fields.StringField({ required: true }),
+            img: new fields.StringField({ required: false, initial: '' }),
+            uuid: new fields.StringField({ required: false, initial: '' })
+          }),
+          { initial: [] }
         )
       }),
       { initial: [
-        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false, customEffects: [] },
-        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false, customEffects: [] },
-        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false, customEffects: [] }
+        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false, customEffects: [], hasLinkedSkills: false, linkedSkills: [] },
+        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false, customEffects: [], hasLinkedSkills: false, linkedSkills: [] },
+        { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false, customEffects: [], hasLinkedSkills: false, linkedSkills: [] }
       ]}
     );
 

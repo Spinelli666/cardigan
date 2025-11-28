@@ -36,7 +36,9 @@
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
-        "customEffects": []
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
       },
       {
         "name": "Aprimoramento 2",
@@ -44,7 +46,9 @@
         "hasEnergy": true,
         "energyCost": 5,
         "hasEffects": false,
-        "customEffects": []
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
       },
       {
         "name": "Aprimoramento 3",
@@ -58,7 +62,9 @@
             "name": "Fratura",
             "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
           }
-        ]
+        ],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
       }
     ],
     "acquiredEnhancements": [

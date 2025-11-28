@@ -21,7 +21,9 @@
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
-        "customEffects": []
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
       },
       {
         "name": "Aprimoramento 2",
@@ -29,7 +31,9 @@
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
-        "customEffects": []
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
       },
       {
         "name": "Aprimoramento 3",
@@ -37,7 +41,9 @@
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
-        "customEffects": []
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
       }
     ],
     "acquiredEnhancements": [
