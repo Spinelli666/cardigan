@@ -1,5 +1,6 @@
 import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import SkillEnhancementConfigDialog from '../applications/skill-enhancement-config-dialog.mjs';
+import SkillLinkedSkillsDialog from '../applications/skill-linked-skills-dialog.mjs';
 
 const { api, sheets } = foundry.applications;
 
@@ -48,6 +49,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       changeIngredientImage: this._changeIngredientImage,
       ingredientNameChange: this._onIngredientNameChange,
       configureSkillEffects: this._configureSkillEffects,
+      configureLinkedSkills: this._configureLinkedSkills,
       configureEnhancement1: this._configureEnhancement1,
       configureEnhancement2: this._configureEnhancement2,
       configureEnhancement3: this._configureEnhancement3,
@@ -1019,6 +1021,33 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       dialog.render(true);
     } catch (error) {
       console.error('[CARDIGAN ERROR] Error in _configureSkillEffects:', error);
+      ui.notifications.error(`Erro ao abrir dialog: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle configuring linked skills
+   * @param {Event} event      The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   */
+  static async _configureLinkedSkills(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    
+    if (item.type !== 'skill') {
+      return;
+    }
+
+    try {
+      // Open the linked skills selection dialog
+      const dialog = new SkillLinkedSkillsDialog({
+        item: item,
+        selectedSkills: item.system.linkedSkills || []
+      });
+      
+      dialog.render(true);
+    } catch (error) {
+      console.error('[CARDIGAN ERROR] Error in _configureLinkedSkills:', error);
       ui.notifications.error(`Erro ao abrir dialog: ${error.message}`);
     }
   }

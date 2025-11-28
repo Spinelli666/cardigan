@@ -43,6 +43,131 @@ export class CardiganSystemItem extends Item {
       console.log(`[Item._onCreate] Applying custom effect for: ${this.name}`);
       await this._applyCustomEffect();
     }
+
+    // Add linked skills when a skill is added to an actor
+    if (this.type === 'skill' && this.actor) {
+      await this._addLinkedSkills();
+    }
+  }
+
+  /**
+   * Add linked skills to the actor when this skill is created
+   * @private
+   */
+  async _addLinkedSkills() {
+    // Check if this skill has linked skills enabled
+    if (!this.system.hasLinkedSkills || !this.system.linkedSkills || this.system.linkedSkills.length === 0) {
+      console.log(`[Item._addLinkedSkills] Skill ${this.name} has no linked skills`);
+      return;
+    }
+
+    console.log(`[Item._addLinkedSkills] Adding ${this.system.linkedSkills.length} linked skill(s) for: ${this.name}`);
+
+    try {
+      const skillsToAdd = [];
+
+      // Fetch each linked skill from the compendium
+      for (const linkedSkill of this.system.linkedSkills) {
+        try {
+          console.log(`[Item._addLinkedSkills] Fetching skill from UUID: ${linkedSkill.uuid}`);
+          
+          // Get the skill document from UUID
+          const skillDoc = await fromUuid(linkedSkill.uuid);
+          
+          if (!skillDoc) {
+            console.warn(`[Item._addLinkedSkills] Could not find skill with UUID: ${linkedSkill.uuid}`);
+            continue;
+          }
+
+          // Check if the actor already has this skill
+          const existingSkill = this.actor.items.find(i => 
+            i.type === 'skill' && i.name === skillDoc.name
+          );
+
+          if (existingSkill) {
+            console.log(`[Item._addLinkedSkills] Actor already has skill: ${skillDoc.name}, skipping`);
+            continue;
+          }
+
+          // Prepare the skill data for creation
+          const skillData = skillDoc.toObject();
+          
+          // Mark this skill as a linked skill
+          skillData.system.isLinkedSkill = true;
+          
+          skillsToAdd.push(skillData);
+          
+          console.log(`[Item._addLinkedSkills] Prepared skill for adding: ${skillDoc.name}`);
+        } catch (error) {
+          console.error(`[Item._addLinkedSkills] Error processing linked skill ${linkedSkill.name}:`, error);
+        }
+      }
+
+      // Create all linked skills at once
+      if (skillsToAdd.length > 0) {
+        await this.actor.createEmbeddedDocuments('Item', skillsToAdd);
+        console.log(`[Item._addLinkedSkills] Successfully added ${skillsToAdd.length} linked skill(s)`);
+        
+        ui.notifications.info(
+          `Skill "${this.name}" adicionada com ${skillsToAdd.length} skill(s) vinculada(s): ${skillsToAdd.map(s => s.name).join(', ')}`
+        );
+      } else {
+        console.log(`[Item._addLinkedSkills] No new skills to add`);
+      }
+    } catch (error) {
+      console.log('[Item._addLinkedSkills] Error adding linked skills:', error);
+      ui.notifications.warn('Erro ao adicionar skills vinculadas');
+    }
+  }
+
+  /**
+   * Remove linked skills from the actor when this skill is deleted
+   * @private
+   */
+  async _removeLinkedSkills() {
+    // Check if this skill has linked skills enabled
+    if (!this.system.hasLinkedSkills || !this.system.linkedSkills || this.system.linkedSkills.length === 0) {
+      console.log(`[Item._removeLinkedSkills] Skill ${this.name} has no linked skills to remove`);
+      return;
+    }
+
+    console.log(`[Item._removeLinkedSkills] Removing ${this.system.linkedSkills.length} linked skill(s) for: ${this.name}`);
+
+    try {
+      const skillIdsToRemove = [];
+      const skillNamesToRemove = [];
+
+      // Find linked skills in the actor's items
+      for (const linkedSkill of this.system.linkedSkills) {
+        // Find the skill in the actor by name (more reliable than ID since it came from compendium)
+        const skillInActor = this.actor.items.find(i => 
+          i.type === 'skill' && i.name === linkedSkill.name
+        );
+
+        if (skillInActor) {
+          skillIdsToRemove.push(skillInActor.id);
+          skillNamesToRemove.push(skillInActor.name);
+          console.log(`[Item._removeLinkedSkills] Found linked skill to remove: ${skillInActor.name}`);
+        } else {
+          console.log(`[Item._removeLinkedSkills] Linked skill not found in actor: ${linkedSkill.name}`);
+        }
+      }
+
+      // Delete all linked skills at once
+      if (skillIdsToRemove.length > 0) {
+        await this.actor.deleteEmbeddedDocuments('Item', skillIdsToRemove);
+        console.log(`[Item._removeLinkedSkills] Successfully removed ${skillIdsToRemove.length} linked skill(s)`);
+        
+        ui.notifications.info(
+          `Skill "${this.name}" removida junto com ${skillIdsToRemove.length} skill(s) vinculada(s): ${skillNamesToRemove.join(', ')}`
+        );
+      } else {
+        console.log(`[Item._removeLinkedSkills] No linked skills found to remove`);
+      }
+    } catch (error) {
+      console.error('[Item._removeLinkedSkills] Error removing linked skills:', error);
+      ui.notifications.warn('Erro ao remover skills vinculadas');
+    }
   }
 
   /**
@@ -140,6 +265,11 @@ export class CardiganSystemItem extends Item {
     // If this is a tracking effect item, revert its effects
     if (this.type === 'efeito' && this.system.consumableTracking?.isTrackingEffect) {
       await this._revertTrackingEffects();
+    }
+
+    // Remove linked skills when a skill with linked skills is deleted
+    if (this.type === 'skill' && this.actor) {
+      await this._removeLinkedSkills();
     }
   }
 

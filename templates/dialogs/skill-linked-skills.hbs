@@ -1,0 +1,29 @@
+{{! Dialog for selecting linked skills }}
+<div class="skill-linked-skills-dialog">
+  <p class="hint">Selecione as skills que serão automaticamente adicionadas à ficha do jogador quando esta skill for arrastada.</p>
+  
+  <div class="skills-container">
+    {{#each skillsByClass as |skills className|}}
+      {{#if skills.length}}
+        <fieldset class="skill-class-group">
+          <legend>{{localize (concat "CARDIGAN.Item.Skill.Classes." (capitalize className))}}</legend>
+          
+          <div class="skills-grid">
+            {{#each skills}}
+              <label class="skill-option" data-skill-id="{{id}}" data-skill-uuid="{{uuid}}">
+                <input 
+                  type="checkbox" 
+                  name="linked-skill-{{id}}" 
+                  value="{{id}}"
+                  {{#if selected}}checked{{/if}}
+                >
+                <img src="{{img}}" alt="{{name}}" width="32" height="32">
+                <span class="skill-name">{{name}}</span>
+              </label>
+            {{/each}}
+          </div>
+        </fieldset>
+      {{/if}}
+    {{/each}}
+  </div>
+</div>

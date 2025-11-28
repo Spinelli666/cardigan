@@ -123,5 +123,43 @@
       {{/if}}
     </fieldset>
 
+    {{! Linked Skills Section }}
+    <fieldset class="skill-section">
+      <legend>{{localize "CARDIGAN.Item.Skill.LinkedSkills"}}</legend>
+      
+      <div class="form-group">
+        <label for="system.hasLinkedSkills">
+          <input type="checkbox" name="system.hasLinkedSkills" data-dtype="Boolean" {{#if system.hasLinkedSkills}}checked{{/if}}>
+          {{localize "CARDIGAN.Item.Skill.HasLinkedSkills"}}
+        </label>
+      </div>
+
+      {{#if system.hasLinkedSkills}}
+      <div class="form-group">
+        <button type="button" data-action="configureLinkedSkills" data-tooltip="{{localize 'CARDIGAN.Item.Skill.ConfigureLinkedSkills'}}">
+          <i class="fas fa-link"></i> {{localize "CARDIGAN.Item.Skill.ConfigureLinkedSkills"}}
+        </button>
+      </div>
+
+      {{#if system.linkedSkills.length}}
+      <div class="selected-skills">
+        <h4>{{localize "CARDIGAN.Item.Skill.SelectedSkills"}}</h4>
+        <div class="skills-list">
+          {{#each system.linkedSkills}}
+          <div class="skill-item">
+            <img src="{{img}}" alt="{{name}}" width="24" height="24">
+            <span>{{name}}</span>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      {{else}}
+      <div class="no-skills">
+        <em>{{localize "CARDIGAN.Item.Skill.NoSkillsSelected"}}</em>
+      </div>
+      {{/if}}
+      {{/if}}
+    </fieldset>
+
   </div>
 </section>

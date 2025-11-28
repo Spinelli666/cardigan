@@ -93,6 +93,30 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       { initial: [] }
     );
 
+    // Linked skills system
+    schema.hasLinkedSkills = new fields.BooleanField({
+      required: false,
+      initial: false,
+      label: 'CARDIGAN.Item.Skill.HasLinkedSkills'
+    });
+
+    schema.linkedSkills = new fields.ArrayField(
+      new fields.SchemaField({
+        id: new fields.StringField({ required: true }),
+        name: new fields.StringField({ required: true }),
+        img: new fields.StringField({ required: false, initial: '' }),
+        uuid: new fields.StringField({ required: true })
+      }),
+      { initial: [] }
+    );
+
+    // Flag to mark if this skill is a linked skill (added by another skill)
+    schema.isLinkedSkill = new fields.BooleanField({
+      required: false,
+      initial: false,
+      label: 'CARDIGAN.Item.Skill.IsLinkedSkill'
+    });
+
     // Enhancements system - array of 3 enhancements
     schema.enhancements = new fields.ArrayField(
       new fields.SchemaField({

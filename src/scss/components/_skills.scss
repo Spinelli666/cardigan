@@ -320,6 +320,55 @@
   font-size: 11px;
 }
 
+/* ===== LINKED SKILLS STYLES ===== */
+
+.skill-section .selected-skills {
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(33, 150, 243, 0.1);
+  border: 1px solid rgba(33, 150, 243, 0.3);
+  border-radius: 4px;
+
+  h4 {
+    margin: 0 0 8px 0;
+    color: #2196f3;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 11px;
+      color: #333;
+
+      img {
+        border-radius: 50%;
+        border: 1px solid #ccc;
+      }
+    }
+  }
+}
+
+.skill-section .no-skills {
+  margin-top: 10px;
+  padding: 8px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  font-size: 11px;
+}
+
 .configure-skill-effects {
   background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
   color: white;
