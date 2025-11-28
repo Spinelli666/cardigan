@@ -36,7 +36,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Seu Companheiro recebe a habilidade <strong>::systems/cardigan/assets/images/paths/warrior.webp::Defender</strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Seu Companheiro recebe a habilidade <strong>::systems/cardigan/assets/images/paths/warrior.webp::@UUID[Compendium.cardigan.skills-cardigan.Item.L7mN0oP3qR6sS9tU]{Defender}</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

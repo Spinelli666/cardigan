@@ -50,7 +50,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Você desfere um golpe giratório com sua arma.\"</em></p><p></p><p style=\"text-align: justify\">* Com uma Arma Marcial você acerta todos os alvos ao redor do seu personagem.</p><p style=\"text-align: justify\">Você deve realizar um teste de <em>Precisão</em> normal para cada inimigo no alcance da sua arma.</p><p style=\"text-align: justify\">* Se acertar dois ou mais inimigos com esta habilidade você pode brandir sua arma no sentido contrário e retornar com mais um ataque em todos inimigos adjacentes.</p><p style=\"text-align: justify\">Este efeito só ocorre uma vez.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Tomando uma postura defensiva rápida você defende um aliado próximo.\"</em></p><p></p><p style=\"text-align: justify\">* Quando um alvo até <em>2 metros</em> for visado por um Ataque Físico ou Feitiço, você pode utilizar esta técnica para ser o alvo deste ataque, deslocando seu personagem para a frente do aliado defendido, se possível.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",
