@@ -10,7 +10,7 @@
       "active"
     ],
     "skillClass": "feiticeiro",
-    "spellCategories": [],
+    "spellCategories": ["neutro"],
     "hasEnergyCost": true,
     "energyCost": 5,
     "hasCustomEffects": false,

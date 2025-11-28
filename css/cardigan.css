@@ -936,13 +936,13 @@
   color: #666;
   font-style: italic;
 }
-.cardigan .item-description img,
-.cardigan .weapon-description img,
-.cardigan .armor-description img,
-.cardigan .recipe-description img,
-.cardigan .weapon-description-center img,
-.cardigan .armor-description-center img,
-.cardigan .recipe-description-below img {
+.cardigan .item-description img:not(.spell-category-image):not(.skill-image),
+.cardigan .weapon-description img:not(.spell-category-image):not(.skill-image),
+.cardigan .armor-description img:not(.spell-category-image):not(.skill-image),
+.cardigan .recipe-description img:not(.spell-category-image):not(.skill-image),
+.cardigan .weapon-description-center img:not(.spell-category-image):not(.skill-image),
+.cardigan .armor-description-center img:not(.spell-category-image):not(.skill-image),
+.cardigan .recipe-description-below img:not(.spell-category-image):not(.skill-image) {
   max-width: 100%;
   height: 1em !important;
   width: auto !important;
@@ -8547,6 +8547,35 @@
   font-size: 14px;
   font-weight: bold;
 }
+.cardigan .skill-summary .skill-header .spell-categories-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: rgba(147, 112, 219, 0.1);
+  border: 2px solid rgba(147, 112, 219, 0.3);
+  border-radius: 8px;
+}
+.cardigan .skill-summary .skill-header .spell-categories-display .spell-category-image {
+  width: 30px;
+  height: 38px;
+  object-fit: contain;
+  border-radius: 4px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: transform 0.2s ease;
+}
+.cardigan .skill-summary .skill-header .spell-categories-display .spell-category-image:hover {
+  transform: scale(1.1);
+}
+.cardigan .skill-summary .skill-header .spell-categories-display .spell-category-separator {
+  font-size: 36px;
+  color: #9370db;
+  line-height: 1;
+  user-select: none;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
 .cardigan .skill-summary .skill-description {
   padding: 15px;
   background: rgba(0, 0, 0, 0.2);
@@ -8612,15 +8641,6 @@
 }
 .cardigan .skill-summary .skill-description h6 {
   font-size: 12px;
-}
-.cardigan .skill-summary .skill-description img {
-  max-width: 100%;
-  height: 1em !important;
-  width: auto !important;
-  vertical-align: middle !important;
-  display: inline !important;
-  margin: 0 0.2em;
-  object-fit: contain;
 }
 .cardigan .skill-summary .skill-description .content-link {
   color: #64b5f6;

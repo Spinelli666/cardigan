@@ -2,7 +2,7 @@
 // Equipment Tab Specific Styles - Using Backpack Table Style
 // -----------------------------------------
 
-// Global control for images in all descriptions
+// Global control for images in all descriptions (except spell category and skill images)
 .item-description,
 .weapon-description,
 .armor-description,
@@ -10,7 +10,7 @@
 .weapon-description-center,
 .armor-description-center,
 .recipe-description-below {
-  img {
+  img:not(.spell-category-image):not(.skill-image) {
     max-width: 100%;
     height: 1em !important;
     width: auto !important;

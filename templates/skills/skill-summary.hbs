@@ -26,6 +26,30 @@
         <span class="energy-value">{{system.energyCost}}</span>
       </div>
     {{/if}}
+    
+    {{! Spell Categories - Only for Feiticeiro skills with categories }}
+    {{#if (eq system.skillClass "feiticeiro")}}
+      {{#if system.spellCategories}}
+        {{#if system.spellCategories.length}}
+          <div class="spell-categories-display">
+            {{#each system.spellCategories as |category index|}}
+              {{#if (eq category "neutro")}}
+                <img src="systems/cardigan/assets/images/outros/neutro-feitico.webp" alt="Neutro" class="spell-category-image" />
+              {{else if (eq category "feerico")}}
+                <img src="systems/cardigan/assets/images/bestiario/feericos.webp" alt="Feérico" class="spell-category-image" />
+              {{else if (eq category "caos")}}
+                <img src="systems/cardigan/assets/images/bestiario/caos-indivisivel.webp" alt="Caos" class="spell-category-image" />
+              {{else if (eq category "necromancia")}}
+                <img src="systems/cardigan/assets/images/bestiario/necromancia.webp" alt="Necromancia" class="spell-category-image" />
+              {{/if}}
+              {{#unless @last}}
+                <span class="spell-category-separator">⬩</span>
+              {{/unless}}
+            {{/each}}
+          </div>
+        {{/if}}
+      {{/if}}
+    {{/if}}
   </div>
   
   {{! Skill Description }}

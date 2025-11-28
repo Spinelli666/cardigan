@@ -575,6 +575,38 @@ export class SkillManager {
       }
     }
 
+    // Add spell categories display if skill is Feiticeiro and has categories
+    if (skill.system.skillClass === 'feiticeiro' && skill.system.spellCategories && Array.isArray(skill.system.spellCategories) && skill.system.spellCategories.length > 0) {
+      const categoryImages = {
+        'neutro': 'systems/cardigan/assets/images/outros/neutro-feitico.webp',
+        'feerico': 'systems/cardigan/assets/images/bestiario/feericos.webp',
+        'caos': 'systems/cardigan/assets/images/bestiario/caos-indivisivel.webp',
+        'necromancia': 'systems/cardigan/assets/images/bestiario/necromancia.webp'
+      };
+      
+      let categoriesHtml = '<div class="spell-categories-display-chat" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 12px 0; padding: 12px 20px; background: rgba(147, 112, 219, 0.1); border: 2px solid rgba(147, 112, 219, 0.3); border-radius: 8px;">';
+      
+      skill.system.spellCategories.forEach((category, index) => {
+        const imagePath = categoryImages[category];
+        if (imagePath) {
+          const categoryLabel = game.i18n.localize(`CARDIGAN.SpellCategory.${category.charAt(0).toUpperCase() + category.slice(1)}`) || category;
+          categoriesHtml += `<img src="${imagePath}" 
+            alt="${categoryLabel}" 
+            title="${categoryLabel}"
+            class="spell-category-image" 
+            style="width: 30px; height: 38px; object-fit: contain; border-radius: 4px; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));" />`;
+          
+          // Add separator if not the last category
+          if (index < skill.system.spellCategories.length - 1) {
+            categoriesHtml += '<span style="font-size: 36px; color: #9370db; line-height: 1; user-select: none; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">⬩</span>';
+          }
+        }
+      });
+      
+      categoriesHtml += '</div>';
+      content += categoriesHtml;
+    }
+
     content += `<div style="text-align: left; margin: 8px 0; color: #333;">
         ${skill.system.description || 'Sem descrição disponível.'}
       </div>`;
