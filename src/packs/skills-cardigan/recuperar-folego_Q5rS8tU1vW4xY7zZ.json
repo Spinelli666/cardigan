@@ -10,6 +10,7 @@
       "active"
     ],
     "skillClass": "guerreiro",
+    "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,
     "hasCustomEffects": false,

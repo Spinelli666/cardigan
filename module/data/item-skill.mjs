@@ -55,6 +55,25 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       label: 'CARDIGAN.Item.Skill.Class'
     });
 
+    // Spell Categories (only for Feiticeiro skills) - allows multiple selections
+    schema.spellCategories = new fields.ArrayField(
+      new fields.StringField({
+        required: false,
+        blank: true,
+        choices: () => CONFIG.CARDIGAN?.spellCategories || {
+          neutro: 'Neutro',
+          feerico: 'Feérico',
+          caos: 'Caos',
+          necromancia: 'Necromancia'
+        }
+      }),
+      {
+        required: false,
+        initial: [],
+        label: 'CARDIGAN.Item.Skill.SpellCategories'
+      }
+    );
+
     // Energy consumption fields
     schema.hasEnergyCost = new fields.BooleanField({
       required: false,

@@ -277,6 +277,13 @@
           "Raciais": "Raciais",
           "Unicas": "Únicas"
         },
+        "SpellCategories": "Categorias de Feitiços",
+        "SpellCategory": {
+          "Neutro": "Neutro",
+          "Feerico": "Feérico",
+          "Caos": "Caos",
+          "Necromancia": "Necromancia"
+        },
         "HasEnergyCost": "Gasta Energia?",
         "EnergyCost": "Custo de Energia",
         "EnergySpent": "Energia Gasta",
@@ -611,6 +618,9 @@
     "AddActionType": "Add Action Type",
     "RemoveActionType": "Remove Action Type",
     "SelectActionType": "Select Action Type",
+    "AddSpellCategory": "Adicionar Categoria",
+    "RemoveSpellCategory": "Remover Categoria",
+    "SelectSpellCategory": "Selecione a Categoria",
     "SkillBonuses": "Skill Bonuses",
     "AddSkillBonus": "Add Skill Bonus",
     "RemoveSkillBonus": "Remove Skill Bonus",

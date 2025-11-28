@@ -9,6 +9,7 @@
       "iniciativa"
     ],
     "skillClass": "ladino",
+    "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 20,
     "hasCustomEffects": false,

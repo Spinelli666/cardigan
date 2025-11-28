@@ -37,6 +37,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       removeWeaponProperty: this._removeWeaponProperty,
       addSkillActionType: this._addSkillActionType,
       removeSkillActionType: this._removeSkillActionType,
+      addSpellCategory: this._addSpellCategory,
+      removeSpellCategory: this._removeSpellCategory,
       addSkillBonus: this._addSkillBonus,
       removeSkillBonus: this._removeSkillBonus,
       'add-skill-effect': this._addSkillEffect,
@@ -895,6 +897,58 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const finalActionTypes = newActionTypes.filter(type => type && type.trim() !== '');
     
     return this.submit({ updateData: { 'system.skillActionTypes': finalActionTypes } });
+  }
+
+  /**
+   * Handle adding a spell category
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _addSpellCategory(event, target) {
+    event.preventDefault();
+    
+    const item = this.item;
+    if (item.type !== 'skill' || item.system.skillClass !== 'feiticeiro') {
+      return;
+    }
+
+    const currentCategories = item.system.toObject().spellCategories || [];
+    // Filter out any empty strings
+    const filteredCategories = currentCategories.filter(cat => cat && cat.trim() !== '');
+    
+    // Find a default value that's not already in the list
+    const availableCategories = ['neutro', 'feerico', 'caos', 'necromancia'];
+    const defaultCategory = availableCategories.find(cat => !filteredCategories.includes(cat)) || 'neutro';
+    
+    const newCategories = [...filteredCategories, defaultCategory];
+    
+    return this.submit({ updateData: { 'system.spellCategories': newCategories } });
+  }
+
+  /**
+   * Handle removing a spell category
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _removeSpellCategory(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    if (item.type !== 'skill') return;
+
+    const index = parseInt(target.dataset.index);
+    if (isNaN(index)) return;
+
+    const currentCategories = item.system.toObject().spellCategories || [];
+    
+    // Remove the category at the specified index
+    const newCategories = currentCategories.filter((_, i) => i !== index);
+    
+    // Filter out any empty strings and use the clean array
+    const finalCategories = newCategories.filter(cat => cat && cat.trim() !== '');
+    
+    return this.submit({ updateData: { 'system.spellCategories': finalCategories } });
   }
 
   /**

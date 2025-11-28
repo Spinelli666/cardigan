@@ -64,6 +64,43 @@
           <option value="unicas" {{#if (eq system.skillClass "unicas")}}selected{{/if}}>{{localize "CARDIGAN.Item.Skill.Classes.Unicas"}}</option>
         </select>
       </div>
+
+      {{#if (eq system.skillClass "feiticeiro")}}
+      <div class="form-group spell-categories">
+        <div class="spell-categories-header">
+          <label>{{localize "CARDIGAN.Item.Skill.SpellCategories"}}</label>
+          <button type="button" class="add-spell-category-btn" data-action="addSpellCategory" title="{{localize 'CARDIGAN.AddSpellCategory'}}">+</button>
+        </div>
+        
+        <div class="spell-categories-list" data-spell-categories-container>
+          {{#if system.spellCategories.length}}
+            {{#each system.spellCategories as |category index|}}
+              <div class="spell-category-row" data-spell-category-index="{{index}}">
+                <select name="system.spellCategories.{{index}}" data-spell-category-select>
+                  <option value="">{{localize "CARDIGAN.SelectSpellCategory"}}</option>
+                  <option value="neutro" {{selected category "neutro"}}>{{localize "CARDIGAN.Item.Skill.SpellCategory.Neutro"}}</option>
+                  <option value="feerico" {{selected category "feerico"}}>{{localize "CARDIGAN.Item.Skill.SpellCategory.Feerico"}}</option>
+                  <option value="caos" {{selected category "caos"}}>{{localize "CARDIGAN.Item.Skill.SpellCategory.Caos"}}</option>
+                  <option value="necromancia" {{selected category "necromancia"}}>{{localize "CARDIGAN.Item.Skill.SpellCategory.Necromancia"}}</option>
+                </select>
+                <button type="button" class="remove-spell-category-btn" data-action="removeSpellCategory" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveSpellCategory'}}">−</button>
+              </div>
+            {{/each}}
+          {{else}}
+            <div class="spell-category-row" data-spell-category-index="0">
+              <select name="system.spellCategories.0" data-spell-category-select>
+                <option value="">{{localize "CARDIGAN.SelectSpellCategory"}}</option>
+                <option value="neutro">{{localize "CARDIGAN.Item.Skill.SpellCategory.Neutro"}}</option>
+                <option value="feerico">{{localize "CARDIGAN.Item.Skill.SpellCategory.Feerico"}}</option>
+                <option value="caos">{{localize "CARDIGAN.Item.Skill.SpellCategory.Caos"}}</option>
+                <option value="necromancia">{{localize "CARDIGAN.Item.Skill.SpellCategory.Necromancia"}}</option>
+              </select>
+              <button type="button" class="remove-spell-category-btn" data-action="removeSpellCategory" data-index="0" title="{{localize 'CARDIGAN.RemoveSpellCategory'}}">−</button>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+      {{/if}}
     </fieldset>
 
     {{! Energy Cost Section }}

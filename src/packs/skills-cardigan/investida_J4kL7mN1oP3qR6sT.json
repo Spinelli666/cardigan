@@ -10,6 +10,7 @@
       "deslocamento"
     ],
     "skillClass": "guerreiro",
+    "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 15,
     "hasCustomEffects": false,

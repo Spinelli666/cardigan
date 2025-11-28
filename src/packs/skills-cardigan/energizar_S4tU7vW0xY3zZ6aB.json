@@ -1,0 +1,68 @@
+{
+  "_id": "S4tU7vW0xY3zZ6aB",
+  "_key": "!items!S4tU7vW0xY3zZ6aB",
+  "name": "Energizar",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/wizard.webp",
+  "system": {
+    "skillActionTypes": [
+      "simples",
+      "active"
+    ],
+    "skillClass": "feiticeiro",
+    "spellCategories": [],
+    "hasEnergyCost": true,
+    "energyCost": 5,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\"><em>Rajada de Energia</em> pode ser lançada com uma ::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Ação Simples</strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\"><strong>Empurrar</strong> o alvo da habilidade e mais <strong>dois</strong> alvos próximos <strong>(2m)</strong> até <strong>5m</strong> para trás.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\"><em>Acertos Críticos</em> com esta habilidade anulam o seu custo de <strong><code>⚡Energia</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Uma aura furta-cor de calor extremo acompanhada de vozes sussurrantes vem à tona.\"</em><p></p><p style=\"text-align: justify;\">* Você canaliza energia imaterial para realizar um dos efeitos a seguir:</p><p></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Golpe Energizado ‣</strong> Imbui todos os seus <code>🌀Artefatos</code> do tipo <em>Arma Marcial</em> ou <em>Arma à Distância</em> com magia para causar <strong><code>+3</code></strong> de dano por ponto de <strong>Psionismo</strong> em seu próximo acerto, além do dano físico base da Arma.</p><p></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Rajada de Energia ‣</strong> De um <code>🌀Artefato</code> de qualquer tipo você dispara um feixe, projétil ou explosão de energia concentrada que causa o <strong>dobro</strong> do seu total de pontos de <strong>Psionismo</strong> como dano, <strong><code>+6</code></strong> de dano por ponto de <strong>Psionismo</strong> que possua em um alvo no alcance de conjuração.</p>"
+  },
+  "effects": [],
+  "folder": "Sk4FeiticeiroU5I",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

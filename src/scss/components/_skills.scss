@@ -209,6 +209,90 @@
       }
     }
     
+    // Spell Categories styles (matching action types)
+    .spell-categories {
+      margin-top: 15px;
+      
+      .spell-categories-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        
+        label {
+          margin: 0;
+          font-weight: bold;
+          color: #9370db;
+        }
+        
+        .add-spell-category-btn {
+          background: #9370db;
+          color: white;
+          border: none;
+          border-radius: 3px;
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          font-weight: bold;
+          font-size: 16px;
+          transition: background 0.2s;
+          
+          &:hover {
+            background: #7b5cbd;
+          }
+        }
+      }
+      
+      .spell-categories-list {
+        .spell-category-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 8px;
+          
+          select {
+            flex: 1;
+            min-width: 0;
+            background: rgba(147, 112, 219, 0.1);
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            color: inherit;
+            padding: 5px 8px;
+            border-radius: 3px;
+            
+            &:focus {
+              border-color: #9370db;
+              outline: none;
+              box-shadow: 0 0 0 2px rgba(147, 112, 219, 0.2);
+            }
+          }
+          
+          .remove-spell-category-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            flex-shrink: 0;
+            transition: background 0.2s;
+            
+            &:hover {
+              background: #da190b;
+            }
+          }
+        }
+      }
+    }
+    
     &.skill-calculations {
       background: rgba(212, 175, 55, 0.05);
       border-color: rgba(212, 175, 55, 0.3);

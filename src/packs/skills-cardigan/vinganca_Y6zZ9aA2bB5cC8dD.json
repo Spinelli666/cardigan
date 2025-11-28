@@ -9,6 +9,7 @@
       "reacao"
     ],
     "skillClass": "ladino",
+    "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 5,
     "hasCustomEffects": false,

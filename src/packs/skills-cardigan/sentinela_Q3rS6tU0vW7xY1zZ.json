@@ -10,6 +10,7 @@
       "active"
     ],
     "skillClass": "andarilho",
+    "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 10,
     "hasCustomEffects": false,

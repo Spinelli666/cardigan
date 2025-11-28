@@ -10,6 +10,7 @@
       "simples"
     ],
     "skillClass": "guerreiro",
+    "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 5,
     "hasCustomEffects": false,
