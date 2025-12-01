@@ -1,0 +1,83 @@
+{
+  "_id": "T2uV5wX8yZ1zZ4aA",
+  "_key": "!items!T2uV5wX8yZ1zZ4aA",
+  "name": "Transmutar",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/wizard.webp",
+  "system": {
+    "skillActionTypes": [
+      "simples"
+    ],
+    "skillClass": "feiticeiro",
+    "spellCategories": ["simples"],
+    "hasEnergyCost": true,
+    "energyCost": 10,
+    "hasCustomEffects": true,
+    "customEffects": [
+      {
+        "id": "Jj8Kk9Ll0Mm1Nn2O",
+        "name": "Mudo",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      },
+      {
+        "id": "pP3qQ4rR5sS6tT7u",
+        "name": "Cego",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      },
+      {
+        "id": "cC2dE4fF5gG6hH7i",
+        "name": "Surdo",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      }
+    ],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\">Escolha mais dois Feitiços da lista.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\">Escolha mais dois Feitiços da lista.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\">Aumenta a duração para <strong>3 Rodadas</strong> e <strong>20 Minutos</strong> fora de combate.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Você tem o dom de moldar a carne e alterar a natureza das coisas.\"</em><p></p><p style=\"text-align: justify;\">* O custo de <code>⚡Energia</code> desta habilidade vale para todos os ::systems/cardigan/assets/images/outros/feitico.webp::<strong>Feitiços</strong> listados.</p><p style=\"text-align: justify;\">A duração dos efeitos é de <strong>2 Rodadas</strong> ou <strong>10 Minutos</strong> fora de combate.</p><p style=\"text-align: justify;\">* Escolha <strong>dois</strong> Feitiços Arcanos à escolha:</p><p></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/outros/feitico.webp:: <strong>Dúplice ‣</strong> Assume a aparência de um personagem humanoide que você tenha encarado nos olhos por um minuto.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/outros/feitico.webp:: <strong>Polimorfia ‣</strong> Transforma o alvo em um animal comum à escolha. Receber dano cancela o efeito.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/outros/feitico.webp:: <strong>Moldar ‣</strong> Altera a forma e aparência de um objeto sem mudar sua composição.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/outros/feitico.webp:: <strong>Negar Sentidos ‣</strong> Pode aplicar um entre os Efeitos: 👄<em>@UUID[Compendium.cardigan.efeitos-cardigan.Item.Jj8Kk9Ll0Mm1Nn2O]{Mudo}</em>, 👁️<em>@UUID[Compendium.cardigan.efeitos-cardigan.Item.pP3qQ4rR5sS6tT7u]{Cego}</em> ou 👂<em>@UUID[Compendium.cardigan.efeitos-cardigan.Item.cC2dE4fF5gG6hH7i]{Surdo}</em>.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/outros/feitico.webp:: <strong>Estatura ‣</strong> Altera o tamanho e peso de uma criatura ou objeto para que seja Pequeno e Veloz ou Gigante e Lento.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/outros/feitico.webp:: <strong>Mutação ‣</strong> Escolha até duas habilidades características Fácil ou Normal das famílias ::systems/cardigan/assets/images/bestiario/feral.webp::<strong>Feral</strong> ou ::systems/cardigan/assets/images/bestiario/caos-indivisivel.webp::<strong>Caos</strong> para aplicar ao seu próprio ou outro personagem próximo.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/outros/feitico.webp:: <strong>Absorver ‣</strong> Absorva a matéria de uma superfície sólida ao tocá-la, garantindo Armadura com base no material absorvido: <code>Madeira</code> ::systems/cardigan/assets/images/armas/escudo.webp::<strong>4</strong> ║ <code>Pedra</code> ::systems/cardigan/assets/images/armas/escudo.webp::<strong>8</strong> ║ <code>Metal</code> ::systems/cardigan/assets/images/armas/escudo.webp::<strong>12</strong></p>"
+  },
+  "effects": [],
+  "folder": "Sk4FeiticeiroU5I",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

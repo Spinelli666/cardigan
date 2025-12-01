@@ -1,0 +1,80 @@
+{
+  "_id": "C1dE4fG7hH0iJ3kL",
+  "_key": "!items!C1dE4fG7hH0iJ3kL",
+  "name": "Telecinese",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/wizard.webp",
+  "system": {
+    "skillActionTypes": [
+      "simples",
+      "active",
+      "foco"
+    ],
+    "skillClass": "feiticeiro",
+    "spellCategories": ["neutro"],
+    "hasEnergyCost": true,
+    "energyCost": 10,
+    "hasCustomEffects": true,
+    "customEffects": [
+      {
+        "id": "Pq7pQ8qR9rS0sT1t",
+        "name": "Controlado",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      },
+      {
+        "id": "Uu2vV3wW4xX5yY6z",
+        "name": "Paralisado",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      }
+    ],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\">Dobra o alcance de conjuração para esta habilidade.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\">Pode selecionar um alvo para cada ponto de <em>Psionismo</em>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\">Pode <strong>Mover</strong> todos alvos <em>Controlados</em> com uma única ::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp:: <strong>Ação Ativa</strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"A manifestação mais comum dos poderes psiônicos é a capacidade de dobrar a matéria e o ambiente a seu favor.\"</em><p></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: Ao canalizar este ::systems/cardigan/assets/images/outros/feitico.webp:: <strong>Feitiço</strong> com sucesso você marca <strong>um alvo</strong> que pode ser uma criatura, objeto ou parte do cenário no seu alcance de conjuração, <strong><code>+1</code></strong> alvo para cada <strong><code>2</code></strong> pontos de <strong>Psionismo</strong> que possua para receber o efeito <strong><code>🔗@UUID[Compendium.cardigan.efeitos-cardigan.Item.Pq7pQ8qR9rS0sT1t]{Controlado}</code></strong>. No caso de tentar controlar uma criatura, ela poderá testar <strong>Vigor</strong> contra seu <strong>Psionismo</strong> para resistir ao efeito.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp:: Quando o alvo for <strong><code>🔗@UUID[Compendium.cardigan.efeitos-cardigan.Item.Pq7pQ8qR9rS0sT1t]{Controlado}</code></strong> você pode com uma <em>Ação Ativa</em> realizar um dos <strong>Feitiços</strong> a baixo sem o teste de conjuração, e manter sua duração baseado no <strong>Foco</strong> da habilidade:</p><p></p><blockquote><p style=\"text-align: justify\">::systems/cardigan/assets/images/outros/feitico.webp:: <strong>Paralisar ‣</strong> Aplica <strong><code>🕒@UUID[Compendium.cardigan.efeitos-cardigan.Item.Uu2vV3wW4xX5yY6z]{Paralisado}</code></strong> no alvo.</p><p>::systems/cardigan/assets/images/outros/feitico.webp:: <strong>Mover ‣</strong> Interage movendo um alvo à uma distância equivalente ao alcance de Conjuração.</p><p>* Você pode usar essa ação para arremessar violentamente um objeto contra uma criatura, causando ::systems/cardigan/assets/images/armas/espada.webp:: <strong><code>15+PSI</code></strong> como dano após um embate de Precisão contra Evasão.</p><p>* Se o alvo <strong><code>🔗@UUID[Compendium.cardigan.efeitos-cardigan.Item.Pq7pQ8qR9rS0sT1t]{Controlado}</code></strong> for uma criatura viva, você pode arremessá-la contra o cenário para que receba dano, ou mesmo contra outra criatura viva para que as duas recebam o mesmo dano - nesse caso também realizando um embate de Precisão contra <em>Evasão</em>.</p><p>* Você também pode usar esta ação para interagir com o ambiente, como abrir uma porta.</p></blockquote>"
+  },
+  "effects": [],
+  "folder": "Sk4FeiticeiroU5I",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "_id": "Y7zZ0aA3bB6cC9dD",
+  "_key": "!items!Y7zZ0aA3bB6cC9dD",
+  "name": "Evocação",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/wizard.webp",
+  "system": {
+    "skillActionTypes": [
+      "simples",
+      "active"
+    ],
+    "skillClass": "feiticeiro",
+    "spellCategories": ["feerico", "caos", "necromancia"],
+    "hasEnergyCost": true,
+    "energyCost": 25,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify\">Você pode usar sua Ação de ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<strong>Deslocamento</strong> para <em>Ordenar</em> o Homúnculo.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify\">Seu Homúnculo recebe <strong><code>1</code></strong> <strong>Característica Difícil</strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify\">Seu Homúnculo recebe a habilidade <strong>::systems/cardigan/assets/images/paths/warrior.webp::@UUID[Compendium.cardigan.skills-cardigan.Item.L7mN0oP3qR6sS9tU]{Defender}</strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: center\"><em>\"Existem aqueles que ousam ferir a fronteira entre mundos. Evocar é costurar uma fenda no Véu do Imaterial e rasgar um fragmento de consciência para dentro da carne. O fruto desse pacto se manifesta como um Homúnculo — uma alma menor, um espírito disforme — compelido a obedecer runas de comando inscritas no próprio coração.\"</em><p></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp:: <strong>Evocar ‣</strong> Você evoca um <strong>Homúnculo</strong> extraplanar para servi-lo como vassalo rúnico.</p><p></p><p style=\"text-align: justify\">* O Homúnculo possui sua própria ficha de personagem com o <strong>Nível</strong> e ::systems/cardigan/assets/images/outros/xp.webp:: equivalentes ao seu, e você deve distribuir suas <strong>Perícias</strong> iniciais conforme a criação de personagem padrão.</p><p style=\"text-align: justify\">Sendo uma <strong>Criatura</strong> de nível <strong>Normal</strong> do <strong>Bestiário</strong>, ele possui <strong><code>+3</code></strong> pontos de Perícia para distribuir livremente, e deve ter <strong><code>4</code></strong> <strong>Características</strong> entre a família ::systems/cardigan/assets/images/outros/roda-quatro-ventos.webp::<strong>Comum</strong> e apenas outra família paranormal que dará personalidade à evocação, podendo ser:</p><ul><li><p style=\"text-align: justify\">::systems/cardigan/assets/images/bestiario/feericos.webp:: <strong>Feérico</strong> 〔Como um Golem Elemental, uma Fada ou um Ent… 〕</p></li><li><p style=\"text-align: justify\">::systems/cardigan/assets/images/bestiario/caos-indivisivel.webp:: <strong>Caos</strong> 〔Como um Diabrete, um Cão Mutante ou um Leviatã… 〕</p></li><li><p style=\"text-align: justify\">::systems/cardigan/assets/images/bestiario/necromancia.webp:: <strong>Morto-Vivo</strong> 〔Como um Golem de Carne, um Carniçal ou um Espectro… 〕</p></li></ul><p></p><p style=\"text-align: justify\">* Ele terá <code>30💔PV</code> & <code>30⚡PE</code> iniciais.</p><p></p><p style=\"text-align: justify\">* Você não pode manter um pacto com mais de uma evocação ao mesmo tempo, mas sempre que seu homúnculo for derrotado você pode evocar um novo.</p><p></p><hr><p></p><ul><li><p><em>Enquanto estiver até 10 metros de seu Homúnculo pode usar:</em></p></li></ul><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Ordenar ‣</strong> Você pode gastar uma Ação Simples ou Ativa para fornecer ao seu Homúnculo um turno com <em>Deslocamento</em>, <em>Ação Simples</em> e <em>Ação Ativa</em>. Seu Homúnculo seguirá suas ordens.</p><p></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp:: <strong>Ataque Sincronizado ‣</strong> Sempre que desferir um <em>Acerto Crítico</em> seu Homúnculo realizará um ataque simples extra no mesmo alvo acertado.</p>"
+  },
+  "effects": [],
+  "folder": "Sk4FeiticeiroU5I",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}
