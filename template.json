@@ -107,7 +107,7 @@
     }
   },
   "Item": {
-    "types": ["item-comum", "item-municao", "item-consumivel", "item-ingredient", "item-recipe", "culinary-recipe", "tailoring-recipe", "tecnomagic-recipe", "blacksmithing-recipe", "alchemy-recipe", "carpentry-recipe", "feature", "spell", "efeito", "arma", "armadura", "skill"],
+    "types": ["item-comum", "item-municao", "item-consumivel", "item-ingredient", "item-recipe", "culinary-recipe", "tailoring-recipe", "tecnomagic-recipe", "blacksmithing-recipe", "alchemy-recipe", "carpentry-recipe", "feature", "race", "spell", "efeito", "arma", "armadura", "skill"],
     "htmlFields": ["description"],
     "templates": {
       "base": {
@@ -231,6 +231,22 @@
     },
     "feature": {
       "templates": ["base"]
+    },
+    "race": {
+      "templates": ["base"],
+      "movementBonus": 0,
+      "racialSkills": [],
+      "abilityModifiers": {
+        "accuracy": 0,
+        "evasion": 0,
+        "strength": 0,
+        "dexterity": 0,
+        "stamina": 0,
+        "stealth": 0,
+        "persuasion": 0,
+        "intelligence": 0,
+        "psionics": 0
+      }
     },
     "spell": {
       "templates": ["base"],

@@ -108,6 +108,9 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Calculate level automatically based on sum of all classes
     this._calculateLevel();
 
+    // Calculate race bonuses FIRST and apply to baseValue
+    this._calculateRaceBonuses();
+
     // Loop through ability scores to handle labels and calculate base values
     for (const key in this.abilities) {
       // Handle ability label localization.
@@ -215,11 +218,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const manualValue = this.details.criticalHitManual ?? 0; // Valor manual
     this.details.criticalHit = autoValue + manualValue; // Total = automático + manual
 
-    // Calcular movimento baseado na Destreza total (incluindo bônus de armas) + bônus de armaduras
+    // Calcular movimento baseado na Destreza total (incluindo bônus de armas) + bônus de armaduras + bônus de raça
     // Regra: a cada 2 pontos de Destreza = +1 movimento
     const dexterityMovement = Math.floor(totalDexterity / 2);
     const armorMovementBonusTotal = this._armorMovementBonus ?? 0;
-    const autoMovementValue = dexterityMovement + armorMovementBonusTotal; // Valor automático
+    const raceMovementBonus = this._raceMovementBonus ?? 0;
+    const autoMovementValue = dexterityMovement + armorMovementBonusTotal + raceMovementBonus; // Valor automático
     const manualMovementValue = this.details.movementManual ?? 0; // Valor manual
     this.details.movement = autoMovementValue + manualMovementValue; // Total = automático + manual
 
@@ -292,6 +296,37 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
         this._checkAndApplyToxicityEffects(toxicityLevel);
       }, 100);
     }
+  }
+
+  /**
+   * Calculate race bonuses and apply them to character abilities' baseValue
+   * Only one race item should exist per character
+   * Race modifiers affect the base ability values (not bonus)
+   * @private
+   */
+  _calculateRaceBonuses() {
+    // Get the race item from the actor (should only be one)
+    const raceItem = this.parent?.items?.find(item => item.type === 'race');
+    
+    // If no race, reset all baseValues to 0
+    if (!raceItem) {
+      for (const key in this.abilities) {
+        this.abilities[key].baseValue = 0;
+      }
+      // Reset movement bonus from race
+      this.details.movement = this.details.movementManual || 0;
+      return;
+    }
+    
+    // Apply race ability modifiers to baseValue
+    const abilityModifiers = raceItem.system.abilityModifiers || {};
+    for (const key in this.abilities) {
+      const raceModifier = abilityModifiers[key] || 0;
+      this.abilities[key].baseValue = raceModifier;
+    }
+    
+    // Store race movement bonus for later calculation
+    this._raceMovementBonus = raceItem.system.movementBonus || 0;
   }
 
   /**

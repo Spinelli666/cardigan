@@ -330,6 +330,23 @@
           "RequirementsPlaceholder": "List any requirements or conditions for this enhancement..."
         }
       },
+      "Race": {
+        "Details": "Detalhes da Raça",
+        "FIELDS": {
+          "movementBonus": {
+            "label": "Bônus de Deslocamento",
+            "hint": "Bônus adicional de deslocamento concedido por esta raça (em metros)"
+          },
+          "abilityModifiers": {
+            "label": "Modificadores de Habilidade",
+            "hint": "Bônus ou penalidades nas habilidades básicas concedidos por esta raça"
+          },
+          "racialSkills": {
+            "label": "Skills Raciais",
+            "hint": "Skills automáticas que os personagens desta raça recebem"
+          }
+        }
+      },
       "Efeito": {
         "Types": {
           "Positivo": "Positive",
@@ -977,7 +994,8 @@
       "blacksmithing-recipe": "Blacksmithing Recipe",
       "alchemy-recipe": "Alchemy Recipe",
       "carpentry-recipe": "Carpentry Recipe",
-      "feature": "Feature", 
+      "feature": "Feature",
+      "race": "Raça",
       "spell": "Spell",
       "efeito": "Efeito",
       "arma": "Weapon",

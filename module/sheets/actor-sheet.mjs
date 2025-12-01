@@ -528,6 +528,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.efeitos = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.recipes = recipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    
+    // Find race item if exists
+    context.raceItem = this.document.items.find(i => i.type === 'race') || null;
+    
     context.skills = skills.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.skillsAndarilho = skillsAndarilho.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.skillsGuerreiro = skillsGuerreiro.sort((a, b) => (a.sort || 0) - (b.sort || 0));
@@ -1767,6 +1771,18 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   async _onDropItemCreate(itemData, event) {
     itemData = itemData instanceof Array ? itemData : [itemData];
+    
+    // Special handling for race items - only one race allowed
+    const raceItems = itemData.filter(item => item.type === 'race');
+    if (raceItems.length > 0) {
+      // Remove any existing race item
+      const existingRace = this.actor.items.find(i => i.type === 'race');
+      if (existingRace) {
+        await existingRace.delete();
+        ui.notifications.info(`Raça anterior "${existingRace.name}" foi substituída`);
+      }
+    }
+    
     return this.actor.createEmbeddedDocuments('Item', itemData);
   }
 

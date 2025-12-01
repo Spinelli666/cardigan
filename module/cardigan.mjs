@@ -78,6 +78,7 @@ Hooks.once('init', function () {
     "alchemy-recipe": models.CardiganSystemItemRecipe,
     "carpentry-recipe": models.CardiganSystemItemRecipe,
     feature: models.CardiganSystemFeature,
+    race: models.CardiganSystemRace,
     skill: models.CardiganSystemSkill,
     spell: models.CardiganSystemSpell,
     efeito: models.CardiganSystemEfeito,

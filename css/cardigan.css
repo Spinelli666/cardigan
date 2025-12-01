@@ -2660,6 +2660,80 @@
   border: 1px solid #ccc;
   font-size: 14px;
 }
+.cardigan .character-details-container .race-slot-container .race-drop-zone {
+  flex: 1;
+  min-height: 40px;
+  border: 2px dashed #999;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+.cardigan .character-details-container .race-slot-container .race-drop-zone:hover {
+  border-color: #666;
+  background: rgba(0, 0, 0, 0.08);
+}
+.cardigan .character-details-container .race-slot-container .race-drop-zone .race-item-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid #d4af37;
+  border-radius: 4px;
+  cursor: grab;
+  transition: all 0.2s ease;
+}
+.cardigan .character-details-container .race-slot-container .race-drop-zone .race-item-display:hover {
+  background: rgba(212, 175, 55, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.cardigan .character-details-container .race-slot-container .race-drop-zone .race-item-display .race-item-image {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #d4af37;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.cardigan .character-details-container .race-slot-container .race-drop-zone .race-item-display .race-item-name {
+  flex: 1;
+  font-weight: bold;
+  color: #2c1810;
+  font-size: 14px;
+}
+.cardigan .character-details-container .race-slot-container .race-drop-zone .race-item-display .race-item-delete {
+  color: #c0392b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+.cardigan .character-details-container .race-slot-container .race-drop-zone .race-item-display .race-item-delete:hover {
+  background: rgba(192, 57, 43, 0.1);
+  color: #e74c3c;
+}
+.cardigan .character-details-container .race-slot-container .race-drop-zone .race-item-display .race-item-delete i {
+  font-size: 14px;
+}
+.cardigan .character-details-container .race-slot-container .race-drop-zone .race-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  color: #999;
+  font-style: italic;
+  font-size: 13px;
+  text-align: center;
+}
+.cardigan .character-details-container .race-slot-container .race-drop-zone .race-placeholder i {
+  font-size: 20px;
+  opacity: 0.5;
+}
+.cardigan .character-details-container .race-slot-container .race-drop-zone .race-placeholder span {
+  font-size: 12px;
+}
 .cardigan {
   /* XP, Level & Classes Container Styles */
 }
@@ -8929,6 +9003,108 @@
 .cardigan .skill-enhancements-tab .enhancement-item .enhancement-content .no-content {
   color: var(--color-text-hint);
   font-style: italic;
+}
+.cardigan {
+  /* Race Item Details Styles */
+}
+.cardigan .race-details-container {
+  padding: 15px;
+}
+.cardigan .race-details-container h3 {
+  margin: 0 0 15px 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #2c1810;
+  border-bottom: 2px solid #d4af37;
+  padding-bottom: 8px;
+}
+.cardigan .race-details-container h4 {
+  margin: 15px 0 10px 0;
+  font-size: 15px;
+  font-weight: bold;
+  color: #4a3c2a;
+}
+.cardigan .race-details-container .form-group {
+  margin-bottom: 20px;
+}
+.cardigan .race-details-container .form-group label {
+  display: block;
+  font-weight: bold;
+  color: #2c1810;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+.cardigan .race-details-container .form-group .hint {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+  margin: 5px 0 10px 0;
+  line-height: 1.4;
+}
+.cardigan .race-details-container .form-group .info-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(52, 152, 219, 0.1);
+  border: 1px solid rgba(52, 152, 219, 0.3);
+  border-radius: 4px;
+  color: #2c3e50;
+  font-size: 13px;
+  margin-top: 10px;
+}
+.cardigan .race-details-container .form-group .info-message i {
+  color: #3498db;
+  font-size: 16px;
+}
+.cardigan .race-details-container .form-group input[type=number] {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.cardigan .race-details-container .form-group input[type=number]:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+.cardigan .race-details-container .ability-modifiers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+.cardigan .race-details-container .ability-modifiers-grid .modifier-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.cardigan .race-details-container .ability-modifiers-grid .modifier-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a3c2a;
+  margin: 0;
+}
+.cardigan .race-details-container .ability-modifiers-grid .modifier-field input[type=number] {
+  width: 100%;
+  padding: 5px 8px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.cardigan .race-details-container .ability-modifiers-grid .modifier-field input[type=number]:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+.cardigan .race-details-container .ability-modifiers-grid .modifier-field input[type=number][value^="-"] {
+  color: #c0392b;
+}
+.cardigan .race-details-container .ability-modifiers-grid .modifier-field input[type=number]:not([value="0"]):not([value^="-"]) {
+  color: #27ae60;
 }
 .cardigan {
   /* Rest System Styles */
