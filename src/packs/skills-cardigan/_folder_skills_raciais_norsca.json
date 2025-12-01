@@ -1,0 +1,18 @@
+{
+  "_id": "WlRacNorsca9AdUh",
+  "_key": "!folders!WlRacNorsca9AdUh",
+  "name": "Norsca",
+  "type": "Item",
+  "color": "#ff9800",
+  "sorting": "a",
+  "folder": "Sk5RaciaisOp6AsD",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}
