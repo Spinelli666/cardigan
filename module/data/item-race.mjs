@@ -22,6 +22,26 @@ export default class CardiganSystemRace extends CardiganSystemItemBase {
       hint: 'CARDIGAN.Item.Race.FIELDS.movementBonus.hint'
     });
     
+    // Health bonus
+    schema.healthBonus = new NumberField({
+      required: true,
+      nullable: false,
+      initial: 0,
+      integer: true,
+      label: 'CARDIGAN.Item.Race.FIELDS.healthBonus.label',
+      hint: 'CARDIGAN.Item.Race.FIELDS.healthBonus.hint'
+    });
+    
+    // Power/Energy bonus
+    schema.powerBonus = new NumberField({
+      required: true,
+      nullable: false,
+      initial: 0,
+      integer: true,
+      label: 'CARDIGAN.Item.Race.FIELDS.powerBonus.label',
+      hint: 'CARDIGAN.Item.Race.FIELDS.powerBonus.hint'
+    });
+    
     // Racial skills (UUIDs of skills that come with this race)
     schema.racialSkills = new ArrayField(
       new StringField({ required: false }),

@@ -1,0 +1,67 @@
+{
+  "_id": "Q8rS1tU4vW7xY0zZ",
+  "_key": "!items!Q8rS1tU4vW7xY0zZ",
+  "name": "Incansável",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/raciais.webp",
+  "system": {
+    "skillActionTypes": [
+      "passiva"
+    ],
+    "skillClass": "raciais",
+    "spellCategories": [],
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: justify\">Uma vez ao dia, ao zerar sua <code>⚡</code> <strong>Energia</strong> é possível realizar um Teste de <strong>Vigor</strong> <strong><code>Dif.12</code></strong> para restaurar <strong>metade</strong> da <code>⚡</code> <strong>Energia</strong> total.</p>"
+  },
+  "effects": [],
+  "folder": "SkRacHumanoXy9Za",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

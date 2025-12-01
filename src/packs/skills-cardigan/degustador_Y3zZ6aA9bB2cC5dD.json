@@ -1,0 +1,67 @@
+{
+  "_id": "Y3zZ6aA9bB2cC5dD",
+  "_key": "!items!Y3zZ6aA9bB2cC5dD",
+  "name": "Degustador",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/raciais.webp",
+  "system": {
+    "skillActionTypes": [
+      "passiva"
+    ],
+    "skillClass": "raciais",
+    "spellCategories": [],
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: justify\">Gnomos ganham um bônus de <strong><code>+2</code></strong> em todos os testes enquanto estiverem bem alimentados, ou seja, enquanto suas barras de <code>🍗</code> / <code>💧</code> estiverem cheias.</p>"
+  },
+  "effects": [],
+  "folder": "XsRacGnomo5BkLpG",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

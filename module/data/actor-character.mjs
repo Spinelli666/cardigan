@@ -161,8 +161,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const armorProtectionBonus = this._armorProtectionBonus ?? 0;
     const armorMovementBonus = this._armorMovementBonus ?? 0;
     
-    this.health.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + healthBonus + armorHealthBonus);
-    this.power.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + energyBonus + armorEnergyBonus);
+    // Get race bonuses (calculated from race item)
+    const raceHealthBonus = this._raceHealthBonus ?? 0;
+    const racePowerBonus = this._racePowerBonus ?? 0;
+    
+    this.health.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + healthBonus + armorHealthBonus + raceHealthBonus);
+    this.power.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + energyBonus + armorEnergyBonus + racePowerBonus);
     
     // Calculate armor maximum based on armor bonus from equipped armors + manual bonus
     this.armor.max = Math.max(0, armorBonus + armorProtectionBonus);
@@ -313,8 +317,10 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       for (const key in this.abilities) {
         this.abilities[key].baseValue = 0;
       }
-      // Reset movement bonus from race
-      this.details.movement = this.details.movementManual || 0;
+      // Reset bonuses from race
+      this._raceMovementBonus = 0;
+      this._raceHealthBonus = 0;
+      this._racePowerBonus = 0;
       return;
     }
     
@@ -325,8 +331,10 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       this.abilities[key].baseValue = raceModifier;
     }
     
-    // Store race movement bonus for later calculation
+    // Store race bonuses for later calculation
     this._raceMovementBonus = raceItem.system.movementBonus || 0;
+    this._raceHealthBonus = raceItem.system.healthBonus || 0;
+    this._racePowerBonus = raceItem.system.powerBonus || 0;
   }
 
   /**

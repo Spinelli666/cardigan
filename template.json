@@ -235,6 +235,8 @@
     "race": {
       "templates": ["base"],
       "movementBonus": 0,
+      "healthBonus": 0,
+      "powerBonus": 0,
       "racialSkills": [],
       "abilityModifiers": {
         "accuracy": 0,

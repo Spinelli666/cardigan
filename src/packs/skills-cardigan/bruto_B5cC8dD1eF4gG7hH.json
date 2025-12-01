@@ -1,0 +1,67 @@
+{
+  "_id": "B5cC8dD1eF4gG7hH",
+  "_key": "!items!B5cC8dD1eF4gG7hH",
+  "name": "Bruto",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/raciais.webp",
+  "system": {
+    "skillActionTypes": [
+      "passiva"
+    ],
+    "skillClass": "raciais",
+    "spellCategories": [],
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p style=\"text-align: justify\">Sempre que você realizar um <em>Acerto Crítico</em>, adicione metade da sua <strong>Força</strong> como dano adicional.</p>"
+  },
+  "effects": [],
+  "folder": "WlRacNorsca9AdUh",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

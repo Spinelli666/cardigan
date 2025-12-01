@@ -25,6 +25,40 @@
       <p class='hint'>{{localize "CARDIGAN.Item.Race.FIELDS.movementBonus.hint"}}</p>
     </div>
     
+    {{! Health Bonus }}
+    <div class='form-group'>
+      <label for='system.healthBonus'>
+        {{localize "CARDIGAN.Item.Race.FIELDS.healthBonus.label"}}
+      </label>
+      <div class='form-fields'>
+        <input
+          type='number'
+          name='system.healthBonus'
+          value='{{system.healthBonus}}'
+          data-dtype='Number'
+          step='1'
+        />
+      </div>
+      <p class='hint'>{{localize "CARDIGAN.Item.Race.FIELDS.healthBonus.hint"}}</p>
+    </div>
+    
+    {{! Power Bonus }}
+    <div class='form-group'>
+      <label for='system.powerBonus'>
+        {{localize "CARDIGAN.Item.Race.FIELDS.powerBonus.label"}}
+      </label>
+      <div class='form-fields'>
+        <input
+          type='number'
+          name='system.powerBonus'
+          value='{{system.powerBonus}}'
+          data-dtype='Number'
+          step='1'
+        />
+      </div>
+      <p class='hint'>{{localize "CARDIGAN.Item.Race.FIELDS.powerBonus.hint"}}</p>
+    </div>
+    
     {{! Ability Modifiers Section }}
     <div class='form-group'>
       <h4>{{localize "CARDIGAN.Item.Race.FIELDS.abilityModifiers.label"}}</h4>
