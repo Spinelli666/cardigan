@@ -519,7 +519,6 @@
       <li class='item flexrow items-header'>
         <div class='item-name'>Skill Name</div>
         <div class='item-type'>Type</div>
-        <div class='item-enhancements'>Enhancements</div>
         <div class='item-controls'>
           {{#if @root.editable}}
             <a class='item-control item-create' title='Add Raciais Skill' data-action='createDoc' data-document-class='Item' data-type='skill' data-name='New Raciais Skill'>
@@ -564,13 +563,6 @@
                 </span>
               {{/if}}
             </div>
-            <div class='item-enhancements'>
-              <div class="enhancement-checkboxes" style="display: flex; gap: 8px; justify-content: center;">
-                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked (lookup skill.system.acquiredEnhancements 0)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked (lookup skill.system.acquiredEnhancements 1)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked (lookup skill.system.acquiredEnhancements 2)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
-              </div>
-            </div>
             <div class='item-controls'>
               <a class='item-control skill-chat' title='{{localize "CARDIGAN.ShowInChat"}}' data-action='skillToChat' data-item-id='{{skill._id}}'>
                 <i class='fas fa-comment'></i>
@@ -579,11 +571,6 @@
                 <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
                   <i class='fas fa-edit'></i>
                 </a>
-                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
-                  <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
-                  <i class='fas fa-trash'></i>
-                </a>
-                  {{/unless}}
               {{/if}}
             </div>
           </div>

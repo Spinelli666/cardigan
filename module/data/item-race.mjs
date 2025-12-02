@@ -42,9 +42,14 @@ export default class CardiganSystemRace extends CardiganSystemItemBase {
       hint: 'CARDIGAN.Item.Race.FIELDS.powerBonus.hint'
     });
     
-    // Racial skills (UUIDs of skills that come with this race)
+    // Racial skills (Array of skill objects with id, name, img, and uuid)
     schema.racialSkills = new ArrayField(
-      new StringField({ required: false }),
+      new SchemaField({
+        id: new StringField({ required: true }),
+        name: new StringField({ required: true }),
+        img: new StringField({ required: false, initial: 'icons/svg/item-bag.svg' }),
+        uuid: new StringField({ required: true })
+      }),
       {
         required: false,
         initial: [],

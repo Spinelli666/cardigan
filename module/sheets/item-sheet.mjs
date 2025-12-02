@@ -1,6 +1,7 @@
 import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import SkillEnhancementConfigDialog from '../applications/skill-enhancement-config-dialog.mjs';
 import SkillLinkedSkillsDialog from '../applications/skill-linked-skills-dialog.mjs';
+import RacialSkillsSelectionDialog from '../applications/racial-skills-selection-dialog.mjs';
 
 const { api, sheets } = foundry.applications;
 
@@ -52,6 +53,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       ingredientNameChange: this._onIngredientNameChange,
       configureSkillEffects: this._configureSkillEffects,
       configureLinkedSkills: this._configureLinkedSkills,
+      selectRacialSkills: this._selectRacialSkills,
+      removeRacialSkill: this._removeRacialSkill,
       configureEnhancement1: this._configureEnhancement1,
       configureEnhancement2: this._configureEnhancement2,
       configureEnhancement3: this._configureEnhancement3,
@@ -1110,6 +1113,64 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     } catch (error) {
       console.error('[CARDIGAN ERROR] Error in _configureLinkedSkills:', error);
       ui.notifications.error(`Erro ao abrir dialog: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle selecting racial skills for Race items
+   * @param {Event} event      The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   */
+  static async _selectRacialSkills(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    
+    if (item.type !== 'race') {
+      return;
+    }
+
+    try {
+      // Open the racial skills selection dialog
+      const dialog = new RacialSkillsSelectionDialog({
+        item: item,
+        selectedSkills: item.system.racialSkills || []
+      });
+      
+      dialog.render(true);
+    } catch (error) {
+      console.error('[CARDIGAN ERROR] Error in _selectRacialSkills:', error);
+      ui.notifications.error(`Erro ao abrir dialog: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle removing a racial skill from Race item
+   * @param {Event} event      The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   */
+  static async _removeRacialSkill(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    
+    if (item.type !== 'race') {
+      return;
+    }
+
+    const skillId = target.closest('[data-skill-id]')?.dataset.skillId;
+    if (!skillId) return;
+
+    try {
+      const currentSkills = item.system.racialSkills || [];
+      const updatedSkills = currentSkills.filter(skill => skill.id !== skillId);
+      
+      await item.update({
+        'system.racialSkills': updatedSkills
+      });
+      
+      ui.notifications.info('Skill racial removida');
+    } catch (error) {
+      console.error('[CARDIGAN ERROR] Error removing racial skill:', error);
+      ui.notifications.error(`Erro ao remover skill: ${error.message}`);
     }
   }
 

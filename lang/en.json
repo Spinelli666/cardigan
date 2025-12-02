@@ -332,6 +332,12 @@
       },
       "Race": {
         "Details": "Detalhes da Raça",
+        "SelectRacialSkills": "Selecionar Skills Raciais",
+        "SelectSkills": "Selecionar Skills",
+        "RacialSkillsHint": "Selecione as skills que os personagens desta raça recebem automaticamente",
+        "NoSkillsSelected": "Nenhuma skill racial selecionada",
+        "NoRacialSkillsFound": "Nenhuma skill racial encontrada",
+        "NoRacialSkillsHint": "Crie skills com a classe 'raciais' no compendium ou na mesa para poder selecioná-las",
         "FIELDS": {
           "movementBonus": {
             "label": "Bônus de Deslocamento",

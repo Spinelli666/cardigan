@@ -9,7 +9,7 @@
       "simples"
     ],
     "skillClass": "feiticeiro",
-    "spellCategories": ["simples"],
+    "spellCategories": ["caos"],
     "hasEnergyCost": true,
     "energyCost": 10,
     "hasCustomEffects": true,

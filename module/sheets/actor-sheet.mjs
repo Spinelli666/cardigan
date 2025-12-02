@@ -904,6 +904,45 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       content: game.i18n.format('DOCUMENT.DeleteWarning', { name: doc.name }),
     });
     if (performDeletion) {
+      // Check if it's a Race item and delete associated racial skills
+      if (doc.type === "race" && doc.system.racialSkills?.length > 0) {
+        console.log("[RACIAL SKILLS] Removing racial skills on race deletion:", {
+          raceName: doc.name,
+          skillsCount: doc.system.racialSkills.length
+        });
+        
+        const actor = doc.parent;
+        const skillsToDelete = [];
+        
+        // Find all racial skills that belong to this race
+        for (const racialSkill of doc.system.racialSkills) {
+          // Match by name and skillClass instead of UUID (UUIDs change when skills become owned items)
+          const skillItem = actor.items.find(item => 
+            item.type === 'skill' && 
+            item.name === racialSkill.name &&
+            item.system.skillClass === 'raciais'
+          );
+          
+          if (skillItem) {
+            skillsToDelete.push(skillItem);
+          }
+        }
+        
+        // Delete all found racial skills
+        if (skillsToDelete.length > 0) {
+          console.log("[RACIAL SKILLS] Deleting racial skills:", {
+            count: skillsToDelete.length,
+            skills: skillsToDelete.map(s => s.name)
+          });
+          
+          for (const skill of skillsToDelete) {
+            await skill.delete();
+          }
+          
+          ui.notifications.info(`Raça removida junto com ${skillsToDelete.length} skill(s) racial(is)`);
+        }
+      }
+      
       // Check if it's a temporary health effect and adjust Health Bonus before deletion
       if (doc.type === "efeito" && doc.system.isTemporaryHealth && doc.system.healthBonusValue) {
         console.log("[TEMPORARY HEALTH] Removing health bonus on effect deletion via _deleteDoc:", {
@@ -1780,6 +1819,60 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       if (existingRace) {
         await existingRace.delete();
         ui.notifications.info(`Raça anterior "${existingRace.name}" foi substituída`);
+      }
+      
+      // Add racial skills automatically
+      for (const raceItem of raceItems) {
+        const racialSkills = raceItem.system?.racialSkills || [];
+        
+        if (racialSkills.length > 0) {
+          console.log('[CARDIGAN] Adding racial skills:', racialSkills.length);
+          
+          // Create an array to hold skill items to add
+          const skillsToAdd = [];
+          
+          for (const skillRef of racialSkills) {
+            try {
+              // Try to get the skill from UUID
+              let skillDoc = null;
+              if (skillRef.uuid) {
+                skillDoc = await fromUuid(skillRef.uuid);
+              }
+              
+              // If not found by UUID, try to find in compendium by ID
+              if (!skillDoc && skillRef.id) {
+                const pack = game.packs.get("cardigan.skills-cardigan");
+                if (pack) {
+                  skillDoc = await pack.getDocument(skillRef.id);
+                }
+              }
+              
+              if (skillDoc) {
+                // Check if skill already exists on actor
+                const existingSkill = this.actor.items.find(i => 
+                  i.type === 'skill' && i.name === skillDoc.name
+                );
+                
+                if (!existingSkill) {
+                  skillsToAdd.push(skillDoc.toObject());
+                  console.log('[CARDIGAN] Will add racial skill:', skillDoc.name);
+                } else {
+                  console.log('[CARDIGAN] Skill already exists:', skillDoc.name);
+                }
+              } else {
+                console.warn('[CARDIGAN] Could not find skill:', skillRef.name || skillRef.id);
+              }
+            } catch (error) {
+              console.error('[CARDIGAN] Error loading racial skill:', error);
+            }
+          }
+          
+          // Add all racial skills
+          if (skillsToAdd.length > 0) {
+            await this.actor.createEmbeddedDocuments('Item', skillsToAdd);
+            ui.notifications.info(`${skillsToAdd.length} skill(s) racial(is) adicionada(s)`);
+          }
+        }
       }
     }
     

@@ -193,14 +193,46 @@
       </div>
     </div>
     
-    {{! Racial Skills Section - Future Implementation }}
-    <div class='form-group'>
-      <h4>{{localize "CARDIGAN.Item.Race.FIELDS.racialSkills.label"}}</h4>
+    {{! Racial Skills Section }}
+    <div class='form-group racial-skills-section'>
+      <div class='section-header'>
+        <h4>{{localize "CARDIGAN.Item.Race.FIELDS.racialSkills.label"}}</h4>
+        <button 
+          type='button' 
+          class='select-racial-skills-btn' 
+          data-action='selectRacialSkills'
+          title='{{localize "CARDIGAN.Item.Race.SelectRacialSkills"}}'
+        >
+          <i class='fas fa-plus'></i>
+          {{localize "CARDIGAN.Item.Race.SelectSkills"}}
+        </button>
+      </div>
       <p class='hint'>{{localize "CARDIGAN.Item.Race.FIELDS.racialSkills.hint"}}</p>
-      <p class='info-message'>
-        <i class='fas fa-info-circle'></i>
-        Skills raciais serão implementadas futuramente. Por enquanto, use a descrição para listar as skills raciais.
-      </p>
+      
+      {{#if system.racialSkills.length}}
+        <div class='selected-racial-skills'>
+          {{#each system.racialSkills}}
+            <div class='racial-skill-item'>
+              <img src='{{this.img}}' alt='{{this.name}}' class='skill-icon' />
+              <span class='skill-name'>{{this.name}}</span>
+              <button 
+                type='button' 
+                class='remove-skill-btn' 
+                data-skill-id='{{this.id}}'
+                data-action='removeRacialSkill'
+                title='{{localize "CARDIGAN.Common.Remove"}}'
+              >
+                <i class='fas fa-times'></i>
+              </button>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <div class='no-skills-selected'>
+          <i class='fas fa-info-circle'></i>
+          <p>{{localize "CARDIGAN.Item.Race.NoSkillsSelected"}}</p>
+        </div>
+      {{/if}}
     </div>
   </div>
 </section>
