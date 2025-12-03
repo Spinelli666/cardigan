@@ -2,7 +2,7 @@
   "package": "cardigan.efeitos-cardigan",
   "metadata": {
     "name": "efeitos-cardigan",
-    "label": "Efeitos do Cardigan",
+    "label": "Efeitos",
     "path": "systems/cardigan/packs/efeitos-cardigan",
     "type": "Item",
     "system": "cardigan",

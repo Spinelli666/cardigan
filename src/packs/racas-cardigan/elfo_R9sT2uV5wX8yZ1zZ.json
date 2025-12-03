@@ -1,0 +1,52 @@
+{
+  "_id": "R9sT2uV5wX8yZ1zZ",
+  "_key": "!items!R9sT2uV5wX8yZ1zZ",
+  "name": "Elfo",
+  "type": "race",
+  "img": "systems/cardigan/assets/images/paths/raciais.webp",
+  "system": {
+    "description": "<p style=\"text-align: center\"><strong><code>〔 Faerin, Elthárin 〕</code></strong></p><p><br></p><ul><li><p style=\"text-align: justify\"><strong>Região ‣</strong>  Bosques da Grimânia, Lyria e Hiboria.</p></li><li><p style=\"text-align: justify\"><strong>Língua ‣</strong>  Eltharín, Norsca, Grimânico, Lyriês.</p></li><li><p style=\"text-align: justify\"><strong>Altura ‣</strong>  Entre 1,80cm e 3m</p></li><li><p style=\"text-align: justify\"><strong>Idade ‣</strong>  São adultos aos 30 anos e vivem até por cerca de 400 anos.</p></li></ul><p></p><p style=\"text-align: justify\"><strong>– </strong><span style=\"text-decoration:underline\"><strong><span style=\"text-decoration: underline;\">DONS RACIAIS</span></strong></span><strong> –</strong></p><p></p><ul><li><p style=\"text-align: justify\"><strong><code>💔PV inicial</code></strong> ‣    <strong>30</strong></p></li><li><p style=\"text-align: justify\"><strong><code>⚡️PE inicial</code></strong> ‣    <strong>40</strong></p></li><li><p style=\"text-align: justify\"><strong><code>Deslocamento</code></strong> ‣    <strong>6m</strong></p></li></ul><p><br></p><p style=\"text-align: justify\"> ◈    <strong>Inteligência <code>+2</code> ⬩ Destreza <code>+1</code></strong>.</p><p style=\"text-align: justify\"> ◈    <strong><code>+2</code></strong> Pontos de <em>Perícia acumuláveis</em>, podendo passar do limite de <strong><code>3</code></strong>.</p><p><br></p><p style=\"text-align: justify\">🔸<span style=\"text-decoration:underline\"><strong><span style=\"text-decoration: underline;\">CONHECIMENTO ANTIGO</span></strong></span>🔸</p><p style=\"text-align: justify\"><code>〔 Passiva 〕</code></p><p style=\"text-align: justify\">Você começa com <strong><code>1</code></strong> <strong>Ponto de Habilidade</strong> a mais no primeiro nível.</p><p><br></p><p style=\"text-align: justify\">🔸<span style=\"text-decoration:underline\"><strong><span style=\"text-decoration: underline;\">PERSISTÊNCIA</span></strong></span>🔸</p><p style=\"text-align: justify\"><code>〔 Passiva 〕</code></p><p style=\"text-align: justify\">Caso falhe em um Teste de <strong>Perícia</strong>, você receberá bônus de <strong><code>+1</code></strong> no seu <em>próximo</em> teste de <strong>Perícia</strong>.</p><p><br></p><p style=\"text-align: justify\">🔸<span style=\"text-decoration:underline\"><strong><span style=\"text-decoration: underline;\">FILHO DA FLORESTA</span></strong></span>🔸</p><p style=\"text-align: justify\"><code>〔 Passiva 〕</code></p><p style=\"text-align: justify\">Uma vez ao dia, quando receber qualquer tipo de Cura em seus <strong><code>💔PV</code></strong> pode aumentar este valor em <strong><code>1d20</code></strong>.</p>",
+    "movementBonus": 6,
+    "healthBonus": 35,
+    "powerBonus": 40,
+    "abilityModifiers": {
+      "accuracy": 0,
+      "evasion": 0,
+      "strength": 0,
+      "dexterity": 1,
+      "stamina": 0,
+      "stealth": 0,
+      "persuasion": 0,
+      "intelligence": 2,
+      "psionics": 0
+    },
+    "racialSkills": [
+      {
+        "id": "H1iJ4kL7mN0oP3qR",
+        "name": "Conhecimento Antigo",
+        "img": "systems/cardigan/assets/images/paths/raciais.webp"
+      },
+      {
+        "id": "S6tU9vW2xY5zZ8aB",
+        "name": "Persistência",
+        "img": "systems/cardigan/assets/images/paths/raciais.webp"
+      },
+      {
+        "id": "K4lL7mN0oP3qR6sT",
+        "name": "Filho da Floresta",
+        "img": "systems/cardigan/assets/images/paths/raciais.webp"
+      }
+    ]
+  },
+  "effects": [],
+  "folder": null,
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.4",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

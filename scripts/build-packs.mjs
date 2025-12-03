@@ -27,6 +27,15 @@ try {
   );
   console.log("✅ Compêndio skills-cardigan compilado!");
 
+  // Compilar racas-cardigan
+  console.log("Compilando compêndio racas-cardigan...");
+  await compilePack(
+    path.join(SYSTEM_ROOT, 'src', 'packs', 'racas-cardigan'),
+    path.join(SYSTEM_ROOT, 'packs', 'racas-cardigan'),
+    { yaml: false, recursive: true }
+  );
+  console.log("✅ Compêndio racas-cardigan compilado!");
+
   console.log("🎉 Todos os compêndios compilados com sucesso!");
 } catch (error) {
   console.error("❌ Erro ao compilar compêndios:", error);
