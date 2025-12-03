@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
   "system": {
-    "description": "<p style=\"text-align: justify\">Está paralisado e não pode realizar nenhuma ação ou teste até terminar o efeito, mas recebe <code>5❄️</code> dano de Gelo a cada rodada enquanto o efeito durar.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify\">Está paralisado e não pode realizar nenhuma ação ou teste até terminar o efeito, mas recebe <code>5❄️</code> dano de Gelo a cada rodada enquanto o efeito durar.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

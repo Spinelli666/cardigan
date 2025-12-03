@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Você se ausenta da batalha por um tempo para respirar.\"</em></p><p><br></p><p style=\"text-align: justify\">* Pode tirar uma rodada recuperando o fôlego:</p><blockquote><p style=\"text-align: justify\">Recupera <strong><code>1d20 + 2xVIGOR</code></strong> em <code>💔PV</code> ou <code>⚡️PE</code>.</p></blockquote><p style=\"text-align: justify\">* Como toda habilidade de Foco será interrompida se receber dano ou Efeitos Negativos.</p><p style=\"text-align: justify\">* Esta habilidade só pode ser utilizada novamente depois de um <em>Descanso</em>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se ausenta da batalha por um tempo para respirar.\"</em></p><p><br></p><p style=\"text-align: justify\">* Pode tirar uma rodada recuperando o fôlego:</p><blockquote><p style=\"text-align: justify\">Recupera <strong><code>1d20 + 2xVIGOR</code></strong> em <code>💔PV</code> ou <code>⚡️PE</code>.</p></blockquote><p style=\"text-align: justify\">* Como toda habilidade de Foco será interrompida se receber dano ou Efeitos Negativos.</p><p style=\"text-align: justify\">* Esta habilidade só pode ser utilizada novamente depois de um <em>Descanso</em>.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

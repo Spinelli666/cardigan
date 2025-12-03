@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
   "system": {
-    "description": "<p style=\"text-align: justify\">Seu personagem será tomado de uma cólera furiosa e atacará tudo e todos ao redor descontroladamente, incluindo os aliados mais próximos, até o término do efeito.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify\">Seu personagem será tomado de uma cólera furiosa e atacará tudo e todos ao redor descontroladamente, incluindo os aliados mais próximos, até o término do efeito.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

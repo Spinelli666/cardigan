@@ -14,6 +14,7 @@ export { SangramentoEffect } from './effects/sangramento.mjs';
 export { IncendiadoEffect } from './effects/incendiado.mjs';
 export { EletrocutadoEffect } from './effects/eletrocutado.mjs';
 export { CongeladoEffect } from './effects/congelado.mjs';
+export { AmaldicoadoEffect } from './effects/amaldicoado.mjs';
 export { PetrificadoEffect } from './effects/petrificado.mjs';
 export { default as LentoEffect } from './effects/lento.mjs';
 
@@ -31,6 +32,7 @@ export async function initializeEffects() {
   const { IncendiadoEffect } = await import('./effects/incendiado.mjs');
   const { EletrocutadoEffect } = await import('./effects/eletrocutado.mjs');
   const { CongeladoEffect } = await import('./effects/congelado.mjs');
+  const { AmaldicoadoEffect } = await import('./effects/amaldicoado.mjs');
   const { PetrificadoEffect } = await import('./effects/petrificado.mjs');
   const LentoEffect = (await import('./effects/lento.mjs')).default;
   const { default: EffectManager } = await import('./effect-manager.mjs');
@@ -43,6 +45,7 @@ export async function initializeEffects() {
   EffectManager.register('Incendiado', IncendiadoEffect);
   EffectManager.register('Eletrocutado', EletrocutadoEffect);
   EffectManager.register('Congelado', CongeladoEffect);
+  EffectManager.register('Amaldiçoado', AmaldicoadoEffect);
   EffectManager.register('Petrificado', PetrificadoEffect);
   EffectManager.register('Lento', LentoEffect);
   
@@ -57,6 +60,9 @@ export async function initializeEffects() {
   
   // Register Congelado hooks for combat turns
   CongeladoEffect.registerHooks();
+  
+  // Register Amaldiçoado hooks for combat turns
+  AmaldicoadoEffect.registerHooks();
   
   // Register Petrificado hooks for armor bonus modification
   PetrificadoEffect.registerHooks();

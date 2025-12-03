@@ -57,7 +57,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Vocẽ é bom em despertar o pior nas pessoas. Parabéns.\"</em></p><p><br></p><p style=\"text-align: justify\">* Ao ativar esta habilidade você deve realizar um teste de <strong>Persuasão</strong> contra cada inimigo que possa ouvir seu personagem. Com sucesso, você os provoca a atacar apenas seu personagem por <strong>duas rodadas</strong>.</p><p style=\"text-align: justify\">* Para cada inimigo provocado você recebe <strong><code>+1m</code></strong> de ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<strong>Deslocamento.</strong></p><p style=\"text-align: justify\">* O bônus temporário é removido ao encerrar o efeito de provocação, e você não pode utilizar essa habilidade novamente por duas rodadas.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Vocẽ é bom em despertar o pior nas pessoas. Parabéns.\"</em></p><p><br></p><p style=\"text-align: justify\">* Ao ativar esta habilidade você deve realizar um teste de <strong>Persuasão</strong> contra cada inimigo que possa ouvir seu personagem. Com sucesso, você os provoca a atacar apenas seu personagem por <strong>duas rodadas</strong>.</p><p style=\"text-align: justify\">* Para cada inimigo provocado você recebe <strong><code>+1m</code></strong> de ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<strong>Deslocamento.</strong></p><p style=\"text-align: justify\">* O bônus temporário é removido ao encerrar o efeito de provocação, e você não pode utilizar essa habilidade novamente por duas rodadas.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

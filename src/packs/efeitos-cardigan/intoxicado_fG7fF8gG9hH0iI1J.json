@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
   "system": {
-    "description": "<p style=\"text-align: justify\">Não é afetado por efeitos de <strong>::systems/cardigan/assets/images/alquimia/tonico_alquimico.webp::Alquimia</strong>. Pode ser removido por um <code>💤</code><strong>Descanso Longo</strong> ou <strong>::systems/cardigan/assets/images/alquimia/tonico_purificador.webp::Tônico Purificador</strong>.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify\">Não é afetado por efeitos de <strong>::systems/cardigan/assets/images/alquimia/tonico_alquimico.webp::Alquimia</strong>. Pode ser removido por um <code>💤</code><strong>Descanso Longo</strong> ou <strong>::systems/cardigan/assets/images/alquimia/tonico_purificador.webp::Tônico Purificador</strong>.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

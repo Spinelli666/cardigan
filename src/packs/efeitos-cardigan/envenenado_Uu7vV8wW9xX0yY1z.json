@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
   "system": {
-    "description": "<p style=\"text-align: justify\">Enquanto com este efeito, sempre que receber qualquer tipo de dano você receberá <code>5🐍</code> dano de Veneno adicional. Caso não receba dano enquanto envenenado, quando o efeito terminar você receberá <code>20🐍</code>. Também causa <code>1d6☣️</code> pontos de <em>Toxidade</em>.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify\">Enquanto com este efeito, sempre que receber qualquer tipo de dano você receberá <code>5🐍</code> dano de Veneno adicional. Caso não receba dano enquanto envenenado, quando o efeito terminar você receberá <code>20🐍</code>. Também causa <code>1d6☣️</code> pontos de <em>Toxidade</em>.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Você voa pela batalha dilacerando todos os inimigos.\"</em></p><p><br></p><p style=\"text-align: justify\">* Se equipado com <em>Armas Marciais Leves</em> ou <em>Desarmado</em> você pode desferir um ataque simples em todos inimigos na batalha que tenha visão e alcance em um único turno.</p><p style=\"text-align: justify\">* Cada alvo atacado com ou sem sucesso reinicia sua ação de ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<strong>Deslocamento</strong>.</p><p style=\"text-align: justify\">* <em>Acertos Críticos</em> aplicam seu total de <strong>Destreza</strong> como dano adicional.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você voa pela batalha dilacerando todos os inimigos.\"</em></p><p><br></p><p style=\"text-align: justify\">* Se equipado com <em>Armas Marciais Leves</em> ou <em>Desarmado</em> você pode desferir um ataque simples em todos inimigos na batalha que tenha visão e alcance em um único turno.</p><p style=\"text-align: justify\">* Cada alvo atacado com ou sem sucesso reinicia sua ação de ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<strong>Deslocamento</strong>.</p><p style=\"text-align: justify\">* <em>Acertos Críticos</em> aplicam seu total de <strong>Destreza</strong> como dano adicional.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

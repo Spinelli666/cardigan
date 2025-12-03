@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Você se posiciona com cuidado, preparado para qualquer ataque próximo.\"</em></p><p><br></p><p style=\"text-align: justify;\">* Recebe <strong>Vantagem</strong> no próximo teste de <strong>Evasão</strong>.</p><p style=\"text-align: justify;\">* Reduza pela metade todo dano recebido até sua próxima rodada.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se posiciona com cuidado, preparado para qualquer ataque próximo.\"</em></p><p><br></p><p style=\"text-align: justify;\">* Recebe <strong>Vantagem</strong> no próximo teste de <strong>Evasão</strong>.</p><p style=\"text-align: justify;\">* Reduza pela metade todo dano recebido até sua próxima rodada.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

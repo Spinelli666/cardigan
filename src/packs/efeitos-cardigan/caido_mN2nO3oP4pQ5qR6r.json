@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
   "system": {
-    "description": "<p style=\"text-align: justify\">Cai no chão e recebe Desvantagem em qualquer teste de Perícia. Em seu turno pode usar sua ::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp::<em>Ação Simples</em> para se levantar. Além disso, caso você esteja mantendo uma habilidade do tipo Foco ou Postura, ela é removida.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify\">Cai no chão e recebe Desvantagem em qualquer teste de Perícia. Em seu turno pode usar sua ::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp::<em>Ação Simples</em> para se levantar. Além disso, caso você esteja mantendo uma habilidade do tipo Foco ou Postura, ela é removida.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

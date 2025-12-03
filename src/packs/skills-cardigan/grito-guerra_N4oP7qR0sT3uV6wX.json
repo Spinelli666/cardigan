@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Com um grito barbárico você faz seus inimigos tremerem as pernas!\"</em></p><p><br></p><p style=\"text-align: justify\">* Você testa <strong>Persuasão</strong> contra todos inimigos que podem escutá-lo, e com um sucesso você intimida este inimigo.</p><blockquote><p style=\"text-align: justify\"><strong><code>❗️@UUID[Compendium.cardigan.efeitos-cardigan.Item.G1hI2jK3lM4nO5pQ]{Intimidado}</code></strong> ‣ Tem <strong>-4</strong> em testes de <strong>Perícia</strong> contra quem o intimidou.</p></blockquote><p style=\"text-align: justify\">* Aliados adjacentes ao seu personagem também recebem os bônus.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Com um grito barbárico você faz seus inimigos tremerem as pernas!\"</em></p><p><br></p><p style=\"text-align: justify\">* Você testa <strong>Persuasão</strong> contra todos inimigos que podem escutá-lo, e com um sucesso você intimida este inimigo.</p><blockquote><p style=\"text-align: justify\"><strong><code>❗️@UUID[Compendium.cardigan.efeitos-cardigan.Item.G1hI2jK3lM4nO5pQ]{Intimidado}</code></strong> ‣ Tem <strong>-4</strong> em testes de <strong>Perícia</strong> contra quem o intimidou.</p></blockquote><p style=\"text-align: justify\">* Aliados adjacentes ao seu personagem também recebem os bônus.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: justify\">Uma vez ao dia, dentro ou fora de combate, quando falhar em um teste de <em>Perícia</em> pode rolar um novo resultado, incluindo testes de <em>Precisão</em> e <em>Evasão</em>.</p><p style=\"text-align: justify\">É possível usar essa habilidade como ::systems/cardigan/assets/images/tipos-acoes/reacao.webp::<strong>Reação</strong> para permitir à um aliado próximo rolar novamente, gastando o uso da habilidade mesmo assim.</p>"
+    "description": "<p><br></p><p style=\"text-align: justify\">Uma vez ao dia, dentro ou fora de combate, quando falhar em um teste de <em>Perícia</em> pode rolar um novo resultado, incluindo testes de <em>Precisão</em> e <em>Evasão</em>.</p><p style=\"text-align: justify\">É possível usar essa habilidade como ::systems/cardigan/assets/images/tipos-acoes/reacao.webp::<strong>Reação</strong> para permitir à um aliado próximo rolar novamente, gastando o uso da habilidade mesmo assim.</p>"
   },
   "effects": [],
   "folder": "XsRacGnomo5BkLpG",

@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: justify\">Quando cai <code>💤@UUID[Compendium.cardigan.efeitos-cardigan.Item.xY2yZ3zA4bB5cC6D]{Inconsciente}</code> é imune a <strong>Execução</strong>.</p><p style=\"text-align: justify\">Receber dano nos <strong><code>💔PVs</code></strong> <em>negativos</em> ainda o mata.</p>"
+    "description": "<p><br></p><p style=\"text-align: justify\">Quando cai <code>💤@UUID[Compendium.cardigan.efeitos-cardigan.Item.xY2yZ3zA4bB5cC6D]{Inconsciente}</code> é imune a <strong>Execução</strong>.</p><p style=\"text-align: justify\">Receber dano nos <strong><code>💔PVs</code></strong><em>negativos</em> ainda o mata.</p>"
   },
   "effects": [],
   "folder": "QcRacDwarf3GzTk1",

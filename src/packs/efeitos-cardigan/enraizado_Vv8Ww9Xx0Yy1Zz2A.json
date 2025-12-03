@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
   "system": {
-    "description": "<p style=\"text-align: justify\">Não pode usar ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Deslocamento</em>.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify\">Não pode usar ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Deslocamento</em>.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],
