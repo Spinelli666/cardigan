@@ -75,7 +75,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Definitivamente você fala demais.\"</em><p style=\"text-align: justify\">* Você começa a gritar tantas mentiras absurdas para um inimigo que chega a soar convincente. Você testa <strong>Persuasão</strong> contra o alvo e caso tenha sucesso irá aplicar <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong>.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Definitivamente você fala demais.\"</em></p><p><br></p><p style=\"text-align: justify\">* Você começa a gritar tantas mentiras absurdas para um inimigo que chega a soar convincente. Você testa <strong>Persuasão</strong> contra o alvo e caso tenha sucesso irá aplicar <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

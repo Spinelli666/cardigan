@@ -57,7 +57,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Você deposita toda sua força em um golpe destruidor.\"</em></p><p></p><p style=\"text-align: justify;\">* Soma sua <strong>FORÇA</strong> como dano mais uma vez.</p><p style=\"text-align: justify;\">* Ignora <code>1d10</code><strong>::systems/cardigan/assets/images/armas/escudo.webp::Armadura</strong> do alvo e a danifica em <strong><code>-2</code></strong> <em>Durabilidade</em>.</p><p style=\"text-align: justify;\">* Aplica <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong>.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Você deposita toda sua força em um golpe destruidor.\"</em></p><p><br></p><p style=\"text-align: justify;\">* Soma sua <strong>FORÇA</strong> como dano mais uma vez.</p><p style=\"text-align: justify;\">* Ignora <code>1d10</code><strong>::systems/cardigan/assets/images/armas/escudo.webp::Armadura</strong> do alvo e a danifica em <strong><code>-2</code></strong> <em>Durabilidade</em>.</p><p style=\"text-align: justify;\">* Aplica <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

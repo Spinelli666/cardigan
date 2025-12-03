@@ -63,7 +63,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Você é bom mandando aquele discurso épico.\"</em></p><p style=\"text-align: justify\">* Ao usar essa habilidade você testa <em>Persuasão</em> para realizar um discurso inspirador aos seus aliados que podem ouvi-lo, fazendo com que o próximo ::systems/cardigan/assets/images/armas/espada.webp::<strong>Dano</strong> e regeneração de <strong><code>💔PV</code></strong> e <strong><code>⚡️PE</code></strong> destes alvos seja aumentado em <strong><code>1d4</code></strong> para cada ponto de <em>Persuasão</em> na sua ficha.</p><p style=\"text-align: justify\">* Além disso, todos recebem <strong><code>🌟@UUID[Compendium.cardigan.efeitos-cardigan.Item.k8JmN5PrQwX7VzBt]{Inspirado}³</code></strong>.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Você é bom mandando aquele discurso épico.\"</em></p><p><br></p><p style=\"text-align: justify\">* Ao usar essa habilidade você testa <em>Persuasão</em> para realizar um discurso inspirador aos seus aliados que podem ouvi-lo, fazendo com que o próximo ::systems/cardigan/assets/images/armas/espada.webp::<strong>Dano</strong> e regeneração de <strong><code>💔PV</code></strong> e <strong><code>⚡️PE</code></strong> destes alvos seja aumentado em <strong><code>1d4</code></strong> para cada ponto de <em>Persuasão</em> na sua ficha.</p><p style=\"text-align: justify\">* Além disso, todos recebem <strong><code>🌟@UUID[Compendium.cardigan.efeitos-cardigan.Item.k8JmN5PrQwX7VzBt]{Inspirado}³</code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"A vida é cheia de oportunidade.\"</em></p><p><p style=\"text-align: justify\">* Sempre que um inimigo adjacente usar uma ação de ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Deslocamento</em> você pode realizar um ataque simples contra ele.</p><p style=\"text-align: justify\">* Sempre que um aliado adjacente atacar um inimigo adjacente você também pode realizar um ataque simples contra este mesmo inimigo.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"A vida é cheia de oportunidade.\"</em></p><p><br></p><p style=\"text-align: justify\">* Sempre que um inimigo adjacente usar uma ação de ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Deslocamento</em> você pode realizar um ataque simples contra ele.</p><p style=\"text-align: justify\">* Sempre que um aliado adjacente atacar um inimigo adjacente você também pode realizar um ataque simples contra este mesmo inimigo.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Tomando uma postura defensiva rápida você defende um aliado próximo.\"</em></p><p></p><p style=\"text-align: justify\">* Quando um alvo até <em>2 metros</em> for visado por um Ataque Físico ou Feitiço, você pode utilizar esta técnica para ser o alvo deste ataque, deslocando seu personagem para a frente do aliado defendido, se possível.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Tomando uma postura defensiva rápida você defende um aliado próximo.\"</em></p><p><br></p><p style=\"text-align: justify\">* Quando um alvo até <em>2 metros</em> for visado por um Ataque Físico ou Feitiço, você pode utilizar esta técnica para ser o alvo deste ataque, deslocando seu personagem para a frente do aliado defendido, se possível.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

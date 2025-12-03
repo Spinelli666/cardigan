@@ -38,7 +38,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Agora pode usar esta habilidade com uma <strong>::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp::Ação Simples</strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Agora pode usar esta habilidade com uma <strong>::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: Ação Simples</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Você se posiciona com cuidado, preparado para qualquer ataque próximo.\"</em></p><p></p><p style=\"text-align: justify;\">* Recebe <strong>Vantagem</strong> no próximo teste de <strong>Evasão</strong>.</p><p style=\"text-align: justify;\">* Reduza pela metade todo dano recebido até sua próxima rodada.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Você se posiciona com cuidado, preparado para qualquer ataque próximo.\"</em></p><p><br></p><p style=\"text-align: justify;\">* Recebe <strong>Vantagem</strong> no próximo teste de <strong>Evasão</strong>.</p><p style=\"text-align: justify;\">* Reduza pela metade todo dano recebido até sua próxima rodada.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

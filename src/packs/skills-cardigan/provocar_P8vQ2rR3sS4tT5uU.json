@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p style=\"text-align: center\"><em>\"Você estufa o peito e os chama pra briga!\"</em></p><p></p><p style=\"text-align: justify\">* Ao ativar esta habilidade você deve realizar um teste de <strong>Persuasão</strong> contra cada inimigo que tenha visão do seu personagem. Com sucesso, você os provoca a atacar apenas seu personagem por <strong>duas rodadas</strong>.</p><p style=\"text-align: justify\">* Para cada inimigo provocado você recebe <strong><code>1d6💔PV Temporário</code></strong>.</p><p style=\"text-align: justify\">* Os <strong><code>💔PVT</strong></code> são removidos ao encerrar o efeito de provocação, e você não pode utilizar essa habilidade novamente por duas rodadas.</p>"
+    "description": "<p style=\"text-align: center\"><em>\"Você estufa o peito e os chama pra briga!\"</em></p><p><br></p><p style=\"text-align: justify\">* Ao ativar esta habilidade você deve realizar um teste de <strong>Persuasão</strong> contra cada inimigo que tenha visão do seu personagem. Com sucesso, você os provoca a atacar apenas seu personagem por <strong>duas rodadas</strong>.</p><p style=\"text-align: justify\">* Para cada inimigo provocado você recebe <strong><code>1d6💔PV Temporário</code></strong>.</p><p style=\"text-align: justify\">* Os <strong><code>💔PVT</strong></code> são removidos ao encerrar o efeito de provocação, e você não pode utilizar essa habilidade novamente por duas rodadas.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",
