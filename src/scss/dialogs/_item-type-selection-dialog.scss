@@ -1,0 +1,48 @@
+/**
+ * Item Type Selection Dialog - Simple Test Styles
+ * Intercepta a criação de itens via Item.createDialog()
+ */
+
+// Estilos básicos para testar
+dialog.item-type-selection {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  border: 3px solid #e74c3c;
+  border-radius: 12px;
+  padding: 20px;
+  color: #ecf0f1;
+  min-width: 450px;
+  
+  // Teste visual óbvio
+  box-shadow: 0 0 30px rgba(231, 76, 60, 0.8);
+  
+  .window-content {
+    background: transparent;
+  }
+  
+  h2 {
+    color: #e74c3c;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  button {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: #c0392b;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(231, 76, 60, 0.6);
+    }
+  }
+}

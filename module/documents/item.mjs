@@ -586,4 +586,41 @@ export class CardiganSystemItem extends Item {
       return {};
     }
   }
+
+  /* -------------------------------------------- */
+  /*  Factory Methods                             */
+  /* -------------------------------------------- */
+
+  /**
+   * Override createDialog to show custom item type selection dialog
+   * This method is automatically called by Foundry when clicking "Create Item"
+   * @param {object} data - Initial data for the item
+   * @param {object} options - Creation options
+   * @returns {Promise<Item|null>} The created item or null if cancelled
+   * @override
+   */
+  static async createDialog(data = {}, { parent = null, pack = null, types = null, ...options } = {}) {
+    console.log('[Item.createDialog] Called with:', { data, parent, pack, types, options });
+    
+    // If parent is not an Actor, fall back to default behavior
+    if (!parent || !(parent instanceof Actor)) {
+      console.log('[Item.createDialog] No parent actor, using default dialog');
+      return super.createDialog(data, { parent, pack, types, ...options });
+    }
+
+    // Import the dialog
+    const { ItemTypeSelectionDialog } = await import('../applications/item-type-selection-dialog.mjs');
+    
+    try {
+      // Show custom dialog and wait for result
+      const result = await ItemTypeSelectionDialog.show(parent);
+      console.log('[Item.createDialog] Dialog returned:', result);
+      
+      return result?.document || null;
+    } catch (error) {
+      // User cancelled
+      console.log('[Item.createDialog] Dialog cancelled:', error);
+      return null;
+    }
+  }
 }
