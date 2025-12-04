@@ -23,59 +23,7 @@ export default class CardiganSystemItemIngredient extends CardiganSystemItemBase
       initial: "leve"
     });
 
-    schema.price = new fields.NumberField({
-      required: true,
-      nullable: false,
-      initial: 0,
-      min: 0,
-    });
-
     // Ingredient-specific fields
-    schema.ingredientType = new fields.StringField({
-      required: false,
-      initial: "herb",
-      choices: {
-        "herb": "CARDIGAN.ItemIngredient.Types.Herb",
-        "mineral": "CARDIGAN.ItemIngredient.Types.Mineral",
-        "animal": "CARDIGAN.ItemIngredient.Types.Animal",
-        "magical": "CARDIGAN.ItemIngredient.Types.Magical",
-        "chemical": "CARDIGAN.ItemIngredient.Types.Chemical",
-        "other": "CARDIGAN.ItemIngredient.Types.Other"
-      }
-    });
-
-    schema.rarity = new fields.StringField({
-      required: false,
-      initial: "common",
-      choices: {
-        "common": "CARDIGAN.ItemIngredient.RarityLevels.Common",
-        "uncommon": "CARDIGAN.ItemIngredient.RarityLevels.Uncommon",
-        "rare": "CARDIGAN.ItemIngredient.RarityLevels.Rare",
-        "very-rare": "CARDIGAN.ItemIngredient.RarityLevels.VeryRare",
-        "legendary": "CARDIGAN.ItemIngredient.RarityLevels.Legendary"
-      }
-    });
-
-    schema.freshness = new fields.NumberField({
-      required: true,
-      nullable: false,
-      initial: 100,
-      min: 0,
-      max: 100
-    });
-
-    schema.origin = new fields.StringField({
-      required: false,
-      blank: true,
-      initial: ""
-    });
-
-    schema.craftingProperties = new fields.StringField({
-      required: false,
-      blank: true,
-      initial: ""
-    });
-
     schema.profession = new fields.StringField({
       required: false,
       initial: "general",

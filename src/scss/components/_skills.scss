@@ -1,5 +1,70 @@
 /* ===== SKILLS TABLE STYLES ===== */
 
+/* Skill and Profession Toggles */
+.skill-toggles-container,
+.profession-toggles-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 20px;
+  padding: 15px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  flex-wrap: wrap;
+
+  // Responsive gap - diminui conforme a largura diminui
+  @media (max-width: 800px) {
+    gap: 30px;
+  }
+
+  @media (max-width: 650px) {
+    gap: 20px;
+  }
+
+  @media (max-width: 500px) {
+    gap: 12px;
+  }
+
+  .icon-toggle {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+
+    // Esconde o checkbox mas mantém a funcionalidade
+    input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+
+    i {
+      font-size: 24px;
+      opacity: 0.4;
+      transition: all 0.2s ease;
+      filter: grayscale(80%);
+
+      &:hover {
+        opacity: 0.7;
+        transform: scale(1.1);
+        filter: grayscale(40%);
+      }
+
+      &.active {
+        opacity: 1;
+        filter: grayscale(0%);
+        text-shadow: 0 0 8px currentColor;
+      }
+    }
+  }
+}
+
+.profession-toggles-container {
+  margin-bottom: 30px;
+}
+
 .skills-table-container {
   // Use existing items-list styling
   

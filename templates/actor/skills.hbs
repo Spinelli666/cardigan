@@ -1,118 +1,82 @@
 {{! Skills Tab with Profession Recipe Tables }}
 <section class='tab skills {{tab.cssClass}}' data-group='primary' data-tab='skills'>
   
-  {{! SKILL CLASS TABLE TOGGLES - All checkboxes at the top }}
-  <div class="skill-toggles-container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; padding: 20px; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+  {{! SKILL CLASS TABLE TOGGLES - Responsive layout with tooltips }}
+  <div class="skill-toggles-container">
     {{! Andarilho Skills Toggle }}
-    <div class="skill-table-toggle andarilho-skills-table-toggle">
-      <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; color: #c9c7b8; font-size: 14px; cursor: pointer;">
-        <input type="checkbox" name="system.details.showSkillsAndarilhoTable" {{checked system.details.showSkillsAndarilhoTable}} data-dtype="Boolean" data-andarilho-skills-table-toggle style="transform: scale(1.2);" />
-        <i class="fas fa-hiking" style="color: #8bc34a;"></i>
-        {{localize "CARDIGAN.ShowSkillsAndarilhoTable"}}
-      </label>
-    </div>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.AndarilhoSkillsTable'}}">
+      <input type="checkbox" name="system.details.showSkillsAndarilhoTable" {{checked system.details.showSkillsAndarilhoTable}} data-dtype="Boolean" data-andarilho-skills-table-toggle />
+      <i class="fas fa-hiking {{#if system.details.showSkillsAndarilhoTable}}active{{/if}}" style="color: #8bc34a;"></i>
+    </label>
     
     {{! Guerreiro Skills Toggle }}
-    <div class="skill-table-toggle guerreiro-skills-table-toggle">
-      <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; color: #c9c7b8; font-size: 14px; cursor: pointer;">
-        <input type="checkbox" name="system.details.showSkillsGuerreiroTable" {{checked system.details.showSkillsGuerreiroTable}} data-dtype="Boolean" data-guerreiro-skills-table-toggle style="transform: scale(1.2);" />
-        <i class="fas fa-sword" style="color: #f44336;"></i>
-        {{localize "CARDIGAN.ShowSkillsGuerreiroTable"}}
-      </label>
-    </div>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.GuerreiroSkillsTable'}}">
+      <input type="checkbox" name="system.details.showSkillsGuerreiroTable" {{checked system.details.showSkillsGuerreiroTable}} data-dtype="Boolean" data-guerreiro-skills-table-toggle />
+      <i class="fas fa-sword {{#if system.details.showSkillsGuerreiroTable}}active{{/if}}" style="color: #f44336;"></i>
+    </label>
     
     {{! Ladino Skills Toggle }}
-    <div class="skill-table-toggle ladino-skills-table-toggle">
-      <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; color: #c9c7b8; font-size: 14px; cursor: pointer;">
-        <input type="checkbox" name="system.details.showSkillsLadinoTable" {{checked system.details.showSkillsLadinoTable}} data-dtype="Boolean" data-ladino-skills-table-toggle style="transform: scale(1.2);" />
-        <i class="fas fa-mask" style="color: #9c27b0;"></i>
-        {{localize "CARDIGAN.ShowSkillsLadinoTable"}}
-      </label>
-    </div>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.LadinoSkillsTable'}}">
+      <input type="checkbox" name="system.details.showSkillsLadinoTable" {{checked system.details.showSkillsLadinoTable}} data-dtype="Boolean" data-ladino-skills-table-toggle />
+      <i class="fas fa-mask {{#if system.details.showSkillsLadinoTable}}active{{/if}}" style="color: #9c27b0;"></i>
+    </label>
     
     {{! Feiticeiro Skills Toggle }}
-    <div class="skill-table-toggle feiticeiro-skills-table-toggle">
-      <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; color: #c9c7b8; font-size: 14px; cursor: pointer;">
-        <input type="checkbox" name="system.details.showSkillsFeiticeiroTable" {{checked system.details.showSkillsFeiticeiroTable}} data-dtype="Boolean" data-feiticeiro-skills-table-toggle style="transform: scale(1.2);" />
-        <i class="fas fa-magic" style="color: #2196f3;"></i>
-        {{localize "CARDIGAN.ShowSkillsFeiticeiroTable"}}
-      </label>
-    </div>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.FeiticeiroSkillsTable'}}">
+      <input type="checkbox" name="system.details.showSkillsFeiticeiroTable" {{checked system.details.showSkillsFeiticeiroTable}} data-dtype="Boolean" data-feiticeiro-skills-table-toggle />
+      <i class="fas fa-magic {{#if system.details.showSkillsFeiticeiroTable}}active{{/if}}" style="color: #2196f3;"></i>
+    </label>
     
     {{! Raciais Skills Toggle }}
-    <div class="skill-table-toggle raciais-skills-table-toggle">
-      <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; color: #c9c7b8; font-size: 14px; cursor: pointer;">
-        <input type="checkbox" name="system.details.showSkillsRaciaisTable" {{checked system.details.showSkillsRaciaisTable}} data-dtype="Boolean" data-raciais-skills-table-toggle style="transform: scale(1.2);" />
-        <i class="fas fa-users" style="color: #ff9800;"></i>
-        {{localize "CARDIGAN.ShowSkillsRaciaisTable"}}
-      </label>
-    </div>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.RaciaisSkillsTable'}}">
+      <input type="checkbox" name="system.details.showSkillsRaciaisTable" {{checked system.details.showSkillsRaciaisTable}} data-dtype="Boolean" data-raciais-skills-table-toggle />
+      <i class="fas fa-users {{#if system.details.showSkillsRaciaisTable}}active{{/if}}" style="color: #ff9800;"></i>
+    </label>
     
     {{! Únicas Skills Toggle }}
-    <div class="skill-table-toggle unicas-skills-table-toggle">
-      <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; color: #c9c7b8; font-size: 14px; cursor: pointer;">
-        <input type="checkbox" name="system.details.showSkillsUnicasTable" {{checked system.details.showSkillsUnicasTable}} data-dtype="Boolean" data-unicas-skills-table-toggle style="transform: scale(1.2);" />
-        <i class="fas fa-star" style="color: #ffc107;"></i>
-        {{localize "CARDIGAN.ShowSkillsUnicasTable"}}
-      </label>
-    </div>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.UnicasSkillsTable'}}">
+      <input type="checkbox" name="system.details.showSkillsUnicasTable" {{checked system.details.showSkillsUnicasTable}} data-dtype="Boolean" data-unicas-skills-table-toggle />
+      <i class="fas fa-star {{#if system.details.showSkillsUnicasTable}}active{{/if}}" style="color: #ffc107;"></i>
+    </label>
   </div>
 
-  {{! PROFESSION TABLE TOGGLES - All checkboxes at the top }}
-  <div class="profession-toggles-container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; padding: 20px; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+  {{! PROFESSION TABLE TOGGLES - Responsive layout with tooltips }}
+  <div class="profession-toggles-container">
     {{! Culinary Toggle }}
-    <div class="profession-table-toggle culinary-table-toggle">
-      <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; color: #c9c7b8; font-size: 14px; cursor: pointer;">
-        <input type="checkbox" name="system.details.showCulinaryTable" {{checked system.details.showCulinaryTable}} data-dtype="Boolean" data-culinary-table-toggle style="transform: scale(1.2);" />
-        <i class="fas fa-utensils" style="color: #ff6b35;"></i>
-        {{localize "CARDIGAN.ShowCulinaryTable"}}
-      </label>
-    </div>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.CulinaryTable'}}">
+      <input type="checkbox" name="system.details.showCulinaryTable" {{checked system.details.showCulinaryTable}} data-dtype="Boolean" data-culinary-table-toggle />
+      <i class="fas fa-utensils {{#if system.details.showCulinaryTable}}active{{/if}}" style="color: #ff6b35;"></i>
+    </label>
     
     {{! Tailoring Toggle }}
-    <div class="profession-table-toggle tailoring-table-toggle">
-      <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; color: #c9c7b8; font-size: 14px; cursor: pointer;">
-        <input type="checkbox" name="system.details.showTailoringTable" {{checked system.details.showTailoringTable}} data-dtype="Boolean" data-tailoring-table-toggle style="transform: scale(1.2);" />
-        <i class="fas fa-cut" style="color: #9c27b0;"></i>
-        {{localize "CARDIGAN.ShowTailoringTable"}}
-      </label>
-    </div>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.TailoringTable'}}">
+      <input type="checkbox" name="system.details.showTailoringTable" {{checked system.details.showTailoringTable}} data-dtype="Boolean" data-tailoring-table-toggle />
+      <i class="fas fa-cut {{#if system.details.showTailoringTable}}active{{/if}}" style="color: #9c27b0;"></i>
+    </label>
     
     {{! Tecnomagic Toggle }}
-    <div class="profession-table-toggle tecnomagic-table-toggle">
-      <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; color: #c9c7b8; font-size: 14px; cursor: pointer;">
-        <input type="checkbox" name="system.details.showTecnomagicTable" {{checked system.details.showTecnomagicTable}} data-dtype="Boolean" data-tecnomagic-table-toggle style="transform: scale(1.2);" />
-        <i class="fas fa-magic" style="color: #2196f3;"></i>
-        {{localize "CARDIGAN.ShowTecnomagicTable"}}
-      </label>
-    </div>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.TecnomagicTable'}}">
+      <input type="checkbox" name="system.details.showTecnomagicTable" {{checked system.details.showTecnomagicTable}} data-dtype="Boolean" data-tecnomagic-table-toggle />
+      <i class="fas fa-magic {{#if system.details.showTecnomagicTable}}active{{/if}}" style="color: #2196f3;"></i>
+    </label>
     
     {{! Blacksmithing Toggle }}
-    <div class="profession-table-toggle blacksmithing-table-toggle">
-      <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; color: #c9c7b8; font-size: 14px; cursor: pointer;">
-        <input type="checkbox" name="system.details.showBlacksmithingTable" {{checked system.details.showBlacksmithingTable}} data-dtype="Boolean" data-blacksmithing-table-toggle style="transform: scale(1.2);" />
-        <i class="fas fa-hammer" style="color: #795548;"></i>
-        {{localize "CARDIGAN.ShowBlacksmithingTable"}}
-      </label>
-    </div>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.BlacksmithingTable'}}">
+      <input type="checkbox" name="system.details.showBlacksmithingTable" {{checked system.details.showBlacksmithingTable}} data-dtype="Boolean" data-blacksmithing-table-toggle />
+      <i class="fas fa-hammer {{#if system.details.showBlacksmithingTable}}active{{/if}}" style="color: #795548;"></i>
+    </label>
     
     {{! Alchemy Toggle }}
-    <div class="profession-table-toggle alchemy-table-toggle">
-      <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; color: #c9c7b8; font-size: 14px; cursor: pointer;">
-        <input type="checkbox" name="system.details.showAlchemyTable" {{checked system.details.showAlchemyTable}} data-dtype="Boolean" data-alchemy-table-toggle style="transform: scale(1.2);" />
-        <i class="fas fa-flask" style="color: #4caf50;"></i>
-        {{localize "CARDIGAN.ShowAlchemyTable"}}
-      </label>
-    </div>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.AlchemyTable'}}">
+      <input type="checkbox" name="system.details.showAlchemyTable" {{checked system.details.showAlchemyTable}} data-dtype="Boolean" data-alchemy-table-toggle />
+      <i class="fas fa-flask {{#if system.details.showAlchemyTable}}active{{/if}}" style="color: #4caf50;"></i>
+    </label>
     
     {{! Carpentry Toggle }}
-    <div class="profession-table-toggle carpentry-table-toggle">
-      <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; color: #c9c7b8; font-size: 14px; cursor: pointer;">
-        <input type="checkbox" name="system.details.showCarpentryTable" {{checked system.details.showCarpentryTable}} data-dtype="Boolean" data-carpentry-table-toggle style="transform: scale(1.2);" />
-        <i class="fas fa-tools" style="color: #8bc34a;"></i>
-        {{localize "CARDIGAN.ShowCarpentryTable"}}
-      </label>
-    </div>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.CarpentryTable'}}">
+      <input type="checkbox" name="system.details.showCarpentryTable" {{checked system.details.showCarpentryTable}} data-dtype="Boolean" data-carpentry-table-toggle />
+      <i class="fas fa-tools {{#if system.details.showCarpentryTable}}active{{/if}}" style="color: #8bc34a;"></i>
+    </label>
   </div>
 
   {{! SKILL CLASS TABLES - All skill tables by class }}
@@ -1168,14 +1132,6 @@
         </li>
       {{/each}}
     </ol>
-  </div>
-
-  {{! Equipment backpack info - keeping for reference }}
-  <div style="margin-top: 40px; padding: 20px; background: rgba(0, 0, 0, 0.1); border-radius: 8px; text-align: center; color: #a59b85;">
-    <p style="font-size: 14px; margin: 0;">
-      <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
-      Use the profession tables above to organize and manage your crafting recipes. Each profession has its own dedicated space for recipes and materials.
-    </p>
   </div>
 
 </section>

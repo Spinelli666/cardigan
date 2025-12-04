@@ -7952,6 +7952,73 @@
 }
 .cardigan {
   /* ===== SKILLS TABLE STYLES ===== */
+  /* Skill and Profession Toggles */
+}
+.cardigan .skill-toggles-container,
+.cardigan .profession-toggles-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 20px;
+  padding: 15px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+@media (max-width: 800px) {
+  .cardigan .skill-toggles-container,
+  .cardigan .profession-toggles-container {
+    gap: 30px;
+  }
+}
+@media (max-width: 650px) {
+  .cardigan .skill-toggles-container,
+  .cardigan .profession-toggles-container {
+    gap: 20px;
+  }
+}
+@media (max-width: 500px) {
+  .cardigan .skill-toggles-container,
+  .cardigan .profession-toggles-container {
+    gap: 12px;
+  }
+}
+.cardigan .skill-toggles-container .icon-toggle,
+.cardigan .profession-toggles-container .icon-toggle {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+}
+.cardigan .skill-toggles-container .icon-toggle input[type=checkbox],
+.cardigan .profession-toggles-container .icon-toggle input[type=checkbox] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.cardigan .skill-toggles-container .icon-toggle i,
+.cardigan .profession-toggles-container .icon-toggle i {
+  font-size: 24px;
+  opacity: 0.4;
+  transition: all 0.2s ease;
+  filter: grayscale(80%);
+}
+.cardigan .skill-toggles-container .icon-toggle i:hover,
+.cardigan .profession-toggles-container .icon-toggle i:hover {
+  opacity: 0.7;
+  transform: scale(1.1);
+  filter: grayscale(40%);
+}
+.cardigan .skill-toggles-container .icon-toggle i.active,
+.cardigan .profession-toggles-container .icon-toggle i.active {
+  opacity: 1;
+  filter: grayscale(0%);
+  text-shadow: 0 0 8px currentColor;
+}
+.cardigan .profession-toggles-container {
+  margin-bottom: 30px;
 }
 .cardigan .skills-table-container .skill-item .skill-chat {
   color: #4caf50 !important;

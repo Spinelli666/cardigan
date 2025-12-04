@@ -31,14 +31,6 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
     });
 
     // Recipe specific fields
-    schema.ingredients = new fields.StringField({
-      required: true,
-      blank: true,
-      initial: "Add ingredients here...",
-      label: "CARDIGAN.Item.ItemRecipe.ingredients.label",
-      hint: "CARDIGAN.Item.ItemRecipe.ingredients.hint"
-    });
-
     schema.difficulty = new fields.StringField({
       required: true,
       blank: false,
@@ -53,24 +45,6 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
       hint: "CARDIGAN.Item.ItemRecipe.difficulty.hint"
     });
 
-    schema.cookingTime = new fields.NumberField({
-      required: true,
-      nullable: false,
-      initial: 10,
-      min: 1,
-      label: "CARDIGAN.Item.ItemRecipe.cookingTime.label",
-      hint: "CARDIGAN.Item.ItemRecipe.cookingTime.hint"
-    });
-
-    schema.servings = new fields.NumberField({
-      required: true,
-      nullable: false,
-      initial: 1,
-      min: 1,
-      label: "CARDIGAN.Item.ItemRecipe.servings.label",
-      hint: "CARDIGAN.Item.ItemRecipe.servings.hint"
-    });
-
     schema.consumableType = new fields.StringField({
       required: true,
       blank: false,
@@ -83,14 +57,6 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
       },
       label: "CARDIGAN.Item.ItemRecipe.consumableType.label",
       hint: "CARDIGAN.Item.ItemRecipe.consumableType.hint"
-    });
-
-    schema.effects = new fields.StringField({
-      required: false,
-      blank: true,
-      initial: "",
-      label: "CARDIGAN.Item.ItemRecipe.effects.label",
-      hint: "CARDIGAN.Item.ItemRecipe.effects.hint"
     });
 
     // Required ingredients for crafting
