@@ -8,22 +8,15 @@
       <legend>{{localize "CARDIGAN.Item.ItemRecipe.basic.title"}}</legend>
       
       <div class="form-group">
-        <label for="system.difficulty">{{localize "CARDIGAN.Item.ItemRecipe.difficulty.label"}}</label>
-        <select name="system.difficulty">
-          <option value="easy" {{#if (eq system.difficulty "easy")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.difficulty.easy"}}</option>
-          <option value="medium" {{#if (eq system.difficulty "medium")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.difficulty.medium"}}</option>
-          <option value="hard" {{#if (eq system.difficulty "hard")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.difficulty.hard"}}</option>
-          <option value="master" {{#if (eq system.difficulty "master")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.difficulty.master"}}</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="system.consumableType">{{localize "CARDIGAN.Item.ItemRecipe.consumableType.label"}}</label>
-        <select name="system.consumableType">
-          <option value="food" {{#if (eq system.consumableType "food")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.consumableType.food"}}</option>
-          <option value="drink" {{#if (eq system.consumableType "drink")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.consumableType.drink"}}</option>
-          <option value="potion" {{#if (eq system.consumableType "potion")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.consumableType.potion"}}</option>
-          <option value="other" {{#if (eq system.consumableType "other")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.consumableType.other"}}</option>
+        <label for="system.recipeType">{{localize "CARDIGAN.Item.ItemRecipe.recipeType.label"}}</label>
+        <select name="system.recipeType">
+          <option value="general" {{#if (eq system.recipeType "general")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.general"}}</option>
+          <option value="culinary" {{#if (eq system.recipeType "culinary")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.culinary"}}</option>
+          <option value="tailoring" {{#if (eq system.recipeType "tailoring")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.tailoring"}}</option>
+          <option value="tecnomagic" {{#if (eq system.recipeType "tecnomagic")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.tecnomagic"}}</option>
+          <option value="blacksmithing" {{#if (eq system.recipeType "blacksmithing")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.blacksmithing"}}</option>
+          <option value="alchemy" {{#if (eq system.recipeType "alchemy")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.alchemy"}}</option>
+          <option value="carpentry" {{#if (eq system.recipeType "carpentry")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.carpentry"}}</option>
         </select>
       </div>
     </fieldset>

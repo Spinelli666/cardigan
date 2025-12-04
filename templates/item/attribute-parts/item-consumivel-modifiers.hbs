@@ -48,32 +48,27 @@
 
     <div class="critical-failure-effects-system {{#unless item.system.hasCriticalFailureEffects}}hidden{{/unless}}" data-critical-failure-effects-section>
       <div class="form-group critical-failure-effects">
-        <div class="critical-failure-effects-header">
-          <label>{{localize "CARDIGAN.ItemConsumivel.CriticalFailureEffects"}}</label>
-          <button type="button" class="add-critical-failure-effect-btn" data-action="addCriticalFailureEffect" title="{{localize 'CARDIGAN.ItemConsumivel.AddCriticalFailureEffect'}}">+</button>
-        </div>
+        <button type="button" data-action="configureCriticalFailureEffects" data-tooltip="{{localize 'CARDIGAN.ItemConsumivel.ConfigureEffects'}}">
+          <i class="fas fa-cog"></i> {{localize "CARDIGAN.ItemConsumivel.ConfigureEffects"}}
+        </button>
         
-        <div class="critical-failure-effects-list" data-critical-failure-effects-container>
-          {{#each item.system.criticalFailureEffects as |effectId index|}}
-            <div class="critical-failure-effect-row" data-critical-failure-effect-index="{{index}}">
-              <select name="system.criticalFailureEffects.{{index}}" data-critical-failure-effect-select>
-                <option value="">{{localize "CARDIGAN.SelectEffect"}}</option>
-                {{#each @root.availableEffects as |availableEffect|}}
-                  <option value="{{availableEffect.id}}" {{#if (eq effectId availableEffect.id)}}selected{{/if}}>
-                    {{availableEffect.name}}
-                  </option>
-                {{/each}}
-              </select>
-              <button type="button" class="remove-critical-failure-effect-btn" data-action="removeCriticalFailureEffect" data-index="{{index}}" title="{{localize 'CARDIGAN.ItemConsumivel.RemoveCriticalFailureEffect'}}">−</button>
+        {{#if item.system.criticalFailureEffects.length}}
+        <div class="selected-effects">
+          <h4>{{localize "CARDIGAN.ItemConsumivel.SelectedEffects"}}</h4>
+          <div class="effects-list">
+            {{#each item.system.criticalFailureEffects}}
+            <div class="effect-item">
+              <img src="{{img}}" alt="{{name}}" width="24" height="24">
+              <span>{{name}}</span>
             </div>
-          {{/each}}
-        </div>
-        
-        {{#unless item.system.criticalFailureEffects.length}}
-          <div class="no-critical-failure-effects-message">
-            {{localize "CARDIGAN.NoEffectsAdded"}}
+            {{/each}}
           </div>
-        {{/unless}}
+        </div>
+        {{else}}
+        <div class="no-effects">
+          <em>{{localize "CARDIGAN.NoEffectsSelected"}}</em>
+        </div>
+        {{/if}}
       </div>
     </div>
 
@@ -138,32 +133,27 @@
 
     <div class="critical-hit-effects-system {{#unless item.system.hasCriticalHitEffects}}hidden{{/unless}}" data-critical-hit-effects-section>
       <div class="form-group critical-hit-effects">
-        <div class="critical-hit-effects-header">
-          <label>{{localize "CARDIGAN.ItemConsumivel.CriticalHitEffects"}}</label>
-          <button type="button" class="add-critical-hit-effect-btn" data-action="addCriticalHitEffect" title="{{localize 'CARDIGAN.ItemConsumivel.AddCriticalHitEffect'}}">+</button>
-        </div>
+        <button type="button" data-action="configureCriticalHitEffects" data-tooltip="{{localize 'CARDIGAN.ItemConsumivel.ConfigureEffects'}}">
+          <i class="fas fa-cog"></i> {{localize "CARDIGAN.ItemConsumivel.ConfigureEffects"}}
+        </button>
         
-        <div class="critical-hit-effects-list" data-critical-hit-effects-container>
-          {{#each item.system.criticalHitEffects as |effectId index|}}
-            <div class="critical-hit-effect-row" data-critical-hit-effect-index="{{index}}">
-              <select name="system.criticalHitEffects.{{index}}" data-critical-hit-effect-select>
-                <option value="">{{localize "CARDIGAN.SelectEffect"}}</option>
-                {{#each @root.availableEffects as |availableEffect|}}
-                  <option value="{{availableEffect.id}}" {{#if (eq effectId availableEffect.id)}}selected{{/if}}>
-                    {{availableEffect.name}}
-                  </option>
-                {{/each}}
-              </select>
-              <button type="button" class="remove-critical-hit-effect-btn" data-action="removeCriticalHitEffect" data-index="{{index}}" title="{{localize 'CARDIGAN.ItemConsumivel.RemoveCriticalHitEffect'}}">−</button>
+        {{#if item.system.criticalHitEffects.length}}
+        <div class="selected-effects">
+          <h4>{{localize "CARDIGAN.ItemConsumivel.SelectedEffects"}}</h4>
+          <div class="effects-list">
+            {{#each item.system.criticalHitEffects}}
+            <div class="effect-item">
+              <img src="{{img}}" alt="{{name}}" width="24" height="24">
+              <span>{{name}}</span>
             </div>
-          {{/each}}
-        </div>
-        
-        {{#unless item.system.criticalHitEffects.length}}
-          <div class="no-critical-hit-effects-message">
-            {{localize "CARDIGAN.NoEffectsAdded"}}
+            {{/each}}
           </div>
-        {{/unless}}
+        </div>
+        {{else}}
+        <div class="no-effects">
+          <em>{{localize "CARDIGAN.NoEffectsSelected"}}</em>
+        </div>
+        {{/if}}
       </div>
     </div>
 

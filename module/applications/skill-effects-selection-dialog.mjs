@@ -10,6 +10,7 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
     this.selectedEffects = options.selectedEffects || [];
     this.enhancementIndex = options.enhancementIndex; // undefined for base skill, 0-2 for enhancements
     this.parentDialog = options.parentDialog; // Reference to parent dialog (for enhancements)
+    this.effectType = options.effectType; // For consumables: 'criticalFailureEffects' or 'criticalHitEffects'
   }
 
   static DEFAULT_OPTIONS = {
@@ -47,6 +48,7 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
     return {
       positiveEffects: this.positiveEffects || [],
       negativeEffects: this.negativeEffects || [],
+      worldEffects: this.worldEffects || [],
       buttons: [
         {
           type: "submit",
@@ -66,32 +68,54 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
 
   async _loadEffectsFromCompendium() {
     try {
+      const allEffects = [];
+      
+      // 1. Load effects from compendium
       const pack = game.packs.get("cardigan.efeitos-cardigan");
-      if (!pack) {
+      if (pack) {
+        const documents = await pack.getDocuments();
+        const compendiumEffects = documents
+          .filter(doc => doc.type === 'efeito')
+          .map(effect => ({
+            id: effect.id,
+            uuid: effect.uuid,
+            name: effect.name,
+            img: effect.img || 'icons/svg/aura.svg',
+            selected: this.selectedEffects.some(selected => selected.id === effect.id),
+            folder: effect.folder?.name || 'Sem Categoria',
+            source: 'compendium'
+          }));
+        
+        allEffects.push(...compendiumEffects);
+        console.log('[CARDIGAN DEBUG] Loaded from compendium:', compendiumEffects.length);
+      } else {
         ui.notifications.warn("Compêndio de efeitos não encontrado");
-        return;
       }
-
-      // Load all documents from the pack
-      const documents = await pack.getDocuments();
       
-      console.log('[CARDIGAN DEBUG] Selected effects on load:', this.selectedEffects);
-      
-      const allEffects = documents
-        .filter(doc => doc.type === 'efeito')
+      // 2. Load effects from world (items created in the game)
+      const worldEffects = game.items
+        .filter(item => item.type === 'efeito')
         .map(effect => ({
           id: effect.id,
+          uuid: effect.uuid,
           name: effect.name,
           img: effect.img || 'icons/svg/aura.svg',
           selected: this.selectedEffects.some(selected => selected.id === effect.id),
-          folder: effect.folder?.name || 'Sem Categoria'
-        }))
-        .sort((a, b) => a.name.localeCompare(b.name));
-
-      console.log('[CARDIGAN DEBUG] All effects loaded:', allEffects.length);
+          folder: effect.folder?.name || 'World Items',
+          source: 'world'
+        }));
+      
+      allEffects.push(...worldEffects);
+      console.log('[CARDIGAN DEBUG] Loaded from world:', worldEffects.length);
+      
+      // Sort all effects by name
+      allEffects.sort((a, b) => a.name.localeCompare(b.name));
+      
+      console.log('[CARDIGAN DEBUG] Total effects loaded:', allEffects.length);
+      console.log('[CARDIGAN DEBUG] Selected effects on load:', this.selectedEffects);
       console.log('[CARDIGAN DEBUG] Effects marked as selected:', allEffects.filter(e => e.selected).map(e => e.name));
 
-      // Separate into positive and negative effects
+      // Separate into positive, negative, and world effects
       this.positiveEffects = allEffects.filter(effect => 
         effect.folder === 'Efeitos Positivos'
       );
@@ -99,9 +123,19 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
       this.negativeEffects = allEffects.filter(effect => 
         effect.folder === 'Efeitos Negativos'
       );
+      
+      // World effects (custom effects created in the game)
+      this.worldEffects = allEffects.filter(effect => 
+        effect.source === 'world'
+      );
+      
+      console.log('[CARDIGAN DEBUG] Positive effects:', this.positiveEffects.length);
+      console.log('[CARDIGAN DEBUG] Negative effects:', this.negativeEffects.length);
+      console.log('[CARDIGAN DEBUG] World effects:', this.worldEffects.length);
+      
     } catch (error) {
-      console.error("Error loading effects from compendium:", error);
-      ui.notifications.error("Erro ao carregar efeitos do compêndio");
+      console.error("Error loading effects:", error);
+      ui.notifications.error("Erro ao carregar efeitos");
     }
   }
 
@@ -117,8 +151,12 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
       checkboxes.forEach(checkbox => {
         const effectId = checkbox.closest('.effect-option').dataset.effectId;
         console.log('[CARDIGAN DEBUG] Processing effect ID:', effectId);
-        // Search in both positive and negative effects
-        const allEffects = [...(this.positiveEffects || []), ...(this.negativeEffects || [])];
+        // Search in all three effect lists (positive, negative, and world)
+        const allEffects = [
+          ...(this.positiveEffects || []), 
+          ...(this.negativeEffects || []),
+          ...(this.worldEffects || [])
+        ];
         const effect = allEffects.find(e => e.id === effectId);
         if (effect) {
           selectedEffects.push({
@@ -132,8 +170,20 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
 
       console.log('[CARDIGAN DEBUG] Total selected effects:', selectedEffects.length, selectedEffects);
 
+      // Check if this is for consumable effects (criticalFailure or criticalHit)
+      if (this.effectType) {
+        // Save to consumable specific field
+        const updateData = {};
+        updateData[`system.${this.effectType}`] = selectedEffects;
+        
+        console.log('[CARDIGAN DEBUG] Updating consumable effects:', this.effectType, selectedEffects);
+        
+        await this.item.update(updateData);
+        
+        ui.notifications.info(`${selectedEffects.length} efeitos selecionados`);
+      }
       // Check if this is for an enhancement or the base skill
-      if (this.enhancementIndex !== undefined) {
+      else if (this.enhancementIndex !== undefined) {
         // Save to enhancement
         const currentEnhancements = foundry.utils.deepClone(this.item.system.enhancements || []);
         

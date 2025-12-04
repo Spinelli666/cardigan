@@ -48,6 +48,97 @@ export class CardiganSystemItem extends Item {
     if (this.type === 'skill' && this.actor) {
       await this._addLinkedSkills();
     }
+
+    // Add racial skills when a race is added to an actor
+    if (this.type === 'race' && this.actor) {
+      await this._addRacialSkills();
+    }
+  }
+
+  /**
+   * Add racial skills to the actor when this race is created
+   * @private
+   */
+  async _addRacialSkills() {
+    // Check if this race has racial skills
+    if (!this.system.racialSkills || this.system.racialSkills.length === 0) {
+      console.log(`[Item._addRacialSkills] Race ${this.name} has no racial skills`);
+      return;
+    }
+
+    console.log(`[Item._addRacialSkills] Adding ${this.system.racialSkills.length} racial skill(s) for: ${this.name}`);
+
+    try {
+      const skillsToAdd = [];
+
+      // Fetch each racial skill from the compendium
+      for (const racialSkill of this.system.racialSkills) {
+        try {
+          console.log(`[Item._addRacialSkills] Fetching skill: ${racialSkill.name} (ID: ${racialSkill.id})`);
+          
+          // Get the skill document from the compendium using UUID or ID
+          let skillDoc = null;
+          
+          // Try UUID first if it exists
+          if (racialSkill.uuid) {
+            console.log(`[Item._addRacialSkills] Trying UUID: ${racialSkill.uuid}`);
+            skillDoc = await fromUuid(racialSkill.uuid);
+          }
+          
+          // If UUID didn't work, try to find by ID in the compendium
+          if (!skillDoc && racialSkill.id) {
+            console.log(`[Item._addRacialSkills] UUID not found, trying ID in compendium: ${racialSkill.id}`);
+            const pack = game.packs.get("cardigan.skills-cardigan");
+            if (pack) {
+              skillDoc = await pack.getDocument(racialSkill.id);
+            }
+          }
+          
+          if (!skillDoc) {
+            console.warn(`[Item._addRacialSkills] Could not find skill: ${racialSkill.name} (ID: ${racialSkill.id})`);
+            ui.notifications.warn(`Skill racial "${racialSkill.name}" não encontrada no compêndio`);
+            continue;
+          }
+
+          // Check if the actor already has this skill
+          const existingSkill = this.actor.items.find(i => 
+            i.type === 'skill' && i.name === skillDoc.name
+          );
+
+          if (existingSkill) {
+            console.log(`[Item._addRacialSkills] Actor already has skill: ${skillDoc.name}, skipping`);
+            continue;
+          }
+
+          // Prepare the skill data for creation
+          const skillData = skillDoc.toObject();
+          
+          // Mark this skill as a racial skill
+          skillData.system.isRacialSkill = true;
+          
+          skillsToAdd.push(skillData);
+          
+          console.log(`[Item._addRacialSkills] Prepared skill for adding: ${skillDoc.name}`);
+        } catch (error) {
+          console.error(`[Item._addRacialSkills] Error processing racial skill ${racialSkill.name}:`, error);
+        }
+      }
+
+      // Create all racial skills at once
+      if (skillsToAdd.length > 0) {
+        await this.actor.createEmbeddedDocuments('Item', skillsToAdd);
+        console.log(`[Item._addRacialSkills] Successfully added ${skillsToAdd.length} racial skill(s)`);
+        
+        ui.notifications.info(
+          `Raça "${this.name}" adicionada com ${skillsToAdd.length} skill(s) racial(is): ${skillsToAdd.map(s => s.name).join(', ')}`
+        );
+      } else {
+        console.log(`[Item._addRacialSkills] No new skills to add`);
+      }
+    } catch (error) {
+      console.error('[Item._addRacialSkills] Error adding racial skills:', error);
+      ui.notifications.warn('Erro ao adicionar skills raciais');
+    }
   }
 
   /**
@@ -587,24 +678,23 @@ export class CardiganSystemItem extends Item {
     }
   }
 
-  /**
-   * Override createDialog to show custom item creation dialog
-   * Following D&D5e pattern
-   */
-  static async createDialog(data = {}, { parent = null, pack = null, ...options } = {}) {
-    console.log('[Item.createDialog] Intercepted!', { parent, pack });
-    
-    // Only intercept if creating on an actor
-    if (!parent || !(parent instanceof Actor)) {
-      console.log('[Item.createDialog] Not an actor, using default');
-      return super.createDialog(data, { parent, pack, ...options });
-    }
+  /* -------------------------------------------- */
+  /*  Item Creation                               */
+  /* -------------------------------------------- */
 
-    // Import and show custom dialog
-    const { CreateItemDialog } = await import('../applications/create-item-dialog.mjs');
-    await CreateItemDialog.show(parent);
+  /**
+   * Display a dialog for creating a new Item with type selection (D&D5e style)
+   * @param {object} data           Initial data with which to populate the creation form
+   * @param {object} [options={}]   Options which configure Item creation
+   * @param {Folder} [options.folder]  A folder in which to create the item
+   * @param {string[]} [options.types] An array of item types to allow. If undefined, all types are allowed
+   * @returns {Promise<Item|null>}   A Promise which resolves to the created Item or null
+   */
+  static async createDialog(data = {}, { folder, types, ...options } = {}) {
+    // Import the dialog class
+    const { ItemCreateDialog } = await import("../applications/item-create-dialog.mjs");
     
-    // Return null since dialog handles creation
-    return null;
+    // Show the custom creation dialog
+    return ItemCreateDialog.createDialog({ folder, types, ...options });
   }
 }

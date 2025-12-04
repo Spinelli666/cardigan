@@ -18,7 +18,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/reacao.webp:: Ao ser alvo de um ataque você troca de lugar com uma Ilusão, evadindo instantaneamente do ataque ao custo de <code>⚡PE</code> desta habilidade.</p>",
+        "description": "<p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/reacao.webp:: Ao ser alvo de um ataque você troca de lugar com uma Ilusão, evadindo instantaneamente do ataque ao custo de <code>⚡️PE</code> desta habilidade.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -38,7 +38,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Reduz o custo desta habilidade para <code>10⚡</code>.</p>",
+        "description": "<p style=\"text-align: justify\">Reduz o custo desta habilidade para <code>10⚡️</code>.</p>",
         "hasEnergy": true,
         "energyCost": 10,
         "hasEffects": false,

@@ -17,7 +17,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Habilidades não possuem custo de <code>⚡Energia</code> durante a primeira rodada.</p>",
+        "description": "<p style=\"text-align: justify\">Habilidades não possuem custo de <code>⚡️Energia</code> durante a primeira rodada.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

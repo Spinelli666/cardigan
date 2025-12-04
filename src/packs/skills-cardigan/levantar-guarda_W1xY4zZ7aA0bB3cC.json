@@ -28,7 +28,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">Evadir criticamente recupera a <code>⚡Energia</code> gasta nesta habilidade.</p>",
+        "description": "<p style=\"text-align: justify;\">Evadir criticamente recupera a <code>⚡️Energia</code> gasta nesta habilidade.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

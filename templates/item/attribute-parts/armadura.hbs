@@ -2,136 +2,145 @@
 Template para itens do tipo armadura com aba Detail
 --}}
 <section class="tab {{tab.cssClass}}" data-group="primary" data-tab="attributes">
-    <!-- Armor Type -->
-    <div class="form-group">
+  <div class="armor-details-form">
+    
+    {{!-- Basic Information --}}
+    <fieldset class="armor-section">
+      <legend>{{localize "CARDIGAN.ArmorBasicInfo"}}</legend>
+      
+      <div class="form-group">
         <label for="system.armorType">{{localize "CARDIGAN.ArmorType"}}</label>
         <select name="system.armorType">
-            <option value="cabeca" {{selected item.system.armorType "cabeca"}}>{{localize "CARDIGAN.ArmorType.Cabeca"}}</option>
-            <option value="acessorios" {{selected item.system.armorType "acessorios"}}>{{localize "CARDIGAN.ArmorType.Acessorios"}}</option>
-            <option value="ombreiras" {{selected item.system.armorType "ombreiras"}}>{{localize "CARDIGAN.ArmorType.Ombreiras"}}</option>
-            <option value="torso" {{selected item.system.armorType "torso"}}>{{localize "CARDIGAN.ArmorType.Torso"}}</option>
-            <option value="bracos" {{selected item.system.armorType "bracos"}}>{{localize "CARDIGAN.ArmorType.Bracos"}}</option>
-            <option value="pernas" {{selected item.system.armorType "pernas"}}>{{localize "CARDIGAN.ArmorType.Pernas"}}</option>
-            <option value="pes" {{selected item.system.armorType "pes"}}>{{localize "CARDIGAN.ArmorType.Pes"}}</option>
+          <option value="cabeca" {{selected item.system.armorType "cabeca"}}>{{localize "CARDIGAN.ArmorType.Cabeca"}}</option>
+          <option value="acessorios" {{selected item.system.armorType "acessorios"}}>{{localize "CARDIGAN.ArmorType.Acessorios"}}</option>
+          <option value="ombreiras" {{selected item.system.armorType "ombreiras"}}>{{localize "CARDIGAN.ArmorType.Ombreiras"}}</option>
+          <option value="torso" {{selected item.system.armorType "torso"}}>{{localize "CARDIGAN.ArmorType.Torso"}}</option>
+          <option value="bracos" {{selected item.system.armorType "bracos"}}>{{localize "CARDIGAN.ArmorType.Bracos"}}</option>
+          <option value="pernas" {{selected item.system.armorType "pernas"}}>{{localize "CARDIGAN.ArmorType.Pernas"}}</option>
+          <option value="pes" {{selected item.system.armorType "pes"}}>{{localize "CARDIGAN.ArmorType.Pes"}}</option>
         </select>
-    </div>
+      </div>
 
-    <!-- Armor Protection Value -->
-    <div class="form-group">
+      <div class="form-group">
         <label for="system.protecao">{{localize "CARDIGAN.ArmorProtection"}}</label>
         <input type="number" name="system.protecao" value="{{item.system.protecao}}" min="0" placeholder="0"/>
-    </div>
+      </div>
 
-    <!-- Armor Class/Type Description -->
-    <div class="form-group">
+      <div class="form-group">
         <label for="system.armorClass">{{localize "CARDIGAN.ArmorClass"}}</label>
         <input type="text" name="system.armorClass" value="{{item.system.armorClass}}" placeholder="Couro, Cota de Malha, Placas"/>
-    </div>
+      </div>
 
-    <!-- Weight and Price -->
-    <div class="form-group" style="display: flex; gap: 15px;">
+      <div class="form-group" style="display: flex; gap: 15px;">
         <div style="flex: 1;">
-            <label for="system.weight">{{localize "CARDIGAN.Weight"}}</label>
-            <select name="system.weight">
-                <option value="leve" {{selected item.system.weight "leve"}}>{{localize "CARDIGAN.Light"}}</option>
-                <option value="pesado" {{selected item.system.weight "pesado"}}>{{localize "CARDIGAN.Heavy"}}</option>
-            </select>
+          <label for="system.weight">{{localize "CARDIGAN.Weight"}}</label>
+          <select name="system.weight">
+            <option value="leve" {{selected item.system.weight "leve"}}>{{localize "CARDIGAN.Light"}}</option>
+            <option value="pesado" {{selected item.system.weight "pesado"}}>{{localize "CARDIGAN.Heavy"}}</option>
+          </select>
         </div>
         <div style="flex: 1;">
-            <label for="system.price">{{localize "CARDIGAN.Price"}}</label>
-            <input type="number" name="system.price" value="{{item.system.price}}" min="0" placeholder="0"/>
+          <label for="system.price">{{localize "CARDIGAN.Price"}}</label>
+          <input type="number" name="system.price" value="{{item.system.price}}" min="0" placeholder="0"/>
         </div>
-    </div>
-    
-    <!-- Durability -->
-    <div class="form-group">
+      </div>
+      
+      <div class="form-group">
         <label for="system.durability.current">{{localize "CARDIGAN.Durability"}}</label>
         <div class="durability-container" style="display: flex; align-items: center; gap: 5px;">
-            <input type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}" style="width: 60px;"/>
-            <span>/</span>
-            <input type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1" style="width: 60px;"/>
+          <input type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}" style="width: 60px;"/>
+          <span>/</span>
+          <input type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1" style="width: 60px;"/>
         </div>
-    </div>
+      </div>
+    </fieldset>
 
-
-    <!-- Skill Bonuses -->
-    <div class="form-group skill-bonuses">
+    {{!-- Skill Bonuses Section --}}
+    <fieldset class="armor-section">
+      <legend>{{localize "CARDIGAN.SkillBonuses"}}</legend>
+      
+      <div class="form-group skill-bonuses">
         <div class="skill-bonuses-header">
-            <label>{{localize "CARDIGAN.SkillBonuses"}}</label>
-            <button type="button" class="add-skill-bonus-btn" data-action="addSkillBonus" title="{{localize 'CARDIGAN.AddSkillBonus'}}">+</button>
+          <button type="button" class="add-skill-bonus-btn" data-action="addSkillBonus" title="{{localize 'CARDIGAN.AddSkillBonus'}}">+</button>
         </div>
         
         <div class="skill-bonuses-list" data-skill-bonuses-container>
-            {{#each item.system.skillBonuses as |skillBonus index|}}
-                <div class="skill-bonus-row" data-skill-bonus-index="{{index}}">
-                    <select name="system.skillBonuses.{{index}}.skill" data-skill-select style="flex: 1;">
-                        <option value="">{{localize "CARDIGAN.SelectSkill"}}</option>
-                        <option value="accuracy" {{selected skillBonus.skill "accuracy"}}>Accuracy</option>
-                        <option value="evasion" {{selected skillBonus.skill "evasion"}}>Evasion</option>
-                        <option value="strength" {{selected skillBonus.skill "strength"}}>Strength</option>
-                        <option value="dexterity" {{selected skillBonus.skill "dexterity"}}>Dexterity</option>
-                        <option value="stamina" {{selected skillBonus.skill "stamina"}}>Stamina</option>
-                        <option value="stealth" {{selected skillBonus.skill "stealth"}}>Stealth</option>
-                        <option value="persuasion" {{selected skillBonus.skill "persuasion"}}>Persuasion</option>
-                        <option value="intelligence" {{selected skillBonus.skill "intelligence"}}>Intelligence</option>
-                        <option value="psionics" {{selected skillBonus.skill "psionics"}}>Psionics</option>
-                    </select>
-                    <input type="number" name="system.skillBonuses.{{index}}.bonus" value="{{skillBonus.bonus}}" style="width: 60px; margin-left: 5px;" placeholder="±0"/>
-                    <button type="button" class="remove-skill-bonus-btn" data-action="removeSkillBonus" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveSkillBonus'}}">−</button>
-                </div>
-            {{/each}}
+          {{#each item.system.skillBonuses as |skillBonus index|}}
+            <div class="skill-bonus-row" data-skill-bonus-index="{{index}}">
+              <select name="system.skillBonuses.{{index}}.skill" data-skill-select style="flex: 1;">
+                <option value="">{{localize "CARDIGAN.SelectSkill"}}</option>
+                <option value="accuracy" {{selected skillBonus.skill "accuracy"}}>Accuracy</option>
+                <option value="evasion" {{selected skillBonus.skill "evasion"}}>Evasion</option>
+                <option value="strength" {{selected skillBonus.skill "strength"}}>Strength</option>
+                <option value="dexterity" {{selected skillBonus.skill "dexterity"}}>Dexterity</option>
+                <option value="stamina" {{selected skillBonus.skill "stamina"}}>Stamina</option>
+                <option value="stealth" {{selected skillBonus.skill "stealth"}}>Stealth</option>
+                <option value="persuasion" {{selected skillBonus.skill "persuasion"}}>Persuasion</option>
+                <option value="intelligence" {{selected skillBonus.skill "intelligence"}}>Intelligence</option>
+                <option value="psionics" {{selected skillBonus.skill "psionics"}}>Psionics</option>
+              </select>
+              <input type="number" name="system.skillBonuses.{{index}}.bonus" value="{{skillBonus.bonus}}" style="width: 60px; margin-left: 5px;" placeholder="±0"/>
+              <button type="button" class="remove-skill-bonus-btn" data-action="removeSkillBonus" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveSkillBonus'}}">−</button>
+            </div>
+          {{/each}}
         </div>
-    </div>
+      </div>
+    </fieldset>
 
-    <!-- Magical Artifact -->
-    <div class="form-group">
+    {{!-- Special Properties --}}
+    <fieldset class="armor-section">
+      <legend>{{localize "CARDIGAN.SpecialProperties"}}</legend>
+      
+      <div class="form-group">
         <label for="system.magicalArtifact">{{localize "CARDIGAN.MagicalArtifact"}}</label>
         <input type="checkbox" name="system.magicalArtifact" {{checked item.system.magicalArtifact}}/>
-    </div>
+      </div>
 
-    <!-- Cold Resistance -->
-    <div class="form-group">
+      <div class="form-group">
         <label for="system.resistenciaFrio">{{localize "CARDIGAN.ColdResistance"}}</label>
         <input type="checkbox" name="system.resistenciaFrio" {{checked item.system.resistenciaFrio}}/>
-    </div>
+      </div>
+    </fieldset>
 
-    <!-- Attribute Bonuses -->
-    <div class="form-group attribute-bonuses">
-        <label>{{localize "CARDIGAN.AttributeBonuses"}}</label>
+    {{!-- Attribute Bonuses Section --}}
+    <fieldset class="armor-section">
+      <legend>{{localize "CARDIGAN.AttributeBonuses"}}</legend>
+      
+      <div class="form-group">
         <div style="display: flex; gap: 15px; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 5px;">
-                <label>{{localize "CARDIGAN.Life"}}:</label>
-                <input type="number" name="system.bonusVida" value="{{item.system.bonusVida}}" style="width: 80px;" placeholder="0"/>
-            </div>
-            <div style="display: flex; align-items: center; gap: 5px;">
-                <label>{{localize "CARDIGAN.Energy"}}:</label>
-                <input type="number" name="system.bonusEnergia" value="{{item.system.bonusEnergia}}" style="width: 80px;" placeholder="0"/>
-            </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            <label>{{localize "CARDIGAN.Life"}}:</label>
+            <input type="number" name="system.bonusVida" value="{{item.system.bonusVida}}" style="width: 80px;" placeholder="0"/>
+          </div>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            <label>{{localize "CARDIGAN.Energy"}}:</label>
+            <input type="number" name="system.bonusEnergia" value="{{item.system.bonusEnergia}}" style="width: 80px;" placeholder="0"/>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <!-- Movement Bonus -->
-    <div class="form-group movement-bonus">
+      <div class="form-group movement-bonus">
         <label style="display: flex; align-items: center; gap: 5px;">
-            <input type="checkbox" name="system.bonusDeslocamento.enabled" {{checked item.system.bonusDeslocamento.enabled}} data-conditional-trigger="movement"/>
-            {{localize "CARDIGAN.MovementBonus"}}
+          <input type="checkbox" name="system.bonusDeslocamento.enabled" {{checked item.system.bonusDeslocamento.enabled}} data-conditional-trigger="movement"/>
+          {{localize "CARDIGAN.MovementBonus"}}
         </label>
-                <div class="movement-value" style="{{#unless item.system.bonusDeslocamento.enabled}}display: none;{{/unless}} margin-top: 5px;">
-            <input type="number" name="system.bonusDeslocamento.bonus" value="{{item.system.bonusDeslocamento.bonus}}" style="width: 80px;" placeholder="0"/>
-            <span style="margin-left: 5px;">{{localize "CARDIGAN.Meters"}}</span>
+        <div class="movement-value" style="{{#unless item.system.bonusDeslocamento.enabled}}display: none;{{/unless}} margin-top: 5px;">
+          <input type="number" name="system.bonusDeslocamento.bonus" value="{{item.system.bonusDeslocamento.bonus}}" style="width: 80px;" placeholder="0"/>
+          <span style="margin-left: 5px;">{{localize "CARDIGAN.Meters"}}</span>
         </div>
-    </div>
+      </div>
 
-    <!-- Backpack Space Bonus -->
-    <div class="form-group backpack-space-bonus">
+      <div class="form-group backpack-space-bonus">
         <label style="display: flex; align-items: center; gap: 5px;">
-            <input type="checkbox" name="system.bonusEspacoMochila.enabled" {{checked item.system.bonusEspacoMochila.enabled}} data-conditional-trigger="backpack"/>
-            {{localize "CARDIGAN.BackpackSpaceBonus"}}
+          <input type="checkbox" name="system.bonusEspacoMochila.enabled" {{checked item.system.bonusEspacoMochila.enabled}} data-conditional-trigger="backpack"/>
+          {{localize "CARDIGAN.BackpackSpaceBonus"}}
         </label>
         <div class="backpack-value" style="{{#unless item.system.bonusEspacoMochila.enabled}}display: none;{{/unless}} margin-top: 5px;">
-            <input type="number" name="system.bonusEspacoMochila.bonus" value="{{item.system.bonusEspacoMochila.bonus}}" style="width: 80px;" placeholder="0" min="0"/>
-            <span style="margin-left: 5px;">{{localize "CARDIGAN.Slots"}}</span>
+          <input type="number" name="system.bonusEspacoMochila.bonus" value="{{item.system.bonusEspacoMochila.bonus}}" style="width: 80px;" placeholder="0" min="0"/>
+          <span style="margin-left: 5px;">{{localize "CARDIGAN.Slots"}}</span>
         </div>
-    </div>
+      </div>
+    </fieldset>
 
+  </div>
 </section>

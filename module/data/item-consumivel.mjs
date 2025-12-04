@@ -126,7 +126,11 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     });
 
     schema.criticalFailureEffects = new fields.ArrayField(
-      new fields.StringField({ required: true, blank: true, initial: "" }),
+      new fields.SchemaField({
+        id: new fields.StringField({ required: true }),
+        name: new fields.StringField({ required: true }),
+        img: new fields.StringField({ required: false, initial: '' })
+      }),
       { initial: [] }
     );
 
@@ -172,7 +176,11 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     });
 
     schema.criticalHitEffects = new fields.ArrayField(
-      new fields.StringField({ required: true, blank: true, initial: "" }),
+      new fields.SchemaField({
+        id: new fields.StringField({ required: true }),
+        name: new fields.StringField({ required: true }),
+        img: new fields.StringField({ required: false, initial: '' })
+      }),
       { initial: [] }
     );
 

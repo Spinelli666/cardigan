@@ -37,7 +37,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Remove o custo de <code>⚡Energia</code> desta habilidade.</p>",
+        "description": "<p style=\"text-align: justify;\">Remove o custo de <code>⚡️Energia</code> desta habilidade.</p>",
         "hasEnergy": true,
         "energyCost": 0,
         "hasEffects": false,

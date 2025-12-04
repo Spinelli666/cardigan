@@ -23,7 +23,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">Reduz o custo para <code>15⚡</code>.</p>",
+        "description": "<p style=\"text-align: justify;\">Reduz o custo para <code>15⚡️</code>.</p>",
         "hasEnergy": true,
         "energyCost": 15,
         "hasEffects": false,

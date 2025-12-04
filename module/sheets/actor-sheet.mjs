@@ -450,25 +450,23 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
             break;
         }
       }
-      // Append to recipes by profession type.
-      else if (i.type === 'item-recipe' || i.type === 'culinary-recipe') {
+      // Append to recipes by profession type using recipeType field.
+      else if (i.type === 'item-recipe') {
         recipes.push(i);
-        culinaryRecipes.push(i);
-      }
-      else if (i.type === 'tailoring-recipe') {
-        tailoringRecipes.push(i);
-      }
-      else if (i.type === 'tecnomagic-recipe') {
-        tecnomagicRecipes.push(i);
-      }
-      else if (i.type === 'blacksmithing-recipe') {
-        blacksmithingRecipes.push(i);
-      }
-      else if (i.type === 'alchemy-recipe') {
-        alchemyRecipes.push(i);
-      }
-      else if (i.type === 'carpentry-recipe') {
-        carpentryRecipes.push(i);
+        const recipeType = i.system.recipeType;
+        if (recipeType === 'culinary' || recipeType === 'general') {
+          culinaryRecipes.push(i);
+        } else if (recipeType === 'tailoring') {
+          tailoringRecipes.push(i);
+        } else if (recipeType === 'tecnomagic') {
+          tecnomagicRecipes.push(i);
+        } else if (recipeType === 'blacksmithing') {
+          blacksmithingRecipes.push(i);
+        } else if (recipeType === 'alchemy') {
+          alchemyRecipes.push(i);
+        } else if (recipeType === 'carpentry') {
+          carpentryRecipes.push(i);
+        }
       }
       // Append to spells.
       else if (i.type === 'spell') {
@@ -1099,6 +1097,25 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Prepare the document creation data by building a default name and any additional data defined by the form element
     const createData = { name: target.dataset.name || documentClass.defaultName };
     if (target.dataset.type) createData.type = target.dataset.type;
+    
+    // Set recipeType based on the recipe name for item-recipe type
+    if (target.dataset.type === 'item-recipe' && target.dataset.name) {
+      const name = target.dataset.name.toLowerCase();
+      if (name.includes('culinary')) {
+        createData.system = { recipeType: 'culinary' };
+      } else if (name.includes('tailoring')) {
+        createData.system = { recipeType: 'tailoring' };
+      } else if (name.includes('tecnomagic')) {
+        createData.system = { recipeType: 'tecnomagic' };
+      } else if (name.includes('blacksmithing')) {
+        createData.system = { recipeType: 'blacksmithing' };
+      } else if (name.includes('alchemy')) {
+        createData.system = { recipeType: 'alchemy' };
+      } else if (name.includes('carpentry')) {
+        createData.system = { recipeType: 'carpentry' };
+      }
+    }
+    
     // Create the document and render its sheet
     const document = await documentClass.create(createData, {
       parent: this.document,

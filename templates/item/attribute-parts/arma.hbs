@@ -2,205 +2,235 @@
 Template para itens do tipo arma com sistema de propriedades dinâmicas
 --}}
 <section class="tab {{tab.cssClass}}" data-group="primary" data-tab="attributes">
-    <div class="form-group">
-        <label for="system.rightHand">{{localize "CARDIGAN.RightHand"}}</label>
-        <input type="checkbox" name="system.rightHand" {{checked item.system.rightHand}}/>
-    </div>
-
-    <div class="form-group">
-        <label for="system.leftHand">{{localize "CARDIGAN.LeftHand"}}</label>
-        <input type="checkbox" name="system.leftHand" {{checked item.system.leftHand}}/>
-    </div>
-
-    <div class="form-group">
+  <div class="weapon-details-form">
+    
+    {{!-- Basic Information --}}
+    <fieldset class="weapon-section">
+      <legend>{{localize "CARDIGAN.WeaponBasicInfo"}}</legend>
+      
+      <div class="form-group">
         <label for="system.weaponType">{{localize "CARDIGAN.WeaponType"}}</label>
         <input type="text" name="system.weaponType" value="{{item.system.weaponType}}" placeholder="Espada, Escudo, Arco-Flecha"/>
-    </div>
+      </div>
 
-    <div class="form-group weapon-categories" style="display: flex; gap: 15px; align-items: center;">
+      <div class="form-group weapon-categories" style="display: flex; gap: 15px; align-items: center;">
         <label style="display: flex; align-items: center; gap: 5px;">
-            <input type="checkbox" name="system.melee" {{checked item.system.melee}}/>
-            {{localize "CARDIGAN.WeaponMelee"}}
+          <input type="checkbox" name="system.melee" {{checked item.system.melee}}/>
+          {{localize "CARDIGAN.WeaponMelee"}}
         </label>
         <label style="display: flex; align-items: center; gap: 5px;">
-            <input type="checkbox" name="system.ranged" {{checked item.system.ranged}} data-conditional-trigger="ranged"/>
-            {{localize "CARDIGAN.WeaponRanged"}}
+          <input type="checkbox" name="system.ranged" {{checked item.system.ranged}} data-conditional-trigger="ranged"/>
+          {{localize "CARDIGAN.WeaponRanged"}}
         </label>
-    </div>
+      </div>
 
-    <!-- Conditional Firearm Section -->
-    <div class="form-group firearm-section" style="{{#unless item.system.ranged}}display: none;{{/unless}}">
+      <div class="form-group firearm-section" style="{{#unless item.system.ranged}}display: none;{{/unless}}">
         <label style="display: flex; align-items: center; gap: 5px;">
-            <input type="checkbox" name="system.isFirearm" {{checked item.system.isFirearm}} data-conditional-trigger="firearm"/>
-            {{localize "CARDIGAN.IsFirearm"}}
+          <input type="checkbox" name="system.isFirearm" {{checked item.system.isFirearm}} data-conditional-trigger="firearm"/>
+          {{localize "CARDIGAN.IsFirearm"}}
         </label>
-    </div>
+      </div>
 
-    <!-- Conditional Magazine Section -->
-    <div class="form-group magazine-section" style="{{#unless item.system.isFirearm}}display: none;{{/unless}}">
+      <div class="form-group magazine-section" style="{{#unless item.system.isFirearm}}display: none;{{/unless}}">
         <label for="system.magazine">Weapon Magazine</label>
         <input type="number" name="system.magazine" value="{{item.system.magazine}}" min="0" style="width: 80px;" placeholder="0"/>
-    </div>
+      </div>
 
-    <div class="form-group">
+      <div class="form-group" style="display: flex; gap: 15px;">
+        <div style="flex: 1;">
+          <label for="system.weight">{{localize "CARDIGAN.Weight"}}</label>
+          <select name="system.weight">
+            <option value="leve" {{selected item.system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
+            <option value="pesado" {{selected item.system.weight "pesado"}}>{{localize "CARDIGAN.WeightHeavy"}}</option>
+          </select>
+        </div>
+        <div style="flex: 1;">
+          <label for="system.price">{{localize "CARDIGAN.Price"}} (PO)</label>
+          <input type="number" name="system.price" value="{{item.system.price}}" min="0"/>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="system.durability.current">{{localize "CARDIGAN.Durability"}}</label>
+        <div class="durability-container" style="display: flex; align-items: center; gap: 5px;">
+          <input type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}" style="width: 60px;"/>
+          <span>/</span>
+          <input type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1" style="width: 60px;"/>
+        </div>
+      </div>
+    </fieldset>
+
+    {{!-- Hand & Equipment --}}
+    <fieldset class="weapon-section">
+      <legend>{{localize "CARDIGAN.WeaponEquipment"}}</legend>
+      
+      <div class="form-group" style="display: flex; gap: 15px;">
+        <label style="display: flex; align-items: center; gap: 5px;">
+          <input type="checkbox" name="system.rightHand" {{checked item.system.rightHand}}/>
+          {{localize "CARDIGAN.RightHand"}}
+        </label>
+        <label style="display: flex; align-items: center; gap: 5px;">
+          <input type="checkbox" name="system.leftHand" {{checked item.system.leftHand}}/>
+          {{localize "CARDIGAN.LeftHand"}}
+        </label>
+      </div>
+    </fieldset>
+
+    {{!-- Combat Stats --}}
+    <fieldset class="weapon-section">
+      <legend>{{localize "CARDIGAN.CombatStats"}}</legend>
+      
+      <div class="form-group">
         <label for="system.damage.value">{{localize "CARDIGAN.Damage"}}</label>
         <input type="text" name="system.damage.value" value="{{item.system.damage.value}}" placeholder="1d6"/>
-    </div>
+      </div>
 
-    <div class="form-group damage-total-section">
+      <div class="form-group damage-total-section">
         <div class="ability-selection" style="display: flex; gap: 15px; margin-bottom: 5px;">
-            <label style="display: flex; align-items: center; gap: 5px;">
-                <input type="checkbox" name="system.damage.useStrength" {{checked item.system.damage.useStrength}} data-mutually-exclusive="damage-ability"/>
-                {{localize "CARDIGAN.Ability.Strength.abbr"}}
-            </label>
-            <label style="display: flex; align-items: center; gap: 5px;">
-                <input type="checkbox" name="system.damage.useDexterity" {{checked item.system.damage.useDexterity}} data-mutually-exclusive="damage-ability"/>
-                {{localize "CARDIGAN.Ability.Dexterity.abbr"}}
-            </label>
+          <label style="display: flex; align-items: center; gap: 5px;">
+            <input type="checkbox" name="system.damage.useStrength" {{checked item.system.damage.useStrength}} data-mutually-exclusive="damage-ability"/>
+            {{localize "CARDIGAN.Ability.Strength.abbr"}}
+          </label>
+          <label style="display: flex; align-items: center; gap: 5px;">
+            <input type="checkbox" name="system.damage.useDexterity" {{checked item.system.damage.useDexterity}} data-mutually-exclusive="damage-ability"/>
+            {{localize "CARDIGAN.Ability.Dexterity.abbr"}}
+          </label>
         </div>
         <div class="form-group">
-            <label for="system.damage.total">{{localize "CARDIGAN.DamageTotal"}}</label>
-            <input type="text" name="system.damage.total" value="{{item.system.damage.total}}" readonly/>
+          <label for="system.damage.total">{{localize "CARDIGAN.DamageTotal"}}</label>
+          <input type="text" name="system.damage.total" value="{{item.system.damage.total}}" readonly/>
         </div>
-    </div>
-    
-    <div class="form-group">
-        <label for="system.magicalArtifact">{{localize "CARDIGAN.MagicalArtifact"}}</label>
-        <input type="checkbox" name="system.magicalArtifact" {{checked item.system.magicalArtifact}}/>
-    </div>
-    
-    <!-- Weapon Protection Section -->
-    <div class="form-group weapon-protection">
+      </div>
+      
+      <div class="form-group weapon-protection">
         <label style="display: flex; align-items: center; gap: 5px;">
-            <input type="checkbox" name="system.protection.enabled" {{checked item.system.protection.enabled}} data-conditional-trigger="weapon-protection"/>
-            {{localize "CARDIGAN.WeaponProtection"}}
+          <input type="checkbox" name="system.protection.enabled" {{checked item.system.protection.enabled}} data-conditional-trigger="weapon-protection"/>
+          {{localize "CARDIGAN.WeaponProtection"}}
         </label>
         
-        <!-- Conditional Protection Value -->
         <div class="protection-value-section" style="margin-top: 8px; {{#unless item.system.protection.enabled}}display: none;{{/unless}}">
-            <label for="system.protection.value">{{localize "CARDIGAN.ProtectionValue"}}</label>
-            <input type="number" name="system.protection.value" value="{{item.system.protection.value}}" min="0" placeholder="0" style="width: 80px;"/>
+          <label for="system.protection.value">{{localize "CARDIGAN.ProtectionValue"}}</label>
+          <input type="number" name="system.protection.value" value="{{item.system.protection.value}}" min="0" placeholder="0" style="width: 80px;"/>
         </div>
-    </div>
-    
-    <div class="form-group weapon-properties">
+      </div>
+    </fieldset>
+
+    {{!-- Weapon Properties --}}
+    <fieldset class="weapon-section">
+      <legend>{{localize "CARDIGAN.WeaponProperties"}}</legend>
+      
+      <div class="form-group weapon-properties">
         <div class="properties-header">
-            <label>{{localize "CARDIGAN.WeaponProperties"}}</label>
-            <button type="button" class="add-property-btn" data-action="addWeaponProperty" title="{{localize 'CARDIGAN.AddProperty'}}">+</button>
+          <button type="button" class="add-property-btn" data-action="addWeaponProperty" title="{{localize 'CARDIGAN.AddProperty'}}">+</button>
         </div>
         
         <div class="properties-list" data-properties-container>
-            {{#if item.system.properties.length}}
-                {{#each item.system.properties as |property index|}}
-                    <div class="property-row" data-property-index="{{index}}">
-                        <select name="system.properties.{{index}}" data-property-select>
-                            <option value="">{{localize "CARDIGAN.SelectProperty"}}</option>
-                            <option value="afiado" {{selected property "afiado"}}>{{localize "CARDIGAN.WeaponProperty.Afiado"}}</option>
-                            <option value="ambidestria" {{selected property "ambidestria"}}>{{localize "CARDIGAN.WeaponProperty.Ambidestria"}}</option>
-                            <option value="bomba" {{selected property "bomba"}}>{{localize "CARDIGAN.WeaponProperty.Bomba"}}</option>
-                            <option value="colateral" {{selected property "colateral"}}>{{localize "CARDIGAN.WeaponProperty.Colateral"}}</option>
-                            <option value="contundente" {{selected property "contundente"}}>{{localize "CARDIGAN.WeaponProperty.Contundente"}}</option>
-                            <option value="discreto" {{selected property "discreto"}}>{{localize "CARDIGAN.WeaponProperty.Discreto"}}</option>
-                            <option value="disparoividido" {{selected property "disparoividido"}}>{{localize "CARDIGAN.WeaponProperty.DispardividIdo"}}</option>
-                            <option value="dosedupla" {{selected property "dosedupla"}}>{{localize "CARDIGAN.WeaponProperty.DoseDupla"}}</option>
-                            <option value="duelar" {{selected property "duelar"}}>{{localize "CARDIGAN.WeaponProperty.Duelar"}}</option>
-                            <option value="eletrecutar" {{selected property "eletrecutar"}}>{{localize "CARDIGAN.WeaponProperty.Eletrecutar"}}</option>
-                            <option value="extensao" {{selected property "extensao"}}>{{localize "CARDIGAN.WeaponProperty.Extensao"}}</option>
-                            <option value="ferir" {{selected property "ferir"}}>{{localize "CARDIGAN.WeaponProperty.Ferir"}}</option>
-                            <option value="impacto" {{selected property "impacto"}}>{{localize "CARDIGAN.WeaponProperty.Impacto"}}</option>
-                            <option value="incendiar" {{selected property "incendiar"}}>{{localize "CARDIGAN.WeaponProperty.Incendiar"}}</option>
-                            <option value="pente" {{selected property "pente"}}>{{localize "CARDIGAN.WeaponProperty.Pente"}}</option>
-                            <option value="perfurar" {{selected property "perfurar"}}>{{localize "CARDIGAN.WeaponProperty.Perfurar"}}</option>
-                            <option value="queimaroupa" {{selected property "queimaroupa"}}>{{localize "CARDIGAN.WeaponProperty.QueimaRoupa"}}</option>
-                            <option value="recarga" {{selected property "recarga"}}>{{localize "CARDIGAN.WeaponProperty.Recarga"}}</option>
-                            <option value="saquerapido" {{selected property "saquerapido"}}>{{localize "CARDIGAN.WeaponProperty.SaqueRapido"}}</option>
-                            <option value="traspassar" {{selected property "traspassar"}}>{{localize "CARDIGAN.WeaponProperty.Traspassar"}}</option>
-                            <option value="unica" {{selected property "unica"}}>{{localize "CARDIGAN.WeaponProperty.Unica"}}</option>
-                            <option value="vorpal" {{selected property "vorpal"}}>{{localize "CARDIGAN.WeaponProperty.Vorpal"}}</option>
-                        </select>
-                        <button type="button" class="remove-property-btn" data-action="removeWeaponProperty" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveProperty'}}">−</button>
-                    </div>
-                {{/each}}
-            {{else}}
-                <div class="property-row" data-property-index="0">
-                    <select name="system.properties.0" data-property-select>
-                        <option value="">{{localize "CARDIGAN.SelectProperty"}}</option>
-                        <option value="afiado">{{localize "CARDIGAN.WeaponProperty.Afiado"}}</option>
-                        <option value="ambidestria">{{localize "CARDIGAN.WeaponProperty.Ambidestria"}}</option>
-                        <option value="bomba">{{localize "CARDIGAN.WeaponProperty.Bomba"}}</option>
-                        <option value="colateral">{{localize "CARDIGAN.WeaponProperty.Colateral"}}</option>
-                        <option value="contundente">{{localize "CARDIGAN.WeaponProperty.Contundente"}}</option>
-                        <option value="discreto">{{localize "CARDIGAN.WeaponProperty.Discreto"}}</option>
-                        <option value="disparoividido">{{localize "CARDIGAN.WeaponProperty.DispardividIdo"}}</option>
-                        <option value="dosedupla">{{localize "CARDIGAN.WeaponProperty.DoseDupla"}}</option>
-                        <option value="duelar">{{localize "CARDIGAN.WeaponProperty.Duelar"}}</option>
-                        <option value="eletrecutar">{{localize "CARDIGAN.WeaponProperty.Eletrecutar"}}</option>
-                        <option value="extensao">{{localize "CARDIGAN.WeaponProperty.Extensao"}}</option>
-                        <option value="ferir">{{localize "CARDIGAN.WeaponProperty.Ferir"}}</option>
-                        <option value="impacto">{{localize "CARDIGAN.WeaponProperty.Impacto"}}</option>
-                        <option value="incendiar">{{localize "CARDIGAN.WeaponProperty.Incendiar"}}</option>
-                        <option value="pente">{{localize "CARDIGAN.WeaponProperty.Pente"}}</option>
-                        <option value="perfurar">{{localize "CARDIGAN.WeaponProperty.Perfurar"}}</option>
-                        <option value="queimaroupa">{{localize "CARDIGAN.WeaponProperty.QueimaRoupa"}}</option>
-                        <option value="recarga">{{localize "CARDIGAN.WeaponProperty.Recarga"}}</option>
-                        <option value="saquerapido">{{localize "CARDIGAN.WeaponProperty.SaqueRapido"}}</option>
-                        <option value="traspassar">{{localize "CARDIGAN.WeaponProperty.Traspassar"}}</option>
-                        <option value="unica">{{localize "CARDIGAN.WeaponProperty.Unica"}}</option>
-                        <option value="vorpal">{{localize "CARDIGAN.WeaponProperty.Vorpal"}}</option>
-                    </select>
-                    <button type="button" class="remove-property-btn" data-action="removeWeaponProperty" data-index="0" title="{{localize 'CARDIGAN.RemoveProperty'}}">−</button>
-                </div>
-            {{/if}}
+          {{#if item.system.properties.length}}
+            {{#each item.system.properties as |property index|}}
+              <div class="property-row" data-property-index="{{index}}">
+                <select name="system.properties.{{index}}" data-property-select>
+                  <option value="">{{localize "CARDIGAN.SelectProperty"}}</option>
+                  <option value="afiado" {{selected property "afiado"}}>{{localize "CARDIGAN.WeaponProperty.Afiado"}}</option>
+                  <option value="ambidestria" {{selected property "ambidestria"}}>{{localize "CARDIGAN.WeaponProperty.Ambidestria"}}</option>
+                  <option value="bomba" {{selected property "bomba"}}>{{localize "CARDIGAN.WeaponProperty.Bomba"}}</option>
+                  <option value="colateral" {{selected property "colateral"}}>{{localize "CARDIGAN.WeaponProperty.Colateral"}}</option>
+                  <option value="contundente" {{selected property "contundente"}}>{{localize "CARDIGAN.WeaponProperty.Contundente"}}</option>
+                  <option value="discreto" {{selected property "discreto"}}>{{localize "CARDIGAN.WeaponProperty.Discreto"}}</option>
+                  <option value="disparoividido" {{selected property "disparoividido"}}>{{localize "CARDIGAN.WeaponProperty.DispardividIdo"}}</option>
+                  <option value="dosedupla" {{selected property "dosedupla"}}>{{localize "CARDIGAN.WeaponProperty.DoseDupla"}}</option>
+                  <option value="duelar" {{selected property "duelar"}}>{{localize "CARDIGAN.WeaponProperty.Duelar"}}</option>
+                  <option value="eletrecutar" {{selected property "eletrecutar"}}>{{localize "CARDIGAN.WeaponProperty.Eletrecutar"}}</option>
+                  <option value="extensao" {{selected property "extensao"}}>{{localize "CARDIGAN.WeaponProperty.Extensao"}}</option>
+                  <option value="ferir" {{selected property "ferir"}}>{{localize "CARDIGAN.WeaponProperty.Ferir"}}</option>
+                  <option value="impacto" {{selected property "impacto"}}>{{localize "CARDIGAN.WeaponProperty.Impacto"}}</option>
+                  <option value="incendiar" {{selected property "incendiar"}}>{{localize "CARDIGAN.WeaponProperty.Incendiar"}}</option>
+                  <option value="pente" {{selected property "pente"}}>{{localize "CARDIGAN.WeaponProperty.Pente"}}</option>
+                  <option value="perfurar" {{selected property "perfurar"}}>{{localize "CARDIGAN.WeaponProperty.Perfurar"}}</option>
+                  <option value="queimaroupa" {{selected property "queimaroupa"}}>{{localize "CARDIGAN.WeaponProperty.QueimaRoupa"}}</option>
+                  <option value="recarga" {{selected property "recarga"}}>{{localize "CARDIGAN.WeaponProperty.Recarga"}}</option>
+                  <option value="saquerapido" {{selected property "saquerapido"}}>{{localize "CARDIGAN.WeaponProperty.SaqueRapido"}}</option>
+                  <option value="traspassar" {{selected property "traspassar"}}>{{localize "CARDIGAN.WeaponProperty.Traspassar"}}</option>
+                  <option value="unica" {{selected property "unica"}}>{{localize "CARDIGAN.WeaponProperty.Unica"}}</option>
+                  <option value="vorpal" {{selected property "vorpal"}}>{{localize "CARDIGAN.WeaponProperty.Vorpal"}}</option>
+                </select>
+                <button type="button" class="remove-property-btn" data-action="removeWeaponProperty" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveProperty'}}">−</button>
+              </div>
+            {{/each}}
+          {{else}}
+            <div class="property-row" data-property-index="0">
+              <select name="system.properties.0" data-property-select>
+                <option value="">{{localize "CARDIGAN.SelectProperty"}}</option>
+                <option value="afiado">{{localize "CARDIGAN.WeaponProperty.Afiado"}}</option>
+                <option value="ambidestria">{{localize "CARDIGAN.WeaponProperty.Ambidestria"}}</option>
+                <option value="bomba">{{localize "CARDIGAN.WeaponProperty.Bomba"}}</option>
+                <option value="colateral">{{localize "CARDIGAN.WeaponProperty.Colateral"}}</option>
+                <option value="contundente">{{localize "CARDIGAN.WeaponProperty.Contundente"}}</option>
+                <option value="discreto">{{localize "CARDIGAN.WeaponProperty.Discreto"}}</option>
+                <option value="disparoividido">{{localize "CARDIGAN.WeaponProperty.DispardividIdo"}}</option>
+                <option value="dosedupla">{{localize "CARDIGAN.WeaponProperty.DoseDupla"}}</option>
+                <option value="duelar">{{localize "CARDIGAN.WeaponProperty.Duelar"}}</option>
+                <option value="eletrecutar">{{localize "CARDIGAN.WeaponProperty.Eletrecutar"}}</option>
+                <option value="extensao">{{localize "CARDIGAN.WeaponProperty.Extensao"}}</option>
+                <option value="ferir">{{localize "CARDIGAN.WeaponProperty.Ferir"}}</option>
+                <option value="impacto">{{localize "CARDIGAN.WeaponProperty.Impacto"}}</option>
+                <option value="incendiar">{{localize "CARDIGAN.WeaponProperty.Incendiar"}}</option>
+                <option value="pente">{{localize "CARDIGAN.WeaponProperty.Pente"}}</option>
+                <option value="perfurar">{{localize "CARDIGAN.WeaponProperty.Perfurar"}}</option>
+                <option value="queimaroupa">{{localize "CARDIGAN.WeaponProperty.QueimaRoupa"}}</option>
+                <option value="recarga">{{localize "CARDIGAN.WeaponProperty.Recarga"}}</option>
+                <option value="saquerapido">{{localize "CARDIGAN.WeaponProperty.SaqueRapido"}}</option>
+                <option value="traspassar">{{localize "CARDIGAN.WeaponProperty.Traspassar"}}</option>
+                <option value="unica">{{localize "CARDIGAN.WeaponProperty.Unica"}}</option>
+                <option value="vorpal">{{localize "CARDIGAN.WeaponProperty.Vorpal"}}</option>
+              </select>
+              <button type="button" class="remove-property-btn" data-action="removeWeaponProperty" data-index="0" title="{{localize 'CARDIGAN.RemoveProperty'}}">−</button>
+            </div>
+          {{/if}}
         </div>
-    </div>
+      </div>
+    </fieldset>
 
-    <div class="form-group">
-        <label for="system.weight">{{localize "CARDIGAN.Weight"}}</label>
-        <select name="system.weight">
-            <option value="leve" {{selected item.system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
-            <option value="pesado" {{selected item.system.weight "pesado"}}>{{localize "CARDIGAN.WeightHeavy"}}</option>
-        </select>
-    </div>
-    
-    <div class="form-group">
-        <label for="system.price">{{localize "CARDIGAN.Price"}} (PO)</label>
-        <input type="number" name="system.price" value="{{item.system.price}}" min="0"/>
-    </div>
-    
-    <div class="form-group">
-        <label for="system.durability.current">{{localize "CARDIGAN.Durability"}}</label>
-        <div class="durability-container" style="display: flex; align-items: center; gap: 5px;">
-            <input type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}" style="width: 60px;"/>
-            <span>/</span>
-            <input type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1" style="width: 60px;"/>
-        </div>
-    </div>
+    {{!-- Special Properties --}}
+    <fieldset class="weapon-section">
+      <legend>{{localize "CARDIGAN.SpecialProperties"}}</legend>
+      
+      <div class="form-group">
+        <label for="system.magicalArtifact">{{localize "CARDIGAN.MagicalArtifact"}}</label>
+        <input type="checkbox" name="system.magicalArtifact" {{checked item.system.magicalArtifact}}/>
+      </div>
+    </fieldset>
 
-    <div class="form-group skill-bonuses">
+    {{!-- Skill Bonuses --}}
+    <fieldset class="weapon-section">
+      <legend>{{localize "CARDIGAN.SkillBonuses"}}</legend>
+      
+      <div class="form-group skill-bonuses">
         <div class="skill-bonuses-header">
-            <label>{{localize "CARDIGAN.SkillBonuses"}}</label>
-            <button type="button" class="add-skill-bonus-btn" data-action="addSkillBonus" title="{{localize 'CARDIGAN.AddSkillBonus'}}">+</button>
+          <button type="button" class="add-skill-bonus-btn" data-action="addSkillBonus" title="{{localize 'CARDIGAN.AddSkillBonus'}}">+</button>
         </div>
         
         <div class="skill-bonuses-list" data-skill-bonuses-container>
-            {{#each item.system.skillBonuses as |skillBonus index|}}
-                <div class="skill-bonus-row" data-skill-bonus-index="{{index}}">
-                    <select name="system.skillBonuses.{{index}}.skill" data-skill-select style="flex: 1;">
-                        <option value="">{{localize "CARDIGAN.SelectSkill"}}</option>
-                        <option value="accuracy" {{selected skillBonus.skill "accuracy"}}>Accuracy</option>
-                        <option value="evasion" {{selected skillBonus.skill "evasion"}}>Evasion</option>
-                        <option value="strength" {{selected skillBonus.skill "strength"}}>Strength</option>
-                        <option value="dexterity" {{selected skillBonus.skill "dexterity"}}>Dexterity</option>
-                        <option value="stamina" {{selected skillBonus.skill "stamina"}}>Stamina</option>
-                        <option value="stealth" {{selected skillBonus.skill "stealth"}}>Stealth</option>
-                        <option value="persuasion" {{selected skillBonus.skill "persuasion"}}>Persuasion</option>
-                        <option value="intelligence" {{selected skillBonus.skill "intelligence"}}>Intelligence</option>
-                        <option value="psionics" {{selected skillBonus.skill "psionics"}}>Psionics</option>
-                    </select>
-                    <input type="number" name="system.skillBonuses.{{index}}.bonus" value="{{skillBonus.bonus}}" style="width: 60px; margin-left: 5px;" placeholder="±0"/>
-                    <button type="button" class="remove-skill-bonus-btn" data-action="removeSkillBonus" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveSkillBonus'}}">−</button>
-                </div>
-            {{/each}}
+          {{#each item.system.skillBonuses as |skillBonus index|}}
+            <div class="skill-bonus-row" data-skill-bonus-index="{{index}}">
+              <select name="system.skillBonuses.{{index}}.skill" data-skill-select style="flex: 1;">
+                <option value="">{{localize "CARDIGAN.SelectSkill"}}</option>
+                <option value="accuracy" {{selected skillBonus.skill "accuracy"}}>Accuracy</option>
+                <option value="evasion" {{selected skillBonus.skill "evasion"}}>Evasion</option>
+                <option value="strength" {{selected skillBonus.skill "strength"}}>Strength</option>
+                <option value="dexterity" {{selected skillBonus.skill "dexterity"}}>Dexterity</option>
+                <option value="stamina" {{selected skillBonus.skill "stamina"}}>Stamina</option>
+                <option value="stealth" {{selected skillBonus.skill "stealth"}}>Stealth</option>
+                <option value="persuasion" {{selected skillBonus.skill "persuasion"}}>Persuasion</option>
+                <option value="intelligence" {{selected skillBonus.skill "intelligence"}}>Intelligence</option>
+                <option value="psionics" {{selected skillBonus.skill "psionics"}}>Psionics</option>
+              </select>
+              <input type="number" name="system.skillBonuses.{{index}}.bonus" value="{{skillBonus.bonus}}" style="width: 60px; margin-left: 5px;" placeholder="±0"/>
+              <button type="button" class="remove-skill-bonus-btn" data-action="removeSkillBonus" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveSkillBonus'}}">−</button>
+            </div>
+          {{/each}}
         </div>
-    </div>
+      </div>
+    </fieldset>
+
+  </div>
 </section>

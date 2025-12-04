@@ -1,7 +1,18 @@
 {
   "DOCUMENT": {
     "New": {
-      "item-recipe": "New Recipe"
+      "arma": "New Weapon",
+      "armadura": "New Armor",
+      "item-municao": "New Ammunition",
+      "item-comum": "New Item",
+      "item-consumivel": "New Consumable",
+      "item-ingredient": "New Ingredient",
+      "item-recipe": "New Recipe",
+      "item-skill": "New Skill",
+      "item-spell": "New Spell",
+      "item-efeito": "New Effect",
+      "item-feature": "New Feature",
+      "item-race": "New Race"
     }
   },
   "CARDIGAN": {
@@ -203,6 +214,20 @@
         }
       }
     },
+    "ItemCreate": {
+      "Title": "Create New Item",
+      "NameLabel": "Item Name",
+      "NamePlaceholder": "Enter item name...",
+      "Create": "Create Item",
+      "NoTypeSelected": "Please select an item type",
+      "Categories": {
+        "Equipment": "Equipment",
+        "Items": "Items & Consumables",
+        "Crafting": "Crafting",
+        "Character": "Character Features",
+        "Effects": "Effects"
+      }
+    },
     "Item": {
       "Tabs": {
         "Description": "Description",
@@ -378,6 +403,17 @@
         "NamePlaceholder": "Enter enhancement name..."
       },
       "ItemRecipe": {
+        "recipeType": {
+          "label": "Recipe Type",
+          "hint": "Select the profession type for this recipe",
+          "general": "General",
+          "culinary": "Culinary",
+          "tailoring": "Tailoring",
+          "tecnomagic": "Tecnomagic",
+          "blacksmithing": "Blacksmithing",
+          "alchemy": "Alchemy",
+          "carpentry": "Carpentry"
+        },
         "ingredients": {
           "label": "Ingredients",
           "hint": "List the ingredients needed for this recipe"
@@ -573,6 +609,7 @@
     "Apply": "Apply",
     "Remove": "Remove",
     "NoEffectsAdded": "No effects added yet. Click + to add an effect.",
+    "NoEffectsSelected": "No effects selected. Click Configure to select effects.",
     "ShowBackpack": "Show Backpack",
     "BackpackTable": "Backpack Table",
     "Backpack": "Backpack",
@@ -700,6 +737,12 @@
     "ArmorTable": "Equipped Armor",
     "ArmorProtection": "Protection",
     "ArmorTypeLabel": "Armor Type",
+    "ArmorBasicInfo": "Basic Information",
+    "WeaponBasicInfo": "Basic Information",
+    "WeaponEquipment": "Hand & Equipment",
+    "CombatStats": "Combat Statistics",
+    "WeaponProperties": "Weapon Properties",
+    "SpecialProperties": "Special Properties",
     "EquipArmor": "Equip Armor",
     "UnequipArmor": "Unequip Armor",
     "Protection": "Protection",
@@ -794,6 +837,8 @@
       "CriticalFailureEffects": "Critical Failure Effects",
       "AddCriticalFailureEffect": "Add Effect",
       "RemoveCriticalFailureEffect": "Remove Effect",
+      "ConfigureEffects": "Configure Effects",
+      "SelectedEffects": "Selected Effects",
       "HasCriticalFailureSkillLoss": "Critical Failure applies Skill Loss?",
       "CriticalFailureSkillLoss": "Critical Failure Skill Loss",
       "AddCriticalFailureSkillLoss": "Add Skill Loss",
@@ -1002,12 +1047,6 @@
       "item-consumivel": "Consumable",
       "item-ingredient": "Ingredient",
       "item-recipe": "Recipe",
-      "tailoring-recipe": "Tailoring Recipe",
-      "culinary-recipe": "Culinary Recipe",
-      "tecnomagic-recipe": "Tecnomagic Recipe",
-      "blacksmithing-recipe": "Blacksmithing Recipe",
-      "alchemy-recipe": "Alchemy Recipe",
-      "carpentry-recipe": "Carpentry Recipe",
       "feature": "Feature",
       "race": "Raça",
       "spell": "Spell",

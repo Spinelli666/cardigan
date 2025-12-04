@@ -34,24 +34,6 @@
         "item-recipe": {
             "htmlFields": ["description"]
         },
-        "culinary-recipe": {
-            "htmlFields": ["description"]
-        },
-        "tailoring-recipe": {
-            "htmlFields": ["description"]
-        },
-        "tecnomagic-recipe": {
-            "htmlFields": ["description"]
-        },
-        "blacksmithing-recipe": {
-            "htmlFields": ["description"]
-        },
-        "alchemy-recipe": {
-            "htmlFields": ["description"]
-        },
-        "carpentry-recipe": {
-            "htmlFields": ["description"]
-        },
         "feature": {
             "htmlFields": ["description"]
         },

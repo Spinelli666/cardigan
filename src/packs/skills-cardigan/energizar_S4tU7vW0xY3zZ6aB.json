@@ -38,7 +38,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\"><em>Acertos Críticos</em> com esta habilidade anulam o seu custo de <strong><code>⚡Energia</code></strong>.</p>",
+        "description": "<p style=\"text-align: justify\"><em>Acertos Críticos</em> com esta habilidade anulam o seu custo de <strong><code>⚡️Energia</code></strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

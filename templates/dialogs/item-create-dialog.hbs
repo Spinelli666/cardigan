@@ -1,0 +1,39 @@
+<form class="item-create-dialog-form">
+  <div class="form-group">
+    <label for="item-name">{{localize "CARDIGAN.ItemCreate.NameLabel"}}</label>
+    <input type="text" name="name" id="item-name" placeholder="{{localize 'CARDIGAN.ItemCreate.NamePlaceholder'}}" autofocus>
+  </div>
+
+  <div class="item-type-categories">
+    {{#each categories}}
+      <section class="category">
+        <h3 class="category-header">
+          <i class="{{icon}}"></i>
+          {{label}}
+        </h3>
+        <div class="item-types">
+          {{#each types}}
+            <label class="item-type-option">
+              <input type="radio" name="type" value="{{type}}" required>
+              <span class="type-content">
+                <i class="{{icon}}"></i>
+                <span class="type-label">{{label}}</span>
+              </span>
+            </label>
+          {{/each}}
+        </div>
+      </section>
+    {{/each}}
+  </div>
+
+  <footer class="dialog-buttons">
+    <button type="submit" data-action="create">
+      <i class="fas fa-check"></i>
+      {{localize "CARDIGAN.ItemCreate.Create"}}
+    </button>
+    <button type="button" data-action="close">
+      <i class="fas fa-times"></i>
+      {{localize "CARDIGAN.Common.Cancel"}}
+    </button>
+  </footer>
+</form>

@@ -58,6 +58,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       configureEnhancement1: this._configureEnhancement1,
       configureEnhancement2: this._configureEnhancement2,
       configureEnhancement3: this._configureEnhancement3,
+      configureCriticalFailureEffects: this._configureCriticalFailureEffects,
+      configureCriticalHitEffects: this._configureCriticalHitEffects,
       addCriticalFailureEffect: this._addCriticalFailureEffect,
       removeCriticalFailureEffect: this._removeCriticalFailureEffect,
       addCriticalFailureSkillLoss: this._addCriticalFailureSkillLoss,
@@ -195,12 +197,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         options.parts.push('attributesRace');
         break;
       case 'item-recipe':
-      case 'culinary-recipe':
-      case 'tailoring-recipe':
-      case 'tecnomagic-recipe':
-      case 'blacksmithing-recipe':
-      case 'alchemy-recipe':
-      case 'carpentry-recipe':
         options.parts.push('attributesItemRecipe', 'ingredientsItemRecipe');
         break;
     }
@@ -1229,6 +1225,70 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     }
   }
 
+  /**
+   * Handle configuring critical failure effects for consumables
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _configureCriticalFailureEffects(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    
+    if (item.type !== 'item-consumivel') {
+      return;
+    }
+
+    try {
+      // Import the dialog class dynamically
+      const { SkillEffectsSelectionDialog } = await import('../applications/skill-effects-selection-dialog.mjs');
+      
+      // Open the effects selection dialog
+      const dialog = new SkillEffectsSelectionDialog({
+        item: item,
+        selectedEffects: item.system.criticalFailureEffects || [],
+        effectType: 'criticalFailureEffects' // Identifier for saving
+      });
+      
+      dialog.render(true);
+    } catch (error) {
+      console.error('[CARDIGAN ERROR] Error in _configureCriticalFailureEffects:', error);
+      ui.notifications.error(`Erro ao abrir dialog: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle configuring critical hit effects for consumables
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _configureCriticalHitEffects(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    
+    if (item.type !== 'item-consumivel') {
+      return;
+    }
+
+    try {
+      // Import the dialog class dynamically
+      const { SkillEffectsSelectionDialog } = await import('../applications/skill-effects-selection-dialog.mjs');
+      
+      // Open the effects selection dialog
+      const dialog = new SkillEffectsSelectionDialog({
+        item: item,
+        selectedEffects: item.system.criticalHitEffects || [],
+        effectType: 'criticalHitEffects' // Identifier for saving
+      });
+      
+      dialog.render(true);
+    } catch (error) {
+      console.error('[CARDIGAN ERROR] Error in _configureCriticalHitEffects:', error);
+      ui.notifications.error(`Erro ao abrir dialog: ${error.message}`);
+    }
+  }
+
 
 
   /**
@@ -1350,9 +1410,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    */
   static async _addCriticalHitSkillBonus(event, target) {
     event.preventDefault();
-    const currentBonuses = this.item.system.criticalHitSkillBonuses || [];
-    const newBonuses = [...currentBonuses, { ability: "accuracy", value: 0 }];
-    await this.item.update({ 'system.criticalHitSkillBonuses': newBonuses });
+    const currentBonuses = this.item.system.criticalHitSkillBonus || [];
+    const newBonuses = [...currentBonuses, { ability: "accuracy", value: 1 }];
+    await this.item.update({ 'system.criticalHitSkillBonus': newBonuses });
   }
 
   /**
@@ -1364,9 +1424,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   static async _removeCriticalHitSkillBonus(event, target) {
     event.preventDefault();
     const index = parseInt(target.dataset.index);
-    const currentBonuses = this.item.system.criticalHitSkillBonuses || [];
+    const currentBonuses = this.item.system.criticalHitSkillBonus || [];
     const newBonuses = currentBonuses.filter((_, i) => i !== index);
-    await this.item.update({ 'system.criticalHitSkillBonuses': newBonuses });
+    await this.item.update({ 'system.criticalHitSkillBonus': newBonuses });
   }
 
   /**
@@ -1377,9 +1437,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    */
   static async _addTemporarySkillBonus(event, target) {
     event.preventDefault();
-    const currentBonuses = this.item.system.temporarySkillBonuses || [];
-    const newBonuses = [...currentBonuses, { ability: "accuracy", value: 0, duration: 1 }];
-    await this.item.update({ 'system.temporarySkillBonuses': newBonuses });
+    const currentBonuses = this.item.system.temporarySkillBonus || [];
+    const newBonuses = [...currentBonuses, { ability: "accuracy", value: 1 }];
+    await this.item.update({ 'system.temporarySkillBonus': newBonuses });
   }
 
   /**
@@ -1391,9 +1451,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   static async _removeTemporarySkillBonus(event, target) {
     event.preventDefault();
     const index = parseInt(target.dataset.index);
-    const currentBonuses = this.item.system.temporarySkillBonuses || [];
+    const currentBonuses = this.item.system.temporarySkillBonus || [];
     const newBonuses = currentBonuses.filter((_, i) => i !== index);
-    await this.item.update({ 'system.temporarySkillBonuses': newBonuses });
+    await this.item.update({ 'system.temporarySkillBonus': newBonuses });
   }
 
   /** Helper Functions */

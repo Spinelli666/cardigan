@@ -18,7 +18,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Reduz o custo de Energia para <code>15⚡</code>.</p>",
+        "description": "<p style=\"text-align: justify\">Reduz o custo de Energia para <code>15⚡️</code>.</p>",
         "hasEnergy": true,
         "energyCost": 15,
         "hasEffects": false,
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você transforma parte da realidade a vista em uma manifestação energética ondulante que desvanece em uma aura furta-cor.\"</em><p><br></p><p style=\"text-align: justify\">* Aprenda dois ::systems/cardigan/assets/images/outros/feitico.webp:: <strong>Feitiços</strong> com o mesmo custo de Energia e duração de <strong>2 Rodadas</strong>:</p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Aura Defletora ‣</strong> Imbui você ou um aliado em uma aura de energia que reduz pela <em>metade</em> os próximos danos recebidos de qualquer fonte durante o efeito.</p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp:: <strong>Barreira Defletora ‣</strong> Cria uma área de Cobertura Completa marcando até <strong>3m</strong> para conjurar uma muralha de anomalias. Cada uma das três paredes possui o efeito de <em>Aura Defletora</em> e desaparecem com o fim da duração.</p><p></p><hr><p></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/reacao.webp:: Em <em>Evasões Críticas</em> ou ao custo de <code>⚡Energia</code> dessa habilidade você pode <strong>refletir</strong> um Feitiço ou Projétil de Munição lançado contra você ou um aliado à vista de volta para o alvo que o lançou, forçando-o a evadir contra o próprio ataque.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você transforma parte da realidade a vista em uma manifestação energética ondulante que desvanece em uma aura furta-cor.\"</em><p><br></p><p style=\"text-align: justify\">* Aprenda dois ::systems/cardigan/assets/images/outros/feitico.webp:: <strong>Feitiços</strong> com o mesmo custo de Energia e duração de <strong>2 Rodadas</strong>:</p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Aura Defletora ‣</strong> Imbui você ou um aliado em uma aura de energia que reduz pela <em>metade</em> os próximos danos recebidos de qualquer fonte durante o efeito.</p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp:: <strong>Barreira Defletora ‣</strong> Cria uma área de Cobertura Completa marcando até <strong>3m</strong> para conjurar uma muralha de anomalias. Cada uma das três paredes possui o efeito de <em>Aura Defletora</em> e desaparecem com o fim da duração.</p><p></p><hr><p></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/tipos-acoes/reacao.webp:: Em <em>Evasões Críticas</em> ou ao custo de <code>⚡️Energia</code> dessa habilidade você pode <strong>refletir</strong> um Feitiço ou Projétil de Munição lançado contra você ou um aliado à vista de volta para o alvo que o lançou, forçando-o a evadir contra o próprio ataque.</p>"
   },
   "effects": [],
   "folder": "Sk4FeiticeiroU5I",

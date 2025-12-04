@@ -30,6 +30,24 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
       min: 0,
     });
 
+    // Recipe type (profession)
+    schema.recipeType = new fields.StringField({
+      required: true,
+      blank: false,
+      initial: "general",
+      choices: {
+        "general": "CARDIGAN.Item.ItemRecipe.recipeType.general",
+        "culinary": "CARDIGAN.Item.ItemRecipe.recipeType.culinary",
+        "tailoring": "CARDIGAN.Item.ItemRecipe.recipeType.tailoring",
+        "tecnomagic": "CARDIGAN.Item.ItemRecipe.recipeType.tecnomagic",
+        "blacksmithing": "CARDIGAN.Item.ItemRecipe.recipeType.blacksmithing",
+        "alchemy": "CARDIGAN.Item.ItemRecipe.recipeType.alchemy",
+        "carpentry": "CARDIGAN.Item.ItemRecipe.recipeType.carpentry"
+      },
+      label: "CARDIGAN.Item.ItemRecipe.recipeType.label",
+      hint: "CARDIGAN.Item.ItemRecipe.recipeType.hint"
+    });
+
     // Recipe specific fields
     schema.difficulty = new fields.StringField({
       required: true,

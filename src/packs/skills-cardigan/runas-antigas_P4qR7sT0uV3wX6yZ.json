@@ -48,7 +48,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Aplica duas runas de uma vez e a segunda não possui custo de <code>⚡Energia</code>.</p>",
+        "description": "<p style=\"text-align: justify\">Aplica duas runas de uma vez e a segunda não possui custo de <code>⚡️Energia</code>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

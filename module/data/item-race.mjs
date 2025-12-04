@@ -48,7 +48,7 @@ export default class CardiganSystemRace extends CardiganSystemItemBase {
         id: new StringField({ required: true }),
         name: new StringField({ required: true }),
         img: new StringField({ required: false, initial: 'icons/svg/item-bag.svg' }),
-        uuid: new StringField({ required: true })
+        uuid: new StringField({ required: false }) // UUID is optional, will be resolved if not provided
       }),
       {
         required: false,
