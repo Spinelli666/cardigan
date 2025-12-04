@@ -9386,44 +9386,54 @@
 
 /* Dialog styles outside of .cardigan scope */
 /**
- * Item Type Selection Dialog - Simple Test Styles
- * Intercepta a criação de itens via Item.createDialog()
+ * Create Item Dialog - Test Styles
+ * Deve aparecer com borda vermelha ÓBVIA
  */
-dialog.item-type-selection {
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-  border: 3px solid #e74c3c;
+dialog.create-item-dialog {
+  border: 5px solid #ff0000 !important;
+  box-shadow: 0 0 40px rgba(255, 0, 0, 0.9) !important;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
   border-radius: 12px;
-  padding: 20px;
-  color: #ecf0f1;
-  min-width: 450px;
-  box-shadow: 0 0 30px rgba(231, 76, 60, 0.8);
+  padding: 0;
 }
-dialog.item-type-selection .window-content {
+dialog.create-item-dialog .window-content {
+  padding: 20px;
   background: transparent;
 }
-dialog.item-type-selection h2 {
-  color: #e74c3c;
+dialog.create-item-dialog .create-item-content h2 {
+  color: #ff0000;
   font-size: 24px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin: 0 0 20px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
-dialog.item-type-selection button {
-  background: #e74c3c;
+dialog.create-item-dialog .item-types {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+dialog.create-item-dialog .item-type-btn {
+  background: #ff0000;
   color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
+  border: 2px solid #fff;
+  padding: 15px;
+  border-radius: 8px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   transition: all 0.3s ease;
 }
-dialog.item-type-selection button:hover {
-  background: #c0392b;
+dialog.create-item-dialog .item-type-btn i {
+  font-size: 24px;
+}
+dialog.create-item-dialog .item-type-btn:hover {
+  background: #cc0000;
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.6);
+  box-shadow: 0 4px 16px rgba(255, 0, 0, 0.8);
 }
 
 .skill-effects-selection-dialog .dialog-content p {

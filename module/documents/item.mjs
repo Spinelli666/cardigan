@@ -587,40 +587,24 @@ export class CardiganSystemItem extends Item {
     }
   }
 
-  /* -------------------------------------------- */
-  /*  Factory Methods                             */
-  /* -------------------------------------------- */
-
   /**
-   * Override createDialog to show custom item type selection dialog
-   * This method is automatically called by Foundry when clicking "Create Item"
-   * @param {object} data - Initial data for the item
-   * @param {object} options - Creation options
-   * @returns {Promise<Item|null>} The created item or null if cancelled
-   * @override
+   * Override createDialog to show custom item creation dialog
+   * Following D&D5e pattern
    */
-  static async createDialog(data = {}, { parent = null, pack = null, types = null, ...options } = {}) {
-    console.log('[Item.createDialog] Called with:', { data, parent, pack, types, options });
+  static async createDialog(data = {}, { parent = null, pack = null, ...options } = {}) {
+    console.log('[Item.createDialog] Intercepted!', { parent, pack });
     
-    // If parent is not an Actor, fall back to default behavior
+    // Only intercept if creating on an actor
     if (!parent || !(parent instanceof Actor)) {
-      console.log('[Item.createDialog] No parent actor, using default dialog');
-      return super.createDialog(data, { parent, pack, types, ...options });
+      console.log('[Item.createDialog] Not an actor, using default');
+      return super.createDialog(data, { parent, pack, ...options });
     }
 
-    // Import the dialog
-    const { ItemTypeSelectionDialog } = await import('../applications/item-type-selection-dialog.mjs');
+    // Import and show custom dialog
+    const { CreateItemDialog } = await import('../applications/create-item-dialog.mjs');
+    await CreateItemDialog.show(parent);
     
-    try {
-      // Show custom dialog and wait for result
-      const result = await ItemTypeSelectionDialog.show(parent);
-      console.log('[Item.createDialog] Dialog returned:', result);
-      
-      return result?.document || null;
-    } catch (error) {
-      // User cancelled
-      console.log('[Item.createDialog] Dialog cancelled:', error);
-      return null;
-    }
+    // Return null since dialog handles creation
+    return null;
   }
 }

@@ -41,21 +41,16 @@ export class ItemTypeSelectionDialog extends api.HandlebarsApplicationMixin(
 
   /** @override */
   static PARTS = {
-    content: {
+    form: {
       template: "systems/cardigan/templates/dialogs/item-type-selection.hbs"
     }
   };
 
   /** @override */
   async _prepareContext(options) {
-    const context = await super._prepareContext(options);
-    // Adicionar dados necessários para o template
-    context.itemTypes = [
-      { type: 'arma', name: 'Nova Arma', icon: 'fas fa-sword' },
-      { type: 'armadura', name: 'Nova Armadura', icon: 'fas fa-shield' },
-      { type: 'general', name: 'Itens Gerais', icon: 'fas fa-boxes', isGeneral: true }
-    ];
-    return context;
+    return {
+      ...await super._prepareContext(options)
+    };
   }
 
   /** @override */
