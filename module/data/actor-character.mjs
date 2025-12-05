@@ -137,14 +137,17 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       this.abilities[key].total = baseValue + totalBonus;
     }
 
-    // Regra: cada ponto de Stamina adiciona +5 à vida máxima e +5 à energia máxima
+    // Regra: cada ponto de Stamina adiciona +5 à vida máxima e +1 à energia máxima
     const stamina = this.abilities?.stamina?.value ?? 0;
     const staminaTotalBonus = this.abilities?.stamina?.totalBonus ?? 0;
     const totalStamina = stamina + staminaTotalBonus;
+    const staminaHealthBonus = totalStamina * 5;
+    const staminaEnergyBonus = totalStamina * 1;
     
-    // Regra: cada level de 2 até 10 adiciona +5 à vida e energia máxima (level 1 não dá bonus)
+    // Regra: cada level de 2 até 10 adiciona +5 à vida e +1 à energia máxima (level 1 não dá bonus)
     const level = this.attributes?.level?.value ?? 0;
-    const levelBonus = Math.max(0, Math.min(level, 10) - 1) * 5;
+    const levelHealthBonus = Math.max(0, Math.min(level, 10) - 1) * 5;
+    const levelEnergyBonus = Math.max(0, Math.min(level, 10) - 1) * 1;
     
     // NOVA REGRA FRATURA: cada ponto de Fratura reduz vida e energia máxima em 5
     const fractureLevel = this.status?.fracture ?? 0;
@@ -165,8 +168,8 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const raceHealthBonus = this._raceHealthBonus ?? 0;
     const racePowerBonus = this._racePowerBonus ?? 0;
     
-    this.health.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + healthBonus + armorHealthBonus + raceHealthBonus);
-    this.power.max = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + energyBonus + armorEnergyBonus + racePowerBonus);
+    this.health.max = Math.max(0, 0 + staminaHealthBonus + levelHealthBonus - fractureReduction + healthBonus + armorHealthBonus + raceHealthBonus);
+    this.power.max = Math.max(0, 0 + staminaEnergyBonus + levelEnergyBonus - fractureReduction + energyBonus + armorEnergyBonus + racePowerBonus);
     
     // Calculate armor maximum based on armor bonus from equipped armors + manual bonus
     this.armor.max = Math.max(0, armorBonus + armorProtectionBonus);

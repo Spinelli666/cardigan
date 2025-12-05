@@ -3638,6 +3638,26 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const roll = new Roll(rollFormula, rollData);
     await roll.evaluate();
 
+    // 🆕 Verificar se há um alvo selecionado
+    const targets = game.user.targets;
+    if (targets.size === 0) {
+      ui.notifications.warn("Selecione um alvo antes de atacar!");
+      return;
+    }
+    
+    const targetToken = Array.from(targets)[0];
+    const targetActor = targetToken?.actor;
+    
+    if (!targetActor) {
+      ui.notifications.error("Alvo selecionado é inválido!");
+      return;
+    }
+    
+    // 🆕 Preparar rolagem de evasão do alvo (só avaliar, não enviar ainda)
+    const targetEvasion = targetActor.system?.abilities?.evasion?.total ?? 0;
+    const evasionRoll = new Roll("1d20 + @evasion", { evasion: targetEvasion });
+    await evasionRoll.evaluate();
+
     // Calcular dano total da arma
     let totalDamage = 0;
     let damageFormula = item.system.damage.value || "0";
@@ -3828,23 +3848,61 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
 
-    // Enviar rolagem para o chat usando o método padrão do FoundryVTT
-    const chatMessage = await roll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor }),
+    // Enviar rolagem de ataque para o chat (sempre pública)
+    const attackMessage = await roll.toMessage({
+      speaker: { alias: actor.name },  // Usar nome do ator ao invés do token
       flavor: flavor,
       rollMode: game.settings.get('core', 'rollMode'),
       flags: flags
     });
+    
+    // Aguardar animação do Dice So Nice terminar (se estiver ativo)
+    if (game.dice3d) {
+      await game.dice3d.waitFor3DAnimationByMessageID(attackMessage.id);
+    }
+    
+    // 🆕 Determinar se a evasão deve ser cega (blind roll) para NPCs
+    // Se o alvo NÃO tem dono jogador = é NPC do GM = rolagem cega
+    const isNPCTarget = !targetActor.hasPlayerOwner;
+    const rollMode = isNPCTarget ? CONST.DICE_ROLL_MODES.BLIND : CONST.DICE_ROLL_MODES.PUBLIC;
+    
+    console.log("Evasion roll mode check:", {
+      targetName: targetActor.name,
+      isNPC: isNPCTarget,
+      hasPlayerOwner: targetActor.hasPlayerOwner,
+      rollMode: rollMode
+    });
+    
+    // Enviar rolagem de evasão para o chat
+    const evasionFlavor = `<div style="text-align: center; margin-bottom: 4px;">
+      <strong>Rolagem de Evasão</strong> - ${targetActor.name}
+    </div>`;
+    
+    // IMPORTANTE: rollMode deve ser passado como SEGUNDO parâmetro de toMessage()
+    const evasionMessage = await evasionRoll.toMessage(
+      {
+        speaker: { alias: targetActor.name },
+        flavor: evasionFlavor
+      },
+      { rollMode: rollMode }  // <-- rollMode como segundo parâmetro!
+    );
+    
+    // Aguardar animação do Dice So Nice terminar (se estiver ativo)
+    // IMPORTANTE: Para rolagens blind, a animação só aparece para o GM, não para jogadores
+    // Então só aguardamos se o usuário atual for GM OU se não for uma rolagem blind
+    if (game.dice3d && (game.user.isGM || !isNPCTarget)) {
+      await game.dice3d.waitFor3DAnimationByMessageID(evasionMessage.id);
+    }
 
     // Criar conteúdo adicional para mostrar o dano total
     let additionalContent = `<div style="text-align: center; margin-top: 8px; padding: 4px 8px; background: rgba(0,0,0,0.1); border-radius: 3px;">
       <strong>${game.i18n.localize("CARDIGAN.DamageTotal")}: ${finalDamage}${isCriticalHit ? ` (${totalDamage} x2)` : ''}</strong>
     </div>${criticalMessage}${ammunitionMessage}`;
 
-    // Criar segunda mensagem com o dano total
+    // Criar segunda mensagem com o dano total APÓS as rolagens
     await ChatMessage.create({
       user: game.user.id,
-      speaker: ChatMessage.getSpeaker({ actor }),
+      speaker: { alias: actor.name },  // Usar nome do ator ao invés do token
       content: additionalContent,
       rollMode: game.settings.get('core', 'rollMode')
     });
