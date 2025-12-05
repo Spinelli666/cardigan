@@ -2,7 +2,7 @@
 // Equipment Tab Specific Styles - Using Backpack Table Style
 // -----------------------------------------
 
-// Global control for images in all descriptions (except spell category and skill images)
+// Global control for images in all descriptions (except spell category, skill images, recipe images, and ingredient images)
 .item-description,
 .weapon-description,
 .armor-description,
@@ -10,7 +10,7 @@
 .weapon-description-center,
 .armor-description-center,
 .recipe-description-below {
-  img:not(.spell-category-image):not(.skill-image) {
+  img:not(.spell-category-image):not(.skill-image):not(.recipe-image):not(.ingredient-image) {
     max-width: 100%;
     height: 1em !important;
     width: auto !important;
@@ -20,12 +20,21 @@
     object-fit: contain;
   }
   
+  // Removed display: inline from paragraphs to allow proper line breaks
+  // Keep images inline within paragraphs
   p {
-    display: inline;
-    
-    img {
+    img:not(.recipe-image):not(.ingredient-image) {
       display: inline !important;
     }
+  }
+  
+  // Ensure proper formatting for bold, italic, and other text styles
+  strong, b {
+    font-weight: bold;
+  }
+  
+  em, i {
+    font-style: italic;
   }
 }
 
@@ -918,63 +927,6 @@
     font-size: 13px;
     line-height: 1.4;
   }
-  
-  .recipe-properties-top-right {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    display: flex;
-    align-items: center;
-    color: $c-black;
-    z-index: 1;
-    
-    i {
-      color: var(--cardigan-c-beige);
-      margin-right: 4px;
-      
-      &.fa-utensils {
-        color: #ff9800; // Orange for culinary
-      }
-      
-      &.fa-flask {
-        color: #9c27b0; // Purple for alchemy
-      }
-      
-      &.fa-hammer {
-        color: #795548; // Brown for blacksmithing
-      }
-      
-      &.fa-tools {
-        color: #8bc34a; // Light green for carpentry
-      }
-      
-      &.fa-cut {
-        color: #e91e63; // Pink for tailoring
-      }
-      
-      &.fa-cogs {
-        color: #607d8b; // Blue grey for tecnomagic
-      }
-      
-      &.fa-magic {
-        color: #673ab7; // Deep purple for enchanting
-      }
-      
-      &.fa-leaf {
-        color: #4caf50; // Green for herbalism
-      }
-      
-      &.fa-book {
-        color: #757575; // Grey for general recipes
-      }
-    }
-    
-    .recipe-type-text {
-      margin-left: 2px;
-      color: $c-black;
-      font-size: 11px;
-    }
-  }
 
   // -----------------------------------------
   // RECIPE LAYOUT
@@ -987,7 +939,7 @@
     padding: 6px 0;
     margin-top: 4px;
     
-    // Top section: Image and Name/Type side by side
+    // Top section: Image and Name side by side
     .recipe-top-section {
       display: flex;
       align-items: flex-start;
@@ -998,17 +950,21 @@
         flex-shrink: 0;
         
         .recipe-image {
+          width: 48px;
+          height: 48px;
+          
           img {
-            width: 48px;
-            height: 48px;
+            width: 48px !important;
+            height: 48px !important;
             border-radius: 4px;
             border: 2px solid $c-black;
             background: rgba(0, 0, 0, 0.3);
+            object-fit: cover;
           }
         }
       }
       
-      // Right: Name and Type
+      // Right: Name only
       .recipe-right-section {
         flex: 1;
         display: flex;
@@ -1018,18 +974,10 @@
         .recipe-name {
           h4 {
             color: $c-black;
-            font-size: 16px;
+            font-size: 25px;
             font-weight: bold;
             margin: 0;
             text-align: left;
-          }
-        }
-        
-        .recipe-type {
-          em {
-            color: $c-black;
-            font-style: italic;
-            font-size: 13px;
           }
         }
       }
@@ -1059,23 +1007,27 @@
           
           .ingredient-image {
             flex-shrink: 0;
-            width: 24px !important;
-            height: 24px !important;
-            max-width: 24px !important;
-            max-height: 24px !important;
+            width: 30px !important;
+            height: 30px !important;
+            max-width: 30px !important;
+            max-height: 30px !important;
+            overflow: hidden;
               
             img {
+              width: 30px !important;
+              height: 30px !important;
               border-radius: 2px;
               border: 1px solid $c-black;
               background: rgba(0, 0, 0, 0.3);
+              object-fit: cover;
             }
           }
           
           .ingredient-quantity {
             color: $c-black;
-            font-size: 11px;
+            font-size: 16px;
             font-weight: bold;
-            min-width: 16px;
+            min-width: 20px;
             text-align: center;
             
             &.insufficient {
@@ -1086,14 +1038,178 @@
       }
     }
     
-    // Bottom section: Description full width
+    // Bottom section: Description full width with rich formatting support
     .recipe-description-below {
       width: 100%; // Full width description
       color: $c-black;
       font-size: 12px;
       text-align: left;
-      line-height: 1.4;
+      line-height: 1.6;
       margin-top: 4px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      
+      // Paragraphs with proper spacing
+      p {
+        margin: 0 0 10px 0;
+        display: block;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+      
+      // Support for lists
+      ul, ol {
+        margin: 10px 0;
+        padding-left: 25px;
+        display: block;
+        
+        li {
+          margin: 5px 0;
+          display: list-item;
+        }
+      }
+      
+      ul {
+        list-style-type: disc;
+      }
+      
+      ol {
+        list-style-type: decimal;
+      }
+      
+      // Line breaks
+      br {
+        display: block;
+        content: "";
+        margin: 5px 0;
+      }
+      
+      // Horizontal rules
+      hr {
+        border: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.2);
+        margin: 15px 0;
+        display: block;
+      }
+      
+      // Headings within description
+      h1, h2, h3, h4, h5, h6 {
+        color: #2c1810;
+        margin: 15px 0 10px 0;
+        display: block;
+        font-weight: bold;
+      }
+      
+      h1 { font-size: 16px; }
+      h2 { font-size: 15px; }
+      h3 { font-size: 14px; }
+      h4 { font-size: 13px; }
+      h5 { font-size: 12px; }
+      h6 { font-size: 11px; }
+      
+      // Style for content links (UUID links)
+      .content-link {
+        color: #1976d2;
+        text-decoration: underline;
+        cursor: pointer;
+        transition: color 0.2s ease;
+        
+        &:hover {
+          color: #2196f3;
+        }
+        
+        i {
+          margin-right: 4px;
+        }
+      }
+      
+      // Style for formatted text
+      strong, b {
+        font-weight: bold;
+        color: #1a0f0a;
+      }
+      
+      em, i {
+        font-style: italic;
+      }
+      
+      // Code blocks
+      code {
+        background: rgba(0, 0, 0, 0.15);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: 'Courier New', monospace;
+        font-size: 11px;
+        color: #d32f2f;
+        display: inline-block;
+      }
+      
+      pre {
+        background: rgba(0, 0, 0, 0.15);
+        padding: 10px;
+        border-radius: 4px;
+        overflow-x: auto;
+        display: block;
+        margin: 10px 0;
+        
+        code {
+          background: none;
+          padding: 0;
+          display: block;
+        }
+      }
+      
+      // Blockquotes
+      blockquote {
+        margin: 10px 0;
+        padding: 10px 15px;
+        border-left: 3px solid #8b4513;
+        background: rgba(139, 69, 19, 0.1);
+        font-style: italic;
+        display: block;
+      }
+      
+      // Tables
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+        display: table;
+        
+        th, td {
+          padding: 6px 8px;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          text-align: left;
+        }
+        
+        th {
+          background: rgba(0, 0, 0, 0.1);
+          font-weight: bold;
+        }
+      }
+      
+      // Images within recipe descriptions (exclude recipe-image and ingredient-image)
+      img:not(.spell-category-image):not(.skill-image):not(.recipe-image):not(.ingredient-image) {
+        max-width: 100%;
+        height: auto !important;
+        width: auto !important;
+        display: block;
+        margin: 10px auto;
+        border-radius: 4px;
+        
+        // Inline images (small icons)
+        &[height="1em"],
+        &[style*="height: 1em"] {
+          display: inline !important;
+          height: 1em !important;
+          width: auto !important;
+          vertical-align: middle;
+          margin: 0 0.2em;
+        }
+      }
     }
   }
 }
