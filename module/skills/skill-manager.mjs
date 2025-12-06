@@ -1102,21 +1102,6 @@ export class SkillManager {
    */
   static async #performDefaultPrimaryAttack(actor, skillName) {
     try {
-      // Validate target selection
-      const targets = game.user.targets;
-      if (targets.size === 0) {
-        ui.notifications.warn("Selecione um alvo antes de atacar!");
-        return;
-      }
-
-      const targetToken = Array.from(targets)[0];
-      const targetActor = targetToken?.actor;
-
-      if (!targetActor) {
-        ui.notifications.error("Alvo selecionado é inválido!");
-        return;
-      }
-
       // Get all REAL weapons (not virtual unarmed attacks) that are equipped
       const realWeapons = actor.items.filter(item => 
         item.type === 'arma' && 
@@ -1177,44 +1162,12 @@ export class SkillManager {
       const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
 
       // Send attack roll to chat
-      const attackMessage = await roll.toMessage({
+      await roll.toMessage({
         speaker: { alias: actor.name },
         flavor: flavorText,
         rollMode: game.settings.get('core', 'rollMode'),
         flags: flags
       });
-
-      // Wait for Dice So Nice animation
-      if (game.dice3d) {
-        await game.dice3d.waitFor3DAnimationByMessageID(attackMessage.id);
-      }
-
-      // Perform automatic evasion roll for target
-      const targetEvasion = targetActor.system?.abilities?.evasion?.total ?? 0;
-      const evasionRoll = new Roll("1d20 + @evasion", { evasion: targetEvasion });
-      await evasionRoll.evaluate();
-
-      // Determine if target is NPC (no player owner)
-      const isNPCTarget = !targetActor.hasPlayerOwner;
-      const rollMode = isNPCTarget ? CONST.DICE_ROLL_MODES.BLIND : CONST.DICE_ROLL_MODES.PUBLIC;
-
-      const evasionFlavor = `<div style="text-align: center; margin-bottom: 4px;">
-        <strong>Rolagem de Evasão</strong> - ${targetActor.name}
-      </div>`;
-
-      // Send evasion roll (blind if NPC, public if PC)
-      const evasionMessage = await evasionRoll.toMessage(
-        {
-          speaker: { alias: targetActor.name },
-          flavor: evasionFlavor
-        },
-        { rollMode: rollMode }
-      );
-
-      // Wait for Dice So Nice animation (only if GM or not blind roll)
-      if (game.dice3d && (game.user.isGM || !isNPCTarget)) {
-        await game.dice3d.waitFor3DAnimationByMessageID(evasionMessage.id);
-      }
 
     } catch (error) {
       console.error(`Error performing default primary attack for ${skillName}:`, error);
@@ -1230,21 +1183,6 @@ export class SkillManager {
    */
   static async #performDefaultSecondaryAttack(actor, skillName) {
     try {
-      // Validate target selection
-      const targets = game.user.targets;
-      if (targets.size === 0) {
-        ui.notifications.warn("Selecione um alvo antes de atacar!");
-        return;
-      }
-
-      const targetToken = Array.from(targets)[0];
-      const targetActor = targetToken?.actor;
-
-      if (!targetActor) {
-        ui.notifications.error("Alvo selecionado é inválido!");
-        return;
-      }
-
       // Get all REAL weapons (not virtual unarmed attacks) that are equipped
       const realWeapons = actor.items.filter(item => 
         item.type === 'arma' && 
@@ -1307,44 +1245,12 @@ export class SkillManager {
       const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
 
       // Send attack roll to chat
-      const attackMessage = await roll.toMessage({
+      await roll.toMessage({
         speaker: { alias: actor.name },
         flavor: flavorText,
         rollMode: game.settings.get('core', 'rollMode'),
         flags: flags
       });
-
-      // Wait for Dice So Nice animation
-      if (game.dice3d) {
-        await game.dice3d.waitFor3DAnimationByMessageID(attackMessage.id);
-      }
-
-      // Perform automatic evasion roll for target
-      const targetEvasion = targetActor.system?.abilities?.evasion?.total ?? 0;
-      const evasionRoll = new Roll("1d20 + @evasion", { evasion: targetEvasion });
-      await evasionRoll.evaluate();
-
-      // Determine if target is NPC (no player owner)
-      const isNPCTarget = !targetActor.hasPlayerOwner;
-      const rollMode = isNPCTarget ? CONST.DICE_ROLL_MODES.BLIND : CONST.DICE_ROLL_MODES.PUBLIC;
-
-      const evasionFlavor = `<div style="text-align: center; margin-bottom: 4px;">
-        <strong>Rolagem de Evasão</strong> - ${targetActor.name}
-      </div>`;
-
-      // Send evasion roll (blind if NPC, public if PC)
-      const evasionMessage = await evasionRoll.toMessage(
-        {
-          speaker: { alias: targetActor.name },
-          flavor: evasionFlavor
-        },
-        { rollMode: rollMode }
-      );
-
-      // Wait for Dice So Nice animation (only if GM or not blind roll)
-      if (game.dice3d && (game.user.isGM || !isNPCTarget)) {
-        await game.dice3d.waitFor3DAnimationByMessageID(evasionMessage.id);
-      }
 
     } catch (error) {
       console.error(`Error performing default secondary attack for ${skillName}:`, error);
