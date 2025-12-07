@@ -412,7 +412,7 @@ export class SkillManager {
             // Set up default tooltips for attack buttons
             if (buttonType === 'attack' || buttonType === 'attack-simple') {
               // Setup dynamic tooltips with mouseenter events
-              this.#setupDefaultDynamicTooltips(button, actorId, buttonType);
+              SkillManager.#setupDefaultDynamicTooltips(button, actorId, buttonType);
             }
           }
         }
@@ -1102,6 +1102,13 @@ export class SkillManager {
    */
   static async #performDefaultPrimaryAttack(actor, skillName) {
     try {
+      // Validate target selection
+      const selectedTargets = game.user.targets;
+      if (selectedTargets.size === 0) {
+        ui.notifications.warn("Por favor, selecione um ou mais alvos para atacar.");
+        return;
+      }
+
       // Get all REAL weapons (not virtual unarmed attacks) that are equipped
       const realWeapons = actor.items.filter(item => 
         item.type === 'arma' && 
@@ -1123,8 +1130,10 @@ export class SkillManager {
       const { AdvantageSelectionDialog } = await import('../applications/advantage-selection-dialog.mjs');
       
       // Show advantage selection dialog
-      const advantageType = await AdvantageSelectionDialog.show();
-      if (!advantageType) return; // User cancelled
+      const result = await AdvantageSelectionDialog.show();
+      if (!result) return; // User cancelled
+
+      const { rollType, attackMode } = result;
 
       // Get roll data
       const rollData = actor.getRollData();
@@ -1132,7 +1141,7 @@ export class SkillManager {
       let formula;
       let rollDescription = "";
       
-      switch (advantageType) {
+      switch (rollType) {
         case 'normal':
           formula = "1d20 + @accuracy.total";
           rollDescription = "Rolagem Normal";
@@ -1145,9 +1154,90 @@ export class SkillManager {
           formula = "2d20kl + @accuracy.total";
           rollDescription = "Rolagem com Desvantagem";
           break;
+        case 'enhanced-advantage':
+          formula = "3d20kh + @accuracy.total";
+          rollDescription = "Rolagem com Vantagem Aprimorada";
+          break;
+        case 'enhanced-disadvantage':
+          formula = "3d20kl + @accuracy.total";
+          rollDescription = "Rolagem com Desvantagem Aprimorada";
+          break;
         default:
           return;
       }
+
+      // Check if we need to make individual attacks for each target
+      const shouldRollIndividually = attackMode === 'individual' && selectedTargets.size > 1;
+      
+      if (shouldRollIndividually) {
+        // Make individual attack for each target
+        const targetArray = Array.from(selectedTargets);
+        
+        // Show notification about multiple attacks
+        ui.notifications.info(`Realizando ${targetArray.length} ataques individuais...`);
+        
+        for (let i = 0; i < targetArray.length; i++) {
+          const targetToken = targetArray[i];
+          
+          // Add small delay between attacks for visual clarity
+          if (i > 0) {
+            await new Promise(resolve => setTimeout(resolve, 300));
+          }
+          
+          // Add attack mode and target name to description
+          const individualRollDescription = `${rollDescription} (Individual) → ${targetToken.name}`;
+          
+          // Create flavor text
+          const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
+            <strong>${skillName}</strong> - ${individualRollDescription}
+          </div>`;
+          
+          // Roll with critical detection
+          const roll = new Roll(formula, rollData);
+          await roll.evaluate();
+          
+          // Detect critical results using accuracy logic
+          const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
+          
+          // Add single target data to flags
+          if (targetToken.actor) {
+            flags.cardigan = flags.cardigan || {};
+            flags.cardigan.attackTargets = {
+              targets: [{
+                tokenId: targetToken.id,
+                actorId: targetToken.actor.id,
+                name: targetToken.name
+              }],
+              attackerId: actor.id,
+              attackerName: actor.name,
+              skillName: skillName
+            };
+          }
+          
+          // Determine roll mode: if current user is GM, use blind mode
+          const rollMode = game.user.isGM ? 'blindroll' : game.settings.get('core', 'rollMode');
+
+          // Create message data with flags
+          const messageData = {
+            speaker: { alias: actor.name },
+            flavor: flavorText,
+            rolls: [roll],
+            flags: flags
+          };
+
+          // Apply roll mode using Foundry's official API method
+          ChatMessage.applyRollMode(messageData, rollMode);
+          
+          // Send attack roll to chat
+          await ChatMessage.create(messageData);
+        }
+        
+        return; // Exit after processing all individual attacks
+      }
+      
+      // Single attack for all targets (conjunto mode or single target)
+      const modeText = attackMode === 'conjunto' ? ' (Conjunto)' : ' (Individual)';
+      rollDescription += modeText;
 
       // Create flavor text
       const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
@@ -1161,13 +1251,46 @@ export class SkillManager {
       // Detect critical results using accuracy logic
       const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
 
-      // Send attack roll to chat
-      await roll.toMessage({
+      // Collect target data for evasion buttons
+      const attackTargets = game.user.targets;
+      const targetData = [];
+      attackTargets.forEach(target => {
+        if (target.actor) {
+          targetData.push({
+            tokenId: target.id,
+            actorId: target.actor.id,
+            name: target.name
+          });
+        }
+      });
+
+      // Add target data to flags
+      if (targetData.length > 0) {
+        flags.cardigan = flags.cardigan || {};
+        flags.cardigan.attackTargets = {
+          targets: targetData,
+          attackerId: actor.id,
+          attackerName: actor.name,
+          skillName: skillName
+        };
+      }
+
+      // Determine roll mode: if current user is GM, use blind mode
+      const rollMode = game.user.isGM ? 'blindroll' : game.settings.get('core', 'rollMode');
+
+      // Create message data with flags
+      const messageData = {
         speaker: { alias: actor.name },
         flavor: flavorText,
-        rollMode: game.settings.get('core', 'rollMode'),
+        rolls: [roll],
         flags: flags
-      });
+      };
+
+      // Apply roll mode using Foundry's official API method
+      ChatMessage.applyRollMode(messageData, rollMode);
+      
+      // Send attack roll to chat
+      await ChatMessage.create(messageData);
 
     } catch (error) {
       console.error(`Error performing default primary attack for ${skillName}:`, error);
@@ -1183,6 +1306,13 @@ export class SkillManager {
    */
   static async #performDefaultSecondaryAttack(actor, skillName) {
     try {
+      // Validate target selection
+      const targets = game.user.targets;
+      if (targets.size === 0) {
+        ui.notifications.warn("Por favor, selecione um ou mais alvos para atacar.");
+        return;
+      }
+
       // Get all REAL weapons (not virtual unarmed attacks) that are equipped
       const realWeapons = actor.items.filter(item => 
         item.type === 'arma' && 
@@ -1206,8 +1336,10 @@ export class SkillManager {
       const { AdvantageSelectionDialog } = await import('../applications/advantage-selection-dialog.mjs');
       
       // Show advantage selection dialog
-      const advantageType = await AdvantageSelectionDialog.show();
-      if (!advantageType) return; // User cancelled
+      const result = await AdvantageSelectionDialog.show();
+      if (!result) return; // User cancelled
+
+      const { rollType, attackMode } = result;
 
       // Get roll data
       const rollData = actor.getRollData();
@@ -1215,7 +1347,7 @@ export class SkillManager {
       let formula;
       let rollDescription = "";
       
-      switch (advantageType) {
+      switch (rollType) {
         case 'normal':
           formula = "1d20 + @accuracy.total";
           rollDescription = "Rolagem Normal";
@@ -1228,9 +1360,90 @@ export class SkillManager {
           formula = "2d20kl + @accuracy.total";
           rollDescription = "Rolagem com Desvantagem";
           break;
+        case 'enhanced-advantage':
+          formula = "3d20kh + @accuracy.total";
+          rollDescription = "Rolagem com Vantagem Aprimorada";
+          break;
+        case 'enhanced-disadvantage':
+          formula = "3d20kl + @accuracy.total";
+          rollDescription = "Rolagem com Desvantagem Aprimorada";
+          break;
         default:
           return;
       }
+
+      // Check if we need to make individual attacks for each target
+      const shouldRollIndividually = attackMode === 'individual' && targets.size > 1;
+      
+      if (shouldRollIndividually) {
+        // Make individual attack for each target
+        const targetArray = Array.from(targets);
+        
+        // Show notification about multiple attacks
+        ui.notifications.info(`Realizando ${targetArray.length} ataques secundários individuais...`);
+        
+        for (let i = 0; i < targetArray.length; i++) {
+          const targetToken = targetArray[i];
+          
+          // Add small delay between attacks for visual clarity
+          if (i > 0) {
+            await new Promise(resolve => setTimeout(resolve, 300));
+          }
+          
+          // Add attack mode and target name to description
+          const individualRollDescription = `${rollDescription} (Individual) → ${targetToken.name}`;
+          
+          // Create flavor text
+          const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
+            <strong>${skillName}</strong> (Secundário) - ${individualRollDescription}
+          </div>`;
+          
+          // Roll with critical detection
+          const roll = new Roll(formula, rollData);
+          await roll.evaluate();
+          
+          // Detect critical results using accuracy logic
+          const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
+          
+          // Add single target data to flags
+          if (targetToken.actor) {
+            flags.cardigan = flags.cardigan || {};
+            flags.cardigan.attackTargets = {
+              targets: [{
+                tokenId: targetToken.id,
+                actorId: targetToken.actor.id,
+                name: targetToken.name
+              }],
+              attackerId: actor.id,
+              attackerName: actor.name,
+              skillName: skillName
+            };
+          }
+          
+          // Determine roll mode: if current user is GM, use blind mode
+          const rollMode = game.user.isGM ? 'blindroll' : game.settings.get('core', 'rollMode');
+
+          // Create message data with flags
+          const messageData = {
+            speaker: { alias: actor.name },
+            flavor: flavorText,
+            rolls: [roll],
+            flags: flags
+          };
+
+          // Apply roll mode using Foundry's official API method
+          ChatMessage.applyRollMode(messageData, rollMode);
+          
+          // Send attack roll to chat
+          await ChatMessage.create(messageData);
+        }
+        
+        return; // Exit after processing all individual attacks
+      }
+      
+      // Single attack for all targets (conjunto mode or single target)
+      const modeText = attackMode === 'conjunto' ? ' (Conjunto)' : ' (Individual)';
+      rollDescription += modeText;
 
       // Create flavor text
       const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
@@ -1244,13 +1457,46 @@ export class SkillManager {
       // Detect critical results using accuracy logic
       const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
 
-      // Send attack roll to chat
-      await roll.toMessage({
+      // Collect target data for evasion buttons
+      const attackTargets = game.user.targets;
+      const targetData = [];
+      attackTargets.forEach(target => {
+        if (target.actor) {
+          targetData.push({
+            tokenId: target.id,
+            actorId: target.actor.id,
+            name: target.name
+          });
+        }
+      });
+
+      // Add target data to flags
+      if (targetData.length > 0) {
+        flags.cardigan = flags.cardigan || {};
+        flags.cardigan.attackTargets = {
+          targets: targetData,
+          attackerId: actor.id,
+          attackerName: actor.name,
+          skillName: skillName
+        };
+      }
+
+      // Determine roll mode: if current user is GM, use blind mode
+      const rollMode = game.user.isGM ? 'blindroll' : game.settings.get('core', 'rollMode');
+
+      // Create message data with flags
+      const messageData = {
         speaker: { alias: actor.name },
         flavor: flavorText,
-        rollMode: game.settings.get('core', 'rollMode'),
+        rolls: [roll],
         flags: flags
-      });
+      };
+
+      // Apply roll mode using Foundry's official API method
+      ChatMessage.applyRollMode(messageData, rollMode);
+      
+      // Send attack roll to chat
+      await ChatMessage.create(messageData);
 
     } catch (error) {
       console.error(`Error performing default secondary attack for ${skillName}:`, error);

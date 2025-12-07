@@ -438,3 +438,175 @@ Hooks.once('ready', function () {
 
 // Skills functions have been moved to module/skills/ for better organization
 // All skill-related functionality is now handled by the SkillManager system
+
+/* -------------------------------------------- */
+/*  Evasion System Hooks                        */
+/* -------------------------------------------- */
+
+/**
+ * Add evasion buttons to attack chat messages
+ */
+Hooks.on('renderChatMessageHTML', (message, html) => {
+  // Check if this is an attack message with target data
+  const attackData = message.flags?.cardigan?.attackTargets;
+  if (!attackData || !attackData.targets || attackData.targets.length === 0) return;
+
+  // Get the roll total from the message
+  const attackTotal = message.rolls?.[0]?.total;
+  if (!attackTotal) return;
+
+  // Create evasion buttons container
+  const evasionSection = document.createElement('div');
+  evasionSection.className = 'cardigan-evasion-section';
+  evasionSection.style.cssText = 'margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.1);';
+
+  // Check if current user can defend (owns any of the targets)
+  let canDefend = false;
+  let userTarget = null;
+
+  for (const targetData of attackData.targets) {
+    const target = game.scenes.current?.tokens.get(targetData.tokenId);
+    if (!target) continue;
+    
+    // Check if user owns the token OR the actor
+    const ownsToken = target.isOwner || game.user.isGM;
+    const ownsActor = target.actor && (target.actor.isOwner || game.user.isGM);
+    
+    if (ownsToken || ownsActor) {
+      canDefend = true;
+      userTarget = { target, data: targetData };
+      break;
+    }
+  }
+
+  if (!canDefend) return;
+
+  // Create single evasion button
+  const buttonContainer = document.createElement('div');
+  buttonContainer.style.cssText = 'margin-top: 4px; text-align: center;';
+
+  const button = document.createElement('button');
+  button.className = 'cardigan-evasion-button';
+  button.dataset.messageId = message.id;
+  button.dataset.tokenId = userTarget.data.tokenId;
+  button.dataset.actorId = userTarget.data.actorId;
+  button.dataset.attackTotal = attackTotal;
+  button.style.cssText = 'padding: 4px 12px; background: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;';
+  button.textContent = 'Rolar Evasão';
+  
+  button.addEventListener('click', () => handleEvasionClick(button));
+  buttonContainer.appendChild(button);
+  evasionSection.appendChild(buttonContainer);
+
+  // Add evasion section to message - html is now HTMLElement, not jQuery
+  const messageContent = html.querySelector('.message-content');
+  if (messageContent) {
+    messageContent.appendChild(evasionSection);
+  }
+});
+
+/**
+ * Handle evasion button click
+ */
+async function handleEvasionClick(button) {
+  const messageId = button.dataset.messageId;
+  const tokenId = button.dataset.tokenId;
+  const actorId = button.dataset.actorId;
+  const attackTotal = parseInt(button.dataset.attackTotal);
+
+  // Get token and actor
+  const token = game.scenes.current?.tokens.get(tokenId);
+  const actor = game.actors.get(actorId);
+
+  if (!token || !actor) {
+    ui.notifications.error("Alvo não encontrado.");
+    return;
+  }
+
+  // Import the advantage selection dialog
+  const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
+  
+  // Show advantage selection dialog (without attack mode checkboxes for evasion)
+  const result = await AdvantageSelectionDialog.show({ hideAttackMode: true });
+  if (!result) return; // User cancelled
+
+  const { rollType } = result;
+
+  // Disable button to prevent double-clicks
+  button.disabled = true;
+  button.style.opacity = '0.5';
+  button.style.cursor = 'not-allowed';
+
+  try {
+    // Get roll data from actor (includes all bonuses and modifiers)
+    const rollData = actor.getRollData();
+
+    // Determine formula based on roll type
+    let formula;
+    let rollDescription = "";
+    
+    switch (rollType) {
+      case 'normal':
+        formula = "1d20 + @evasion.total";
+        rollDescription = "Rolagem Normal";
+        break;
+      case 'advantage':
+        formula = "2d20kh + @evasion.total";
+        rollDescription = "Rolagem com Vantagem";
+        break;
+      case 'disadvantage':
+        formula = "2d20kl + @evasion.total";
+        rollDescription = "Rolagem com Desvantagem";
+        break;
+      case 'enhanced-advantage':
+        formula = "3d20kh + @evasion.total";
+        rollDescription = "Rolagem com Vantagem Aprimorada";
+        break;
+      case 'enhanced-disadvantage':
+        formula = "3d20kl + @evasion.total";
+        rollDescription = "Rolagem com Desvantagem Aprimorada";
+        break;
+      default:
+        formula = "1d20 + @evasion.total";
+        rollDescription = "Rolagem Normal";
+    }
+
+    // Roll evasion using actor's roll data
+    const roll = new Roll(formula, rollData);
+    await roll.evaluate();
+
+    const evasionTotal = roll.total;
+    const success = evasionTotal >= attackTotal;
+
+    // Create flavor text
+    const flavor = `
+      <div style="text-align: center;">
+        <strong>Evasão de ${token.name}</strong> - ${rollDescription}<br>
+      </div>
+    `;
+
+    // Determine roll mode: if current user is GM, use blind mode
+    const rollMode = game.user.isGM ? 'blindroll' : game.settings.get('core', 'rollMode');
+
+    // Create message data
+    const messageData = {
+      speaker: { alias: token.name },
+      flavor: flavor,
+      rolls: [roll]
+    };
+
+    // Apply roll mode using Foundry's official API method
+    ChatMessage.applyRollMode(messageData, rollMode);
+    
+    // Create the chat message
+    await ChatMessage.create(messageData);
+
+  } catch (error) {
+    console.error("Error rolling evasion:", error);
+    ui.notifications.error("Erro ao rolar evasão.");
+    // Re-enable button on error
+    button.disabled = false;
+    button.style.opacity = '1';
+    button.style.cursor = 'pointer';
+  }
+}

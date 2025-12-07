@@ -28,7 +28,13 @@
         "id": "mN2nO3oP4pQ5qR6r",
         "name": "Caído",
         "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+      },
+      {
+        "id": "hH7iI8jJ9kK0lL1M",
+        "name": "Desarmado",
+        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
       }
+
     ],
     "enhancements": [
       {

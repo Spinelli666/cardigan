@@ -87,18 +87,18 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       showAdditionalNotes: new fields.BooleanField({ initial: true }), // Controle de exibição das notas
       showEffectsTab: new fields.BooleanField({ initial: true }), // Controle de exibição da seção de efeitos
       showWeaponsTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de armas
-      showCulinaryTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela culinária
-      showTailoringTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de alfaiataria
-      showTecnomagicTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de tecnomagia
-      showBlacksmithingTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de ferraria
-      showAlchemyTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de alquimia
-      showCarpentryTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de carpintaria
-      showSkillsAndarilhoTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de skills Andarilho
-      showSkillsGuerreiroTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de skills Guerreiro
-      showSkillsLadinoTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de skills Ladino
-      showSkillsFeiticeiroTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de skills Feiticeiro
-      showSkillsRaciaisTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de skills Raciais
-      showSkillsUnicasTable: new fields.BooleanField({ initial: true }) // Controle de exibição da tabela de skills Únicas
+      showCulinaryTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela culinária
+      showTailoringTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de alfaiataria
+      showTecnomagicTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de tecnomagia
+      showBlacksmithingTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de ferraria
+      showAlchemyTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de alquimia
+      showCarpentryTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de carpintaria
+      showSkillsAndarilhoTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de skills Andarilho
+      showSkillsGuerreiroTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de skills Guerreiro
+      showSkillsLadinoTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de skills Ladino
+      showSkillsFeiticeiroTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de skills Feiticeiro
+      showSkillsRaciaisTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de skills Raciais
+      showSkillsUnicasTable: new fields.BooleanField({ initial: false }) // Controle de exibição da tabela de skills Únicas
     });
 
     return schema;

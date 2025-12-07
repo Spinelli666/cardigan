@@ -3,6 +3,26 @@
  * @extends {Actor}
  */
 export class CardiganSystemActor extends Actor {
+  /**
+   * Perform preliminary operations before an Actor document is created.
+   * @param {object} data    - The initial data object provided to the document creation request
+   * @param {object} options - Additional options which modify the creation request
+   * @param {User} user      - The User requesting the document creation
+   * @returns {Promise<boolean|void>}
+   * @override
+   */
+  async _preCreate(data, options, user) {
+    await super._preCreate(data, options, user);
+    
+    // For character actors, ensure tokens are linked by default
+    // This prevents issues where editing synthetic token actors doesn't save
+    if (this.type === 'character') {
+      this.updateSource({
+        'prototypeToken.actorLink': true
+      });
+    }
+  }
+  
   /** @override */
   prepareData() {
     // Prepare data for the actor. Calling the super version of this executes

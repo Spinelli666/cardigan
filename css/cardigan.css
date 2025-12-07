@@ -10443,6 +10443,99 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   border-color: rgba(255, 255, 255, 0.3);
 }
 
+.advantage-selection-dialog .advantage-selection-content {
+  padding: 20px;
+}
+.advantage-selection-dialog .attack-type-fieldset {
+  border: 1px solid #999;
+  padding: 16px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+.advantage-selection-dialog .attack-type-fieldset legend {
+  padding: 0 8px;
+  font-weight: bold;
+  font-size: 14px;
+}
+.advantage-selection-dialog .attack-type-fieldset .attack-type-options {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-top: 8px;
+}
+.advantage-selection-dialog .attack-type-fieldset .attack-type-options .attack-type-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+.advantage-selection-dialog .attack-type-fieldset .attack-type-options .attack-type-label input[type=checkbox] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+.advantage-selection-dialog .roll-options-horizontal {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.advantage-selection-dialog .roll-option-button {
+  padding: 16px 10px;
+  border: 1px solid #7a7971;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  min-height: 80px;
+}
+.advantage-selection-dialog .roll-option-button i {
+  font-size: 24px;
+}
+.advantage-selection-dialog .roll-option-button .roll-info {
+  text-align: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.advantage-selection-dialog .roll-option-button .roll-info .roll-name {
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 1.2;
+}
+.advantage-selection-dialog .roll-option-button .roll-info .roll-name.enhanced {
+  font-size: 12px;
+}
+.advantage-selection-dialog .roll-option-button.normal i {
+  color: #999;
+}
+.advantage-selection-dialog .roll-option-button.advantage i {
+  color: #4caf50;
+}
+.advantage-selection-dialog .roll-option-button.disadvantage i {
+  color: #f44336;
+}
+.advantage-selection-dialog .roll-option-button.enhanced-advantage i {
+  color: #66bb6a;
+}
+.advantage-selection-dialog .roll-option-button.enhanced-disadvantage i {
+  color: #ef5350;
+}
+.advantage-selection-dialog .roll-option-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px rgba(255, 100, 0, 0.5);
+  background: rgba(0, 0, 0, 0.2);
+  border-color: #ff6400;
+}
+.advantage-selection-dialog .roll-option-button:active {
+  transform: translateY(0);
+  box-shadow: 0 0 5px rgba(255, 100, 0, 0.3);
+}
+
 /* Enhancement tooltip styles (global) */
 #tooltip.cardigan-enhancement-tooltip {
   max-width: 400px;

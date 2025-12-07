@@ -1,20 +1,55 @@
 {{! Advantage Selection Dialog Template }}
 <div class="advantage-selection-content">
-  <div style="text-align: center; padding: 16px;">
-    <p style="margin-bottom: 16px; font-size: 16px;">Escolha o tipo de rolagem para o ataque:</p>
-    <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <i class="fas fa-dice-d20" style="color: #666; width: 20px;"></i>
-        <span><strong>Normal:</strong> Rola 1d20</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <i class="fas fa-arrow-up" style="color: #4caf50; width: 20px;"></i>
-        <span><strong>Vantagem:</strong> Rola 2d20, usa o maior</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <i class="fas fa-arrow-down" style="color: #f44336; width: 20px;"></i>
-        <span><strong>Desvantagem:</strong> Rola 2d20, usa o menor</span>
-      </div>
+  {{#unless hideAttackMode}}
+  <fieldset class="attack-type-fieldset">
+    <legend>Tipo de Ataque</legend>
+    <div class="attack-type-options">
+      <label class="attack-type-label">
+        <input type="checkbox" name="attackType" value="conjunto" id="attack-conjunto">
+        <span><strong>Conjunto</strong></span>
+      </label>
+      <label class="attack-type-label">
+        <input type="checkbox" name="attackType" value="individual" id="attack-individual" checked>
+        <span><strong>Individual</strong></span>
+      </label>
     </div>
+  </fieldset>
+  {{/unless}}
+  
+  <div class="roll-options-horizontal">
+    <button type="button" class="roll-option-button enhanced-disadvantage" data-roll-type="enhanced-disadvantage">
+      <i class="fas fa-angle-double-down"></i>
+      <div class="roll-info">
+        <div class="roll-name enhanced">Desvantagem Aprimorada</div>
+      </div>
+    </button>
+    
+    <button type="button" class="roll-option-button disadvantage" data-roll-type="disadvantage">
+      <i class="fas fa-arrow-down"></i>
+      <div class="roll-info">
+        <div class="roll-name">Desvantagem</div>
+      </div>
+    </button>
+    
+    <button type="button" class="roll-option-button normal" data-roll-type="normal">
+      <i class="fas fa-dice-d20"></i>
+      <div class="roll-info">
+        <div class="roll-name">Normal</div>
+      </div>
+    </button>
+    
+    <button type="button" class="roll-option-button advantage" data-roll-type="advantage">
+      <i class="fas fa-arrow-up"></i>
+      <div class="roll-info">
+        <div class="roll-name">Vantagem</div>
+      </div>
+    </button>
+    
+    <button type="button" class="roll-option-button enhanced-advantage" data-roll-type="enhanced-advantage">
+      <i class="fas fa-angle-double-up"></i>
+      <div class="roll-info">
+        <div class="roll-name enhanced">Vantagem Aprimorada</div>
+      </div>
+    </button>
   </div>
 </div>

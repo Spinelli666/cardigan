@@ -1203,14 +1203,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
       try {
         // Show advantage selection dialog
-        const advantageType = await AdvantageSelectionDialog.show();
-        if (!advantageType) return; // User cancelled
+        const result = await AdvantageSelectionDialog.show();
+        if (!result) return; // User cancelled
+
+        const { rollType, attackMode } = result;
 
         let rollFormula = dataset.roll;
         let rollDescription = "Rolagem Normal";
         
         // Modify the formula based on advantage type
-        switch (advantageType) {
+        switch (rollType) {
           case 'normal':
             // Keep original formula
             rollDescription = "Rolagem Normal";
@@ -1228,9 +1230,25 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
             rollDescription = "Rolagem com Desvantagem";
             break;
             
+          case 'enhanced-advantage':
+            // Replace d20 with 3d20kh (keep highest of 3)
+            rollFormula = rollFormula.replace(/1?d20/g, '3d20kh');
+            rollDescription = "Rolagem com Vantagem Aprimorada";
+            break;
+            
+          case 'enhanced-disadvantage':
+            // Replace d20 with 3d20kl (keep lowest of 3)
+            rollFormula = rollFormula.replace(/1?d20/g, '3d20kl');
+            rollDescription = "Rolagem com Desvantagem Aprimorada";
+            break;
+            
           default:
             return;
         }
+        
+        // Add attack mode to description
+        const modeText = attackMode === 'conjunto' ? ' (Conjunto)' : ' (Individual)';
+        rollDescription += modeText;
         
         // Create the roll with modified formula
         const roll = new Roll(rollFormula, this.document.getRollData());
@@ -3535,6 +3553,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   static async _onAttackWithWeapon(eventOrItem, targetOrAmmoId) {
+    // Validate target selection
+    const targets = game.user.targets;
+    if (targets.size === 0) {
+      ui.notifications.warn("Por favor, selecione um ou mais alvos para atacar.");
+      return;
+    }
+
     let event, target, item, specificAmmoId;
     
     // Determine if this is a normal attack or specific ammunition attack
@@ -3591,8 +3616,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       const loadedAmmoTypes = item.system.loadedAmmoTypes || {};
       const hasAnyAmmunition = Object.values(loadedAmmoTypes).some(amount => amount > 0);
       
-      console.log("Ranged weapon ammo check:", { loadedAmmoTypes, hasAnyAmmunition });
-      
       if (!hasAnyAmmunition) {
         ui.notifications.warn(game.i18n.localize("CARDIGAN.NoAmmunition"));
         return;
@@ -3602,16 +3625,64 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const actor = this.document;
     
     // Show advantage selection dialog
-    const advantageType = await AdvantageSelectionDialog.show();
-    if (!advantageType) return; // User cancelled
+    const result = await AdvantageSelectionDialog.show();
+    if (!result) return; // User cancelled
     
+    const { rollType, attackMode } = result;
+    
+    // Check if we need to make individual attacks for each target
+    const shouldRollIndividually = attackMode === 'individual' && targets.size > 1;
+    
+    if (shouldRollIndividually) {
+      // Make individual attack for each target
+      const targetArray = Array.from(targets);
+      
+      // Show notification about multiple attacks
+      ui.notifications.info(`Realizando ${targetArray.length} ataques individuais...`);
+      
+      for (let i = 0; i < targetArray.length; i++) {
+        const targetToken = targetArray[i];
+        
+        // Add small delay between attacks for visual clarity
+        if (i > 0) {
+          await new Promise(resolve => setTimeout(resolve, 300));
+        }
+        
+        await CardiganSystemActorSheet._performSingleAttack(
+          item, 
+          actor, 
+          rollType, 
+          attackMode, 
+          [targetToken], 
+          specificAmmoId
+        );
+      }
+      
+      return; // Exit after processing all individual attacks
+    }
+    
+    // Single attack for all targets (conjunto mode or single target)
+    await CardiganSystemActorSheet._performSingleAttack(item, actor, rollType, attackMode, Array.from(targets), specificAmmoId);
+  }
+
+  /**
+   * Perform a single attack roll with damage calculation
+   * @param {Item} item - The weapon item being used
+   * @param {Actor} actor - The actor performing the attack
+   * @param {string} rollType - Type of roll (normal, advantage, etc.)
+   * @param {string} attackMode - Attack mode (individual or conjunto)
+   * @param {Array} targetTokens - Array of target tokens for this attack
+   * @param {string|null} specificAmmoId - Specific ammunition ID if selected
+   * @private
+   */
+  static async _performSingleAttack(item, actor, rollType, attackMode, targetTokens, specificAmmoId) {
     // Use getRollData() method for consistent roll data like in skills
     const rollData = actor.getRollData();
 
     let rollFormula;
     let rollDescription = "";
     
-    switch (advantageType) {
+    switch (rollType) {
       case 'normal':
         // Normal roll - 1d20
         rollFormula = "1d20 + @accuracy.total";
@@ -3630,8 +3701,29 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         rollDescription = "Rolagem com Desvantagem";
         break;
         
+      case 'enhanced-advantage':
+        // Enhanced Advantage - roll 3d20, keep highest
+        rollFormula = "3d20kh + @accuracy.total";
+        rollDescription = "Rolagem com Vantagem Aprimorada";
+        break;
+        
+      case 'enhanced-disadvantage':
+        // Enhanced Disadvantage - roll 3d20, keep lowest
+        rollFormula = "3d20kl + @accuracy.total";
+        rollDescription = "Rolagem com Desvantagem Aprimorada";
+        break;
+        
       default:
         return;
+    }
+
+    // Add attack mode to description
+    const modeText = attackMode === 'conjunto' ? ' (Conjunto)' : ' (Individual)';
+    rollDescription += modeText;
+    
+    // Add target name(s) to description for individual attacks
+    if (attackMode === 'individual' && targetTokens.length === 1) {
+      rollDescription += ` → ${targetTokens[0].name}`;
     }
 
     // Fazer a rolagem de ataque com a fórmula escolhida
@@ -3662,7 +3754,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     </div>`;
 
     // Detect critical results - use accuracy logic for weapon attacks
-    const flags = this.constructor._detectCriticalResults(roll, actor, 'accuracy');
+    const flags = CardiganSystemActorSheet._detectCriticalResults(roll, actor, 'accuracy');
 
     // Check for critical results
     const isCriticalHit = flags.cardigan?.criticalHit || false;
@@ -3795,16 +3887,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           'system.loadedAmmoTypes': updatedLoadedAmmoTypes
         });
         
-        // Update weapon table display in real-time
-        const actorSheet = this;
-        if (actorSheet._updateWeaponTableAmmunition) {
-          actorSheet._updateWeaponTableAmmunition(item._id, newLoaded, item.system.magazine, item.system.isFirearm);
-        }
-        
-        // Update ammunition dialog if open
-        if (actorSheet._ammunitionDialog && actorSheet._ammunitionDialog.rendered) {
-          actorSheet._updateAmmunitionDialogInputs(item._id, updatedLoadedAmmoTypes);
-        }
+        // Note: UI updates (weapon table and ammo dialog) will happen on next render
         
         const magazine = item.system.magazine || 0;
         const ammunitionDisplay = item.system.isFirearm ? `${newLoaded}/${magazine}` : newLoaded.toString();
@@ -3828,26 +3911,63 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
 
-    // Enviar rolagem para o chat usando o método padrão do FoundryVTT
-    const chatMessage = await roll.toMessage({
+    // Collect target data for evasion buttons
+    const targetData = [];
+    targetTokens.forEach(target => {
+      if (target.actor) {
+        targetData.push({
+          tokenId: target.id,
+          actorId: target.actor.id,
+          name: target.name
+        });
+      }
+    });
+
+    // Add target data to flags
+    if (targetData.length > 0) {
+      flags.cardigan = flags.cardigan || {};
+      flags.cardigan.attackTargets = {
+        targets: targetData,
+        attackerId: actor.id,
+        attackerName: actor.name,
+        weaponName: item.name
+      };
+    }
+
+    // Determine roll mode: if current user is GM, use blind mode
+    const rollMode = game.user.isGM ? 'blindroll' : game.settings.get('core', 'rollMode');
+
+    // Create message data with flags
+    const messageData = {
       speaker: ChatMessage.getSpeaker({ actor }),
       flavor: flavor,
-      rollMode: game.settings.get('core', 'rollMode'),
+      rolls: [roll],
       flags: flags
-    });
+    };
+
+    // Apply roll mode using Foundry's official API method
+    ChatMessage.applyRollMode(messageData, rollMode);
+    
+    // Create the chat message
+    const chatMessage = await ChatMessage.create(messageData);
 
     // Criar conteúdo adicional para mostrar o dano total
     let additionalContent = `<div style="text-align: center; margin-top: 8px; padding: 4px 8px; background: rgba(0,0,0,0.1); border-radius: 3px;">
       <strong>${game.i18n.localize("CARDIGAN.DamageTotal")}: ${finalDamage}${isCriticalHit ? ` (${totalDamage} x2)` : ''}</strong>
     </div>${criticalMessage}${ammunitionMessage}`;
 
-    // Criar segunda mensagem com o dano total
-    await ChatMessage.create({
+    // Create damage message data
+    const damageMessageData = {
       user: game.user.id,
       speaker: ChatMessage.getSpeaker({ actor }),
-      content: additionalContent,
-      rollMode: game.settings.get('core', 'rollMode')
-    });
+      content: additionalContent
+    };
+
+    // Apply same roll mode to damage message
+    ChatMessage.applyRollMode(damageMessageData, rollMode);
+    
+    // Create damage message
+    await ChatMessage.create(damageMessageData);
 
     return roll;
   }

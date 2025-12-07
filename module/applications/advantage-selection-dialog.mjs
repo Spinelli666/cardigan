@@ -1,101 +1,129 @@
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+
 /**
  * Dialog for selecting advantage/disadvantage type for attack rolls
+ * @extends {ApplicationV2}
  */
-export class AdvantageSelectionDialog extends foundry.applications.api.DialogV2 {
+export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(ApplicationV2) {
   constructor(options = {}) {
     super(options);
+    this.resolve = null;
+    this.hideAttackMode = options.hideAttackMode || false;
   }
 
   static DEFAULT_OPTIONS = {
+    id: "advantage-selection-dialog",
+    classes: ["cardigan", "advantage-selection-dialog"],
     tag: "dialog",
     window: {
       title: "Tipo de Rolagem",
       icon: "fas fa-dice-d20",
+      contentClasses: ["standard-form"],
       minimizable: false,
-      resizable: false
+      resizable: false,
+      positioned: true
     },
     position: {
-      width: 400,
+      width: 600,
       height: "auto"
     },
-    classes: ["cardigan-advantage-dialog"]
+    actions: {
+      selectRoll: this._onSelectRoll
+    }
   };
 
   static PARTS = {
-    content: {
+    form: {
       template: "systems/cardigan/templates/dialogs/advantage-selection.hbs"
-    },
-    footer: {
-      template: "templates/generic/form-footer.hbs"
     }
   };
 
   /**
    * Show the advantage selection dialog
    * @param {Object} options - Dialog options
-   * @returns {Promise<string>} Selected advantage type: 'normal', 'advantage', 'disadvantage'
+   * @returns {Promise<Object>} Object with rollType and attackMode properties
    */
   static async show(options = {}) {
+    const dialog = new this(options);
     return new Promise((resolve) => {
-      const dialog = new this({
-        ...options,
-        buttons: [
-          {
-            action: "normal",
-            label: "CARDIGAN.Common.Normal",
-            icon: "fas fa-dice-d20",
-            callback: () => resolve("normal")
-          },
-          {
-            action: "advantage", 
-            label: "CARDIGAN.Common.Advantage",
-            icon: "fas fa-arrow-up",
-            callback: () => resolve("advantage")
-          },
-          {
-            action: "disadvantage",
-            label: "CARDIGAN.Common.Disadvantage", 
-            icon: "fas fa-arrow-down",
-            callback: () => resolve("disadvantage")
-          },
-          {
-            action: "cancel",
-            label: "CARDIGAN.Common.Cancel",
-            icon: "fas fa-times",
-            callback: () => resolve(null)
-          }
-        ]
-      });
-      
+      dialog.resolve = resolve;
       dialog.render(true);
     });
   }
 
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
-    
-    context.content = `
-      <div style="text-align: center; padding: 20px;">
-        <p style="margin-bottom: 20px; font-size: 16px; font-weight: bold; color: #333;">
-          Escolha o tipo de rolagem para o ataque:
-        </p>
-        <div style="display: flex; flex-direction: column; gap: 12px; align-items: flex-start; max-width: 300px; margin: 0 auto;">
-          <div style="display: flex; align-items: center; gap: 12px; padding: 8px; width: 100%; background: rgba(0,0,0,0.05); border-radius: 4px;">
-            <i class="fas fa-dice-d20" style="color: #666; width: 24px; text-align: center;"></i>
-            <span><strong>Normal:</strong> Rola 1d20</span>
-          </div>
-          <div style="display: flex; align-items: center; gap: 12px; padding: 8px; width: 100%; background: rgba(76,175,80,0.1); border-radius: 4px;">
-            <i class="fas fa-arrow-up" style="color: #4caf50; width: 24px; text-align: center;"></i>
-            <span><strong>Vantagem:</strong> Rola 2d20, usa o maior</span>
-          </div>
-          <div style="display: flex; align-items: center; gap: 12px; padding: 8px; width: 100%; background: rgba(244,67,54,0.1); border-radius: 4px;">
-            <i class="fas fa-arrow-down" style="color: #f44336; width: 24px; text-align: center;"></i>
-            <span><strong>Desvantagem:</strong> Rola 2d20, usa o menor</span>
-          </div>
-        </div>
-      </div>
-    `;
-    
+    context.hideAttackMode = this.hideAttackMode;
     return context;
+  }
+
+  _onRender(context, options) {
+    super._onRender(context, options);
+
+    // Add mutual exclusivity to checkboxes
+    const conjuntoCheckbox = this.element.querySelector('#attack-conjunto');
+    const individualCheckbox = this.element.querySelector('#attack-individual');
+
+    if (conjuntoCheckbox && individualCheckbox) {
+      conjuntoCheckbox.addEventListener('change', () => {
+        if (conjuntoCheckbox.checked) {
+          individualCheckbox.checked = false;
+        } else if (!individualCheckbox.checked) {
+          individualCheckbox.checked = true;
+        }
+      });
+
+      individualCheckbox.addEventListener('change', () => {
+        if (individualCheckbox.checked) {
+          conjuntoCheckbox.checked = false;
+        } else if (!conjuntoCheckbox.checked) {
+          conjuntoCheckbox.checked = true;
+        }
+      });
+    }
+
+    // Add click handlers to roll buttons
+    this.element.querySelectorAll('[data-roll-type]').forEach(button => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        const rollType = button.dataset.rollType;
+        this._selectRoll(rollType);
+      });
+    });
+  }
+
+  /**
+   * Handle roll type selection
+   * @param {Event} event
+   * @param {HTMLElement} target
+   * @private
+   */
+  static async _onSelectRoll(event, target) {
+    const rollType = target.dataset.rollType || target.closest('[data-roll-type]')?.dataset.rollType;
+    if (rollType) {
+      this._selectRoll(rollType);
+    }
+  }
+
+  /**
+   * Select a roll type and resolve the promise
+   * @param {string} rollType - The selected roll type
+   * @private
+   */
+  _selectRoll(rollType) {
+    const attackMode = this.element.querySelector('input[name="attackType"]:checked')?.value || 'individual';
+    
+    if (this.resolve) {
+      this.resolve({ rollType, attackMode });
+    }
+    this.close();
+  }
+
+  async close(options = {}) {
+    // If closing without selection (via X button), resolve with null
+    if (this.resolve) {
+      this.resolve(null);
+    }
+    return super.close(options);
   }
 }
