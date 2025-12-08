@@ -3930,7 +3930,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         targets: targetData,
         attackerId: actor.id,
         attackerName: actor.name,
-        weaponName: item.name
+        weaponName: item.name,
+        damage: finalDamage  // Add damage to flags
       };
     }
 

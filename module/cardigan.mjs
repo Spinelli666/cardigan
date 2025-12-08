@@ -120,13 +120,10 @@ Hooks.once('init', function () {
 
   // Socket listener para notificações de evasão (registrado no init)
   game.socket.on("system.cardigan", (data) => {
-    console.log('[CARDIGAN SOCKET] Received:', data);
     if (data.action === "notifyGMEvasion" && game.user.isGM) {
-      console.log('[CARDIGAN SOCKET] GM creating notification');
       createGMEvasionNotification(data.payload);
     }
   });
-  console.log('[CARDIGAN SOCKET] Listener registered');
 
   // Register helper for "lt" (less than) comparison
   Handlebars.registerHelper('lt', function (a, b) {
@@ -333,7 +330,8 @@ Handlebars.registerHelper('formatSkillActionTypes', function(actionTypes) {
  * @param {Object} data - Evasion data
  */
 async function createGMEvasionNotification(data) {
-  const { playerName, characterName, evasionTotal, attackTotal, success } = data;
+  const { playerName, characterName, evasionTotal, attackTotal, success, 
+          currentHP, maxHP, attackDamage, damageTaken, remainingHP } = data;
   
   // Render template using V13+ namespaced API
   const template = await foundry.applications.handlebars.getTemplate(
@@ -344,7 +342,12 @@ async function createGMEvasionNotification(data) {
     characterName,
     evasionTotal,
     attackTotal,
-    success
+    success,
+    currentHP,
+    maxHP,
+    attackDamage,
+    damageTaken,
+    remainingHP
   });
   
   // Use DialogV2 for modern API
@@ -505,6 +508,9 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
   const attackTotal = message.rolls?.[0]?.total;
   if (!attackTotal) return;
 
+  // Get damage from attack data
+  const attackDamage = attackData.damage || 0;
+
   // Create evasion buttons container
   const evasionSection = document.createElement('div');
   evasionSection.className = 'cardigan-evasion-section';
@@ -541,6 +547,7 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
   button.dataset.tokenId = userTarget.data.tokenId;
   button.dataset.actorId = userTarget.data.actorId;
   button.dataset.attackTotal = attackTotal;
+  button.dataset.attackDamage = attackDamage;
   button.style.cssText = 'padding: 4px 12px; background: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;';
   button.textContent = 'Rolar Evasão';
   
@@ -564,7 +571,12 @@ async function handleEvasionClick(button) {
   const actorId = button.dataset.actorId;
   const attackTotal = parseInt(button.dataset.attackTotal);
 
-  // Get token and actor
+  // Get the attack message to extract damage from flags
+  const message = game.messages.get(messageId);
+  const attackDamage = message?.flags?.cardigan?.attackTargets?.damage || 0;
+  const attackerId = message?.flags?.cardigan?.attackTargets?.attackerId;
+
+  // Get token and actor (defender)
   const token = game.scenes.current?.tokens.get(tokenId);
   const actor = game.actors.get(actorId);
 
@@ -572,6 +584,16 @@ async function handleEvasionClick(button) {
     ui.notifications.error("Alvo não encontrado.");
     return;
   }
+
+  // Check if this is a GM-involved combat (attacker or defender is GM)
+  const attackerActor = game.actors.get(attackerId);
+  const attackerIsGM = attackerActor?.hasPlayerOwner === false; // GM-owned NPC
+  const defenderIsGM = actor?.hasPlayerOwner === false; // GM-owned NPC
+  const shouldNotifyGM = attackerIsGM || defenderIsGM; // Only notify if GM is involved
+
+  // Get current HP from defender
+  const currentHP = actor.system.health?.value || 0;
+  const maxHP = actor.system.health?.max || 0;
 
   // Import the advantage selection dialog
   const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
@@ -628,6 +650,10 @@ async function handleEvasionClick(button) {
     const evasionTotal = roll.total;
     const success = evasionTotal >= attackTotal;
 
+    // Calculate HP after damage (only if failed evasion)
+    const damageTaken = success ? 0 : attackDamage;
+    const remainingHP = Math.max(0, currentHP - damageTaken);
+
     // Create flavor text
     const flavor = `
       <div style="text-align: center;">
@@ -651,24 +677,30 @@ async function handleEvasionClick(button) {
     // Create the chat message
     await ChatMessage.create(messageData);
 
-    // Send GM notification via socket (works for both players and GM)
-    const socketPayload = {
-      action: "notifyGMEvasion",
-      payload: {
-        playerName: game.user.name,
-        characterName: token.name,
-        evasionTotal: evasionTotal,
-        attackTotal: attackTotal,
-        success: success
+    // Send GM notification via socket ONLY if GM is involved (attacker or defender)
+    if (shouldNotifyGM) {
+      const socketPayload = {
+        action: "notifyGMEvasion",
+        payload: {
+          playerName: game.user.name,
+          characterName: token.name,
+          evasionTotal: evasionTotal,
+          attackTotal: attackTotal,
+          success: success,
+          currentHP: currentHP,
+          maxHP: maxHP,
+          attackDamage: attackDamage,
+          damageTaken: damageTaken,
+          remainingHP: remainingHP
+        }
+      };
+      
+      game.socket.emit("system.cardigan", socketPayload);
+      
+      // Also create notification locally if current user is GM
+      if (game.user.isGM) {
+        createGMEvasionNotification(socketPayload.payload);
       }
-    };
-    
-    console.log('[CARDIGAN SOCKET] Emitting:', socketPayload);
-    game.socket.emit("system.cardigan", socketPayload);
-    
-    // Also create notification locally if current user is GM
-    if (game.user.isGM) {
-      createGMEvasionNotification(socketPayload.payload);
     }
 
   } catch (error) {

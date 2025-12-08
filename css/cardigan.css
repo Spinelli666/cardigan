@@ -10548,39 +10548,8 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 .evasion-result-dialog .evasion-result-container.success {
   border: 2px solid #27ae60;
 }
-.evasion-result-dialog .evasion-result-container.success .result-header {
-  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-}
-.evasion-result-dialog .evasion-result-container.success .result-icon {
-  color: #27ae60;
-}
 .evasion-result-dialog .evasion-result-container.failure {
   border: 2px solid #e74c3c;
-}
-.evasion-result-dialog .evasion-result-container.failure .result-header {
-  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-}
-.evasion-result-dialog .evasion-result-container.failure .result-icon {
-  color: #e74c3c;
-}
-.evasion-result-dialog .result-header {
-  padding: 20px;
-  text-align: center;
-  color: white;
-}
-.evasion-result-dialog .result-header .result-icon {
-  font-size: 56px;
-  margin-bottom: 8px;
-  animation: bounce 0.6s ease-in-out;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-}
-.evasion-result-dialog .result-header .result-title {
-  font-size: 28px;
-  font-weight: bold;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 .evasion-result-dialog .result-body {
   background: #f8f9fa;
@@ -10653,6 +10622,61 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   font-weight: bold;
   color: #adb5bd;
   padding: 0 4px;
+}
+.evasion-result-dialog .hp-info {
+  background: white;
+  border-radius: 6px;
+  padding: 16px;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.evasion-result-dialog .hp-info .hp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 15px;
+}
+.evasion-result-dialog .hp-info .hp-row:not(:last-child) {
+  border-bottom: 1px solid #e9ecef;
+}
+.evasion-result-dialog .hp-info .hp-row strong {
+  color: #495057;
+  margin-right: 8px;
+}
+.evasion-result-dialog .hp-info .hp-row .hp-current {
+  color: #212529;
+  font-weight: 600;
+  font-size: 16px;
+}
+.evasion-result-dialog .hp-info .hp-row .damage-value {
+  font-weight: 700;
+  font-size: 18px;
+}
+.evasion-result-dialog .hp-info .hp-row .damage-value.no-damage {
+  color: #27ae60;
+}
+.evasion-result-dialog .hp-info .hp-row .damage-value.damage {
+  color: #e74c3c;
+}
+.evasion-result-dialog .hp-info .hp-row .hp-remaining {
+  font-weight: 700;
+  font-size: 18px;
+}
+.evasion-result-dialog .hp-info .hp-row .hp-remaining.success {
+  color: #27ae60;
+}
+.evasion-result-dialog .hp-info .hp-row .hp-remaining.warning {
+  color: #f39c12;
+}
+.evasion-result-dialog .hp-info .hp-row .hp-remaining.danger {
+  color: #e74c3c;
+}
+.evasion-result-dialog .hp-info .hp-row.hp-after {
+  padding-top: 12px;
+  margin-top: 4px;
+  border-top: 2px solid #dee2e6 !important;
+  border-bottom: none !important;
 }
 
 @keyframes bounce {

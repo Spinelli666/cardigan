@@ -1120,6 +1120,27 @@ export class SkillManager {
       // Check if right hand is occupied by a REAL weapon
       const primaryWeapon = realWeapons.find(weapon => weapon.system.rightHand);
       
+      // Calculate weapon damage (base damage + ability modifiers)
+      let weaponDamage = 0;
+      if (primaryWeapon) {
+        const baseDamage = parseInt(primaryWeapon.system.damage?.value) || 0;
+        weaponDamage = baseDamage;
+        
+        // Add ability modifiers
+        if (primaryWeapon.system.damage?.useStrength) {
+          weaponDamage += actor.system.abilities.strength.value || 0;
+        }
+        if (primaryWeapon.system.damage?.useDexterity) {
+          weaponDamage += actor.system.abilities.dexterity.value || 0;
+        }
+      } else {
+        // No weapon equipped - calculate unarmed attack damage
+        const strengthValue = actor.system.abilities.strength.value || 0;
+        const strengthBonus = actor.system.abilities.strength.totalBonus || 0;
+        const totalStrength = strengthValue + strengthBonus;
+        weaponDamage = totalStrength > 0 ? totalStrength : 1; // Minimum 1 damage
+      }
+      
       // Check ammunition for ranged weapons before showing dialog
       if (primaryWeapon && primaryWeapon.system.ranged) {
         const canAttack = await this.#checkAndConsumeAmmunition(actor, primaryWeapon);
@@ -1210,7 +1231,8 @@ export class SkillManager {
               }],
               attackerId: actor.id,
               attackerName: actor.name,
-              skillName: skillName
+              skillName: skillName,
+              damage: weaponDamage  // Damage from primary equipped weapon
             };
           }
           
@@ -1271,7 +1293,8 @@ export class SkillManager {
           targets: targetData,
           attackerId: actor.id,
           attackerName: actor.name,
-          skillName: skillName
+          skillName: skillName,
+              damage: weaponDamage  // Damage from primary equipped weapon
         };
       }
 
@@ -1325,6 +1348,27 @@ export class SkillManager {
       const secondaryWeapon = realWeapons.find(weapon => 
         weapon.system.leftHand && !weapon.system.rightHand
       );
+      
+      // Calculate weapon damage (base damage + ability modifiers)
+      let weaponDamage = 0;
+      if (secondaryWeapon) {
+        const baseDamage = parseInt(secondaryWeapon.system.damage?.value) || 0;
+        weaponDamage = baseDamage;
+        
+        // Add ability modifiers
+        if (secondaryWeapon.system.damage?.useStrength) {
+          weaponDamage += actor.system.abilities.strength.value || 0;
+        }
+        if (secondaryWeapon.system.damage?.useDexterity) {
+          weaponDamage += actor.system.abilities.dexterity.value || 0;
+        }
+      } else {
+        // No weapon equipped - calculate unarmed attack damage
+        const strengthValue = actor.system.abilities.strength.value || 0;
+        const strengthBonus = actor.system.abilities.strength.totalBonus || 0;
+        const totalStrength = strengthValue + strengthBonus;
+        weaponDamage = totalStrength > 0 ? totalStrength : 1; // Minimum 1 damage
+      }
       
       // Check ammunition for ranged weapons before showing dialog
       if (secondaryWeapon && secondaryWeapon.system.ranged) {
@@ -1416,7 +1460,8 @@ export class SkillManager {
               }],
               attackerId: actor.id,
               attackerName: actor.name,
-              skillName: skillName
+              skillName: skillName,
+              damage: weaponDamage  // Damage from primary equipped weapon
             };
           }
           
@@ -1477,7 +1522,8 @@ export class SkillManager {
           targets: targetData,
           attackerId: actor.id,
           attackerName: actor.name,
-          skillName: skillName
+          skillName: skillName,
+              damage: weaponDamage  // Damage from primary equipped weapon
         };
       }
 

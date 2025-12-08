@@ -1,15 +1,5 @@
 <div class="evasion-result-dialog">
   <div class="evasion-result-container {{#if success}}success{{else}}failure{{/if}}">
-    <div class="result-header">
-      <div class="result-icon">
-        {{#if success}}✅{{else}}❌{{/if}}
-      </div>
-      
-      <h2 class="result-title">
-        {{#if success}}Evadiu!{{else}}Não Evadiu!{{/if}}
-      </h2>
-    </div>
-    
     <div class="result-body">
       <div class="player-info">
         <div class="info-row">
@@ -31,6 +21,29 @@
         <div class="value-row">
           ⚔️ Ataque
           <span class="attack-value">{{attackTotal}}</span>
+        </div>
+      </div>
+      
+      <div class="hp-info">
+        <div class="hp-row">
+          <strong>❤️ HP Atual:</strong>
+          <span class="hp-current">{{currentHP}} / {{maxHP}}</span>
+        </div>
+        <div class="hp-row">
+          <strong>💥 Dano do Ataque:</strong>
+          <span class="damage-value">{{attackDamage}}</span>
+        </div>
+        <div class="hp-row">
+          <strong>💔 Dano Recebido:</strong>
+          <span class="damage-taken {{#if success}}no-damage{{else}}damage{{/if}}">
+            {{#if success}}0 (Evadiu!){{else}}{{damageTaken}}{{/if}}
+          </span>
+        </div>
+        <div class="hp-row hp-after">
+          <strong>❤️ HP Resultante:</strong>
+          <span class="hp-remaining {{#if success}}success{{else}}{{#if (gt remainingHP 0)}}warning{{else}}danger{{/if}}{{/if}}">
+            {{remainingHP}} / {{maxHP}}
+          </span>
         </div>
       </div>
     </div>
