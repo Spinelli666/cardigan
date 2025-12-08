@@ -118,6 +118,16 @@ Hooks.once('init', function () {
     return str.toLowerCase();
   });
 
+  // Socket listener para notificações de evasão (registrado no init)
+  game.socket.on("system.cardigan", (data) => {
+    console.log('[CARDIGAN SOCKET] Received:', data);
+    if (data.action === "notifyGMEvasion" && game.user.isGM) {
+      console.log('[CARDIGAN SOCKET] GM creating notification');
+      createGMEvasionNotification(data.payload);
+    }
+  });
+  console.log('[CARDIGAN SOCKET] Listener registered');
+
   // Register helper for "lt" (less than) comparison
   Handlebars.registerHelper('lt', function (a, b) {
     return a < b;
@@ -317,6 +327,46 @@ Handlebars.registerHelper('formatSkillActionTypes', function(actionTypes) {
     })
     .join(' | ');
 });
+
+/**
+ * Create GM-only evasion notification dialog
+ * @param {Object} data - Evasion data
+ */
+async function createGMEvasionNotification(data) {
+  const { playerName, characterName, evasionTotal, attackTotal, success } = data;
+  
+  // Render template using V13+ namespaced API
+  const template = await foundry.applications.handlebars.getTemplate(
+    'systems/cardigan/templates/dialogs/evasion-result.hbs'
+  );
+  const content = template({
+    playerName,
+    characterName,
+    evasionTotal,
+    attackTotal,
+    success
+  });
+  
+  // Use DialogV2 for modern API
+  new foundry.applications.api.DialogV2({
+    window: {
+      title: `🛡️ Resultado de Evasão - ${characterName}`,
+      icon: "fa-solid fa-shield"
+    },
+    content: content,
+    buttons: [{
+      action: "ok",
+      icon: "fa-solid fa-check",
+      label: "OK",
+      default: true
+    }],
+    position: {
+      width: 450,
+      height: "auto"
+    },
+    classes: ['cardigan-evasion-dialog']
+  }).render(true);
+}
 
 /* -------------------------------------------- */
 /*  Ready Hook                                  */
@@ -585,8 +635,8 @@ async function handleEvasionClick(button) {
       </div>
     `;
 
-    // Determine roll mode: if current user is GM, use blind mode
-    const rollMode = game.user.isGM ? 'blindroll' : game.settings.get('core', 'rollMode');
+    // Use player's roll mode setting (GM can choose blind manually)
+    const rollMode = game.settings.get('core', 'rollMode');
 
     // Create message data
     const messageData = {
@@ -600,6 +650,26 @@ async function handleEvasionClick(button) {
     
     // Create the chat message
     await ChatMessage.create(messageData);
+
+    // Send GM notification via socket (works for both players and GM)
+    const socketPayload = {
+      action: "notifyGMEvasion",
+      payload: {
+        playerName: game.user.name,
+        characterName: token.name,
+        evasionTotal: evasionTotal,
+        attackTotal: attackTotal,
+        success: success
+      }
+    };
+    
+    console.log('[CARDIGAN SOCKET] Emitting:', socketPayload);
+    game.socket.emit("system.cardigan", socketPayload);
+    
+    // Also create notification locally if current user is GM
+    if (game.user.isGM) {
+      createGMEvasionNotification(socketPayload.payload);
+    }
 
   } catch (error) {
     console.error("Error rolling evasion:", error);

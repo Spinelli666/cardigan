@@ -1215,7 +1215,7 @@ export class SkillManager {
           }
           
           // Determine roll mode: if current user is GM, use blind mode
-          const rollMode = game.user.isGM ? 'blindroll' : game.settings.get('core', 'rollMode');
+          const rollMode = game.settings.get('core', 'rollMode');
 
           // Create message data with flags
           const messageData = {
@@ -1275,8 +1275,8 @@ export class SkillManager {
         };
       }
 
-      // Determine roll mode: if current user is GM, use blind mode
-      const rollMode = game.user.isGM ? 'blindroll' : game.settings.get('core', 'rollMode');
+      // Use player's roll mode setting (GM can choose blind manually)
+      const rollMode = game.settings.get('core', 'rollMode');
 
       // Create message data with flags
       const messageData = {
@@ -1421,7 +1421,7 @@ export class SkillManager {
           }
           
           // Determine roll mode: if current user is GM, use blind mode
-          const rollMode = game.user.isGM ? 'blindroll' : game.settings.get('core', 'rollMode');
+          const rollMode = game.settings.get('core', 'rollMode');
 
           // Create message data with flags
           const messageData = {
@@ -1481,8 +1481,8 @@ export class SkillManager {
         };
       }
 
-      // Determine roll mode: if current user is GM, use blind mode
-      const rollMode = game.user.isGM ? 'blindroll' : game.settings.get('core', 'rollMode');
+      // Use player's roll mode setting (GM can choose blind manually)
+      const rollMode = game.settings.get('core', 'rollMode');
 
       // Create message data with flags
       const messageData = {

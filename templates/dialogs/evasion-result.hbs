@@ -1,0 +1,38 @@
+<div class="evasion-result-dialog">
+  <div class="evasion-result-container {{#if success}}success{{else}}failure{{/if}}">
+    <div class="result-header">
+      <div class="result-icon">
+        {{#if success}}✅{{else}}❌{{/if}}
+      </div>
+      
+      <h2 class="result-title">
+        {{#if success}}Evadiu!{{else}}Não Evadiu!{{/if}}
+      </h2>
+    </div>
+    
+    <div class="result-body">
+      <div class="player-info">
+        <div class="info-row">
+          <strong>👤 Jogador:</strong> 
+          <span class="player-name">{{playerName}}</span>
+        </div>
+        <div class="info-row">
+          <strong>🎭 Personagem:</strong> 
+          <span class="character-name">{{characterName}}</span>
+        </div>
+      </div>
+      
+      <div class="combat-values">
+        <div class="value-row">
+          🛡️ Evasão
+          <span class="evasion-value">{{evasionTotal}}</span>
+        </div>
+        <div class="vs-separator">VS</div>
+        <div class="value-row">
+          ⚔️ Ataque
+          <span class="attack-value">{{attackTotal}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
