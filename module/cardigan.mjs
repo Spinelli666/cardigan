@@ -357,12 +357,52 @@ async function createGMEvasionNotification(data) {
       icon: "fa-solid fa-shield"
     },
     content: content,
-    buttons: [{
-      action: "ok",
-      icon: "fa-solid fa-check",
-      label: "OK",
-      default: true
-    }],
+    buttons: [
+      {
+        action: "hit",
+        icon: "fa-solid fa-check-circle",
+        label: "Acertou",
+        callback: async () => {
+          const messageContent = `
+            <div style="text-align: center; padding: 8px; background: rgba(76, 175, 80, 0.1); border: 2px solid #4CAF50; border-radius: 4px;">
+              <h3 style="margin: 0 0 4px 0; color: #4CAF50;">
+                <i class="fas fa-bullseye"></i> Acertou!
+              </h3>
+              <p style="margin: 0;"><strong>${characterName}</strong> foi atingido pelo ataque!</p>
+            </div>
+          `;
+          await ChatMessage.create({
+            content: messageContent,
+            speaker: { alias: "Sistema" }
+          });
+        }
+      },
+      {
+        action: "miss",
+        icon: "fa-solid fa-times-circle",
+        label: "Errou",
+        callback: async () => {
+          const messageContent = `
+            <div style="text-align: center; padding: 8px; background: rgba(244, 67, 54, 0.1); border: 2px solid #f44336; border-radius: 4px;">
+              <h3 style="margin: 0 0 4px 0; color: #f44336;">
+                <i class="fas fa-shield-alt"></i> Errou!
+              </h3>
+              <p style="margin: 0;"><strong>${characterName}</strong> desviou do ataque!</p>
+            </div>
+          `;
+          await ChatMessage.create({
+            content: messageContent,
+            speaker: { alias: "Sistema" }
+          });
+        }
+      },
+      {
+        action: "ok",
+        icon: "fa-solid fa-check",
+        label: "Fechar",
+        default: true
+      }
+    ],
     position: {
       width: 450,
       height: "auto"
@@ -675,32 +715,36 @@ async function handleEvasionClick(button) {
     ChatMessage.applyRollMode(messageData, rollMode);
     
     // Create the chat message
-    await ChatMessage.create(messageData);
+    const chatMessage = await ChatMessage.create(messageData);
 
-    // Send GM notification via socket ONLY if GM is involved (attacker or defender)
-    if (shouldNotifyGM) {
-      const socketPayload = {
-        action: "notifyGMEvasion",
-        payload: {
-          playerName: game.user.name,
-          characterName: token.name,
-          evasionTotal: evasionTotal,
-          attackTotal: attackTotal,
-          success: success,
-          currentHP: currentHP,
-          maxHP: maxHP,
-          attackDamage: attackDamage,
-          damageTaken: damageTaken,
-          remainingHP: remainingHP
-        }
-      };
-      
-      game.socket.emit("system.cardigan", socketPayload);
-      
-      // Also create notification locally if current user is GM
-      if (game.user.isGM) {
-        createGMEvasionNotification(socketPayload.payload);
+    // Wait for Dice So Nice animation to complete before notifying GM
+    if (game.dice3d) {
+      await game.dice3d.waitFor3DAnimationByMessageID(chatMessage.id);
+    }
+
+    // Send GM notification via socket (works for both players and GM)
+    const socketPayload = {
+      action: "notifyGMEvasion",
+      payload: {
+        playerName: game.user.name,
+        characterName: token.name,
+        evasionTotal: evasionTotal,
+        attackTotal: attackTotal,
+        success: success,
+        currentHP: currentHP,
+        maxHP: maxHP,
+        attackDamage: attackDamage,
+        damageTaken: damageTaken,
+        remainingHP: remainingHP
       }
+    };
+    
+    console.log('[CARDIGAN SOCKET] Emitting:', socketPayload);
+    game.socket.emit("system.cardigan", socketPayload);
+    
+    // Also create notification locally if current user is GM
+    if (game.user.isGM) {
+      createGMEvasionNotification(socketPayload.payload);
     }
 
   } catch (error) {
