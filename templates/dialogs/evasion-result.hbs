@@ -30,18 +30,26 @@
           <span class="hp-current">{{currentHP}} / {{maxHP}}</span>
         </div>
         <div class="hp-row">
+          <strong>🛡️ Armor:</strong>
+          <span class="armor-value">{{armor}}</span>
+        </div>
+        <div class="hp-row">
           <strong>💥 Dano do Ataque:</strong>
           <span class="damage-value">{{attackDamage}}</span>
         </div>
         <div class="hp-row">
           <strong>💔 Dano Recebido:</strong>
-          <span class="damage-taken {{#if success}}no-damage{{else}}damage{{/if}}">
-            {{#if success}}0{{else}}{{damageTaken}}{{/if}}
-          </span>
+          <input type="number" 
+                 class="damage-taken-input" 
+                 value="{{#if success}}0{{else}}{{damageTaken}}{{/if}}" 
+                 min="0" 
+                 max="{{attackDamage}}" 
+                 data-current-hp="{{currentHP}}" 
+                 data-max-hp="{{maxHP}}" />
         </div>
         <div class="hp-row hp-after">
           <strong>❤️ HP Resultante:</strong>
-          <span class="hp-remaining {{#if success}}success{{else}}{{#if (gt remainingHP 0)}}warning{{else}}danger{{/if}}{{/if}}">
+          <span class="hp-remaining remaining-hp {{#if success}}success{{else}}{{#if (gt remainingHP 0)}}warning{{else}}danger{{/if}}{{/if}}">
             {{remainingHP}} / {{maxHP}}
           </span>
         </div>

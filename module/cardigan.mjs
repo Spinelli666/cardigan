@@ -118,10 +118,12 @@ Hooks.once('init', function () {
     return str.toLowerCase();
   });
 
-  // Socket listener para notificações de evasão (registrado no init)
+  // Socket listener para notificações de evasão e dano (registrado no init)
   game.socket.on("system.cardigan", (data) => {
     if (data.action === "notifyGMEvasion" && game.user.isGM) {
       createGMEvasionNotification(data.payload);
+    } else if (data.action === "notifyDamage") {
+      showDamageNotification(data.payload);
     }
   });
 
@@ -326,12 +328,61 @@ Handlebars.registerHelper('formatSkillActionTypes', function(actionTypes) {
 });
 
 /**
+ * Show damage notification to the actor's owner only
+ * @param {Object} data - Damage notification data
+ */
+function showDamageNotification(data) {
+  const { actorId, characterName, finalDamage, newHP, maxHP } = data;
+  
+  // Get the actor to check ownership
+  const actor = game.actors.get(actorId);
+  
+  // Only show notification to users who own this character
+  if (!actor || !actor.testUserPermission(game.user, "OWNER")) {
+    return;
+  }
+  
+  // Create notification message (always blue/info)
+  const message = `<strong>${characterName}</strong> recebeu <strong>${finalDamage}</strong> de dano! HP atual: <strong>${newHP}/${maxHP}</strong>`;
+  
+  // Show notification (always info/blue)
+  ui.notifications.info(message, { permanent: false });
+}
+
+/**
  * Create GM-only evasion notification dialog
  * @param {Object} data - Evasion data
  */
 async function createGMEvasionNotification(data) {
-  const { playerName, characterName, evasionTotal, attackTotal, success, 
-          currentHP, maxHP, attackDamage, damageTaken, remainingHP } = data;
+  const { actorId, playerName, characterName, evasionTotal, attackTotal, success, 
+          currentHP, maxHP, armor, attackDamage, damageTaken, remainingHP } = data;
+  
+  // Helper function to update remaining HP based on damage input
+  const updateRemainingHP = (dialogElement) => {
+    const damageInput = dialogElement.querySelector('.damage-taken-input');
+    const remainingHPElement = dialogElement.querySelector('.remaining-hp');
+    
+    if (damageInput && remainingHPElement) {
+      damageInput.addEventListener('input', (e) => {
+        const damage = Math.max(0, parseInt(e.target.value) || 0);
+        const newRemainingHP = Math.max(0, currentHP - damage);
+        const percentage = newRemainingHP / maxHP;
+        
+        // Update value
+        remainingHPElement.textContent = `${newRemainingHP} / ${maxHP}`;
+        
+        // Update color class
+        remainingHPElement.classList.remove('success', 'warning', 'danger');
+        if (percentage >= 0.5) {
+          remainingHPElement.classList.add('success');
+        } else if (percentage >= 0.25) {
+          remainingHPElement.classList.add('warning');
+        } else {
+          remainingHPElement.classList.add('danger');
+        }
+      });
+    }
+  };
   
   // Render template using V13+ namespaced API
   const template = await foundry.applications.handlebars.getTemplate(
@@ -345,13 +396,14 @@ async function createGMEvasionNotification(data) {
     success,
     currentHP,
     maxHP,
+    armor,
     attackDamage,
     damageTaken,
     remainingHP
   });
   
   // Use DialogV2 for modern API
-  new foundry.applications.api.DialogV2({
+  const dialog = new foundry.applications.api.DialogV2({
     window: {
       title: `🛡️ Resultado de Evasão - ${characterName}`,
       icon: "fa-solid fa-shield"
@@ -362,19 +414,56 @@ async function createGMEvasionNotification(data) {
         action: "hit",
         icon: "fa-solid fa-check-circle",
         label: "Acertou",
-        callback: async () => {
-          const messageContent = `
-            <div style="text-align: center; padding: 8px; background: rgba(76, 175, 80, 0.1); border: 2px solid #4CAF50; border-radius: 4px;">
-              <h3 style="margin: 0 0 4px 0; color: #4CAF50;">
-                <i class="fas fa-bullseye"></i> Acertou!
-              </h3>
-              <p style="margin: 0;"><strong>${characterName}</strong> foi atingido pelo ataque!</p>
-            </div>
-          `;
-          await ChatMessage.create({
-            content: messageContent,
-            speaker: { alias: "Sistema" }
-          });
+        callback: async (event, button) => {
+          // Get current damage value from input (button is the clicked element)
+          const dialogElement = button.closest('.dialog-content') || button.closest('form');
+          const damageInput = dialogElement?.querySelector('.damage-taken-input');
+          const rawDamage = parseInt(damageInput?.value) || 0;
+          
+          // Apply armor reduction
+          const finalDamage = Math.max(0, rawDamage - armor);
+          
+          // Get actor and apply damage
+          const actor = game.actors.get(actorId);
+          if (actor) {
+            const newHP = Math.max(0, currentHP - finalDamage);
+            await actor.update({ 'system.health.value': newHP });
+            
+            // Create notification message for the character owner
+            const notificationData = {
+              actorId: actorId,
+              characterName: characterName,
+              finalDamage: finalDamage,
+              newHP: newHP,
+              maxHP: maxHP
+            };
+            
+            // Send notification via socket to all users
+            game.socket.emit("system.cardigan", {
+              action: "notifyDamage",
+              payload: notificationData
+            });
+            
+            // Also show locally
+            showDamageNotification(notificationData);
+            
+            // Create detailed chat message
+            const messageContent = `
+              <div style="text-align: center; padding: 8px; background: rgba(76, 175, 80, 0.1); border: 2px solid #4CAF50; border-radius: 4px;">
+                <h3 style="margin: 0 0 4px 0; color: #4CAF50;">
+                  <i class="fas fa-bullseye"></i> Acertou!
+                </h3>
+                <p style="margin: 0;"><strong>${characterName}</strong> foi atingido pelo ataque!</p>
+                <p style="margin: 4px 0 0 0; font-size: 0.9em;">
+                  💥 Dano Bruto: ${rawDamage} | 🛡️ Armor: ${armor} | 💔 Dano Final: ${finalDamage}
+                </p>
+              </div>
+            `;
+            await ChatMessage.create({
+              content: messageContent,
+              speaker: { alias: "Sistema" }
+            });
+          }
         }
       },
       {
@@ -408,7 +497,14 @@ async function createGMEvasionNotification(data) {
       height: "auto"
     },
     classes: ['cardigan-evasion-dialog']
-  }).render(true);
+  });
+  
+  // Wait for dialog to render, then attach event listener
+  dialog.addEventListener('render', () => {
+    updateRemainingHP(dialog.element);
+  });
+  
+  dialog.render(true);
 }
 
 /* -------------------------------------------- */
@@ -631,9 +727,10 @@ async function handleEvasionClick(button) {
   const defenderIsGM = actor?.hasPlayerOwner === false; // GM-owned NPC
   const shouldNotifyGM = attackerIsGM || defenderIsGM; // Only notify if GM is involved
 
-  // Get current HP from defender
+  // Get current HP and armor from defender
   const currentHP = actor.system.health?.value || 0;
   const maxHP = actor.system.health?.max || 0;
+  const armor = actor.system.armor?.value || 0;
 
   // Import the advantage selection dialog
   const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
@@ -726,6 +823,7 @@ async function handleEvasionClick(button) {
     const socketPayload = {
       action: "notifyGMEvasion",
       payload: {
+        actorId: actorId,
         playerName: game.user.name,
         characterName: token.name,
         evasionTotal: evasionTotal,
@@ -733,6 +831,7 @@ async function handleEvasionClick(button) {
         success: success,
         currentHP: currentHP,
         maxHP: maxHP,
+        armor: armor,
         attackDamage: attackDamage,
         damageTaken: damageTaken,
         remainingHP: remainingHP

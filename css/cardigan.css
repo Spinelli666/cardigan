@@ -10623,6 +10623,28 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   color: #adb5bd;
   padding: 0 4px;
 }
+.evasion-result-dialog .damage-taken-input {
+  width: 80px;
+  padding: 6px 10px;
+  background: white;
+  border: 2px solid #dee2e6;
+  border-radius: 4px;
+  color: #212529;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.2s;
+  font-family: "Signika", sans-serif;
+}
+.evasion-result-dialog .damage-taken-input:focus {
+  outline: none;
+  border-color: #4a9eff;
+  background: rgba(74, 158, 255, 0.05);
+  box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+}
+.evasion-result-dialog .damage-taken-input:hover {
+  border-color: #adb5bd;
+}
 .evasion-result-dialog .hp-info {
   background: white;
   border-radius: 6px;
