@@ -1267,6 +1267,18 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         // Detect critical results, passing the ability key if available
         const flags = this.constructor._detectCriticalResults(roll, this.document, abilityKey);
         
+        // Show notification for critical results (only for the user who rolled)
+        if (flags?.cardigan?.criticalHit) {
+          const critThreshold = this.document.system?.details?.criticalHit;
+          if (abilityKey === 'accuracy' && critThreshold) {
+            ui.notifications.info(`Acerto Crítico! (${roll.total} >= ${critThreshold})`);
+          } else {
+            ui.notifications.info(`Sucesso Crítico!`);
+          }
+        } else if (flags?.cardigan?.criticalFailure) {
+          ui.notifications.warn(`Erro Crítico!`);
+        }
+        
         // Create custom flavor text showing the advantage type
         const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
           <strong>${label}</strong> - ${rollDescription}
@@ -3761,6 +3773,25 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const isCriticalFailure = flags.cardigan?.criticalFailure || false;
     let finalDamage = totalDamage;
     let criticalMessage = '';
+    
+    // Show notification for critical results (only for the user who rolled)
+    if (isCriticalHit) {
+      const critThreshold = actor.system?.details?.criticalHit;
+      if (critThreshold) {
+        ui.notifications.info(`Acerto Crítico! (${roll.total} >= ${critThreshold})`);
+      } else {
+        ui.notifications.info(`Acerto Crítico!`);
+      }
+    } else if (isCriticalFailure) {
+      // Check if weapon will lose durability
+      const currentDurability = item.system.durability?.current;
+      if (currentDurability > 0) {
+        const newDurability = Math.max(0, currentDurability - 1);
+        ui.notifications.warn(`Erro Crítico! ${item.name} perdeu durabilidade (${currentDurability} → ${newDurability})`);
+      } else {
+        ui.notifications.warn(`Erro Crítico!`);
+      }
+    }
     
     // Handle critical hit - double damage
     if (isCriticalHit) {
@@ -7675,9 +7706,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
 
       // Check for natural 1 on d20
+      // Only check ACTIVE dice (not discarded by advantage/disadvantage)
       const d20Die = roll.dice.find(die => die.faces === 20);
       if (d20Die && d20Die.results && d20Die.results.length > 0) {
-        const hasNaturalOne = d20Die.results.some(result => result?.result === 1);
+        const hasNaturalOne = d20Die.results.some(result => 
+          result?.active !== false && result?.result === 1
+        );
         if (hasNaturalOne) {
           flags.criticalFailure = true;
           return { cardigan: flags };
@@ -7685,19 +7719,29 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
 
       // Check for critical hit - different logic for accuracy vs other rolls
+      // Only check ACTIVE dice (not discarded by advantage/disadvantage)
       if (d20Die && d20Die.results && d20Die.results.length > 0) {
         // For accuracy rolls, use actor's criticalHit threshold
         if (abilityKey === 'accuracy' && actor && actor.system?.details?.criticalHit) {
           const criticalThreshold = actor.system.details.criticalHit;
-          if (roll.total >= criticalThreshold) {
+          // Check if any active die result is 20 or higher for natural critical
+          const hasNaturalCritical = d20Die.results.some(result => 
+            result?.active !== false && result?.result === 20
+          );
+          if (roll.total >= criticalThreshold || hasNaturalCritical) {
             flags.criticalHit = true;
             return { cardigan: flags };
           }
         }
-        // For all other rolls, critical hit when total is 20 or higher
-        else if (roll.total >= 20) {
-          flags.criticalHit = true;
-          return { cardigan: flags };
+        // For all other rolls, critical hit when total is 20 or higher OR natural 20
+        else {
+          const hasNaturalTwenty = d20Die.results.some(result => 
+            result?.active !== false && result?.result === 20
+          );
+          if (roll.total >= 20 || hasNaturalTwenty) {
+            flags.criticalHit = true;
+            return { cardigan: flags };
+          }
         }
       }
 

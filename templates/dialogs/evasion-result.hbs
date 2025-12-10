@@ -14,13 +14,13 @@
       
       <div class="combat-values">
         <div class="value-row">
-          🛡️ Evasão
-          <span class="evasion-value">{{evasionTotal}}</span>
+          ⚔️ Ataque
+          <span class="attack-value">{{attackTotal}}</span>
         </div>
         <div class="vs-separator">VS</div>
         <div class="value-row">
-          ⚔️ Ataque
-          <span class="attack-value">{{attackTotal}}</span>
+          🛡️ Evasão
+          <span class="evasion-value">{{evasionTotal}}</span>
         </div>
       </div>
       
@@ -33,19 +33,38 @@
           <strong>🛡️ Armor:</strong>
           <span class="armor-value">{{armor}}</span>
         </div>
+        <div class="hp-row ignore-armor-row">
+          <strong>🚫 Ignore Armor:</strong>
+          <div class="ignore-armor-container">
+            <input type="number" 
+                   class="ignore-armor-input" 
+                   value="0" 
+                   min="0" 
+                   max="{{armor}}" 
+                   data-armor="{{armor}}" />
+            <button type="button" class="roll-ignore-armor-btn" title="Rolar dado para ignorar armadura">
+              🎲
+            </button>
+          </div>
+        </div>
         <div class="hp-row">
           <strong>💥 Dano do Ataque:</strong>
           <span class="damage-value">{{attackDamage}}</span>
         </div>
-        <div class="hp-row">
+        <div class="hp-row damage-input-row">
           <strong>💔 Dano Recebido:</strong>
-          <input type="number" 
-                 class="damage-taken-input" 
-                 value="{{#if success}}0{{else}}{{damageTaken}}{{/if}}" 
-                 min="0" 
-                 max="{{attackDamage}}" 
-                 data-current-hp="{{currentHP}}" 
-                 data-max-hp="{{maxHP}}" />
+          <div class="damage-input-container">
+            <input type="number" 
+                   class="damage-taken-input" 
+                   value="{{#if success}}0{{else}}{{damageTaken}}{{/if}}" 
+                   min="0" 
+                   max="{{attackDamage}}" 
+                   data-current-hp="{{currentHP}}" 
+                   data-max-hp="{{maxHP}}" />
+            <button type="button" class="half-damage-btn" title="Reduzir dano pela metade">
+              ½
+            </button>
+          </div>
         </div>
         <div class="hp-row hp-after">
           <strong>❤️ HP Resultante:</strong>

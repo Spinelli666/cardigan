@@ -118,12 +118,23 @@ Hooks.once('init', function () {
     return str.toLowerCase();
   });
 
-  // Socket listener para notificações de evasão e dano (registrado no init)
+  // Socket listener para notificações de evasão, dano e resultado de ataque (registrado no init)
   game.socket.on("system.cardigan", (data) => {
     if (data.action === "notifyGMEvasion" && game.user.isGM) {
       createGMEvasionNotification(data.payload);
     } else if (data.action === "notifyDamage") {
       showDamageNotification(data.payload);
+    } else if (data.action === "notifyAttacker" && !game.user.isGM) {
+      // Only show to the attacker's owner
+      if (data.payload.attackerOwnerId === game.user.id) {
+        createAttackerResultDialog(data.payload);
+      }
+    } else if (data.action === "applyDamage") {
+      // Apply damage to actor - only if user owns the actor or is GM
+      const actor = game.actors.get(data.payload.actorId);
+      if (actor && (actor.isOwner || game.user.isGM)) {
+        actor.update({ 'system.health.value': data.payload.newHP });
+      }
     }
   });
 
@@ -242,6 +253,11 @@ Handlebars.registerHelper('add', function (a, b) {
   return (a || 0) + (b || 0);
 });
 
+// Helper para multiplicação matemática
+Handlebars.registerHelper('multiply', function (a, b) {
+  return (a || 0) * (b || 0);
+});
+
 // Helper para verificar se há armas ranged na lista
 Handlebars.registerHelper('hasRangedWeapons', function(weapons) {
   if (!weapons || !Array.isArray(weapons)) return false;
@@ -350,17 +366,358 @@ function showDamageNotification(data) {
 }
 
 /**
+ * Create attacker notification dialog for PvP combat
+ * @param {Object} data - Attack result data
+ */
+async function createAttackerResultDialog(data) {
+  const { attackerName, defenderName, attackTotal, evasionTotal, success, attackDamage, armor, actorId, currentHP, maxHP } = data;
+  
+  // Initial damage taken is the raw damage (armor will be subtracted when clicking "Acertou")
+  const damageTaken = attackDamage;
+  const remainingHP = Math.max(0, currentHP - damageTaken);
+  
+  // Helper function to roll dice for ignore armor
+  const rollIgnoreArmorDice = async (ignoreArmorInput) => {
+    const diceDialog = new foundry.applications.api.DialogV2({
+      window: {
+        title: "🎲 Rolar para Ignore Armor",
+        icon: "fa-solid fa-dice"
+      },
+      content: `
+        <div style="text-align: center; padding: 20px;">
+          <p style="margin-bottom: 16px; font-size: 14px;">Escolha o dado para rolar:</p>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button type="button" class="dice-option" data-dice="1d4" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d4</button>
+            <button type="button" class="dice-option" data-dice="1d6" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d6</button>
+            <button type="button" class="dice-option" data-dice="1d8" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d8</button>
+            <button type="button" class="dice-option" data-dice="1d12" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d12</button>
+          </div>
+        </div>
+      `,
+      buttons: [
+        {
+          action: "cancel",
+          icon: "fa-solid fa-times",
+          label: "Cancelar"
+        }
+      ],
+      position: {
+        width: 300,
+        height: "auto"
+      }
+    });
+    
+    // Add click handlers to dice options
+    diceDialog.addEventListener('render', () => {
+      const diceOptions = diceDialog.element.querySelectorAll('.dice-option');
+      diceOptions.forEach(option => {
+        option.addEventListener('click', async (e) => {
+          const diceFormula = e.target.dataset.dice;
+          
+          // Roll the dice
+          const roll = await new Roll(diceFormula).evaluate();
+          const result = roll.total;
+          
+          // Wait for Dice So Nice animation if available
+          if (game.dice3d) {
+            await game.dice3d.showForRoll(roll);
+          }
+          
+          // Show result in chat
+          const chatContent = `
+            <div style="text-align: center; padding: 8px; background: rgba(255, 193, 7, 0.1); border: 2px solid #ffc107; border-radius: 4px;">
+              <h3 style="margin: 0 0 4px 0;">
+                <i class="fas fa-dice"></i> Ignore Armor Roll
+              </h3>
+              <p style="margin: 0;"><strong>${attackerName}</strong> rolou <strong>${diceFormula}</strong> para ignorar armadura!</p>
+              <p style="margin: 4px 0 0 0; font-size: 1.2em; font-weight: bold;">
+                Resultado: ${result}
+              </p>
+            </div>
+          `;
+          
+          await ChatMessage.create({
+            content: chatContent,
+            speaker: { alias: "Sistema" },
+            sound: CONFIG.sounds.dice
+          });
+          
+          // Update the ignore armor input
+          if (ignoreArmorInput) {
+            ignoreArmorInput.value = result;
+            // Trigger input event to recalculate damage
+            ignoreArmorInput.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          
+          // Close the dialog
+          diceDialog.close();
+        });
+      });
+    });
+    
+    await diceDialog.render(true);
+  };
+  
+  // Helper function to update damage and HP calculations
+  const updateDamageCalculations = (dialogElement) => {
+    const ignoreArmorInput = dialogElement.querySelector('.ignore-armor-input');
+    const damageTakenInput = dialogElement.querySelector('.damage-taken-input');
+    const halfDamageBtn = dialogElement.querySelector('.half-damage-btn');
+    const rollIgnoreArmorBtn = dialogElement.querySelector('.roll-ignore-armor-btn');
+    
+    // No automatic recalculation - damage will be calculated when clicking "Acertou"
+    // Add event listeners
+    
+    if (halfDamageBtn) {
+      halfDamageBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const currentDamage = parseInt(damageTakenInput?.value) || 0;
+        const halfDamage = Math.floor(currentDamage / 2);
+        if (damageTakenInput) {
+          damageTakenInput.value = halfDamage;
+        }
+      });
+    }
+    
+    if (rollIgnoreArmorBtn) {
+      rollIgnoreArmorBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await rollIgnoreArmorDice(ignoreArmorInput);
+      });
+    }
+  };
+  
+  // Render template
+  const template = await foundry.applications.handlebars.getTemplate(
+    'systems/cardigan/templates/dialogs/attack-result.hbs'
+  );
+  const content = template({
+    attackerName,
+    defenderName,
+    attackTotal,
+    evasionTotal,
+    success,
+    attackDamage,
+    armor,
+    damageTaken,
+    currentHP,
+    maxHP,
+    remainingHP
+  });
+  
+  // Use DialogV2 for modern API
+  const dialog = new foundry.applications.api.DialogV2({
+    window: {
+      title: `⚔️ Resultado de Ataque`,
+      icon: "fa-solid fa-sword"
+    },
+    content: content,
+    buttons: [
+      {
+        action: "hit",
+        icon: "fa-solid fa-check-circle",
+        label: "Acertou",
+        callback: async (event, button) => {
+          // Get current damage value from input
+          const dialogElement = button.closest('.dialog-content') || button.closest('form');
+          const damageTakenInput = dialogElement?.querySelector('.damage-taken-input');
+          const ignoreArmorInput = dialogElement?.querySelector('.ignore-armor-input');
+          
+          const rawDamage = parseInt(damageTakenInput?.value) || attackDamage;
+          const ignoreArmor = parseInt(ignoreArmorInput?.value) || 0;
+          
+          // Calculate effective armor and final damage
+          const effectiveArmor = Math.max(0, armor - ignoreArmor);
+          const finalDamage = Math.max(0, rawDamage - effectiveArmor);
+          
+          // Calculate new HP
+          const newHP = Math.max(0, currentHP - finalDamage);
+          
+          // Send damage application via socket (so the actor's owner applies it)
+          game.socket.emit("system.cardigan", {
+            action: "applyDamage",
+            payload: {
+              actorId: actorId,
+              newHP: newHP
+            }
+          });
+          
+          // Also apply locally if current user owns the actor or is GM
+          const actor = game.actors.get(actorId);
+          if (actor && (actor.isOwner || game.user.isGM)) {
+            await actor.update({ 'system.health.value': newHP });
+          }
+          
+          // Create notification message for the character owner
+          const notificationData = {
+            actorId: actorId,
+            characterName: defenderName,
+            finalDamage: finalDamage,
+            newHP: newHP,
+            maxHP: maxHP
+          };
+          
+          // Send notification via socket to all users
+          game.socket.emit("system.cardigan", {
+            action: "notifyDamage",
+            payload: notificationData
+          });
+          
+          // Also show locally
+          showDamageNotification(notificationData);
+          
+          // Create detailed chat message
+          const messageContent = `
+            <div style="text-align: center; padding: 8px; background: rgba(76, 175, 80, 0.1); border: 2px solid #4CAF50; border-radius: 4px;">
+              <h3 style="margin: 0 0 4px 0; color: #4CAF50;">
+                <i class="fas fa-bullseye"></i> Acertou!
+              </h3>
+              <p style="margin: 0;"><strong>${defenderName}</strong> foi atingido pelo ataque!</p>
+              <p style="margin: 4px 0 0 0; font-size: 0.9em;">
+                💥 Dano Bruto: ${rawDamage} | 🛡️ Armor: ${armor}${ignoreArmor > 0 ? ` | 🚫 Ignorado: ${ignoreArmor} | 🛡️ Efetivo: ${effectiveArmor}` : ''} | 💔 Dano Final: ${finalDamage}
+              </p>
+            </div>
+          `;
+          await ChatMessage.create({
+            content: messageContent,
+            speaker: { alias: "Sistema" }
+          });
+        }
+      },
+      {
+        action: "miss",
+        icon: "fa-solid fa-times-circle",
+        label: "Errou",
+        callback: async () => {
+          const messageContent = `
+            <div style="text-align: center; padding: 8px; background: rgba(244, 67, 54, 0.1); border: 2px solid #f44336; border-radius: 4px;">
+              <h3 style="margin: 0 0 4px 0; color: #f44336;">
+                <i class="fas fa-shield-alt"></i> Errou!
+              </h3>
+              <p style="margin: 0;"><strong>${defenderName}</strong> desviou do ataque!</p>
+            </div>
+          `;
+          await ChatMessage.create({
+            content: messageContent,
+            speaker: { alias: "Sistema" }
+          });
+        }
+      },
+      {
+        action: "ok",
+        icon: "fa-solid fa-check",
+        label: "Fechar",
+        default: true
+      }
+    ],
+    position: {
+      width: 450,
+      height: "auto"
+    },
+    classes: ['cardigan-attack-dialog', success ? 'success' : 'failure']
+  });
+  
+  // Wait for dialog to render, then attach event listeners
+  dialog.addEventListener('render', () => {
+    updateDamageCalculations(dialog.element);
+  });
+  
+  dialog.render(true);
+}
+
+/**
  * Create GM-only evasion notification dialog
  * @param {Object} data - Evasion data
  */
 async function createGMEvasionNotification(data) {
-  const { actorId, playerName, characterName, evasionTotal, attackTotal, success, 
+  const { actorId, playerName, characterName, attackerName, evasionTotal, attackTotal, success, 
           currentHP, maxHP, armor, attackDamage, damageTaken, remainingHP } = data;
+  
+  // Helper function to roll dice for ignore armor
+  const rollIgnoreArmorDice = async (ignoreArmorInput, attackerName) => {
+    const diceDialog = new foundry.applications.api.DialogV2({
+      window: {
+        title: "🎲 Rolar para Ignore Armor",
+        icon: "fa-solid fa-dice"
+      },
+      content: `
+        <div style="text-align: center; padding: 20px;">
+          <p style="margin-bottom: 16px; font-size: 14px;">Escolha o dado para rolar:</p>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button type="button" class="dice-option" data-dice="1d4" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d4</button>
+            <button type="button" class="dice-option" data-dice="1d6" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d6</button>
+            <button type="button" class="dice-option" data-dice="1d8" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d8</button>
+            <button type="button" class="dice-option" data-dice="1d12" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d12</button>
+          </div>
+        </div>
+      `,
+      buttons: [
+        {
+          action: "cancel",
+          icon: "fa-solid fa-times",
+          label: "Cancelar"
+        }
+      ],
+      position: {
+        width: 300,
+        height: "auto"
+      }
+    });
+    
+    // Add click handlers to dice options
+    diceDialog.addEventListener('render', () => {
+      const diceOptions = diceDialog.element.querySelectorAll('.dice-option');
+      diceOptions.forEach(option => {
+        option.addEventListener('click', async (e) => {
+          const diceFormula = e.target.dataset.dice;
+          
+          // Roll the dice
+          const roll = await new Roll(diceFormula).evaluate();
+          const result = roll.total;
+          
+          // Wait for Dice So Nice animation if available
+          if (game.dice3d) {
+            await game.dice3d.showForRoll(roll);
+          }
+          
+          // Show result in chat
+          const chatContent = `
+            <div style="text-align: center; padding: 8px; background: rgba(255, 193, 7, 0.1); border: 2px solid #ffc107; border-radius: 4px;">
+              <h3 style="margin: 0 0 4px 0;">
+                <i class="fas fa-dice"></i> Ignore Armor Roll
+              </h3>
+              <p style="margin: 0;"><strong>${attackerName}</strong> rolou <strong>${diceFormula}</strong> para ignorar armadura!</p>
+              <p style="margin: 4px 0 0 0; font-size: 1.2em; font-weight: bold;">
+                Resultado: ${result}
+              </p>
+            </div>
+          `;
+          
+          await ChatMessage.create({
+            content: chatContent,
+            speaker: { alias: "Sistema" },
+            sound: CONFIG.sounds.dice
+          });
+          
+          // Update the ignore armor input
+          if (ignoreArmorInput) {
+            ignoreArmorInput.value = result;
+          }
+          
+          // Close the dialog
+          diceDialog.close();
+        });
+      });
+    });
+    
+    await diceDialog.render(true);
+  };
   
   // Helper function to update remaining HP based on damage input
   const updateRemainingHP = (dialogElement) => {
     const damageInput = dialogElement.querySelector('.damage-taken-input');
     const remainingHPElement = dialogElement.querySelector('.remaining-hp');
+    const halfDamageBtn = dialogElement.querySelector('.half-damage-btn');
     
     if (damageInput && remainingHPElement) {
       damageInput.addEventListener('input', (e) => {
@@ -380,6 +737,29 @@ async function createGMEvasionNotification(data) {
         } else {
           remainingHPElement.classList.add('danger');
         }
+      });
+      
+      // Add half damage button functionality
+      if (halfDamageBtn) {
+        halfDamageBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const currentDamage = parseInt(damageInput.value) || 0;
+          const halfDamage = Math.floor(currentDamage / 2);
+          damageInput.value = halfDamage;
+          
+          // Trigger input event to update HP display
+          damageInput.dispatchEvent(new Event('input'));
+        });
+      }
+    }
+    
+    // Add ignore armor roll button functionality
+    const ignoreArmorInput = dialogElement.querySelector('.ignore-armor-input');
+    const rollIgnoreArmorBtn = dialogElement.querySelector('.roll-ignore-armor-btn');
+    if (rollIgnoreArmorBtn && ignoreArmorInput) {
+      rollIgnoreArmorBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await rollIgnoreArmorDice(ignoreArmorInput, attackerName);
       });
     }
   };
@@ -418,10 +798,15 @@ async function createGMEvasionNotification(data) {
           // Get current damage value from input (button is the clicked element)
           const dialogElement = button.closest('.dialog-content') || button.closest('form');
           const damageInput = dialogElement?.querySelector('.damage-taken-input');
+          const ignoreArmorInput = dialogElement?.querySelector('.ignore-armor-input');
           const rawDamage = parseInt(damageInput?.value) || 0;
+          const ignoreArmor = parseInt(ignoreArmorInput?.value) || 0;
+          
+          // Calculate effective armor (armor - ignore armor)
+          const effectiveArmor = Math.max(0, armor - ignoreArmor);
           
           // Apply armor reduction
-          const finalDamage = Math.max(0, rawDamage - armor);
+          const finalDamage = Math.max(0, rawDamage - effectiveArmor);
           
           // Get actor and apply damage
           const actor = game.actors.get(actorId);
@@ -455,7 +840,7 @@ async function createGMEvasionNotification(data) {
                 </h3>
                 <p style="margin: 0;"><strong>${characterName}</strong> foi atingido pelo ataque!</p>
                 <p style="margin: 4px 0 0 0; font-size: 0.9em;">
-                  💥 Dano Bruto: ${rawDamage} | 🛡️ Armor: ${armor} | 💔 Dano Final: ${finalDamage}
+                  💥 Dano Bruto: ${rawDamage} | 🛡️ Armor: ${armor}${ignoreArmor > 0 ? ` | 🚫 Ignorado: ${ignoreArmor} | 🛡️ Efetivo: ${effectiveArmor}` : ''} | 💔 Dano Final: ${finalDamage}
                 </p>
               </div>
             `;
@@ -517,24 +902,6 @@ Hooks.once('ready', function () {
   
   // Initialize tooltips observer
   game.cardigan.tooltips.observe();
-  
-  // Hook to color roll totals based on critical success/failure
-  Hooks.on('renderChatMessageHTML', (chatMessage, html) => {
-    // Only process roll messages with our flags
-    const flags = chatMessage.flags?.cardigan;
-    if (!flags || (!flags.criticalHit && !flags.criticalFailure && !flags.isCriticalHit && !flags.isCriticalFailure)) return;
-    
-    // Find the roll total element (html is now HTMLElement, not jQuery)
-    const rollTotal = html.querySelector('.dice-total');
-    if (!rollTotal) return;
-    
-    // Apply colors based on critical type (checking both old and new flag formats)
-    if (flags.criticalHit || flags.isCriticalHit) {
-      rollTotal.style.color = '#4CAF50'; // Green for critical hit
-    } else if (flags.criticalFailure || flags.isCriticalFailure) {
-      rollTotal.style.color = '#f44336'; // Red for critical failure
-    }
-  });
 });
 
 /* -------------------------------------------- */
@@ -627,6 +994,29 @@ Hooks.once('ready', function () {
 
 // Skills functions have been moved to module/skills/ for better organization
 // All skill-related functionality is now handled by the SkillManager system
+
+/* -------------------------------------------- */
+/*  Critical Results Coloring Hook              */
+/* -------------------------------------------- */
+
+// Hook to color roll totals based on critical success/failure
+// This needs to be registered globally (not inside ready hook) so it works for all clients
+Hooks.on('renderChatMessageHTML', (chatMessage, html) => {
+  // Only process roll messages with our flags
+  const flags = chatMessage.flags?.cardigan;
+  if (!flags || (!flags.criticalHit && !flags.criticalFailure && !flags.isCriticalHit && !flags.isCriticalFailure && !flags.criticalSuccess)) return;
+  
+  // Find the roll total element (html is now HTMLElement, not jQuery)
+  const rollTotal = html.querySelector('.dice-total');
+  if (!rollTotal) return;
+  
+  // Apply colors based on critical type (checking all flag formats)
+  if (flags.criticalHit || flags.isCriticalHit || flags.criticalSuccess) {
+    rollTotal.style.color = '#4CAF50'; // Green for critical hit/success
+  } else if (flags.criticalFailure || flags.isCriticalFailure) {
+    rollTotal.style.color = '#f44336'; // Red for critical failure
+  }
+});
 
 /* -------------------------------------------- */
 /*  Evasion System Hooks                        */
@@ -787,6 +1177,28 @@ async function handleEvasionClick(button) {
     const evasionTotal = roll.total;
     const success = evasionTotal >= attackTotal;
 
+    // Detect critical results - checking both natural dice AND total value
+    let criticalSuccess = false;
+    let criticalFailure = false;
+    
+    // Check all d20 dice in the roll for natural 1 or 20
+    // Only check ACTIVE dice (not discarded by advantage/disadvantage)
+    for (const term of roll.terms) {
+      if (term instanceof foundry.dice.terms.Die && term.faces === 20) {
+        for (const result of term.results) {
+          // Only check active dice results (discarded dice have active: false)
+          if (result.active !== false) {
+            if (result.result === 20) criticalSuccess = true;
+            if (result.result === 1) criticalFailure = true;
+          }
+        }
+      }
+    }
+    
+    // Also check total value (≥20 = success, ≤1 = failure)
+    if (evasionTotal >= 20) criticalSuccess = true;
+    if (evasionTotal <= 1) criticalFailure = true;
+
     // Calculate HP after damage (only if failed evasion)
     const damageTaken = success ? 0 : attackDamage;
     const remainingHP = Math.max(0, currentHP - damageTaken);
@@ -801,11 +1213,17 @@ async function handleEvasionClick(button) {
     // Use player's roll mode setting (GM can choose blind manually)
     const rollMode = game.settings.get('core', 'rollMode');
 
-    // Create message data
+    // Create message data with critical flags
     const messageData = {
       speaker: { alias: token.name },
       flavor: flavor,
-      rolls: [roll]
+      rolls: [roll],
+      flags: {
+        cardigan: {
+          criticalSuccess: criticalSuccess,
+          criticalFailure: criticalFailure
+        }
+      }
     };
 
     // Apply roll mode using Foundry's official API method
@@ -819,31 +1237,65 @@ async function handleEvasionClick(button) {
       await game.dice3d.waitFor3DAnimationByMessageID(chatMessage.id);
     }
 
-    // Send GM notification via socket (works for both players and GM)
-    const socketPayload = {
-      action: "notifyGMEvasion",
-      payload: {
-        actorId: actorId,
-        playerName: game.user.name,
-        characterName: token.name,
-        evasionTotal: evasionTotal,
-        attackTotal: attackTotal,
-        success: success,
-        currentHP: currentHP,
-        maxHP: maxHP,
-        armor: armor,
-        attackDamage: attackDamage,
-        damageTaken: damageTaken,
-        remainingHP: remainingHP
+    // Send GM notification via socket ONLY if GM is involved (attacker or defender is GM-owned)
+    if (shouldNotifyGM) {
+      const socketPayload = {
+        action: "notifyGMEvasion",
+        payload: {
+          actorId: actorId,
+          playerName: game.user.name,
+          characterName: token.name,
+          attackerName: attackerActor?.name || "Atacante",
+          evasionTotal: evasionTotal,
+          attackTotal: attackTotal,
+          success: success,
+          currentHP: currentHP,
+          maxHP: maxHP,
+          armor: armor,
+          attackDamage: attackDamage,
+          damageTaken: damageTaken,
+          remainingHP: remainingHP
+        }
+      };
+      
+      console.log('[CARDIGAN SOCKET] Emitting GM notification:', socketPayload);
+      game.socket.emit("system.cardigan", socketPayload);
+      
+      // Also create notification locally if current user is GM
+      if (game.user.isGM) {
+        createGMEvasionNotification(socketPayload.payload);
       }
-    };
-    
-    console.log('[CARDIGAN SOCKET] Emitting:', socketPayload);
-    game.socket.emit("system.cardigan", socketPayload);
-    
-    // Also create notification locally if current user is GM
-    if (game.user.isGM) {
-      createGMEvasionNotification(socketPayload.payload);
+    } else {
+      // PvP scenario: Notify the attacker to choose hit/miss
+      // Get the attacker's primary owner (first player who owns the character)
+      const attackerOwners = game.users.filter(u => !u.isGM && attackerActor?.testUserPermission(u, "OWNER"));
+      const attackerOwnerId = attackerOwners.length > 0 ? attackerOwners[0].id : null;
+      
+      // Send attacker notification with all needed data
+      const attackerPayload = {
+        action: "notifyAttacker",
+        payload: {
+          attackerName: attackerActor?.name || "Atacante",
+          defenderName: token.name,
+          attackTotal: attackTotal,
+          evasionTotal: evasionTotal,
+          success: !success, // Inverted because success means evasion succeeded (attack failed)
+          attackDamage: attackDamage,
+          armor: armor,
+          attackerOwnerId: attackerOwnerId,
+          actorId: actorId,
+          currentHP: currentHP,
+          maxHP: maxHP
+        }
+      };
+      
+      console.log('[CARDIGAN SOCKET] Emitting attacker notification (PvP):', attackerPayload);
+      game.socket.emit("system.cardigan", attackerPayload);
+      
+      // Also create notification locally if current user is the attacker
+      if (attackerOwnerId === game.user.id) {
+        createAttackerResultDialog(attackerPayload.payload);
+      }
     }
 
   } catch (error) {

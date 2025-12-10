@@ -1,0 +1,60 @@
+<div class="attack-result-dialog">
+  <div class="attack-result-container {{#if success}}success{{else}}failure{{/if}}">
+    <div class="result-body">
+      <div class="player-info">
+        <div class="info-row">
+          <strong>🎯 Atacante:</strong> 
+          <span class="attacker-name">{{attackerName}}</span>
+        </div>
+        <div class="info-row">
+          <strong>🛡️ Defensor:</strong> 
+          <span class="defender-name">{{defenderName}}</span>
+        </div>
+      </div>
+      
+      <div class="combat-values">
+        <div class="value-row">
+          ⚔️ Ataque
+          <span class="attack-value">{{attackTotal}}</span>
+        </div>
+        <div class="vs-separator">VS</div>
+        <div class="value-row">
+          🛡️ Evasão
+          <span class="evasion-value">{{evasionTotal}}</span>
+        </div>
+      </div>
+      
+      <div class="damage-management">
+        <h3>Gerenciamento de Dano</h3>
+        
+        <div class="damage-fields">
+          <div class="field-group">
+            <label>💥 Dano Bruto:</label>
+            <span class="damage-display">{{attackDamage}}</span>
+          </div>
+          
+          <div class="field-group">
+            <label>🚫 Ignore Armor:</label>
+            <div class="ignore-armor-controls">
+              <input type="number" class="ignore-armor-input" value="0" min="0" />
+              <button type="button" class="roll-ignore-armor-btn" title="Rolar dado para Ignore Armor">
+                <i class="fas fa-dice"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="field-group half-damage-group">
+            <button type="button" class="half-damage-btn">
+              <i class="fas fa-divide"></i> Dividir Dano por 2
+            </button>
+          </div>
+          
+          <div class="field-group final-damage-group">
+            <label>💔 Dano Recebido:</label>
+            <input type="number" class="damage-taken-input" value="{{damageTaken}}" min="0" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1220,6 +1220,45 @@ export class SkillManager {
           // Detect critical results using accuracy logic
           const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
           
+          // Calculate final damage (double on critical hit)
+          const isCriticalHit = flags?.cardigan?.criticalHit || false;
+          const finalDamage = isCriticalHit ? weaponDamage * 2 : weaponDamage;
+          
+          // Show notification for critical results (only for the user who rolled)
+          if (flags?.cardigan?.criticalHit) {
+            const critThreshold = actor.system?.details?.criticalHit;
+            if (critThreshold) {
+              ui.notifications.info(`Acerto Crítico! (${roll.total} >= ${critThreshold})`);
+            } else {
+              ui.notifications.info(`Acerto Crítico!`);
+            }
+          } else if (flags?.cardigan?.criticalFailure) {
+            // Check if weapon will lose durability
+            if (primaryWeapon && primaryWeapon.system.durability) {
+              const currentDurability = primaryWeapon.system.durability.current;
+              if (currentDurability > 0) {
+                const newDurability = Math.max(0, currentDurability - 1);
+                ui.notifications.warn(`Erro Crítico! ${primaryWeapon.name} perdeu durabilidade (${currentDurability} → ${newDurability})`);
+              } else {
+                ui.notifications.warn(`Erro Crítico!`);
+              }
+            } else {
+              ui.notifications.warn(`Erro Crítico!`);
+            }
+          }
+          
+          // Handle critical failure - reduce weapon durability
+          const isCriticalFailure = flags.cardigan?.criticalFailure || false;
+          if (isCriticalFailure && primaryWeapon && primaryWeapon.system.durability) {
+            const currentDurability = primaryWeapon.system.durability.current;
+            if (currentDurability > 0) {
+              const newDurability = Math.max(0, currentDurability - 1);
+              await primaryWeapon.update({
+                'system.durability.current': newDurability
+              });
+            }
+          }
+          
           // Add single target data to flags
           if (targetToken.actor) {
             flags.cardigan = flags.cardigan || {};
@@ -1232,7 +1271,7 @@ export class SkillManager {
               attackerId: actor.id,
               attackerName: actor.name,
               skillName: skillName,
-              damage: weaponDamage  // Damage from primary equipped weapon
+              damage: finalDamage  // Damage from primary equipped weapon (doubled on crit)
             };
           }
           
@@ -1273,6 +1312,45 @@ export class SkillManager {
       // Detect critical results using accuracy logic
       const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
 
+      // Calculate final damage (double on critical hit)
+      const isCriticalHit = flags?.cardigan?.criticalHit || false;
+      const finalDamage = isCriticalHit ? weaponDamage * 2 : weaponDamage;
+
+      // Show notification for critical results (only for the user who rolled)
+      if (flags?.cardigan?.criticalHit) {
+        const critThreshold = actor.system?.details?.criticalHit;
+        if (critThreshold) {
+          ui.notifications.info(`Acerto Crítico! (${roll.total} >= ${critThreshold})`);
+        } else {
+          ui.notifications.info(`Acerto Crítico!`);
+        }
+      } else if (flags?.cardigan?.criticalFailure) {
+        // Check if weapon will lose durability
+        if (primaryWeapon && primaryWeapon.system.durability) {
+          const currentDurability = primaryWeapon.system.durability.current;
+          if (currentDurability > 0) {
+            const newDurability = Math.max(0, currentDurability - 1);
+            ui.notifications.warn(`Erro Crítico! ${primaryWeapon.name} perdeu durabilidade (${currentDurability} → ${newDurability})`);
+          } else {
+            ui.notifications.warn(`Erro Crítico!`);
+          }
+        } else {
+          ui.notifications.warn(`Erro Crítico!`);
+        }
+      }
+
+      // Handle critical failure - reduce weapon durability
+      const isCriticalFailure = flags.cardigan?.criticalFailure || false;
+      if (isCriticalFailure && primaryWeapon && primaryWeapon.system.durability) {
+        const currentDurability = primaryWeapon.system.durability.current;
+        if (currentDurability > 0) {
+          const newDurability = Math.max(0, currentDurability - 1);
+          await primaryWeapon.update({
+            'system.durability.current': newDurability
+          });
+        }
+      }
+
       // Collect target data for evasion buttons
       const attackTargets = game.user.targets;
       const targetData = [];
@@ -1294,7 +1372,7 @@ export class SkillManager {
           attackerId: actor.id,
           attackerName: actor.name,
           skillName: skillName,
-              damage: weaponDamage  // Damage from primary equipped weapon
+              damage: finalDamage  // Damage from primary equipped weapon (doubled on crit)
         };
       }
 
@@ -1449,6 +1527,45 @@ export class SkillManager {
           // Detect critical results using accuracy logic
           const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
           
+          // Calculate final damage (double on critical hit)
+          const isCriticalHit = flags?.cardigan?.criticalHit || false;
+          const finalDamage = isCriticalHit ? weaponDamage * 2 : weaponDamage;
+          
+          // Show notification for critical results (only for the user who rolled)
+          if (flags?.cardigan?.criticalHit) {
+            const critThreshold = actor.system?.details?.criticalHit;
+            if (critThreshold) {
+              ui.notifications.info(`Acerto Crítico! (${roll.total} >= ${critThreshold})`);
+            } else {
+              ui.notifications.info(`Acerto Crítico!`);
+            }
+          } else if (flags?.cardigan?.criticalFailure) {
+            // Check if weapon will lose durability
+            if (secondaryWeapon && secondaryWeapon.system.durability) {
+              const currentDurability = secondaryWeapon.system.durability.current;
+              if (currentDurability > 0) {
+                const newDurability = Math.max(0, currentDurability - 1);
+                ui.notifications.warn(`Erro Crítico! ${secondaryWeapon.name} perdeu durabilidade (${currentDurability} → ${newDurability})`);
+              } else {
+                ui.notifications.warn(`Erro Crítico!`);
+              }
+            } else {
+              ui.notifications.warn(`Erro Crítico!`);
+            }
+          }
+          
+          // Handle critical failure - reduce weapon durability
+          const isCriticalFailure = flags.cardigan?.criticalFailure || false;
+          if (isCriticalFailure && secondaryWeapon && secondaryWeapon.system.durability) {
+            const currentDurability = secondaryWeapon.system.durability.current;
+            if (currentDurability > 0) {
+              const newDurability = Math.max(0, currentDurability - 1);
+              await secondaryWeapon.update({
+                'system.durability.current': newDurability
+              });
+            }
+          }
+          
           // Add single target data to flags
           if (targetToken.actor) {
             flags.cardigan = flags.cardigan || {};
@@ -1461,7 +1578,7 @@ export class SkillManager {
               attackerId: actor.id,
               attackerName: actor.name,
               skillName: skillName,
-              damage: weaponDamage  // Damage from primary equipped weapon
+              damage: finalDamage  // Damage from secondary equipped weapon (doubled on crit)
             };
           }
           
@@ -1502,6 +1619,45 @@ export class SkillManager {
       // Detect critical results using accuracy logic
       const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
 
+      // Calculate final damage (double on critical hit)
+      const isCriticalHit = flags?.cardigan?.criticalHit || false;
+      const finalDamage = isCriticalHit ? weaponDamage * 2 : weaponDamage;
+
+      // Show notification for critical results (only for the user who rolled)
+      if (flags?.cardigan?.criticalHit) {
+        const critThreshold = actor.system?.details?.criticalHit;
+        if (critThreshold) {
+          ui.notifications.info(`Acerto Crítico! (${roll.total} >= ${critThreshold})`);
+        } else {
+          ui.notifications.info(`Acerto Crítico!`);
+        }
+      } else if (flags?.cardigan?.criticalFailure) {
+        // Check if weapon will lose durability
+        if (secondaryWeapon && secondaryWeapon.system.durability) {
+          const currentDurability = secondaryWeapon.system.durability.current;
+          if (currentDurability > 0) {
+            const newDurability = Math.max(0, currentDurability - 1);
+            ui.notifications.warn(`Erro Crítico! ${secondaryWeapon.name} perdeu durabilidade (${currentDurability} → ${newDurability})`);
+          } else {
+            ui.notifications.warn(`Erro Crítico!`);
+          }
+        } else {
+          ui.notifications.warn(`Erro Crítico!`);
+        }
+      }
+
+      // Handle critical failure - reduce weapon durability
+      const isCriticalFailure = flags.cardigan?.criticalFailure || false;
+      if (isCriticalFailure && secondaryWeapon && secondaryWeapon.system.durability) {
+        const currentDurability = secondaryWeapon.system.durability.current;
+        if (currentDurability > 0) {
+          const newDurability = Math.max(0, currentDurability - 1);
+          await secondaryWeapon.update({
+            'system.durability.current': newDurability
+          });
+        }
+      }
+
       // Collect target data for evasion buttons
       const attackTargets = game.user.targets;
       const targetData = [];
@@ -1523,7 +1679,7 @@ export class SkillManager {
           attackerId: actor.id,
           attackerName: actor.name,
           skillName: skillName,
-              damage: weaponDamage  // Damage from primary equipped weapon
+              damage: finalDamage  // Damage from secondary equipped weapon (doubled on crit)
         };
       }
 
@@ -1591,31 +1747,69 @@ export class SkillManager {
    * @returns {Object} Flags object with critical information
    * @private
    */
-  static #detectCriticalResults(roll, actor, attributeKey) {
-    const flags = {};
-    
-    // Get the d20 results
-    const d20Results = roll.dice.filter(d => d.faces === 20).flatMap(d => d.results.map(r => r.result));
-    
-    if (d20Results.length === 0) return flags;
+  static #detectCriticalResults(roll, actor = null, abilityKey = null) {
+    if (!roll || !roll.dice || roll.dice.length === 0) return {};
 
-    // Get critical thresholds from actor
-    const criticalSuccess = actor.system.attributes?.[attributeKey]?.criticalSuccess || 20;
-    const criticalFailure = actor.system.attributes?.[attributeKey]?.criticalFailure || 1;
+    try {
+      // Evaluate the roll if not already evaluated
+      if (!roll._evaluated) {
+        roll.evaluate({ async: false });
+      }
 
-    // Check for critical success
-    const hasCriticalSuccess = d20Results.some(result => result >= criticalSuccess);
-    if (hasCriticalSuccess) {
-      flags['cardigan.criticalSuccess'] = true;
+      const flags = {};
+      
+      // Check for critical failure (total ≤ 1 or natural 1)
+      if (roll.total <= 1) {
+        flags.criticalFailure = true;
+        return { cardigan: flags };
+      }
+
+      // Check for natural 1 on d20
+      // Only check ACTIVE dice (not discarded by advantage/disadvantage)
+      const d20Die = roll.dice.find(die => die.faces === 20);
+      if (d20Die && d20Die.results && d20Die.results.length > 0) {
+        const hasNaturalOne = d20Die.results.some(result => 
+          result?.active !== false && result?.result === 1
+        );
+        if (hasNaturalOne) {
+          flags.criticalFailure = true;
+          return { cardigan: flags };
+        }
+      }
+
+      // Check for critical hit - different logic for accuracy vs other rolls
+      // Only check ACTIVE dice (not discarded by advantage/disadvantage)
+      if (d20Die && d20Die.results && d20Die.results.length > 0) {
+        // For accuracy rolls, use actor's criticalHit threshold
+        if (abilityKey === 'accuracy' && actor && actor.system?.details?.criticalHit) {
+          const criticalThreshold = actor.system.details.criticalHit;
+          // Check if any active die result is 20 or higher for natural critical
+          const hasNaturalCritical = d20Die.results.some(result => 
+            result?.active !== false && result?.result === 20
+          );
+          if (roll.total >= criticalThreshold || hasNaturalCritical) {
+            flags.criticalHit = true;
+            return { cardigan: flags };
+          }
+        }
+        // For all other rolls, critical hit when total is 20 or higher OR natural 20
+        else {
+          const hasNaturalTwenty = d20Die.results.some(result => 
+            result?.active !== false && result?.result === 20
+          );
+          if (roll.total >= 20 || hasNaturalTwenty) {
+            flags.criticalHit = true;
+            return { cardigan: flags };
+          }
+        }
+      }
+
+      return {};
+
+    } catch (error) {
+      console.warn("Error detecting critical results:", error);
+      return {};
     }
-
-    // Check for critical failure
-    const hasCriticalFailure = d20Results.some(result => result <= criticalFailure);
-    if (hasCriticalFailure) {
-      flags['cardigan.criticalFailure'] = true;
-    }
-
-    return flags;
   }
 
   /**

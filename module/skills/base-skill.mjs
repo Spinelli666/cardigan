@@ -997,6 +997,18 @@ export class BaseSkill {
         // Detect critical results using accuracy logic (like weapon attacks)
         const flags = this._detectCriticalResults(roll, actor, 'accuracy');
 
+        // Show notification for critical results (only for the user who rolled)
+        if (flags?.cardigan?.criticalHit) {
+          const critThreshold = actor.system?.details?.criticalHit;
+          if (critThreshold) {
+            ui.notifications.info(`Acerto Crítico! (${roll.total} >= ${critThreshold})`);
+          } else {
+            ui.notifications.info(`Acerto Crítico!`);
+          }
+        } else if (flags?.cardigan?.criticalFailure) {
+          ui.notifications.warn(`Erro Crítico!`);
+        }
+
         // Send roll to chat with critical detection
         await roll.toMessage({
           speaker: ChatMessage.getSpeaker({ actor }),
@@ -1052,6 +1064,18 @@ export class BaseSkill {
         // Detect critical results using accuracy logic (like weapon attacks)
         const flags = this._detectCriticalResults(roll, actor, 'accuracy');
 
+        // Show notification for critical results (only for the user who rolled)
+        if (flags?.cardigan?.criticalHit) {
+          const critThreshold = actor.system?.details?.criticalHit;
+          if (critThreshold) {
+            ui.notifications.info(`Acerto Crítico! (${roll.total} >= ${critThreshold})`);
+          } else {
+            ui.notifications.info(`Acerto Crítico!`);
+          }
+        } else if (flags?.cardigan?.criticalFailure) {
+          ui.notifications.warn(`Erro Crítico!`);
+        }
+
         // Send roll to chat with critical detection
         await roll.toMessage({
           speaker: ChatMessage.getSpeaker({ actor }),
@@ -1097,9 +1121,12 @@ export class BaseSkill {
       }
 
       // Check for natural 1 on d20
+      // Only check ACTIVE dice (not discarded by advantage/disadvantage)
       const d20Die = roll.dice.find(die => die.faces === 20);
       if (d20Die && d20Die.results && d20Die.results.length > 0) {
-        const hasNaturalOne = d20Die.results.some(result => result?.result === 1);
+        const hasNaturalOne = d20Die.results.some(result => 
+          result?.active !== false && result?.result === 1
+        );
         if (hasNaturalOne) {
           flags.criticalFailure = true;
           return { cardigan: flags };
@@ -1107,19 +1134,29 @@ export class BaseSkill {
       }
 
       // Check for critical hit - different logic for accuracy vs other rolls
+      // Only check ACTIVE dice (not discarded by advantage/disadvantage)
       if (d20Die && d20Die.results && d20Die.results.length > 0) {
         // For accuracy rolls, use actor's criticalHit threshold
         if (abilityKey === 'accuracy' && actor && actor.system?.details?.criticalHit) {
           const criticalThreshold = actor.system.details.criticalHit;
-          if (roll.total >= criticalThreshold) {
+          // Check if any active die result is 20 or higher for natural critical
+          const hasNaturalCritical = d20Die.results.some(result => 
+            result?.active !== false && result?.result === 20
+          );
+          if (roll.total >= criticalThreshold || hasNaturalCritical) {
             flags.criticalHit = true;
             return { cardigan: flags };
           }
         }
-        // For all other rolls, critical hit when total is 20 or higher
-        else if (roll.total >= 20) {
-          flags.criticalHit = true;
-          return { cardigan: flags };
+        // For all other rolls, critical hit when total is 20 or higher OR natural 20
+        else {
+          const hasNaturalTwenty = d20Die.results.some(result => 
+            result?.active !== false && result?.result === 20
+          );
+          if (roll.total >= 20 || hasNaturalTwenty) {
+            flags.criticalHit = true;
+            return { cardigan: flags };
+          }
         }
       }
 

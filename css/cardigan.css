@@ -10623,7 +10623,14 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   color: #adb5bd;
   padding: 0 4px;
 }
-.evasion-result-dialog .damage-taken-input {
+.evasion-result-dialog .damage-input-container,
+.evasion-result-dialog .ignore-armor-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.evasion-result-dialog .damage-taken-input,
+.evasion-result-dialog .ignore-armor-input {
   width: 80px;
   padding: 6px 10px;
   background: white;
@@ -10636,14 +10643,71 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   transition: all 0.2s;
   font-family: "Signika", sans-serif;
 }
-.evasion-result-dialog .damage-taken-input:focus {
+.evasion-result-dialog .damage-taken-input:focus,
+.evasion-result-dialog .ignore-armor-input:focus {
   outline: none;
   border-color: #4a9eff;
   background: rgba(74, 158, 255, 0.05);
   box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
 }
-.evasion-result-dialog .damage-taken-input:hover {
+.evasion-result-dialog .damage-taken-input:hover,
+.evasion-result-dialog .ignore-armor-input:hover {
   border-color: #adb5bd;
+}
+.evasion-result-dialog .ignore-armor-input {
+  border-color: #ffc107;
+}
+.evasion-result-dialog .ignore-armor-input:focus {
+  border-color: #ff9800;
+  background: rgba(255, 152, 0, 0.05);
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.1);
+}
+.evasion-result-dialog .ignore-armor-input:hover {
+  border-color: #ff9800;
+}
+.evasion-result-dialog .half-damage-btn {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+  min-width: 36px;
+}
+.evasion-result-dialog .half-damage-btn:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+  transform: translateY(-1px);
+}
+.evasion-result-dialog .half-damage-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(102, 126, 234, 0.3);
+}
+.evasion-result-dialog .roll-ignore-armor-btn {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(255, 193, 7, 0.3);
+  min-width: 36px;
+}
+.evasion-result-dialog .roll-ignore-armor-btn:hover {
+  background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+  box-shadow: 0 4px 8px rgba(255, 193, 7, 0.4);
+  transform: translateY(-1px);
+}
+.evasion-result-dialog .roll-ignore-armor-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(255, 193, 7, 0.3);
 }
 .evasion-result-dialog .hp-info {
   background: white;
@@ -10709,6 +10773,270 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
     transform: translateY(-12px) scale(1.1);
   }
 }
+.attack-result-dialog {
+  font-family: "Signika", sans-serif;
+}
+.attack-result-dialog .attack-result-container {
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+.attack-result-dialog .attack-result-container.success {
+  border: 3px solid #27ae60;
+}
+.attack-result-dialog .attack-result-container.failure {
+  border: 3px solid #e74c3c;
+}
+.attack-result-dialog .result-body {
+  background: #2b2b2b;
+  padding: 24px;
+}
+.attack-result-dialog .player-info {
+  background: #1a1a1a;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid #3a3a3a;
+}
+.attack-result-dialog .player-info .info-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 15px;
+}
+.attack-result-dialog .player-info .info-row:not(:last-child) {
+  border-bottom: 1px solid #3a3a3a;
+}
+.attack-result-dialog .player-info .info-row strong {
+  color: #b8b8b8;
+  margin-right: 8px;
+  min-width: 120px;
+}
+.attack-result-dialog .player-info .info-row .attacker-name,
+.attack-result-dialog .player-info .info-row .defender-name {
+  color: #ffffff;
+  font-weight: 600;
+  flex: 1;
+}
+.attack-result-dialog .combat-values {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.attack-result-dialog .combat-values .value-row {
+  background: #1a1a1a;
+  border: 2px solid #3a3a3a;
+  border-radius: 6px;
+  padding: 16px 24px;
+  text-align: center;
+  flex: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+.attack-result-dialog .combat-values .value-row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+.attack-result-dialog .combat-values .value-row {
+  font-size: 14px;
+  color: #b8b8b8;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.attack-result-dialog .combat-values .value-row .evasion-value,
+.attack-result-dialog .combat-values .value-row .attack-value {
+  display: block;
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 8px;
+  color: #ffffff;
+}
+.attack-result-dialog .combat-values .vs-separator {
+  font-size: 18px;
+  font-weight: bold;
+  color: #6c757d;
+  padding: 0 4px;
+}
+.attack-result-dialog .result-message {
+  background: #1a1a1a;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid #3a3a3a;
+}
+.attack-result-dialog .result-message .success-message {
+  color: #27ae60;
+  font-size: 18px;
+}
+.attack-result-dialog .result-message .success-message i {
+  font-size: 24px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.attack-result-dialog .result-message .success-message strong {
+  font-size: 20px;
+}
+.attack-result-dialog .result-message .failure-message {
+  color: #e74c3c;
+  font-size: 18px;
+}
+.attack-result-dialog .result-message .failure-message i {
+  font-size: 24px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.attack-result-dialog .result-message .failure-message strong {
+  font-size: 20px;
+}
+.attack-result-dialog .damage-management {
+  background: #1a1a1a;
+  border-radius: 6px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid #3a3a3a;
+}
+.attack-result-dialog .damage-management h3 {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #3a3a3a;
+}
+.attack-result-dialog .damage-management .damage-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: #252525;
+  border-radius: 4px;
+  border: 1px solid #3a3a3a;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group label {
+  color: #d0d0d0;
+  font-weight: 500;
+  font-size: 14px;
+  min-width: 140px;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group input[type=number] {
+  background: #1a1a1a;
+  border: 1px solid #4a4a4a;
+  border-radius: 4px;
+  padding: 6px 12px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  width: 80px;
+  transition: all 0.2s ease;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group input[type=number]:focus {
+  outline: none;
+  border-color: #27ae60;
+  box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+}
+.attack-result-dialog .damage-management .damage-fields .field-group input[type=number]:hover {
+  border-color: #5a5a5a;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group .armor-display,
+.attack-result-dialog .damage-management .damage-fields .field-group .damage-display {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 6px 12px;
+  background: #1a1a1a;
+  border-radius: 4px;
+  border: 1px solid #4a4a4a;
+  min-width: 80px;
+  text-align: center;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group .ignore-armor-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group .ignore-armor-controls input[type=number] {
+  width: 60px;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group .ignore-armor-controls .roll-ignore-armor-btn {
+  background: #3498db;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group .ignore-armor-controls .roll-ignore-armor-btn:hover {
+  background: #2980b9;
+  transform: scale(1.05);
+}
+.attack-result-dialog .damage-management .damage-fields .field-group .ignore-armor-controls .roll-ignore-armor-btn:active {
+  transform: scale(0.95);
+}
+.attack-result-dialog .damage-management .damage-fields .field-group .ignore-armor-controls .roll-ignore-armor-btn i {
+  font-size: 14px;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group.half-damage-group {
+  justify-content: center;
+  padding: 8px;
+  background: transparent;
+  border: none;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group.half-damage-group .half-damage-btn {
+  background: #9b59b6;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group.half-damage-group .half-damage-btn:hover {
+  background: #8e44ad;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(155, 89, 182, 0.3);
+}
+.attack-result-dialog .damage-management .damage-fields .field-group.half-damage-group .half-damage-btn:active {
+  transform: translateY(0);
+}
+.attack-result-dialog .damage-management .damage-fields .field-group.half-damage-group .half-damage-btn i {
+  margin-right: 8px;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group.final-damage-group {
+  background: #252525;
+  border: 2px solid #e74c3c;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group.final-damage-group label {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 15px;
+}
+.attack-result-dialog .damage-management .damage-fields .field-group.final-damage-group input {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  font-weight: 700;
+  font-size: 18px;
+  width: 100px;
+}
+
 /* Enhancement tooltip styles (global) */
 #tooltip.cardigan-enhancement-tooltip {
   max-width: 400px;
