@@ -516,7 +516,7 @@ async function createAttackerResultDialog(data) {
       {
         action: "hit",
         icon: "fa-solid fa-check-circle",
-        label: "Acertou",
+        label: "Aplicar",
         callback: async (event, button) => {
           // Get current damage value from input
           const dialogElement = button.closest('.dialog-content') || button.closest('form');
@@ -583,31 +583,6 @@ async function createAttackerResultDialog(data) {
             speaker: { alias: "Sistema" }
           });
         }
-      },
-      {
-        action: "miss",
-        icon: "fa-solid fa-times-circle",
-        label: "Errou",
-        callback: async () => {
-          const messageContent = `
-            <div style="text-align: center; padding: 8px; background: rgba(244, 67, 54, 0.1); border: 2px solid #f44336; border-radius: 4px;">
-              <h3 style="margin: 0 0 4px 0; color: #f44336;">
-                <i class="fas fa-shield-alt"></i> Errou!
-              </h3>
-              <p style="margin: 0;"><strong>${defenderName}</strong> desviou do ataque!</p>
-            </div>
-          `;
-          await ChatMessage.create({
-            content: messageContent,
-            speaker: { alias: "Sistema" }
-          });
-        }
-      },
-      {
-        action: "ok",
-        icon: "fa-solid fa-check",
-        label: "Fechar",
-        default: true
       }
     ],
     position: {
@@ -1266,35 +1241,55 @@ async function handleEvasionClick(button) {
         createGMEvasionNotification(socketPayload.payload);
       }
     } else {
-      // PvP scenario: Notify the attacker to choose hit/miss
-      // Get the attacker's primary owner (first player who owns the character)
-      const attackerOwners = game.users.filter(u => !u.isGM && attackerActor?.testUserPermission(u, "OWNER"));
-      const attackerOwnerId = attackerOwners.length > 0 ? attackerOwners[0].id : null;
-      
-      // Send attacker notification with all needed data
-      const attackerPayload = {
-        action: "notifyAttacker",
-        payload: {
-          attackerName: attackerActor?.name || "Atacante",
-          defenderName: token.name,
-          attackTotal: attackTotal,
-          evasionTotal: evasionTotal,
-          success: !success, // Inverted because success means evasion succeeded (attack failed)
-          attackDamage: attackDamage,
-          armor: armor,
-          attackerOwnerId: attackerOwnerId,
-          actorId: actorId,
-          currentHP: currentHP,
-          maxHP: maxHP
+      // PvP scenario: Only show dialog if attack succeeded (evasion failed)
+      if (!success) {
+        // Attack hit - show dialog to attacker
+        // Get the attacker's primary owner (first player who owns the character)
+        const attackerOwners = game.users.filter(u => !u.isGM && attackerActor?.testUserPermission(u, "OWNER"));
+        const attackerOwnerId = attackerOwners.length > 0 ? attackerOwners[0].id : null;
+        
+        // Send attacker notification with all needed data
+        const attackerPayload = {
+          action: "notifyAttacker",
+          payload: {
+            attackerName: attackerActor?.name || "Atacante",
+            defenderName: token.name,
+            attackTotal: attackTotal,
+            evasionTotal: evasionTotal,
+            success: !success, // Inverted because success means evasion succeeded (attack failed)
+            attackDamage: attackDamage,
+            armor: armor,
+            attackerOwnerId: attackerOwnerId,
+            actorId: actorId,
+            currentHP: currentHP,
+            maxHP: maxHP
+          }
+        };
+        
+        console.log('[CARDIGAN SOCKET] Emitting attacker notification (PvP):', attackerPayload);
+        game.socket.emit("system.cardigan", attackerPayload);
+        
+        // Also create notification locally if current user is the attacker
+        if (attackerOwnerId === game.user.id) {
+          createAttackerResultDialog(attackerPayload.payload);
         }
-      };
-      
-      console.log('[CARDIGAN SOCKET] Emitting attacker notification (PvP):', attackerPayload);
-      game.socket.emit("system.cardigan", attackerPayload);
-      
-      // Also create notification locally if current user is the attacker
-      if (attackerOwnerId === game.user.id) {
-        createAttackerResultDialog(attackerPayload.payload);
+      } else {
+        // Attack missed - just create a chat message
+        const missMessage = `
+          <div style="text-align: center; padding: 8px; background: rgba(244, 67, 54, 0.1); border: 2px solid #f44336; border-radius: 4px;">
+            <h3 style="margin: 0 0 4px 0; color: #f44336;">
+              <i class="fas fa-shield-alt"></i> Errou!
+            </h3>
+            <p style="margin: 0;"><strong>${token.name}</strong> desviou do ataque!</p>
+            <p style="margin: 4px 0 0 0; font-size: 0.9em;">
+              🎯 Ataque: ${attackTotal} | 🛡️ Evasão: ${evasionTotal}
+            </p>
+          </div>
+        `;
+        await ChatMessage.create({
+          content: missMessage,
+          speaker: { alias: "Sistema" }
+        });
       }
     }
 
