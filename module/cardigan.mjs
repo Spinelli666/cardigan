@@ -135,6 +135,15 @@ Hooks.once('init', function () {
       if (actor && (actor.isOwner || game.user.isGM)) {
         actor.update({ 'system.health.value': data.payload.newHP });
       }
+    } else if (data.action === "closeAttackDialog") {
+      // Close attack dialog by ID
+      closeAttackDialogForAttacker(data.payload);
+    } else if (data.action === "openNewAttackDialog") {
+      // Close old dialog and open new one with updated values
+      if (data.payload.attackerOwnerId === game.user.id) {
+        closeAttackDialogForAttacker({ dialogId: data.payload.oldDialogId });
+        createAttackerResultDialog(data.payload);
+      }
     }
   });
 
@@ -343,6 +352,22 @@ Handlebars.registerHelper('formatSkillActionTypes', function(actionTypes) {
     .join(' | ');
 });
 
+// Global Map to track active attack dialogs
+const activeAttackDialogs = new Map();
+
+/**
+ * Close attack dialog for attacker
+ * @param {Object} data - Data containing dialogId
+ */
+function closeAttackDialogForAttacker(data) {
+  const { dialogId } = data;
+  const dialogInfo = activeAttackDialogs.get(dialogId);
+  if (dialogInfo?.dialog) {
+    dialogInfo.dialog.close();
+    activeAttackDialogs.delete(dialogId);
+  }
+}
+
 /**
  * Show damage notification to the actor's owner only
  * @param {Object} data - Damage notification data
@@ -370,7 +395,10 @@ function showDamageNotification(data) {
  * @param {Object} data - Attack result data
  */
 async function createAttackerResultDialog(data) {
-  const { attackerName, defenderName, attackTotal, evasionTotal, success, attackDamage, armor, actorId, currentHP, maxHP } = data;
+  const { attackerName, defenderName, attackTotal, evasionTotal, success, attackDamage, armor, actorId, currentHP, maxHP, attackerOwnerId } = data;
+  
+  // Generate unique dialog ID (or use existing one from reroll)
+  const dialogId = data.dialogId || `attack-dialog-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   
   // Initial damage taken is the raw damage (armor will be subtracted when clicking "Acertou")
   const damageTaken = attackDamage;
@@ -514,6 +542,132 @@ async function createAttackerResultDialog(data) {
     content: content,
     buttons: [
       {
+        action: "reroll",
+        icon: "fa-solid fa-redo",
+        label: "Rolar Novamente",
+        callback: async (event, button) => {
+          // Get attacker actor
+          const attackerActor = game.actors.find(a => a.name === attackerName);
+          if (!attackerActor) {
+            ui.notifications.error("Atacante não encontrado.");
+            return false;
+          }
+          
+          // Import and show advantage selection dialog
+          const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
+          const result = await AdvantageSelectionDialog.show();
+          if (!result) return false; // User cancelled
+          
+          const { rollType } = result;
+          
+          // Get roll data from attacker
+          const rollData = attackerActor.getRollData();
+          
+          // Determine formula based on roll type
+          let formula;
+          let rollDescription = "";
+          
+          switch (rollType) {
+            case 'normal':
+              formula = "1d20 + @precision.total";
+              rollDescription = "Rolagem Normal";
+              break;
+            case 'advantage':
+              formula = "2d20kh + @precision.total";
+              rollDescription = "Rolagem com Vantagem";
+              break;
+            case 'disadvantage':
+              formula = "2d20kl + @precision.total";
+              rollDescription = "Rolagem com Desvantagem";
+              break;
+            case 'enhanced-advantage':
+              formula = "3d20kh + @precision.total";
+              rollDescription = "Rolagem com Vantagem Aprimorada";
+              break;
+            case 'enhanced-disadvantage':
+              formula = "3d20kl + @precision.total";
+              rollDescription = "Rolagem com Desvantagem Aprimorada";
+              break;
+            default:
+              formula = "1d20 + @precision.total";
+              rollDescription = "Rolagem Normal";
+          }
+          
+          // Roll new attack
+          const roll = new Roll(formula, rollData);
+          await roll.evaluate();
+          const newAttackTotal = roll.total;
+          
+          // Detect critical results
+          let criticalSuccess = false;
+          let criticalFailure = false;
+          
+          for (const term of roll.terms) {
+            if (term instanceof foundry.dice.terms.Die && term.faces === 20) {
+              for (const result of term.results) {
+                if (result.active !== false) {
+                  if (result.result === 20) criticalSuccess = true;
+                  if (result.result === 1) criticalFailure = true;
+                }
+              }
+            }
+          }
+          
+          if (newAttackTotal >= 20) criticalSuccess = true;
+          if (newAttackTotal <= 1) criticalFailure = true;
+          
+          // Create flavor text
+          const flavor = `
+            <div style="text-align: center;">
+              <strong>🔄 Re-rolagem de Ataque de ${attackerName}</strong> - ${rollDescription}<br>
+            </div>
+          `;
+          
+          // Use player's roll mode setting
+          const rollMode = game.settings.get('core', 'rollMode');
+          
+          // Get defender token for flags
+          const defenderActor = game.actors.get(actorId);
+          const defenderToken = game.scenes.current?.tokens.find(t => t.actorId === actorId);
+          
+          // Create message data with flags for evasion button system
+          const messageData = {
+            speaker: { alias: attackerName },
+            flavor: flavor,
+            rolls: [roll],
+            flags: {
+              cardigan: {
+                criticalSuccess: criticalSuccess,
+                criticalFailure: criticalFailure,
+                attackTargets: {
+                  targets: [{ tokenId: defenderToken?.id, actorId: actorId }],
+                  damage: attackDamage,
+                  attackerId: attackerActor.id,
+                  isReroll: true,
+                  dialogId: dialogId,
+                  oldDialogId: dialogId,
+                  attackerName: attackerName,
+                  defenderName: defenderName,
+                  attackerOwnerId: attackerOwnerId,
+                  armor: armor,
+                  currentHP: currentHP,
+                  maxHP: maxHP
+                }
+              }
+            }
+          };
+          
+          // Apply roll mode
+          ChatMessage.applyRollMode(messageData, rollMode);
+          
+          // Create the chat message (this will trigger the existing hook that adds evasion button)
+          await ChatMessage.create(messageData);
+          
+          // Keep dialog open
+          return false;
+        }
+      },
+      {
         action: "hit",
         icon: "fa-solid fa-check-circle",
         label: "Aplicar",
@@ -592,9 +746,23 @@ async function createAttackerResultDialog(data) {
     classes: ['cardigan-attack-dialog', success ? 'success' : 'failure']
   });
   
+  // Store dialog reference in global Map
+  activeAttackDialogs.set(dialogId, {
+    dialog: dialog,
+    attackTotal: attackTotal,
+    evasionTotal: evasionTotal,
+    attackerName: attackerName,
+    defenderName: defenderName
+  });
+  
   // Wait for dialog to render, then attach event listeners
   dialog.addEventListener('render', () => {
     updateDamageCalculations(dialog.element);
+  });
+  
+  // Remove from Map when dialog closes
+  dialog.addEventListener('close', () => {
+    activeAttackDialogs.delete(dialogId);
   });
   
   dialog.render(true);
@@ -1072,10 +1240,20 @@ async function handleEvasionClick(button) {
   const actorId = button.dataset.actorId;
   const attackTotal = parseInt(button.dataset.attackTotal);
 
-  // Get the attack message to extract damage from flags
+  // Get the attack message to extract damage and reroll context from flags
   const message = game.messages.get(messageId);
-  const attackDamage = message?.flags?.cardigan?.attackTargets?.damage || 0;
-  const attackerId = message?.flags?.cardigan?.attackTargets?.attackerId;
+  const attackData = message?.flags?.cardigan?.attackTargets;
+  const attackDamage = attackData?.damage || 0;
+  const attackerId = attackData?.attackerId;
+  const isReroll = attackData?.isReroll || false;
+  const dialogId = attackData?.dialogId;
+  const oldDialogId = attackData?.oldDialogId;
+  const attackerName = attackData?.attackerName;
+  const defenderName = attackData?.defenderName;
+  const attackerOwnerId = attackData?.attackerOwnerId;
+  const storedArmor = attackData?.armor;
+  const storedCurrentHP = attackData?.currentHP;
+  const storedMaxHP = attackData?.maxHP;
 
   // Get token and actor (defender)
   const token = game.scenes.current?.tokens.get(tokenId);
@@ -1150,7 +1328,8 @@ async function handleEvasionClick(button) {
     await roll.evaluate();
 
     const evasionTotal = roll.total;
-    const success = evasionTotal >= attackTotal;
+    // Em caso de empate, o atacante vence (evasão falha)
+    const success = evasionTotal > attackTotal;
 
     // Detect critical results - checking both natural dice AND total value
     let criticalSuccess = false;
@@ -1241,55 +1420,116 @@ async function handleEvasionClick(button) {
         createGMEvasionNotification(socketPayload.payload);
       }
     } else {
-      // PvP scenario: Only show dialog if attack succeeded (evasion failed)
-      if (!success) {
-        // Attack hit - show dialog to attacker
-        // Get the attacker's primary owner (first player who owns the character)
-        const attackerOwners = game.users.filter(u => !u.isGM && attackerActor?.testUserPermission(u, "OWNER"));
-        const attackerOwnerId = attackerOwners.length > 0 ? attackerOwners[0].id : null;
-        
-        // Send attacker notification with all needed data
-        const attackerPayload = {
-          action: "notifyAttacker",
-          payload: {
-            attackerName: attackerActor?.name || "Atacante",
-            defenderName: token.name,
-            attackTotal: attackTotal,
-            evasionTotal: evasionTotal,
-            success: !success, // Inverted because success means evasion succeeded (attack failed)
-            attackDamage: attackDamage,
-            armor: armor,
-            attackerOwnerId: attackerOwnerId,
-            actorId: actorId,
-            currentHP: currentHP,
-            maxHP: maxHP
+      // PvP scenario: Check if this is a reroll
+      if (isReroll && oldDialogId) {
+        // This is a reroll from "Rolar Novamente" button
+        if (success) {
+          // Defender won - close dialog and show success message
+          const successMessage = `
+            <div style="text-align: center; padding: 8px; background: rgba(76, 175, 80, 0.1); border: 2px solid #4CAF50; border-radius: 4px;">
+              <h3 style="margin: 0 0 4px 0; color: #4CAF50;">
+                <i class="fas fa-shield-alt"></i> Evasão Bem-Sucedida!
+              </h3>
+              <p style="margin: 0;"><strong>${token.name}</strong> desviou do ataque na re-rolagem!</p>
+              <p style="margin: 4px 0 0 0; font-size: 0.9em;">
+                🎯 Ataque: ${attackTotal} | 🛡️ Evasão: ${evasionTotal}
+              </p>
+            </div>
+          `;
+          
+          await ChatMessage.create({
+            content: successMessage,
+            speaker: { alias: "Sistema" }
+          });
+          
+          // Close dialog for attacker via socket
+          game.socket.emit("system.cardigan", {
+            action: "closeAttackDialog",
+            payload: { dialogId: oldDialogId }
+          });
+          
+          // Also close locally
+          closeAttackDialogForAttacker({ dialogId: oldDialogId });
+        } else {
+          // Attacker still wins - close old dialog and open new one with updated values
+          const newDialogPayload = {
+            action: "openNewAttackDialog",
+            payload: {
+              oldDialogId: oldDialogId,
+              attackerName: attackerName || attackerActor?.name || "Atacante",
+              defenderName: defenderName || token.name,
+              attackTotal: attackTotal,
+              evasionTotal: evasionTotal,
+              success: true, // Attack succeeded (evasion failed)
+              attackDamage: attackDamage,
+              armor: storedArmor || armor,
+              attackerOwnerId: attackerOwnerId,
+              actorId: actorId,
+              currentHP: storedCurrentHP || currentHP,
+              maxHP: storedMaxHP || maxHP
+            }
+          };
+          
+          console.log('[CARDIGAN SOCKET] Emitting new attack dialog (reroll):', newDialogPayload);
+          game.socket.emit("system.cardigan", newDialogPayload);
+          
+          // Also handle locally if current user is the attacker
+          if (attackerOwnerId === game.user.id) {
+            closeAttackDialogForAttacker({ dialogId: oldDialogId });
+            createAttackerResultDialog(newDialogPayload.payload);
           }
-        };
-        
-        console.log('[CARDIGAN SOCKET] Emitting attacker notification (PvP):', attackerPayload);
-        game.socket.emit("system.cardigan", attackerPayload);
-        
-        // Also create notification locally if current user is the attacker
-        if (attackerOwnerId === game.user.id) {
-          createAttackerResultDialog(attackerPayload.payload);
         }
       } else {
-        // Attack missed - just create a chat message
-        const missMessage = `
-          <div style="text-align: center; padding: 8px; background: rgba(244, 67, 54, 0.1); border: 2px solid #f44336; border-radius: 4px;">
-            <h3 style="margin: 0 0 4px 0; color: #f44336;">
-              <i class="fas fa-shield-alt"></i> Errou!
-            </h3>
-            <p style="margin: 0;"><strong>${token.name}</strong> desviou do ataque!</p>
-            <p style="margin: 4px 0 0 0; font-size: 0.9em;">
-              🎯 Ataque: ${attackTotal} | 🛡️ Evasão: ${evasionTotal}
-            </p>
-          </div>
-        `;
-        await ChatMessage.create({
-          content: missMessage,
-          speaker: { alias: "Sistema" }
-        });
+        // Normal PvP attack (not a reroll): Only show dialog if attack succeeded (evasion failed)
+        if (!success) {
+          // Attack hit - show dialog to attacker
+          // Get the attacker's primary owner (first player who owns the character)
+          const attackerOwners = game.users.filter(u => !u.isGM && attackerActor?.testUserPermission(u, "OWNER"));
+          const attackerOwnerId = attackerOwners.length > 0 ? attackerOwners[0].id : null;
+          
+          // Send attacker notification with all needed data
+          const attackerPayload = {
+            action: "notifyAttacker",
+            payload: {
+              attackerName: attackerActor?.name || "Atacante",
+              defenderName: token.name,
+              attackTotal: attackTotal,
+              evasionTotal: evasionTotal,
+              success: !success, // Inverted because success means evasion succeeded (attack failed)
+              attackDamage: attackDamage,
+              armor: armor,
+              attackerOwnerId: attackerOwnerId,
+              actorId: actorId,
+              currentHP: currentHP,
+              maxHP: maxHP
+            }
+          };
+          
+          console.log('[CARDIGAN SOCKET] Emitting attacker notification (PvP):', attackerPayload);
+          game.socket.emit("system.cardigan", attackerPayload);
+          
+          // Also create notification locally if current user is the attacker
+          if (attackerOwnerId === game.user.id) {
+            createAttackerResultDialog(attackerPayload.payload);
+          }
+        } else {
+          // Attack missed - just create a chat message
+          const missMessage = `
+            <div style="text-align: center; padding: 8px; background: rgba(244, 67, 54, 0.1); border: 2px solid #f44336; border-radius: 4px;">
+              <h3 style="margin: 0 0 4px 0; color: #f44336;">
+                <i class="fas fa-shield-alt"></i> Errou!
+              </h3>
+              <p style="margin: 0;"><strong>${token.name}</strong> desviou do ataque!</p>
+              <p style="margin: 4px 0 0 0; font-size: 0.9em;">
+                🎯 Ataque: ${attackTotal} | 🛡️ Evasão: ${evasionTotal}
+              </p>
+            </div>
+          `;
+          await ChatMessage.create({
+            content: missMessage,
+            speaker: { alias: "Sistema" }
+          });
+        }
       }
     }
 
