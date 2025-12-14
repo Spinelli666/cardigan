@@ -10773,6 +10773,50 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
     transform: translateY(-12px) scale(1.1);
   }
 }
+.cardigan-evasion-dialog button.icon-only-button {
+  min-width: 40px !important;
+  width: 40px !important;
+  max-width: 40px !important;
+  height: 40px !important;
+  padding: 8px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  position: relative;
+  flex: 0 0 40px !important;
+}
+.cardigan-evasion-dialog button.icon-only-button i {
+  margin: 0 !important;
+}
+
+.cardigan-external-tooltip {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.cardigan-external-tooltip.visible {
+  opacity: 1;
+}
+.cardigan-external-tooltip::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.9);
+}
+
 .attack-result-dialog {
   font-family: "Signika", sans-serif;
 }

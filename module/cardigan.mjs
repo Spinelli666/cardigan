@@ -1042,7 +1042,8 @@ async function createGMEvasionNotification(data) {
       {
         action: "reroll",
         icon: "fa-solid fa-redo",
-        label: "Rolar Novamente",
+        label: "",
+        default: false,
         callback: async (event, button) => {
           // First, ask GM to choose between Evasion or Precision using custom dialog
           const rollChoice = await new Promise((resolve) => {
@@ -1055,8 +1056,8 @@ async function createGMEvasionNotification(data) {
                   <div style="margin-bottom: 24px;">
                     <i class="fas fa-dice" style="font-size: 48px; color: #4b4a44;"></i>
                   </div>
-                  <h2 style="margin: 0 0 12px 0; color: #191813; font-size: 18px;">O que deseja rolar novamente?</h2>
-                  <p style="margin: 0; color: #666; font-size: 14px;">Escolha o atributo para fazer uma nova rolagem</p>
+                  <h2 style="margin: 0 0 12px 0; color: #f0f0f0; font-size: 18px; font-weight: bold;">O que deseja rolar novamente?</h2>
+                  <p style="margin: 0; color: #cccccc; font-size: 14px;">Escolha o atributo para fazer uma nova rolagem</p>
                 </div>
               `,
               buttons: [
@@ -1248,9 +1249,48 @@ async function createGMEvasionNotification(data) {
     classes: ['cardigan-evasion-dialog']
   });
   
-  // Wait for dialog to render, then attach event listener
+  // Wait for dialog to render, then attach event listeners
   dialog.addEventListener('render', () => {
     updateRemainingHP(dialog.element);
+    
+    // Add custom tooltip to reroll button
+    const rerollButton = dialog.element.querySelector('button[data-action="reroll"]');
+    if (rerollButton) {
+      rerollButton.setAttribute('data-custom-tooltip', 'Rolar Novamente');
+      rerollButton.classList.add('icon-only-button');
+      
+      // Create external tooltip element
+      let tooltipElement = null;
+      
+      rerollButton.addEventListener('mouseenter', () => {
+        // Create tooltip
+        tooltipElement = document.createElement('div');
+        tooltipElement.className = 'cardigan-external-tooltip';
+        tooltipElement.textContent = 'Rolar Novamente';
+        document.body.appendChild(tooltipElement);
+        
+        // Position tooltip
+        const rect = rerollButton.getBoundingClientRect();
+        tooltipElement.style.left = `${rect.left + rect.width / 2}px`;
+        tooltipElement.style.top = `${rect.top - 8}px`;
+        tooltipElement.style.transform = 'translate(-50%, -100%)';
+        
+        // Show tooltip
+        requestAnimationFrame(() => {
+          tooltipElement.classList.add('visible');
+        });
+      });
+      
+      rerollButton.addEventListener('mouseleave', () => {
+        if (tooltipElement) {
+          tooltipElement.classList.remove('visible');
+          setTimeout(() => {
+            tooltipElement?.remove();
+            tooltipElement = null;
+          }, 200);
+        }
+      });
+    }
   });
   
   dialog.render(true);
