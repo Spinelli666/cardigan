@@ -3,6 +3,7 @@ import ContextMenu5e from '../applications/context-menu.mjs';
 import { ItemTypeSelectionDialog } from '../applications/item-type-selection-dialog.mjs';
 import { HandSelectionDialog } from '../applications/hand-selection-dialog.mjs';
 import { RecipeCraftingDialog } from '../applications/recipe-crafting-dialog.mjs';
+import { buildRollFormula } from '../helpers/config.mjs';
 import { AdvantageSelectionDialog } from '../applications/advantage-selection-dialog.mjs';
 
 /**
@@ -3691,40 +3692,25 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Use getRollData() method for consistent roll data like in skills
     const rollData = actor.getRollData();
 
-    let rollFormula;
+    const rollFormula = buildRollFormula(rollType, "@accuracy.total");
     let rollDescription = "";
     
     switch (rollType) {
-      case 'normal':
-        // Normal roll - 1d20
-        rollFormula = "1d20 + @accuracy.total";
-        rollDescription = "Rolagem Normal";
-        break;
-        
       case 'advantage':
-        // Advantage - roll 2d20, keep highest
-        rollFormula = "2d20kh + @accuracy.total";
         rollDescription = "Rolagem com Vantagem";
         break;
-        
       case 'disadvantage':
-        // Disadvantage - roll 2d20, keep lowest
-        rollFormula = "2d20kl + @accuracy.total";
         rollDescription = "Rolagem com Desvantagem";
         break;
-        
       case 'enhanced-advantage':
-        // Enhanced Advantage - roll 3d20, keep highest
-        rollFormula = "3d20kh + @accuracy.total";
         rollDescription = "Rolagem com Vantagem Aprimorada";
         break;
-        
       case 'enhanced-disadvantage':
-        // Enhanced Disadvantage - roll 3d20, keep lowest
-        rollFormula = "3d20kl + @accuracy.total";
         rollDescription = "Rolagem com Desvantagem Aprimorada";
         break;
-        
+      case 'normal':
+        rollDescription = "Rolagem Normal";
+        break;
       default:
         return;
     }

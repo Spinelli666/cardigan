@@ -1,4 +1,5 @@
 import { BaseSkill } from './base-skill.mjs';
+import { buildRollFormula } from '../helpers/config.mjs';
 
 /**
  * Skill Manager - Orchestrates all skill-related functionality
@@ -1159,29 +1160,24 @@ export class SkillManager {
       // Get roll data
       const rollData = actor.getRollData();
       
-      let formula;
+      const formula = buildRollFormula(rollType, "@accuracy.total");
       let rollDescription = "";
       
       switch (rollType) {
-        case 'normal':
-          formula = "1d20 + @accuracy.total";
-          rollDescription = "Rolagem Normal";
-          break;
         case 'advantage':
-          formula = "2d20kh + @accuracy.total";
           rollDescription = "Rolagem com Vantagem";
           break;
         case 'disadvantage':
-          formula = "2d20kl + @accuracy.total";
           rollDescription = "Rolagem com Desvantagem";
           break;
         case 'enhanced-advantage':
-          formula = "3d20kh + @accuracy.total";
           rollDescription = "Rolagem com Vantagem Aprimorada";
           break;
         case 'enhanced-disadvantage':
-          formula = "3d20kl + @accuracy.total";
           rollDescription = "Rolagem com Desvantagem Aprimorada";
+          break;
+        case 'normal':
+          rollDescription = "Rolagem Normal";
           break;
         default:
           return;
@@ -1466,29 +1462,24 @@ export class SkillManager {
       // Get roll data
       const rollData = actor.getRollData();
       
-      let formula;
+      const formula = buildRollFormula(rollType, "@accuracy.total");
       let rollDescription = "";
       
       switch (rollType) {
-        case 'normal':
-          formula = "1d20 + @accuracy.total";
-          rollDescription = "Rolagem Normal";
-          break;
         case 'advantage':
-          formula = "2d20kh + @accuracy.total";
           rollDescription = "Rolagem com Vantagem";
           break;
         case 'disadvantage':
-          formula = "2d20kl + @accuracy.total";
           rollDescription = "Rolagem com Desvantagem";
           break;
         case 'enhanced-advantage':
-          formula = "3d20kh + @accuracy.total";
           rollDescription = "Rolagem com Vantagem Aprimorada";
           break;
         case 'enhanced-disadvantage':
-          formula = "3d20kl + @accuracy.total";
           rollDescription = "Rolagem com Desvantagem Aprimorada";
+          break;
+        case 'normal':
+          rollDescription = "Rolagem Normal";
           break;
         default:
           return;

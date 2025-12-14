@@ -295,3 +295,25 @@ export function registerHandlebarsHelpers() {
   });
 }
 
+/**
+ * Build roll formula based on roll type and attribute
+ * @param {string} rollType - Type of roll (normal, advantage, disadvantage, enhanced-advantage, enhanced-disadvantage)
+ * @param {string} attribute - Attribute to add to formula (e.g., "@precision.total", "@evasion.total")
+ * @returns {string} The complete roll formula
+ */
+export function buildRollFormula(rollType, attribute) {
+  switch (rollType) {
+    case 'advantage':
+      return `2d20kh + ${attribute}`;
+    case 'disadvantage':
+      return `2d20kl + ${attribute}`;
+    case 'enhanced-advantage':
+      return `3d20kh + ${attribute}`;
+    case 'enhanced-disadvantage':
+      return `3d20kl + ${attribute}`;
+    case 'normal':
+    default:
+      return `1d20 + ${attribute}`;
+  }
+}
+

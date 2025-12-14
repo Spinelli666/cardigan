@@ -5,7 +5,7 @@ import { CardiganSystemItem } from './documents/item.mjs';
 import { CardiganSystemActorSheet } from './sheets/actor-sheet.mjs';
 import { CardiganSystemItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
-import { CARDIGAN, registerHandlebarsHelpers } from './helpers/config.mjs';
+import { CARDIGAN, registerHandlebarsHelpers, buildRollFormula } from './helpers/config.mjs';
 import CardiganTooltips from './helpers/tooltips.mjs';
 // Import DataModel classes
 import * as models from './data/_module.mjs';
@@ -413,12 +413,25 @@ async function createAttackerResultDialog(data) {
       },
       content: `
         <div style="text-align: center; padding: 20px;">
-          <p style="margin-bottom: 16px; font-size: 14px;">Escolha o dado para rolar:</p>
+          <div style="margin-bottom: 16px;">
+            <label for="dice-quantity" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold;">Quantidade de dados:</label>
+            <input 
+              type="number" 
+              id="dice-quantity" 
+              class="dice-quantity-input" 
+              value="1" 
+              min="1" 
+              max="20" 
+              style="width: 80px; padding: 8px; font-size: 16px; text-align: center; border: 2px solid #ccc; border-radius: 4px;"
+            />
+          </div>
+          <p style="margin-bottom: 16px; font-size: 14px;">Escolha o tipo de dado:</p>
           <div style="display: flex; flex-direction: column; gap: 10px;">
-            <button type="button" class="dice-option" data-dice="1d4" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d4</button>
-            <button type="button" class="dice-option" data-dice="1d6" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d6</button>
-            <button type="button" class="dice-option" data-dice="1d8" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d8</button>
-            <button type="button" class="dice-option" data-dice="1d12" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d12</button>
+            <button type="button" class="dice-option" data-dice="d4" style="padding: 10px; font-size: 16px; cursor: pointer;">d4</button>
+            <button type="button" class="dice-option" data-dice="d6" style="padding: 10px; font-size: 16px; cursor: pointer;">d6</button>
+            <button type="button" class="dice-option" data-dice="d8" style="padding: 10px; font-size: 16px; cursor: pointer;">d8</button>
+            <button type="button" class="dice-option" data-dice="d12" style="padding: 10px; font-size: 16px; cursor: pointer;">d12</button>
+            <button type="button" class="dice-option" data-dice="d20" style="padding: 10px; font-size: 16px; cursor: pointer;">d20</button>
           </div>
         </div>
       `,
@@ -430,17 +443,21 @@ async function createAttackerResultDialog(data) {
         }
       ],
       position: {
-        width: 300,
+        width: 320,
         height: "auto"
       }
     });
     
     // Add click handlers to dice options
     diceDialog.addEventListener('render', () => {
+      const diceQuantityInput = diceDialog.element.querySelector('.dice-quantity-input');
       const diceOptions = diceDialog.element.querySelectorAll('.dice-option');
+      
       diceOptions.forEach(option => {
         option.addEventListener('click', async (e) => {
-          const diceFormula = e.target.dataset.dice;
+          const diceType = e.target.dataset.dice;
+          const quantity = parseInt(diceQuantityInput?.value) || 1;
+          const diceFormula = `${quantity}${diceType}`;
           
           // Roll the dice
           const roll = await new Roll(diceFormula).evaluate();
@@ -536,7 +553,7 @@ async function createAttackerResultDialog(data) {
   // Use DialogV2 for modern API
   const dialog = new foundry.applications.api.DialogV2({
     window: {
-      title: `⚔️ Resultado de Ataque`,
+      title: `Resultado de Ataque`,
       icon: "fa-solid fa-sword"
     },
     content: content,
@@ -564,32 +581,24 @@ async function createAttackerResultDialog(data) {
           const rollData = attackerActor.getRollData();
           
           // Determine formula based on roll type
-          let formula;
+          const formula = buildRollFormula(rollType, "@precision.total");
           let rollDescription = "";
           
           switch (rollType) {
-            case 'normal':
-              formula = "1d20 + @precision.total";
-              rollDescription = "Rolagem Normal";
-              break;
             case 'advantage':
-              formula = "2d20kh + @precision.total";
               rollDescription = "Rolagem com Vantagem";
               break;
             case 'disadvantage':
-              formula = "2d20kl + @precision.total";
               rollDescription = "Rolagem com Desvantagem";
               break;
             case 'enhanced-advantage':
-              formula = "3d20kh + @precision.total";
               rollDescription = "Rolagem com Vantagem Aprimorada";
               break;
             case 'enhanced-disadvantage':
-              formula = "3d20kl + @precision.total";
               rollDescription = "Rolagem com Desvantagem Aprimorada";
               break;
+            case 'normal':
             default:
-              formula = "1d20 + @precision.total";
               rollDescription = "Rolagem Normal";
           }
           
@@ -785,12 +794,25 @@ async function createGMEvasionNotification(data) {
       },
       content: `
         <div style="text-align: center; padding: 20px;">
-          <p style="margin-bottom: 16px; font-size: 14px;">Escolha o dado para rolar:</p>
+          <div style="margin-bottom: 16px;">
+            <label for="dice-quantity-gm" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold;">Quantidade de dados:</label>
+            <input 
+              type="number" 
+              id="dice-quantity-gm" 
+              class="dice-quantity-input" 
+              value="1" 
+              min="1" 
+              max="20" 
+              style="width: 80px; padding: 8px; font-size: 16px; text-align: center; border: 2px solid #ccc; border-radius: 4px;"
+            />
+          </div>
+          <p style="margin-bottom: 16px; font-size: 14px;">Escolha o tipo de dado:</p>
           <div style="display: flex; flex-direction: column; gap: 10px;">
-            <button type="button" class="dice-option" data-dice="1d4" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d4</button>
-            <button type="button" class="dice-option" data-dice="1d6" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d6</button>
-            <button type="button" class="dice-option" data-dice="1d8" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d8</button>
-            <button type="button" class="dice-option" data-dice="1d12" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 1d12</button>
+            <button type="button" class="dice-option" data-dice="d4" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 d4</button>
+            <button type="button" class="dice-option" data-dice="d6" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 d6</button>
+            <button type="button" class="dice-option" data-dice="d8" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 d8</button>
+            <button type="button" class="dice-option" data-dice="d12" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 d12</button>
+            <button type="button" class="dice-option" data-dice="d20" style="padding: 10px; font-size: 16px; cursor: pointer;">🎲 d20</button>
           </div>
         </div>
       `,
@@ -802,17 +824,21 @@ async function createGMEvasionNotification(data) {
         }
       ],
       position: {
-        width: 300,
+        width: 320,
         height: "auto"
       }
     });
     
     // Add click handlers to dice options
     diceDialog.addEventListener('render', () => {
+      const diceQuantityInput = diceDialog.element.querySelector('.dice-quantity-input');
       const diceOptions = diceDialog.element.querySelectorAll('.dice-option');
+      
       diceOptions.forEach(option => {
         option.addEventListener('click', async (e) => {
-          const diceFormula = e.target.dataset.dice;
+          const diceType = e.target.dataset.dice;
+          const quantity = parseInt(diceQuantityInput?.value) || 1;
+          const diceFormula = `${quantity}${diceType}`;
           
           // Roll the dice
           const roll = await new Roll(diceFormula).evaluate();
@@ -928,7 +954,7 @@ async function createGMEvasionNotification(data) {
   // Use DialogV2 for modern API
   const dialog = new foundry.applications.api.DialogV2({
     window: {
-      title: `🛡️ Resultado de Evasão - ${characterName}`,
+      title: `Resultado do Combate (GM) - ${characterName}`,
       icon: "fa-solid fa-shield"
     },
     content: content,
@@ -1014,10 +1040,205 @@ async function createGMEvasionNotification(data) {
         }
       },
       {
-        action: "ok",
-        icon: "fa-solid fa-check",
-        label: "Fechar",
-        default: true
+        action: "reroll",
+        icon: "fa-solid fa-redo",
+        label: "Rolar Novamente",
+        callback: async (event, button) => {
+          // First, ask GM to choose between Evasion or Precision using custom dialog
+          const rollChoice = await new Promise((resolve) => {
+            const dialog = new foundry.applications.api.DialogV2({
+              window: {
+                title: "Escolha o Tipo de Rolagem"
+              },
+              content: `
+                <div style="text-align: center; padding: 24px;">
+                  <div style="margin-bottom: 24px;">
+                    <i class="fas fa-dice" style="font-size: 48px; color: #4b4a44;"></i>
+                  </div>
+                  <h2 style="margin: 0 0 12px 0; color: #191813; font-size: 18px;">O que deseja rolar novamente?</h2>
+                  <p style="margin: 0; color: #666; font-size: 14px;">Escolha o atributo para fazer uma nova rolagem</p>
+                </div>
+              `,
+              buttons: [
+                {
+                  action: "evasion",
+                  icon: "fa-solid fa-shield",
+                  label: "Evasão",
+                  callback: () => resolve("evasion")
+                },
+                {
+                  action: "precision",
+                  icon: "fa-solid fa-crosshairs",
+                  label: "Precisão",
+                  callback: () => resolve("precision")
+                }
+              ],
+              position: {
+                width: 400
+              },
+              close: () => resolve(null)
+            });
+            dialog.render(true);
+          });
+          
+          if (!rollChoice) return false; // User cancelled
+          
+          // Import advantage selection dialog
+          const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
+          const result = await AdvantageSelectionDialog.show({ 
+            hideAttackMode: rollChoice === "evasion" 
+          });
+          if (!result) return false; // User cancelled
+          
+          const { rollType } = result;
+          
+          // Determine which actor to use based on roll choice
+          let rollingActorId, rollingActorName;
+          if (rollChoice === "evasion") {
+            // Rolling evasion = defender (characterName/actorId)
+            rollingActorId = actorId;
+            rollingActorName = characterName;
+          } else {
+            // Rolling precision = attacker (attackerName/need attackerId)
+            // Try to find attacker by name (not ideal but works for now)
+            const attackerActor = game.actors.find(a => a.name === attackerName);
+            if (!attackerActor) {
+              ui.notifications.error("Atacante não encontrado.");
+              return false;
+            }
+            rollingActorId = attackerActor.id;
+            rollingActorName = attackerName;
+          }
+          
+          // Get the actor
+          const actor = game.actors.get(rollingActorId);
+          if (!actor) {
+            ui.notifications.error("Ator não encontrado.");
+            return false;
+          }
+          
+          // Get roll data
+          const rollData = actor.getRollData();
+          
+          // Determine formula based on roll type and choice
+          const attribute = rollChoice === "evasion" ? "@abilities.evasion.total" : "@abilities.accuracy.total";
+          const attributeName = rollChoice === "evasion" ? "Evasão" : "Precisão";
+          const formula = buildRollFormula(rollType, attribute);
+          let rollDescription = "";
+          
+          switch (rollType) {
+            case 'advantage':
+              rollDescription = "Rolagem com Vantagem";
+              break;
+            case 'disadvantage':
+              rollDescription = "Rolagem com Desvantagem";
+              break;
+            case 'enhanced-advantage':
+              rollDescription = "Rolagem com Vantagem Aprimorada";
+              break;
+            case 'enhanced-disadvantage':
+              rollDescription = "Rolagem com Desvantagem Aprimorada";
+              break;
+            case 'normal':
+            default:
+              rollDescription = "Rolagem Normal";
+          }
+          
+          // Roll
+          const roll = new Roll(formula, rollData);
+          await roll.evaluate();
+          const newTotal = roll.total;
+          
+          // Detect critical results
+          let criticalSuccess = false;
+          let criticalFailure = false;
+          
+          for (const term of roll.terms) {
+            if (term instanceof foundry.dice.terms.Die && term.faces === 20) {
+              for (const result of term.results) {
+                if (result.active !== false) {
+                  if (result.result === 20) criticalSuccess = true;
+                  if (result.result === 1) criticalFailure = true;
+                }
+              }
+            }
+          }
+          
+          if (newTotal >= 20) criticalSuccess = true;
+          if (newTotal <= 1) criticalFailure = true;
+          
+          // Create flavor text
+          const flavor = `
+            <div style="text-align: center;">
+              <strong>🔄 Re-rolagem de ${attributeName} de ${rollingActorName}</strong> - ${rollDescription}<br>
+            </div>
+          `;
+          
+          // Create message flags
+          const messageFlags = {
+            cardigan: {
+              criticalSuccess: criticalSuccess,
+              criticalFailure: criticalFailure
+            }
+          };
+          
+          // If this is a Precision reroll, add attackTargets flags so the evasion button appears
+          if (rollChoice === "precision") {
+            // Get defender data from the original notification
+            const defenderActor = game.actors.get(actorId);
+            const defenderToken = game.scenes.current?.tokens.find(t => t.actorId === actorId);
+            
+            if (defenderActor && defenderToken) {
+              messageFlags.cardigan.attackTargets = {
+                targets: [{
+                  tokenId: defenderToken.id,
+                  actorId: defenderActor.id,
+                  name: defenderActor.name
+                }],
+                attackerId: rollingActorId,
+                attackerName: rollingActorName,
+                weaponName: "Re-rolagem de Precisão",
+                damage: 0,  // Damage will be calculated after evasion
+                isReroll: true,  // Mark as reroll to trigger GM notification
+                defenderName: defenderActor.name
+              };
+            }
+          }
+          
+          // If this is an Evasion reroll, add precisionTarget flags so the precision button appears
+          if (rollChoice === "evasion") {
+            // Get attacker data from the original notification
+            const attackerActor = game.actors.find(a => a.name === attackerName);
+            const attackerToken = game.scenes.current?.tokens.find(t => t.actorId === attackerActor?.id);
+            
+            if (attackerActor && attackerToken) {
+              messageFlags.cardigan.precisionTarget = {
+                tokenId: attackerToken.id,
+                actorId: attackerActor.id,
+                name: attackerActor.name,
+                evasionTotal: newTotal  // Store the new evasion roll total
+              };
+            }
+          }
+          
+          // Create message data
+          const messageData = {
+            speaker: { alias: rollingActorName },
+            flavor: flavor,
+            rolls: [roll],
+            flags: messageFlags
+          };
+          
+          // Use GM roll mode
+          const rollMode = "gmroll";
+          ChatMessage.applyRollMode(messageData, rollMode);
+          
+          // Create the chat message
+          await ChatMessage.create(messageData);
+          
+          // Keep dialog open
+          return false;
+        }
       }
     ],
     position: {
@@ -1232,6 +1453,56 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
 });
 
 /**
+ * Add precision buttons to evasion reroll chat messages
+ */
+Hooks.on('renderChatMessageHTML', (message, html) => {
+  // Check if this is an evasion reroll message with precision target data
+  const precisionData = message.flags?.cardigan?.precisionTarget;
+  if (!precisionData) return;
+
+  // Get the evasion total from the message
+  const evasionTotal = message.rolls?.[0]?.total || precisionData.evasionTotal;
+  if (!evasionTotal) return;
+
+  // Create precision button container
+  const precisionSection = document.createElement('div');
+  precisionSection.className = 'cardigan-precision-section';
+  precisionSection.style.cssText = 'margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.1);';
+
+  // Check if current user can attack (owns the attacker)
+  const attackerToken = game.scenes.current?.tokens.get(precisionData.tokenId);
+  if (!attackerToken) return;
+  
+  const ownsToken = attackerToken.isOwner || game.user.isGM;
+  const ownsActor = attackerToken.actor && (attackerToken.actor.isOwner || game.user.isGM);
+  
+  if (!ownsToken && !ownsActor) return;
+
+  // Create precision button
+  const buttonContainer = document.createElement('div');
+  buttonContainer.style.cssText = 'margin-top: 4px; text-align: center;';
+
+  const button = document.createElement('button');
+  button.className = 'cardigan-precision-button';
+  button.dataset.messageId = message.id;
+  button.dataset.tokenId = precisionData.tokenId;
+  button.dataset.actorId = precisionData.actorId;
+  button.dataset.evasionTotal = evasionTotal;
+  button.style.cssText = 'padding: 4px 12px; background: #2196F3; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;';
+  button.textContent = 'Rolar Precisão';
+  
+  button.addEventListener('click', () => handlePrecisionClick(button));
+  buttonContainer.appendChild(button);
+  precisionSection.appendChild(buttonContainer);
+
+  // Add precision section to message
+  const messageContent = html.querySelector('.message-content');
+  if (messageContent) {
+    messageContent.appendChild(precisionSection);
+  }
+});
+
+/**
  * Handle evasion button click
  */
 async function handleEvasionClick(button) {
@@ -1294,32 +1565,24 @@ async function handleEvasionClick(button) {
     const rollData = actor.getRollData();
 
     // Determine formula based on roll type
-    let formula;
+    const formula = buildRollFormula(rollType, "@evasion.total");
     let rollDescription = "";
     
     switch (rollType) {
-      case 'normal':
-        formula = "1d20 + @evasion.total";
-        rollDescription = "Rolagem Normal";
-        break;
       case 'advantage':
-        formula = "2d20kh + @evasion.total";
         rollDescription = "Rolagem com Vantagem";
         break;
       case 'disadvantage':
-        formula = "2d20kl + @evasion.total";
         rollDescription = "Rolagem com Desvantagem";
         break;
       case 'enhanced-advantage':
-        formula = "3d20kh + @evasion.total";
         rollDescription = "Rolagem com Vantagem Aprimorada";
         break;
       case 'enhanced-disadvantage':
-        formula = "3d20kl + @evasion.total";
         rollDescription = "Rolagem com Desvantagem Aprimorada";
         break;
+      case 'normal':
       default:
-        formula = "1d20 + @evasion.total";
         rollDescription = "Rolagem Normal";
     }
 
@@ -1420,7 +1683,40 @@ async function handleEvasionClick(button) {
         createGMEvasionNotification(socketPayload.payload);
       }
     } else {
-      // PvP scenario: Check if this is a reroll
+      // PvP scenario or precision reroll: Always notify GM when it's a reroll
+      if (isReroll) {
+        // This is a reroll - notify GM with new results
+        const gmNotificationPayload = {
+          actorId: actorId,
+          playerName: game.user.name,
+          characterName: token.name,
+          attackerName: attackerName || attackerActor?.name || "Atacante",
+          evasionTotal: evasionTotal,
+          attackTotal: attackTotal,
+          success: success,
+          currentHP: currentHP,
+          maxHP: maxHP,
+          armor: armor,
+          attackDamage: attackDamage,
+          damageTaken: damageTaken,
+          remainingHP: remainingHP
+        };
+
+        console.log('[CARDIGAN] Notifying GM of reroll results:', gmNotificationPayload);
+        
+        // Notify GM via socket
+        game.socket.emit("system.cardigan", {
+          action: "notifyGMEvasion",
+          payload: gmNotificationPayload
+        });
+
+        // Also create notification locally if current user is GM
+        if (game.user.isGM) {
+          createGMEvasionNotification(gmNotificationPayload);
+        }
+      }
+      
+      // Check if this is a reroll with old dialog
       if (isReroll && oldDialogId) {
         // This is a reroll from "Rolar Novamente" button
         if (success) {
@@ -1536,6 +1832,149 @@ async function handleEvasionClick(button) {
   } catch (error) {
     console.error("Error rolling evasion:", error);
     ui.notifications.error("Erro ao rolar evasão.");
+    // Re-enable button on error
+    button.disabled = false;
+    button.style.opacity = '1';
+    button.style.cursor = 'pointer';
+  }
+}
+
+/**
+ * Handle precision button click (for evasion rerolls)
+ */
+async function handlePrecisionClick(button) {
+  const messageId = button.dataset.messageId;
+  const tokenId = button.dataset.tokenId;
+  const actorId = button.dataset.actorId;
+  const evasionTotal = parseInt(button.dataset.evasionTotal);
+
+  // Get the evasion message to extract defender data from flags
+  const message = game.messages.get(messageId);
+  const precisionData = message?.flags?.cardigan?.precisionTarget;
+
+  // Get token and actor (attacker)
+  const token = game.scenes.current?.tokens.get(tokenId);
+  const actor = game.actors.get(actorId);
+
+  if (!token || !actor) {
+    ui.notifications.error("Atacante não encontrado.");
+    return;
+  }
+
+  // Get defender data from the evasion message or original attack
+  // We need to find the defender - look for recent evasion rolls or attack data
+  let defenderActor, defenderToken, defenderName;
+  
+  // Try to find defender from recent messages (the one who rolled evasion)
+  const recentMessages = Array.from(game.messages).reverse().slice(0, 10);
+  for (const msg of recentMessages) {
+    const evasionData = msg.flags?.cardigan?.attackTargets;
+    if (evasionData && evasionData.attackerId === actorId) {
+      // Found the original attack - get defender
+      if (evasionData.targets && evasionData.targets.length > 0) {
+        const defenderData = evasionData.targets[0];
+        defenderToken = game.scenes.current?.tokens.get(defenderData.tokenId);
+        defenderActor = game.actors.get(defenderData.actorId);
+        defenderName = defenderData.name;
+        break;
+      }
+    }
+  }
+
+  if (!defenderActor || !defenderToken) {
+    ui.notifications.warn("Não foi possível encontrar o defensor.");
+    button.disabled = false;
+    button.style.opacity = '1';
+    button.style.cursor = 'pointer';
+    return;
+  }
+
+  // Disable button to prevent double-clicks
+  button.disabled = true;
+  button.style.opacity = '0.5';
+  button.style.cursor = 'not-allowed';
+
+  try {
+    // Import the AdvantageSelectionDialog
+    const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
+    
+    // Open advantage selection dialog
+    const result = await AdvantageSelectionDialog.show();
+    
+    if (!result) {
+      // User cancelled
+      button.disabled = false;
+      button.style.opacity = '1';
+      button.style.cursor = 'pointer';
+      return;
+    }
+
+    const { rollType } = result;
+
+    // Import buildRollFormula helper
+    const { buildRollFormula } = await import('./helpers/config.mjs');
+    
+    // Build roll formula
+    const formula = buildRollFormula(rollType, `@abilities.accuracy.total`);
+    const rollData = actor.getRollData();
+
+    // Roll precision
+    const roll = new Roll(formula, rollData);
+    await roll.evaluate();
+    const precisionTotal = roll.total;
+
+    // Create chat message with roll
+    const flavor = `
+      <div style="text-align: center;">
+        <strong>🎯 Re-rolagem de Precisão de ${actor.name}</strong>
+      </div>
+    `;
+
+    await ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor }),
+      flavor: flavor,
+      rolls: [roll],
+      flags: {
+        cardigan: {
+          criticalSuccess: precisionTotal >= 20,
+          criticalFailure: precisionTotal <= 1
+        }
+      }
+    });
+
+    // Notify GM with the new results
+    const gmNotificationPayload = {
+      actorId: defenderActor.id,
+      playerName: defenderActor.name,
+      characterName: defenderActor.name,
+      attackerName: actor.name,
+      evasionTotal: evasionTotal,
+      attackTotal: precisionTotal,
+      attackDamage: 0, // Will be calculated by GM
+      armor: defenderActor.system.armor?.value || 0,
+      currentHP: defenderActor.system.health?.value || 0,
+      maxHP: defenderActor.system.health?.max || 0
+    };
+
+    console.log('[CARDIGAN] Notifying GM of precision reroll:', gmNotificationPayload);
+    
+    // Notify GM via socket
+    game.socket.emit("system.cardigan", {
+      action: "notifyGMEvasion",
+      payload: gmNotificationPayload
+    });
+
+    // Also create notification locally if current user is GM
+    if (game.user.isGM) {
+      createGMEvasionNotification(gmNotificationPayload);
+    }
+
+    // Remove button after use
+    button.remove();
+
+  } catch (error) {
+    console.error("Error rolling precision:", error);
+    ui.notifications.error("Erro ao rolar precisão.");
     // Re-enable button on error
     button.disabled = false;
     button.style.opacity = '1';
