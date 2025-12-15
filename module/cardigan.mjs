@@ -395,13 +395,19 @@ function showDamageNotification(data) {
  * @param {Object} data - Attack result data
  */
 async function createAttackerResultDialog(data) {
-  const { attackerName, defenderName, attackTotal, evasionTotal, success, attackDamage, armor, actorId, currentHP, maxHP, attackerOwnerId } = data;
+  const { attackerName, defenderName, attackTotal, evasionTotal, success, attackDamage, armor, actorId, currentHP, maxHP, attackerOwnerId, defenderCriticalFailure, attackerCriticalHit } = data;
+  
+  // Check if there's any critical (attacker critical hit OR defender critical failure)
+  const hasCritical = attackerCriticalHit || defenderCriticalFailure;
+  
+  // Apply 2x damage if there's any critical (doesn't stack to 4x)
+  const effectiveDamage = hasCritical ? attackDamage * 2 : attackDamage;
   
   // Generate unique dialog ID (or use existing one from reroll)
   const dialogId = data.dialogId || `attack-dialog-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   
-  // Initial damage taken is the raw damage (armor will be subtracted when clicking "Acertou")
-  const damageTaken = attackDamage;
+  // Initial damage taken uses effective damage (doubled if critical)
+  const damageTaken = effectiveDamage;
   const remainingHP = Math.max(0, currentHP - damageTaken);
   
   // Helper function to roll dice for ignore armor
@@ -542,12 +548,16 @@ async function createAttackerResultDialog(data) {
     attackTotal,
     evasionTotal,
     success,
-    attackDamage,
+    attackDamage: effectiveDamage,
+    baseDamage: attackDamage,
     armor,
     damageTaken,
     currentHP,
     maxHP,
-    remainingHP
+    remainingHP,
+    hasCritical,
+    attackerCriticalHit,
+    defenderCriticalFailure
   });
   
   // Use DialogV2 for modern API
@@ -581,7 +591,7 @@ async function createAttackerResultDialog(data) {
           const rollData = attackerActor.getRollData();
           
           // Determine formula based on roll type
-          const formula = buildRollFormula(rollType, "@precision.total");
+          const formula = buildRollFormula(rollType, "@accuracy.total");
           let rollDescription = "";
           
           switch (rollType) {
@@ -607,23 +617,44 @@ async function createAttackerResultDialog(data) {
           await roll.evaluate();
           const newAttackTotal = roll.total;
           
-          // Detect critical results
-          let criticalSuccess = false;
-          let criticalFailure = false;
+          // Detect critical results using actor's thresholds
+          const { CardiganSystemActorSheet } = await import('./sheets/actor-sheet.mjs');
+          const criticalFlags = CardiganSystemActorSheet._detectCriticalResults(roll, attackerActor, 'accuracy');
+          const criticalSuccess = criticalFlags?.cardigan?.criticalHit || false;
+          const criticalFailure = criticalFlags?.cardigan?.criticalFailure || false;
           
-          for (const term of roll.terms) {
-            if (term instanceof foundry.dice.terms.Die && term.faces === 20) {
-              for (const result of term.results) {
-                if (result.active !== false) {
-                  if (result.result === 20) criticalSuccess = true;
-                  if (result.result === 1) criticalFailure = true;
-                }
+          // Handle critical failure - reduce durability of equipped weapon
+          if (criticalFailure) {
+            // Find equipped weapon
+            const equippedWeapons = attackerActor.items.filter(i => 
+              i.type === 'arma' && i.system.equipped === true
+            );
+            
+            if (equippedWeapons.length > 0) {
+              const weapon = equippedWeapons[0];
+              const currentDurability = weapon.system.durability?.current || 0;
+              
+              if (currentDurability > 0) {
+                const newDurability = Math.max(0, currentDurability - 1);
+                await weapon.update({
+                  'system.durability.current': newDurability
+                });
+                
+                ui.notifications.warn(
+                  `Erro Crítico na re-rolagem! ${weapon.name} perdeu durabilidade (${currentDurability} → ${newDurability})`
+                );
+              } else {
+                ui.notifications.warn(`Erro Crítico na re-rolagem!`);
               }
             }
+          } else if (criticalSuccess) {
+            const critThreshold = attackerActor.system?.details?.criticalHit;
+            if (critThreshold) {
+              ui.notifications.info(`Acerto Crítico na re-rolagem! (${newAttackTotal} >= ${critThreshold})`);
+            } else {
+              ui.notifications.info(`Acerto Crítico na re-rolagem!`);
+            }
           }
-          
-          if (newAttackTotal >= 20) criticalSuccess = true;
-          if (newAttackTotal <= 1) criticalFailure = true;
           
           // Create flavor text
           const flavor = `
@@ -652,6 +683,7 @@ async function createAttackerResultDialog(data) {
                   targets: [{ tokenId: defenderToken?.id, actorId: actorId }],
                   damage: attackDamage,
                   attackerId: attackerActor.id,
+                  attackerCriticalHit: criticalSuccess,  // Add attacker critical for damage calculation
                   isReroll: true,
                   dialogId: dialogId,
                   oldDialogId: dialogId,
@@ -782,8 +814,21 @@ async function createAttackerResultDialog(data) {
  * @param {Object} data - Evasion data
  */
 async function createGMEvasionNotification(data) {
-  const { actorId, playerName, characterName, attackerName, evasionTotal, attackTotal, success, 
-          currentHP, maxHP, armor, attackDamage, damageTaken, remainingHP } = data;
+  const { actorId, playerName, characterName, attackerName, attackerId, evasionTotal, attackTotal, success, 
+          currentHP, maxHP, armor, attackDamage, damageTaken, remainingHP, defenderCriticalFailure, attackerCriticalHit } = data;
+  
+  console.log('[CARDIGAN GM DIALOG] Received data:', { attackDamage, attackerCriticalHit, defenderCriticalFailure });
+  
+  // Check if there's any critical (attacker critical hit OR defender critical failure)
+  const hasCritical = attackerCriticalHit || defenderCriticalFailure;
+  
+  // Apply 2x damage if there's any critical (doesn't stack to 4x)
+  const effectiveDamage = hasCritical ? attackDamage * 2 : attackDamage;
+  
+  console.log('[CARDIGAN GM DIALOG] Damage calculation:', { attackDamage, hasCritical, effectiveDamage });
+  
+  // Recalculate remaining HP with effective damage
+  const effectiveRemainingHP = success ? currentHP : Math.max(0, currentHP - effectiveDamage);
   
   // Helper function to roll dice for ignore armor
   const rollIgnoreArmorDice = async (ignoreArmorInput, attackerName) => {
@@ -946,9 +991,13 @@ async function createGMEvasionNotification(data) {
     currentHP,
     maxHP,
     armor,
-    attackDamage,
-    damageTaken,
-    remainingHP
+    attackDamage: effectiveDamage,
+    baseDamage: attackDamage,
+    damageTaken: hasCritical ? effectiveDamage : damageTaken,
+    remainingHP: effectiveRemainingHP,
+    hasCritical,
+    attackerCriticalHit,
+    defenderCriticalFailure
   });
   
   // Use DialogV2 for modern API
@@ -1100,14 +1149,12 @@ async function createGMEvasionNotification(data) {
             rollingActorId = actorId;
             rollingActorName = characterName;
           } else {
-            // Rolling precision = attacker (attackerName/need attackerId)
-            // Try to find attacker by name (not ideal but works for now)
-            const attackerActor = game.actors.find(a => a.name === attackerName);
-            if (!attackerActor) {
-              ui.notifications.error("Atacante não encontrado.");
+            // Rolling precision = attacker (use attackerId from data)
+            if (!attackerId) {
+              ui.notifications.error("ID do atacante não encontrado.");
               return false;
             }
-            rollingActorId = attackerActor.id;
+            rollingActorId = attackerId;
             rollingActorName = attackerName;
           }
           
@@ -1150,23 +1197,45 @@ async function createGMEvasionNotification(data) {
           await roll.evaluate();
           const newTotal = roll.total;
           
-          // Detect critical results
-          let criticalSuccess = false;
-          let criticalFailure = false;
+          // Detect critical results using actor's thresholds
+          const { CardiganSystemActorSheet } = await import('./sheets/actor-sheet.mjs');
+          const criticalType = rollChoice === "evasion" ? 'evasion' : 'accuracy';
+          const criticalFlags = CardiganSystemActorSheet._detectCriticalResults(roll, actor, criticalType);
+          const criticalSuccess = criticalFlags?.cardigan?.criticalHit || false;
+          const criticalFailure = criticalFlags?.cardigan?.criticalFailure || false;
           
-          for (const term of roll.terms) {
-            if (term instanceof foundry.dice.terms.Die && term.faces === 20) {
-              for (const result of term.results) {
-                if (result.active !== false) {
-                  if (result.result === 20) criticalSuccess = true;
-                  if (result.result === 1) criticalFailure = true;
-                }
+          // Handle critical failure for Precision rerolls - reduce durability of equipped weapon
+          if (criticalFailure && rollChoice === "precision") {
+            // Find equipped weapon using the correct structure
+            const equippedWeapons = actor.items.filter(i => 
+              i.type === 'arma' && i.system.equipped === true
+            );
+            
+            if (equippedWeapons.length > 0) {
+              const weapon = equippedWeapons[0];
+              const currentDurability = weapon.system.durability?.current || 0;
+              
+              if (currentDurability > 0) {
+                const newDurability = Math.max(0, currentDurability - 1);
+                await weapon.update({
+                  'system.durability.current': newDurability
+                });
+                
+                ui.notifications.warn(
+                  `Erro Crítico na re-rolagem de Precisão! ${weapon.name} perdeu durabilidade (${currentDurability} → ${newDurability})`
+                );
+              } else {
+                ui.notifications.warn(`Erro Crítico na re-rolagem de Precisão!`);
               }
             }
+          } else if (criticalSuccess && rollChoice === "precision") {
+            const critThreshold = actor.system?.details?.criticalHit;
+            if (critThreshold) {
+              ui.notifications.info(`Acerto Crítico na re-rolagem de Precisão! (${newTotal} >= ${critThreshold})`);
+            } else {
+              ui.notifications.info(`Acerto Crítico na re-rolagem de Precisão!`);
+            }
           }
-          
-          if (newTotal >= 20) criticalSuccess = true;
-          if (newTotal <= 1) criticalFailure = true;
           
           // Create flavor text
           const flavor = `
@@ -1199,9 +1268,10 @@ async function createGMEvasionNotification(data) {
                 attackerId: rollingActorId,
                 attackerName: rollingActorName,
                 weaponName: "Re-rolagem de Precisão",
-                damage: 0,  // Damage will be calculated after evasion
+                damage: attackDamage,  // Preserve original damage for critical calculation
                 isReroll: true,  // Mark as reroll to trigger GM notification
-                defenderName: defenderActor.name
+                defenderName: defenderActor.name,
+                attackerCriticalHit: criticalSuccess  // Preserve new precision critical
               };
             }
           }
@@ -1217,7 +1287,10 @@ async function createGMEvasionNotification(data) {
                 tokenId: attackerToken.id,
                 actorId: attackerActor.id,
                 name: attackerActor.name,
-                evasionTotal: newTotal  // Store the new evasion roll total
+                evasionTotal: newTotal,  // Store the new evasion roll total
+                attackDamage: attackDamage,  // Preserve damage for precision reroll
+                attackerCriticalHit: attackerCriticalHit,  // Preserve attacker's critical
+                defenderCriticalFailure: criticalFailure  // Store defender's new critical result
               };
             }
           }
@@ -1555,6 +1628,7 @@ async function handleEvasionClick(button) {
   const message = game.messages.get(messageId);
   const attackData = message?.flags?.cardigan?.attackTargets;
   const attackDamage = attackData?.damage || 0;
+  console.log('[CARDIGAN EVASION] Attack damage from flags:', { attackDamage, attackData });
   const attackerId = attackData?.attackerId;
   const isReroll = attackData?.isReroll || false;
   const dialogId = attackData?.dialogId;
@@ -1565,6 +1639,7 @@ async function handleEvasionClick(button) {
   const storedArmor = attackData?.armor;
   const storedCurrentHP = attackData?.currentHP;
   const storedMaxHP = attackData?.maxHP;
+  const attackerCriticalHit = attackData?.attackerCriticalHit || false;
 
   // Get token and actor (defender)
   const token = game.scenes.current?.tokens.get(tokenId);
@@ -1703,6 +1778,7 @@ async function handleEvasionClick(button) {
           playerName: game.user.name,
           characterName: token.name,
           attackerName: attackerActor?.name || "Atacante",
+          attackerId: attackerId,
           evasionTotal: evasionTotal,
           attackTotal: attackTotal,
           success: success,
@@ -1711,7 +1787,9 @@ async function handleEvasionClick(button) {
           armor: armor,
           attackDamage: attackDamage,
           damageTaken: damageTaken,
-          remainingHP: remainingHP
+          remainingHP: remainingHP,
+          defenderCriticalFailure: criticalFailure,
+          attackerCriticalHit: attackerCriticalHit
         }
       };
       
@@ -1723,14 +1801,15 @@ async function handleEvasionClick(button) {
         createGMEvasionNotification(socketPayload.payload);
       }
     } else {
-      // PvP scenario or precision reroll: Always notify GM when it's a reroll
-      if (isReroll) {
-        // This is a reroll - notify GM with new results
+      // PvP scenario or precision reroll: Only notify GM if GM is involved in combat
+      if (isReroll && shouldNotifyGM) {
+        // This is a reroll with GM involvement - notify GM with new results
         const gmNotificationPayload = {
           actorId: actorId,
           playerName: game.user.name,
           characterName: token.name,
           attackerName: attackerName || attackerActor?.name || "Atacante",
+          attackerId: attackerId,
           evasionTotal: evasionTotal,
           attackTotal: attackTotal,
           success: success,
@@ -1739,7 +1818,9 @@ async function handleEvasionClick(button) {
           armor: armor,
           attackDamage: attackDamage,
           damageTaken: damageTaken,
-          remainingHP: remainingHP
+          remainingHP: remainingHP,
+          defenderCriticalFailure: criticalFailure,
+          attackerCriticalHit: attackerCriticalHit
         };
 
         console.log('[CARDIGAN] Notifying GM of reroll results:', gmNotificationPayload);
@@ -1802,7 +1883,9 @@ async function handleEvasionClick(button) {
               attackerOwnerId: attackerOwnerId,
               actorId: actorId,
               currentHP: storedCurrentHP || currentHP,
-              maxHP: storedMaxHP || maxHP
+              maxHP: storedMaxHP || maxHP,
+              defenderCriticalFailure: criticalFailure,  // Add defender critical flag from reroll
+              attackerCriticalHit: attackerCriticalHit  // Preserve attacker critical from original attack
             }
           };
           
@@ -1837,7 +1920,9 @@ async function handleEvasionClick(button) {
               attackerOwnerId: attackerOwnerId,
               actorId: actorId,
               currentHP: currentHP,
-              maxHP: maxHP
+              maxHP: maxHP,
+              defenderCriticalFailure: criticalFailure,
+              attackerCriticalHit: attackerCriticalHit
             }
           };
           
@@ -1963,6 +2048,45 @@ async function handlePrecisionClick(button) {
     await roll.evaluate();
     const precisionTotal = roll.total;
 
+    // Detect critical results using actor's thresholds
+    const { CardiganSystemActorSheet } = await import('./sheets/actor-sheet.mjs');
+    const criticalFlags = CardiganSystemActorSheet._detectCriticalResults(roll, actor, 'accuracy');
+    const precisionCriticalHit = criticalFlags?.cardigan?.criticalHit || false;
+    const precisionCriticalFailure = criticalFlags?.cardigan?.criticalFailure || false;
+    
+    // Handle critical failure - reduce durability of equipped weapon
+    if (precisionCriticalFailure) {
+      // Find equipped weapon
+      const equippedWeapons = actor.items.filter(i => 
+        i.type === 'arma' && i.system.equipped === true
+      );
+      
+      if (equippedWeapons.length > 0) {
+        const weapon = equippedWeapons[0];
+        const currentDurability = weapon.system.durability?.current || 0;
+        
+        if (currentDurability > 0) {
+          const newDurability = Math.max(0, currentDurability - 1);
+          await weapon.update({
+            'system.durability.current': newDurability
+          });
+          
+          ui.notifications.warn(
+            `Erro Crítico na re-rolagem! ${weapon.name} perdeu durabilidade (${currentDurability} → ${newDurability})`
+          );
+        } else {
+          ui.notifications.warn(`Erro Crítico na re-rolagem!`);
+        }
+      }
+    } else if (precisionCriticalHit) {
+      const critThreshold = actor.system?.details?.criticalHit;
+      if (critThreshold) {
+        ui.notifications.info(`Acerto Crítico na re-rolagem! (${precisionTotal} >= ${critThreshold})`);
+      } else {
+        ui.notifications.info(`Acerto Crítico na re-rolagem!`);
+      }
+    }
+
     // Create chat message with roll
     const flavor = `
       <div style="text-align: center;">
@@ -1976,12 +2100,16 @@ async function handlePrecisionClick(button) {
       rolls: [roll],
       flags: {
         cardigan: {
-          criticalSuccess: precisionTotal >= 20,
-          criticalFailure: precisionTotal <= 1
+          criticalSuccess: precisionCriticalHit,
+          criticalFailure: precisionCriticalFailure
         }
       }
     });
-
+    
+    // Get preserved damage and defender critical from precisionData
+    const preservedDamage = precisionData?.attackDamage || 0;
+    const defenderCriticalFailure = precisionData?.defenderCriticalFailure || false;
+    
     // Notify GM with the new results
     const gmNotificationPayload = {
       actorId: defenderActor.id,
@@ -1990,10 +2118,12 @@ async function handlePrecisionClick(button) {
       attackerName: actor.name,
       evasionTotal: evasionTotal,
       attackTotal: precisionTotal,
-      attackDamage: 0, // Will be calculated by GM
+      attackDamage: preservedDamage,  // Use preserved damage
       armor: defenderActor.system.armor?.value || 0,
       currentHP: defenderActor.system.health?.value || 0,
-      maxHP: defenderActor.system.health?.max || 0
+      maxHP: defenderActor.system.health?.max || 0,
+      attackerCriticalHit: precisionCriticalHit,  // New precision critical
+      defenderCriticalFailure: defenderCriticalFailure  // Preserved defender critical
     };
 
     console.log('[CARDIGAN] Notifying GM of precision reroll:', gmNotificationPayload);

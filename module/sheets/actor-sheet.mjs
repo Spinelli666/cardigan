@@ -3948,8 +3948,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         attackerId: actor.id,
         attackerName: actor.name,
         weaponName: item.name,
-        damage: finalDamage  // Add damage to flags
+        damage: totalDamage,  // ALWAYS use BASE damage (not doubled) in flags
+        attackerCriticalHit: isCriticalHit  // Add critical hit flag
       };
+      console.log('[CARDIGAN ATTACK] Saving damage to flags:', { totalDamage, finalDamage, isCriticalHit });
     }
 
     // Use player's roll mode setting (GM can choose blind manually)
@@ -3968,24 +3970,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Create the chat message
     const chatMessage = await ChatMessage.create(messageData);
-
-    // Criar conteúdo adicional para mostrar o dano total
-    let additionalContent = `<div style="text-align: center; margin-top: 8px; padding: 4px 8px; background: rgba(0,0,0,0.1); border-radius: 3px;">
-      <strong>${game.i18n.localize("CARDIGAN.DamageTotal")}: ${finalDamage}${isCriticalHit ? ` (${totalDamage} x2)` : ''}</strong>
-    </div>${criticalMessage}${ammunitionMessage}`;
-
-    // Create damage message data
-    const damageMessageData = {
-      user: game.user.id,
-      speaker: ChatMessage.getSpeaker({ actor }),
-      content: additionalContent
-    };
-
-    // Apply same roll mode to damage message
-    ChatMessage.applyRollMode(damageMessageData, rollMode);
-    
-    // Create damage message
-    await ChatMessage.create(damageMessageData);
 
     return roll;
   }

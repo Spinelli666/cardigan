@@ -413,7 +413,7 @@ export class SkillManager {
             // Set up default tooltips for attack buttons
             if (buttonType === 'attack' || buttonType === 'attack-simple') {
               // Setup dynamic tooltips with mouseenter events
-              SkillManager.#setupDefaultDynamicTooltips(button, actorId, buttonType);
+              this.#setupDefaultDynamicTooltips(button, actorId, buttonType);
             }
           }
         }
@@ -1267,7 +1267,8 @@ export class SkillManager {
               attackerId: actor.id,
               attackerName: actor.name,
               skillName: skillName,
-              damage: finalDamage  // Damage from primary equipped weapon (doubled on crit)
+              damage: weaponDamage,  // ALWAYS use BASE damage (not doubled) in flags
+              attackerCriticalHit: isCriticalHit  // Add critical hit flag
             };
           }
           
@@ -1368,7 +1369,8 @@ export class SkillManager {
           attackerId: actor.id,
           attackerName: actor.name,
           skillName: skillName,
-              damage: finalDamage  // Damage from primary equipped weapon (doubled on crit)
+          damage: weaponDamage,  // ALWAYS use BASE damage (not doubled) in flags
+          attackerCriticalHit: isCriticalHit  // Add critical hit flag
         };
       }
 
@@ -1569,7 +1571,8 @@ export class SkillManager {
               attackerId: actor.id,
               attackerName: actor.name,
               skillName: skillName,
-              damage: finalDamage  // Damage from secondary equipped weapon (doubled on crit)
+              damage: weaponDamage,  // ALWAYS use BASE damage (not doubled) in flags
+              attackerCriticalHit: isCriticalHit  // Add critical hit flag
             };
           }
           
@@ -1670,7 +1673,8 @@ export class SkillManager {
           attackerId: actor.id,
           attackerName: actor.name,
           skillName: skillName,
-              damage: finalDamage  // Damage from secondary equipped weapon (doubled on crit)
+          damage: weaponDamage,  // ALWAYS use BASE damage (not doubled) in flags
+          attackerCriticalHit: isCriticalHit  // Add critical hit flag
         };
       }
 
