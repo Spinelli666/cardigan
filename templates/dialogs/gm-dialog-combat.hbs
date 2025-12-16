@@ -66,6 +66,18 @@
             </button>
           </div>
         </div>
+        <div class="hp-row armor-durability-row">
+          <strong>🛡️ Durabilidade Armadura:</strong>
+          <div class="armor-durability-container">
+            <button type="button" 
+                    class="select-armor-durability-btn" 
+                    data-defender-id="{{defenderId}}"
+                    title="Selecionar armaduras para danificar">
+              Selecionar Armaduras
+            </button>
+            <span class="selected-armors-display"></span>
+          </div>
+        </div>
         <div class="hp-row hp-after">
           <strong>❤️ HP Resultante:</strong>
           <span class="hp-remaining remaining-hp {{#if success}}success{{else}}{{#if (gt remainingHP 0)}}warning{{else}}danger{{/if}}{{/if}}">

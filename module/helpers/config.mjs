@@ -84,6 +84,15 @@ CARDIGAN.efeitoTypes = {
  */
 export function registerHandlebarsHelpers() {
   /**
+   * Localize a translation key
+   * @param {string} key - Translation key (e.g., "CARDIGAN.Legs")
+   * @returns {string} - Localized string
+   */
+  Handlebars.registerHelper('localize', function(key) {
+    return game.i18n.localize(key);
+  });
+
+  /**
    * Check if there are any ranged weapons in the weapons array
    * @param {Array} weapons - Array of weapon items
    * @returns {boolean} - True if at least one weapon has ranged: true

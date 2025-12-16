@@ -1,0 +1,29 @@
+<div class="armor-durability-dialog">
+  <div class="dialog-description">
+    <p>Selecione as armaduras que deseja danificar. Cada armadura perderá <strong>1 ponto de durabilidade</strong> ao confirmar o acerto.</p>
+  </div>
+  
+  <div class="armor-list">
+    {{#each armors}}
+      <div class="armor-selection-item">
+        <input type="checkbox" 
+               class="armor-checkbox" 
+               id="armor-{{this.id}}"
+               data-armor-id="{{this.id}}" 
+               {{#if this.isSelected}}checked{{/if}} />
+        <label for="armor-{{this.id}}" class="armor-label">
+          <div class="armor-info">
+            <div class="armor-name">{{this.name}}</div>
+            <div class="armor-details">
+              <span class="armor-type">🛡️ {{localize this.armorType}}</span>
+            </div>
+          </div>
+        </label>
+      </div>
+    {{else}}
+      <div class="no-armors-message">
+        <i class="fas fa-info-circle"></i> Nenhuma armadura equipada disponível para danificar.
+      </div>
+    {{/each}}
+  </div>
+</div>

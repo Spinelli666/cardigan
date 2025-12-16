@@ -124,6 +124,8 @@ Hooks.once('init', function () {
       createGMEvasionNotification(data.payload);
     } else if (data.action === "notifyDamage") {
       showDamageNotification(data.payload);
+    } else if (data.action === "notifyArmorDurability") {
+      showArmorDurabilityNotification(data.payload);
     } else if (data.action === "notifyAttacker" && !game.user.isGM) {
       // Only show to the attacker's owner
       if (data.payload.attackerOwnerId === game.user.id) {
@@ -391,6 +393,29 @@ function showDamageNotification(data) {
 }
 
 /**
+ * Show armor durability notification to the actor's owner only
+ * @param {Object} data - Armor durability notification data
+ */
+function showArmorDurabilityNotification(data) {
+  const { actorId, armorName, isBroken, currentDurability, newDurability } = data;
+  
+  // Get the actor to check ownership
+  const actor = game.actors.get(actorId);
+  
+  // Only show notification to users who own this character
+  if (!actor || !actor.testUserPermission(game.user, "OWNER")) {
+    return;
+  }
+  
+  // Create appropriate notification message
+  const message = isBroken
+    ? `🔴 ${armorName} quebrou!`
+    : `⚠️ ${armorName} perdeu durabilidade (${currentDurability} → ${newDurability})`;
+  
+  ui.notifications.warn(message, { permanent: false });
+}
+
+/**
  * Create attacker notification dialog for PvP combat
  * @param {Object} data - Attack result data
  */
@@ -540,8 +565,12 @@ async function createAttackerResultDialog(data) {
   
   // Render template
   const template = await foundry.applications.handlebars.getTemplate(
-    'systems/cardigan/templates/dialogs/attack-result.hbs'
+    'systems/cardigan/templates/dialogs/player-dialog-combat.hbs'
   );
+  
+  // Track selected armor IDs
+  let selectedArmorIds = [];
+  
   const content = template({
     attackerName,
     defenderName,
@@ -557,7 +586,8 @@ async function createAttackerResultDialog(data) {
     remainingHP,
     hasCritical,
     attackerCriticalHit,
-    defenderCriticalFailure
+    defenderCriticalFailure,
+    defenderId: actorId
   });
   
   // Use DialogV2 for modern API
@@ -728,6 +758,39 @@ async function createAttackerResultDialog(data) {
           // Calculate new HP
           const newHP = Math.max(0, currentHP - finalDamage);
           
+          // Get defender actor for armor durability
+          const defenderActor = game.actors.get(actorId);
+          
+          // Reduce durability of selected armors
+          if (defenderActor && selectedArmorIds.length > 0) {
+            for (const armorId of selectedArmorIds) {
+              const armor = defenderActor.items.get(armorId);
+              if (armor && armor.type === 'armadura') {
+                const currentDurability = armor.system.durability?.current ?? 0;
+                if (currentDurability > 0) {
+                  const newDurability = Math.max(0, currentDurability - 1);
+                  await armor.update({
+                    'system.durability.current': newDurability
+                  });
+                  
+                  // Send durability notification via socket to defender only
+                  const durabilityNotificationData = {
+                    actorId: actorId,
+                    armorName: armor.name,
+                    isBroken: newDurability === 0,
+                    currentDurability: currentDurability,
+                    newDurability: newDurability
+                  };
+                  
+                  game.socket.emit("system.cardigan", {
+                    action: "notifyArmorDurability",
+                    payload: durabilityNotificationData
+                  });
+                }
+              }
+            }
+          }
+          
           // Send damage application via socket (so the actor's owner applies it)
           game.socket.emit("system.cardigan", {
             action: "applyDamage",
@@ -762,6 +825,18 @@ async function createAttackerResultDialog(data) {
           showDamageNotification(notificationData);
           
           // Create detailed chat message
+          // Check if defender is GM-controlled (no player owner) to simplify message
+          const isGMControlled = defenderActor && !defenderActor.hasPlayerOwner;
+          
+          let damageDetails;
+          if (isGMControlled) {
+            // Simplified message for GM-controlled actors - only show raw damage
+            damageDetails = `💥 Dano: ${rawDamage}`;
+          } else {
+            // Detailed message for player-owned characters - show armor calculations
+            damageDetails = `💥 Dano Bruto: ${rawDamage} | 🛡️ Armor: ${armor}${ignoreArmor > 0 ? ` | 🚫 Ignorado: ${ignoreArmor} | 🛡️ Efetivo: ${effectiveArmor}` : ''} | 💔 Dano Final: ${finalDamage}`;
+          }
+          
           const messageContent = `
             <div style="text-align: center; padding: 8px; background: rgba(76, 175, 80, 0.1); border: 2px solid #4CAF50; border-radius: 4px;">
               <h3 style="margin: 0 0 4px 0; color: #4CAF50;">
@@ -769,7 +844,7 @@ async function createAttackerResultDialog(data) {
               </h3>
               <p style="margin: 0;"><strong>${defenderName}</strong> foi atingido pelo ataque!</p>
               <p style="margin: 4px 0 0 0; font-size: 0.9em;">
-                💥 Dano Bruto: ${rawDamage} | 🛡️ Armor: ${armor}${ignoreArmor > 0 ? ` | 🚫 Ignorado: ${ignoreArmor} | 🛡️ Efetivo: ${effectiveArmor}` : ''} | 💔 Dano Final: ${finalDamage}
+                ${damageDetails}
               </p>
             </div>
           `;
@@ -799,6 +874,50 @@ async function createAttackerResultDialog(data) {
   // Wait for dialog to render, then attach event listeners
   dialog.addEventListener('render', () => {
     updateDamageCalculations(dialog.element);
+    
+    // Add armor selection button listener
+    const armorSelectBtn = dialog.element.querySelector('.select-armor-durability-btn');
+    const selectedArmorsDisplay = dialog.element.querySelector('.selected-armors-display');
+    
+    if (armorSelectBtn) {
+      armorSelectBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const defenderId = armorSelectBtn.dataset.defenderId;
+        const defenderActor = game.actors.get(defenderId);
+        
+        if (!defenderActor) {
+          ui.notifications.error("Defensor não encontrado.");
+          return;
+        }
+        
+        // Get equipped armors with durability > 0
+        const equippedArmors = defenderActor.items.filter(i => 
+          i.type === 'armadura' && 
+          i.system.equipped === true &&
+          (i.system.durability?.current ?? 0) > 0
+        );
+        
+        if (equippedArmors.length === 0) {
+          ui.notifications.warn("O defensor não possui armaduras equipadas com durabilidade.");
+          return;
+        }
+        
+        // Show armor selection dialog
+        const selected = await showArmorDurabilityDialog(equippedArmors, selectedArmorIds);
+        selectedArmorIds = selected;
+        
+        // Update display
+        if (selectedArmorIds.length > 0) {
+          const selectedNames = selectedArmorIds
+            .map(id => defenderActor.items.get(id)?.name)
+            .filter(name => name)
+            .join(', ');
+          selectedArmorsDisplay.innerHTML = `<strong>${selectedArmorIds.length}</strong> selecionada(s): ${selectedNames}`;
+        } else {
+          selectedArmorsDisplay.innerHTML = '<em>Nenhuma armadura selecionada</em>';
+        }
+      });
+    }
   });
   
   // Remove from Map when dialog closes
@@ -807,6 +926,81 @@ async function createAttackerResultDialog(data) {
   });
   
   dialog.render(true);
+}
+
+/**
+ * Show armor durability selection dialog
+ * @param {Array} armors - Array of equipped armor items
+ * @param {Array} previouslySelected - Previously selected armor IDs
+ * @returns {Promise<Array>} Array of selected armor IDs
+ */
+async function showArmorDurabilityDialog(armors, previouslySelected = []) {
+  return new Promise(async (resolve) => {
+    // Map armor types to localization keys
+    const armorTypeKeys = {
+      'cabeca': 'CARDIGAN.ArmorType.Cabeca',
+      'acessorios': 'CARDIGAN.ArmorType.Acessorios',
+      'ombreiras': 'CARDIGAN.ArmorType.Ombreiras',
+      'torso': 'CARDIGAN.ArmorType.Torso',
+      'bracos': 'CARDIGAN.ArmorType.Bracos',
+      'pernas': 'CARDIGAN.ArmorType.Pernas',
+      'pes': 'CARDIGAN.ArmorType.Pes'
+    };
+    
+    // Prepare armor data for template
+    const armorData = armors.map(armor => {
+      const armorTypeKey = armor.system.armorType || 'torso';
+      return {
+        id: armor.id,
+        name: armor.name,
+        armorType: armorTypeKeys[armorTypeKey] || 'CARDIGAN.ArmorType.Torso',
+        isSelected: previouslySelected.includes(armor.id)
+      };
+    });
+    
+    // Render template
+    const template = await foundry.applications.handlebars.getTemplate(
+      'systems/cardigan/templates/dialogs/armor-durability-selection.hbs'
+    );
+    const content = template({ armors: armorData });
+    
+    const dialog = new foundry.applications.api.DialogV2({
+      window: {
+        title: "🛡️ Selecionar Armaduras para Danificar",
+        icon: "fa-solid fa-shield-halved"
+      },
+      content: content,
+      buttons: [
+        {
+          action: "confirm",
+          icon: "fa-solid fa-check",
+          label: "Confirmar",
+          default: true,
+          callback: (event, button) => {
+            const dialogElement = button.closest('.dialog-content') || button.closest('form');
+            const checkboxes = dialogElement?.querySelectorAll('.armor-checkbox:checked');
+            const selected = Array.from(checkboxes || []).map(cb => cb.dataset.armorId);
+            resolve(selected);
+          }
+        },
+        {
+          action: "cancel",
+          icon: "fa-solid fa-times",
+          label: "Cancelar",
+          callback: () => {
+            resolve(previouslySelected);
+          }
+        }
+      ],
+      position: {
+        width: 500,
+        height: "auto"
+      },
+      classes: ['armor-durability-selection-dialog']
+    });
+    
+    dialog.render(true);
+  });
 }
 
 /**
@@ -980,11 +1174,12 @@ async function createGMEvasionNotification(data) {
   
   // Render template using V13+ namespaced API
   const template = await foundry.applications.handlebars.getTemplate(
-    'systems/cardigan/templates/dialogs/evasion-result.hbs'
+    'systems/cardigan/templates/dialogs/gm-dialog-combat.hbs'
   );
   const content = template({
     playerName,
     characterName,
+    defenderId: actorId,
     evasionTotal,
     attackTotal,
     success,
@@ -1032,6 +1227,36 @@ async function createGMEvasionNotification(data) {
             const newHP = Math.max(0, currentHP - finalDamage);
             await actor.update({ 'system.health.value': newHP });
             
+            // Reduce durability of selected armors
+            if (selectedArmorIds.length > 0) {
+              for (const armorId of selectedArmorIds) {
+                const armor = actor.items.get(armorId);
+                if (armor && armor.type === 'armadura') {
+                  const currentDurability = armor.system.durability?.current ?? 0;
+                  if (currentDurability > 0) {
+                    const newDurability = Math.max(0, currentDurability - 1);
+                    await armor.update({
+                      'system.durability.current': newDurability
+                    });
+                    
+                    // Send durability notification via socket to defender only
+                    const durabilityNotificationData = {
+                      actorId: actorId,
+                      armorName: armor.name,
+                      isBroken: newDurability === 0,
+                      currentDurability: currentDurability,
+                      newDurability: newDurability
+                    };
+                    
+                    game.socket.emit("system.cardigan", {
+                      action: "notifyArmorDurability",
+                      payload: durabilityNotificationData
+                    });
+                  }
+                }
+              }
+            }
+            
             // Create notification message for the character owner
             const notificationData = {
               actorId: actorId,
@@ -1051,6 +1276,18 @@ async function createGMEvasionNotification(data) {
             showDamageNotification(notificationData);
             
             // Create detailed chat message
+            // Check if defender is GM-controlled (no player owner) to simplify message
+            const isGMControlled = actor && !actor.hasPlayerOwner;
+            
+            let damageDetails;
+            if (isGMControlled) {
+              // Simplified message for GM-controlled actors - only show raw damage
+              damageDetails = `💥 Dano: ${rawDamage}`;
+            } else {
+              // Detailed message for player-owned characters - show armor calculations
+              damageDetails = `💥 Dano Bruto: ${rawDamage} | 🛡️ Armor: ${armor}${ignoreArmor > 0 ? ` | 🚫 Ignorado: ${ignoreArmor} | 🛡️ Efetivo: ${effectiveArmor}` : ''} | 💔 Dano Final: ${finalDamage}`;
+            }
+            
             const messageContent = `
               <div style="text-align: center; padding: 8px; background: rgba(76, 175, 80, 0.1); border: 2px solid #4CAF50; border-radius: 4px;">
                 <h3 style="margin: 0 0 4px 0; color: #4CAF50;">
@@ -1058,7 +1295,7 @@ async function createGMEvasionNotification(data) {
                 </h3>
                 <p style="margin: 0;"><strong>${characterName}</strong> foi atingido pelo ataque!</p>
                 <p style="margin: 4px 0 0 0; font-size: 0.9em;">
-                  💥 Dano Bruto: ${rawDamage} | 🛡️ Armor: ${armor}${ignoreArmor > 0 ? ` | 🚫 Ignorado: ${ignoreArmor} | 🛡️ Efetivo: ${effectiveArmor}` : ''} | 💔 Dano Final: ${finalDamage}
+                  ${damageDetails}
                 </p>
               </div>
             `;
@@ -1322,9 +1559,58 @@ async function createGMEvasionNotification(data) {
     classes: ['cardigan-evasion-dialog']
   });
   
+  // Store selected armor IDs for durability reduction
+  let selectedArmorIds = [];
+  
   // Wait for dialog to render, then attach event listeners
   dialog.addEventListener('render', () => {
     updateRemainingHP(dialog.element);
+    
+    // Add armor durability selection button handler
+    const armorSelectBtn = dialog.element.querySelector('.select-armor-durability-btn');
+    if (armorSelectBtn) {
+      armorSelectBtn.addEventListener('click', async () => {
+        const defenderId = armorSelectBtn.dataset.defenderId;
+        const defenderActor = game.actors.get(defenderId);
+        
+        if (!defenderActor) {
+          ui.notifications.warn("Defensor não encontrado!");
+          return;
+        }
+        
+        // Get equipped armors with durability > 0
+        const equippedArmors = defenderActor.items.filter(item => 
+          item.type === 'armadura' && 
+          item.system.equipped && 
+          (item.system.durability?.current ?? 0) > 0
+        );
+        
+        if (equippedArmors.length === 0) {
+          ui.notifications.info("Nenhuma armadura equipada disponível para danificar!");
+          return;
+        }
+        
+        // Show armor selection dialog
+        selectedArmorIds = await showArmorDurabilityDialog(equippedArmors, selectedArmorIds);
+        
+        // Update display
+        const displaySpan = dialog.element.querySelector('.selected-armors-display');
+        if (displaySpan) {
+          if (selectedArmorIds.length === 0) {
+            displaySpan.textContent = '';
+          } else {
+            const selectedNames = selectedArmorIds.map(id => {
+              const armor = equippedArmors.find(a => a.id === id);
+              return armor ? armor.name : '';
+            }).filter(n => n).join(', ');
+            displaySpan.textContent = `(${selectedArmorIds.length}): ${selectedNames}`;
+            displaySpan.style.color = '#4CAF50';
+            displaySpan.style.fontSize = '0.9em';
+            displaySpan.style.marginLeft = '8px';
+          }
+        }
+      });
+    }
     
     // Add custom tooltip to reroll button
     const rerollButton = dialog.element.querySelector('button[data-action="reroll"]');

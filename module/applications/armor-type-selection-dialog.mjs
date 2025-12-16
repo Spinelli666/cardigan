@@ -76,7 +76,7 @@ export class ArmorTypeSelectionDialog extends HandlebarsApplicationMixin(Applica
     // Add click handlers to armor type options
     this.element.querySelectorAll('.armor-type-option').forEach(option => {
       option.addEventListener('click', (event) => {
-        const armorType = option.dataset.armorType;
+        const armorType = option.dataset.type;
         this._selectType(armorType);
       });
       
@@ -97,7 +97,7 @@ export class ArmorTypeSelectionDialog extends HandlebarsApplicationMixin(Applica
    * @private
    */
   static async _onSelectType(event, target) {
-    const armorType = target.dataset.armorType || target.closest('[data-armor-type]')?.dataset.armorType;
+    const armorType = target.dataset.type || target.closest('[data-type]')?.dataset.type;
     if (armorType) {
       this._selectType(armorType);
     }

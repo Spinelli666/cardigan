@@ -362,6 +362,10 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       const isEquipped = weapon.system.rightHand || weapon.system.leftHand;
       if (!isEquipped) continue;
       
+      // Skip if weapon is broken (durability 0 or less)
+      const currentDurability = weapon.system.durability?.current ?? 0;
+      if (currentDurability <= 0) continue;
+      
       const skillBonuses = weapon.system.skillBonuses || [];
       
       for (const skillBonus of skillBonuses) {
@@ -430,6 +434,10 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       // Only apply bonuses if armor is equipped
       const isEquipped = armor.system.equipped;
       if (!isEquipped) continue;
+      
+      // Skip if armor is broken (durability 0 or less)
+      const currentDurability = armor.system.durability?.current ?? 0;
+      if (currentDurability <= 0) continue;
       
       // 1. Calculate skill bonuses from armors
       const skillBonuses = armor.system.skillBonuses || [];
