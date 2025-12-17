@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: justify\">Uma vez ao dia pode ignorar uma <em>Sentença de Morte</em> que receber ao ser <code>@UUID[Compendium.cardigan.efeitos-cardigan.Item.sS7tT8uU9vV0wW1X]{Derrotado}</code>.</p>"
+    "description": "<p><br></p><p style=\"text-align: justify\">Uma vez ao dia pode ignorar uma <em>Sentença de Morte</em> que receber ao ser <code>☠️@UUID[Compendium.cardigan.efeitos-cardigan.Item.sS7tT8uU9vV0wW1X]{Derrotado}</code>.</p>"
   },
   "effects": [],
   "folder": "SkRacHumanoXy9Za",
