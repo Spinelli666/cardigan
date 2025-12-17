@@ -11,7 +11,7 @@
     "skillClass": "andarilho",
     "spellCategories": [],
     "hasEnergyCost": true,
-    "energyCost": 10,
+    "energyCost": 2,
     "hasCustomEffects": true,
     "customEffects": [
       {
@@ -49,7 +49,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Sobe a categoria de dado dessa habilidade para <strong><code>1d8</code></strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Sobe a categoria de dado dessa habilidade para <strong><code>+1d8</code></strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": true,
@@ -63,7 +63,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você é bom mandando aquele discurso épico.\"</em></p><p><br></p><p style=\"text-align: justify\">* Ao usar essa habilidade você testa <em>Persuasão</em> para realizar um discurso inspirador aos seus aliados que podem ouvi-lo, fazendo com que o próximo ::systems/cardigan/assets/images/weapons/sword.webp::<strong>Dano</strong> e regeneração de <strong><code>💔PV</code></strong> e <strong><code>⚡️PE</code></strong> destes alvos seja aumentado em <strong><code>1d4</code></strong> para cada ponto de <em>Persuasão</em> na sua ficha.</p><p style=\"text-align: justify\">* Além disso, todos recebem <strong><code>🌟@UUID[Compendium.cardigan.efeitos-cardigan.Item.k8JmN5PrQwX7VzBt]{Inspirado}³</code></strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você é bom mandando aquele discurso épico.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao usar essa habilidade você testa <strong>Persuasão</strong> para realizar um discurso inspirador aos seus aliados que podem ouvi-lo, fazendo com que o próximo ::systems/cardigan/assets/images/weapons/sword.webp::<strong>Dano</strong> <em>e</em> regeneração de <strong><code>💔PV</code></strong> e <strong><code>⚡️PE</code></strong> destes alvos seja aumentado em <strong><code>+1d4</code></strong> para cada ponto de <strong>Persuasão</strong> na sua ficha.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Além disso, todos recebem <strong><code>🌟@UUID[Compendium.cardigan.efeitos-cardigan.Item.k8JmN5PrQwX7VzBt]{Inspirado}³</code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

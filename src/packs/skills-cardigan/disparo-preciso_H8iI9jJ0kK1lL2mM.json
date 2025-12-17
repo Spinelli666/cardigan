@@ -6,19 +6,24 @@
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillActionTypes": [
-      "foco",
-      "deslocamento"
+      "active"
     ],
     "skillClass": "andarilho",
     "spellCategories": [],
-    "hasEnergyCost": false,
-    "energyCost": 0,
-    "hasCustomEffects": false,
-    "customEffects": [],
+    "hasEnergyCost": true,
+    "energyCost": 3,
+    "hasCustomEffects": true,
+    "customEffects": [
+      {
+        "id": "w4xY6z7A8bC9dE0F",
+        "name": "Fratura",
+        "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
+      }
+    ],
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">O disparo ignora <code>1d12</code>::systems/cardigan/assets/images/weapons/shield.webp::<strong>Armadura</strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">O disparo ignora <strong><code>2d20</code></strong>::systems/cardigan/assets/images/weapons/shield.webp::<strong>Armadura</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -28,11 +33,17 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">Pode testar <em>Destreza</em> para ganhar metade da sua <em>Destreza</em> como ::systems/cardigan/assets/images/types-actions/movement-action.webp::<em>Deslocamento</em> após o uso dessa habilidade.</p>",
+        "description": "<p style=\"text-align: justify;\">Essa habilidade sempre aplica <strong><code>🩸@UUID[Compendium.cardigan.efeitos-cardigan.Item.Z2aA3bB4cCd5eE6F]{Sangramento}</code></strong> instantaneamente.</p>",
         "hasEnergy": false,
         "energyCost": 0,
-        "hasEffects": false,
-        "customEffects": [],
+        "hasEffects": true,
+        "customEffects": [
+          {
+            "id": "Z2aA3bB4cCd5eE6F",
+            "name": "Sangramento",
+            "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
+          }
+        ],
         "hasLinkedSkills": false,
         "linkedSkills": []
       },
@@ -58,7 +69,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p style=\"text-align: justify\">* Essa habilidade sacrifica seu turno de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<em>Deslocamento</em> para realizar um disparo com sua Arma à Distância que ignora <strong><code>💔PV Temporário</code></strong> e <strong><code>1d8</code>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo inimigo.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Realiza um disparo com sua Arma à Distância que ignora <strong><code>💔PV Temporário</code></strong> e <strong><code>1d20</code>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo inimigo.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Reduz <strong><code>-1</code></strong> a <strong>Durabilidade</strong> da <strong>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> acertada.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Aplica <strong><code>+1</code></strong> <strong><code><strong><code>⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong></code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

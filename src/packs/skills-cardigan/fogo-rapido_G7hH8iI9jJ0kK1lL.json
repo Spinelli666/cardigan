@@ -11,7 +11,7 @@
     "skillClass": "andarilho",
     "spellCategories": [],
     "hasEnergyCost": true,
-    "energyCost": 20,
+    "energyCost": 5,
     "hasCustomEffects": true,
     "customEffects": [
       {
@@ -23,7 +23,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Se acertar todos os testes pode repetir a habilidade no mesmo turno.</p>",
+        "description": "<p style=\"text-align: justify\">Pode disparar mais uma ::systems/cardigan/assets/images/weapons/ammunition.webp::Munição</strong> adicional.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -33,7 +33,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Se acertar apenas um ataque pode recanalizar essa habilidade no mesmo turno; este efeito só ocorre uma vez.</p>",
+        "description": "<p style=\"text-align: justify\"><em>Encandecer</em> não possui mais custo de <em>Ponto de Ação</em>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -43,7 +43,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Reduz o custo de <em>Encandecer</em> para <code>2⚙️</code>.</p>",
+        "description": "<p style=\"text-align: justify\">O Efeito <strong><code>🔥@UUID[Compendium.cardigan.efeitos-cardigan.Item.jK7kL8lM9mN0nO1o]{Incendiado}</code></strong> se estende por mais uma rodada.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -57,7 +57,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você dispara uma saraivada de projéteis freneticamente.\"</em></p><p><br></p><p style=\"text-align: justify\">⋆ Com sua Arma à Distância equipada em sua mão principal, você realiza quatro ataques consecutivos, rolando <strong>4x</strong> Testes de Precisão:</p><ul><li><p style=\"text-align: justify\">O <strong>primeiro acerto</strong> da sequência causa seu <strong>dano total</strong>.</p></li><li><p style=\"text-align: justify\">Os <strong>acertos consecutivos</strong> causam <strong>metade</strong> do seu dano total.</p></li><li><p style=\"text-align: justify\">Não é possível realizar um Acerto Crítico nos acertos consecutivos após o primeiro, e os últimos dois ataques não custam munição.</p></li></ul><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Encandecer ‣</strong> Com uma Ação Simples e a custo de <strong><code>4⚙️Componentes</code></strong> pode encandecer seus disparos causando a condição <strong><code>🔥@UUID[Compendium.cardigan.efeitos-cardigan.Item.jK7kL8lM9mN0nO1o]{Incendiado}¹</code></strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você dispara uma saraivada de projéteis freneticamente.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Após acertar um ataque com sua Arma à Distância você continua disparando, e para cada ::systems/cardigan/assets/images/weapons/ammunition.webp::<strong>Munição</strong> gasta você causa <strong>metade</strong> do seu <strong>dano total</strong> novamente.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Pode disparar até <strong>duas ::systems/cardigan/assets/images/weapons/ammunition.webp::Munições</strong> adicionais.</p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/types-actions/simple-action.webp:: ⬩ <strong>Encandecer ‣</strong> Com uma <em>Ação Curta</em> <strong><code>〔🔶〕</code></strong> e a custo de <strong><code>4⚙️Componentes</code></strong> pode encandecer seus disparos causando a condição <strong><code>🔥@UUID[Compendium.cardigan.efeitos-cardigan.Item.jK7kL8lM9mN0nO1o]{Incendiado}¹</code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

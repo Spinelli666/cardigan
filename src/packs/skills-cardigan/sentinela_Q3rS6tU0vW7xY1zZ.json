@@ -6,13 +6,13 @@
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillActionTypes": [
-      "foco",
-      "active"
+      "simples",
+      "foco"
     ],
     "skillClass": "andarilho",
     "spellCategories": [],
     "hasEnergyCost": true,
-    "energyCost": 10,
+    "energyCost": 2,
     "hasCustomEffects": false,
     "customEffects": [],
     "enhancements": [
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você entra em foco absoluto e persegue um inimigo\"</em></p><p><br></p><p style=\"text-align: justify\">* Ao ativar essa habilidade de <em>Foco</em> você marca um inimigo em seu campo de visão para vigiar. A partir daí, toda vez que ese alvo tentar usar uma ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> você pode realizar um ataque simples contra ele.</p><p style=\"text-align: justify;\">* Enquanto <em>Sentinela</em> estiver ativo você é capaz de detectar armadilhas e inimigos ocultos por <em>Furtividade</em> sem necessidade de testes.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você entra em foco absoluto e persegue um inimigo.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao ativar essa habilidade de <em>Foco</em> você marca um inimigo em seu campo de visão para vigiar. A partir daí, toda vez que ese alvo tentar usar uma ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> você pode realizar um ataque simples contra ele.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Enquanto <em>Sentinela</em> estiver ativo você é capaz de detectar armadilhas e inimigos ocultos por <em>Furtividade</em> sem necessidade de testes.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",
