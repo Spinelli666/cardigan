@@ -6,19 +6,19 @@
   "img": "systems/cardigan/assets/images/paths/warrior.webp",
   "system": {
     "skillActionTypes": [
-      "foco",
-      "simples"
+      "active",
+      "foco"
     ],
     "skillClass": "guerreiro",
     "spellCategories": [],
     "hasEnergyCost": true,
-    "energyCost": 5,
+    "energyCost": 2,
     "hasCustomEffects": false,
     "customEffects": [],
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">Aumenta o dado desta habilidade para <code>1d8</code>.</p>",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dado desta habilidade para <strong><code>1d8</code></strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -38,7 +38,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">O dano total sob efeito desta habilidade ignora toda <strong>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">O dano total sob efeito desta habilidade ignora toda <strong>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você planeja onde, quando e como acertar seu inimigo com todo talento e atenção.\"</em></p><p><br></p><p style=\"text-align: justify\">* Ao usar essa habilidade você começa a preparar o golpe perfeito, e assim entra o efeito de <strong>Foco</strong>. Você leva uma rodada para canalizar esta habilidade e receber qualquer tipo de <em>dano</em> ou <em>Efeito Negativo</em> cancela sua canalização.</p><p></p><p style=\"text-align: justify\">* Em sua próxima rodada de ataque você terá <strong><code>+1</code> Precisão</strong> e causará <strong><code>+1d6</code></strong> de dano por ponto de <strong>Força</strong>, cumulativo com seu dano base ou de outra habilidade.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você planeja onde, quando e como acertar seu inimigo com todo talento e atenção.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você começa a preparar o golpe perfeito, e assim entra o efeito de <strong>Foco</strong>. Você leva <strong>uma Rodada</strong> para canalizar esta habilidade e <strong>causar</strong> ou <strong>receber</strong> qualquer tipo de <strong>dano</strong> ou <em>Efeito Negativo</em> cancela sua canalização.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Em sua próxima rodada de ataque você terá <strong><code>+1</code> Precisão</strong> e causará <strong><code>+1d6</code></strong> de dano por ponto de <strong>Força</strong>, cumulativo com seu dano base ou de outra habilidade.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

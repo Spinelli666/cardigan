@@ -12,13 +12,13 @@
     "skillClass": "guerreiro",
     "spellCategories": [],
     "hasEnergyCost": true,
-    "energyCost": 10,
+    "energyCost": 4,
     "hasCustomEffects": false,
     "customEffects": [],
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">Caso receba um segundo ataque na próxima rodada, adicione <em>Vantagem</em> à <em>Evasão</em> novamente.</p>",
+        "description": "<p style=\"text-align: justify;\">Adicione <strong>Vantagem</strong> à <strong>Evasão</strong> de ataques duplos ou múltiplos.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -28,7 +28,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">Evadir criticamente recupera a <code>⚡️Energia</code> gasta nesta habilidade.</p>",
+        "description": "<p style=\"text-align: justify;\">Evadir criticamente recupera a <strong><code>⚡️Energia</code></strong> gasta nesta habilidade.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -38,9 +38,9 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Agora pode usar esta habilidade com uma <strong>::systems/cardigan/assets/images/types-actions/simple-action.webp:: Ação Simples</strong>.</p>",
-        "hasEnergy": false,
-        "energyCost": 0,
+        "description": "<p style=\"text-align: justify;\">Reduz o custo para <strong><code>2</code></strong> <strong><code>⚡️PE</code></strong>.</p>",
+        "hasEnergy": true,
+        "energyCost": 2,
         "hasEffects": false,
         "customEffects": [],
         "hasLinkedSkills": false,
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se posiciona com cuidado, preparado para qualquer ataque próximo.\"</em></p><p><br></p><p style=\"text-align: justify;\">* Recebe <strong>Vantagem</strong> no próximo teste de <strong>Evasão</strong>.</p><p style=\"text-align: justify;\">* Reduza pela metade todo dano recebido até sua próxima rodada.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Toma uma postura defensiva e se prepara para o pior.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Recebe <strong>Vantagem</strong> no próximo teste de <strong>Evasão</strong>.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Reduza pela <strong>metade</strong> o próximo <strong>dano</strong> recebido.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

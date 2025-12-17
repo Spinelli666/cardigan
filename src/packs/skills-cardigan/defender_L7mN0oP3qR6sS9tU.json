@@ -11,13 +11,13 @@
     "skillClass": "guerreiro",
     "spellCategories": [],
     "hasEnergyCost": true,
-    "energyCost": 5,
+    "energyCost": 1,
     "hasCustomEffects": false,
     "customEffects": [],
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">Se a defesa for <em>Crítica</em> você pode contra-atacar o alvo atacante.</p>",
+        "description": "<p style=\"text-align: justify;\">Se a <strong>Evasão</strong> for <em>Crítica</em> você pode <strong>contra-atacar</strong> o alvo atacante.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -27,7 +27,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">Reflete ataques de projétil e projétil mágico de volta ao atacante ao defender com sucesso.</p>",
+        "description": "<p style=\"text-align: justify;\">Se a <strong>Evasão</strong> for <em>Crítica</em> você reflete ataques de projéteis de volta ao atacante.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -37,7 +37,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Remove o custo de <code>⚡️Energia</code> desta habilidade.</p>",
+        "description": "<p style=\"text-align: justify;\">Remove o custo de <strong><code>⚡️Energia</code></strong> desta habilidade.</p>",
         "hasEnergy": true,
         "energyCost": 0,
         "hasEffects": false,
@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Tomando uma postura defensiva rápida você defende um aliado próximo.\"</em></p><p><br></p><p style=\"text-align: justify\">* Quando um alvo até <em>2 metros</em> for visado por um Ataque Físico ou Feitiço, você pode utilizar esta técnica para ser o alvo deste ataque, deslocando seu personagem para a frente do aliado defendido, se possível.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você toma a frente de um aliado para salvá-lo de um golpe fatal.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Quando um alvo até <em>3 metros</em> for visado por um Ataque Físico ou Feitiço, você pode utilizar esta técnica para ser o alvo deste ataque, deslocando seu personagem para a frente do aliado defendido, se possível.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

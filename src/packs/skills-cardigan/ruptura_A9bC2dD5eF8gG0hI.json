@@ -11,7 +11,7 @@
     "skillClass": "guerreiro",
     "spellCategories": [],
     "hasEnergyCost": true,
-    "energyCost": 20,
+    "energyCost": 4,
     "hasCustomEffects": true,
     "customEffects": [
       {
@@ -23,9 +23,9 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">Reduz o custo para <code>15⚡️</code>.</p>",
+        "description": "<p style=\"text-align: justify;\">Reduz o custo para <code>2⚡️</code>.</p>",
         "hasEnergy": true,
-        "energyCost": 15,
+        "energyCost": 2,
         "hasEffects": false,
         "customEffects": [],
         "hasLinkedSkills": false,
@@ -33,7 +33,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">Ignora <code>1d10</code><strong>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo.</p>",
+        "description": "<p style=\"text-align: justify;\">Ignora <strong><code>1d20</code></strong><strong>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -57,7 +57,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você deposita toda sua força em um golpe destruidor.\"</em></p><p><br></p><p style=\"text-align: justify;\">* Soma sua <strong>FORÇA</strong> como dano mais uma vez.</p><p style=\"text-align: justify;\">* Ignora <code>1d10</code><strong>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo e a danifica em <strong><code>-2</code></strong> <em>Durabilidade</em>.</p><p style=\"text-align: justify;\">* Aplica <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você deposita toda sua força em um golpe destruidor.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Soma sua <strong>FORÇA</strong> como dano mais uma vez.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ignora <code>1d12</code><strong>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo e a danifica em <strong><code>-2</code></strong> <em>Durabilidade</em>.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Aplica <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

@@ -12,7 +12,7 @@
     "skillClass": "guerreiro",
     "spellCategories": [],
     "hasEnergyCost": true,
-    "energyCost": 15,
+    "energyCost": 3,
     "hasCustomEffects": false,
     "customEffects": [],
     "enhancements": [
@@ -44,7 +44,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Aumenta o dano por metro percorrido para <code>1d8+2</code>.</p>",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dano por metro percorrido para <strong><code>+1d8+2</code></strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -58,7 +58,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Para cima deles!\"</em></p><p><br></p><p style=\"text-align: justify;\">* Você corre em linha reta até um destino a sua escolha podendo atravessar e derrubar qualquer criatura em seu caminho. A Investida utiliza sua <strong>::systems/cardigan/assets/images/types-actions/double-action.webp:: Ação Ativa</strong> e sua <strong>::systems/cardigan/assets/images/types-actions/movement-action.webp::Ação de Deslocamento</strong> que também será usada para medir a distância possível da Investida.</p><p>* Para <em>cada metro</em> percorrido até cada inimigo você causa <strong><code>1d4+2</code></strong> de dano além do dano base.</p><p style=\"text-align: justify;\">* Você pode realizar a técnica <strong>::systems/cardigan/assets/images/types-actions/simple-action.webp:: Arremessar</strong> no último inimigo atingido sem testar <strong>Agarrar</strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Para cima deles!\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você corre em linha reta até um destino a sua escolha podendo atravessar e derrubar qualquer criatura em seu caminho. Seu total de <strong>::systems/cardigan/assets/images/types-actions/movement-action.webp::Deslocamento</strong> determina a distância possível da Investida.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Para <strong>cada metro</strong> percorrido até <strong>cada inimigo</strong> você causa <strong><code>+1d4+2</code></strong> de dano.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você pode realizar a técnica <strong>::systems/cardigan/assets/images/types-actions/simple-action.webp::<code>Arremessar</code></strong> no último inimigo atingido.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

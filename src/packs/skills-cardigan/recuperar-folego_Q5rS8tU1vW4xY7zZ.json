@@ -28,7 +28,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">Aumenta o dado de recuperação para <code>2d20</code>.</p>",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dado de recuperação para <strong><code>2d20</code></strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se ausenta da batalha por um tempo para respirar.\"</em></p><p><br></p><p style=\"text-align: justify\">* Pode tirar uma rodada recuperando o fôlego:</p><blockquote><p style=\"text-align: justify\">Recupera <strong><code>1d20 + 2xVIGOR</code></strong> em <code>💔PV</code> ou <code>⚡️PE</code>.</p></blockquote><p style=\"text-align: justify\">* Como toda habilidade de Foco será interrompida se receber dano ou Efeitos Negativos.</p><p style=\"text-align: justify\">* Esta habilidade só pode ser utilizada novamente depois de um <em>Descanso</em>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se ausenta da batalha por um tempo para respirar.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Se afasta da batalha <strong>uma rodada</strong> para se recuperar:</p><blockquote><p style=\"text-align: justify\">Recupera <strong><code>1d20 + 2xVIGOR</code></strong> em <code>💔PV</code> <strong>ou</strong> <code>⚡️PE</code>.</p></blockquote><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você não pode realizar qualquer <em>Ação</em> enquanto se recupera, e receber <em>dano</em> ou <em>Efeitos Negativos</em> interrompe a canalização.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Esta habilidade só pode ser utilizada novamente depois de um <em>Descanso</em>.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

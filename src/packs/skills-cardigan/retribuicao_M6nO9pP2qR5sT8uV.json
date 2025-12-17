@@ -18,7 +18,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">Aumenta o dado para <strong><code>1d10</code></strong></p>",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dano para <strong><code>1d6</code></strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você tem a companhia de forças divinas contando com a sua vitória.\"</em></p><p><br></p><p style=\"text-align: justify\">* Enquanto nesta postura sempre que você ou qualquer aliado à vista receber qualquer tipo de dano, você recebe <strong><code>1</code></strong> ponto de <strong>Retribuição</strong>.</p><p style=\"text-align: justify\">* Após você causar dano à um alvo pode remover todos pontos de Retribuição acumulados. Para cada ponto removido você causa <strong><code>+1d6</code></strong> de dano adicional.</p><p><br></p><p style=\"text-align: justify\">* Caso não utilizados, todos os pontos de Retribuição são removidos ao final de um combate.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você tem a companhia de forças divinas contando com a sua vitória.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/arcane-star-blue.webp::Após gastar o custo de <em>Pontos de Ação</em> dessa habilidade ela permanece ativa passivamente até o fim do combate.</p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Sempre que você ou qualquer aliado à vista receber qualquer tipo de dano, você recebe <strong><code>1</code></strong> ponto de <strong>Retribuição</strong>, com limite de <strong><code>6</code></strong>. Após você causar dano à um alvo pode remover todos pontos de <strong>Retribuição</strong> acumulados. Para cada ponto removido você causa <strong><code>+1d4</code></strong> de dano adicional.</p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Caso não utilizados, todos os pontos de Retribuição são removidos ao final de um combate.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",
