@@ -33,16 +33,11 @@ CARDIGAN.abilityAbbreviations = {
  * @type {Object}
  */
 CARDIGAN.skillTypes = {
-  general: 'CARDIGAN.Item.Skill.Types.General',
-  extra: 'CARDIGAN.Item.Skill.Types.Extra',
-  active: 'CARDIGAN.Item.Skill.Types.Active',
-  foco: 'CARDIGAN.Item.Skill.Types.Foco',
-  deslocamento: 'CARDIGAN.Item.Skill.Types.Deslocamento',
   passiva: 'CARDIGAN.Item.Skill.Types.Passiva',
-  simples: 'CARDIGAN.Item.Skill.Types.Simples',
-  reacao: 'CARDIGAN.Item.Skill.Types.Reacao',
-  postura: 'CARDIGAN.Item.Skill.Types.Postura',
-  iniciativa: 'CARDIGAN.Item.Skill.Types.Iniciativa'
+  'long-action': 'CARDIGAN.Item.Skill.Types.LongAction',
+  foco: 'CARDIGAN.Item.Skill.Types.Foco',
+  'short-action': 'CARDIGAN.Item.Skill.Types.ShortAction',
+  reacao: 'CARDIGAN.Item.Skill.Types.Reacao'
 };
 
 /**

@@ -282,16 +282,11 @@
         "EffectPlaceholder": "Describe the mechanical effects and benefits of this skill...",
         "PrerequisitesPlaceholder": "List any prerequisites or requirements for learning this skill...",
         "Types": {
-          "General": "General",
-          "Extra": "Extra",
-          "Active": "Active",
+          "LongAction": "Long Action",
           "Foco": "FOCO",
-          "Deslocamento": "Deslocamento",
           "Passiva": "Passiva",
-          "Simples": "Simples",
-          "Reacao": "Reação",
-          "Postura": "Postura",
-          "Iniciativa": "Iniciativa"
+          "ShortAction": "Short Action",
+          "Reacao": "Reação"
         },
         "Class": "Skill Class",
         "Classes": {

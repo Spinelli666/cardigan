@@ -6,8 +6,7 @@
   "img": "systems/cardigan/assets/images/paths/warrior.webp",
   "system": {
     "skillActionTypes": [
-      "active",
-      "deslocamento"
+      "long-action"
     ],
     "skillClass": "guerreiro",
     "spellCategories": [],

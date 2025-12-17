@@ -6,7 +6,7 @@
   "img": "systems/cardigan/assets/images/paths/wizard.webp",
   "system": {
     "skillActionTypes": [
-      "simples"
+      "short-action"
     ],
     "skillClass": "feiticeiro",
     "spellCategories": ["neutro"],

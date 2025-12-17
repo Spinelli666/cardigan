@@ -6,7 +6,7 @@
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillActionTypes": [
-      "active"
+      "long-action"
     ],
     "skillClass": "andarilho",
     "spellCategories": [],

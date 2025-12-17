@@ -248,7 +248,7 @@
     },
     "skill": {
       "templates": ["base"],
-      "skillType": "general",
+      "skillType": "passiva",
       "skillClass": "general",
       "hasEnergyCost": false,
       "energyCost": 0,

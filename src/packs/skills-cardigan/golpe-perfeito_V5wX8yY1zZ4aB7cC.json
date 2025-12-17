@@ -6,7 +6,7 @@
   "img": "systems/cardigan/assets/images/paths/warrior.webp",
   "system": {
     "skillActionTypes": [
-      "active",
+      "long-action",
       "foco"
     ],
     "skillClass": "guerreiro",

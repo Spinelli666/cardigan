@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Até o final do seu próximo turno, sempre que você causar qualquer tipo de dano ou regeneração de <code>💔PV</code>, este valor será <code>reduzido pela metade</code>.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify\">Até o final do seu próximo turno, sempre que você causar qualquer tipo de dano ou regeneração de <code>💔PV</code>, este valor será <em>reduzido pela metade</em>.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

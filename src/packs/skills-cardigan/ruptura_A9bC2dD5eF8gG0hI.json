@@ -6,7 +6,7 @@
   "img": "systems/cardigan/assets/images/paths/warrior.webp",
   "system": {
     "skillActionTypes": [
-      "active"
+      "long-action"
     ],
     "skillClass": "guerreiro",
     "spellCategories": [],
@@ -25,7 +25,7 @@
         "name": "Aprimoramento 1",
         "description": "<p style=\"text-align: justify;\">Reduz o custo para <code>2⚡️</code>.</p>",
         "hasEnergy": true,
-        "energyCost": 2,
+        "energyCost": 3,
         "hasEffects": false,
         "customEffects": [],
         "hasLinkedSkills": false,

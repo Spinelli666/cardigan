@@ -6,7 +6,7 @@
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillActionTypes": [
-      "simples"
+      "short-action"
     ],
     "skillClass": "andarilho",
     "spellCategories": [],
@@ -59,7 +59,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Os efeitos desta habilidade também aplicam <strong><code>+1</code></strong><strong><code>1⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong> adicional.</p>",
+        "description": "<p style=\"text-align: justify\">Os efeitos desta habilidade também aplicam <strong><code>+1</code></strong><strong><code>⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong> adicional.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": true,

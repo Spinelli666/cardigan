@@ -6,7 +6,7 @@
   "img": "systems/cardigan/assets/images/paths/wizard.webp",
   "system": {
     "skillActionTypes": [
-      "active"
+      "long-action"
     ],
     "skillClass": "feiticeiro",
     "spellCategories": ["feerico", "caos"],

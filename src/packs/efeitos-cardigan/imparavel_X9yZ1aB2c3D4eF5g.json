@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-positive.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify;\">Não é afetado por efeitos que restrinjam suas ações, como: Enraizado, Atordoado, Caído, Congelado, Petrificado, Encantado. Receber este efeito não remove qualquer outro listado.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify;\">Não é afetado por efeitos que restrinjam suas ações, como: <em>Enraizado, Atordoado, Caído, Congelado, Petrificado, Encantado</em>. Receber este efeito não remove qualquer outro listado.</p>",
     "efeitoType": "positivo"
   },
   "effects": [],

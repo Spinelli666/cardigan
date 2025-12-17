@@ -23,20 +23,16 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
         required: false,
         blank: true,
         choices: () => CONFIG.CARDIGAN?.skillTypes || {
-          general: 'General',
-          extra: 'Extra',
+          passiva: 'Passiva',
           active: 'Active',
           foco: 'FOCO',
-          deslocamento: 'Deslocamento',
-          passiva: 'Passiva',
           simples: 'Simples',
-          reacao: 'Reação',
-          postura: 'Postura'
+          reacao: 'Reação'
         }
       }),
       {
         required: false,
-        initial: ['general'],
+        initial: ['passiva'],
         label: 'CARDIGAN.Item.Skill.ActionTypes'
       }
     );

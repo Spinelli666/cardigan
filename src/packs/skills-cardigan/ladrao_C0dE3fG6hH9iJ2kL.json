@@ -6,8 +6,8 @@
   "img": "systems/cardigan/assets/images/paths/rogue.webp",
   "system": {
     "skillActionTypes": [
-      "postura",
-      "simples"
+      "short-action",
+      "foco"
     ],
     "skillClass": "ladino",
     "spellCategories": [],

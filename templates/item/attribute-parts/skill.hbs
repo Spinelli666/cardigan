@@ -18,16 +18,11 @@
               <div class="action-type-row" data-action-type-index="{{index}}">
                 <select name="system.skillActionTypes.{{index}}" data-action-type-select>
                   <option value="">{{localize "CARDIGAN.SelectActionType"}}</option>
-                  <option value="general" {{selected actionType "general"}}>{{localize "CARDIGAN.Item.Skill.Types.General"}}</option>
-                  <option value="extra" {{selected actionType "extra"}}>{{localize "CARDIGAN.Item.Skill.Types.Extra"}}</option>
-                  <option value="active" {{selected actionType "active"}}>{{localize "CARDIGAN.Item.Skill.Types.Active"}}</option>
-                  <option value="foco" {{selected actionType "foco"}}>{{localize "CARDIGAN.Item.Skill.Types.Foco"}}</option>
-                  <option value="deslocamento" {{selected actionType "deslocamento"}}>{{localize "CARDIGAN.Item.Skill.Types.Deslocamento"}}</option>
                   <option value="passiva" {{selected actionType "passiva"}}>{{localize "CARDIGAN.Item.Skill.Types.Passiva"}}</option>
-                  <option value="simples" {{selected actionType "simples"}}>{{localize "CARDIGAN.Item.Skill.Types.Simples"}}</option>
+                  <option value="long-action" {{selected actionType "long-action"}}>{{localize "CARDIGAN.Item.Skill.Types.LongAction"}}</option>
+                  <option value="foco" {{selected actionType "foco"}}>{{localize "CARDIGAN.Item.Skill.Types.Foco"}}</option>
+                  <option value="short-action" {{selected actionType "short-action"}}>{{localize "CARDIGAN.Item.Skill.Types.ShortAction"}}</option>
                   <option value="reacao" {{selected actionType "reacao"}}>{{localize "CARDIGAN.Item.Skill.Types.Reacao"}}</option>
-                  <option value="postura" {{selected actionType "postura"}}>{{localize "CARDIGAN.Item.Skill.Types.Postura"}}</option>
-                  <option value="iniciativa" {{selected actionType "iniciativa"}}>{{localize "CARDIGAN.Item.Skill.Types.Iniciativa"}}</option>
                 </select>
                 <button type="button" class="remove-action-type-btn" data-action="removeSkillActionType" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveActionType'}}">−</button>
               </div>
@@ -36,16 +31,11 @@
             <div class="action-type-row" data-action-type-index="0">
               <select name="system.skillActionTypes.0" data-action-type-select>
                 <option value="">{{localize "CARDIGAN.SelectActionType"}}</option>
-                <option value="general">{{localize "CARDIGAN.Item.Skill.Types.General"}}</option>
-                <option value="extra">{{localize "CARDIGAN.Item.Skill.Types.Extra"}}</option>
-                <option value="active">{{localize "CARDIGAN.Item.Skill.Types.Active"}}</option>
-                <option value="foco">{{localize "CARDIGAN.Item.Skill.Types.Foco"}}</option>
-                <option value="deslocamento">{{localize "CARDIGAN.Item.Skill.Types.Deslocamento"}}</option>
                 <option value="passiva">{{localize "CARDIGAN.Item.Skill.Types.Passiva"}}</option>
-                <option value="simples">{{localize "CARDIGAN.Item.Skill.Types.Simples"}}</option>
+                <option value="long-action">{{localize "CARDIGAN.Item.Skill.Types.LongAction"}}</option>
+                <option value="foco">{{localize "CARDIGAN.Item.Skill.Types.Foco"}}</option>
+                <option value="short-action">{{localize "CARDIGAN.Item.Skill.Types.ShortAction"}}</option>
                 <option value="reacao">{{localize "CARDIGAN.Item.Skill.Types.Reacao"}}</option>
-                <option value="postura">{{localize "CARDIGAN.Item.Skill.Types.Postura"}}</option>
-                <option value="iniciativa">{{localize "CARDIGAN.Item.Skill.Types.Iniciativa"}}</option>
               </select>
               <button type="button" class="remove-action-type-btn" data-action="removeSkillActionType" data-index="0" title="{{localize 'CARDIGAN.RemoveActionType'}}">−</button>
             </div>

@@ -6,7 +6,7 @@
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillActionTypes": [
-      "simples",
+      "short-action",
       "foco"
     ],
     "skillClass": "andarilho",

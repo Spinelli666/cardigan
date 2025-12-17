@@ -6,8 +6,7 @@
   "img": "systems/cardigan/assets/images/paths/warrior.webp",
   "system": {
     "skillActionTypes": [
-      "postura",
-      "simples"
+      "short-action"
     ],
     "skillClass": "guerreiro",
     "spellCategories": [],

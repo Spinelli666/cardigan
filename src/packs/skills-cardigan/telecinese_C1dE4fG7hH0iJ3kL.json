@@ -6,8 +6,8 @@
   "img": "systems/cardigan/assets/images/paths/wizard.webp",
   "system": {
     "skillActionTypes": [
-      "simples",
-      "active",
+      "short-action",
+      "long-action",
       "foco"
     ],
     "skillClass": "feiticeiro",
