@@ -18,7 +18,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">O disparo ignora <code>1d12</code>::systems/cardigan/assets/images/armas/escudo.webp::<strong>Armadura</strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">O disparo ignora <code>1d12</code>::systems/cardigan/assets/images/weapons/shield.webp::<strong>Armadura</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -28,7 +28,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">Pode testar <em>Destreza</em> para ganhar metade da sua <em>Destreza</em> como ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Deslocamento</em> após o uso dessa habilidade.</p>",
+        "description": "<p style=\"text-align: justify;\">Pode testar <em>Destreza</em> para ganhar metade da sua <em>Destreza</em> como ::systems/cardigan/assets/images/types-actions/movement-action.webp::<em>Deslocamento</em> após o uso dessa habilidade.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -46,7 +46,7 @@
           {
             "id": "jK7kL8lM9mN0nO1o",
             "name": "Incendiado",
-            "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+            "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
           }
         ],
         "hasLinkedSkills": false,
@@ -58,7 +58,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p style=\"text-align: justify\">* Essa habilidade sacrifica seu turno de ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Deslocamento</em> para realizar um disparo com sua Arma à Distância que ignora <strong><code>💔PV Temporário</code></strong> e <strong><code>1d8</code>::systems/cardigan/assets/images/armas/escudo.webp::Armadura</strong> do alvo inimigo.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p style=\"text-align: justify\">* Essa habilidade sacrifica seu turno de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<em>Deslocamento</em> para realizar um disparo com sua Arma à Distância que ignora <strong><code>💔PV Temporário</code></strong> e <strong><code>1d8</code>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo inimigo.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

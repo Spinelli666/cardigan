@@ -34,13 +34,13 @@
           <div class="spell-categories-display">
             {{#each system.spellCategories as |category index|}}
               {{#if (eq category "neutro")}}
-                <img src="systems/cardigan/assets/images/outros/neutro-feitico.webp" alt="Neutro" class="spell-category-image" />
+                <img src="systems/cardigan/assets/images/others/neutral-spell.webp" alt="Neutro" class="spell-category-image" />
               {{else if (eq category "feerico")}}
-                <img src="systems/cardigan/assets/images/bestiario/feericos.webp" alt="Feérico" class="spell-category-image" />
+                <img src="systems/cardigan/assets/images/bestiary/fae-creatures.webp" alt="Feérico" class="spell-category-image" />
               {{else if (eq category "caos")}}
-                <img src="systems/cardigan/assets/images/bestiario/caos-indivisivel.webp" alt="Caos" class="spell-category-image" />
+                <img src="systems/cardigan/assets/images/bestiary/indivisible-chaos.webp" alt="Caos" class="spell-category-image" />
               {{else if (eq category "necromancia")}}
-                <img src="systems/cardigan/assets/images/bestiario/necromancia.webp" alt="Necromancia" class="spell-category-image" />
+                <img src="systems/cardigan/assets/images/bestiary/necromancy.webp" alt="Necromancia" class="spell-category-image" />
               {{/if}}
               {{#unless @last}}
                 <span class="spell-category-separator">⬩</span>

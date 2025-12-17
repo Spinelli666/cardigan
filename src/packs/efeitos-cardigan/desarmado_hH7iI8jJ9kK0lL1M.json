@@ -3,9 +3,9 @@
   "_key": "!items!hH7iI8jJ9kK0lL1M",
   "name": "Desarmado",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Sua arma caiu no chão a um metro de você. Você pode juntá-la com uma ::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp::<em>Ação Simples</em>.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify\">Sua arma caiu no chão a um metro de você. Você pode juntá-la com uma ::systems/cardigan/assets/images/types-actions/simple-action.webp::<em>Ação Simples</em>.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

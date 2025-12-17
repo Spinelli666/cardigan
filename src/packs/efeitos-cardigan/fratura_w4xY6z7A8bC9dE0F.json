@@ -3,9 +3,9 @@
   "_key": "!items!w4xY6z7A8bC9dE0F",
   "name": "Fratura",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Você foi gravemente ferido, e para cada ponto de Fratura que possuir seus <code>💔PV</code> & <code>⚡️PE</code> <strong>totais</strong> são reduzidos em <strong>5</strong>. Além disso, acumular <strong>5</strong> Fraturas o deixa <code>☠️Derrotado</code> Pode ser removido com um <code>💤</code> <strong>Descanso Longo</strong> ou com um <strong>::systems/cardigan/assets/images/alquimia/conjunto_cirurgico.webp::Conjunto Cirúrgico</strong>.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify\">Você foi gravemente ferido, e para cada ponto de Fratura que possuir seus <code>💔PV</code> & <code>⚡️PE</code> <strong>totais</strong> são reduzidos em <strong>5</strong>. Além disso, acumular <strong>5</strong> Fraturas o deixa <code>☠️Derrotado</code> Pode ser removido com um <code>💤</code> <strong>Descanso Longo</strong> ou com um <strong>::systems/cardigan/assets/images/alchemy/surgical-kit.webp::Conjunto Cirúrgico</strong>.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

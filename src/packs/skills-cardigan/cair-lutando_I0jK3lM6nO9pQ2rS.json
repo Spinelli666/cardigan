@@ -3,7 +3,7 @@
   "_key": "!items!I0jK3lM6nO9pQ2rS",
   "name": "Cair Lutando",
   "type": "skill",
-  "img": "systems/cardigan/assets/images/paths/raciais.webp",
+  "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
       "passiva"

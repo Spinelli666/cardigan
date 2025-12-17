@@ -3,7 +3,7 @@
   "_key": "!items!Z7aA8bB9cCd0eE1F",
   "name": "Congelado",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
     "description": "<p><br></p><p style=\"text-align: justify\">Está paralisado e não pode realizar nenhuma ação ou teste até terminar o efeito, mas recebe <code>5❄️</code> dano de Gelo a cada rodada enquanto o efeito durar.</p>",
     "efeitoType": "negativo"

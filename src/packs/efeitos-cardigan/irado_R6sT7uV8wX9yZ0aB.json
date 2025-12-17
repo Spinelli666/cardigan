@@ -3,7 +3,7 @@
   "_key": "!items!R6sT7uV8wX9yZ0aB",
   "name": "Irado",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
     "description": "<p><br></p><p style=\"text-align: justify\">Seu personagem será tomado de uma cólera furiosa e atacará tudo e todos ao redor descontroladamente, incluindo os aliados mais próximos, até o término do efeito.</p>",
     "efeitoType": "negativo"

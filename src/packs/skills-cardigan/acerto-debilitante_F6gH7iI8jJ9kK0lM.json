@@ -17,22 +17,22 @@
       {
         "id": "eE7fF8gG9hH0iI1J",
         "name": "Atordoado",
-        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+        "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
       },
       {
         "id": "Z2aA3bB4cCd5eE6F",
         "name": "Sangramento",
-        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+        "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
       },
       {
         "id": "mN2nO3oP4pQ5qR6r",
         "name": "Caído",
-        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+        "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
       },
       {
         "id": "hH7iI8jJ9kK0lL1M",
         "name": "Desarmado",
-        "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+        "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
       }
 
     ],
@@ -67,7 +67,7 @@
           {
             "id": "w4xY6z7A8bC9dE0F",
             "name": "Fratura",
-            "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+            "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
           }
         ],
         "hasLinkedSkills": false,

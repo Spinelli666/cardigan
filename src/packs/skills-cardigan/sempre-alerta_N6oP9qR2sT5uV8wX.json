@@ -3,7 +3,7 @@
   "_key": "!items!N6oP9qR2sT5uV8wX",
   "name": "Sempre Alerta",
   "type": "skill",
-  "img": "systems/cardigan/assets/images/paths/raciais.webp",
+  "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
       "passiva"

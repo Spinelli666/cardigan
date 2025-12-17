@@ -3,7 +3,7 @@
   "_key": "!items!H1iJ4kL7mN0oP3qR",
   "name": "Conhecimento Antigo",
   "type": "skill",
-  "img": "systems/cardigan/assets/images/paths/raciais.webp",
+  "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
       "passiva"

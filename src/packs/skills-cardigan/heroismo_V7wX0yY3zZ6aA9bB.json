@@ -3,7 +3,7 @@
   "_key": "!items!V7wX0yY3zZ6aA9bB",
   "name": "Heroísmo",
   "type": "skill",
-  "img": "systems/cardigan/assets/images/paths/raciais.webp",
+  "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
       "passiva"

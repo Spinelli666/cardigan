@@ -17,7 +17,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">Sempre que derrotar um inimigo recebe uma ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Ação de Deslocamento</em></p>",
+        "description": "<p style=\"text-align: justify;\">Sempre que derrotar um inimigo recebe uma ::systems/cardigan/assets/images/types-actions/movement-action.webp::<em>Ação de Deslocamento</em></p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Quando você começa a lutar é difícil de controlar a sede de sangue.\"</em></p><p><br></p><p style=\"text-align: justify\">* A cada rodada sem tomar dano você recebe <strong><code>1d4💔PV⬩Temporário</code></strong>, mas este bônus não pode passar de <strong><code>15💔PVT</code></strong>, embora ainda seja cumulativo com bônus de <code>💔PVT</code> recebido de outras fontas.</p><p><br></p><p style=\"text-align: justify;\">⋆ Uma vez por rodada, quando derrotar um inimigo você recebe:</p><ul><li><p style=\"text-align: justify;\"><strong><code>1d4⚡️PE⬩Temporário</code></strong>.</p></li><li><p style=\"text-align: justify;\">Uma  ::systems/cardigan/assets/images/tipos-acoes/acao_ativa.webp:: <strong>Ação Ativa</strong> extra.</p></li></ul>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Quando você começa a lutar é difícil de controlar a sede de sangue.\"</em></p><p><br></p><p style=\"text-align: justify\">* A cada rodada sem tomar dano você recebe <strong><code>1d4💔PV⬩Temporário</code></strong>, mas este bônus não pode passar de <strong><code>15💔PVT</code></strong>, embora ainda seja cumulativo com bônus de <code>💔PVT</code> recebido de outras fontas.</p><p><br></p><p style=\"text-align: justify;\">⋆ Uma vez por rodada, quando derrotar um inimigo você recebe:</p><ul><li><p style=\"text-align: justify;\"><strong><code>1d4⚡️PE⬩Temporário</code></strong>.</p></li><li><p style=\"text-align: justify;\">Uma  ::systems/cardigan/assets/images/types-actions/double-action.webp:: <strong>Ação Ativa</strong> extra.</p></li></ul>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

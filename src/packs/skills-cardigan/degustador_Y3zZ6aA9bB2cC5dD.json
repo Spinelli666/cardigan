@@ -3,7 +3,7 @@
   "_key": "!items!Y3zZ6aA9bB2cC5dD",
   "name": "Degustador",
   "type": "skill",
-  "img": "systems/cardigan/assets/images/paths/raciais.webp",
+  "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
       "passiva"

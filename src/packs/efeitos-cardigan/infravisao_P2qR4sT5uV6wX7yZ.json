@@ -3,7 +3,7 @@
   "_key": "!items!P2qR4sT5uV6wX7yZ",
   "name": "Infravisão",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
+  "img": "systems/cardigan/assets/images/effects/effects-positive.webp",
   "system": {
     "description": "<p><br></p><p style=\"text-align: justify;\">Você consegue enxergar no escuro e possui <em>Vantagem</em> para detectar personagens furtivos.</p>",
     "efeitoType": "positivo"

@@ -3,9 +3,9 @@
   "_key": "!items!fG7fF8gG9hH0iI1J",
   "name": "Intoxicado",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Não é afetado por efeitos de <strong>::systems/cardigan/assets/images/alquimia/tonico_alquimico.webp::Alquimia</strong>. Pode ser removido por um <code>💤</code><strong>Descanso Longo</strong> ou <strong>::systems/cardigan/assets/images/alquimia/tonico_purificador.webp::Tônico Purificador</strong>.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify\">Não é afetado por efeitos de <strong>::systems/cardigan/assets/images/alchemy/alchemical-tonic.webp::Alquimia</strong>. Pode ser removido por um <code>💤</code><strong>Descanso Longo</strong> ou <strong>::systems/cardigan/assets/images/alchemy/purifying-tonic.webp::Tônico Purificador</strong>.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

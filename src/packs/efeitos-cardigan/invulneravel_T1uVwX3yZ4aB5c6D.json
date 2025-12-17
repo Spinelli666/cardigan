@@ -3,7 +3,7 @@
   "_key": "!items!T1uVwX3yZ4aB5c6D",
   "name": "Invulnerável",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects_positive.svg",
+  "img": "systems/cardigan/assets/images/effects/effects-positive.webp",
   "system": {
     "description": "<p><br></p><p style=\"text-align: justify;\">Você não pode sofrer dano de criaturas ou objetos.</p>",
     "efeitoType": "positivo"

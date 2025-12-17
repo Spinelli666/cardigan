@@ -3,7 +3,7 @@
   "_key": "!items!D1eF4gG7hI0iJ3kL",
   "name": "Enganar a Morte",
   "type": "skill",
-  "img": "systems/cardigan/assets/images/paths/raciais.webp",
+  "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
       "passiva"

@@ -601,7 +601,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       const effectsData = [
         {
           name: "Inconsciente・Sono",
-          img: unconsciousItem.img || "systems/cardigan/assets/images/effects/effects_negative.svg",
+          img: unconsciousItem.img || "systems/cardigan/assets/images/effects/effects-negative.webp",
           flags: {
             cardigan: {
               source: "toxicity_level5",
@@ -618,7 +618,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
         },
         {
           name: "Intoxicado",
-          img: intoxicatedItem.img || "systems/cardigan/assets/images/effects/effects_negative.svg",
+          img: intoxicatedItem.img || "systems/cardigan/assets/images/effects/effects-negative.webp",
           flags: {
             cardigan: {
               source: "toxicity_level5",

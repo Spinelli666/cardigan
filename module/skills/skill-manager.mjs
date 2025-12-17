@@ -579,10 +579,10 @@ export class SkillManager {
     // Add spell categories display if skill is Feiticeiro and has categories
     if (skill.system.skillClass === 'feiticeiro' && skill.system.spellCategories && Array.isArray(skill.system.spellCategories) && skill.system.spellCategories.length > 0) {
       const categoryImages = {
-        'neutro': 'systems/cardigan/assets/images/outros/neutro-feitico.webp',
-        'feerico': 'systems/cardigan/assets/images/bestiario/feericos.webp',
-        'caos': 'systems/cardigan/assets/images/bestiario/caos-indivisivel.webp',
-        'necromancia': 'systems/cardigan/assets/images/bestiario/necromancia.webp'
+        'neutro': 'systems/cardigan/assets/images/others/neutral-spell.webp',
+        'feerico': 'systems/cardigan/assets/images/bestiary/fae-creatures.webp',
+        'caos': 'systems/cardigan/assets/images/bestiary/indivisible-chaos.webp',
+        'necromancia': 'systems/cardigan/assets/images/bestiary/necromancy.webp'
       };
       
       let categoriesHtml = '<div class="spell-categories-display-chat" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 12px 0; padding: 12px 20px; background: rgba(147, 112, 219, 0.1); border: 2px solid rgba(147, 112, 219, 0.3); border-radius: 8px;">';

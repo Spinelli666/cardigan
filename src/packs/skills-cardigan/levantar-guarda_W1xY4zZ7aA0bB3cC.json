@@ -38,7 +38,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Agora pode usar esta habilidade com uma <strong>::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: Ação Simples</strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Agora pode usar esta habilidade com uma <strong>::systems/cardigan/assets/images/types-actions/simple-action.webp:: Ação Simples</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

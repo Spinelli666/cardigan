@@ -3,9 +3,9 @@
   "_key": "!items!bB3cCd4eEf5fF6gG",
   "name": "Lento",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Recebe <strong>-5m</strong> de ::systems/cardigan/assets/images/tipos-acoes/deslocamento.webp::<em>Deslocamento</em>.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify\">Recebe <strong>-5m</strong> de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<em>Deslocamento</em>.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

@@ -27,7 +27,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Pode recuperar <em>duas</em> adagas com uma mesma ::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Ação Simples</strong>.</p>",
+        "description": "<p style=\"text-align: justify\">Pode recuperar <em>duas</em> adagas com uma mesma ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Ação Simples</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -45,7 +45,7 @@
           {
             "id": "Z2aA3bB4cCd5eE6F",
             "name": "Sangramento",
-            "img": "systems/cardigan/assets/images/effects/effects_negative.svg"
+            "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
           }
         ],
         "hasLinkedSkills": false,
@@ -57,7 +57,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você gira lançando um leque de facas para todos os lados.\"</em></p><p><br></p><p style=\"text-align: justify\">* Com uma única ação você arremessa todas as <strong>Adagas</strong> que tenha acumulado em seu inventário ao mesmo tempo, realizando um ataque de <em>Arremesso</em> em cada inimigo no alcance.</p><p></p><p>* Você pode selecionar múltiplos alvos e arremessar até <strong>quatro Adagas</strong> em cada um.</p><p></p><p style=\"text-align: justify\">* Pode recuperar todas as Adagas de um cadáver com uma única ::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Ação Simples</strong>, ou apenas uma Adaga por vez caso o alvo ainda esteja vivo.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você gira lançando um leque de facas para todos os lados.\"</em></p><p><br></p><p style=\"text-align: justify\">* Com uma única ação você arremessa todas as <strong>Adagas</strong> que tenha acumulado em seu inventário ao mesmo tempo, realizando um ataque de <em>Arremesso</em> em cada inimigo no alcance.</p><p></p><p>* Você pode selecionar múltiplos alvos e arremessar até <strong>quatro Adagas</strong> em cada um.</p><p></p><p style=\"text-align: justify\">* Pode recuperar todas as Adagas de um cadáver com uma única ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Ação Simples</strong>, ou apenas uma Adaga por vez caso o alvo ainda esteja vivo.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

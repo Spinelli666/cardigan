@@ -3,7 +3,7 @@
   "_key": "!items!P1qR4sT7uV0wX3yZ",
   "name": "Artesão",
   "type": "skill",
-  "img": "systems/cardigan/assets/images/paths/raciais.webp",
+  "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
       "passiva"

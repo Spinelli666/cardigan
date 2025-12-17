@@ -38,7 +38,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">O dano total sob efeito desta habilidade ignora toda <strong>::systems/cardigan/assets/images/armas/escudo.webp::Armadura</strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">O dano total sob efeito desta habilidade ignora toda <strong>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

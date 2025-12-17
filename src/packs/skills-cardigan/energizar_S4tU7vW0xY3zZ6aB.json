@@ -18,7 +18,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\"><em>Rajada de Energia</em> pode ser lançada com uma ::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Ação Simples</strong>.</p>",
+        "description": "<p style=\"text-align: justify\"><em>Rajada de Energia</em> pode ser lançada com uma ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Ação Simples</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Uma aura furta-cor de calor extremo acompanhada de vozes sussurrantes vem à tona.\"</em><p><br></p><p style=\"text-align: justify;\">* Você canaliza energia imaterial para realizar um dos efeitos a seguir:</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Golpe Energizado ‣</strong> Imbui todos os seus <code>🌀Artefatos</code> do tipo <em>Arma Marcial</em> ou <em>Arma à Distância</em> com magia para causar <strong><code>+3</code></strong> de dano por ponto de <strong>Psionismo</strong> em seu próximo acerto, além do dano físico base da Arma.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong>Rajada de Energia ‣</strong> De um <code>🌀Artefato</code> de qualquer tipo você dispara um feixe, projétil ou explosão de energia concentrada que causa o <strong>dobro</strong> do seu total de pontos de <strong>Psionismo</strong> como dano, <strong><code>+6</code></strong> de dano por ponto de <strong>Psionismo</strong> que possua em um alvo no alcance de conjuração.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Uma aura furta-cor de calor extremo acompanhada de vozes sussurrantes vem à tona.\"</em><p><br></p><p style=\"text-align: justify;\">* Você canaliza energia imaterial para realizar um dos efeitos a seguir:</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Golpe Energizado ‣</strong> Imbui todos os seus <code>🌀Artefatos</code> do tipo <em>Arma Marcial</em> ou <em>Arma à Distância</em> com magia para causar <strong><code>+3</code></strong> de dano por ponto de <strong>Psionismo</strong> em seu próximo acerto, além do dano físico base da Arma.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Rajada de Energia ‣</strong> De um <code>🌀Artefato</code> de qualquer tipo você dispara um feixe, projétil ou explosão de energia concentrada que causa o <strong>dobro</strong> do seu total de pontos de <strong>Psionismo</strong> como dano, <strong><code>+6</code></strong> de dano por ponto de <strong>Psionismo</strong> que possua em um alvo no alcance de conjuração.</p>"
   },
   "effects": [],
   "folder": "Sk4FeiticeiroU5I",

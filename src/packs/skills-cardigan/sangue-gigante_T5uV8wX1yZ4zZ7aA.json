@@ -3,7 +3,7 @@
   "_key": "!items!T5uV8wX1yZ4zZ7aA",
   "name": "Sangue de Gigante",
   "type": "skill",
-  "img": "systems/cardigan/assets/images/paths/raciais.webp",
+  "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
       "passiva"
@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: justify\">Possui <strong><code>2</code></strong>::systems/cardigan/assets/images/armas/escudo.webp:: <strong>Armadura</strong> natural e <em>Vantagem</em> em testes de ::systems/cardigan/assets/images/tipos-acoes/acao_simples.webp:: <strong><code>Agarrar</code></strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: justify\">Possui <strong><code>2</code></strong>::systems/cardigan/assets/images/weapons/shield.webp:: <strong>Armadura</strong> natural e <em>Vantagem</em> em testes de ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong><code>Agarrar</code></strong>.</p>"
   },
   "effects": [],
   "folder": "WlRacNorsca9AdUh",

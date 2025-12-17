@@ -3,7 +3,7 @@
   "_key": "!items!Jj8Kk9Ll0Mm1Nn2O",
   "name": "Mudo",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects_negative.svg",
+  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
     "description": "<p><br></p><p style=\"text-align: justify\">Não pode falar e falha em qualquer teste que requeira sua fala.</p>",
     "efeitoType": "negativo"
