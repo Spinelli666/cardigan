@@ -17,7 +17,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Recebe <em>Vantagem</em> neste ataque.</p>",
+        "description": "<p style=\"text-align: justify\">Recebe <strong>Vantagem</strong> neste ataque.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"A vida é cheia de oportunidade.\"</em></p><p><br></p><p style=\"text-align: justify\">* Sempre que um inimigo adjacente usar uma ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<em>Deslocamento</em> você pode realizar um ataque simples contra ele.</p><p style=\"text-align: justify\">* Sempre que um aliado adjacente atacar um inimigo adjacente você também pode realizar um ataque simples contra este mesmo inimigo.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"A vida é cheia de oportunidade.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Sempre que um inimigo <strong>adjacente</strong> usar uma ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> você pode realizar um ataque simples contra ele.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Sempre que um aliado <strong>adjacente</strong> atacar um inimigo <strong>adjacente</strong> você também pode realizar um ataque simples contra este mesmo inimigo.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

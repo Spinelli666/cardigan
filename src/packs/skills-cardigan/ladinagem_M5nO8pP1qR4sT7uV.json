@@ -17,7 +17,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Recebe <em>Vantagem Aprimorada</em> nos testes de Arrombar Fechadura & Desativar Armadilhas.</p>",
+        "description": "<p style=\"text-align: justify\">Recebe <strong>Vantagem Aprimorada</strong> em <strong><code>🔑Arrombar Fechadura</code></strong> & <strong><code>🔧Desativar Armadilhas</code></strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -27,7 +27,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Dobra os pontos de <em>Sinergia</em> recebidos.</p>",
+        "description": "<p style=\"text-align: justify\">Dobra os pontos de <strong>Trapaça</strong> recebidos.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -37,7 +37,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Uma vez na rodada pode testar <strong>Psionismo</strong> <code>Dif.20</code> para não gastar a <em>Sinergia</em> acumulada.</p>",
+        "description": "<p style=\"text-align: justify\">Uma vez na rodada pode testar <strong>Furtividade</strong> <code>Dif.20</code> para não gastar a <strong>Trapaça</strong> acumulada.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"As trapaças que definem um ladino começam aqui.\"</em></p><p><br></p><p style=\"text-align: justify\">* Você recebe Ambidestria com Armas Marciais Leves, removendo a Desvantagem do ataque com a mão secundária ao empunhar duas armas. Além disso, caso haja dois inimigos <em>adjacentes</em> ao seu personagem você pode realizar <em>um</em> ataque em cada.</p><p><br></p><p style=\"text-align: justify\">* Você recebe <em>Vantagem</em> em testes das seguintes <em>Ações de Furtividade</em>:</p><p style=\"text-align: justify\">⬩ Ocultar, Arrombar Fechadura & Desativar Armadilhas.</p><p><br></p><p style=\"text-align: justify\"><strong>::systems/cardigan/assets/images/types-actions/passive-action.webp:: Sinergia ‣</strong> Sempre que acertar um ataque contra um inimigo você receberá <strong><code>1</code></strong> ponto de <em>Sinergia</em>. Em seu turno você pode sem custo de ação gastar estes pontos para receber os seguintes efeitos:</p><blockquote><ul><li><p style=\"text-align: justify\"><strong><code>2</code></strong> ⬩ Realizar um ataque simples extra.</p></li><li><p style=\"text-align: justify\"><strong><code>4</code></strong> ⬩ Refazer um teste que tenha falhado.</p></li><li><p style=\"text-align: justify\"><strong><code>6</code></strong> ⬩ Aumentar sua <em>Chance Crítica</em> em <strong>2</strong> por duas rodadas.</p></li><li><p style=\"text-align: justify\"><strong><code>8</code></strong> ⬩ Recuperar <code>10💔PV</code> ou <code>10⚡️PE</code>.</p></li></ul></blockquote>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"As trapaças que definem um ladino começam aqui.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Enquanto empunhar duas armas ou com <em>Ataques Desarmados</em>, caso haja <strong>dois</strong> inimigos <strong>adjacentes</strong> ao seu personagem você pode dividir seu ataque duplo realizando <strong>um</strong> ataque em cada um.</p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você recebe <em>Vantagem</em> em testes das seguintes <em>Ações de Furtividade</em>: <strong><code>👤Ocultar</code></strong>, <strong><code>🔑Arrombar Fechadura</code></strong> & <strong><code>🔧Desativar Armadilhas</code></strong>.</p><hr><p style=\"text-align: justify\"><strong>::systems/cardigan/assets/images/types-actions/passive-action.webp:: ⬩ Trapaça ‣</strong> Sempre que acertar um ataque contra um inimigo você receberá <strong><code>1</code></strong> ponto de <em>Trapaça</em>. Em seu turno você pode sem custo de ação gastar estes pontos para receber os seguintes efeitos:</p><blockquote><ul><li><p style=\"text-align: justify\"><strong><code>2</code></strong> ⬩ Realizar um <strong>Ataque Adicional</strong> com uma única arma ou punho.</p></li><li><p style=\"text-align: justify\"><strong><code>4</code></strong> ⬩ Refazer um <strong>Teste</strong> que tenha falhado.</p></li><li><p style=\"text-align: justify\"><strong><code>6</code></strong> ⬩ Aumentar sua <strong>Chance Crítica</strong> em <strong>2</strong> por <strong>duas Rodadas</strong>.</p></li><li><p style=\"text-align: justify\"><strong><code>8</code></strong> ⬩ Recuperar <strong><code>10💔PV</code></strong> ou <strong><code>10⚡️PE</code></strong>.</p></li></ul></blockquote>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

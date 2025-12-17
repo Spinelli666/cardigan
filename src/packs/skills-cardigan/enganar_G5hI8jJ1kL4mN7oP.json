@@ -11,7 +11,7 @@
     "skillClass": "ladino",
     "spellCategories": [],
     "hasEnergyCost": true,
-    "energyCost": 10,
+    "energyCost": 2,
     "hasCustomEffects": true,
     "customEffects": [
       {
@@ -39,7 +39,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Inimigos provocados recebem <strong><code>❗️@UUID[Compendium.cardigan.efeitos-cardigan.Item.G1hI2jK3lM4nO5pQ]{Intimidado}²</code></strong>.</p>",
+        "description": "<p style=\"text-align: justify\">Se atacá-lo com sucesso durante o efeito ele também recebe <strong><code>❗️@UUID[Compendium.cardigan.efeitos-cardigan.Item.G1hI2jK3lM4nO5pQ]{Intimidado}²</code></strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": true,
@@ -75,7 +75,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Definitivamente você fala demais.\"</em></p><p><br></p><p style=\"text-align: justify\">* Você começa a gritar tantas mentiras absurdas para um inimigo que chega a soar convincente. Você testa <strong>Persuasão</strong> contra o alvo e caso tenha sucesso irá aplicar <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Definitivamente você fala demais.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você começa a gritar tantas mentiras absurdas para um inimigo que chega a soar convincente. Você testa <strong>Persuasão</strong> contra o alvo e caso tenha sucesso irá aplicar <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",
