@@ -15,6 +15,9 @@ export class SangramentoEffect extends BaseEffect {
    * @returns {boolean} True if actor has Sangramento effect
    */
   static hasEffect(actor) {
+    if (!actor || !actor.items) {
+      return false;
+    }
     return actor.items.some(item => 
       item.type === 'efeito' && item.name === this.effectName
     );
@@ -27,6 +30,12 @@ export class SangramentoEffect extends BaseEffect {
    * @param {string} abilityKey - The key of the ability (e.g., "precision", "evasion")
    */
   static async applyBleedingDamage(actor, abilityName, abilityKey) {
+    // Validate actor
+    if (!actor) {
+      console.warn('[Sangramento] No actor provided to applyBleedingDamage');
+      return;
+    }
+
     // Check if this ability triggers bleeding
     if (!this.AFFECTED_ABILITIES.includes(abilityKey)) {
       return;
@@ -72,11 +81,19 @@ export class SangramentoEffect extends BaseEffect {
   }
 
   /**
-   * Hook into ability rolls to apply bleeding damage
-   * This should be registered during system initialization
+   * Register hooks for ability rolls to apply bleeding damage
+   * 
+   * Integration points where applyBleedingDamage() is called:
+   * 1. actor-sheet.mjs _onRoll() - Ability buttons in Features tab
+   * 2. actor-sheet.mjs _performSingleAttack() - Weapon attacks from character sheet
+   * 3. skill-manager.mjs #performDefaultPrimaryAttack() - Skill "Ataque" button in chat
+   * 4. skill-manager.mjs #performDefaultSecondaryAttack() - Skill "Ataque S" button in chat
+   * 5. cardigan.mjs handleEvasionClick() - "Rolar Evasão" button in attack results
+   * 6. cardigan.mjs handlePrecisionClick() - "Rolar Precisão" button in evasion rerolls
+   * 
+   * All precision, evasion, strength, and dexterity rolls trigger bleeding damage.
    */
   static registerHooks() {
-    // Hook será implementado no sistema de rolagem de habilidades
-    console.log(`[${this.effectName}] Hooks registered for ability rolls`);
+    console.log(`[${this.effectName}] Effect registered - bleeding damage applied in all accuracy/evasion/strength/dexterity rolls`);
   }
 }

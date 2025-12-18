@@ -3727,6 +3727,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Fazer a rolagem de ataque com a fórmula escolhida
     const roll = new Roll(rollFormula, rollData);
     await roll.evaluate();
+    
+    // Apply Sangramento effect for accuracy rolls
+    const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+    await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
 
     // Calcular dano total da arma
     let totalDamage = 0;
@@ -3769,11 +3773,15 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         ui.notifications.info(`Acerto Crítico!`);
       }
     } else if (isCriticalFailure) {
-      // Check if weapon will lose durability
-      const currentDurability = item.system.durability?.current;
-      if (currentDurability > 0) {
-        const newDurability = Math.max(0, currentDurability - 1);
-        ui.notifications.warn(`Erro Crítico! ${item.name} perdeu durabilidade (${currentDurability} → ${newDurability})`);
+      // Check if weapon will lose durability (only for real weapons, not virtual unarmed attacks)
+      if (item && item._id && item.system.durability) {
+        const currentDurability = item.system.durability.current;
+        if (currentDurability > 0) {
+          const newDurability = Math.max(0, currentDurability - 1);
+          ui.notifications.warn(`Erro Crítico! ${item.name} perdeu durabilidade (${currentDurability} → ${newDurability})`);
+        } else {
+          ui.notifications.warn(`Erro Crítico!`);
+        }
       } else {
         ui.notifications.warn(`Erro Crítico!`);
       }
@@ -3787,8 +3795,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       </div>`;
     }
     
-    // Handle critical failure - reduce durability
-    if (isCriticalFailure) {
+    // Handle critical failure - reduce durability (only for real weapons, not virtual unarmed attacks)
+    if (isCriticalFailure && item && item._id && item.system.durability) {
       const currentDurability = item.system.durability.current;
       if (currentDurability > 0) {
         const newDurability = Math.max(0, currentDurability - 1);

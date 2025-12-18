@@ -1213,6 +1213,10 @@ export class SkillManager {
           const roll = new Roll(formula, rollData);
           await roll.evaluate();
           
+          // Apply Sangramento effect for accuracy rolls
+          const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+          await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
+          
           // Detect critical results using accuracy logic
           const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
           
@@ -1305,6 +1309,10 @@ export class SkillManager {
       // Roll with critical detection
       const roll = new Roll(formula, rollData);
       await roll.evaluate();
+      
+      // Apply Sangramento effect for accuracy rolls
+      const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+      await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
 
       // Detect critical results using accuracy logic
       const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
@@ -1517,6 +1525,10 @@ export class SkillManager {
           const roll = new Roll(formula, rollData);
           await roll.evaluate();
           
+          // Apply Sangramento effect for accuracy rolls
+          const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+          await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
+          
           // Detect critical results using accuracy logic
           const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
           
@@ -1609,6 +1621,10 @@ export class SkillManager {
       // Roll with critical detection
       const roll = new Roll(formula, rollData);
       await roll.evaluate();
+      
+      // Apply Sangramento effect for accuracy rolls
+      const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+      await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
 
       // Detect critical results using accuracy logic
       const flags = this.#detectCriticalResults(roll, actor, 'accuracy');

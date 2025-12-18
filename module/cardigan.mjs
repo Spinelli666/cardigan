@@ -1991,6 +1991,10 @@ async function handleEvasionClick(button) {
     const roll = new Roll(formula, rollData);
     await roll.evaluate();
 
+    // Apply Sangramento effect for evasion rolls
+    const { SangramentoEffect } = await import('./effects/effects/sangramento.mjs');
+    await SangramentoEffect.applyBleedingDamage(actor, 'Evasão', 'evasion');
+
     const evasionTotal = roll.total;
     // Em caso de empate, o atacante vence (evasão falha)
     const success = evasionTotal > attackTotal;
@@ -2333,6 +2337,10 @@ async function handlePrecisionClick(button) {
     const roll = new Roll(formula, rollData);
     await roll.evaluate();
     const precisionTotal = roll.total;
+
+    // Apply Sangramento effect for accuracy rolls
+    const { SangramentoEffect } = await import('./effects/effects/sangramento.mjs');
+    await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
 
     // Detect critical results using actor's thresholds
     const { CardiganSystemActorSheet } = await import('./sheets/actor-sheet.mjs');
