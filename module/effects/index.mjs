@@ -17,6 +17,7 @@ export { CongeladoEffect } from './effects/congelado.mjs';
 export { AmaldicoadoEffect } from './effects/amaldicoado.mjs';
 export { PetrificadoEffect } from './effects/petrificado.mjs';
 export { default as LentoEffect } from './effects/lento.mjs';
+export { EnvenenadoEffect } from './effects/envenenado.mjs';
 
 /**
  * Initialize the effects system
@@ -35,6 +36,7 @@ export async function initializeEffects() {
   const { AmaldicoadoEffect } = await import('./effects/amaldicoado.mjs');
   const { PetrificadoEffect } = await import('./effects/petrificado.mjs');
   const LentoEffect = (await import('./effects/lento.mjs')).default;
+  const { EnvenenadoEffect } = await import('./effects/envenenado.mjs');
   const { default: EffectManager } = await import('./effect-manager.mjs');
   
   EffectManager.register('Imparável', ImparavelEffect);
@@ -48,6 +50,7 @@ export async function initializeEffects() {
   EffectManager.register('Amaldiçoado', AmaldicoadoEffect);
   EffectManager.register('Petrificado', PetrificadoEffect);
   EffectManager.register('Lento', LentoEffect);
+  EffectManager.register('Envenenado', EnvenenadoEffect);
   
   // Register Sangramento hooks for ability rolls
   SangramentoEffect.registerHooks();
@@ -69,6 +72,9 @@ export async function initializeEffects() {
   
   // Register Lento hooks for movement penalty
   LentoEffect.register();
+  
+  // Register Envenenado hooks for toxicity management
+  EnvenenadoEffect.registerHooks();
   
   console.log('[Effects System] Initialized with custom effects:', Array.from(EffectManager.getRegisteredEffects()));
 }
