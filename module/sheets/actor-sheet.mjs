@@ -487,15 +487,14 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       s.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     }
 
-    // Sort armors by type order (Cabeça, Acessórios, Ombreiras, Torso, Braços, Pernas, Pés)
+    // Sort armors by type order (Cabeça, Acessórios, Torso, Braços, Pernas, Pés)
     const armorTypeOrder = {
       "cabeca": 1,
       "acessorios": 2,
-      "ombreiras": 3,
-      "torso": 4,
-      "bracos": 5,
-      "pernas": 6,
-      "pes": 7
+      "torso": 3,
+      "bracos": 4,
+      "pernas": 5,
+      "pes": 6
     };
 
     // Sort then assign

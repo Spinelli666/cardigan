@@ -22,8 +22,7 @@ export default class ArmorData extends BaseItemData {
         initial: "torso",
         choices: {
           "cabeca": "CARDIGAN.ArmorType.Cabeca",
-          "acessorios": "CARDIGAN.ArmorType.Acessorios", 
-          "ombreiras": "CARDIGAN.ArmorType.Ombreiras",
+          "acessorios": "CARDIGAN.ArmorType.Acessorios",
           "torso": "CARDIGAN.ArmorType.Torso",
           "bracos": "CARDIGAN.ArmorType.Bracos",
           "pernas": "CARDIGAN.ArmorType.Pernas",
@@ -175,11 +174,10 @@ export default class ArmorData extends BaseItemData {
     const typeOrder = {
       "cabeca": 1,
       "acessorios": 2,
-      "ombreiras": 3,
-      "torso": 4,
-      "bracos": 5,
-      "pernas": 6,
-      "pes": 7
+      "torso": 3,
+      "bracos": 4,
+      "pernas": 5,
+      "pes": 6
     };
     
     this.typeOrder = typeOrder[this.armorType] || 99;

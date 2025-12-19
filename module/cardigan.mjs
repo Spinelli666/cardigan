@@ -940,7 +940,6 @@ async function showArmorDurabilityDialog(armors, previouslySelected = []) {
     const armorTypeKeys = {
       'cabeca': 'CARDIGAN.ArmorType.Cabeca',
       'acessorios': 'CARDIGAN.ArmorType.Acessorios',
-      'ombreiras': 'CARDIGAN.ArmorType.Ombreiras',
       'torso': 'CARDIGAN.ArmorType.Torso',
       'bracos': 'CARDIGAN.ArmorType.Bracos',
       'pernas': 'CARDIGAN.ArmorType.Pernas',

@@ -59,7 +59,6 @@ export class ArmorTypeSelectionDialog extends HandlebarsApplicationMixin(Applica
     context.armorTypes = [
       { key: "cabeca", label: game.i18n.localize("CARDIGAN.ArmorType.Cabeca"), icon: "fa-solid fa-hat-hard" },
       { key: "acessorios", label: game.i18n.localize("CARDIGAN.ArmorType.Acessorios"), icon: "fa-solid fa-gem" },
-      { key: "ombreiras", label: game.i18n.localize("CARDIGAN.ArmorType.Ombreiras"), icon: "fa-solid fa-shield-halved" },
       { key: "torso", label: game.i18n.localize("CARDIGAN.ArmorType.Torso"), icon: "fa-solid fa-shirt" },
       { key: "bracos", label: game.i18n.localize("CARDIGAN.ArmorType.Bracos"), icon: "fa-solid fa-hand-fist" },
       { key: "pernas", label: game.i18n.localize("CARDIGAN.ArmorType.Pernas"), icon: "fa-solid fa-socks" },

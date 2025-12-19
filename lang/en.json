@@ -722,8 +722,7 @@
     },
     "ArmorType": {
       "Cabeca": "Head",
-      "Acessorios": "Accessories", 
-      "Ombreiras": "Shoulders",
+      "Acessorios": "Accessories",
       "Torso": "Torso",
       "Bracos": "Arms",
       "Pernas": "Legs",

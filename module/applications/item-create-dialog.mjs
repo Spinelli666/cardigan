@@ -161,7 +161,7 @@ export class ItemCreateDialog extends HandlebarsApplicationMixin(ApplicationV2) 
     event.preventDefault();
     
     const form = target.closest("form");
-    const fd = new FormDataExtended(form);
+    const fd = new foundry.applications.ux.FormDataExtended(form);
     const formData = fd.object;
     
     if (!formData.type) {
