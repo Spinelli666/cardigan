@@ -6,19 +6,19 @@
   "img": "systems/cardigan/assets/images/paths/wizard.webp",
   "system": {
     "skillActionTypes": [
-      "short-action",
-      "long-action"
+      "long-action",
+      "foco"
     ],
     "skillClass": "feiticeiro",
     "spellCategories": ["caos"],
     "hasEnergyCost": true,
-    "energyCost": 15,
+    "energyCost": 3,
     "hasCustomEffects": false,
     "customEffects": [],
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">::systems/cardigan/assets/images/types-actions/reaction.webp:: Ao ser alvo de um ataque você troca de lugar com uma Ilusão, evadindo instantaneamente do ataque ao custo de <code>⚡️PE</code> desta habilidade.</p>",
+        "description": "<p style=\"text-align: justify\">::systems/cardigan/assets/images/types-actions/reaction.webp::Ao ser alvo de um ataque você troca de lugar com uma Ilusão, evadindo instantaneamente do ataque ao custo de <strong><code>⚡️PE</code></strong desta habilidade.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -28,7 +28,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">A Ilusão agora possui a metade dos seus <code>💔PVs</code> como vida própria.</p>",
+        "description": "<p style=\"text-align: justify\">A Ilusão agora possui a <strong>metade</strong> dos <em>seus</em> <strong><code>💔PV</code></strong> como vida própria.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -38,7 +38,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Reduz o custo desta habilidade para <code>10⚡️</code>.</p>",
+        "description": "<p style=\"text-align: justify\">Reduz o custo desta habilidade para <strong><code>2⚡️</code></strong>.</p>",
         "hasEnergy": true,
         "energyCost": 10,
         "hasEffects": false,
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"A verdade é relativa quando você toma controle do véu da enganação.\"</em><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/simple-action.webp:: Conjura um truque ilusório para criar objetos e sons artificiais, ou até mesmo alterar o cenário. Outras pessoas podem testar <em>Inteligência</em> contra o resultado do seu teste de <em>Psionismo</em> ao conjurar este truque para descobrirem seu segredo.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/double-action.webp:: Conjura uma Ilusão viva e chamativa no alcance de conjuração.</p><p style=\"text-align: justify;\">Sempre que um inimigo iniciar seu turno deverá testar <em>Inteligência</em> contra o resultado do seu teste de <em>Psionismo</em> ao conjurar este truque para não ser atraído psiquicamente por esta miragem. Enquanto distraído, sempre que tentar uma ação hostil ele será obrigado a atacar a Ilusão.</p><p><br></p><p style=\"text-align: justify;\">* Sua Ilusão fica sob seu comando criativo, possuindo todas Ações de um turno, mas por ser intangível não é capaz de acertar inimigos. Ela possui apenas 1PV, sendo desconjurada caso receba qualquer dano.</p><p></p><p style=\"text-align: justify;\">* Uma Ilusão se mantém conjurada até ser destruída.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"A verdade é relativa quando você toma controle do véu da enganação.\"</em><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você aprende <strong>dois ::systems/cardigan/assets/images/others/spell.webp::Feitiços</strong>:</p><p><br></p><blockquote><p style=\"text-align: justify\">::systems/cardigan/assets/images/others/spell.webp:: <strong>Truque Ilusório ‣</strong> Cria objetos e sons artificiais, ou até mesmo altera o cenário à sua criatividade. Outras pessoas podem testar <strong>Inteligência</strong> contra o resultado do seu teste de <strong>Psionismo</strong> ao conjurar este truque para descobrirem seu segredo.</p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/others/spell.webp:: <strong>Ilusão Viva ‣</strong> Conjura uma Ilusão viva e chamativa no alcance de conjuração.</p><p style=\"text-align: justify\">Sempre que um inimigo iniciar seu turno deverá testar <strong>Inteligência</strong> contra o resultado do seu teste de <strong>Psionismo</strong> ao conjurar este truque para não ser atraído psiquicamente por esta miragem. Enquanto distraído, sempre que tentar uma ação hostil ele será obrigado a atacar a Ilusão.</p></blockquote><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Sua Ilusão fica sob seu comando criativo, possuindo todas <strong>Ações</strong> de um turno, mas por ser intangível não é capaz de acertar inimigos. Ela possui apenas <strong><code>1💔PV</code></strong>, sendo desconjurada caso receba qualquer dano.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Uma Ilusão se mantém conjurada até ser destruída ou desconjurada por você.</p>"
   },
   "effects": [],
   "folder": "Sk4FeiticeiroU5I",

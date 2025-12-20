@@ -11,7 +11,7 @@
     "skillClass": "feiticeiro",
     "spellCategories": ["neutro"],
     "hasEnergyCost": true,
-    "energyCost": 10,
+    "energyCost": 2,
     "hasCustomEffects": false,
     "customEffects": [],
     "enhancements": [
@@ -27,7 +27,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Recebe mais uma Ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp:: <strong>Deslocamento</strong> adicional em cada rodada.</p>",
+        "description": "<p style=\"text-align: justify\">Recebe mais uma Ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> adicional em cada rodada.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -37,7 +37,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Recebe <em>Vantagem</em> em todo <em>Teste de Destreza</em> durante o efeito.</p>",
+        "description": "<p style=\"text-align: justify\">Recebe <strong>Vantagem</strong> em todo Teste de <strong>Destreza</strong> durante o efeito.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se torna um impulso cinético puro – músculo, mente e intenção fundidos em uma única explosão de mobilidade. A gravidade perde autoridade.\"</em><p><br></p><p style=\"text-align: justify\">* Os efeitos dessa habilidade tem duração equivalente ao seu <em>Despertar Psiônico</em>.</p><p style=\"text-align: justify\">* Ao comprar esta habilidade você escolhe obter <strong>um</strong> dos efeitos a baixo:</p><p><br></p><ul><li><p style=\"text-align: justify\">::systems/cardigan/assets/images/types-actions/passive-action.webp:: <strong>Acelerar ‣</strong> Recebe uma ::systems/cardigan/assets/images/types-actions/double-action.webp:: <strong>Ação</strong> adicional em cada rodada.</p></li><li><p style=\"text-align: justify\">::systems/cardigan/assets/images/types-actions/acao_passive-action.webp:: <strong>Voar ‣</strong> Pode se ::systems/cardigan/assets/images/types-actions/movement-action.webp:: <strong>Delocar</strong> <em>verticalmente</em>. Enquanto no ar, você cai <storng>1m</strong> por rodada.</p></li></ul><p><br></p><p style=\"text-align: justify\">* Sob este efeito você possui uma super-velocidade desproporcional que o permite realizar absurdos à critério de sua imaginação e limites estabelecidos pelo narrador.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se torna um impulso cinético puro – músculo, mente e intenção fundidos em uma única explosão de mobilidade. A gravidade perde autoridade.\"</em><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Os efeitos dessa habilidade tem duração equivalente ao seu <em>Despertar Psiônico</em>.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao comprar esta habilidade você escolhe obter <strong>um</strong> dos efeitos a baixo:</p><p><br></p><ul><li><p style=\"text-align: justify\">::systems/cardigan/assets/images/types-actions/passive-action.webp::<strong>⬩ Acelerar ‣</strong> Recebe uma <strong><code>〔🔶〕</code></strong> <strong>Ponto de Ação</strong> adicional em cada rodada.</p></li><li><p style=\"text-align: justify\">::systems/cardigan/assets/images/types-actions/passive-action.webp::<strong>⬩ Voar ‣</strong> Pode se ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Delocar</strong> <em>verticalmente</em>. Enquanto no ar, você cai <strong>1m</strong> por rodada.</p></li></ul><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Sob este efeito você possui uma super-velocidade desproporcional que o permite realizar absurdos à critério de sua imaginação e limites estabelecidos pelo narrador.</p>"
   },
   "effects": [],
   "folder": "Sk4FeiticeiroU5I",
