@@ -28,6 +28,16 @@ export class EnvenenadoEffect extends BaseEffect {
       'system.status.toxicity': newToxicity
     });
     
+    // Find the Envenenado effect item and mark it with tracking flag
+    const envenenadoItem = actor.items.find(item => 
+      item.type === 'efeito' && (item.name === "Envenenado" || item.name.toLowerCase().includes('envenenado'))
+    );
+    
+    if (envenenadoItem) {
+      // Set flag to track if poison damage was dealt
+      await envenenadoItem.setFlag('cardigan', 'poisonDamageDealt', false);
+    }
+    
     // Show notification
     ui.notifications.info(`${actor.name} ganhou 1 ponto de Toxicidade! (${currentToxicity} → ${newToxicity})`);
     
@@ -46,8 +56,6 @@ export class EnvenenadoEffect extends BaseEffect {
       content: message,
       speaker: ChatMessage.getSpeaker({ actor: actor })
     });
-    
-    console.log(`[Envenenado] Applied to ${actor.name} - toxicity increased from ${currentToxicity} to ${newToxicity}`);
   }
 
   /**
@@ -58,12 +66,57 @@ export class EnvenenadoEffect extends BaseEffect {
    * @returns {Promise<void>}
    */
   async remove(actor) {
+    if (!actor) return;
+    
+    // Find the Envenenado effect item being removed
+    const envenenadoItem = actor.items.find(item => 
+      item.type === 'efeito' && (item.name === "Envenenado" || item.name.toLowerCase().includes('envenenado'))
+    );
+    
+    if (envenenadoItem) {
+      // Check if poison damage was dealt during the effect
+      const poisonDamageDealt = envenenadoItem.getFlag('cardigan', 'poisonDamageDealt');
+      
+      if (poisonDamageDealt === false) {
+        // No poison damage was dealt - apply 20 damage penalty
+        const currentHP = actor.system.health?.value ?? 0;
+        const newHP = Math.max(0, currentHP - 20);
+        
+        await actor.update({
+          'system.health.value': newHP
+        });
+        
+        // Notification
+        ui.notifications.warn(`${actor.name} não recebeu dano de veneno enquanto Envenenado e sofreu 20 de dano ao remover o efeito!`);
+        
+        // Chat message
+        const messageContent = `
+          <div style="text-align: center; padding: 8px; background: rgba(156, 39, 176, 0.1); border: 2px solid #9C27B0; border-radius: 4px;">
+            <h3 style="margin: 0 0 4px 0; color: #9C27B0;">
+              <i class="fas fa-skull-crossbones"></i> Veneno Agravado!
+            </h3>
+            <p style="margin: 0;"><strong>${actor.name}</strong> não foi atingido em combate enquanto envenenado!</p>
+            <p style="margin: 4px 0 0 0; font-size: 0.9em;">
+              🧪 O veneno se espalhou pelo corpo causando <strong>20 de dano</strong>!
+            </p>
+            <p style="margin: 4px 0 0 0; font-size: 0.85em; color: #666;">
+              HP: ${currentHP} → ${newHP}
+            </p>
+          </div>
+        `;
+        
+        await ChatMessage.create({
+          content: messageContent,
+          speaker: { alias: "Sistema" }
+        });
+      }
+    }
+    
     // Toxicity persists after effect removal
     // It can only be reduced through:
     // - Manual reset (Reset Toxicity button)
     // - Long rest
     // - Consuming antidotes/treatments
-    console.log(`[Envenenado] Effect removed from ${actor.name}, but toxicity persists and must be manually reduced`);
   }
 
   /**
@@ -71,6 +124,6 @@ export class EnvenenadoEffect extends BaseEffect {
    * The apply/remove methods are called automatically by the EffectManager
    */
   static registerHooks() {
-    console.log(`[${this.effectName}] Effect registered - toxicity managed via apply/remove methods`);
+    // No hooks needed - toxicity managed via apply/remove methods
   }
 }

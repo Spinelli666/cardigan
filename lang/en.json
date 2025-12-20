@@ -8,11 +8,11 @@
       "item-consumivel": "New Consumable",
       "item-ingredient": "New Ingredient",
       "item-recipe": "New Recipe",
-      "item-skill": "New Skill",
-      "item-spell": "New Spell",
-      "item-efeito": "New Effect",
-      "item-feature": "New Feature",
-      "item-race": "New Race"
+      "skill": "New Skill",
+      "spell": "New Spell",
+      "efeito": "New Effect",
+      "feature": "New Feature",
+      "race": "New Race"
     }
   },
   "CARDIGAN": {
@@ -735,7 +735,6 @@
     "WeaponBasicInfo": "Basic Information",
     "WeaponEquipment": "Hand & Equipment",
     "CombatStats": "Combat Statistics",
-    "WeaponProperties": "Weapon Properties",
     "SpecialProperties": "Special Properties",
     "EquipArmor": "Equip Armor",
     "UnequipArmor": "Unequip Armor",

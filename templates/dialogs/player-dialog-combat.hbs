@@ -36,11 +36,18 @@
           <div class="field-group">
             <label>🚫 Ignore Armor:</label>
             <div class="ignore-armor-controls">
-              <input type="number" class="ignore-armor-input" value="0" min="0" />
+              <input type="number" class="ignore-armor-input" value="0" min="0" data-armor="{{armor}}" />
               <button type="button" class="roll-ignore-armor-btn" title="Rolar dado para Ignore Armor">
                 <i class="fas fa-dice"></i>
               </button>
             </div>
+          </div>
+          
+          <div class="field-group">
+            <label>
+              <input type="checkbox" class="ignore-all-armor-checkbox" />
+              🛡️ Ignore All Armor
+            </label>
           </div>
           
           <div class="field-group half-damage-group">

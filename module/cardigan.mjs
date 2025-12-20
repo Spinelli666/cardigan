@@ -540,6 +540,7 @@ async function createAttackerResultDialog(data) {
     const damageTakenInput = dialogElement.querySelector('.damage-taken-input');
     const halfDamageBtn = dialogElement.querySelector('.half-damage-btn');
     const rollIgnoreArmorBtn = dialogElement.querySelector('.roll-ignore-armor-btn');
+    const ignoreAllArmorCheckbox = dialogElement.querySelector('.ignore-all-armor-checkbox');
     
     // No automatic recalculation - damage will be calculated when clicking "Acertou"
     // Add event listeners
@@ -559,6 +560,24 @@ async function createAttackerResultDialog(data) {
       rollIgnoreArmorBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         await rollIgnoreArmorDice(ignoreArmorInput);
+      });
+    }
+    
+    // Handle Ignore All Armor checkbox
+    if (ignoreAllArmorCheckbox && ignoreArmorInput) {
+      ignoreAllArmorCheckbox.addEventListener('change', (e) => {
+        if (e.target.checked) {
+          // Checkbox marcada: desabilita input e mantém valor 0 visível
+          ignoreArmorInput.disabled = true;
+          ignoreArmorInput.value = 0;
+          // Armazena o valor real da armadura no atributo data
+          const armorValue = ignoreArmorInput.dataset.armor || 0;
+          ignoreArmorInput.dataset.ignoreAll = armorValue;
+        } else {
+          // Checkbox desmarcada: habilita input e remove data-ignore-all
+          ignoreArmorInput.disabled = false;
+          delete ignoreArmorInput.dataset.ignoreAll;
+        }
       });
     }
   };
@@ -749,17 +768,37 @@ async function createAttackerResultDialog(data) {
           const ignoreArmorInput = dialogElement?.querySelector('.ignore-armor-input');
           
           const rawDamage = parseInt(damageTakenInput?.value) || attackDamage;
-          const ignoreArmor = parseInt(ignoreArmorInput?.value) || 0;
+          // Use data-ignore-all if checkbox is checked, otherwise use input value
+          const ignoreArmor = ignoreArmorInput?.dataset.ignoreAll 
+            ? parseInt(ignoreArmorInput.dataset.ignoreAll) 
+            : (parseInt(ignoreArmorInput?.value) || 0);
+          
+          // Get defender actor
+          const defenderActor = game.actors.get(actorId);
+          
+          // Check if defender has Envenenado effect and add +5 poison damage
+          // In Cardigan, effects are stored as items of type 'efeito', not ActiveEffects
+          let poisonDamage = 0;
+          if (defenderActor) {
+            const envenenadoItem = defenderActor.items.find(item => 
+              item.type === 'efeito' && (item.name === "Envenenado" || item.name.toLowerCase().includes('envenenado'))
+            );
+            
+            if (envenenadoItem) {
+              poisonDamage = 5;
+              // Mark that poison damage was dealt
+              await envenenadoItem.setFlag('cardigan', 'poisonDamageDealt', true);
+            }
+          }
           
           // Calculate effective armor and final damage
+          // Poison damage ignores armor, normal damage is reduced by armor
           const effectiveArmor = Math.max(0, armor - ignoreArmor);
-          const finalDamage = Math.max(0, rawDamage - effectiveArmor);
+          const damageAfterArmor = Math.max(0, rawDamage - effectiveArmor);
+          const finalDamage = damageAfterArmor + poisonDamage;
           
           // Calculate new HP
           const newHP = Math.max(0, currentHP - finalDamage);
-          
-          // Get defender actor for armor durability
-          const defenderActor = game.actors.get(actorId);
           
           // Reduce durability of selected armors
           if (defenderActor && selectedArmorIds.length > 0) {
@@ -831,10 +870,10 @@ async function createAttackerResultDialog(data) {
           let damageDetails;
           if (isGMControlled) {
             // Simplified message for GM-controlled actors - only show raw damage
-            damageDetails = `💥 Dano: ${rawDamage}`;
+            damageDetails = `💥 Dano: ${rawDamage}${poisonDamage > 0 ? ` | 🧪 Veneno: +${poisonDamage}` : ''}`;
           } else {
             // Detailed message for player-owned characters - show armor calculations
-            damageDetails = `💥 Dano Bruto: ${rawDamage} | 🛡️ Armor: ${armor}${ignoreArmor > 0 ? ` | 🚫 Ignorado: ${ignoreArmor} | 🛡️ Efetivo: ${effectiveArmor}` : ''} | 💔 Dano Final: ${finalDamage}`;
+            damageDetails = `💥 Dano Bruto: ${rawDamage}${poisonDamage > 0 ? ` | 🧪 Veneno: +${poisonDamage}` : ''} | 🛡️ Armor: ${armor}${ignoreArmor > 0 ? ` | 🚫 Ignorado: ${ignoreArmor} | 🛡️ Efetivo: ${effectiveArmor}` : ''} | 💔 Dano Final: ${finalDamage}`;
           }
           
           const messageContent = `
@@ -1163,10 +1202,30 @@ async function createGMEvasionNotification(data) {
     // Add ignore armor roll button functionality
     const ignoreArmorInput = dialogElement.querySelector('.ignore-armor-input');
     const rollIgnoreArmorBtn = dialogElement.querySelector('.roll-ignore-armor-btn');
+    const ignoreAllArmorCheckbox = dialogElement.querySelector('.ignore-all-armor-checkbox');
+    
     if (rollIgnoreArmorBtn && ignoreArmorInput) {
       rollIgnoreArmorBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         await rollIgnoreArmorDice(ignoreArmorInput, attackerName);
+      });
+    }
+    
+    // Handle Ignore All Armor checkbox
+    if (ignoreAllArmorCheckbox && ignoreArmorInput) {
+      ignoreAllArmorCheckbox.addEventListener('change', (e) => {
+        if (e.target.checked) {
+          // Checkbox marcada: desabilita input e mantém valor 0 visível
+          ignoreArmorInput.disabled = true;
+          ignoreArmorInput.value = 0;
+          // Armazena o valor real da armadura no atributo data
+          const armorValue = ignoreArmorInput.dataset.armor || 0;
+          ignoreArmorInput.dataset.ignoreAll = armorValue;
+        } else {
+          // Checkbox desmarcada: habilita input e remove data-ignore-all
+          ignoreArmorInput.disabled = false;
+          delete ignoreArmorInput.dataset.ignoreAll;
+        }
       });
     }
   };
@@ -1211,17 +1270,38 @@ async function createGMEvasionNotification(data) {
           const dialogElement = button.closest('.dialog-content') || button.closest('form');
           const damageInput = dialogElement?.querySelector('.damage-taken-input');
           const ignoreArmorInput = dialogElement?.querySelector('.ignore-armor-input');
+          
           const rawDamage = parseInt(damageInput?.value) || 0;
-          const ignoreArmor = parseInt(ignoreArmorInput?.value) || 0;
+          // Use data-ignore-all if checkbox is checked, otherwise use input value
+          const ignoreArmor = ignoreArmorInput?.dataset.ignoreAll 
+            ? parseInt(ignoreArmorInput.dataset.ignoreAll) 
+            : (parseInt(ignoreArmorInput?.value) || 0);
+          
+          // Get actor
+          const actor = game.actors.get(actorId);
+          
+          // Check if defender has Envenenado effect and add +5 poison damage
+          // In Cardigan, effects are stored as items of type 'efeito', not ActiveEffects
+          let poisonDamage = 0;
+          if (actor) {
+            const envenenadoItem = actor.items.find(item => 
+              item.type === 'efeito' && (item.name === "Envenenado" || item.name.toLowerCase().includes('envenenado'))
+            );
+            
+            if (envenenadoItem) {
+              poisonDamage = 5;
+              // Mark that poison damage was dealt
+              await envenenadoItem.setFlag('cardigan', 'poisonDamageDealt', true);
+            }
+          }
           
           // Calculate effective armor (armor - ignore armor)
           const effectiveArmor = Math.max(0, armor - ignoreArmor);
           
-          // Apply armor reduction
-          const finalDamage = Math.max(0, rawDamage - effectiveArmor);
-          
-          // Get actor and apply damage
-          const actor = game.actors.get(actorId);
+          // Apply armor reduction to normal damage only
+          // Poison damage ignores armor completely
+          const damageAfterArmor = Math.max(0, rawDamage - effectiveArmor);
+          const finalDamage = damageAfterArmor + poisonDamage;
           if (actor) {
             const newHP = Math.max(0, currentHP - finalDamage);
             await actor.update({ 'system.health.value': newHP });
@@ -1281,10 +1361,10 @@ async function createGMEvasionNotification(data) {
             let damageDetails;
             if (isGMControlled) {
               // Simplified message for GM-controlled actors - only show raw damage
-              damageDetails = `💥 Dano: ${rawDamage}`;
+              damageDetails = `💥 Dano: ${rawDamage}${poisonDamage > 0 ? ` | 🧪 Veneno: +${poisonDamage}` : ''}`;
             } else {
               // Detailed message for player-owned characters - show armor calculations
-              damageDetails = `💥 Dano Bruto: ${rawDamage} | 🛡️ Armor: ${armor}${ignoreArmor > 0 ? ` | 🚫 Ignorado: ${ignoreArmor} | 🛡️ Efetivo: ${effectiveArmor}` : ''} | 💔 Dano Final: ${finalDamage}`;
+              damageDetails = `💥 Dano Bruto: ${rawDamage}${poisonDamage > 0 ? ` | 🧪 Veneno: +${poisonDamage}` : ''} | 🛡️ Armor: ${armor}${ignoreArmor > 0 ? ` | 🚫 Ignorado: ${ignoreArmor} | 🛡️ Efetivo: ${effectiveArmor}` : ''} | 💔 Dano Final: ${finalDamage}`;
             }
             
             const messageContent = `
