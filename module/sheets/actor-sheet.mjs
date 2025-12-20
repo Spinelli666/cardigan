@@ -1250,6 +1250,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         const modeText = attackMode === 'conjunto' ? ' (Conjunto)' : ' (Individual)';
         rollDescription += modeText;
         
+        // Check for Congelado effect and apply skill penalty
+        const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+        const congeladoPenalty = CongeladoEffect.getSkillPenalty(this.document);
+        
+        // Apply Congelado penalty to formula if present
+        if (congeladoPenalty !== 0) {
+          rollFormula += ` ${congeladoPenalty}`;
+          rollDescription += ` [Congelado ${congeladoPenalty}]`;
+        }
+        
         // Create the roll with modified formula
         const roll = new Roll(rollFormula, this.document.getRollData());
         
@@ -3723,6 +3733,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       rollDescription += ` → ${targetTokens[0].name}`;
     }
 
+    // Check for Congelado effect and apply skill penalty
+    const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+    const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
+    
+    // Apply Congelado penalty to formula if present
+    if (congeladoPenalty !== 0) {
+      rollFormula += ` ${congeladoPenalty}`;
+      rollDescription += ` [Congelado ${congeladoPenalty}]`;
+    }
+
     // Fazer a rolagem de ataque com a fórmula escolhida
     const roll = new Roll(rollFormula, rollData);
     await roll.evaluate();
@@ -4709,16 +4729,26 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       const abilityBonus = abilityData.totalBonus || 0;
       const totalModifier = abilityValue + abilityBonus;
       
+      // Check for Congelado effect and apply skill penalty
+      const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+      const congeladoPenalty = CongeladoEffect.getSkillPenalty(this.document);
+      const finalModifier = totalModifier + congeladoPenalty;
+      
       // Create roll formula based on advantage
       let rollFormula;
       let flavorText;
       
       if (hasAdvantage) {
-        rollFormula = `2d20kh1 + ${totalModifier}`;
+        rollFormula = `2d20kh1 + ${finalModifier}`;
         flavorText = `${item.name} - ${game.i18n.localize(`CARDIGAN.Ability.${ability.charAt(0).toUpperCase() + ability.slice(1)}.long`)} Check (Advantage)`;
       } else {
-        rollFormula = `1d20 + ${totalModifier}`;
+        rollFormula = `1d20 + ${finalModifier}`;
         flavorText = `${item.name} - ${game.i18n.localize(`CARDIGAN.Ability.${ability.charAt(0).toUpperCase() + ability.slice(1)}.long`)} Check`;
+      }
+      
+      // Add Congelado indicator to flavor if present
+      if (congeladoPenalty !== 0) {
+        flavorText += ` [Congelado ${congeladoPenalty}]`;
       }
       
       // Create and evaluate the roll

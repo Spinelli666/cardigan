@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Não pode enxergar e falha automaticamente em qualquer teste que requeira sua visão.</p>",
+    "description": "<p><br></p><p style=\"text-align: justify\">Não pode enxergar e recebe <em>Desvantagem Aprimorada</em> em qualquer teste que requeira sua visão.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

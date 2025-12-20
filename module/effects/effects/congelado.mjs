@@ -6,7 +6,7 @@ import BaseEffect from '../base-effect.mjs';
  */
 export class CongeladoEffect extends BaseEffect {
   static effectName = 'Congelado';
-  static COLD_DAMAGE = 5; // Cold damage per turn
+  static COLD_DAMAGE = 6; // Cold damage per turn
 
   /**
    * Check if the actor has the Congelado effect active
@@ -17,6 +17,15 @@ export class CongeladoEffect extends BaseEffect {
     return actor.items.some(item => 
       item.type === 'efeito' && item.name === this.effectName
     );
+  }
+
+  /**
+   * Get skill test penalty for Congelado effect
+   * @param {Actor} actor - The actor to check
+   * @returns {number} Penalty value (-6 if has effect, 0 otherwise)
+   */
+  static getSkillPenalty(actor) {
+    return this.hasEffect(actor) ? -6 : 0;
   }
 
   /**

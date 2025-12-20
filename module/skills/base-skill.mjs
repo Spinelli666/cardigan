@@ -989,9 +989,21 @@ export class BaseSkill {
       const advantageType = await AdvantageSelectionDialog.show();
       if (!advantageType) return; // User cancelled
 
+      // Check for Congelado effect and get penalty
+      const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+      const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
+
       // Helper function to roll with critical detection
       const rollWithCriticals = async (formula, rollData, flavorText) => {
-        const roll = new Roll(formula, rollData);
+        // Apply Congelado penalty to formula if present
+        let finalFormula = formula;
+        let finalFlavor = flavorText;
+        if (congeladoPenalty !== 0) {
+          finalFormula += ` ${congeladoPenalty}`;
+          finalFlavor += ` [Congelado ${congeladoPenalty}]`;
+        }
+        
+        const roll = new Roll(finalFormula, rollData);
         await roll.evaluate();
 
         // Detect critical results using accuracy logic (like weapon attacks)
@@ -1012,7 +1024,7 @@ export class BaseSkill {
         // Send roll to chat with critical detection
         await roll.toMessage({
           speaker: ChatMessage.getSpeaker({ actor }),
-          flavor: flavorText,
+          flavor: finalFlavor,
           rollMode: game.settings.get('core', 'rollMode'),
           flags: flags
         });
@@ -1056,9 +1068,21 @@ export class BaseSkill {
       const advantageType = await AdvantageSelectionDialog.show();
       if (!advantageType) return; // User cancelled
 
+      // Check for Congelado effect and get penalty
+      const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+      const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
+
       // Helper function to roll with critical detection
       const rollWithCriticals = async (formula, rollData, flavorText) => {
-        const roll = new Roll(formula, rollData);
+        // Apply Congelado penalty to formula if present
+        let finalFormula = formula;
+        let finalFlavor = flavorText;
+        if (congeladoPenalty !== 0) {
+          finalFormula += ` ${congeladoPenalty}`;
+          finalFlavor += ` [Congelado ${congeladoPenalty}]`;
+        }
+        
+        const roll = new Roll(finalFormula, rollData);
         await roll.evaluate();
 
         // Detect critical results using accuracy logic (like weapon attacks)
@@ -1079,7 +1103,7 @@ export class BaseSkill {
         // Send roll to chat with critical detection
         await roll.toMessage({
           speaker: ChatMessage.getSpeaker({ actor }),
-          flavor: flavorText,
+          flavor: finalFlavor,
           rollMode: game.settings.get('core', 'rollMode'),
           flags: flags
         });

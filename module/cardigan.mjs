@@ -1986,6 +1986,16 @@ async function handleEvasionClick(button) {
         rollDescription = "Rolagem Normal";
     }
 
+    // Check for Congelado effect and apply skill penalty
+    const { CongeladoEffect } = await import('./effects/effects/congelado.mjs');
+    const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
+    
+    // Apply Congelado penalty to formula if present
+    if (congeladoPenalty !== 0) {
+      formula += ` ${congeladoPenalty}`;
+      rollDescription += ` [Congelado ${congeladoPenalty}]`;
+    }
+    
     // Roll evasion using actor's roll data
     const roll = new Roll(formula, rollData);
     await roll.evaluate();
@@ -2332,6 +2342,15 @@ async function handlePrecisionClick(button) {
     const formula = buildRollFormula(rollType, `@abilities.accuracy.total`);
     const rollData = actor.getRollData();
 
+    // Check for Congelado effect and apply skill penalty
+    const { CongeladoEffect } = await import('./effects/effects/congelado.mjs');
+    const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
+    
+    // Apply Congelado penalty to formula if present
+    if (congeladoPenalty !== 0) {
+      formula += ` ${congeladoPenalty}`;
+    }
+    
     // Roll precision
     const roll = new Roll(formula, rollData);
     await roll.evaluate();

@@ -128,8 +128,17 @@ export class EletrocutadoEffect extends BaseEffect {
 
     console.log(`[${this.effectName}] Vigor Test - Stamina Value: ${staminaValue}, Total Bonus: ${staminaTotalBonus}, Total Modifier: ${vigorModifier}`);
 
+    // Check for Congelado effect and apply skill penalty
+    const { CongeladoEffect } = await import('./congelado.mjs');
+    const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
+    const finalVigorModifier = vigorModifier + congeladoPenalty;
+    
+    if (congeladoPenalty !== 0) {
+      console.log(`[${this.effectName}] Congelado penalty applied: ${congeladoPenalty}, Final Modifier: ${finalVigorModifier}`);
+    }
+    
     // Roll 1d20 + vigor modifier
-    const roll = new Roll(`1d20 + ${vigorModifier}`, actor.getRollData());
+    const roll = new Roll(`1d20 + ${finalVigorModifier}`, actor.getRollData());
     await roll.evaluate();
 
     const totalResult = roll.total;

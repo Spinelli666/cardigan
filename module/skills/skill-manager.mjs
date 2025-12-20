@@ -1202,7 +1202,17 @@ export class SkillManager {
           }
           
           // Add attack mode and target name to description
-          const individualRollDescription = `${rollDescription} (Individual) → ${targetToken.name}`;
+          let individualRollDescription = `${rollDescription} (Individual) → ${targetToken.name}`;
+          
+          // Check for Congelado effect and apply skill penalty
+          const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+          const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
+          
+          // Apply Congelado penalty to formula if present
+          if (congeladoPenalty !== 0) {
+            formula += ` ${congeladoPenalty}`;
+            individualRollDescription += ` [Congelado ${congeladoPenalty}]`;
+          }
           
           // Create flavor text
           const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
@@ -1300,6 +1310,16 @@ export class SkillManager {
       // Single attack for all targets (conjunto mode or single target)
       const modeText = attackMode === 'conjunto' ? ' (Conjunto)' : ' (Individual)';
       rollDescription += modeText;
+
+      // Check for Congelado effect and apply skill penalty
+      const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+      const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
+      
+      // Apply Congelado penalty to formula if present
+      if (congeladoPenalty !== 0) {
+        formula += ` ${congeladoPenalty}`;
+        rollDescription += ` [Congelado ${congeladoPenalty}]`;
+      }
 
       // Create flavor text
       const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
