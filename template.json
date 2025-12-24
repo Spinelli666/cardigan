@@ -157,7 +157,7 @@
       "quantity": 1,
       "weight": "leve",
       "price": 0,
-      "recipeType": "general",
+      "recipeType": "culinary",
       "difficulty": "easy",
       "requiredIngredients": [],
       "resultItem": "",

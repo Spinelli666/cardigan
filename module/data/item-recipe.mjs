@@ -34,9 +34,8 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
     schema.recipeType = new fields.StringField({
       required: true,
       blank: false,
-      initial: "general",
+      initial: "culinary",
       choices: {
-        "general": "CARDIGAN.Item.ItemRecipe.recipeType.general",
         "culinary": "CARDIGAN.Item.ItemRecipe.recipeType.culinary",
         "tailoring": "CARDIGAN.Item.ItemRecipe.recipeType.tailoring",
         "tecnomagic": "CARDIGAN.Item.ItemRecipe.recipeType.tecnomagic",
@@ -105,6 +104,117 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
         initial: [],
         label: "CARDIGAN.Item.ItemRecipe.RequiredIngredients",
         hint: "CARDIGAN.Item.ItemRecipe.RequiredIngredientsHint"
+      }
+    );
+
+    // Result items - multiple possible outputs from this recipe
+    schema.resultItems = new fields.ArrayField(
+      new fields.SchemaField({
+        uuid: new fields.StringField({
+          required: false,
+          blank: true,
+          initial: "",
+          label: "CARDIGAN.Item.ItemRecipe.ResultItemUUID",
+          hint: "CARDIGAN.Item.ItemRecipe.ResultItemUUIDHint"
+        }),
+        name: new fields.StringField({
+          required: true,
+          blank: false,
+          initial: "",
+          label: "CARDIGAN.Item.ItemRecipe.ResultItemName"
+        }),
+        img: new fields.StringField({
+          required: false,
+          blank: true,
+          initial: "icons/svg/item-bag.svg",
+          label: "CARDIGAN.Item.ItemRecipe.ResultItemImage"
+        }),
+        quantity: new fields.NumberField({
+          required: true,
+          nullable: false,
+          integer: true,
+          initial: 1,
+          min: 1,
+          label: "CARDIGAN.Item.ItemRecipe.ResultItemQuantity"
+        }),
+        isDefault: new fields.BooleanField({
+          required: false,
+          initial: false,
+          label: "CARDIGAN.Item.ItemRecipe.ResultItemDefault",
+          hint: "CARDIGAN.Item.ItemRecipe.ResultItemDefaultHint"
+        }),
+        // Specific ingredients required for THIS result item
+        requiredIngredients: new fields.ArrayField(
+          new fields.SchemaField({
+            name: new fields.StringField({
+              required: true,
+              blank: false,
+              initial: "",
+              label: "CARDIGAN.Item.ItemRecipe.IngredientName"
+            }),
+            quantity: new fields.NumberField({
+              required: true,
+              nullable: false,
+              integer: true,
+              initial: 1,
+              min: 1,
+              label: "CARDIGAN.Item.ItemRecipe.IngredientQuantity"
+            }),
+            img: new fields.StringField({
+              required: false,
+              blank: true,
+              initial: "icons/svg/item-bag.svg",
+              label: "CARDIGAN.Item.ItemRecipe.IngredientImage"
+            })
+          }),
+          {
+            initial: [],
+            label: "CARDIGAN.Item.ItemRecipe.ResultItemIngredients",
+            hint: "CARDIGAN.Item.ItemRecipe.ResultItemIngredientsHint"
+          }
+        ),
+        // Custom properties to override/extend base item properties
+        customProperties: new fields.SchemaField({
+          // Weapon properties
+          damage: new fields.StringField({ required: false, blank: true }),
+          weaponType: new fields.StringField({ required: false, blank: true }),
+          properties: new fields.ArrayField(
+            new fields.StringField({ required: false }),
+            { required: false, initial: [] }
+          ),
+          
+          // Armor properties
+          protecao: new fields.NumberField({ required: false, min: 0 }),
+          armorType: new fields.StringField({ required: false, blank: true }),
+          armorClass: new fields.StringField({ required: false, blank: true }),
+          durability: new fields.SchemaField({
+            current: new fields.NumberField({ required: false, min: 0 }),
+            max: new fields.NumberField({ required: false, min: 0 })
+          }, { required: false }),
+          
+          // Consumable properties (Culinary/Alchemy)
+          quality: new fields.NumberField({ required: false, min: 1, max: 6 }),
+          toxicity: new fields.StringField({ required: false, blank: true }),
+          hpPerDay: new fields.NumberField({ required: false, min: 0 }),
+          consumableType: new fields.StringField({ required: false, blank: true }),
+          potency: new fields.StringField({ required: false, blank: true }),
+          duration: new fields.StringField({ required: false, blank: true }),
+          effectType: new fields.StringField({ required: false, blank: true }),
+          
+          // General properties
+          weight: new fields.StringField({ required: false, blank: true }),
+          price: new fields.NumberField({ required: false, min: 0 }),
+          description: new fields.StringField({ required: false, blank: true })
+        }, { 
+          required: false,
+          label: "CARDIGAN.Item.ItemRecipe.CustomProperties",
+          hint: "CARDIGAN.Item.ItemRecipe.CustomPropertiesHint"
+        })
+      }),
+      {
+        initial: [],
+        label: "CARDIGAN.Item.ItemRecipe.ResultItems",
+        hint: "CARDIGAN.Item.ItemRecipe.ResultItemsHint"
       }
     );
 

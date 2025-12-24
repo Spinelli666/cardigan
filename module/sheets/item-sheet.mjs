@@ -14,7 +14,16 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 ) {
   constructor(options = {}) {
     super(options);
+    console.log("[ITEM-SHEET] Constructor called for item:", options?.document?.name, options?.document?.type);
     this.#dragDrop = this.#createDragDropHandlers();
+  }
+
+  /** @override */
+  async render(options = {}, _options = {}) {
+    console.log("[ITEM-SHEET] render() called for:", this.item?.type, this.item?.name, "force:", options.force);
+    const result = await super.render(options, _options);
+    console.log("[ITEM-SHEET] render() completed, element exists:", !!this.element);
+    return result;
   }
 
   /** @override */
@@ -51,6 +60,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       removeIngredient: this._removeIngredient,
       changeIngredientImage: this._changeIngredientImage,
       ingredientNameChange: this._onIngredientNameChange,
+      addIngredientToResult: this._addIngredientToResult,
+      removeResultIngredient: this._removeResultIngredient,
+      changeResultIngredientImage: this._changeResultIngredientImage,
+      removeResultItem: this._removeResultItem,
       configureSkillEffects: this._configureSkillEffects,
       configureLinkedSkills: this._configureLinkedSkills,
       selectRacialSkills: this._selectRacialSkills,
@@ -75,7 +88,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       submitOnChange: true,
     },
     // Custom property that's merged into `this.options`
-    dragDrop: [{ dragSelector: '[data-drag]', dropSelector: null }],
+    dragDrop: [{ dragSelector: '[data-drag]', dropSelector: '[data-drop-zone]' }],
   };
 
   /* -------------------------------------------- */
@@ -145,6 +158,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
   /** @override */
   _configureRenderOptions(options) {
+    console.log("[ITEM-SHEET] _configureRenderOptions called for:", this.item.type, this.item.name);
     super._configureRenderOptions(options);
     // Not all parts always render
     options.parts = ['header', 'tabs', 'description'];
@@ -308,6 +322,91 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Override form change handler to prevent validation errors with ingredient updates
+   * @override
+   */
+  async _onChangeForm(formConfig, event) {
+    // For recipe items, intercept ingredient field changes
+    if (this.item.type === 'item-recipe') {
+      const target = event.target;
+      const name = target?.name;
+      
+      console.log('[ITEM-SHEET] _onChangeForm - name:', name, 'value:', target?.value);
+      
+      // If this is an ingredient field update
+      if (name && name.includes('requiredIngredients')) {
+        console.log('[ITEM-SHEET] Ingredient field change detected');
+        
+        // Extract the path parts - handle both "resultItems.0." and "resultItems.." (empty index)
+        const match = name.match(/system\.resultItems\.(\d*)\.requiredIngredients\.(\d+)\.(\w+)/);
+        
+        if (match) {
+          const [, resultIndexStr, ingredientIndex, field] = match;
+          
+          // If resultIndex is empty string, default to 0
+          const resultIndex = resultIndexStr === '' ? 0 : parseInt(resultIndexStr);
+          
+          console.log('[ITEM-SHEET] Parsed - resultIndex:', resultIndex, 'ingredientIndex:', ingredientIndex, 'field:', field);
+          
+          // Build update object manually to avoid partial resultItem validation
+          const currentResultItems = foundry.utils.deepClone(this.item.system.resultItems);
+          
+          if (currentResultItems[resultIndex]) {
+            const resultItem = currentResultItems[resultIndex];
+            
+            // Ensure requiredIngredients array exists
+            if (!resultItem.requiredIngredients) {
+              resultItem.requiredIngredients = [];
+            }
+            
+            // Ensure ingredient object exists
+            if (!resultItem.requiredIngredients[parseInt(ingredientIndex)]) {
+              resultItem.requiredIngredients[parseInt(ingredientIndex)] = {
+                name: "Novo Ingrediente",
+                quantity: 1,
+                img: "icons/svg/item-bag.svg"
+              };
+            }
+            
+            // Update the specific field
+            if (field === 'quantity') {
+              resultItem.requiredIngredients[parseInt(ingredientIndex)][field] = parseInt(target.value) || 1;
+            } else {
+              resultItem.requiredIngredients[parseInt(ingredientIndex)][field] = target.value;
+            }
+            
+            // If name was changed, try to auto-update image from matching item
+            if (field === 'name') {
+              const newName = target.value;
+              
+              // Priority: 1) Actor inventories, 2) World items, 3) Compendiums
+              const foundImage = CardiganSystemItemSheet._findIngredientImage(newName);
+              
+              if (foundImage) {
+                resultItem.requiredIngredients[parseInt(ingredientIndex)].img = foundImage;
+                console.log('[ITEM-SHEET] Auto-updated image for:', newName, foundImage);
+              }
+            }
+            
+            console.log('[ITEM-SHEET] Updated resultItems:', currentResultItems);
+            
+            // Update the item with the complete resultItems array
+            await this.item.update({
+              'system.resultItems': currentResultItems
+            });
+            
+            // Prevent default form submission
+            return;
+          }
+        }
+      }
+    }
+    
+    // Call parent for all other cases
+    return super._onChangeForm(formConfig, event);
+  }
+
+  /**
    * Generates the data for the generic tab navigation template
    * @param {string[]} parts An array of named template parts to render
    * @returns {Record<string, Partial<ApplicationTab>>}
@@ -375,88 +474,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     }, {});
   }
 
-  /**
-   * Actions performed after any render of the Application.
-   * Post-render steps are not awaited by the render process.
-   * @param {ApplicationRenderContext} context      Prepared context data
-   * @param {RenderOptions} options                 Provided render options
-   * @protected
-   */
-  _onRender(context, options) {
-    
-    this.#dragDrop.forEach((d) => d.bind(this.element));
-    
-    // Setup mutually exclusive checkboxes for damage abilities
-    this._setupMutuallyExclusiveCheckboxes();
-    
-    // Setup conditional visibility for weapon ammunition
-    this._setupConditionalAmmunition();
-    
-    // Manual setup for ingredient buttons (fallback)
-    this._setupIngredientListeners();
-    
-    // Setup conditional visibility for weapon protection
-    this._setupConditionalProtection();
-    
-    // Setup mutually exclusive checkboxes for effect apply/remove
-    this._setupEffectCheckboxes();
-    
-    // Setup skill effects configuration button
-    this._setupSkillEffectsButton();
-    
-    // Setup skill check toggle visibility for consumable items
-    this._setupSkillCheckToggle();
-    
-    // Setup effects toggle visibility for consumable items
-    this._setupEffectsToggle();
-    
-    // Setup critical failure effects toggle visibility for consumable items
-    this._setupCriticalFailureEffectsToggle();
-    
-    // Setup critical failure skill loss toggle visibility for consumable items
-    this._setupCriticalFailureSkillLossToggle();
-    
-    // Setup critical hit effects toggle visibility for consumable items
-    this._setupCriticalHitEffectsToggle();
-    
-    // Setup critical hit skill bonus toggle visibility for consumable items
-    this._setupCriticalHitSkillBonusToggle();
-    
-    // Setup temporary skill bonus toggle visibility for consumable items
-    this._setupTemporarySkillBonusToggle();
-    
-    // Setup health modifier toggle visibility for consumable items
-    this._setupHealthModifierToggle();
-    
-    // Setup energy modifier toggle visibility for consumable items
-    this._setupEnergyModifierToggle();
-    
-    // Setup armor bonus toggle visibility for consumable items  
-    this._setupArmorBonusToggle();
-    
-    // Setup conditional fields for armor items
-    this._setupArmorConditionalFields();
-    
-    // Setup status ailments toggle visibility for consumable items
-    this._setupStatusAilmentsToggle();
-    
-    // Setup food and water toggle visibility for consumable items
-    this._setupFoodAndWaterToggle();
-    
-    // Setup movement boost toggle visibility for consumable items
-    this._setupMovementBoostToggle();
-    
-    // Setup critical hit boost toggle visibility for consumable items
-    this._setupCriticalHitBoostToggle();
-    
-    // Setup image resize in description editor
-    this._setupDescriptionImageResize();
-    
-    // You may want to add other special handling here
-    // Foundry comes with a large number of utility classes, e.g. SearchFilter
-    // That you may want to implement yourself.
-  }
-
+  // NOTE: First _onRender() definition removed - ALL post-render operations consolidated at line ~3080
+  
   /**
    * Setup automatic image resizing in description prose-mirror editor
    * REMOVIDO - Deixando ProseMirror funcionar com comportamento padrão
@@ -1493,6 +1512,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   _canDragDrop(selector) {
+    console.log("[ITEM-SHEET] _canDragDrop called with selector:", selector);
+    console.log("[ITEM-SHEET] isEditable:", this.isEditable);
+    console.log("[ITEM-SHEET] item.type:", this.item.type);
+    console.log("[ITEM-SHEET] Returning:", this.isEditable);
     // game.user fetches the current user
     return this.isEditable;
   }
@@ -1533,22 +1556,45 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   async _onDrop(event) {
+    console.log("=".repeat(60));
+    console.log("[ITEM-SHEET] _onDrop TRIGGERED");
+    console.log("[ITEM-SHEET] Event:", event);
+    console.log("[ITEM-SHEET] Event target:", event.target);
+    console.log("[ITEM-SHEET] Event currentTarget:", event.currentTarget);
+    
     const data = foundry.applications.ux.TextEditor.getDragEventData(event);
+    console.log("[ITEM-SHEET] Extracted drop data:", data);
+    console.log("[ITEM-SHEET] Current item:", this.item);
+    console.log("[ITEM-SHEET] Current item type:", this.item.type);
+    console.log("[ITEM-SHEET] Current item name:", this.item.name);
+    
     const item = this.item;
     const allowed = Hooks.call('dropItemSheetData', item, this, data);
-    if (allowed === false) return;
+    if (allowed === false) {
+      console.log("[ITEM-SHEET] ❌ Drop blocked by hook");
+      return;
+    }
+    console.log("[ITEM-SHEET] ✅ Drop allowed by hooks");
 
     // Handle different data types
+    console.log("[ITEM-SHEET] Checking data type:", data.type);
     switch (data.type) {
       case 'ActiveEffect':
+        console.log("[ITEM-SHEET] → Routing to _onDropActiveEffect");
         return this._onDropActiveEffect(event, data);
       case 'Actor':
+        console.log("[ITEM-SHEET] → Routing to _onDropActor");
         return this._onDropActor(event, data);
       case 'Item':
+        console.log("[ITEM-SHEET] → Routing to _onDropItem");
         return this._onDropItem(event, data);
       case 'Folder':
+        console.log("[ITEM-SHEET] → Routing to _onDropFolder");
         return this._onDropFolder(event, data);
+      default:
+        console.log("[ITEM-SHEET] ⚠️ Unknown data type:", data.type);
     }
+    console.log("=".repeat(60));
   }
 
   /* -------------------------------------------- */
@@ -1631,7 +1677,144 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   async _onDropItem(event, data) {
-    if (!this.item.isOwner) return false;
+    try {
+      console.log("[ITEM-SHEET] _onDropItem called");
+      console.log("[ITEM-SHEET] Event:", event);
+      console.log("[ITEM-SHEET] Data:", data);
+      console.log("[ITEM-SHEET] this.item:", this.item);
+      console.log("[ITEM-SHEET] Item isOwner:", this.item?.isOwner);
+      
+      if (!this.item.isOwner) {
+        console.log("[ITEM-SHEET] Not owner, returning false");
+        return false;
+      }
+      
+      // Check if this is a recipe item and the drop zone is for result items
+      const dropZone = event.target.closest('[data-drop-zone]');
+      console.log("[ITEM-SHEET] Drop zone element:", dropZone);
+      console.log("[ITEM-SHEET] Drop zone dataset:", dropZone?.dataset);
+      console.log("[ITEM-SHEET] Item type:", this.item.type);
+      
+      if (this.item.type === 'item-recipe' && dropZone?.dataset.dropZone === 'resultItems') {
+        console.log("[ITEM-SHEET] Routing to _onDropResultItem");
+        return this._onDropResultItem(event, data);
+      }
+      
+      console.log("[ITEM-SHEET] No handler for this drop, returning false");
+      return false;
+    } catch (error) {
+      console.error("[ITEM-SHEET] Error in _onDropItem:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Handle dropping an item onto the recipe's result items zone
+   * @param {DragEvent} event  The drop event
+   * @param {object} data      The dropped data
+   * @returns {Promise<boolean>}
+   * @protected
+   */
+  async _onDropResultItem(event, data) {
+    console.log("[RECIPE] Dropping result item:", data);
+    console.log("[RECIPE] this.item.isOwner:", this.item.isOwner);
+    console.log("[RECIPE] this.item.isEmbedded:", this.item.isEmbedded);
+    console.log("[RECIPE] this.item.pack:", this.item.pack);
+    console.log("[RECIPE] this.isEditable:", this.isEditable);
+    
+    if (data.type !== 'Item') return false;
+    
+    // Check if we can edit this item
+    if (!this.isEditable) {
+      ui.notifications.warn("Cannot edit this recipe");
+      return false;
+    }
+    
+    try {
+      // Get the dropped item
+      const droppedItem = await fromUuid(data.uuid);
+      if (!droppedItem) {
+        ui.notifications.error("Could not find the dropped item");
+        return false;
+      }
+      
+      console.log("[RECIPE] Dropped item:", droppedItem.name, droppedItem.type);
+      
+      // Get current result items
+      const resultItems = foundry.utils.duplicate(this.item.system.resultItems || []);
+      
+      // Check if item with same UUID already exists
+      const existingIndex = resultItems.findIndex(r => r.uuid === data.uuid);
+      if (existingIndex !== -1) {
+        ui.notifications.warn(`"${droppedItem.name}" is already in the result items list`);
+        return false;
+      }
+      
+      // Create new result item entry
+      const newResultItem = {
+        uuid: data.uuid,
+        name: droppedItem.name,
+        img: droppedItem.img || "icons/svg/item-bag.svg",
+        quantity: 1,
+        isDefault: resultItems.length === 0, // First item is default
+        customProperties: {}
+      };
+      
+      // Add to result items
+      resultItems.push(newResultItem);
+      
+      console.log("[RECIPE] About to update with resultItems:", resultItems);
+      console.log("[RECIPE] Current item system:", this.item.system);
+      
+      // Update the recipe
+      const updateData = { 'system.resultItems': resultItems };
+      console.log("[RECIPE] Update data:", updateData);
+      
+      const result = await this.item.update(updateData);
+      console.log("[RECIPE] Update result:", result);
+      console.log("[RECIPE] Item after update:", this.item.system.resultItems);
+      
+      console.log("[RECIPE] Added result item:", newResultItem);
+      ui.notifications.info(`Added "${droppedItem.name}" to result items`);
+      
+      return true;
+    } catch (error) {
+      console.error("[RECIPE] Error dropping result item:", error);
+      ui.notifications.error("Failed to add result item");
+      return false;
+    }
+  }
+
+  /**
+   * Handle removing a result item from a recipe
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _removeResultItem(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    if (item.type !== 'item-recipe') return;
+    
+    const index = parseInt(target.dataset.index);
+    if (isNaN(index)) return;
+    
+    const resultItems = foundry.utils.duplicate(item.system.resultItems || []);
+    
+    if (index < 0 || index >= resultItems.length) return;
+    
+    const removedItem = resultItems[index];
+    resultItems.splice(index, 1);
+    
+    // If we removed the default item and there are still items left, make the first one default
+    if (removedItem.isDefault && resultItems.length > 0) {
+      resultItems[0].isDefault = true;
+    }
+    
+    await this.submit({ updateData: { 'system.resultItems': resultItems } });
+    
+    console.log("[RECIPE] Removed result item at index:", index);
+    ui.notifications.info(`Removed "${removedItem.name}" from result items`);
   }
 
   /* -------------------------------------------- */
@@ -2653,6 +2836,141 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Find matching ingredient image from game items
+   * Priority: 1) Actor inventories (all actors), 2) World items, 3) Compendium items
+   * @param {string} ingredientName - The ingredient name to search for
+   * @returns {string|null} The image path or null if not found
+   * @private
+   */
+  static _findIngredientImage(ingredientName) {
+    const nameLower = ingredientName.toLowerCase();
+    
+    // Helper to check exact or partial match
+    const findMatch = (items, exactOnly = false) => {
+      // Try exact match first
+      let match = items.find(item => 
+        item.name.toLowerCase() === nameLower
+      );
+      
+      // If no exact match and partial allowed, try partial
+      if (!match && !exactOnly) {
+        match = items.find(item => 
+          item.name.toLowerCase().includes(nameLower)
+        );
+      }
+      
+      return match;
+    };
+    
+    // 1) Search in all actor inventories first
+    for (const actor of game.actors.contents) {
+      const match = findMatch(actor.items.contents);
+      if (match) return match.img;
+    }
+    
+    // 2) Search in world items (sidebar)
+    const worldMatch = findMatch(game.items.contents);
+    if (worldMatch) return worldMatch.img;
+    
+    // 3) Not found
+    return null;
+  }
+
+  /**
+   * Handle adding an ingredient to a specific result item
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _addIngredientToResult(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    
+    const resultIndex = parseInt(target.dataset.resultIndex);
+    if (isNaN(resultIndex)) return;
+
+    const resultItems = item.system.toObject().resultItems || [];
+    if (resultIndex >= resultItems.length) return;
+
+    const currentIngredients = resultItems[resultIndex].requiredIngredients || [];
+    
+    // Create base ingredient
+    const newIngredient = {
+      name: 'Novo Ingrediente',
+      quantity: 1,
+      img: 'icons/svg/item-bag.svg' // Default fallback
+    };
+    
+    // Try to find matching item image
+    // Priority: 1) Actor inventories, 2) World items, 3) Compendiums
+    const foundImage = CardiganSystemItemSheet._findIngredientImage(newIngredient.name);
+    if (foundImage) {
+      newIngredient.img = foundImage;
+    }
+    
+    resultItems[resultIndex].requiredIngredients = [...currentIngredients, newIngredient];
+    
+    return item.update({ 'system.resultItems': resultItems });
+  }
+
+  /**
+   * Handle removing an ingredient from a result item
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _removeResultIngredient(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    
+    const resultIndex = parseInt(target.dataset.resultIndex);
+    const ingredientIndex = parseInt(target.dataset.ingredientIndex);
+    
+    if (isNaN(resultIndex) || isNaN(ingredientIndex)) return;
+
+    const resultItems = item.system.toObject().resultItems || [];
+    if (resultIndex >= resultItems.length) return;
+
+    const currentIngredients = resultItems[resultIndex].requiredIngredients || [];
+    resultItems[resultIndex].requiredIngredients = currentIngredients.filter((_, i) => i !== ingredientIndex);
+    
+    return item.update({ 'system.resultItems': resultItems });
+  }
+
+  /**
+   * Handle changing a result item ingredient's image
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _changeResultIngredientImage(event, target) {
+    event.preventDefault();
+    const item = this.item;
+    
+    const resultIndex = parseInt(target.dataset.resultIndex);
+    const ingredientIndex = parseInt(target.dataset.ingredientIndex);
+    
+    if (isNaN(resultIndex) || isNaN(ingredientIndex)) return;
+
+    const resultItems = item.system.toObject().resultItems || [];
+    if (resultIndex >= resultItems.length) return;
+
+    const currentIngredients = resultItems[resultIndex].requiredIngredients || [];
+    if (ingredientIndex >= currentIngredients.length) return;
+
+    // Open file picker to select new image
+    const fp = new foundry.applications.apps.FilePicker({
+      type: "image",
+      callback: (path) => {
+        resultItems[resultIndex].requiredIngredients[ingredientIndex].img = path;
+        item.update({ 'system.resultItems': resultItems });
+      }
+    });
+    
+    fp.render(true);
+  }
+
+  /**
    * Handle ingredient name changes for auto-search
    * @param {Event} event   The originating input event
    * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
@@ -2703,10 +3021,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       'culinary-recipe': 'culinary',
       'tailoring-recipe': 'tailoring',
       'tecnomagic-recipe': 'tecnomagic',
-      'item-recipe': 'general' // Generic recipes use general ingredients
+      'item-recipe': 'culinary' // Default recipes use culinary ingredients
     };
     
-    return professionMap[recipeType] || 'general';
+    return professionMap[recipeType] || 'culinary';
   }
 
   /* -------------------------------------------- */
@@ -2844,14 +3162,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
   }
 
-  /** @override */
-  _onRender(context, options) {
-    super._onRender(context, options);
-    
-    // Register for auto-updates and initialize hooks
-    this._registerForAutoUpdates();
-    CardiganSystemItemSheet._initializeAutoUpdateHooks();
-  }
+  // NOTE: Second _onRender() definition removed - consolidated at line ~3090
 
   /** @override */
   async close(options = {}) {
@@ -2884,13 +3195,112 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   // A lógica de processamento de skillActionTypes foi movida para prepareData no modelo
 
   /**
-   * Handle post-render operations to add manual event listeners
+   * CONSOLIDATED: Handle post-render operations
+   * Combines drag-drop binding, auto-updates, and manual event listeners
    * @param {ApplicationRenderContext} context
    * @param {RenderOptions} options
    */
   _onRender(context, options) {
     super._onRender(context, options);
     
+    console.log("[ITEM-SHEET] _onRender CONSOLIDATED called for item type:", this.item.type);
+    console.log("[ITEM-SHEET] Binding drag-drop handlers, count:", this.#dragDrop.length);
+    console.log("[ITEM-SHEET] this.element exists:", !!this.element);
+    
+    // === DRAG-DROP BINDING (from first _onRender) ===
+    // Check if drop zone exists (for recipes)
+    if (this.item.type === 'item-recipe') {
+      const dropZone = this.element.querySelector('[data-drop-zone="resultItems"]');
+      console.log("[ITEM-SHEET] Recipe drop zone element found:", !!dropZone);
+      if (dropZone) {
+        console.log("[ITEM-SHEET] Drop zone classes:", dropZone.className);
+        console.log("[ITEM-SHEET] Drop zone dataset:", dropZone.dataset);
+      } else {
+        console.error("[ITEM-SHEET] ⚠️ Recipe drop zone NOT FOUND! Looking for: [data-drop-zone='resultItems']");
+      }
+    }
+    
+    this.#dragDrop.forEach((d, index) => {
+      console.log(`[ITEM-SHEET] Binding drag-drop handler ${index + 1}:`, {
+        dragSelector: d.dragSelector,
+        dropSelector: d.dropSelector
+      });
+      d.bind(this.element);
+      console.log(`[ITEM-SHEET] Handler ${index + 1} bound successfully`);
+    });
+    
+    // Setup mutually exclusive checkboxes for damage abilities
+    this._setupMutuallyExclusiveCheckboxes();
+    
+    // Setup conditional visibility for weapon ammunition
+    this._setupConditionalAmmunition();
+    
+    // Manual setup for ingredient buttons (fallback)
+    this._setupIngredientListeners();
+    
+    // Setup conditional visibility for weapon protection
+    this._setupConditionalProtection();
+    
+    // Setup mutually exclusive checkboxes for effect apply/remove
+    this._setupEffectCheckboxes();
+    
+    // Setup skill effects configuration button
+    this._setupSkillEffectsButton();
+    
+    // Setup skill check toggle visibility for consumable items
+    this._setupSkillCheckToggle();
+    
+    // Setup effects toggle visibility for consumable items
+    this._setupEffectsToggle();
+    
+    // Setup critical failure effects toggle visibility for consumable items
+    this._setupCriticalFailureEffectsToggle();
+    
+    // Setup critical failure skill loss toggle visibility for consumable items
+    this._setupCriticalFailureSkillLossToggle();
+    
+    // Setup critical hit effects toggle visibility for consumable items
+    this._setupCriticalHitEffectsToggle();
+    
+    // Setup critical hit skill bonus toggle visibility for consumable items
+    this._setupCriticalHitSkillBonusToggle();
+    
+    // Setup temporary skill bonus toggle visibility for consumable items
+    this._setupTemporarySkillBonusToggle();
+    
+    // Setup health modifier toggle visibility for consumable items
+    this._setupHealthModifierToggle();
+    
+    // Setup energy modifier toggle visibility for consumable items
+    this._setupEnergyModifierToggle();
+    
+    // Setup armor bonus toggle visibility for consumable items  
+    this._setupArmorBonusToggle();
+    
+    // Setup conditional fields for armor items
+    this._setupArmorConditionalFields();
+    
+    // Setup status ailments toggle visibility for consumable items
+    this._setupStatusAilmentsToggle();
+    
+    // Setup food and water toggle visibility for consumable items
+    this._setupFoodAndWaterToggle();
+    
+    // Setup movement boost toggle visibility for consumable items
+    this._setupMovementBoostToggle();
+    
+    // Setup critical hit boost toggle visibility for consumable items
+    this._setupCriticalHitBoostToggle();
+    
+    // Setup image resize in description editor
+    this._setupDescriptionImageResize();
+    
+    // === AUTO-UPDATE HOOKS (from second _onRender) ===
+    // Register for auto-updates and initialize hooks
+    this._registerForAutoUpdates();
+    CardiganSystemItemSheet._initializeAutoUpdateHooks();
+    
+    // === ENHANCEMENT BUTTONS (from third _onRender) ===
     // Add manual event listeners for enhancement configuration buttons
     const enhancementButtons = this.element.querySelectorAll('.enhancement-config-btn');
     enhancementButtons.forEach((button, index) => {

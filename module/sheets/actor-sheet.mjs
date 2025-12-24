@@ -455,7 +455,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       else if (i.type === 'item-recipe') {
         recipes.push(i);
         const recipeType = i.system.recipeType;
-        if (recipeType === 'culinary' || recipeType === 'general') {
+        if (recipeType === 'culinary') {
           culinaryRecipes.push(i);
         } else if (recipeType === 'tailoring') {
           tailoringRecipes.push(i);
@@ -7363,8 +7363,19 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @returns {Object} Validation result with valid boolean and message
    * @protected
    */
-  static _validateRecipeIngredients(recipe, actor) {
-    const requiredIngredients = recipe.system.requiredIngredients || [];
+  static _validateRecipeIngredients(recipe, actor, selectedResultIndex = null) {
+    let requiredIngredients = [];
+    
+    // If a specific result item is selected, use its ingredients
+    if (selectedResultIndex !== null && recipe.system.resultItems && recipe.system.resultItems[selectedResultIndex]) {
+      const selectedResult = recipe.system.resultItems[selectedResultIndex];
+      requiredIngredients = selectedResult.requiredIngredients || [];
+      console.log(`[CRAFTING] Validating ingredients for result item "${selectedResult.name}":`, requiredIngredients);
+    } else {
+      // Fallback to recipe-level ingredients (old system)
+      requiredIngredients = recipe.system.requiredIngredients || [];
+      console.log("[CRAFTING] Validating recipe-level ingredients:", requiredIngredients);
+    }
     
     // If no ingredients required, validation passes
     if (requiredIngredients.length === 0) {
@@ -7445,11 +7456,23 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * Consume required ingredients from actor's inventory
    * @param {Item} recipe - The recipe item
    * @param {Actor} actor - The actor whose ingredients to consume
+   * @param {number|null} selectedResultIndex - Index of selected result item (to use its specific ingredients)
    * @returns {boolean} Whether consumption was successful
    * @protected
    */
-  static async _consumeRecipeIngredients(recipe, actor) {
-    const requiredIngredients = recipe.system.requiredIngredients || [];
+  static async _consumeRecipeIngredients(recipe, actor, selectedResultIndex = null) {
+    let requiredIngredients = [];
+    
+    // If a specific result item is selected, use its ingredients
+    if (selectedResultIndex !== null && recipe.system.resultItems && recipe.system.resultItems[selectedResultIndex]) {
+      const selectedResult = recipe.system.resultItems[selectedResultIndex];
+      requiredIngredients = selectedResult.requiredIngredients || [];
+      console.log(`[CRAFTING] Consuming ingredients for result item "${selectedResult.name}":`, requiredIngredients);
+    } else {
+      // Fallback to recipe-level ingredients (old system)
+      requiredIngredients = recipe.system.requiredIngredients || [];
+      console.log("[CRAFTING] Consuming recipe-level ingredients:", requiredIngredients);
+    }
     
     if (requiredIngredients.length === 0) {
       return true;
@@ -7520,85 +7543,172 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }
 
     try {
-      // Validate ingredients before showing dialog
-      const ingredientValidation = CardiganSystemActorSheet._validateRecipeIngredients(recipe, this.document);
-      if (!ingredientValidation.valid) {
-        console.log("[CRAFTING] Ingredient validation failed:", ingredientValidation);
-        ui.notifications.error(ingredientValidation.message);
-        return;
-      }
+      // Don't validate ingredients here - will validate when user clicks Craft button
+      // This allows showing the dialog and letting user see what each item needs
 
-      // Show crafting dialog to select item type
+      // Show crafting dialog to select item (new system) or type (old system)
       const result = await RecipeCraftingDialog.show(this.document, recipe, recipeType);
       console.log("[CRAFTING] Dialog result:", result);
       
-      if (!result || !result.itemType) {
-        console.log("[CRAFTING] No item type selected");
+      if (!result) {
+        console.log("[CRAFTING] Dialog cancelled");
         return;
       }
 
-      // Create the new item based on selection
-      const itemData = {
-        name: recipe.system.resultItem || recipe.name,
-        type: result.itemType,
-        img: recipe.img || "icons/sundries/miscellaneous/mortar-pestle.svg",
-        system: {
-          quantity: recipe.system.resultQuantity || 1,
-          // Use correct weight for each item type
-          weight: (result.itemType === "arma" || result.itemType === "armadura") ? "leve" : "leve",
-          price: recipe.system.price || 10,
-          description: `Crafted from ${recipe.name} recipe.${recipe.system.description ? `\n\n${recipe.system.description}` : ''}`
+      // NOW validate ingredients for the selected result item
+      if (result.resultIndex !== undefined) {
+        const ingredientValidation = CardiganSystemActorSheet._validateRecipeIngredients(
+          recipe, 
+          this.document, 
+          result.resultIndex
+        );
+        if (!ingredientValidation.valid) {
+          console.log("[CRAFTING] Ingredient validation failed for selected item:", ingredientValidation);
+          ui.notifications.error(ingredientValidation.message);
+          return;
         }
-      };
+      }
 
-      // Add type-specific properties
-      switch (result.itemType) {
-        case "item-consumivel":
-          itemData.system.effects = recipe.system.effects || "";
-          itemData.system.consumableType = recipe.system.consumableType || "other";
-          break;
-        case "arma":
-          itemData.system.weaponType = "";
-          itemData.system.melee = true;
-          itemData.system.ranged = false;
-          itemData.system.isFirearm = false;
-          itemData.system.ammunition = { current: 0, max: 0 };
-          itemData.system.damage = { 
-            value: "1d4", 
-            useStrength: false, 
-            useDexterity: false, 
-            total: "1d4" 
+      let itemData;
+      let resultItem;
+      
+      // NEW SYSTEM: Recipe has predefined result items
+      if (result.resultItem) {
+        const selectedResult = result.resultItem;
+        console.log("[CRAFTING] Using result item:", selectedResult);
+        
+        // Try to get base item from UUID
+        if (selectedResult.uuid) {
+          try {
+            const baseItem = await fromUuid(selectedResult.uuid);
+            if (baseItem) {
+              // Clone the base item
+              itemData = baseItem.toObject();
+              console.log("[CRAFTING] Cloned base item from UUID:", selectedResult.uuid);
+            } else {
+              console.warn("[CRAFTING] UUID not found, creating from scratch");
+            }
+          } catch (error) {
+            console.error("[CRAFTING] Error loading UUID:", error);
+          }
+        }
+        
+        // If no UUID or UUID failed, create item from scratch
+        if (!itemData) {
+          itemData = {
+            name: selectedResult.name,
+            type: "item-comum", // Default type
+            img: selectedResult.img || "icons/svg/item-bag.svg",
+            system: {}
           };
-          itemData.system.properties = [];
-          itemData.system.rightHand = false;
-          itemData.system.leftHand = false;
-          break;
-        case "armadura":
-          itemData.system.armorType = "torso"; // Use valid armor type
-          itemData.system.protecao = 1;
-          itemData.system.armorClass = "";
-          itemData.system.equipped = false;
-          itemData.system.properties = [];
-          itemData.system.skillBonuses = [];
-          itemData.system.magicalArtifact = false;
-          itemData.system.resistenciaFrio = false;
-          itemData.system.bonusVida = 0;
-          itemData.system.bonusEnergia = 0;
-          itemData.system.bonusDeslocamento = { enabled: false, bonus: 0 };
-          itemData.system.durability = { current: 3, max: 3 };
-          break;
-        case "item-municao":
-          itemData.system.ammunitionType = "arrow";
-          break;
+        }
+        
+        // Apply custom properties (merge with base item properties)
+        if (selectedResult.customProperties && Object.keys(selectedResult.customProperties).length > 0) {
+          console.log("[CRAFTING] Applying custom properties:", selectedResult.customProperties);
+          
+          // Merge custom properties into system
+          itemData.system = foundry.utils.mergeObject(
+            itemData.system || {},
+            {
+              // Apply all custom properties
+              ...(selectedResult.customProperties.damage && { 
+                damage: { 
+                  value: selectedResult.customProperties.damage,
+                  total: selectedResult.customProperties.damage 
+                } 
+              }),
+              ...(selectedResult.customProperties.weaponType && { weaponType: selectedResult.customProperties.weaponType }),
+              ...(selectedResult.customProperties.properties && { properties: selectedResult.customProperties.properties }),
+              ...(selectedResult.customProperties.protecao !== undefined && { protecao: selectedResult.customProperties.protecao }),
+              ...(selectedResult.customProperties.armorType && { armorType: selectedResult.customProperties.armorType }),
+              ...(selectedResult.customProperties.armorClass && { armorClass: selectedResult.customProperties.armorClass }),
+              ...(selectedResult.customProperties.durability && { durability: selectedResult.customProperties.durability }),
+              ...(selectedResult.customProperties.quality !== undefined && { quality: selectedResult.customProperties.quality }),
+              ...(selectedResult.customProperties.toxicity && { toxicity: selectedResult.customProperties.toxicity }),
+              ...(selectedResult.customProperties.hpPerDay !== undefined && { hpPerDay: selectedResult.customProperties.hpPerDay }),
+              ...(selectedResult.customProperties.consumableType && { consumableType: selectedResult.customProperties.consumableType }),
+              ...(selectedResult.customProperties.potency && { potency: selectedResult.customProperties.potency }),
+              ...(selectedResult.customProperties.duration && { duration: selectedResult.customProperties.duration }),
+              ...(selectedResult.customProperties.effectType && { effectType: selectedResult.customProperties.effectType }),
+              ...(selectedResult.customProperties.weight && { weight: selectedResult.customProperties.weight }),
+              ...(selectedResult.customProperties.price !== undefined && { price: selectedResult.customProperties.price }),
+              ...(selectedResult.customProperties.description && { description: selectedResult.customProperties.description })
+            },
+            { inplace: false }
+          );
+        }
+        
+        // Set quantity
+        itemData.system.quantity = selectedResult.quantity || 1;
+        
+      } else if (result.itemType) {
+        // OLD SYSTEM: Manual item type selection (fallback)
+        console.log("[CRAFTING] Using old system with item type:", result.itemType);
+        
+        itemData = {
+          name: recipe.name,
+          type: result.itemType,
+          img: recipe.img || "icons/sundries/miscellaneous/mortar-pestle.svg",
+          system: {
+            quantity: 1,
+            weight: "leve",
+            price: recipe.system.price || 10,
+            description: `Crafted from ${recipe.name} recipe.${recipe.system.description ? `\n\n${recipe.system.description}` : ''}`
+          }
+        };
+
+        // Add type-specific properties for old system
+        switch (result.itemType) {
+          case "item-consumivel":
+            itemData.system.effects = recipe.system.effects || "";
+            itemData.system.consumableType = recipe.system.consumableType || "other";
+            break;
+          case "arma":
+            itemData.system.weaponType = "";
+            itemData.system.melee = true;
+            itemData.system.ranged = false;
+            itemData.system.isFirearm = false;
+            itemData.system.ammunition = { current: 0, max: 0 };
+            itemData.system.damage = { 
+              value: "1d4", 
+              useStrength: false, 
+              useDexterity: false, 
+              total: "1d4" 
+            };
+            itemData.system.properties = [];
+            itemData.system.rightHand = false;
+            itemData.system.leftHand = false;
+            break;
+          case "armadura":
+            itemData.system.armorType = "torso";
+            itemData.system.protecao = 1;
+            itemData.system.armorClass = "";
+            itemData.system.equipped = false;
+            itemData.system.properties = [];
+            itemData.system.skillBonuses = [];
+            itemData.system.magicalArtifact = false;
+            itemData.system.resistenciaFrio = false;
+            itemData.system.bonusVida = 0;
+            itemData.system.bonusEnergia = 0;
+            itemData.system.bonusDeslocamento = { enabled: false, bonus: 0 };
+            itemData.system.durability = { current: 3, max: 3 };
+            break;
+          case "item-municao":
+            itemData.system.ammunitionType = "arrow";
+            break;
+        }
+      } else {
+        console.error("[CRAFTING] Invalid result from dialog");
+        return;
       }
 
       // Check if item with same name and type already exists
       const existingItem = this.document.items.find(item => 
-        item.type === result.itemType && 
+        item.type === itemData.type && 
         item.name === itemData.name
       );
 
-      let resultItem;
       if (existingItem) {
         // Increase existing item quantity
         const currentQuantity = existingItem.system.quantity || 1;
@@ -7622,7 +7732,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
 
       // Consume ingredients after successful crafting
-      const consumeSuccess = await CardiganSystemActorSheet._consumeRecipeIngredients(recipe, this.document);
+      const consumeSuccess = await CardiganSystemActorSheet._consumeRecipeIngredients(
+        recipe, 
+        this.document, 
+        result.resultIndex
+      );
       if (!consumeSuccess) {
         console.warn("[CRAFTING] Failed to consume ingredients, but item was created");
         ui.notifications.warn("Item created but some ingredients could not be consumed properly.");
@@ -7630,8 +7744,14 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         console.log("[CRAFTING] Successfully consumed all required ingredients");
       }
 
-      // Prepare ingredients consumed message
-      const requiredIngredients = recipe.system.requiredIngredients || [];
+      // Prepare ingredients consumed message - get from result item or recipe
+      let requiredIngredients = [];
+      if (result.resultIndex !== undefined && recipe.system.resultItems && recipe.system.resultItems[result.resultIndex]) {
+        requiredIngredients = recipe.system.resultItems[result.resultIndex].requiredIngredients || [];
+      } else {
+        requiredIngredients = recipe.system.requiredIngredients || [];
+      }
+      
       let ingredientsText = "";
       if (requiredIngredients.length > 0) {
         ingredientsText = `
@@ -7652,7 +7772,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           <p><strong>${this.document.name}</strong> has crafted <strong>"${resultItem.name}"</strong>!</p>
           <div style="margin-top: 10px; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 4px;">
             <p style="margin: 2px 0;"><strong>Recipe:</strong> ${recipe.name}</p>
-            <p style="margin: 2px 0;"><strong>Item Type:</strong> ${game.i18n.localize(`TYPES.Item.${result.itemType}`)}</p>
+            <p style="margin: 2px 0;"><strong>Item Type:</strong> ${game.i18n.localize(`TYPES.Item.${resultItem.type}`)}</p>
             <p style="margin: 2px 0;"><strong>Quantity:</strong> ${resultItem.system.quantity}</p>
           </div>
           ${ingredientsText}
