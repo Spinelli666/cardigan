@@ -14,15 +14,30 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 ) {
   constructor(options = {}) {
     super(options);
-    console.log("[ITEM-SHEET] Constructor called for item:", options?.document?.name, options?.document?.type);
     this.#dragDrop = this.#createDragDropHandlers();
   }
 
   /** @override */
   async render(options = {}, _options = {}) {
-    console.log("[ITEM-SHEET] render() called for:", this.item?.type, this.item?.name, "force:", options.force);
+    // For recipe items, clean up empty resultItems before rendering
+    if (this.item?.type === 'item-recipe') {
+      const currentResultItems = this.item.system?.resultItems;
+      
+      if (currentResultItems && currentResultItems.length > 0) {
+        const hasEmptyItems = currentResultItems.some(item => !item || !item.name || item.name.trim() === '');
+        
+        if (hasEmptyItems) {
+          const filtered = currentResultItems.filter(item => item && item.name && item.name.trim() !== '');
+          
+          // Update the item to remove empty entries
+          await this.item.update({
+            'system.resultItems': filtered
+          }, { render: false }); // Don't trigger another render
+        }
+      }
+    }
+    
     const result = await super.render(options, _options);
-    console.log("[ITEM-SHEET] render() completed, element exists:", !!this.element);
     return result;
   }
 
@@ -158,7 +173,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
   /** @override */
   _configureRenderOptions(options) {
-    console.log("[ITEM-SHEET] _configureRenderOptions called for:", this.item.type, this.item.name);
     super._configureRenderOptions(options);
     // Not all parts always render
     options.parts = ['header', 'tabs', 'description'];
@@ -322,21 +336,64 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Process form data BEFORE validation and submission
+   * This is called BEFORE _prepareSubmitData and validation
+   * @override
+   */
+  _processFormData(event, form, formData) {
+    const submitData = super._processFormData(event, form, formData);
+    
+    // CRITICAL FIX: For recipe items, prevent empty resultItems from causing validation errors
+    if (this.item.type === 'item-recipe') {
+      // Check if we're updating resultItems
+      if ('system.resultItems' in submitData) {
+        const resultItems = submitData['system.resultItems'];
+        
+        if (resultItems && Array.isArray(resultItems)) {
+          submitData['system.resultItems'] = resultItems.filter(item => {
+            return item && item.name && item.name.trim() !== '';
+          });
+        }
+      }
+    }
+    
+    return submitData;
+  }
+
+  /**
    * Override form change handler to prevent validation errors with ingredient updates
    * @override
    */
   async _onChangeForm(formConfig, event) {
-    // For recipe items, intercept ingredient field changes
+    // CRITICAL: Clean up empty resultItems BEFORE calling super (which validates)
     if (this.item.type === 'item-recipe') {
+      const currentResultItems = this.item.system?.resultItems;
+      
+      if (currentResultItems && currentResultItems.length > 0) {
+        // Check each item more carefully
+        const emptyItems = currentResultItems.filter(item => {
+          return !item || !item.name || item.name.trim() === '';
+        });
+        
+        if (emptyItems.length > 0) {
+          const filtered = currentResultItems.filter(item => item && item.name && item.name.trim() !== '');
+          
+          // SYNCHRONOUSLY update to ensure clean data before parent validation
+          await this.item.update({
+            'system.resultItems': filtered
+          }, { render: false });
+          
+          // IMPORTANT: Return early to prevent validation on this change
+          // The update above will trigger another _onChangeForm call with clean data
+          return;
+        }
+      }
+      
       const target = event.target;
       const name = target?.name;
       
-      console.log('[ITEM-SHEET] _onChangeForm - name:', name, 'value:', target?.value);
-      
       // If this is an ingredient field update
       if (name && name.includes('requiredIngredients')) {
-        console.log('[ITEM-SHEET] Ingredient field change detected');
-        
         // Extract the path parts - handle both "resultItems.0." and "resultItems.." (empty index)
         const match = name.match(/system\.resultItems\.(\d*)\.requiredIngredients\.(\d+)\.(\w+)/);
         
@@ -384,11 +441,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
               
               if (foundImage) {
                 resultItem.requiredIngredients[parseInt(ingredientIndex)].img = foundImage;
-                console.log('[ITEM-SHEET] Auto-updated image for:', newName, foundImage);
               }
             }
-            
-            console.log('[ITEM-SHEET] Updated resultItems:', currentResultItems);
             
             // Update the item with the complete resultItems array
             await this.item.update({
@@ -1512,11 +1566,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   _canDragDrop(selector) {
-    console.log("[ITEM-SHEET] _canDragDrop called with selector:", selector);
-    console.log("[ITEM-SHEET] isEditable:", this.isEditable);
-    console.log("[ITEM-SHEET] item.type:", this.item.type);
-    console.log("[ITEM-SHEET] Returning:", this.isEditable);
-    // game.user fetches the current user
     return this.isEditable;
   }
 
@@ -1556,43 +1605,22 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   async _onDrop(event) {
-    console.log("=".repeat(60));
-    console.log("[ITEM-SHEET] _onDrop TRIGGERED");
-    console.log("[ITEM-SHEET] Event:", event);
-    console.log("[ITEM-SHEET] Event target:", event.target);
-    console.log("[ITEM-SHEET] Event currentTarget:", event.currentTarget);
-    
     const data = foundry.applications.ux.TextEditor.getDragEventData(event);
-    console.log("[ITEM-SHEET] Extracted drop data:", data);
-    console.log("[ITEM-SHEET] Current item:", this.item);
-    console.log("[ITEM-SHEET] Current item type:", this.item.type);
-    console.log("[ITEM-SHEET] Current item name:", this.item.name);
     
     const item = this.item;
     const allowed = Hooks.call('dropItemSheetData', item, this, data);
-    if (allowed === false) {
-      console.log("[ITEM-SHEET] ❌ Drop blocked by hook");
-      return;
-    }
-    console.log("[ITEM-SHEET] ✅ Drop allowed by hooks");
+    if (allowed === false) return;
 
     // Handle different data types
-    console.log("[ITEM-SHEET] Checking data type:", data.type);
     switch (data.type) {
       case 'ActiveEffect':
-        console.log("[ITEM-SHEET] → Routing to _onDropActiveEffect");
         return this._onDropActiveEffect(event, data);
       case 'Actor':
-        console.log("[ITEM-SHEET] → Routing to _onDropActor");
         return this._onDropActor(event, data);
       case 'Item':
-        console.log("[ITEM-SHEET] → Routing to _onDropItem");
         return this._onDropItem(event, data);
       case 'Folder':
-        console.log("[ITEM-SHEET] → Routing to _onDropFolder");
         return this._onDropFolder(event, data);
-      default:
-        console.log("[ITEM-SHEET] ⚠️ Unknown data type:", data.type);
     }
     console.log("=".repeat(60));
   }
@@ -1678,29 +1706,15 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    */
   async _onDropItem(event, data) {
     try {
-      console.log("[ITEM-SHEET] _onDropItem called");
-      console.log("[ITEM-SHEET] Event:", event);
-      console.log("[ITEM-SHEET] Data:", data);
-      console.log("[ITEM-SHEET] this.item:", this.item);
-      console.log("[ITEM-SHEET] Item isOwner:", this.item?.isOwner);
-      
-      if (!this.item.isOwner) {
-        console.log("[ITEM-SHEET] Not owner, returning false");
-        return false;
-      }
+      if (!this.item.isOwner) return false;
       
       // Check if this is a recipe item and the drop zone is for result items
       const dropZone = event.target.closest('[data-drop-zone]');
-      console.log("[ITEM-SHEET] Drop zone element:", dropZone);
-      console.log("[ITEM-SHEET] Drop zone dataset:", dropZone?.dataset);
-      console.log("[ITEM-SHEET] Item type:", this.item.type);
       
       if (this.item.type === 'item-recipe' && dropZone?.dataset.dropZone === 'resultItems') {
-        console.log("[ITEM-SHEET] Routing to _onDropResultItem");
         return this._onDropResultItem(event, data);
       }
       
-      console.log("[ITEM-SHEET] No handler for this drop, returning false");
       return false;
     } catch (error) {
       console.error("[ITEM-SHEET] Error in _onDropItem:", error);
@@ -3211,13 +3225,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Check if drop zone exists (for recipes)
     if (this.item.type === 'item-recipe') {
       const dropZone = this.element.querySelector('[data-drop-zone="resultItems"]');
-      console.log("[ITEM-SHEET] Recipe drop zone element found:", !!dropZone);
-      if (dropZone) {
-        console.log("[ITEM-SHEET] Drop zone classes:", dropZone.className);
-        console.log("[ITEM-SHEET] Drop zone dataset:", dropZone.dataset);
-      } else {
-        console.error("[ITEM-SHEET] ⚠️ Recipe drop zone NOT FOUND! Looking for: [data-drop-zone='resultItems']");
-      }
     }
     
     this.#dragDrop.forEach((d, index) => {

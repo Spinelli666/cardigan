@@ -42,6 +42,16 @@ export default class CardiganSystemRace extends CardiganSystemItemBase {
       hint: 'CARDIGAN.Item.Race.FIELDS.powerBonus.hint'
     });
     
+    // Armor bonus
+    schema.armorBonus = new NumberField({
+      required: true,
+      nullable: false,
+      initial: 0,
+      integer: true,
+      label: 'CARDIGAN.Item.Race.FIELDS.armorBonus.label',
+      hint: 'CARDIGAN.Item.Race.FIELDS.armorBonus.hint'
+    });
+    
     // Racial skills (Array of skill objects with id, name, img, and uuid)
     schema.racialSkills = new ArrayField(
       new SchemaField({

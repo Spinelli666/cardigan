@@ -167,12 +167,13 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Get race bonuses (calculated from race item)
     const raceHealthBonus = this._raceHealthBonus ?? 0;
     const racePowerBonus = this._racePowerBonus ?? 0;
+    const raceArmorBonus = this._raceArmorBonus ?? 0;
     
     this.health.max = Math.max(0, 0 + staminaHealthBonus + levelHealthBonus - fractureReduction + healthBonus + armorHealthBonus + raceHealthBonus);
     this.power.max = Math.max(0, 0 + staminaEnergyBonus + levelEnergyBonus - fractureReduction + energyBonus + armorEnergyBonus + racePowerBonus);
     
-    // Calculate armor maximum based on armor bonus from equipped armors + manual bonus
-    this.armor.max = Math.max(0, armorBonus + armorProtectionBonus);
+    // Calculate armor maximum based on armor bonus from equipped armors + manual bonus + race bonus
+    this.armor.max = Math.max(0, armorBonus + armorProtectionBonus + raceArmorBonus);
     
     // Calculate backpack maximum capacity based on Strength (every 2 points of Strength = +1 capacity)
     // Use value (baseValue + manualValue) + bonus + totalBonus for complete strength calculation
@@ -221,7 +222,27 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const dexterityTotalBonus = this.abilities?.dexterity?.totalBonus ?? 0;
     const totalDexterity = dexterity + dexterityTotalBonus;
     const dexterityCriticalEffect = Math.floor(totalDexterity / 3); // Crítico: cada 3 pontos
-    const autoValue = Math.max(1, 20 - dexterityCriticalEffect); // Valor automático (mínimo de 1)
+    
+    // Check for Certeiro weapon property bonus
+    let certeiroCriticalBonus = 0;
+    const weapons = this.parent?.items?.filter(item => item.type === 'arma') || [];
+    
+    for (const weapon of weapons) {
+      // Check if weapon is equipped in right hand or left hand
+      const isEquipped = weapon.system.rightHand || weapon.system.leftHand;
+      if (!isEquipped) continue;
+      
+      // Skip broken weapons
+      const currentDurability = weapon.system.durability?.current ?? 0;
+      if (currentDurability <= 0) continue;
+      
+      // Check if weapon has Certeiro property
+      if (weapon.system.properties?.includes('certeiro')) {
+        certeiroCriticalBonus -= 1;
+      }
+    }
+    
+    const autoValue = Math.max(1, 20 - dexterityCriticalEffect + certeiroCriticalBonus); // Valor automático (mínimo de 1)
     const manualValue = this.details.criticalHitManual ?? 0; // Valor manual
     this.details.criticalHit = autoValue + manualValue; // Total = automático + manual
 
@@ -324,6 +345,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       this._raceMovementBonus = 0;
       this._raceHealthBonus = 0;
       this._racePowerBonus = 0;
+      this._raceArmorBonus = 0;
       return;
     }
     
@@ -338,6 +360,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     this._raceMovementBonus = raceItem.system.movementBonus || 0;
     this._raceHealthBonus = raceItem.system.healthBonus || 0;
     this._racePowerBonus = raceItem.system.powerBonus || 0;
+    this._raceArmorBonus = raceItem.system.armorBonus || 0;
   }
 
   /**

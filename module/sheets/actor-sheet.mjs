@@ -306,11 +306,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     this.#cleanupTooltips();
     
     // Setup weapon tooltips with debug logging
-    console.log('Setting up weapon tooltips...');
     this.#setupWeaponTooltips();
     
     // Setup armor tooltips with debug logging
-    console.log('Setting up armor tooltips...');
     this.#setupArmorTooltips();
     
     // Setup effect tooltips with enriched HTML
@@ -366,23 +364,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       9: [],
     };
 
-    console.log("=== PREPARE ITEMS DEBUG ===");
-    console.log("Total items:", this.document.items.size);
-
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
-      // Debug weapon items
-      if (i.type === 'arma') {
-        console.log(`Weapon: ${i.name}, equipped: ${i.system.equipped}, ID: ${i._id}`);
-      }
-      // Debug armor items
-      if (i.type === 'armadura') {
-        console.log(`Armor: ${i.name}, equipped: ${i.system.equipped}, type: ${i.system.armorType}, ID: ${i._id}`);
-      }
-      // Debug backpack items
-      if (i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel' || i.type === 'item-ingredient') {
-        console.log(`Backpack Item: ${i.name}, type: ${i.type}, ID: ${i._id}`);
-      }
 
       // Append to backpack.
       if (i.type === 'backpack' || i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel' || i.type === 'item-ingredient') {
@@ -392,10 +375,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       else if (i.type === 'arma') {
         // Only equipped weapons go to armas table, unequipped ones go to backpack table
         if (i.system.equipped) {
-          console.log(`  → Adding ${i.name} to ARMAS table (equipped: true)`);
           armas.push(i);
         } else {
-          console.log(`  → Adding ${i.name} to BACKPACK table (equipped: false)`);
           // Unequipped weapons go to backpack table
           backpack.push(i);
         }
@@ -404,10 +385,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       else if (i.type === 'armadura') {
         // Only equipped armors go to armaduras table, unequipped ones go to backpack table
         if (i.system.equipped) {
-          console.log(`  → Adding ${i.name} to ARMADURAS table (equipped: true)`);
           armaduras.push(i);
         } else {
-          console.log(`  → Adding ${i.name} to BACKPACK table (equipped: false)`);
           // Unequipped armors go to backpack table
           backpack.push(i);
         }
@@ -477,8 +456,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
 
-    console.log(`Final counts: backpack=${backpack.length}, armas=${armas.length}, armaduras=${armaduras.length}`);
-    console.log("=== END PREPARE ITEMS DEBUG ===");
+
 
     // Add unarmed attacks for free hands
     this._addUnarmedAttacks(armas);
@@ -618,8 +596,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
 
-    console.log("Hand occupation status:", { rightHandOccupied, leftHandOccupied });
-
     // Get actor's total strength for damage calculation (value + bonuses)
     const strengthValue = this.document.system.abilities.strength.value || 0;
     const strengthBonus = this.document.system.abilities.strength.totalBonus || 0;
@@ -629,14 +605,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     if (!rightHandOccupied) {
       const rightHandUnarmed = this._createUnarmedAttack(null, actorStrength, true, false);
       armas.push(rightHandUnarmed);
-      console.log("Added right hand unarmed attack");
     }
 
     // Create unarmed attack for left hand if free
     if (!leftHandOccupied) {
       const leftHandUnarmed = this._createUnarmedAttack(null, actorStrength, false, true);
       armas.push(leftHandUnarmed);
-      console.log("Added left hand unarmed attack");
     }
   }
 
@@ -722,9 +696,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // REMOVED: Do NOT modify the actor's status fields here!
     // The actor's _calculateArmorBonuses method handles all armor bonuses correctly
     // Modifying status fields here causes duplication in the max calculations
-
-    // Log for debugging
-    console.log(`[ARMOR TOTALS] Armor: ${totalArmor}, Life: ${totalLifeBonus}, Energy: ${totalEnergyBonus}, Movement: ${totalMovementBonus}`);
   }
 
   /**
@@ -805,7 +776,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Add money spaces (30 coins = 1 space)
     totalSpaces += moneySpaces;
 
-    console.log(`[BACKPACK SPACES] Total occupied: ${totalSpaces} (includes ${moneySpaces} spaces from ${moneyAmount} coins)`);
     return totalSpaces;
   }
 
@@ -6971,11 +6941,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         } else {
           tableSection.classList.add('hidden');
         }
-        
-        console.log(`[${profession.displayName}] Visibility toggled: ${isChecked ? 'visible' : 'hidden'}`);
       });
-      
-      console.log(`[CARDIGAN] ${profession.displayName} toggle listener added`);
     });
   }
 
@@ -7011,8 +6977,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         const index = parseInt(match[1]);
         const isChecked = checkbox.checked;
         
-        console.log(`[CARDIGAN] Enhancement ${index} for skill ${item.name} changed to:`, isChecked);
-        
         // Update the item's acquiredEnhancements array
         const currentEnhancements = item.system.acquiredEnhancements || [false, false, false];
         const newEnhancements = [...currentEnhancements];
@@ -7024,8 +6988,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           }, {
             render: false  // Prevent automatic re-render to avoid checkbox state issues
           });
-          
-          console.log(`[CARDIGAN] Updated skill ${item.name} enhancements:`, newEnhancements);
           
           // Handle linked skills for this enhancement
           const enhancement = item.system.enhancements?.[index];
@@ -7042,7 +7004,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           // Update expanded summary if it's currently open
           const itemContainer = this.element.querySelector(`[data-item-id="${itemId}"]`)?.closest('.item-row, .item');
           if (itemContainer && this.expandedSections?.get(itemId)) {
-            console.log(`[CARDIGAN] Refreshing expanded summary for ${item.name}`);
             await this._refreshExpandedSummary(itemId, item);
           }
           
@@ -7276,10 +7237,46 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         return;
       }
       
+      // Roll for quality if this is a culinary recipe
+      let qualityName = null;
+      let qualityDice = null;
+      let qualityRoll = null;
+      
+      if (recipe.system.recipeType === "culinary") {
+        // Roll 1d20 for quality
+        qualityRoll = await new Roll("1d20").evaluate();
+        await qualityRoll.toMessage({
+          speaker: ChatMessage.getSpeaker({ actor: this.document }),
+          flavor: `🎲 Rolagem de Qualidade - ${recipe.name}`
+        });
+        
+        const rollTotal = qualityRoll.total;
+        
+        // Determine quality tier based on roll
+        if (rollTotal <= 5) {
+          qualityName = "Ruim";
+          qualityDice = "1d6";
+        } else if (rollTotal <= 10) {
+          qualityName = "Simples";
+          qualityDice = "1d8";
+        } else if (rollTotal <= 15) {
+          qualityName = "Boa";
+          qualityDice = "1d10";
+        } else {
+          qualityName = "Incrível";
+          qualityDice = "1d12";
+        }
+        
+        console.log(`[RECIPES] Quality roll: ${rollTotal} → ${qualityName} (${qualityDice} PVT)`);
+      }
+      
+      // Build final item name with quality suffix if applicable
+      const finalItemName = qualityName ? `${recipe.name} (${qualityName})` : recipe.name;
+      
       // Check if consumable with same name already exists in backpack
       const existingConsumable = this.document.items.find(item => 
         item.type === "item-consumivel" && 
-        item.name === recipe.name
+        item.name === finalItemName
       );
       
       let resultItem;
@@ -7296,13 +7293,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         });
         
         resultItem = existingConsumable;
-        console.log(`[RECIPES] Increased quantity of "${recipe.name}" from ${currentQuantity} to ${newQuantity}`);
-        ui.notifications.info(`Added ${servingsToAdd} more "${recipe.name}" to your backpack! (Total: ${newQuantity})`);
+        console.log(`[RECIPES] Increased quantity of "${finalItemName}" from ${currentQuantity} to ${newQuantity}`);
+        ui.notifications.info(`Added ${servingsToAdd} more "${finalItemName}" to your backpack! (Total: ${newQuantity})`);
         
       } else {
         // Item doesn't exist - create new consumable
         const consumableData = {
-          name: recipe.name,
+          name: finalItemName,
           type: "item-consumivel",
           img: recipe.img,
           system: {
@@ -7323,12 +7320,33 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         isNewItem = true;
         
         console.log("[RECIPES] Created new consumable from recipe:", resultItem);
-        ui.notifications.info(`Successfully cooked "${recipe.name}"! Check your equipment backpack.`);
+        ui.notifications.info(`Successfully cooked "${finalItemName}"! Check your equipment backpack.`);
       }
       
       // Show cooking success message in chat
       const actionText = isNewItem ? "cooked" : "added more";
       const quantityText = isNewItem ? resultItem.system.quantity : `+${recipe.system.servings || 1} (Total: ${resultItem.system.quantity})`;
+      
+      // Build quality info for chat message
+      let qualityInfo = '';
+      if (qualityName && qualityRoll) {
+        const qualityColors = {
+          "Ruim": "#8B0000",
+          "Simples": "#696969",
+          "Boa": "#4169E1",
+          "Incrível": "#FFD700"
+        };
+        const color = qualityColors[qualityName] || "#FFFFFF";
+        
+        qualityInfo = `
+          <p style="margin: 2px 0;">
+            <strong>Quality Roll:</strong> 
+            <span style="color: ${color}; font-weight: bold;">${qualityRoll.total}</span> → 
+            <span style="color: ${color}; font-weight: bold;">${qualityName}</span>
+          </p>
+          <p style="margin: 2px 0;"><strong>PVT Restoration:</strong> ${qualityDice}</p>
+        `;
+      }
       
       const messageContent = `
         <div class="cardigan-cook-message" style="background: linear-gradient(90deg, #2b1810 0%, #3d2317 100%); border: 2px solid #8B4513; border-radius: 8px; padding: 15px; color: #c9c7b8;">
@@ -7340,6 +7358,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           <div style="margin-top: 10px; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 4px;">
             <p style="margin: 2px 0;"><strong>Recipe:</strong> ${recipe.name}</p>
             <p style="margin: 2px 0;"><strong>Difficulty:</strong> ${game.i18n.localize(`CARDIGAN.Item.ItemRecipe.difficulty.${recipe.system.difficulty}`)}</p>
+            ${qualityInfo}
             <p style="margin: 2px 0;"><strong>Servings:</strong> ${quantityText}</p>
           </div>
         </div>
@@ -7703,6 +7722,59 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         return;
       }
 
+      // Roll for quality if this is a culinary recipe creating a consumable
+      let qualityName = null;
+      let qualityDice = null;
+      let qualityRoll = null;
+      
+      if (recipe.system.recipeType === "culinary" && itemData.type === "item-consumivel") {
+        // Roll 1d20 for quality
+        qualityRoll = await new Roll("1d20").evaluate();
+        
+        // Show roll message in chat (Dice So Nice will trigger automatically)
+        await qualityRoll.toMessage({
+          speaker: ChatMessage.getSpeaker({ actor: this.document }),
+          flavor: `🎲 Rolagem de Qualidade - ${recipe.name}`
+        });
+        
+        // Wait for Dice So Nice animation to complete (if module is active)
+        if (game.dice3d) {
+          await game.dice3d.waitFor3DAnimationByMessageID(
+            game.messages.contents[game.messages.contents.length - 1].id
+          );
+        }
+        
+        const rollTotal = qualityRoll.total;
+        
+        // Determine quality tier based on roll
+        if (rollTotal <= 5) {
+          qualityName = "Ruim";
+          qualityDice = "1d6";
+        } else if (rollTotal <= 10) {
+          qualityName = "Simples";
+          qualityDice = "1d8";
+        } else if (rollTotal <= 15) {
+          qualityName = "Boa";
+          qualityDice = "1d10";
+        } else {
+          qualityName = "Incrível";
+          qualityDice = "1d12";
+        }
+        
+        console.log(`[CRAFTING] Quality roll: ${rollTotal} → ${qualityName} (${qualityDice} PVT)`);
+        
+        // Modify item name to include quality
+        itemData.name = `${itemData.name} (${qualityName})`;
+        
+        // Configure Health Modifier properties for culinary consumables
+        itemData.system.hasHealthModifier = true;
+        itemData.system.healthModifierType = "add";
+        itemData.system.healthModifierDice = qualityDice;
+        itemData.system.healthModifierIsTemporary = true;
+        itemData.system.healthModifierQuantity = 1;
+        itemData.system.healthModifierAdditionalBonus = 0;
+      }
+      
       // Check if item with same name and type already exists
       const existingItem = this.document.items.find(item => 
         item.type === itemData.type && 
@@ -7762,6 +7834,27 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         `;
       }
 
+      // Build quality info for chat message
+      let qualityInfo = '';
+      if (qualityName && qualityRoll) {
+        const qualityColors = {
+          "Ruim": "#8B0000",
+          "Simples": "#696969",
+          "Boa": "#4169E1",
+          "Incrível": "#FFD700"
+        };
+        const color = qualityColors[qualityName] || "#FFFFFF";
+        
+        qualityInfo = `
+          <p style="margin: 2px 0;">
+            <strong>Quality Roll:</strong> 
+            <span style="color: ${color}; font-weight: bold;">${qualityRoll.total}</span> → 
+            <span style="color: ${color}; font-weight: bold;">${qualityName}</span>
+          </p>
+          <p style="margin: 2px 0;"><strong>PVT Restoration:</strong> ${qualityDice}</p>
+        `;
+      }
+
       // Show crafting success message in chat
       const messageContent = `
         <div class="cardigan-craft-message" style="background: linear-gradient(90deg, #1a1a2e 0%, #16213e 100%); border: 2px solid #0f3460; border-radius: 8px; padding: 15px; color: #c9c7b8;">
@@ -7773,6 +7866,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           <div style="margin-top: 10px; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 4px;">
             <p style="margin: 2px 0;"><strong>Recipe:</strong> ${recipe.name}</p>
             <p style="margin: 2px 0;"><strong>Item Type:</strong> ${game.i18n.localize(`TYPES.Item.${resultItem.type}`)}</p>
+            ${qualityInfo}
             <p style="margin: 2px 0;"><strong>Quantity:</strong> ${resultItem.system.quantity}</p>
           </div>
           ${ingredientsText}
@@ -7798,8 +7892,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   static _onFilterProfession(event, target) {
     event.preventDefault();
     const profession = target.value;
-    
-    console.log("[FILTER] Changing profession filter to:", profession);
     
     // Update the filter state
     this.professionFilter = profession;

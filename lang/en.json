@@ -714,14 +714,11 @@
     "ConfirmUnequipWeapon": "Are you sure you want to unequip this weapon?",
     "ConfirmUnequipDescription": "The weapon will be moved to the backpack.",
     "WeaponProperty": {
-      "Afiado": "Afiado",
-      "Ambidestria": "Ambidestria",
       "Bomba": "Bomba",
+      "Certeiro": "Certeiro",
       "Colateral": "Colateral",
       "Contundente": "Contundente",
       "Discreto": "Discreto",
-      "DispardividIdo": "Disparo Dividido",
-      "DoseDupla": "Dose Dupla",
       "Duelar": "Duelar",
       "Eletrecutar": "Eletrecutar",
       "Extensao": "Extensão",
@@ -731,10 +728,11 @@
       "Pente": "Pente",
       "Perfurar": "Perfurar",
       "QueimaRoupa": "Queima-Roupa",
+      "Rajada": "Rajada",
       "Recarga": "Recarga",
       "SaqueRapido": "Saque Rápido",
       "Traspassar": "Traspassar",
-      "Unica": "Única",
+      "Unico": "Único",
       "Vorpal": "Vorpal"
     },
     "ArmorType": {

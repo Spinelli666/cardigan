@@ -1038,6 +1038,92 @@
       }
     }
     
+    // Multiple items section: List of items with their ingredients
+    .recipe-multiple-items-section {
+      width: 100%;
+      margin: 12px 0;
+      
+      .result-item-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        margin-bottom: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+        
+        .result-item-name {
+          color: $c-black;
+          font-size: 14px;
+          font-weight: bold;
+          min-width: 80px;
+          flex-shrink: 0;
+          white-space: nowrap;
+        }
+        
+        .result-item-ingredients {
+          display: flex;
+          flex-wrap: nowrap;
+          gap: 6px;
+          align-items: center;
+          overflow-x: auto;
+          flex: 1;
+          
+          .ingredient-item {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            padding: 3px 5px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+            
+            .ingredient-image {
+              flex-shrink: 0;
+              width: 30px !important;
+              height: 30px !important;
+              max-width: 30px !important;
+              max-height: 30px !important;
+              overflow: hidden;
+                
+              img {
+                width: 30px !important;
+                height: 30px !important;
+                border-radius: 2px;
+                border: 1px solid $c-black;
+                background: rgba(0, 0, 0, 0.3);
+                object-fit: cover;
+              }
+            }
+            
+            .ingredient-quantity {
+              color: $c-black;
+              font-size: 14px;
+              font-weight: bold;
+              min-width: 18px;
+              text-align: center;
+              
+              &.insufficient {
+                color: #dc3545 !important;
+              }
+            }
+          }
+          
+          .no-ingredients {
+            color: rgba(0, 0, 0, 0.4);
+            font-size: 12px;
+            font-style: italic;
+          }
+        }
+      }
+    }
+    
     // Bottom section: Description full width with rich formatting support
     .recipe-description-below {
       width: 100%; // Full width description

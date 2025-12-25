@@ -52,6 +52,8 @@ export class CardiganSystemItem extends Item {
     // Add racial skills when a race is added to an actor
     if (this.type === 'race' && this.actor) {
       await this._addRacialSkills();
+      // Apply custom race bonuses (e.g., Norsca natural armor)
+      await this._applyCustomRaceBonuses();
     }
   }
 
@@ -262,6 +264,36 @@ export class CardiganSystemItem extends Item {
   }
 
   /**
+   * Apply custom race bonuses when race is added to actor
+   * Uses RaceManager to apply race-specific logic (e.g., Norsca natural armor)
+   * @private
+   */
+  async _applyCustomRaceBonuses() {
+    try {
+      console.log(`[Item._applyCustomRaceBonuses] Applying race bonuses for: ${this.name}`);
+      const { RaceManager } = await import('../races/index.mjs');
+      await RaceManager.applyRace(this, this.actor);
+    } catch (error) {
+      console.error('[Item._applyCustomRaceBonuses] Error applying race bonuses:', error);
+    }
+  }
+
+  /**
+   * Remove custom race bonuses when race is removed from actor
+   * Uses RaceManager to remove race-specific logic
+   * @private
+   */
+  async _removeCustomRaceBonuses() {
+    try {
+      console.log(`[Item._removeCustomRaceBonuses] Removing race bonuses for: ${this.name}`);
+      const { RaceManager } = await import('../races/index.mjs');
+      await RaceManager.removeRace(this, this.actor);
+    } catch (error) {
+      console.error('[Item._removeCustomRaceBonuses] Error removing race bonuses:', error);
+    }
+  }
+
+  /**
    * Check if this effect should be blocked by another effect (like Imparável)
    * @private
    * @returns {Promise<boolean>}
@@ -361,6 +393,11 @@ export class CardiganSystemItem extends Item {
     // Remove linked skills when a skill with linked skills is deleted
     if (this.type === 'skill' && this.actor) {
       await this._removeLinkedSkills();
+    }
+
+    // Remove custom race bonuses when race is removed from actor
+    if (this.type === 'race' && this.actor) {
+      await this._removeCustomRaceBonuses();
     }
   }
 

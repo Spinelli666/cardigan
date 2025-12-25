@@ -13,6 +13,10 @@ import * as models from './data/_module.mjs';
 import { initializeSkillsSystem, getSkillManager } from './skills/index.mjs';
 // Import Effects System
 import { initializeEffects } from './effects/index.mjs';
+// Import Races System
+import { initializeRaces } from './races/index.mjs';
+// Import Weapon Properties System
+import { initializeWeaponProperties } from './weapon-properties/index.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -171,6 +175,14 @@ Hooks.once('init', function () {
   initializeEffects().catch(error => {
     console.error('[CARDIGAN] Failed to initialize Effects System:', error);
   });
+
+  // Initialize Races System
+  initializeRaces().catch(error => {
+    console.error('[CARDIGAN] Failed to initialize Races System:', error);
+  });
+
+  // Initialize Weapon Properties System
+  initializeWeaponProperties();
 });
 
 /* -------------------------------------------- */
