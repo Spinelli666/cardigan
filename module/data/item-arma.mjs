@@ -106,7 +106,7 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
   }
 
   /**
-   * Calculate the total damage including ability modifier
+   * Calculate the total damage including ability modifier and weapon properties
    * @private
    */
   _calculateDamageTotal() {
@@ -126,23 +126,34 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
       abilityBonus = actor.system.abilities.dexterity.value || 0;
     }
 
+    // Check for Vorpal property bonus (+4 if wielded in both hands)
+    let vorpalBonus = 0;
+    if (this.properties?.includes('vorpal')) {
+      // Weapon has Vorpal property - check if wielded in both hands
+      if (this.rightHand && this.leftHand) {
+        vorpalBonus = 4;
+      }
+    }
+
     // Calculate total damage
-    if (abilityBonus > 0) {
+    const totalBonus = abilityBonus + vorpalBonus;
+    
+    if (totalBonus > 0) {
       // Check if base damage is a simple number that can be added directly
       const baseDamageNum = parseInt(baseDamage);
       if (!isNaN(baseDamageNum)) {
         // Base damage is a simple number, calculate the sum
-        const total = baseDamageNum + abilityBonus;
+        const total = baseDamageNum + totalBonus;
         this.damage.total = `${total}`;
       } else if (baseDamage !== "0" && baseDamage !== "") {
         // Base damage is a dice formula or complex string, append the bonus
-        this.damage.total = `${baseDamage} + ${abilityBonus}`;
+        this.damage.total = `${baseDamage} + ${totalBonus}`;
       } else {
-        // If base damage is 0 or empty, just show the ability bonus
-        this.damage.total = `${abilityBonus}`;
+        // If base damage is 0 or empty, just show the total bonus
+        this.damage.total = `${totalBonus}`;
       }
     } else {
-      // No ability bonus, just use base damage
+      // No bonuses, just use base damage
       this.damage.total = baseDamage;
     }
   }

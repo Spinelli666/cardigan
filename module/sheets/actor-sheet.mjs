@@ -3739,6 +3739,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       totalDamage += actor.system.abilities.dexterity.value || 0;
     }
 
+    // Adicionar bônus de Vorpal (+4 se empunhado com ambas as mãos)
+    if (item.system.properties?.includes('vorpal')) {
+      if (item.system.rightHand && item.system.leftHand) {
+        totalDamage += 4;
+      }
+    }
+
     // Criar flavor text personalizado com tipo de rolagem
     const flavor = `<div style="text-align: center; margin-bottom: 4px;">
       <strong>${game.i18n.localize("CARDIGAN.AttackWith")} ${item.name}</strong> - ${rollDescription}
