@@ -23,7 +23,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">O disparo ignora <strong><code>2d20</code></strong>::systems/cardigan/assets/images/weapons/shield.webp::<strong>Armadura</strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">O disparo ignora <strong><code>1d20</code></strong>::systems/cardigan/assets/images/weapons/shield.webp::<strong>Armadura</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -69,7 +69,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Realiza um disparo com sua Arma à Distância que ignora <strong><code>💔PV Temporário</code></strong> e <strong><code>1d20</code>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo inimigo.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Reduz <strong><code>-1</code></strong> a <strong>Durabilidade</strong> da <strong>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> acertada.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Aplica <strong><code>+1</code></strong> <strong><code><strong><code>⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong></code></strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Realiza um disparo com sua Arma à Distância que ignora <strong><code>💔PV Temporário</code></strong> e <strong><code>1d12</code>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo inimigo.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Reduz <strong><code>-1</code></strong> a <strong>Durabilidade</strong> da <strong>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> acertada.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Aplica <strong><code>+1</code></strong> <strong><code><strong><code>⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong></code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",
