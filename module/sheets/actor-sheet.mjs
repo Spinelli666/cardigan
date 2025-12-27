@@ -3952,10 +3952,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         attackerId: actor.id,
         attackerName: actor.name,
         weaponName: item.name,
+        weaponId: item._id || item.id,  // Weapon ID for property checks
+        weaponProperties: item.system.properties || [],  // Weapon properties (ferir, vorpal, etc)
         damage: totalDamage,  // ALWAYS use BASE damage (not doubled) in flags
         attackerCriticalHit: isCriticalHit  // Add critical hit flag
       };
-      console.log('[CARDIGAN ATTACK] Saving damage to flags:', { totalDamage, finalDamage, isCriticalHit });
     }
 
     // Use player's roll mode setting (GM can choose blind manually)

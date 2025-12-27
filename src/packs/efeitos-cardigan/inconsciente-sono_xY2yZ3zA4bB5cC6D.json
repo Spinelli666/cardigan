@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Você cai desacordado, não podendo realizar nenhum tipo de ação, se mover ou falar.</p>",
+    "description": "<p style=\"text-align: justify\">Você cai desacordado, não podendo realizar nenhum tipo de ação, se mover ou falar.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

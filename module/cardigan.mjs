@@ -123,7 +123,7 @@ Hooks.once('init', function () {
   });
 
   // Socket listener para notificações de evasão, dano e resultado de ataque (registrado no init)
-  game.socket.on("system.cardigan", (data) => {
+  game.socket.on("system.cardigan", async (data) => {
     if (data.action === "notifyGMEvasion" && game.user.isGM) {
       createGMEvasionNotification(data.payload);
     } else if (data.action === "notifyDamage") {
@@ -149,6 +149,90 @@ Hooks.once('init', function () {
       if (data.payload.attackerOwnerId === game.user.id) {
         closeAttackDialogForAttacker({ dialogId: data.payload.oldDialogId });
         createAttackerResultDialog(data.payload);
+      }
+    } else if (data.type === "applyBleeding" && game.user.isGM) {
+      // Handle bleeding application - only GM can execute
+      const targetActor = game.actors.get(data.targetActorId);
+      if (targetActor) {
+        const { Ferir } = await import('./weapon-properties/properties/ferir.mjs');
+        await Ferir.applyBleedingEffect(targetActor, data.weaponName);
+      } else {
+        console.error('[FERIR] Target actor not found:', data.targetActorId);
+      }
+    } else if (data.type === "notifyBleeding") {
+      // Notify defender's owner about bleeding effect
+      if (data.userId === game.user.id) {
+        ui.notifications.info(`🩸 Você recebeu Sangramento de ${data.weaponName}!`);
+      }
+    } else if (data.type === "applyWeakened" && game.user.isGM) {
+      // Handle weakened application - only GM can execute
+      const targetActor = game.actors.get(data.targetActorId);
+      if (targetActor) {
+        const { Traspassar } = await import('./weapon-properties/properties/traspassar.mjs');
+        await Traspassar.applyWeakenedEffect(targetActor, data.weaponName);
+      } else {
+        console.error('[TRASPASSAR] Target actor not found:', data.targetActorId);
+      }
+    } else if (data.type === "notifyWeakened") {
+      // Notify defender's owner about weakened effect
+      if (data.userId === game.user.id) {
+        ui.notifications.info(`💪 Você ficou Enfraquecido por ${data.weaponName}!`);
+      }
+    } else if (data.type === "applyProne" && game.user.isGM) {
+      // Handle prone application - only GM can execute
+      const targetActor = game.actors.get(data.targetActorId);
+      if (targetActor) {
+        const { Contundente } = await import('./weapon-properties/properties/contundente.mjs');
+        await Contundente.applyProneEffect(targetActor, data.weaponName);
+      } else {
+        console.error('[CONTUNDENTE] Target actor not found:', data.targetActorId);
+      }
+    } else if (data.type === "notifyProne") {
+      // Notify defender's owner about prone effect
+      if (data.userId === game.user.id) {
+        ui.notifications.info(`🔽 Você ficou Caído por ${data.weaponName}!`);
+      }
+    } else if (data.type === "applyBurning" && game.user.isGM) {
+      // Handle burning application - only GM can execute
+      const targetActor = game.actors.get(data.targetActorId);
+      if (targetActor) {
+        const { Incendiar } = await import('./weapon-properties/properties/incendiar.mjs');
+        await Incendiar.applyBurningEffect(targetActor, data.weaponName);
+      } else {
+        console.error('[INCENDIAR] Target actor not found:', data.targetActorId);
+      }
+    } else if (data.type === "notifyBurning") {
+      // Notify defender's owner about burning effect
+      if (data.userId === game.user.id) {
+        ui.notifications.info(`🔥 Você ficou Incendiado por ${data.weaponName}!`);
+      }
+    } else if (data.type === "applyShocked" && game.user.isGM) {
+      // Handle shocked application - only GM can execute
+      const targetActor = game.actors.get(data.targetActorId);
+      if (targetActor) {
+        const { Eletrocutar } = await import('./weapon-properties/properties/eletrocutar.mjs');
+        await Eletrocutar.applyShockedEffect(targetActor, data.weaponName);
+      } else {
+        console.error('[ELETROCUTAR] Target actor not found:', data.targetActorId);
+      }
+    } else if (data.type === "notifyShocked") {
+      // Notify defender's owner about shocked effect
+      if (data.userId === game.user.id) {
+        ui.notifications.info(`⚡ Você ficou Eletrocutado por ${data.weaponName}!`);
+      }
+    } else if (data.type === "applyFracture" && game.user.isGM) {
+      // Handle fracture application - only GM can execute
+      const targetActor = game.actors.get(data.targetActorId);
+      if (targetActor) {
+        const { Impacto } = await import('./weapon-properties/properties/impacto.mjs');
+        await Impacto.applyFractureEffect(targetActor, data.weaponName);
+      } else {
+        console.error('[IMPACTO] Target actor not found:', data.targetActorId);
+      }
+    } else if (data.type === "notifyFracture") {
+      // Notify defender's owner about fracture increment
+      if (data.userId === game.user.id) {
+        ui.notifications.info(`🦴 Você sofreu Fratura por ${data.weaponName}! (${data.oldFracture} → ${data.newFracture})`);
       }
     }
   });
@@ -366,6 +450,14 @@ Handlebars.registerHelper('formatSkillActionTypes', function(actionTypes) {
     .join(' | ');
 });
 
+// Import weapon property classes for combat effects
+import { Ferir } from './weapon-properties/properties/ferir.mjs';
+import { Traspassar } from './weapon-properties/properties/traspassar.mjs';
+import { Contundente } from './weapon-properties/properties/contundente.mjs';
+import { Incendiar } from './weapon-properties/properties/incendiar.mjs';
+import { Eletrocutar } from './weapon-properties/properties/eletrocutar.mjs';
+import { Impacto } from './weapon-properties/properties/impacto.mjs';
+
 // Global Map to track active attack dialogs
 const activeAttackDialogs = new Map();
 
@@ -432,7 +524,7 @@ function showArmorDurabilityNotification(data) {
  * @param {Object} data - Attack result data
  */
 async function createAttackerResultDialog(data) {
-  const { attackerName, defenderName, attackTotal, evasionTotal, success, attackDamage, armor, actorId, currentHP, maxHP, attackerOwnerId, defenderCriticalFailure, attackerCriticalHit } = data;
+  const { attackerName, defenderName, attackTotal, evasionTotal, success, attackDamage, armor, actorId, currentHP, maxHP, attackerOwnerId, defenderCriticalFailure, attackerCriticalHit, weaponName, weaponProperties } = data;
   
   // Check if there's any critical (attacker critical hit OR defender critical failure)
   const hasCritical = attackerCriticalHit || defenderCriticalFailure;
@@ -875,6 +967,55 @@ async function createAttackerResultDialog(data) {
           // Also show locally
           showDamageNotification(notificationData);
           
+          // Apply bleeding effect if weapon has "ferir" property and attacker scored critical hit
+          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("ferir")) {
+            console.log('[FERIR] Player Dialog - Conditions met: critical hit + ferir property');
+            const defenderActor = game.actors.get(actorId);
+            if (defenderActor) {
+              await Ferir.applyBleedingEffect(defenderActor, weaponName || "arma com ferir");
+            }
+          }
+          
+          // Apply weakened effect if weapon has "traspassar" property and attacker scored critical hit
+          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("traspassar")) {
+            const defenderActor = game.actors.get(actorId);
+            if (defenderActor) {
+              await Traspassar.applyWeakenedEffect(defenderActor, weaponName || "arma com traspassar");
+            }
+          }
+          
+          // Apply prone effect if weapon has "contundente" property and attacker scored critical hit
+          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("contundente")) {
+            const defenderActor = game.actors.get(actorId);
+            if (defenderActor) {
+              await Contundente.applyProneEffect(defenderActor, weaponName || "arma contundente");
+            }
+          }
+          
+          // Apply burning effect if weapon has "incendiar" property and attacker scored critical hit
+          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("incendiar")) {
+            const defenderActor = game.actors.get(actorId);
+            if (defenderActor) {
+              await Incendiar.applyBurningEffect(defenderActor, weaponName || "arma incendiária");
+            }
+          }
+          
+          // Apply shocked effect if weapon has "eletrocutar" property and attacker scored critical hit
+          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("eletrocutar")) {
+            const defenderActor = game.actors.get(actorId);
+            if (defenderActor) {
+              await Eletrocutar.applyShockedEffect(defenderActor, weaponName || "arma elétrica");
+            }
+          }
+          
+          // Apply fracture if weapon has "impacto" property and attacker scored critical hit
+          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("impacto")) {
+            const defenderActor = game.actors.get(actorId);
+            if (defenderActor) {
+              await Impacto.applyFractureEffect(defenderActor, weaponName || "arma de impacto");
+            }
+          }
+          
           // Create detailed chat message
           // Check if defender is GM-controlled (no player owner) to simplify message
           const isGMControlled = defenderActor && !defenderActor.hasPlayerOwner;
@@ -1059,7 +1200,7 @@ async function showArmorDurabilityDialog(armors, previouslySelected = []) {
  */
 async function createGMEvasionNotification(data) {
   const { actorId, playerName, characterName, attackerName, attackerId, evasionTotal, attackTotal, success, 
-          currentHP, maxHP, armor, attackDamage, damageTaken, remainingHP, defenderCriticalFailure, attackerCriticalHit } = data;
+          currentHP, maxHP, armor, attackDamage, damageTaken, remainingHP, defenderCriticalFailure, attackerCriticalHit, weaponName, weaponProperties } = data;
   
   console.log('[CARDIGAN GM DIALOG] Received data:', { attackDamage, attackerCriticalHit, defenderCriticalFailure });
   
@@ -1365,6 +1506,36 @@ async function createGMEvasionNotification(data) {
             
             // Also show locally
             showDamageNotification(notificationData);
+            
+            // Apply bleeding effect if weapon has "ferir" property and attacker scored critical hit
+            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("ferir")) {
+              await Ferir.applyBleedingEffect(actor, weaponName || "arma com ferir");
+            }
+            
+            // Apply weakened effect if weapon has "traspassar" property and attacker scored critical hit
+            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("traspassar")) {
+              await Traspassar.applyWeakenedEffect(actor, weaponName || "arma com traspassar");
+            }
+            
+            // Apply prone effect if weapon has "contundente" property and attacker scored critical hit
+            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("contundente")) {
+              await Contundente.applyProneEffect(actor, weaponName || "arma contundente");
+            }
+            
+            // Apply burning effect if weapon has "incendiar" property and attacker scored critical hit
+            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("incendiar")) {
+              await Incendiar.applyBurningEffect(actor, weaponName || "arma incendiária");
+            }
+            
+            // Apply shocked effect if weapon has "eletrocutar" property and attacker scored critical hit
+            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("eletrocutar")) {
+              await Eletrocutar.applyShockedEffect(actor, weaponName || "arma elétrica");
+            }
+            
+            // Apply fracture if weapon has "impacto" property and attacker scored critical hit
+            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("impacto")) {
+              await Impacto.applyFractureEffect(actor, weaponName || "arma de impacto");
+            }
             
             // Create detailed chat message
             // Check if defender is GM-controlled (no player owner) to simplify message
@@ -2005,7 +2176,7 @@ async function handleEvasionClick(button) {
   const message = game.messages.get(messageId);
   const attackData = message?.flags?.cardigan?.attackTargets;
   const attackDamage = attackData?.damage || 0;
-  console.log('[CARDIGAN EVASION] Attack damage from flags:', { attackDamage, attackData });
+  
   const attackerId = attackData?.attackerId;
   const isReroll = attackData?.isReroll || false;
   const dialogId = attackData?.dialogId;
@@ -2017,6 +2188,8 @@ async function handleEvasionClick(button) {
   const storedCurrentHP = attackData?.currentHP;
   const storedMaxHP = attackData?.maxHP;
   const attackerCriticalHit = attackData?.attackerCriticalHit || false;
+  const weaponName = attackData?.weaponName;
+  const weaponProperties = attackData?.weaponProperties || [];
 
   // Get token and actor (defender)
   const token = game.scenes.current?.tokens.get(tokenId);
@@ -2180,7 +2353,9 @@ async function handleEvasionClick(button) {
           damageTaken: damageTaken,
           remainingHP: remainingHP,
           defenderCriticalFailure: criticalFailure,
-          attackerCriticalHit: attackerCriticalHit
+          attackerCriticalHit: attackerCriticalHit,
+          weaponName: weaponName,
+          weaponProperties: weaponProperties
         }
       };
       
@@ -2211,7 +2386,9 @@ async function handleEvasionClick(button) {
           damageTaken: damageTaken,
           remainingHP: remainingHP,
           defenderCriticalFailure: criticalFailure,
-          attackerCriticalHit: attackerCriticalHit
+          attackerCriticalHit: attackerCriticalHit,
+          weaponName: weaponName,
+          weaponProperties: weaponProperties
         };
 
         console.log('[CARDIGAN] Notifying GM of reroll results:', gmNotificationPayload);
@@ -2276,7 +2453,9 @@ async function handleEvasionClick(button) {
               currentHP: storedCurrentHP || currentHP,
               maxHP: storedMaxHP || maxHP,
               defenderCriticalFailure: criticalFailure,  // Add defender critical flag from reroll
-              attackerCriticalHit: attackerCriticalHit  // Preserve attacker critical from original attack
+              attackerCriticalHit: attackerCriticalHit,  // Preserve attacker critical from original attack
+              weaponName: weaponName,
+              weaponProperties: weaponProperties
             }
           };
           
@@ -2313,7 +2492,9 @@ async function handleEvasionClick(button) {
               currentHP: currentHP,
               maxHP: maxHP,
               defenderCriticalFailure: criticalFailure,
-              attackerCriticalHit: attackerCriticalHit
+              attackerCriticalHit: attackerCriticalHit,
+              weaponName: weaponName,
+              weaponProperties: weaponProperties
             }
           };
           

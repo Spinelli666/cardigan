@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Sua arma caiu no chão a dois metros de você. Você pode juntá-la com uma ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Ação Curta</strong>.</p>",
+    "description": "<p style=\"text-align: justify\">Sua arma caiu no chão a dois metros de você. Você pode juntá-la com uma ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Ação Curta</strong>.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

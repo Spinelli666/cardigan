@@ -1281,6 +1281,9 @@ export class SkillManager {
               attackerId: actor.id,
               attackerName: actor.name,
               skillName: skillName,
+              weaponId: primaryWeapon?._id || primaryWeapon?.id,
+              weaponName: primaryWeapon?.name,
+              weaponProperties: primaryWeapon?.system?.properties || [],
               damage: weaponDamage,  // ALWAYS use BASE damage (not doubled) in flags
               attackerCriticalHit: isCriticalHit  // Add critical hit flag
             };
@@ -1397,6 +1400,9 @@ export class SkillManager {
           attackerId: actor.id,
           attackerName: actor.name,
           skillName: skillName,
+          weaponId: primaryWeapon?._id || primaryWeapon?.id,
+          weaponName: primaryWeapon?.name,
+          weaponProperties: primaryWeapon?.system?.properties || [],
           damage: weaponDamage,  // ALWAYS use BASE damage (not doubled) in flags
           attackerCriticalHit: isCriticalHit  // Add critical hit flag
         };
@@ -1603,6 +1609,9 @@ export class SkillManager {
               attackerId: actor.id,
               attackerName: actor.name,
               skillName: skillName,
+              weaponId: secondaryWeapon?._id || secondaryWeapon?.id,
+              weaponName: secondaryWeapon?.name,
+              weaponProperties: secondaryWeapon?.system?.properties || [],
               damage: weaponDamage,  // ALWAYS use BASE damage (not doubled) in flags
               attackerCriticalHit: isCriticalHit  // Add critical hit flag
             };
@@ -1709,6 +1718,9 @@ export class SkillManager {
           attackerId: actor.id,
           attackerName: actor.name,
           skillName: skillName,
+          weaponId: secondaryWeapon?._id || secondaryWeapon?.id,
+          weaponName: secondaryWeapon?.name,
+          weaponProperties: secondaryWeapon?.system?.properties || [],
           damage: weaponDamage,  // ALWAYS use BASE damage (not doubled) in flags
           attackerCriticalHit: isCriticalHit  // Add critical hit flag
         };

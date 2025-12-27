@@ -6,6 +6,12 @@ export { WeaponPropertyManager } from './weapon-property-manager.mjs';
 // Import individual property implementations
 import { Certeiro } from './properties/certeiro.mjs';
 import { Vorpal } from './properties/vorpal.mjs';
+import { Ferir } from './properties/ferir.mjs';
+import { Traspassar } from './properties/traspassar.mjs';
+import { Contundente } from './properties/contundente.mjs';
+import { Incendiar } from './properties/incendiar.mjs';
+import { Eletrocutar } from './properties/eletrocutar.mjs';
+import { Impacto } from './properties/impacto.mjs';
 // import { Perfurar } from './properties/perfurar.mjs';
 // import { Incendiar } from './properties/incendiar.mjs';
 // import { Eletrecutar } from './properties/eletrecutar.mjs';
@@ -20,6 +26,12 @@ export function initializeWeaponProperties() {
   // Register property implementations here
   WeaponPropertyManager.register(Certeiro);
   WeaponPropertyManager.register(Vorpal);
+  WeaponPropertyManager.register(Ferir);
+  WeaponPropertyManager.register(Traspassar);
+  WeaponPropertyManager.register(Contundente);
+  WeaponPropertyManager.register(Incendiar);
+  WeaponPropertyManager.register(Eletrocutar);
+  WeaponPropertyManager.register(Impacto);
   // WeaponPropertyManager.register(Perfurar);
   // WeaponPropertyManager.register(Incendiar);
   // WeaponPropertyManager.register(Eletrecutar);

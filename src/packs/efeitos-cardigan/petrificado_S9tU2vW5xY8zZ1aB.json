@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Está paralisado e não pode realizar nenhuma ação ou teste até terminar o efeito, mas recebe <strong><code>20</code>::systems/cardigan/assets/images/weapons/shield.webp::</strong>.</p>",
+    "description": "<p style=\"text-align: justify\">Está paralisado e não pode realizar nenhuma ação ou teste até terminar o efeito, mas recebe <strong><code>20</code>::systems/cardigan/assets/images/weapons/shield.webp::</strong>.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

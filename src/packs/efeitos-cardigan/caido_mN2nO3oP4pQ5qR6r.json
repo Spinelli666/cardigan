@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Cai no chão e recebe Desvantagem em qualquer teste de Perícia. Em seu turno pode usar sua ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Ação Curta</strong> para se levantar. Além disso, caso você esteja mantendo uma habilidade do tipo <strong>Foco</strong> ela é removida.</p>",
+    "description": "<p style=\"text-align: justify\">Cai no chão e recebe Desvantagem em qualquer teste de Perícia. Em seu turno pode usar sua ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Ação Curta</strong> para se levantar. Além disso, caso você esteja mantendo uma habilidade do tipo <strong>Foco</strong> ela é removida.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

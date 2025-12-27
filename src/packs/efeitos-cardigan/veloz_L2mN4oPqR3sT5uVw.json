@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-positive.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify;\">Recebe uma Ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> adicional.</p>",
+    "description": "<p style=\"text-align: justify;\">Recebe uma Ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> adicional.</p>",
     "efeitoType": "positivo"
   },
   "folder": "FszDz3GuPvOHfi8w",

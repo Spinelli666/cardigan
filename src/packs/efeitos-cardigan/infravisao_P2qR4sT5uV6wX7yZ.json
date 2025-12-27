@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-positive.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify;\">Você consegue enxergar no escuro e possui <em>Vantagem</em> para detectar personagens furtivos.</p>",
+    "description": "<p style=\"text-align: justify;\">Você consegue enxergar no escuro e possui <em>Vantagem</em> para detectar personagens furtivos.</p>",
     "efeitoType": "positivo"
   },
   "effects": [],

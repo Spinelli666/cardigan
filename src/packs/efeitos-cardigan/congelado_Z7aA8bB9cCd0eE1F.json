@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Não pode usar ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> e possui <strong><code>-6</code></strong> em testes de Perícia. Também recebe <code>5❄️</code> dano de Gelo a cada rodada enquanto o efeito durar.</p>",
+    "description": "<p style=\"text-align: justify\">Não pode usar ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> e possui <strong><code>-6</code></strong> em testes de Perícia. Também recebe <code>5❄️</code> dano de Gelo a cada rodada enquanto o efeito durar.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

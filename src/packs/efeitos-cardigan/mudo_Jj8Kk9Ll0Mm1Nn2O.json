@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Não pode falar e recebe <em>Desvantagem Aprimorada</em> em qualquer teste que requeira sua fala.</p>",
+    "description": "<p style=\"text-align: justify\">Não pode falar e recebe <em>Desvantagem Aprimorada</em> em qualquer teste que requeira sua fala.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

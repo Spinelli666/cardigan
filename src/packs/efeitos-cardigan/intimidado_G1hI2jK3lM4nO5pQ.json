@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Tem <strong><code>-4</code></strong> em testes de <em>Perícia</em> contra quem o intimidou.</p>",
+    "description": "<p style=\"text-align: justify\">Tem <strong><code>-4</code></strong> em testes de <em>Perícia</em> contra quem o intimidou.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

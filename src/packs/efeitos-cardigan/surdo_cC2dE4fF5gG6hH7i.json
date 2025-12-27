@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Não pode ouvir e recebe <em>Desvantagem Aprimorada</em> em qualquer teste que requeira sua audição.</p>",
+    "description": "<p style=\"text-align: justify\">Não pode ouvir e recebe <em>Desvantagem Aprimorada</em> em qualquer teste que requeira sua audição.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

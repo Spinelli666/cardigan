@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify\">Recebe <code>15⚡️</code> dano elétrico instantâneo e deve testar Vigor contra <strong><code>💫Atordoado¹</code></strong> adicionalmente.</p>",
+    "description": "<p style=\"text-align: justify\">Recebe <code>15⚡️</code> dano elétrico instantâneo e deve testar Vigor contra <strong><code>💫Atordoado¹</code></strong> adicionalmente.</p>",
     "efeitoType": "negativo"
   },
   "effects": [],

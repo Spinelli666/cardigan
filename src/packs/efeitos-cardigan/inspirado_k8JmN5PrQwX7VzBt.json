@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/effects-positive.webp",
   "system": {
-    "description": "<p><br></p><p style=\"text-align: justify;\">Recebe bônus de alguma Perícia de acordo com a situação que deixar seu personagem inspirado, a critério do Narrador.</p>",
+    "description": "<p style=\"text-align: justify;\">Recebe bônus de alguma Perícia de acordo com a situação que deixar seu personagem inspirado, a critério do Narrador.</p>",
     "efeitoType": "positivo"
   },
   "effects": [],
