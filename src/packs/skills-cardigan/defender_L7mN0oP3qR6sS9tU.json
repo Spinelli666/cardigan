@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você toma a frente de um aliado para salvá-lo de um golpe fatal.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Quando um alvo até <em>3 metros</em> for visado por um Ataque Físico ou Feitiço, você pode utilizar esta técnica para ser o alvo deste ataque, deslocando seu personagem para a frente do aliado defendido, se possível.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você toma a frente de um aliado para salvá-lo de um golpe fatal.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Quando um alvo no alcance do seu ::systems/cardigan/assets/images/types-actions/movement-action.webp::Deslocamento for receber um ataque, você pode usar essa habilidade para ser o alvo deste ataque, deslocando seu personagem para a frente do aliado defendido, quando possível.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

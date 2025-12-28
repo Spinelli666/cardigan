@@ -76,6 +76,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       cookRecipe: this._onCookRecipe,
       craftFromRecipe: this._onCraftFromRecipe,
       filterProfession: this._onFilterProfession,
+      initiateTrade: this._onInitiateTrade,
       // Removemos as ações do modal para implementar via event listeners diretos
     },
     // Custom property that's merged into `this.options`
@@ -9301,6 +9302,252 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       speaker: ChatMessage.getSpeaker({ actor }),
       flavor: flavor,
       rollMode: game.settings.get('core', 'rollMode')
+    });
+  }
+
+  /**
+   * Handle initiating trade with another player
+   * @param {Event} event - Click event
+   * @param {HTMLElement} target - Clicked element
+   * @private
+   */
+  static async _onInitiateTrade(event, target) {
+    const actor = this.actor;
+    
+    // Get available actors from two sources:
+    // 1. Tokens on the current scene (visible ones)
+    // 2. Actors the user has ownership of (from sidebar)
+    
+    const actorIds = new Set();
+    
+    // Source 1: Tokens on the current scene (excluding hidden ones for non-GMs)
+    if (canvas.scene) {
+      canvas.tokens.placeables.forEach(token => {
+        if (!token.actor) return;
+        if (token.actor.id === actor.id) return; // Exclude self
+        if (token.actor.type !== 'character') return; // Only characters
+        
+        // Non-GMs can't see hidden tokens
+        if (!game.user.isGM && token.document.hidden) return;
+        
+        // Check if token's actor has an active owner online
+        const hasActiveOwner = game.users.some(u => 
+          u.active && token.actor.testUserPermission(u, "OWNER")
+        );
+        
+        if (hasActiveOwner) {
+          actorIds.add(token.actor.id);
+        }
+      });
+    }
+    
+    // Source 2: Actors from sidebar that user has OWNER permission
+    // This allows trading with characters not on the scene
+    game.actors.forEach(a => {
+      if (a.id === actor.id) return; // Exclude self
+      if (a.type !== 'character') return; // Only characters
+      
+      // Check if user has OWNER permission on this actor
+      if (a.testUserPermission(game.user, "OWNER")) {
+        actorIds.add(a.id);
+      }
+    });
+    
+    // Convert Set to Array of actor objects
+    const availablePlayers = Array.from(actorIds)
+      .map(id => game.actors.get(id))
+      .filter(a => a); // Remove any nulls
+    
+    if (availablePlayers.length === 0) {
+      ui.notifications.warn("Não há outros jogadores disponíveis para negociar!");
+      return;
+    }
+    
+    // Prepare player data for selection dialog
+    const playerData = availablePlayers.map(a => {
+      // Try to find a non-GM owner first, fallback to GM
+      const nonGMOwner = game.users.find(u => 
+        u.active && 
+        !u.isGM && 
+        a.testUserPermission(u, "OWNER")
+      );
+      
+      const gmOwner = game.users.find(u => 
+        u.active && 
+        u.isGM && 
+        a.testUserPermission(u, "OWNER")
+      );
+      
+      // Prefer non-GM owner, but show GM if that's the only owner
+      const displayOwner = nonGMOwner || gmOwner;
+      
+      return {
+        id: a.id,
+        name: a.name,
+        img: a.img,
+        playerName: displayOwner?.name || "Sem Owner"
+      };
+    });
+    
+    // Show player selection dialog
+    const selectedActorId = await CardiganSystemActorSheet._showPlayerSelectionDialog(playerData);
+    
+    if (!selectedActorId) return; // User cancelled
+    
+    const targetActor = game.actors.get(selectedActorId);
+    if (!targetActor) {
+      ui.notifications.error("Jogador não encontrado!");
+      return;
+    }
+    
+    // Generate unique trade ID
+    const tradeId = foundry.utils.randomID();
+    
+    // Send trade request to target player via socket
+    game.socket.emit('system.cardigan', {
+      action: 'tradeRequest',
+      data: {
+        tradeId: tradeId,
+        initiatorId: actor.id,
+        targetId: targetActor.id
+      }
+    });
+    
+    ui.notifications.info(`Solicitação de negociação enviada para ${targetActor.name}! Aguardando resposta...`);
+  }
+
+  /**
+   * Show player selection dialog
+   * @param {Array} players - Available players data
+   * @returns {Promise<string|null>} Selected actor ID or null
+   * @private
+   */
+  static async _showPlayerSelectionDialog(players) {
+    return new Promise((resolve) => {
+      const dialog = new foundry.applications.api.DialogV2({
+        window: {
+          title: "Selecionar Jogador",
+          icon: "fa-solid fa-users"
+        },
+        content: `
+          <div class="player-selection-dialog">
+            <p class="instruction">Selecione com qual jogador você deseja negociar:</p>
+            
+            <div class="player-list">
+              ${players.map(p => `
+                <div class="player-option" data-actor-id="${p.id}">
+                  <img src="${p.img}" alt="${p.name}" class="player-avatar" />
+                  <div class="player-info">
+                    <span class="player-name">${p.name}</span>
+                    ${p.playerName ? `<span class="player-owner">(${p.playerName})</span>` : ''}
+                  </div>
+                  <button type="button" class="select-player-btn" data-actor-id="${p.id}">
+                    <i class="fas fa-handshake"></i> Negociar
+                  </button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <style>
+            .player-selection-dialog .instruction {
+              margin-bottom: 16px;
+              font-size: 14px;
+              color: #666;
+            }
+            
+            .player-selection-dialog .player-list {
+              display: flex;
+              flex-direction: column;
+              gap: 12px;
+              max-height: 400px;
+              overflow-y: auto;
+            }
+            
+            .player-selection-dialog .player-option {
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              padding: 12px;
+              border: 2px solid #ccc;
+              border-radius: 4px;
+              background: #f9f9f9;
+              transition: all 0.2s;
+            }
+            
+            .player-selection-dialog .player-option:hover {
+              border-color: #4CAF50;
+              background: #f1f8f4;
+              transform: translateX(4px);
+            }
+            
+            .player-selection-dialog .player-avatar {
+              width: 48px;
+              height: 48px;
+              border-radius: 50%;
+              border: 2px solid #999;
+              object-fit: cover;
+            }
+            
+            .player-selection-dialog .player-info {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+            }
+            
+            .player-selection-dialog .player-name {
+              font-weight: bold;
+              font-size: 16px;
+            }
+            
+            .player-selection-dialog .player-owner {
+              font-size: 12px;
+              color: #666;
+            }
+            
+            .player-selection-dialog .select-player-btn {
+              padding: 8px 16px;
+              background: #4CAF50;
+              color: white;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+              font-weight: bold;
+              transition: background 0.2s;
+            }
+            
+            .player-selection-dialog .select-player-btn:hover {
+              background: #45a049;
+            }
+          </style>
+        `,
+        buttons: [
+          {
+            action: "cancel",
+            label: "Cancelar",
+            icon: "fa-solid fa-times",
+            callback: () => resolve(null)
+          }
+        ],
+        position: {
+          width: 500,
+          height: "auto"
+        }
+      });
+      
+      // Add click handlers to player selection buttons
+      dialog.addEventListener('render', () => {
+        const buttons = dialog.element.querySelectorAll('.select-player-btn');
+        buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const actorId = btn.dataset.actorId;
+            resolve(actorId);
+            dialog.close();
+          });
+        });
+      });
+      
+      dialog.render(true);
     });
   }
 

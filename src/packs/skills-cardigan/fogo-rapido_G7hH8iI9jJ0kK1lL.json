@@ -23,9 +23,9 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Reduz o custo desta habilidade para <strong><code>4⚡️</code></strong>.</p>",
-        "hasEnergy": true,
-        "energyCost": 4,
+        "description": "<p style=\"text-align: justify\">Pode disparar mais <strong>uma ::systems/cardigan/assets/images/weapons/ammunition.webp::Munição</strong> adicional.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
         "hasEffects": false,
         "customEffects": [],
         "hasLinkedSkills": false,
@@ -57,7 +57,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você dispara uma saraivada de projéteis freneticamente.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Após acertar um ataque com sua Arma à Distância você continua disparando, e para cada ::systems/cardigan/assets/images/weapons/ammunition.webp::<strong>Munição</strong> gasta, você soma sua <strong>Destreza</strong> novamente como ::systems/cardigan/assets/images/damage/arrow-damage.webp::<strong>Dano</strong>.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Pode disparar até <strong>duas ::systems/cardigan/assets/images/weapons/ammunition.webp::Munições</strong> adicionais.</p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/types-actions/simple-action.webp:: ⬩ <strong>Encandecer ‣</strong> Com uma <em>Ação Curta</em> <strong><code>〔🔶〕</code></strong> e a custo de <strong><code>4⚙️Componentes</code></strong> pode encandecer seus disparos causando a condição <strong><code>🔥@UUID[Compendium.cardigan.efeitos-cardigan.Item.jK7kL8lM9mN0nO1o]{Incendiado}¹</code></strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você dispara uma saraivada de projéteis freneticamente.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Após acertar um ataque com sua Arma à Distância você continua disparando, e para cada ::systems/cardigan/assets/images/weapons/ammunition.webp::<strong>Munição</strong> gasta você soma sua <strong>Destreza</strong> novamente como ::systems/cardigan/assets/images/damage/arrow-damage.webp::<strong>Dano Extra</strong>.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Pode disparar até <strong>duas ::systems/cardigan/assets/images/weapons/ammunition.webp::Munições</strong> adicionais.</p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/types-actions/simple-action.webp:: ⬩ <strong><code>Encandecer</code> ‣</strong> Com uma <em>Ação Curta</em> <strong><code>〔🔶〕</code></strong> e a custo de <strong><code>4⚙️Componentes</code></strong> pode encandecer seus disparos causando a condição <strong><code>🔥@UUID[Compendium.cardigan.efeitos-cardigan.Item.jK7kL8lM9mN0nO1o]{Incendiado}¹</code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

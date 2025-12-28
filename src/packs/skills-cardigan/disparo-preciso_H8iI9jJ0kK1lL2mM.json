@@ -11,18 +11,28 @@
     "skillClass": "andarilho",
     "spellCategories": [],
     "hasEnergyCost": true,
-    "energyCost": 3,
+    "energyCost": 4,
     "hasCustomEffects": true,
     "customEffects": [
       {
-        "id": "w4xY6z7A8bC9dE0F",
-        "name": "Fratura",
+        "id": "eE7fF8gG9hH0iI1J",
+        "name": "Atordoado",
         "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
       }
     ],
     "enhancements": [
       {
         "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Reduz o custo para <strong><code>3</code></strong> <strong><code>⚡️PE</code></strong></p>",
+        "hasEnergy": true,
+        "energyCost": 3,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
         "description": "<p style=\"text-align: justify;\">O disparo ignora <strong><code>1d20</code></strong>::systems/cardigan/assets/images/weapons/shield.webp::<strong>Armadura</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
@@ -32,34 +42,12 @@
         "linkedSkills": []
       },
       {
-        "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">Essa habilidade sempre aplica <strong><code>🩸@UUID[Compendium.cardigan.efeitos-cardigan.Item.Z2aA3bB4cCd5eE6F]{Sangramento}</code></strong> instantaneamente.</p>",
-        "hasEnergy": false,
-        "energyCost": 0,
-        "hasEffects": true,
-        "customEffects": [
-          {
-            "id": "Z2aA3bB4cCd5eE6F",
-            "name": "Sangramento",
-            "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
-          }
-        ],
-        "hasLinkedSkills": false,
-        "linkedSkills": []
-      },
-      {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Pode gastar <strong><code>2⚙️</code></strong> para <em>Encandecer</em> o disparo e causar <strong><code>🔥@UUID[Compendium.cardigan.efeitos-cardigan.Item.jK7kL8lM9mN0nO1o]{Incendiado}¹</code></strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Estende em mais uma Rodada o atordoamento.</p>",
         "hasEnergy": false,
         "energyCost": 0,
-        "hasEffects": true,
-        "customEffects": [
-          {
-            "id": "jK7kL8lM9mN0nO1o",
-            "name": "Incendiado",
-            "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
-          }
-        ],
+        "hasEffects": false,
+        "customEffects": [],
         "hasLinkedSkills": false,
         "linkedSkills": []
       }
@@ -69,7 +57,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Realiza um disparo com sua Arma à Distância que ignora <strong><code>💔PV Temporário</code></strong> e <strong><code>1d12</code>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo inimigo.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Reduz <strong><code>-1</code></strong> a <strong>Durabilidade</strong> da <strong>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> acertada.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Aplica <strong><code>+1</code></strong> <strong><code><strong><code>⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong></code></strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Realiza um disparo com sua Arma à Distância que ignora <strong><code>1d12</code>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo inimigo e a danifica em <strong><code>-2</code></strong>::systems/cardigan/assets/images/damage/durability.webp::<strong>Durabilidade</strong>.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Aplica <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong> <strong>Inevitável</strong>.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

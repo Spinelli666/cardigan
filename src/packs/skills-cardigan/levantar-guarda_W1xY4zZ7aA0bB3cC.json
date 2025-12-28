@@ -12,7 +12,7 @@
     "skillClass": "guerreiro",
     "spellCategories": [],
     "hasEnergyCost": true,
-    "energyCost": 4,
+    "energyCost": 3,
     "hasCustomEffects": false,
     "customEffects": [],
     "enhancements": [
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Toma uma postura defensiva e se prepara para o pior.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Recebe <strong>Vantagem</strong> no próximo teste de <strong>Evasão</strong>.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Reduza pela <strong>metade</strong> o próximo <strong>dano</strong> recebido.</p>"
+    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Toma uma postura defensiva e se prepara para o pior.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Recebe <strong>Vantagem</strong> no próximo teste de <strong>Evasão</strong>.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Reduza pela <strong>metade</strong> o próximo ::systems/cardigan/assets/images/damage/sword-damage.webp::<strong>Dano</strong> recebido.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

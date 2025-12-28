@@ -1,0 +1,196 @@
+<div class="trade-dialog-wrapper">
+  <form class="trade-dialog-content">
+    <div class="trade-header">
+      <h2>
+        <i class="fas fa-handshake"></i>
+        Negociação: {{initiator.actor.name}} ⇄ {{target.actor.name}}
+      </h2>
+    </div>
+
+  <div class="trade-container">
+    <!-- Initiator Side -->
+    <div class="trade-side initiator-side {{#if initiator.confirmed}}confirmed{{/if}}">
+      <div class="trade-side-header">
+        <img src="{{initiator.actor.img}}" alt="{{initiator.actor.name}}" class="actor-avatar" />
+        <h3>{{initiator.actor.name}}</h3>
+        {{#if initiator.confirmed}}
+          <span class="confirmed-badge"><i class="fas fa-check-circle"></i> Confirmado</span>
+        {{else}}
+          {{#if initiator.isCurrentPlayer}}
+            <span class="status-badge">Sua Oferta</span>
+          {{else}}
+            <span class="status-badge waiting">Aguardando...</span>
+          {{/if}}
+        {{/if}}
+      </div>
+
+      <!-- Drop Zone -->
+      <div class="trade-drop-zone initiator-drop-zone {{#unless initiator.canEdit}}disabled{{/unless}}">
+        {{#if initiator.canEdit}}
+          <p class="drop-instruction">
+            <i class="fas fa-hand-holding"></i>
+            Arraste items aqui
+          </p>
+        {{/if}}
+
+        <!-- Items List -->
+        <div class="trade-items-list">
+          {{#each initiator.items}}
+            <div class="trade-item">
+              <img src="{{this.img}}" alt="{{this.name}}" class="item-icon" />
+              <div class="item-details">
+                <span class="item-name">{{this.name}}</span>
+                <span class="item-quantity">Qty: {{this.quantity}}</span>
+                {{#if this.equipped}}
+                  <span class="item-equipped"><i class="fas fa-shield-alt"></i> Equipado</span>
+                {{/if}}
+              </div>
+              {{#if ../initiator.canEdit}}
+                <button 
+                  type="button" 
+                  class="remove-item-btn" 
+                  data-action="removeItem"
+                  data-item-id="{{this.id}}"
+                  data-side="initiator"
+                  title="Remover item"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              {{/if}}
+            </div>
+          {{/each}}
+        </div>
+      </div>
+
+      <!-- Gold Input -->
+      <div class="trade-gold">
+        <label for="initiator-gold">
+          <i class="fas fa-coins"></i> Ouro (PO):
+        </label>
+        <input 
+          type="number" 
+          id="initiator-gold" 
+          name="initiator-gold" 
+          value="{{initiator.gold}}" 
+          min="0" 
+          {{#unless initiator.canEdit}}disabled{{/unless}}
+          placeholder="0"
+        />
+      </div>
+
+      <!-- Confirm Button -->
+      {{#if initiator.isCurrentPlayer}}
+        {{#unless initiator.confirmed}}
+          <button 
+            type="button" 
+            class="confirm-offer-btn" 
+            data-action="confirmOffer"
+          >
+            <i class="fas fa-check"></i> Confirmar Oferta
+          </button>
+        {{/unless}}
+      {{/if}}
+    </div>
+
+    <!-- Arrow Separator -->
+    <div class="trade-separator">
+      <i class="fas fa-exchange-alt"></i>
+    </div>
+
+    <!-- Target Side -->
+    <div class="trade-side target-side {{#if target.confirmed}}confirmed{{/if}}">
+      <div class="trade-side-header">
+        <img src="{{target.actor.img}}" alt="{{target.actor.name}}" class="actor-avatar" />
+        <h3>{{target.actor.name}}</h3>
+        {{#if target.confirmed}}
+          <span class="confirmed-badge"><i class="fas fa-check-circle"></i> Confirmado</span>
+        {{else}}
+          {{#if target.isCurrentPlayer}}
+            <span class="status-badge">Sua Oferta</span>
+          {{else}}
+            <span class="status-badge waiting">Aguardando...</span>
+          {{/if}}
+        {{/if}}
+      </div>
+
+      <!-- Drop Zone -->
+      <div class="trade-drop-zone target-drop-zone {{#unless target.canEdit}}disabled{{/unless}}">
+        {{#if target.canEdit}}
+          <p class="drop-instruction">
+            <i class="fas fa-hand-holding"></i>
+            Arraste items aqui
+          </p>
+        {{/if}}
+
+        <!-- Items List -->
+        <div class="trade-items-list">
+          {{#each target.items}}
+            <div class="trade-item">
+              <img src="{{this.img}}" alt="{{this.name}}" class="item-icon" />
+              <div class="item-details">
+                <span class="item-name">{{this.name}}</span>
+                <span class="item-quantity">Qty: {{this.quantity}}</span>
+                {{#if this.equipped}}
+                  <span class="item-equipped"><i class="fas fa-shield-alt"></i> Equipado</span>
+                {{/if}}
+              </div>
+              {{#if ../target.canEdit}}
+                <button 
+                  type="button" 
+                  class="remove-item-btn" 
+                  data-action="removeItem"
+                  data-item-id="{{this.id}}"
+                  data-side="target"
+                  title="Remover item"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              {{/if}}
+            </div>
+          {{/each}}
+        </div>
+      </div>
+
+      <!-- Gold Input -->
+      <div class="trade-gold">
+        <label for="target-gold">
+          <i class="fas fa-coins"></i> Ouro (PO):
+        </label>
+        <input 
+          type="number" 
+          id="target-gold" 
+          name="target-gold" 
+          value="{{target.gold}}" 
+          min="0" 
+          {{#unless target.canEdit}}disabled{{/unless}}
+          placeholder="0"
+        />
+      </div>
+
+      <!-- Confirm Button -->
+      {{#if target.isCurrentPlayer}}
+        {{#unless target.confirmed}}
+          <button 
+            type="button" 
+            class="confirm-offer-btn" 
+            data-action="confirmOffer"
+          >
+            <i class="fas fa-check"></i> Confirmar Oferta
+          </button>
+        {{/unless}}
+      {{/if}}
+    </div>
+  </div>
+
+  <!-- Footer with Cancel Button -->
+  <div class="trade-footer">
+    <button 
+      type="button" 
+      class="cancel-trade-btn" 
+      data-action="cancelTrade"
+    >
+      <i class="fas fa-times"></i> Cancelar Negociação
+    </button>
+  </div>
+  </form>
+</div>
