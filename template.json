@@ -99,7 +99,8 @@
       "experience": {
         "current": 0,
         "nextLevel": 100
-      }
+      },
+      "money": 0
     },
     "npc": {
       "templates": ["base"],

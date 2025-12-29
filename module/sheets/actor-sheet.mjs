@@ -151,6 +151,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       // Necessary for formInput and formFields helpers
       fields: this.document.schema.fields,
       systemFields: this.document.system.schema.fields,
+      // Check if current user is GM
+      isGM: game.user.isGM,
     };
 
 
@@ -9314,96 +9316,61 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   static async _onInitiateTrade(event, target) {
     const actor = this.actor;
     
-    // Get available actors from two sources:
-    // 1. Tokens on the current scene (visible ones)
-    // 2. Actors the user has ownership of (from sidebar)
-    
-    const actorIds = new Set();
-    
-    // Source 1: Tokens on the current scene (excluding hidden ones for non-GMs)
-    if (canvas.scene) {
-      canvas.tokens.placeables.forEach(token => {
-        if (!token.actor) return;
-        if (token.actor.id === actor.id) return; // Exclude self
-        if (token.actor.type !== 'character') return; // Only characters
-        
-        // Non-GMs can't see hidden tokens
-        if (!game.user.isGM && token.document.hidden) return;
-        
-        // Check if token's actor has an active owner online
-        const hasActiveOwner = game.users.some(u => 
-          u.active && token.actor.testUserPermission(u, "OWNER")
-        );
-        
-        if (hasActiveOwner) {
-          actorIds.add(token.actor.id);
-        }
-      });
-    }
-    
-    // Source 2: Actors from sidebar that user has OWNER permission
-    // This allows trading with characters not on the scene
-    game.actors.forEach(a => {
-      if (a.id === actor.id) return; // Exclude self
-      if (a.type !== 'character') return; // Only characters
-      
-      // Check if user has OWNER permission on this actor
-      if (a.testUserPermission(game.user, "OWNER")) {
-        actorIds.add(a.id);
-      }
-    });
-    
-    // Convert Set to Array of actor objects
-    const availablePlayers = Array.from(actorIds)
-      .map(id => game.actors.get(id))
-      .filter(a => a); // Remove any nulls
-    
-    if (availablePlayers.length === 0) {
-      ui.notifications.warn("Não há outros jogadores disponíveis para negociar!");
+    // Validate targeting: must have exactly 1 target
+    if (game.user.targets.size === 0) {
+      ui.notifications.error("Selecione um alvo antes de negociar!");
       return;
     }
     
-    // Prepare player data for selection dialog
-    const playerData = availablePlayers.map(a => {
-      // Try to find a non-GM owner first, fallback to GM
-      const nonGMOwner = game.users.find(u => 
-        u.active && 
-        !u.isGM && 
-        a.testUserPermission(u, "OWNER")
-      );
-      
-      const gmOwner = game.users.find(u => 
-        u.active && 
-        u.isGM && 
-        a.testUserPermission(u, "OWNER")
-      );
-      
-      // Prefer non-GM owner, but show GM if that's the only owner
-      const displayOwner = nonGMOwner || gmOwner;
-      
-      return {
-        id: a.id,
-        name: a.name,
-        img: a.img,
-        playerName: displayOwner?.name || "Sem Owner"
-      };
-    });
+    if (game.user.targets.size > 1) {
+      ui.notifications.warn("Você só pode negociar com um alvo por vez!");
+      return;
+    }
     
-    // Show player selection dialog
-    const selectedActorId = await CardiganSystemActorSheet._showPlayerSelectionDialog(playerData);
+    // Get the single target
+    const targetToken = game.user.targets.first();
     
-    if (!selectedActorId) return; // User cancelled
+    if (!targetToken || !targetToken.actor) {
+      ui.notifications.error("Alvo inválido!");
+      return;
+    }
     
-    const targetActor = game.actors.get(selectedActorId);
-    if (!targetActor) {
-      ui.notifications.error("Jogador não encontrado!");
+    const targetActor = targetToken.actor;
+    
+    // Prevent trading with self
+    if (targetActor.id === actor.id) {
+      ui.notifications.warn("Você não pode negociar consigo mesmo!");
       return;
     }
     
     // Generate unique trade ID
     const tradeId = foundry.utils.randomID();
     
-    // Send trade request to target player via socket
+    // If GM, show trade mode selection dialog
+    if (game.user.isGM) {
+      const mode = await CardiganSystemActorSheet._showTradeModeSelection();
+      
+      if (!mode) return; // User cancelled
+      
+      if (mode === 'merchant') {
+        // Initiate merchant trade
+        game.socket.emit('system.cardigan', {
+          action: 'merchantTradeRequest',
+          data: {
+            tradeId: tradeId,
+            merchantId: actor.id,
+            customerId: targetActor.id,
+            merchantOwnerId: game.user.id
+          }
+        });
+        
+        ui.notifications.info(`Solicitação de comércio enviada para ${targetActor.name}! Aguardando resposta...`);
+        return;
+      }
+      // else: fall through to normal trade
+    }
+    
+    // Normal trade (non-GM or GM selected normal mode)
     game.socket.emit('system.cardigan', {
       action: 'tradeRequest',
       data: {
@@ -9414,6 +9381,52 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     });
     
     ui.notifications.info(`Solicitação de negociação enviada para ${targetActor.name}! Aguardando resposta...`);
+  }
+
+  /**
+   * Show trade mode selection dialog (GM only)
+   * @returns {Promise<string|null>} Selected mode ('normal' or 'merchant') or null if cancelled
+   * @private
+   */
+  static async _showTradeModeSelection() {
+    // Render template
+    const content = await foundry.applications.handlebars.getTemplate(
+      'systems/cardigan/templates/dialogs/trade-mode-selection.hbs'
+    );
+    const html = await content({});
+    
+    return new Promise((resolve) => {
+      const dialog = new foundry.applications.api.DialogV2({
+        window: {
+          title: "Modo de Negociação",
+          icon: "fa-solid fa-handshake"
+        },
+        content: html,
+        buttons: [
+          {
+            action: "cancel",
+            label: "Cancelar",
+            icon: "fa-solid fa-times",
+            callback: () => resolve(null)
+          }
+        ],
+        position: { width: 450 }
+      });
+      
+      // Add click handlers to mode options
+      dialog.addEventListener('render', () => {
+        const options = dialog.element.querySelectorAll('.mode-option');
+        options.forEach(option => {
+          option.addEventListener('click', () => {
+            const mode = option.dataset.mode;
+            dialog.close();
+            resolve(mode);
+          });
+        });
+      });
+      
+      dialog.render(true);
+    });
   }
 
   /**

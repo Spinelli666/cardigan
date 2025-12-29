@@ -52,7 +52,9 @@ export class TradeDialog extends api.HandlebarsApplicationMixin(api.ApplicationV
     },
     actions: {
       removeItem: this._onRemoveItem,
+      editQuantity: this._onEditQuantity,
       confirmOffer: this._onConfirmOffer,
+      undoOffer: this._onUndoOffer,
       cancelTrade: this._onCancelTrade
     },
     form: {
@@ -309,6 +311,117 @@ export class TradeDialog extends api.HandlebarsApplicationMixin(api.ApplicationV
   }
 
   /**
+   * Edit item quantity in trade
+   * @param {Event} event - Click event
+   * @param {HTMLElement} target - Clicked element
+   * @private
+   */
+  static async _onEditQuantity(event, target) {
+    const itemId = target.dataset.itemId;
+    const side = target.dataset.side; // 'initiator' or 'target'
+    
+    if (side === 'initiator' && !this.isInitiator) return;
+    if (side === 'target' && this.isInitiator) return;
+    
+    // Don't allow editing if confirmed
+    if (side === 'initiator' && this.tradeState.initiatorConfirmed) return;
+    if (side === 'target' && this.tradeState.targetConfirmed) return;
+    
+    const itemList = side === 'initiator' 
+      ? this.tradeState.initiatorItems 
+      : this.tradeState.targetItems;
+    
+    const item = itemList.find(i => i.id === itemId);
+    if (!item) return;
+    
+    // Prompt for new quantity
+    const newQty = await this._promptEditQuantity(item.name, item.maxQuantity, item.quantity);
+    
+    if (newQty === null) return;
+    
+    if (newQty === 0) {
+      // Remove item if quantity is 0
+      const index = itemList.indexOf(item);
+      itemList.splice(index, 1);
+    } else {
+      // Update quantity
+      item.quantity = newQty;
+    }
+    
+    this._emitTradeUpdate();
+    this.render();
+  }
+
+  /**
+   * Prompt for editing quantity
+   * @param {string} itemName - Name of the item
+   * @param {number} maxQty - Maximum available quantity
+   * @param {number} currentQty - Current quantity in trade
+   * @returns {Promise<number|null>} New quantity or null if cancelled
+   * @private
+   */
+  async _promptEditQuantity(itemName, maxQty, currentQty) {
+    return new Promise((resolve) => {
+      const dialog = new foundry.applications.api.DialogV2({
+        window: {
+          title: "Editar Quantidade",
+          icon: "fa-solid fa-edit"
+        },
+        content: `
+          <div style="padding: 16px;">
+            <p style="margin-bottom: 12px;">Editar quantidade de <strong>${itemName}</strong></p>
+            <p style="margin-bottom: 8px; color: #64b5f6; font-size: 12px;">
+              <i class="fas fa-info-circle"></i> Atualmente: <strong>${currentQty}</strong>
+            </p>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <label for="edit-qty">Nova quantidade:</label>
+              <input 
+                type="number" 
+                id="edit-qty" 
+                name="quantity" 
+                value="${currentQty}" 
+                min="0" 
+                max="${maxQty}" 
+                style="width: 100px; padding: 4px;"
+                autofocus
+              />
+              <span style="color: #666;">/ ${maxQty} disponível</span>
+            </div>
+            <p style="margin-top: 8px; color: #999; font-size: 11px;">
+              <i class="fas fa-lightbulb"></i> Dica: Use 0 para remover o item
+            </p>
+          </div>
+        `,
+        buttons: [
+          {
+            action: "confirm",
+            label: "Confirmar",
+            icon: "fa-solid fa-check",
+            default: true,
+            callback: (event, button, dialog) => {
+              const qty = parseInt(dialog.element.querySelector('#edit-qty').value);
+              if (isNaN(qty)) {
+                resolve(null);
+              } else {
+                resolve(Math.min(Math.max(0, qty), maxQty));
+              }
+            }
+          },
+          {
+            action: "cancel",
+            label: "Cancelar",
+            icon: "fa-solid fa-times",
+            callback: () => resolve(null)
+          }
+        ],
+        position: { width: 420 }
+      });
+      
+      dialog.render(true);
+    });
+  }
+
+  /**
    * Confirm offer
    * @param {Event} event - Click event
    * @param {HTMLElement} target - Clicked element
@@ -342,6 +455,30 @@ export class TradeDialog extends api.HandlebarsApplicationMixin(api.ApplicationV
   }
 
   /**
+   * Undo offer confirmation
+   * @param {Event} event - Click event
+   * @param {HTMLElement} target - Clicked element
+   * @private
+   */
+  static async _onUndoOffer(event, target) {
+    const side = target.dataset.side;
+    
+    if (side === 'initiator' && this.isInitiator) {
+      this.tradeState.initiatorConfirmed = false;
+      ui.notifications.info("Confirmação desfeita. Você pode modificar sua oferta novamente.");
+    } else if (side === 'target' && !this.isInitiator) {
+      this.tradeState.targetConfirmed = false;
+      ui.notifications.info("Confirmação desfeita. Você pode modificar sua oferta novamente.");
+    }
+    
+    // Emit undo to other player
+    this._emitTradeUndo();
+    
+    // Re-render
+    this.render();
+  }
+
+  /**
    * Cancel trade
    * @param {Event} event - Click event
    * @param {HTMLElement} target - Clicked element
@@ -369,15 +506,55 @@ export class TradeDialog extends api.HandlebarsApplicationMixin(api.ApplicationV
   }
 
   /**
+   * Handle window close (X button)
+   * Triggers same logic as Cancel button
+   * @override
+   */
+  async _onClose(options = {}) {
+    // Only emit cancellation if dialog still exists in active trades
+    // (prevents double emission when close() is called from _onCancelTrade)
+    if (globalThis.cardiganActiveTradeDialogs?.has(this.tradeId)) {
+      const cancellerName = this.isInitiator ? this.initiator.name : this.target.name;
+      
+      // Emit cancellation to other player
+      game.socket.emit('system.cardigan', {
+        action: 'tradeCancel',
+        data: {
+          tradeId: this.tradeId,
+          cancelledBy: cancellerName
+        }
+      });
+      
+      // Show notification
+      await ChatMessage.create({
+        content: `<p>🚫 <strong>${cancellerName}</strong> cancelou a negociação.</p>`,
+        speaker: { alias: "Sistema de Negociação" }
+      });
+    }
+    
+    return super._onClose(options);
+  }
+
+  /**
    * Execute the trade (transfer items and gold)
    * @private
    */
   async _executeTrade() {
+    // Double-check execution flag (defense in depth)
+    if (this.isExecuting) {
+      console.log('[CARDIGAN TRADE] Already executing, aborting duplicate call');
+      return;
+    }
+    
+    // Set execution flag immediately
+    this.isExecuting = true;
+    
     console.log('[CARDIGAN TRADE] Executing trade...', this.tradeState);
     
     // Validation: Check if actors still exist and are online
     if (!this.initiator || !this.target) {
       ui.notifications.error("Um dos jogadores não está mais disponível!");
+      this.isExecuting = false;
       return;
     }
     
@@ -386,6 +563,7 @@ export class TradeDialog extends api.HandlebarsApplicationMixin(api.ApplicationV
     if (!validationResult.valid) {
       ui.notifications.error(validationResult.error);
       this._resetConfirmations();
+      this.isExecuting = false;
       return;
     }
     
@@ -394,6 +572,7 @@ export class TradeDialog extends api.HandlebarsApplicationMixin(api.ApplicationV
     if (!encumbranceCheck.valid) {
       ui.notifications.error(encumbranceCheck.error);
       this._resetConfirmations();
+      this.isExecuting = false;
       return;
     }
     
@@ -421,10 +600,14 @@ export class TradeDialog extends api.HandlebarsApplicationMixin(api.ApplicationV
       
       ui.notifications.info("Processando negociação...");
       
+      // Mark as executed to prevent duplicate executions
+      this.executedAt = Date.now();
+      
     } catch (error) {
       console.error('[CARDIGAN TRADE] Error executing trade:', error);
       ui.notifications.error("Erro ao executar a negociação!");
       this._resetConfirmations();
+      this.isExecuting = false;
     }
   }
 
@@ -457,8 +640,8 @@ export class TradeDialog extends api.HandlebarsApplicationMixin(api.ApplicationV
     }
     
     // Check gold
-    const initiatorGold = this.initiator.system.moedas?.po || 0;
-    const targetGold = this.target.system.moedas?.po || 0;
+    const initiatorGold = this.initiator.system.money || 0;
+    const targetGold = this.target.system.money || 0;
     
     if (initiatorGold < this.tradeState.initiatorGold) {
       return { valid: false, error: `${this.initiator.name} não possui ouro suficiente!` };
@@ -557,35 +740,36 @@ export class TradeDialog extends api.HandlebarsApplicationMixin(api.ApplicationV
   }
 
   /**
-   * Transfer gold between actors
+   * Transfer gold between actors (DEPRECATED - not used, transfers handled by GM via socket)
    * @private
+   * @deprecated
    */
   async _transferGold() {
     // Transfer from initiator to target
     if (this.tradeState.initiatorGold > 0) {
-      const initiatorCurrentGold = this.initiator.system.moedas?.po || 0;
-      const targetCurrentGold = this.target.system.moedas?.po || 0;
+      const initiatorCurrentGold = this.initiator.system.money || 0;
+      const targetCurrentGold = this.target.system.money || 0;
       
       await this.initiator.update({
-        'system.moedas.po': initiatorCurrentGold - this.tradeState.initiatorGold
+        'system.money': initiatorCurrentGold - this.tradeState.initiatorGold
       });
       
       await this.target.update({
-        'system.moedas.po': targetCurrentGold + this.tradeState.initiatorGold
+        'system.money': targetCurrentGold + this.tradeState.initiatorGold
       });
     }
     
     // Transfer from target to initiator
     if (this.tradeState.targetGold > 0) {
-      const initiatorCurrentGold = this.initiator.system.moedas?.po || 0;
-      const targetCurrentGold = this.target.system.moedas?.po || 0;
+      const initiatorCurrentGold = this.initiator.system.money || 0;
+      const targetCurrentGold = this.target.system.money || 0;
       
       await this.target.update({
-        'system.moedas.po': targetCurrentGold - this.tradeState.targetGold
+        'system.money': targetCurrentGold - this.tradeState.targetGold
       });
       
       await this.initiator.update({
-        'system.moedas.po': initiatorCurrentGold + this.tradeState.targetGold
+        'system.money': initiatorCurrentGold + this.tradeState.targetGold
       });
     }
   }
@@ -681,6 +865,20 @@ export class TradeDialog extends api.HandlebarsApplicationMixin(api.ApplicationV
   }
 
   /**
+   * Emit trade undo via socket
+   * @private
+   */
+  _emitTradeUndo() {
+    game.socket.emit('system.cardigan', {
+      action: 'tradeUndo',
+      data: {
+        tradeId: this.tradeId,
+        side: this.isInitiator ? 'initiator' : 'target'
+      }
+    });
+  }
+
+  /**
    * Register socket event listeners
    * @private
    */
@@ -704,6 +902,18 @@ export class TradeDialog extends api.HandlebarsApplicationMixin(api.ApplicationV
    * @param {number} gold - Gold amount
    */
   async handleConfirmation(side, gold) {
+    // Prevent multiple executions if trade is already executing or was recently executed
+    if (this.isExecuting) {
+      console.log('[CARDIGAN TRADE] Trade already executing, ignoring duplicate confirmation');
+      return;
+    }
+    
+    // Prevent execution if trade was executed in the last 2 seconds (debounce)
+    if (this.executedAt && (Date.now() - this.executedAt) < 2000) {
+      console.log('[CARDIGAN TRADE] Trade was recently executed, ignoring duplicate');
+      return;
+    }
+    
     if (side === 'initiator') {
       this.tradeState.initiatorConfirmed = true;
       this.tradeState.initiatorGold = gold;

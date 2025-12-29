@@ -140,6 +140,12 @@
   outline: none;
   box-sizing: border-box;
   color: #fff;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    color: #999;
+  }
 }
 
 .money-container .money-unit {

@@ -347,7 +347,8 @@
         data-dtype='Number'
         min='0'
         class='money-field'
-        title='Quantidade de moedas (peso: leve)'
+        title='{{#if @root.isGM}}Quantidade de moedas (peso: leve){{else}}Somente o GM pode editar este campo{{/if}}'
+        {{#unless @root.isGM}}disabled{{/unless}}
       />
     </div>
   </div>
