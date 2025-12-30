@@ -18,7 +18,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Pode focar em um alvo adicional.</p>",
+        "description": "<p style=\"text-align: justify;\">Pode focar em um alvo adicional.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -28,7 +28,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Pode focar em mais um alvo adicional.</p>",
+        "description": "<p style=\"text-align: justify;\">Pode focar em mais um alvo adicional.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -38,7 +38,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Não recebe contra-ataques de inimigos focados.</p>",
+        "description": "<p style=\"text-align: justify;\">Não recebe contra-ataques de inimigos focados.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você entra em foco absoluto e persegue um inimigo.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao ativar essa habilidade de <em>Foco</em> você marca um inimigo em seu campo de visão para vigiar. A partir daí, toda vez que ese alvo tentar usar uma ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> você pode realizar um ataque simples contra ele.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Enquanto <em>Sentinela</em> estiver ativo você é capaz de detectar armadilhas e inimigos ocultos por <em>Furtividade</em> sem necessidade de testes.</p>"
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você entra em foco absoluto e persegue um inimigo.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao ativar essa habilidade de <em>Foco</em> você marca um inimigo em seu campo de visão para vigiar. A partir daí, toda vez que ese alvo tentar usar uma ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> você pode realizar um ataque simples contra ele.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Enquanto <em>Sentinela</em> estiver ativo você é capaz de detectar armadilhas e inimigos ocultos por <em>Furtividade</em> sem necessidade de testes.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

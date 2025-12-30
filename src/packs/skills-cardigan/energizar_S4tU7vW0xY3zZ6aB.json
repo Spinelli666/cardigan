@@ -18,7 +18,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Os ataques desta habilidade ignoram <strong><code>1d6</code></strong>::systems/cardigan/assets/images/weapons/shield.webp::<strong>Armadura</strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Os ataques desta habilidade ignoram <strong><code>1d6</code></strong>::systems/cardigan/assets/images/weapons/shield.webp::<strong>Armadura</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -28,7 +28,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\"><strong>Empurrar</strong> o alvo da habilidade e e qualquer outro adjacente à ele até <strong>5m</strong> para trás.</p>",
+        "description": "<p style=\"text-align: justify;\"><strong>Empurrar</strong> o alvo da habilidade e e qualquer outro adjacente à ele até <strong>5m</strong> para trás.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -38,7 +38,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\"><em>Acertos Críticos</em> com esta habilidade anulam o seu custo de <strong><code>⚡️Energia</code></strong>.</p>",
+        "description": "<p style=\"text-align: justify;\"><em>Acertos Críticos</em> com esta habilidade anulam o seu custo de <strong><code>⚡️Energia</code></strong>.</p>",
         "hasEnergy": true,
         "energyCost": 0,
         "hasEffects": false,
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Uma aura furta-cor de calor extremo acompanhada de vozes sussurrantes vem à tona.\"</em><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você canaliza energia imaterial para realizar um dos efeitos a seguir:</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/simple-action.webp::<strong>⬩ Golpe Energizado ‣</strong> Imbui todos os seus <code>🌀Artefatos</code> do tipo <em>Arma Marcial</em> ou <em>Arma à Distância</em> com magia para causar seu <strong>Psionismo</strong> como ::systems/cardigan/assets/images/damage/sword-damage.webp::<strong>Dano Extra</strong> em seu próximo ataque. Este ataque não custará ::systems/cardigan/assets/images/weapons/ammunition.webp::<strong>Munição</strong>.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/double-action.webp::<strong>⬩ Rajada de Energia ‣</strong> Com um Teste de <strong>Precisão</strong>, de um <code>🌀Artefato</code> de qualquer tipo você dispara um feixe, projétil ou explosão de energia concentrada que irá causar <strong><code>4x</code></strong> seu <strong>Psionismo</strong> como ::systems/cardigan/assets/images/damage/sword-damage.webp::<strong>Dano</strong> em um alvo no alcance de conjuração.</p>"
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Uma aura furta-cor de calor extremo acompanhada de vozes sussurrantes vem à tona.\"</em><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você canaliza energia imaterial para realizar um dos efeitos a seguir:</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/simple-action.webp::<strong>⬩ Golpe Energizado ‣</strong> Imbui todos os seus <code>🌀Artefatos</code> do tipo <em>Arma Marcial</em> ou <em>Arma à Distância</em> com magia para causar seu <strong>Psionismo</strong> como ::systems/cardigan/assets/images/damage/sword-damage.webp::<strong>Dano Extra</strong> em seu próximo ataque. Este ataque não custará ::systems/cardigan/assets/images/weapons/ammunition.webp::<strong>Munição</strong>.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/double-action.webp::<strong>⬩ Rajada de Energia ‣</strong> Com um Teste de <strong>Precisão</strong>, de um <code>🌀Artefato</code> de qualquer tipo você dispara um feixe, projétil ou explosão de energia concentrada que irá causar <strong><code>4x</code></strong> seu <strong>Psionismo</strong> como ::systems/cardigan/assets/images/damage/sword-damage.webp::<strong>Dano</strong> em um alvo no alcance de conjuração.</p>"
   },
   "effects": [],
   "folder": "Sk4FeiticeiroU5I",

@@ -57,7 +57,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Realiza um disparo com sua Arma à Distância que ignora <strong><code>1d12</code>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo inimigo e a danifica em <strong><code>-2</code></strong>::systems/cardigan/assets/images/damage/durability.webp::<strong>Durabilidade</strong>.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Aplica <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong> <strong>Inevitável</strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você se ajoelha e mira com atenção, mantendo a posição.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Realiza um disparo com sua Arma à Distância que ignora <strong><code>1d12</code>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo inimigo e a danifica em <strong><code>-2</code></strong>::systems/cardigan/assets/images/damage/durability.webp::<strong>Durabilidade</strong>.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Aplica <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong> <strong>Inevitável</strong>.</p>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

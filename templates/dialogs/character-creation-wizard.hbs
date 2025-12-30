@@ -1,0 +1,139 @@
+<div class="character-creation-wizard">
+  <div class="wizard-header">
+    <h2>Criação de Personagem - Etapa {{currentStep}}/{{totalSteps}}</h2>
+    <p class="step-title">{{stepTitle}}</p>
+  </div>
+
+  <div class="wizard-content">
+    {{#if (eq currentStep 1)}}
+      {{! Etapa 1: Seleção de Raça }}
+      <div class="race-selection">
+        <p class="instruction">Selecione a raça do seu personagem:</p>
+        <div class="races-grid">
+          {{#each races}}
+            <div class="race-card {{#if selected}}selected{{/if}}" data-race-uuid="{{uuid}}">
+              <img src="{{img}}" alt="{{name}}" />
+              <h3>{{name}}</h3>
+            </div>
+          {{/each}}
+        </div>
+        <div class="race-description-display">
+          <div class="description-placeholder">
+            <i class="fas fa-info-circle"></i>
+            <p>Clique em uma raça para ver sua descrição</p>
+          </div>
+        </div>
+      </div>
+    {{/if}}
+
+    {{#if (eq currentStep 2)}}
+      {{! Etapa 2: Seleção de Skills }}
+      <div class="skill-selection">
+        <p class="instruction">Selecione 2 habilidades iniciais. Você tem {{remainingPoints}} pontos restantes.</p>
+        
+        <div class="paths-grid">
+          {{#each paths}}
+            <div class="path-icon {{#if active}}active{{/if}}" data-action="selectPath" data-path-id="{{id}}">
+              <img src="{{img}}" alt="{{name}}" />
+              <span class="path-name">{{name}}</span>
+              <span class="skill-count">{{skillCount}} skills</span>
+            </div>
+          {{/each}}
+        </div>
+
+        {{#if currentPathSkills}}
+          <div class="skills-list">
+            <h3>Habilidades - {{currentPathName}}</h3>
+            {{#each currentPathSkills}}
+              <div class="skill-item {{#if selected}}selected{{/if}}">
+                <div class="skill-header">
+                  <img src="{{img}}" alt="{{name}}" class="skill-icon" />
+                  <span class="skill-name">{{name}}</span>
+                  <button type="button" class="details-toggle" data-action="toggleSkillDetails" data-skill-id="{{id}}">
+                    <i class="fas fa-chevron-{{#if expanded}}up{{else}}down{{/if}}"></i>
+                  </button>
+                  <button type="button" class="select-skill" data-action="selectSkill" data-skill-uuid="{{uuid}}">
+                    {{#if selected}}
+                      <i class="fas fa-check-circle"></i> Selecionada
+                    {{else}}
+                      <i class="far fa-circle"></i> Selecionar
+                    {{/if}}
+                  </button>
+                </div>
+                
+                {{#if expanded}}
+                  <div class="skill-details">
+                    {{#if skillActionTypes}}
+                      <div class="skill-action-types">
+                        <i class="fas fa-bolt"></i>
+                        {{#each skillActionTypes}}
+                          {{this}}{{#unless @last}} | {{/unless}}
+                        {{/each}}
+                      </div>
+                    {{/if}}
+
+                    {{#if hasEnergyCost}}
+                      <div class="skill-energy-cost">
+                        <i class="fas fa-fire"></i>
+                        <strong>Custo de Energia:</strong> {{energyCost}}
+                      </div>
+                    {{/if}}
+
+                    {{#if spellCategories}}
+                      <div class="spell-categories-display">
+                        {{#each spellCategories}}
+                          <img src="{{categoryImage}}" alt="{{categoryName}}" title="{{categoryName}}" class="spell-category-image" />
+                          {{#unless @last}}<span class="category-separator">⬩</span>{{/unless}}
+                        {{/each}}
+                      </div>
+                    {{/if}}
+
+                    <div class="skill-description">
+                      {{{description}}}
+                    </div>
+                    {{#if enhancements}}
+                      <div class="skill-enhancements">
+                        <h4>Aprimoramentos:</h4>
+                        {{#each enhancements}}
+                          <div class="enhancement-item">
+                            <strong>{{name}}</strong>
+                            {{#if description}}
+                              <div>{{{description}}}</div>
+                            {{/if}}
+                            {{#if hasEnergy}}
+                              <span class="energy-cost">Custo: {{energyCost}} energia</span>
+                            {{/if}}
+                          </div>
+                        {{/each}}
+                      </div>
+                    {{/if}}
+                  </div>
+                {{/if}}
+              </div>
+            {{/each}}
+          </div>
+        {{else}}
+          <div class="no-path-selected">
+            <i class="fas fa-hand-pointer"></i>
+            <p>Selecione um caminho acima para ver as habilidades disponíveis</p>
+          </div>
+        {{/if}}
+      </div>
+    {{/if}}
+  </div>
+
+  <div class="wizard-footer">
+    <button type="button" class="wizard-button previous" data-action="previousStep" {{#if isFirstStep}}disabled{{/if}}>
+      <i class="fas fa-arrow-left"></i> Anterior
+    </button>
+    <button type="button" class="wizard-button cancel" data-action="cancel">
+      <i class="fas fa-times"></i> Cancelar
+    </button>
+    <button type="button" class="wizard-button next" data-action="nextStep" {{#if isLastStep}}style="display:none;"{{/if}}>
+      Próximo <i class="fas fa-arrow-right"></i>
+    </button>
+    <button type="button" class="wizard-button finish" data-action="finish" {{#unless isLastStep}}style="display:none;"{{/unless}}>
+      <i class="fas fa-check"></i> Concluir
+    </button>
+  </div>
+</div>

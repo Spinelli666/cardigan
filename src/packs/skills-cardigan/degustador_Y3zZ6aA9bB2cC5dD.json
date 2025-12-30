@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: justify\">Gnomos ganham um bônus de <strong><code>+1</code></strong> em todos os testes enquanto estiverem bem alimentados, ou seja, enquanto suas barras de <code>🍗</code> / <code>💧</code> estiverem cheias. Mas por serem glutões, sempre recebem o <strong>dobro</strong> desses pontos.</p>"
+    "description": "<p><br></p><p style=\"text-align: justify;\">Gnomos ganham um bônus de <strong><code>+1</code></strong> em todos os testes enquanto estiverem bem alimentados, ou seja, enquanto suas barras de <code>🍗</code> / <code>💧</code> estiverem cheias. Mas por serem glutões, sempre recebem o <strong>dobro</strong> desses pontos.</p>"
   },
   "effects": [],
   "folder": "XsRacGnomo5BkLpG",

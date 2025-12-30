@@ -18,7 +18,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Pode usar esta habilidade uma segunda vez em um mesmo alvo.</p>",
+        "description": "<p style=\"text-align: justify;\">Pode usar esta habilidade uma segunda vez em um mesmo alvo.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -28,7 +28,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Com um <strong>Acerto Crítico</strong> sempre receberá ::systems/cardigan/assets/images/others/coins.webp:: <strong>Moedas</strong> adicionalmente.</p>",
+        "description": "<p style=\"text-align: justify;\">Com um <strong>Acerto Crítico</strong> sempre receberá ::systems/cardigan/assets/images/others/coins.webp:: <strong>Moedas</strong> adicionalmente.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -38,7 +38,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Com um <strong>Acerto Crítico</strong> recebe <strong>Vantagem</strong> na rolagem da tabela de itens.</p>",
+        "description": "<p style=\"text-align: justify;\">Com um <strong>Acerto Crítico</strong> recebe <strong>Vantagem</strong> na rolagem da tabela de itens.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -52,7 +52,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Se roubar os outros fosse uma qualidade, você seria talentoso pra caramba.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao manter o <strong>Foco</strong> você recebe <strong>Vantagem</strong> em testes de <strong>Furtividade</strong> da Ação <strong><code>💲Furtar</code></strong>, e pode usar a seguinte habilidade sem custo de <em>Pontos de Ação</em> adicionais:</p><p><br></p><p style=\"text-align: justify\"><strong>::systems/cardigan/assets/images/types-actions/simple-action.webp:: ⬩ Mão Leve ‣</strong> Ao tentar <em>Furtar</em> um alvo com <em>inventário</em> que tenha tocado ou atacado, pode optar por gerar um item aleatório desta lista ao rolar <strong><code>1d6</code></strong> para determiná-lo:</p><blockquote><ul><li><p style=\"text-align: justify\"><strong><code>1</code> ⬩ Gazua ⬩ ::systems/cardigan/assets/images/others/lockpick.webp::</strong></p></li><li><p style=\"text-align: justify\"><strong><code>2</code> ⬩ Moedas ⬩ ::systems/cardigan/assets/images/others/coins.webp::</strong></p></li><li><p style=\"text-align: justify\"><strong><code>3</code> ⬩ Bomba de Fumaça ⬩ ::systems/cardigan/assets/images/weapons/smoke-bomb.webp::</strong></p></li><li><p style=\"text-align: justify\"><strong><code>4</code> ⬩ Veneno Ardente ⬩ ::systems/cardigan/assets/images/alchemy/alchemical-tonic.webp::</strong></p></li><li><p style=\"text-align: justify\"><strong><code>5</code> ⬩ Tônico Revigorante ⬩ ::systems/cardigan/assets/images/alchemy/invigorating-tonic.webp::</strong></p></li><li><p style=\"text-align: justify\"><strong><code>6</code> ⬩ Tônico Milagroso ⬩ ::systems/cardigan/assets/images/alchemy/miraculous-tonic.webp::</strong></p></li></ul></blockquote><p></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::<em>Mão Leve</em> só pode ser usado uma vez por alvo, não funciona em personagens de jogadores e não recebe o bônus de Vantagem. Alternativamente você pode usar este teste para esconder um objeto no inventário do alvo.</p>"
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Se roubar os outros fosse uma qualidade, você seria talentoso pra caramba.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao manter o <strong>Foco</strong> você recebe <strong>Vantagem</strong> em testes de <strong>Furtividade</strong> da Ação <strong><code>💲Furtar</code></strong>, e pode usar a seguinte habilidade sem custo de <em>Pontos de Ação</em> adicionais:</p><p><br></p><p style=\"text-align: justify;\"><strong>::systems/cardigan/assets/images/types-actions/simple-action.webp:: ⬩ Mão Leve ‣</strong> Ao tentar <em>Furtar</em> um alvo com <em>inventário</em> que tenha tocado ou atacado, pode optar por gerar um item aleatório desta lista ao rolar <strong><code>1d6</code></strong> para determiná-lo:</p><blockquote><ul><li><p style=\"text-align: justify;\"><strong><code>1</code> ⬩ Gazua ⬩ ::systems/cardigan/assets/images/others/lockpick.webp::</strong></p></li><li><p style=\"text-align: justify;\"><strong><code>2</code> ⬩ Moedas ⬩ ::systems/cardigan/assets/images/others/coins.webp::</strong></p></li><li><p style=\"text-align: justify;\"><strong><code>3</code> ⬩ Bomba de Fumaça ⬩ ::systems/cardigan/assets/images/weapons/smoke-bomb.webp::</strong></p></li><li><p style=\"text-align: justify;\"><strong><code>4</code> ⬩ Veneno Ardente ⬩ ::systems/cardigan/assets/images/alchemy/alchemical-tonic.webp::</strong></p></li><li><p style=\"text-align: justify;\"><strong><code>5</code> ⬩ Tônico Revigorante ⬩ ::systems/cardigan/assets/images/alchemy/invigorating-tonic.webp::</strong></p></li><li><p style=\"text-align: justify;\"><strong><code>6</code> ⬩ Tônico Milagroso ⬩ ::systems/cardigan/assets/images/alchemy/miraculous-tonic.webp::</strong></p></li></ul></blockquote><p></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::<em>Mão Leve</em> só pode ser usado uma vez por alvo, não funciona em personagens de jogadores e não recebe o bônus de Vantagem. Alternativamente você pode usar este teste para esconder um objeto no inventário do alvo.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

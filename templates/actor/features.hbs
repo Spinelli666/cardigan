@@ -130,6 +130,13 @@
                 readonly
               />
             </div>
+            {{#if (lte system.attributes.level.value 0)}}
+            <div class='wizard-button-container'>
+              <button type='button' class='wizard-button-small' data-action='openCharacterWizard' title='Criar Personagem'>
+                <i class='fas fa-hat-wizard'></i>
+              </button>
+            </div>
+            {{/if}}
           </div>
         </div>
         

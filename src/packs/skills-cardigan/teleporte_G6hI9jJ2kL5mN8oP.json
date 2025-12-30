@@ -17,7 +17,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Pode manter um portal aberto interligando dois locais próximos à escolha com a duração equivalente ao seu <em>Despertar Psiônico</em>.</p>",
+        "description": "<p style=\"text-align: justify;\">Pode manter um portal aberto interligando dois locais próximos à escolha com a duração equivalente ao seu <em>Despertar Psiônico</em>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -27,7 +27,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Remove a chance de perder a rodada.</p>",
+        "description": "<p style=\"text-align: justify;\">Remove a chance de perder a rodada.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -37,7 +37,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Ao <em>Evadir</em> de um ataque pode usar sua ::systems/cardigan/assets/images/types-actions/reaction.webp::<strong>Reação</strong> para usar esta habilidade.</p>",
+        "description": "<p style=\"text-align: justify;\">Ao <em>Evadir</em> de um ataque pode usar sua ::systems/cardigan/assets/images/types-actions/reaction.webp::<strong>Reação</strong> para usar esta habilidade.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você aprendeu a cortar uma fenda na realidade que faz do Limbo um atalho conveniente, seja pelos Infernos do Caos ou pelo reino sombrio do Oblivium.\"</em><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Em seu turno de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> você pode passivamente <strong>teleportar</strong> para <strong><code>1d12+PSI</code></strong> <strong>metros</strong> adicionais além do seu Deslocamento total, ignorando qualquer tipo de obstáculo. Se tirar <strong><code>1</code></strong> no teste citado seu personagem se perde no abismo do imaterial por uma rodada até terminar sua realocação no tabuleiro para qualquer local escolhido.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/simple-action.webp::⬩ Testando <strong>Psionismo</strong> pode translocar um objeto ou criatura com essa habilidade ao usá-la como <em>Ação Curta</em>. Dessa forma, com um <em>Acerto Crítico</em> pode opcionalmente enviar este alvo para o abismo imaterial e afastá-lo da batalha por <em>uma rodada</em>.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/double-action.webp::⬩ Pode gastar <strong><code>2⚡️</code></strong> para teleportar para um espaço ocupado por um alvo, realizando um ataque com <strong>Vantagem</strong> ou uma ação de <strong>Empurrar</strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você aprendeu a cortar uma fenda na realidade que faz do Limbo um atalho conveniente, seja pelos Infernos do Caos ou pelo reino sombrio do Oblivium.\"</em><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Em seu turno de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> você pode passivamente <strong>teleportar</strong> para <strong><code>1d12+PSI</code></strong> <strong>metros</strong> adicionais além do seu Deslocamento total, ignorando qualquer tipo de obstáculo. Se tirar <strong><code>1</code></strong> no teste citado seu personagem se perde no abismo do imaterial por uma rodada até terminar sua realocação no tabuleiro para qualquer local escolhido.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/simple-action.webp::⬩ Testando <strong>Psionismo</strong> pode translocar um objeto ou criatura com essa habilidade ao usá-la como <em>Ação Curta</em>. Dessa forma, com um <em>Acerto Crítico</em> pode opcionalmente enviar este alvo para o abismo imaterial e afastá-lo da batalha por <em>uma rodada</em>.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/double-action.webp::⬩ Pode gastar <strong><code>2⚡️</code></strong> para teleportar para um espaço ocupado por um alvo, realizando um ataque com <strong>Vantagem</strong> ou uma ação de <strong>Empurrar</strong>.</p>"
   },
   "effects": [],
   "folder": "Sk4FeiticeiroU5I",

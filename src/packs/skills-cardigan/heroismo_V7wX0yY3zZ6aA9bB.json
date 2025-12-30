@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: justify\">Uma vez ao dia pode refazer um teste falho que não tenha sido um <em>Erro Crítico</em>.</p>"
+    "description": "<p><br></p><p style=\"text-align: justify;\">Uma vez ao dia pode refazer um teste falho que não tenha sido um <em>Erro Crítico</em>.</p>"
   },
   "effects": [],
   "folder": "SkRacHumanoXy9Za",

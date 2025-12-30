@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: justify\">Caso falhe em um Teste de <strong>Perícia</strong>, você receberá bônus de <strong><code>+1</code></strong> no seu <em>próximo</em> teste de <strong>Perícia</strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: justify;\">Caso falhe em um Teste de <strong>Perícia</strong>, você receberá bônus de <strong><code>+1</code></strong> no seu <em>próximo</em> teste de <strong>Perícia</strong>.</p>"
   },
   "effects": [],
   "folder": "YmRacElfo2FqVj0T",

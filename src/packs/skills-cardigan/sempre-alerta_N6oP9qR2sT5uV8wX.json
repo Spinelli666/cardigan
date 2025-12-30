@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: justify\">Em combate, sua primeira habilidade lançada não custará <strong><code>⚡️Energia</code></strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: justify;\">Em combate, sua primeira habilidade lançada não custará <strong><code>⚡️Energia</code></strong>.</p>"
   },
   "effects": [],
   "folder": "XsRacGnomo5BkLpG",

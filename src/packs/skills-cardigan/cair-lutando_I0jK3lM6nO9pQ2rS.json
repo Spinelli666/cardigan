@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br><p style=\"text-align: justify\">Uma vez ao dia, caso o Norsca chegue a <em>zero</em> ou menos <strong><code>💔PV</code></strong> ele <strong>não</strong> ficará <code>💤@UUID[Compendium.cardigan.efeitos-cardigan.Item.xY2yZ3zA4bB5cC6D]{Inconsciente}</code>, invés disso ele receberá <strong><code>🦾@UUID[Compendium.cardigan.efeitos-cardigan.Item.T1uVwX3yZ4aB5c6D]{Invulnerável}</code></strong>, podendo continuar lutando por mais <strong>uma Rodada</strong> sem precisar realizar os testes contra a morte. Após isso, o Norsca cai <code>💤@UUID[Compendium.cardigan.efeitos-cardigan.Item.xY2yZ3zA4bB5cC6D]{Inconsciente}</code>.</p><p style=\"text-align: justify\">Não pode receber qualquer tipo de regeneração de <strong><code>💔PV</code></strong> durante o efeito.</p>"
+    "description": "<p><br><p style=\"text-align: justify;\">Uma vez ao dia, caso o Norsca chegue a <em>zero</em> ou menos <strong><code>💔PV</code></strong> ele <strong>não</strong> ficará <code>💤@UUID[Compendium.cardigan.efeitos-cardigan.Item.xY2yZ3zA4bB5cC6D]{Inconsciente}</code>, invés disso ele receberá <strong><code>🦾@UUID[Compendium.cardigan.efeitos-cardigan.Item.T1uVwX3yZ4aB5c6D]{Invulnerável}</code></strong>, podendo continuar lutando por mais <strong>uma Rodada</strong> sem precisar realizar os testes contra a morte. Após isso, o Norsca cai <code>💤@UUID[Compendium.cardigan.efeitos-cardigan.Item.xY2yZ3zA4bB5cC6D]{Inconsciente}</code>.</p><p style=\"text-align: justify;\">Não pode receber qualquer tipo de regeneração de <strong><code>💔PV</code></strong> durante o efeito.</p>"
   },
   "effects": [],
   "folder": "WlRacNorsca9AdUh",

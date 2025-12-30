@@ -17,7 +17,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Habilidades não possuem custo de <strong><code>⚡️Energia</code></strong> durante a primeira rodada.</p>",
+        "description": "<p style=\"text-align: justify;\">Habilidades não possuem custo de <strong><code>⚡️Energia</code></strong> durante a primeira rodada.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -27,7 +27,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Recebe <em>Vantagem Aprimorada</em>.</p>",
+        "description": "<p style=\"text-align: justify;\">Recebe <em>Vantagem Aprimorada</em>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -37,7 +37,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Acertar um inimigo durante <em>Emboscar</em> também aplica <strong><code>❗️@UUID[Compendium.cardigan.efeitos-cardigan.Item.G1hI2jK3lM4nO5pQ]{Intimidado}³</code></strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Acertar um inimigo durante <em>Emboscar</em> também aplica <strong><code>❗️@UUID[Compendium.cardigan.efeitos-cardigan.Item.G1hI2jK3lM4nO5pQ]{Intimidado}³</code></strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": true,
@@ -57,7 +57,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Ninguém arma uma cilada como você.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao usar essa habilidade antes de iniciar um combate ou durante o turno de <em>Iniciativa</em> você e todos seus aliados recebem <strong>duas Rodadas</strong> de ação antes dos inimigos emboscados poderem realizar seus turnos.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Durante a primeira rodada você e seus aliados possuem <strong>Vantagem</strong> em todo teste de ataque e <strong><code>🪽@UUID[Compendium.cardigan.efeitos-cardigan.Item.L2mN4oPqR3sT5uVw]{Veloz}</code></strong> em seu ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Ninguém arma uma cilada como você.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao usar essa habilidade antes de iniciar um combate ou durante o turno de <em>Iniciativa</em> você e todos seus aliados recebem <strong>duas Rodadas</strong> de ação antes dos inimigos emboscados poderem realizar seus turnos.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Durante a primeira rodada você e seus aliados possuem <strong>Vantagem</strong> em todo teste de ataque e <strong><code>🪽@UUID[Compendium.cardigan.efeitos-cardigan.Item.L2mN4oPqR3sT5uVw]{Veloz}</code></strong> em seu ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong>.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

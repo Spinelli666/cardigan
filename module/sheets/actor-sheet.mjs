@@ -5,6 +5,7 @@ import { HandSelectionDialog } from '../applications/hand-selection-dialog.mjs';
 import { RecipeCraftingDialog } from '../applications/recipe-crafting-dialog.mjs';
 import { buildRollFormula } from '../helpers/config.mjs';
 import { AdvantageSelectionDialog } from '../applications/advantage-selection-dialog.mjs';
+import { CharacterCreationWizard } from '../applications/character-creation-wizard.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -77,6 +78,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       craftFromRecipe: this._onCraftFromRecipe,
       filterProfession: this._onFilterProfession,
       initiateTrade: this._onInitiateTrade,
+      openCharacterWizard: this._onOpenCharacterWizard,
       // Removemos as ações do modal para implementar via event listeners diretos
     },
     // Custom property that's merged into `this.options`
@@ -2956,8 +2958,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       const healthBonus = system.status?.healthBonus ?? 0;
       const energyBonus = system.status?.energyBonus ?? 0;
       
-      const newHealthMax = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + healthBonus);
-      const newEnergyMax = Math.max(0, 0 + (totalStamina * 5) + levelBonus - fractureReduction + energyBonus);
+      const newHealthMax = Math.max(0, 0 + (totalStamina * 10) + levelBonus - fractureReduction + healthBonus);
+      const newEnergyMax = Math.max(0, 0 + (totalStamina * 1) + levelBonus - fractureReduction + energyBonus);
       
       // Update health max input
       const healthMaxInput = this.element.querySelector('input[name="system.health.max"]');
@@ -9562,6 +9564,26 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
       dialog.render(true);
     });
+  }
+
+  /**
+   * Handle opening the character creation wizard
+   * @param {Event} event - Click event
+   * @param {HTMLElement} target - Clicked element
+   * @private
+   */
+  static async _onOpenCharacterWizard(event, target) {
+    const actor = this.actor;
+    
+    // Verificar se o level é 0
+    if (actor.system.attributes.level.value !== 0) {
+      ui.notifications.warn("O wizard de criação só está disponível para personagens de nível 0!");
+      return;
+    }
+    
+    // Abrir o wizard
+    const wizard = new CharacterCreationWizard(actor);
+    await wizard.render(true);
   }
 
 

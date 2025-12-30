@@ -17,7 +17,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Reduz o custo desta habilidade para <strong><code>1⚡️</code></strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Reduz o custo desta habilidade para <strong><code>1⚡️</code></strong>.</p>",
         "hasEnergy": true,
         "energyCost": 1,
         "hasEffects": false,
@@ -27,7 +27,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Acertos Críticos aplicam uma <strong><code>⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong> acumulativa.</p>",
+        "description": "<p style=\"text-align: justify;\">Acertos Críticos aplicam uma <strong><code>⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong> acumulativa.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -37,7 +37,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Recebe <strong>Vantagem</strong> em todo Teste de <strong>Força</strong> durante o efeito.</p>",
+        "description": "<p style=\"text-align: justify;\">Recebe <strong>Vantagem</strong> em todo Teste de <strong>Força</strong> durante o efeito.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Por um momento, quando você acredita cegamente que é capaz de derrotar seus inimigos em uma luta corpo-a-corpo e que nada pode pará-lo, sua mente desbloqueia suas limitações físicas lhe concedendo uma força potencializada e paranormal.\"</em><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/simple-action.webp::⬩ Por um número de rodadas equivalente ao seu <em>Despertar Psiônico</em> você pode somar seus pontos de <strong>Psionismo</strong> em todo <strong>dano físico</strong> aplicado e em <strong>Testes de Força</strong>.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Sob este efeito você possui uma super-força desproporcionial que o permite realizar absurdos à critério de sua imaginação e limites estabelecidos pelo narrador. Em alguns casos só é possível danificar criaturas paranormais com o uso de Potencializar. O dano dessa habilidade é cumulativo com o dano de ::systems/cardigan/assets/images/paths/wizard.webp::<em>Golpe Energizado</em>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Por um momento, quando você acredita cegamente que é capaz de derrotar seus inimigos em uma luta corpo-a-corpo e que nada pode pará-lo, sua mente desbloqueia suas limitações físicas lhe concedendo uma força potencializada e paranormal.\"</em><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/simple-action.webp::⬩ Por um número de rodadas equivalente ao seu <em>Despertar Psiônico</em> você pode somar seus pontos de <strong>Psionismo</strong> em todo <strong>dano físico</strong> aplicado e em <strong>Testes de Força</strong>.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Sob este efeito você possui uma super-força desproporcionial que o permite realizar absurdos à critério de sua imaginação e limites estabelecidos pelo narrador. Em alguns casos só é possível danificar criaturas paranormais com o uso de Potencializar. O dano dessa habilidade é cumulativo com o dano de ::systems/cardigan/assets/images/paths/wizard.webp::<em>Golpe Energizado</em>.</p>"
   },
   "effects": [],
   "folder": "Sk4FeiticeiroU5I",

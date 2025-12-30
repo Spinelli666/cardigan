@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: justify\">Remove um <em>Efeito Negativo</em> que você possua. Você pode usar essa habilidade uma vez por dia, e mais uma vez para cada <strong><code>2</code></strong> pontos de <strong>Vigor</strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: justify;\">Remove um <em>Efeito Negativo</em> que você possua. Você pode usar essa habilidade uma vez por dia, e mais uma vez para cada <strong><code>2</code></strong> pontos de <strong>Vigor</strong>.</p>"
   },
   "effects": [],
   "folder": "QcRacDwarf3GzTk1",

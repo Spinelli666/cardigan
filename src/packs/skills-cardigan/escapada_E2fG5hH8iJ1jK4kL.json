@@ -17,7 +17,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Se redirecionar o ataque para um aliado ele recebe <strong>Vantagem</strong> na <strong>Evasão</strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Se redirecionar o ataque para um aliado ele recebe <strong>Vantagem</strong> na <strong>Evasão</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -27,7 +27,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Ao terminar o ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> recebe um <strong><code>+1</code></strong> <strong><code>〔🔶〕Ponto de Ação</code></strong> livre.</p>",
+        "description": "<p style=\"text-align: justify;\">Ao terminar o ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> recebe um <strong><code>+1</code></strong> <strong><code>〔🔶〕Ponto de Ação</code></strong> livre.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -37,7 +37,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Ao terminar o ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> recebe um <strong><code>+1</code></strong> <strong><code>〔🔶〕Ponto de Ação</code></strong> livre.</p>",
+        "description": "<p style=\"text-align: justify;\">Ao terminar o ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> recebe um <strong><code>+1</code></strong> <strong><code>〔🔶〕Ponto de Ação</code></strong> livre.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Eles não podem te matar se não podem te pegar.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao ser alvo de um ataque pode redirecioná-lo para um aliado ou inimigo adjacente realizar a <strong>Evasão</strong> por você.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Na ausência de um alvo próximo você recebe um turno de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> adicional que ocorre antes do ataque inimigo.</p>"
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Eles não podem te matar se não podem te pegar.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao ser alvo de um ataque pode redirecioná-lo para um aliado ou inimigo adjacente realizar a <strong>Evasão</strong> por você.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Na ausência de um alvo próximo você recebe um turno de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> adicional que ocorre antes do ataque inimigo.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",

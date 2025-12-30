@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Você desfere um golpe giratório com sua arma.\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Com uma Arma Marcial você tenta acertar todos os alvos ao redor do seu personagem, testando <strong>Precisão</strong> contra cada inimigo no alcance da sua arma.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Se acertar <strong>três</strong> ou mais inimigos com esta habilidade você pode repetir esta habilidade sem custo com uma segunda Ação de ::systems/cardigan/assets/images/types-actions/double-action.webp::<strong><code>Atacar</code></strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você desfere um golpe giratório com sua arma.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Com uma Arma Marcial você tenta acertar todos os alvos ao redor do seu personagem, testando <strong>Precisão</strong> contra cada inimigo no alcance da sua arma.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Se acertar <strong>três</strong> ou mais inimigos com esta habilidade você pode repetir esta habilidade sem custo com uma segunda Ação de ::systems/cardigan/assets/images/types-actions/double-action.webp::<strong><code>Atacar</code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk2GuerreiroA9Bz",

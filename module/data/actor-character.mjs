@@ -137,11 +137,11 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       this.abilities[key].total = baseValue + totalBonus;
     }
 
-    // Regra: cada ponto de Stamina adiciona +5 à vida máxima e +1 à energia máxima
+    // Regra: cada ponto de Stamina adiciona +10 à vida máxima e +1 à energia máxima
     const stamina = this.abilities?.stamina?.value ?? 0;
     const staminaTotalBonus = this.abilities?.stamina?.totalBonus ?? 0;
     const totalStamina = stamina + staminaTotalBonus;
-    const staminaHealthBonus = totalStamina * 5;
+    const staminaHealthBonus = totalStamina * 10;
     const staminaEnergyBonus = totalStamina * 1;
     
     // Regra: cada level de 2 até 10 adiciona +5 à vida e +1 à energia máxima (level 1 não dá bonus)
@@ -188,8 +188,8 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     this.backpack.max = baseBackpackCapacity + armorBackpackBonus;
     
     // CAMPO DE TESTE: Implementa lógica de campo manual com bônus automático
-    // Exemplo: se stamina é 2, bônus automático é 10 (2 * 5)
-    const staminaBonusForTest = totalStamina * 5; // Bônus baseado em stamina
+    // Exemplo: se stamina é 2, bônus automático é 20 (2 * 10)
+    const staminaBonusForTest = totalStamina * 10; // Bônus baseado em stamina
     const testFieldInput = this.status?.testField ?? 0; // Valor manual digitado
     
     // Se não existe um campo calculado ainda, cria
@@ -735,12 +735,22 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
    */
   _calculateLevel() {
     if (this.classes) {
+      // Calcular total de pontos
       const totalClassPoints = Object.values(this.classes).reduce((sum, classValue) => {
         return sum + (classValue || 0);
       }, 0);
       
+      // Regra especial: Level 0→1 requer 2 pontos
+      // A partir do Level 1, cada ponto = 1 nível
+      // Fórmula: Se totalPoints >= 2, então Level = totalPoints - 1
+      //          Se totalPoints < 2, então Level = 0
+      let calculatedLevel = 0;
+      if (totalClassPoints >= 2) {
+        calculatedLevel = totalClassPoints - 1;
+      }
+      
       // Set the calculated level
-      this.attributes.level.value = totalClassPoints;
+      this.attributes.level.value = calculatedLevel;
     }
   }
 

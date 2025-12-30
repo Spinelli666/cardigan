@@ -17,7 +17,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify\">Remove o custo de <strong><code>⚡️Energia</code></strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Remove o custo de <strong><code>⚡️Energia</code></strong>.</p>",
         "hasEnergy": true,
         "energyCost": 0,
         "hasEffects": false,
@@ -27,7 +27,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify\">Possibilita usar habilidades de ataque para <strong>contra-atacar</strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Possibilita usar habilidades de ataque para <strong>contra-atacar</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -37,7 +37,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify\">Antes de realizar o <strong>contra-ataque</strong> você pode utilizar um ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> em direção ao alvo dessa habilidade.</p>",
+        "description": "<p style=\"text-align: justify;\">Antes de realizar o <strong>contra-ataque</strong> você pode utilizar um ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> em direção ao alvo dessa habilidade.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,
@@ -51,7 +51,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center\"><em>\"Olho por olho, certo?\"</em></p><p><br></p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Quando for alvo de um ataque você pode <strong>contra-atacar</strong> após o encerramento do turno inimigo.</p><p style=\"text-align: justify\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você não pode <strong>contra-atacar</strong> com habilidades, apenas ataques simples.</p>"
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Olho por olho, certo?\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Quando for alvo de um ataque você pode <strong>contra-atacar</strong> após o encerramento do turno inimigo.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você não pode <strong>contra-atacar</strong> com habilidades, apenas ataques simples.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",
