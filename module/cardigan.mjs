@@ -2998,6 +2998,37 @@ Hooks.on('renderChatMessageHTML', (chatMessage, html) => {
   }
 });
 
+/**
+ * Add toggle functionality to skill description buttons in chat
+ */
+Hooks.on('renderChatMessageHTML', (chatMessage, html) => {
+  const toggleButtons = html.querySelectorAll('.toggle-skill-description');
+  if (toggleButtons.length === 0) return;
+
+  toggleButtons.forEach(button => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      
+      const targetId = button.dataset.target;
+      const descElement = html.querySelector(`#${targetId}`);
+      
+      if (!descElement) return;
+      
+      const isHidden = descElement.style.display === 'none';
+      
+      // Toggle visibility
+      descElement.style.display = isHidden ? 'block' : 'none';
+      
+      // Update button text and icon
+      if (isHidden) {
+        button.innerHTML = '<i class="fas fa-eye-slash"></i> Esconder Descrição';
+      } else {
+        button.innerHTML = '<i class="fas fa-eye"></i> Mostrar Descrição';
+      }
+    });
+  });
+});
+
 /* -------------------------------------------- */
 /*  Evasion System Hooks                        */
 /* -------------------------------------------- */

@@ -97,16 +97,17 @@ export class MerchantTradeDialog extends api.HandlebarsApplicationMixin(api.Appl
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     
-    // Get all merchant items
+    // Get all merchant items (only unequipped items from backpack)
     const merchantAllItems = this.merchant.items
       .filter(i => !['feature', 'race', 'spell', 'efeito', 'skill'].includes(i.type))
+      .filter(i => !i.system.equipped) // Only show items that are NOT equipped
       .map(i => ({
         id: i.id,
         uuid: i.uuid,
         name: i.name,
         img: i.img,
         quantity: i.system.quantity || 1,
-        equipped: i.system.equipped || false
+        equipped: false // All items here are unequipped
       }));
     
     const customerSide = {

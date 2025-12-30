@@ -608,7 +608,21 @@ export class SkillManager {
       content += categoriesHtml;
     }
 
-    content += `<div style="text-align: left; margin: 8px 0; color: #333;">
+    // Add toggle button for description
+    const randomId = foundry.utils.randomID();
+    content += `
+      <div style="text-align: center; margin: 8px 0;">
+        <button 
+          class="toggle-skill-description" 
+          data-target="skill-desc-${randomId}"
+          style="padding: 4px 12px; background: rgba(76, 175, 80, 0.2); color: #4caf50; border: 1px solid #4caf50; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s;"
+          onmouseover="this.style.background='rgba(76, 175, 80, 0.3)'"
+          onmouseout="this.style.background='rgba(76, 175, 80, 0.2)'"
+        >
+          <i class="fas fa-eye"></i> Mostrar Descrição
+        </button>
+      </div>
+      <div id="skill-desc-${randomId}" style="display: none; text-align: left; margin: 8px 0; padding: 8px; color: #333; background: rgba(0,0,0,0.03); border-radius: 4px; border-left: 3px solid #4caf50;">
         ${skill.system.description || 'Sem descrição disponível.'}
       </div>`;
 
