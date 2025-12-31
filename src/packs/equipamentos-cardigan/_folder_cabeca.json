@@ -1,0 +1,18 @@
+{
+  "_id": "C1aB2eC3a4D5eF6g",
+  "_key": "!folders!C1aB2eC3a4D5eF6g",
+  "name": "Cabeça",
+  "type": "Item",
+  "color": "#4caf50",
+  "sorting": "a",
+  "folder": "A1rM2aD3uR4aN5tO",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

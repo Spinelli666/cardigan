@@ -1,0 +1,49 @@
+{
+  "_id": "V9wY2zB5cC8dE1fG",
+  "_key": "!items!V9wY2zB5cC8dE1fG",
+  "name": "Capuz Estofado",
+  "type": "armadura",
+  "img": "systems/cardigan/assets/images/armor/head.webp",
+  "folder": "C1aB2eC3a4D5eF6g",
+  "system": {
+    "description": "",
+    "armorType": "cabeca",
+    "protecao": 1,
+    "armorClass": "Capuz Estofado",
+    "equipped": false,
+    "skillBonuses": [],
+    "magicalArtifact": false,
+    "resistenciaFrio": false,
+    "stylish": false,
+    "bonusVida": 0,
+    "bonusEnergia": 0,
+    "bonusDeslocamento": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "bonusEspacoMochila": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "weight": "leve",
+    "price": 40,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "quantity": 1
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

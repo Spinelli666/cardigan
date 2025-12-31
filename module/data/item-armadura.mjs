@@ -49,9 +49,6 @@ export default class ArmorData extends BaseItemData {
       // Equipment status
       equipped: new BooleanField({initial: false}),
       
-      // Properties list (same as weapons)
-      properties: new ArrayField(new StringField(), {initial: []}),
-      
       // Skill bonus
       // Skill bonuses (array like weapons)
       skillBonuses: new ArrayField(new SchemaField({

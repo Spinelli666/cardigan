@@ -113,13 +113,21 @@
       "system": "cardigan",
       "path": "packs/racas-cardigan",
       "banner": "ui/banners/actor-banner.webp"
+    },
+    {
+      "name": "equipamentos-cardigan",
+      "label": "Equipamentos",
+      "type": "Item",
+      "system": "cardigan",
+      "path": "packs/equipamentos-cardigan",
+      "banner": "ui/banners/item-banner.webp"
     }
   ],
   "packFolders": [
     {
       "name": "SRD",
       "sorting": "a",
-      "packs": ["efeitos-cardigan", "skills-cardigan", "racas-cardigan"]
+      "packs": ["efeitos-cardigan", "skills-cardigan", "racas-cardigan", "equipamentos-cardigan"]
     }
   ],
   "socket": true,

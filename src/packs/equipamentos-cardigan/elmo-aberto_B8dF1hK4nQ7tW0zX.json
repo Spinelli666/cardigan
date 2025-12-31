@@ -1,0 +1,49 @@
+{
+  "_id": "B8dF1hK4nQ7tW0zX",
+  "_key": "!items!B8dF1hK4nQ7tW0zX",
+  "name": "Elmo Aberto",
+  "type": "armadura",
+  "img": "systems/cardigan/assets/images/armor/head.webp",
+  "folder": "C1aB2eC3a4D5eF6g",
+  "system": {
+    "description": "",
+    "armorType": "cabeca",
+    "protecao": 2,
+    "armorClass": "Elmo Aberto",
+    "equipped": false,
+    "skillBonuses": [],
+    "magicalArtifact": false,
+    "resistenciaFrio": false,
+    "stylish": false,
+    "bonusVida": 0,
+    "bonusEnergia": 0,
+    "bonusDeslocamento": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "bonusEspacoMochila": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "weight": "pesado",
+    "price": 80,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "quantity": 1
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}
