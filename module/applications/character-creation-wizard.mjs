@@ -13,8 +13,9 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
     this.selectedRace = null;
     this.races = [];
     this.skills = {};
-    this.selectedSkills = [];
-    this.maxSkillPoints = 2;
+    this.selectedSkills = []; // Array de UUIDs de skills selecionadas
+    this.selectedEnhancements = {}; // Objeto: { skillUuid: [index1, index2, ...] } - Array de índices de aprimoramentos
+    this.maxSkillPoints = 2; // Padrão: 2 pontos, Elfo: 3 pontos (ambos começam nível 1)
     this.currentPath = null; // Caminho atualmente visualizado
     this.expandedSkillId = null; // Skill com detalhes expandidos
   }
@@ -39,7 +40,8 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       cancel: CharacterCreationWizard.#onCancel,
       selectPath: CharacterCreationWizard.#onSelectPath,
       selectSkill: CharacterCreationWizard.#onSelectSkill,
-      toggleSkillDetails: CharacterCreationWizard.#onToggleSkillDetails
+      toggleSkillDetails: CharacterCreationWizard.#onToggleSkillDetails,
+      selectEnhancement: CharacterCreationWizard.#onSelectEnhancement
     }
   };
 
@@ -76,11 +78,22 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       // Preparar skills do caminho atual com informações de seleção e expansão
       if (this.currentPath && this.skills[this.currentPath]) {
         context.currentPathSkills = this.skills[this.currentPath].map(skill => {
+          const selectedEnhancementsArray = this.selectedEnhancements[skill.uuid] || [];
+          
           const skillData = {
             ...skill,
             selected: this.selectedSkills.includes(skill.uuid),
-            expanded: this.expandedSkillId === skill.id
+            expanded: this.expandedSkillId === skill.id,
+            selectedEnhancements: selectedEnhancementsArray // Array de índices selecionados
           };
+
+          // Adicionar flag de seleção para cada aprimoramento
+          if (skill.enhancements && Array.isArray(skill.enhancements)) {
+            skillData.enhancements = skill.enhancements.map((enh, index) => ({
+              ...enh,
+              isSelected: selectedEnhancementsArray.includes(index)
+            }));
+          }
 
           // Adicionar tipos de ação formatados
           if (skill.skillActionTypes && Array.isArray(skill.skillActionTypes) && skill.skillActionTypes.length > 0) {
@@ -126,8 +139,19 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         context.currentPathSkills = null;
       }
       
+      // Calcular pontos gastos: cada skill = 1 ponto, cada aprimoramento = 1 ponto
+      const skillPoints = this.selectedSkills.length;
+      const enhancementPoints = Object.values(this.selectedEnhancements).reduce(
+        (sum, enhancementArray) => sum + enhancementArray.length,
+        0
+      );
+      const totalPointsUsed = skillPoints + enhancementPoints;
+      
       context.selectedSkillsCount = this.selectedSkills.length;
-      context.remainingPoints = this.maxSkillPoints - this.selectedSkills.length;
+      context.selectedEnhancementsCount = Object.keys(this.selectedEnhancements).length;
+      context.totalPointsUsed = totalPointsUsed;
+      context.remainingPoints = this.maxSkillPoints - totalPointsUsed;
+      context.maxSkillPoints = this.maxSkillPoints;
     }
 
     return context;
@@ -357,6 +381,13 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       cardElement.classList.add('selected');
       console.log('[CharacterWizard] Selected race:', selectedRace.name);
       
+      // Ajustar pontos de habilidade baseado na raça
+      // Elfo = 3 pontos (mas começa no nível 1 também)
+      // Outras raças = 2 pontos (nível 1)
+      const raceName = selectedRace.name.toLowerCase();
+      this.maxSkillPoints = raceName.includes('elfo') ? 3 : 2;
+      console.log('[CharacterWizard] Skill points for', selectedRace.name, ':', this.maxSkillPoints);
+      
       // Atualizar a área de descrição com HTML enriquecido
       const descriptionDisplay = this.element.querySelector('.race-description-display');
       if (descriptionDisplay) {
@@ -398,12 +429,25 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
     if (index >= 0) {
       // Desselecionar skill
       this.selectedSkills.splice(index, 1);
+      
+      // Se a skill tinha aprimoramentos selecionados, remove todos
+      if (this.selectedEnhancements[skillUuid]) {
+        delete this.selectedEnhancements[skillUuid];
+      }
     } else {
-      // Tentar selecionar skill
-      if (this.selectedSkills.length >= this.maxSkillPoints) {
-        ui.notifications.warn(`Você já selecionou o máximo de ${this.maxSkillPoints} skills`);
+      // Calcular pontos totais que seriam usados (skills + aprimoramentos)
+      const skillPoints = this.selectedSkills.length + 1; // +1 da nova skill
+      const enhancementPoints = Object.values(this.selectedEnhancements).reduce(
+        (sum, enhancementArray) => sum + enhancementArray.length,
+        0
+      );
+      const totalPoints = skillPoints + enhancementPoints;
+      
+      if (totalPoints > this.maxSkillPoints) {
+        ui.notifications.warn(`Você não tem pontos suficientes. Total: ${totalPoints}/${this.maxSkillPoints}`);
         return;
       }
+      
       this.selectedSkills.push(skillUuid);
     }
 
@@ -432,6 +476,57 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         expandedSkill.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     }
+  }
+
+  /**
+   * Handler para selecionar/desselecionar aprimoramento
+   */
+  static async #onSelectEnhancement(event, target) {
+    const skillUuid = target.dataset.skillUuid;
+    const enhancementIndex = parseInt(target.dataset.enhancementIndex);
+    
+    if (!skillUuid || isNaN(enhancementIndex)) return;
+
+    // Verificar se a skill está selecionada
+    if (!this.selectedSkills.includes(skillUuid)) {
+      ui.notifications.warn("Você precisa selecionar a skill antes de escolher um aprimoramento");
+      return;
+    }
+
+    // Inicializar array se não existir
+    if (!this.selectedEnhancements[skillUuid]) {
+      this.selectedEnhancements[skillUuid] = [];
+    }
+
+    const enhancementArray = this.selectedEnhancements[skillUuid];
+    const indexInArray = enhancementArray.indexOf(enhancementIndex);
+
+    // Toggle: se já está selecionado, remove; senão adiciona
+    if (indexInArray >= 0) {
+      // Remover aprimoramento
+      enhancementArray.splice(indexInArray, 1);
+      // Se o array ficou vazio, remove a chave
+      if (enhancementArray.length === 0) {
+        delete this.selectedEnhancements[skillUuid];
+      }
+    } else {
+      // Calcular pontos gastos se adicionar este aprimoramento (cada aprimoramento = 1 ponto)
+      const skillPoints = this.selectedSkills.length;
+      const currentEnhancements = Object.values(this.selectedEnhancements).reduce(
+        (sum, arr) => sum + arr.length,
+        0
+      );
+      const totalPoints = skillPoints + currentEnhancements + 1;
+      
+      if (totalPoints > this.maxSkillPoints) {
+        ui.notifications.warn(`Você não tem pontos suficientes (${totalPoints}/${this.maxSkillPoints})`);
+        return;
+      }
+      
+      enhancementArray.push(enhancementIndex);
+    }
+
+    await this.render(true);
   }
 
   /**
@@ -472,11 +567,25 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         }
         return true;
       case 2:
-        // Validar que exatamente 2 skills foram selecionadas
-        if (this.selectedSkills.length !== 2) {
-          ui.notifications.warn(`Você deve selecionar exatamente 2 skills (${this.selectedSkills.length}/2 selecionadas)`);
+        // Validar que os pontos foram usados corretamente (cada skill = 1 ponto, cada aprimoramento = 1 ponto)
+        const skillPoints = this.selectedSkills.length;
+        const enhancementPoints = Object.values(this.selectedEnhancements).reduce(
+          (sum, enhancementArray) => sum + enhancementArray.length,
+          0
+        );
+        const totalPoints = skillPoints + enhancementPoints;
+        
+        if (totalPoints !== this.maxSkillPoints) {
+          ui.notifications.warn(`Você deve usar todos os ${this.maxSkillPoints} pontos (atual: ${totalPoints})`);
           return false;
         }
+        
+        // Validar que pelo menos 1 skill foi selecionada
+        if (this.selectedSkills.length < 1) {
+          ui.notifications.warn("Você deve selecionar pelo menos 1 skill");
+          return false;
+        }
+        
         return true;
       default:
         return true;
@@ -503,38 +612,57 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         }
       }
 
-      // Adicionar as skills selecionadas ao ator
-      const pathIncrements = {};
-      for (const skillUuid of this.selectedSkills) {
-        const skillDocument = await fromUuid(skillUuid);
-        if (skillDocument) {
-          itemsToAdd.push(skillDocument.toObject());
-          
-          // Contar incrementos por caminho
-          const skillClass = skillDocument.system.skillClass;
-          if (skillClass) {
-            pathIncrements[skillClass] = (pathIncrements[skillClass] || 0) + 1;
-          }
+    // Adicionar as skills selecionadas ao ator
+    const pathIncrements = {};
+    for (const skillUuid of this.selectedSkills) {
+      const skillDocument = await fromUuid(skillUuid);
+      if (skillDocument) {
+        itemsToAdd.push(skillDocument.toObject());
+        
+        // Contar incrementos por caminho (APENAS skills contam, não aprimoramentos)
+        const skillClass = skillDocument.system.skillClass;
+        if (skillClass) {
+          pathIncrements[skillClass] = (pathIncrements[skillClass] || 0) + 1;
         }
       }
-
-      // Criar todos os items de uma vez
+    }      // Criar todos os items de uma vez
       if (itemsToAdd.length > 0) {
         await this.actor.createEmbeddedDocuments("Item", itemsToAdd);
       }
 
-      // Incrementar pontos de caminho
-      // Cada skill escolhida incrementa 1 ponto no caminho
-      // O cálculo especial de nível (2 pontos = nível 1) é feito em _calculateLevel()
-      const updates = {};
+      // Aplicar aprimoramentos selecionados
+      for (const [skillUuid, enhancementIndices] of Object.entries(this.selectedEnhancements)) {
+        // Encontrar o item de skill no ator (recém-criado)
+        const skillDocument = await fromUuid(skillUuid);
+        if (skillDocument && Array.isArray(enhancementIndices)) {
+          const actorSkill = this.actor.items.find(i => i.name === skillDocument.name && i.type === 'skill');
+          if (actorSkill) {
+            // Marcar todos os aprimoramentos como adquiridos
+            const acquiredEnhancements = actorSkill.system.acquiredEnhancements || {};
+            for (const index of enhancementIndices) {
+              acquiredEnhancements[index] = true;
+            }
+            
+            await actorSkill.update({
+              'system.acquiredEnhancements': acquiredEnhancements
+            });
+            
+            console.log(`[CharacterWizard] Applied enhancements ${enhancementIndices.join(', ')} to skill ${actorSkill.name}`);
+          }
+        }
+      }
+
+      // Incrementar pontos de caminho e definir level inicial como 1
+      const updates = {
+        'system.attributes.level.value': 1
+      };
+      
       for (const [pathClass, count] of Object.entries(pathIncrements)) {
         const currentValue = this.actor.system.classes?.[pathClass] || 0;
         updates[`system.classes.${pathClass}`] = currentValue + count;
       }
       
-      if (Object.keys(updates).length > 0) {
-        await this.actor.update(updates);
-      }
+      await this.actor.update(updates);
 
       ui.notifications.info("Personagem criado com sucesso!");
       

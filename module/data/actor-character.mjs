@@ -105,9 +105,9 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
   }
 
   prepareDerivedData() {
-    // Calculate level automatically based on sum of all classes
-    this._calculateLevel();
-
+    // Level is no longer calculated automatically from class points
+    // It will be managed manually or through a different system
+    
     // Calculate race bonuses FIRST and apply to baseValue
     this._calculateRaceBonuses();
 
@@ -740,14 +740,10 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
         return sum + (classValue || 0);
       }, 0);
       
-      // Regra especial: Level 0→1 requer 2 pontos
-      // A partir do Level 1, cada ponto = 1 nível
-      // Fórmula: Se totalPoints >= 2, então Level = totalPoints - 1
-      //          Se totalPoints < 2, então Level = 0
-      let calculatedLevel = 0;
-      if (totalClassPoints >= 2) {
-        calculatedLevel = totalClassPoints - 1;
-      }
+      // Regra: Qualquer ponto no caminho = Level igual aos pontos
+      // 1 ponto = Level 1, 2 pontos = Level 2, etc.
+      // A vantagem do Elfo é ter 3 pontos iniciais para gastar (vs 2 de outras raças)
+      let calculatedLevel = totalClassPoints;
       
       // Set the calculated level
       this.attributes.level.value = calculatedLevel;
