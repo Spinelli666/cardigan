@@ -154,4 +154,39 @@ export class CardiganSystemActor extends Actor {
     await FraturaEffect.onActorUpdate(this, changed, userId);
     await ExaustaoEffect.onActorUpdate(this, changed, userId);
   }
+
+  /**
+   * Perform follow-up operations after embedded documents are deleted from the Actor.
+   * @param {string} embeddedName - The name of the embedded Document type
+   * @param {Document[]} documents - An array of deleted Documents
+   * @param {object} result - The result of the deletion operation
+   * @param {object} options - Additional options which modify the deletion request
+   * @param {string} userId - The id of the User requesting the deletion
+   * @override
+   */
+  async _onDeleteEmbeddedDocuments(embeddedName, documents, result, options, userId) {
+    await super._onDeleteEmbeddedDocuments(embeddedName, documents, result, options, userId);
+    
+    // Check if a race item was deleted
+    if (embeddedName === 'Item') {
+      const deletedRace = documents.find(doc => doc.type === 'race');
+      
+      if (deletedRace) {
+        console.log('[Cardigan] Race deleted, resetting ability points');
+        
+        // Reset all ability baseValues to 0 (remove wizard points)
+        const abilityKeys = ['accuracy', 'evasion', 'strength', 'dexterity', 'stamina', 'stealth', 'persuasion', 'intelligence', 'psionics'];
+        const updates = {};
+        
+        for (const abilityKey of abilityKeys) {
+          updates[`system.abilities.${abilityKey}.baseValue`] = 0;
+        }
+        
+        console.log('[Cardigan] Updating abilities:', updates);
+        await this.update(updates);
+        
+        ui.notifications.info(`Raça removida! Pontos de atributos do wizard foram zerados.`);
+      }
+    }
+  }
 }

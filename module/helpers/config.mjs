@@ -207,12 +207,20 @@ export function registerHandlebarsHelpers() {
     const weightText = armor.system.weight === 'leve' ? 'Leve' : 'Pesado';
     const weightHTML = '<i class="fas fa-backpack"></i><span>' + weightText + '</span>';
     
+    // Generate special properties icons
+    let specialPropertiesHTML = '';
+    if (armor.system.resistenciaFrio || armor.system.stylish) {
+      specialPropertiesHTML += '<span class="property-separator">・</span>';
+      if (armor.system.resistenciaFrio) specialPropertiesHTML += '☀️';
+      if (armor.system.stylish) specialPropertiesHTML += '✨';
+    }
+    
     // Build complete tooltip HTML
     let html = '<div class="armor-tooltip">';
     html += '<div class="armor-image"><img src="' + armor.img + '" alt="' + armor.name + '" /></div>';
     html += '<div class="armor-name-line"><strong>' + armor.name + '</strong></div>';
     html += '<div class="armor-properties-line">';
-    html += '<div class="armor-weight">' + weightHTML + '</div>';
+    html += '<div class="armor-weight">' + weightHTML + specialPropertiesHTML + '</div>';
     html += '</div>';
     
     if (armor.system.description) {

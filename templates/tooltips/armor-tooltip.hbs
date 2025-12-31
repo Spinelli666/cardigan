@@ -6,6 +6,10 @@
     <span class="property-separator">&nbsp;</span>
     <i class="fas fa-backpack"></i>
     <span class="weight-text">{{#if (eq armor.system.weight "leve")}}Leve{{else}}Pesado{{/if}}</span>
+    {{#if (or armor.system.resistenciaFrio armor.system.stylish)}}
+      <span class="property-separator">・</span>
+      {{#if armor.system.resistenciaFrio}}☀️{{/if}}{{#if armor.system.stylish}}✨{{/if}}
+    {{/if}}
   </div>
 
   {{! Imagem da armadura - SEGUNDO (32x32px) }}

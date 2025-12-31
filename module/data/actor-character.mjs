@@ -181,7 +181,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const strengthBonus = this.abilities?.strength?.bonus || 0;
     const strengthTotalBonus = this.abilities?.strength?.totalBonus || 0;
     const totalStrength = strengthValue + strengthBonus + strengthTotalBonus;
-    const baseBackpackCapacity = Math.floor(totalStrength / 2);
+    const baseBackpackCapacity = 15 + Math.floor(totalStrength / 2);
     
     // Add armor backpack space bonuses
     const armorBackpackBonus = this._armorBackpackSpaceBonus || 0;
@@ -330,17 +330,22 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
    * Calculate race bonuses and apply them to character abilities' baseValue
    * Only one race item should exist per character
    * Race modifiers affect the base ability values (not bonus)
+   * Race modifiers are ADDED to existing baseValue (which may contain wizard points)
    * @private
    */
   _calculateRaceBonuses() {
     // Get the race item from the actor (should only be one)
     const raceItem = this.parent?.items?.find(item => item.type === 'race');
     
-    // If no race, reset all baseValues to 0
+    // Store wizard points (current baseValue before race calculation)
+    const wizardPoints = {};
+    for (const key in this.abilities) {
+      // Preserve existing baseValue as wizard points
+      wizardPoints[key] = this.abilities[key].baseValue || 0;
+    }
+    
+    // If no race, keep wizard points (don't reset to 0)
     if (!raceItem) {
-      for (const key in this.abilities) {
-        this.abilities[key].baseValue = 0;
-      }
       // Reset bonuses from race
       this._raceMovementBonus = 0;
       this._raceHealthBonus = 0;
@@ -349,11 +354,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       return;
     }
     
-    // Apply race ability modifiers to baseValue
+    // Apply race ability modifiers by ADDING to wizard points
     const abilityModifiers = raceItem.system.abilityModifiers || {};
     for (const key in this.abilities) {
       const raceModifier = abilityModifiers[key] || 0;
-      this.abilities[key].baseValue = raceModifier;
+      // ADD race modifier to wizard points instead of replacing
+      this.abilities[key].baseValue = wizardPoints[key] + raceModifier;
     }
     
     // Store race bonuses for later calculation
@@ -452,6 +458,9 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     // Get all weapons from the actor  
     const weapons = this.parent?.items?.filter(item => item.type === 'arma') || [];
     
+    // Count stylish items equipped (armors only)
+    let stylishCount = 0;
+    
     // Calculate total bonuses from equipped armors only
     for (const armor of armors) {
       // Only apply bonuses if armor is equipped
@@ -461,6 +470,11 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       // Skip if armor is broken (durability 0 or less)
       const currentDurability = armor.system.durability?.current ?? 0;
       if (currentDurability <= 0) continue;
+      
+      // Count stylish items
+      if (armor.system.stylish) {
+        stylishCount++;
+      }
       
       // 1. Calculate skill bonuses from armors
       const skillBonuses = armor.system.skillBonuses || [];
@@ -514,6 +528,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       if (weapon.system.protection && weapon.system.protection.enabled && weapon.system.protection.value > 0) {
         armorProtectionBonus += weapon.system.protection.value;
       }
+    }
+
+    // Calculate Persuasion bonus from Stylish items (every 3 items = +1 Persuasion)
+    const stylishPersuasionBonus = Math.floor(stylishCount / 3);
+    if (stylishPersuasionBonus > 0 && armorSkillBonuses.hasOwnProperty('persuasion')) {
+      armorSkillBonuses.persuasion += stylishPersuasionBonus;
     }
 
     // Apply armor skill bonuses to abilities (add to existing totalBonus)

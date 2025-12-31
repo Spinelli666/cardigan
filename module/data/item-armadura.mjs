@@ -70,6 +70,9 @@ export default class ArmorData extends BaseItemData {
       // Cold resistance
       resistenciaFrio: new BooleanField({initial: false}),
       
+      // Stylish
+      stylish: new BooleanField({initial: false}),
+      
       // Life and energy bonuses
       bonusVida: new NumberField({
         required: true,

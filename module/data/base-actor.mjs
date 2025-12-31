@@ -25,7 +25,7 @@ export default class CardiganSystemActorBase extends foundry.abstract
     });
     schema.backpack = new fields.SchemaField({
       current: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
-      max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+      max: new fields.NumberField({ ...requiredInteger, initial: 15 }),
     });
     
     // Money field

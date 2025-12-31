@@ -111,6 +111,63 @@
         {{/if}}
       </div>
     {{/if}}
+
+    {{#if (eq currentStep 3)}}
+      {{! Etapa 3: Distribuição de Pontos nas Abilities }}
+      <div class="ability-distribution">
+        <div class="points-info">
+          <div class="points-pool base-points">
+            <i class="fas fa-star"></i>
+            <span class="pool-label">Pontos Base:</span>
+            <span class="points-count">{{basePointsUsed}}/{{baseAbilityPoints}}</span>
+            <span class="points-hint">(máx. 3 por atributo)</span>
+          </div>
+          <div class="points-pool bonus-points">
+            <i class="fas fa-plus-circle"></i>
+            <span class="pool-label">Pontos Bônus:</span>
+            <span class="points-count">{{bonusPointsUsed}}/{{bonusAbilityPoints}}</span>
+            <span class="points-hint">(sem limite)</span>
+          </div>
+          <button type="button" 
+                  class="randomize-button" 
+                  data-action="randomizeAbilities"
+                  title="Distribuir pontos aleatoriamente">
+            <i class="fas fa-dice"></i> Aleatório
+          </button>
+        </div>
+
+        <div class="abilities-grid">
+          {{#each abilities}}
+            <div class="ability-row">
+              <div class="ability-label">
+                <strong>{{label}}</strong>
+              </div>
+              <div class="ability-controls">
+                <button type="button" 
+                        class="ability-btn decrease" 
+                        data-action="decreaseAbility" 
+                        data-ability-key="{{key}}"
+                        {{#unless canDecrease}}disabled{{/unless}}>
+                  <i class="fas fa-minus"></i>
+                </button>
+                <div class="ability-value">{{points}}</div>
+                <button type="button" 
+                        class="ability-btn increase" 
+                        data-action="increaseAbility" 
+                        data-ability-key="{{key}}"
+                        {{#unless canIncrease}}disabled{{/unless}}>
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+
+        <div class="distribution-summary">
+          <p><i class="fas fa-info-circle"></i> Distribua os 12 pontos base (máximo 3 por atributo) e depois os 3 pontos bônus (sem limite).</p>
+        </div>
+      </div>
+    {{/if}}
   </div>
 
   <div class="wizard-footer">

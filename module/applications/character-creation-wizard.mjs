@@ -9,7 +9,7 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
     super(options);
     this.actor = actor;
     this.currentStep = 1;
-    this.totalSteps = 2; // Etapa 1: Raça, Etapa 2: Skills
+    this.totalSteps = 3; // Etapa 1: Raça, Etapa 2: Skills, Etapa 3: Abilities
     this.selectedRace = null;
     this.races = [];
     this.skills = {};
@@ -18,6 +18,17 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
     this.maxSkillPoints = 2; // Padrão: 2 pontos, Elfo: 3 pontos (ambos começam nível 1)
     this.currentPath = null; // Caminho atualmente visualizado
     this.expandedSkillId = null; // Skill com detalhes expandidos
+    
+    // Etapa 3: Distribuição de pontos nas abilities
+    this.abilityPoints = {}; // { abilityKey: points }
+    this.baseAbilityPoints = 12; // 12 pontos base
+    this.bonusAbilityPoints = 3; // 3 pontos bônus
+    this.maxPointsPerAbility = 3; // Máximo 3 pontos por ability (apenas para os 12 pontos base)
+    
+    // Inicializar abilities com 0 pontos
+    for (const abilityKey in CONFIG.CARDIGAN.abilities) {
+      this.abilityPoints[abilityKey] = 0;
+    }
   }
 
   static DEFAULT_OPTIONS = {
@@ -41,7 +52,10 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       selectPath: CharacterCreationWizard.#onSelectPath,
       selectSkill: CharacterCreationWizard.#onSelectSkill,
       toggleSkillDetails: CharacterCreationWizard.#onToggleSkillDetails,
-      selectEnhancement: CharacterCreationWizard.#onSelectEnhancement
+      selectEnhancement: CharacterCreationWizard.#onSelectEnhancement,
+      increaseAbility: CharacterCreationWizard.#onIncreaseAbility,
+      decreaseAbility: CharacterCreationWizard.#onDecreaseAbility,
+      randomizeAbilities: CharacterCreationWizard.#onRandomizeAbilities
     }
   };
 
@@ -154,6 +168,36 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       context.maxSkillPoints = this.maxSkillPoints;
     }
 
+    // Adicionar dados da etapa 3 (Distribuição de Abilities)
+    if (this.currentStep === 3) {
+      const abilities = [];
+      
+      for (const [key, labelKey] of Object.entries(CONFIG.CARDIGAN.abilities)) {
+        abilities.push({
+          key: key,
+          label: game.i18n.localize(labelKey),
+          points: this.abilityPoints[key] || 0,
+          canIncrease: this._canIncreaseAbility(key),
+          canDecrease: this.abilityPoints[key] > 0
+        });
+      }
+      
+      context.abilities = abilities;
+      
+      // Calcular pontos usados
+      const totalAbilityPoints = Object.values(this.abilityPoints).reduce((sum, val) => sum + val, 0);
+      const basePointsUsed = Math.min(totalAbilityPoints, this.baseAbilityPoints);
+      const bonusPointsUsed = Math.max(0, totalAbilityPoints - this.baseAbilityPoints);
+      
+      context.baseAbilityPoints = this.baseAbilityPoints;
+      context.bonusAbilityPoints = this.bonusAbilityPoints;
+      context.basePointsUsed = basePointsUsed;
+      context.bonusPointsUsed = bonusPointsUsed;
+      context.basePointsRemaining = this.baseAbilityPoints - basePointsUsed;
+      context.bonusPointsRemaining = this.bonusAbilityPoints - bonusPointsUsed;
+      context.totalAbilityPoints = totalAbilityPoints;
+    }
+
     return context;
   }
 
@@ -219,6 +263,8 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         return "Escolha sua Raça";
       case 2:
         return "Distribuir Pontos de Habilidades";
+      case 3:
+        return "Distribuir Pontos de Atributos";
       default:
         return "";
     }
@@ -266,6 +312,11 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
             };
           })
         );
+        
+        // Filtrar as skills "Componentes" e "Despertar Psiônico" - elas serão adicionadas automaticamente
+        if (skill.name === "Componentes" || skill.name === "Despertar Psiônico") {
+          continue;
+        }
         
         skillsByClass[skillClass].push({
           id: skill.id,
@@ -587,9 +638,115 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         }
         
         return true;
+      case 3:
+        // Validar que todos os pontos foram distribuídos
+        const totalAbilityPoints = Object.values(this.abilityPoints).reduce((sum, val) => sum + val, 0);
+        const requiredPoints = this.baseAbilityPoints + this.bonusAbilityPoints;
+        
+        if (totalAbilityPoints !== requiredPoints) {
+          ui.notifications.warn(`Você deve distribuir todos os ${requiredPoints} pontos (atual: ${totalAbilityPoints})`);
+          return false;
+        }
+        
+        return true;
       default:
         return true;
     }
+  }
+
+  /**
+   * Verifica se pode aumentar pontos de uma ability
+   */
+  _canIncreaseAbility(abilityKey) {
+    const currentPoints = this.abilityPoints[abilityKey] || 0;
+    const totalPointsUsed = Object.values(this.abilityPoints).reduce((sum, val) => sum + val, 0);
+    const totalAvailable = this.baseAbilityPoints + this.bonusAbilityPoints;
+    
+    // Não pode exceder total de pontos disponíveis
+    if (totalPointsUsed >= totalAvailable) {
+      return false;
+    }
+    
+    // Se ainda está usando pontos base (primeiros 12 pontos)
+    if (totalPointsUsed < this.baseAbilityPoints) {
+      // Não pode exceder 3 pontos por ability nos pontos base
+      return currentPoints < this.maxPointsPerAbility;
+    }
+    
+    // Está usando pontos bônus - sem limite por ability
+    return true;
+  }
+
+  /**
+   * Handler para aumentar pontos de uma ability
+   */
+  static async #onIncreaseAbility(event, target) {
+    const abilityKey = target.dataset.abilityKey;
+    
+    if (!abilityKey) return;
+    
+    if (this._canIncreaseAbility(abilityKey)) {
+      this.abilityPoints[abilityKey] = (this.abilityPoints[abilityKey] || 0) + 1;
+      await this.render(true);
+    } else {
+      const totalPointsUsed = Object.values(this.abilityPoints).reduce((sum, val) => sum + val, 0);
+      const currentPoints = this.abilityPoints[abilityKey] || 0;
+      
+      if (totalPointsUsed >= this.baseAbilityPoints + this.bonusAbilityPoints) {
+        ui.notifications.warn("Você já usou todos os pontos disponíveis");
+      } else if (currentPoints >= this.maxPointsPerAbility && totalPointsUsed < this.baseAbilityPoints) {
+        ui.notifications.warn(`Máximo de ${this.maxPointsPerAbility} pontos por atributo (nos primeiros ${this.baseAbilityPoints} pontos)`);
+      }
+    }
+  }
+
+  /**
+   * Handler para diminuir pontos de uma ability
+   */
+  static async #onDecreaseAbility(event, target) {
+    const abilityKey = target.dataset.abilityKey;
+    
+    if (!abilityKey) return;
+    
+    if (this.abilityPoints[abilityKey] > 0) {
+      this.abilityPoints[abilityKey]--;
+      await this.render(true);
+    }
+  }
+
+  /**
+   * Handler para botão Aleatório (distribui pontos automaticamente)
+   */
+  static async #onRandomizeAbilities(event, target) {
+    // Resetar todos os pontos
+    for (const abilityKey in this.abilityPoints) {
+      this.abilityPoints[abilityKey] = 0;
+    }
+    
+    const abilityKeys = Object.keys(CONFIG.CARDIGAN.abilities);
+    
+    // Distribuir os 12 pontos base (máx. 3 por ability)
+    let basePointsRemaining = this.baseAbilityPoints;
+    while (basePointsRemaining > 0) {
+      const randomKey = abilityKeys[Math.floor(Math.random() * abilityKeys.length)];
+      
+      // Só adiciona se não passou do máximo de 3
+      if (this.abilityPoints[randomKey] < this.maxPointsPerAbility) {
+        this.abilityPoints[randomKey]++;
+        basePointsRemaining--;
+      }
+    }
+    
+    // Distribuir os 3 pontos bônus (sem limite)
+    let bonusPointsRemaining = this.bonusAbilityPoints;
+    while (bonusPointsRemaining > 0) {
+      const randomKey = abilityKeys[Math.floor(Math.random() * abilityKeys.length)];
+      this.abilityPoints[randomKey]++;
+      bonusPointsRemaining--;
+    }
+    
+    console.log('[CharacterWizard] Randomized ability points:', this.abilityPoints);
+    await this.render(true);
   }
 
   /**
@@ -614,6 +771,9 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
 
     // Adicionar as skills selecionadas ao ator
     const pathIncrements = {};
+    let hasAndarilhoSkill = false;
+    let hasFeiticeiroSkill = false;
+    
     for (const skillUuid of this.selectedSkills) {
       const skillDocument = await fromUuid(skillUuid);
       if (skillDocument) {
@@ -623,9 +783,59 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         const skillClass = skillDocument.system.skillClass;
         if (skillClass) {
           pathIncrements[skillClass] = (pathIncrements[skillClass] || 0) + 1;
+          
+          // Verificar se tem pelo menos 1 skill do Andarilho
+          if (skillClass === 'andarilho') {
+            hasAndarilhoSkill = true;
+          }
+          
+          // Verificar se tem pelo menos 1 skill do Feiticeiro
+          if (skillClass === 'feiticeiro') {
+            hasFeiticeiroSkill = true;
+          }
         }
       }
-    }      // Criar todos os items de uma vez
+    }
+    
+    // Se selecionou pelo menos 1 skill do Andarilho, adicionar "Componentes" automaticamente
+    if (hasAndarilhoSkill) {
+      try {
+        const componentesPack = game.packs.get('cardigan.skills-cardigan');
+        if (componentesPack) {
+          const componentesSkill = componentesPack.index.find(i => i.name === 'Componentes');
+          if (componentesSkill) {
+            const componentesDocument = await fromUuid(componentesSkill.uuid);
+            if (componentesDocument) {
+              itemsToAdd.push(componentesDocument.toObject());
+              console.log('[CharacterWizard] Added Componentes skill automatically');
+            }
+          }
+        }
+      } catch (error) {
+        console.error('[CharacterWizard] Error adding Componentes skill:', error);
+      }
+    }
+    
+    // Se selecionou pelo menos 1 skill do Feiticeiro, adicionar "Despertar Psiônico" automaticamente
+    if (hasFeiticeiroSkill) {
+      try {
+        const despertarPack = game.packs.get('cardigan.skills-cardigan');
+        if (despertarPack) {
+          const despertarSkill = despertarPack.index.find(i => i.name === 'Despertar Psiônico');
+          if (despertarSkill) {
+            const despertarDocument = await fromUuid(despertarSkill.uuid);
+            if (despertarDocument) {
+              itemsToAdd.push(despertarDocument.toObject());
+              console.log('[CharacterWizard] Added Despertar Psiônico skill automatically');
+            }
+          }
+        }
+      } catch (error) {
+        console.error('[CharacterWizard] Error adding Despertar Psiônico skill:', error);
+      }
+    }
+    
+    // Criar todos os items de uma vez
       if (itemsToAdd.length > 0) {
         await this.actor.createEmbeddedDocuments("Item", itemsToAdd);
       }
@@ -656,6 +866,13 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       const updates = {
         'system.attributes.level.value': 1
       };
+      
+      // Aplicar pontos de abilities ao baseValue
+      for (const [abilityKey, points] of Object.entries(this.abilityPoints)) {
+        if (points > 0) {
+          updates[`system.abilities.${abilityKey}.baseValue`] = points;
+        }
+      }
       
       for (const [pathClass, count] of Object.entries(pathIncrements)) {
         const currentValue = this.actor.system.classes?.[pathClass] || 0;

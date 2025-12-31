@@ -914,6 +914,18 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           
           ui.notifications.info(`Raça removida junto com ${skillsToDelete.length} skill(s) racial(is)`);
         }
+        
+        // Reset all ability baseValues to 0 (remove wizard points)
+        console.log("[RACIAL DELETION] Resetting ability baseValues to 0");
+        const abilityKeys = ['accuracy', 'evasion', 'strength', 'dexterity', 'stamina', 'stealth', 'persuasion', 'intelligence', 'psionics'];
+        const abilityUpdates = {};
+        
+        for (const abilityKey of abilityKeys) {
+          abilityUpdates[`system.abilities.${abilityKey}.baseValue`] = 0;
+        }
+        
+        await actor.update(abilityUpdates);
+        console.log("[RACIAL DELETION] Ability points reset to 0");
       }
       
       // Check if it's a temporary health effect and adjust Health Bonus before deletion
@@ -5889,14 +5901,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // PRIMEIRO: Propriedades à direita usando inline styles para garantir funcionamento
     html += '<div class="armor-properties-horizontal" style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 6px; font-size: 14px; width: 100%;">';
     
-    // Mostrar ícone de resistência ao frio apenas se estiver marcada
-    if (armor.system.resistenciaFrio) {
-      html += '<i class="fas fa-sun" style="color: #ffeb3b;"></i>';
-      html += '<span class="property-separator">&nbsp;</span>';
-    }
-    
     html += '<i class="fas fa-backpack" style="color: #c9c7b8; font-size: 14px;"></i>';
     html += `<span class="weight-text" style="font-style: italic; font-size: 14px; color: #c9c7b8;">${weightText}</span>`;
+    
+    // Mostrar ícones das propriedades especiais
+    if (armor.system.resistenciaFrio || armor.system.stylish) {
+      html += '<span class="property-separator" style="color: #c9c7b8;">&nbsp;・&nbsp;</span>';
+      if (armor.system.resistenciaFrio) html += '☀️';
+      if (armor.system.stylish) html += '✨';
+    }
+    
     html += '</div>';
     
     // SEGUNDO: Imagem da armadura centralizada
