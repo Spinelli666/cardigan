@@ -1,0 +1,18 @@
+{
+  "_id": "P5kR8vM2zS0xN4tB",
+  "_key": "!folders!P5kR8vM2zS0xN4tB",
+  "name": "Armas Marciais Leves",
+  "type": "Item",
+  "color": "#d32f2f",
+  "sorting": "a",
+  "folder": "M1aR2cI3aL4wE5aP",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

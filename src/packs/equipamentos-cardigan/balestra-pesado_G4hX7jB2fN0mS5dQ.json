@@ -1,0 +1,53 @@
+{
+  "_id": "G4hX7jB2fN0mS5dQ",
+  "_key": "!items!G4hX7jB2fN0mS5dQ",
+  "name": "Balestra Pesada  ",
+  "type": "arma",
+  "img": "systems/cardigan/assets/images/weapons/sword.webp",
+  "folder": "C6vB0nK4zX1rT7sP",
+  "system": {
+    "description": "",
+    "weaponType": "Balestra Pesada",
+    "melee": false,
+    "ranged": true,
+    "isFirearm": false,
+    "magazine": 0,
+    "loadedAmmo": 0,
+    "loadedAmmoTypes": {},
+    "damage": {
+      "value": "18",
+      "useStrength": false,
+      "useDexterity": true,
+      "total": "18"
+    },
+    "properties": ["perfurar", "recarga"],
+    "rightHand": false,
+    "leftHand": false,
+    "weight": "pesado",
+    "price": 150,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "skillBonuses": [],
+    "equipped": false,
+    "magicalArtifact": false,
+    "protection": {
+      "enabled": false,
+      "value": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

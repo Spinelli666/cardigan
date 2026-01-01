@@ -1,0 +1,53 @@
+{
+  "_id": "K8mR3vP6nT9zL2sW",
+  "_key": "!items!K8mR3vP6nT9zL2sW",
+  "name": "Montante",
+  "type": "arma",
+  "img": "systems/cardigan/assets/images/weapons/sword.webp",
+  "folder": "N4vL7rM0kX3pS6zT",
+  "system": {
+    "description": "",
+    "weaponType": "Montante",
+    "melee": true,
+    "ranged": false,
+    "isFirearm": false,
+    "magazine": 0,
+    "loadedAmmo": 0,
+    "loadedAmmoTypes": {},
+    "damage": {
+      "value": "14",
+      "useStrength": true,
+      "useDexterity": false,
+      "total": "14"
+    },
+    "properties": ["perfurar", "extensao"],
+    "rightHand": false,
+    "leftHand": false,
+    "weight": "pesado",
+    "price": 60,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "skillBonuses": [],
+    "equipped": false,
+    "magicalArtifact": false,
+    "protection": {
+      "enabled": false,
+      "value": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "_id": "A1rM2aS3wE4aP5oN",
+  "_key": "!folders!A1rM2aS3wE4aP5oN",
+  "name": "Armas",
+  "type": "Item",
+  "color": "#ff5722",
+  "sorting": "a",
+  "folder": null,
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

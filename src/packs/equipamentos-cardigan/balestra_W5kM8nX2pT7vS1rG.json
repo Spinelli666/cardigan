@@ -1,0 +1,53 @@
+{
+  "_id": "W5kM8nX2pT7vS1rG",
+  "_key": "!items!W5kM8nX2pT7vS1rG",
+  "name": "Balestra",
+  "type": "arma",
+  "img": "systems/cardigan/assets/images/weapons/sword.webp",
+  "folder": "Q8fG1hL5pW3dY9mN",
+  "system": {
+    "description": "",
+    "weaponType": "Balestra",
+    "melee": false,
+    "ranged": true,
+    "isFirearm": false,
+    "magazine": 0,
+    "loadedAmmo": 0,
+    "loadedAmmoTypes": {},
+    "damage": {
+      "value": "10",
+      "useStrength": false,
+      "useDexterity": true,
+      "total": "10"
+    },
+    "properties": ["certeiro", "discreto"],
+    "rightHand": false,
+    "leftHand": false,
+    "weight": "leve",
+    "price": 40,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "skillBonuses": [],
+    "equipped": false,
+    "magicalArtifact": false,
+    "protection": {
+      "enabled": false,
+      "value": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}
