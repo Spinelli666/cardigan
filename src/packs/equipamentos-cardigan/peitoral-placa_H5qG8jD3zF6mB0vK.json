@@ -1,0 +1,49 @@
+{
+  "_id": "H5qG8jD3zF6mB0vK",
+  "_key": "!items!H5qG8jD3zF6mB0vK",
+  "name": "Peitoral de Placas",
+  "type": "armadura",
+  "img": "systems/cardigan/assets/images/armor/chest.webp",
+  "folder": "T1oR2sO3t4U5vW6x",
+  "system": {
+    "description": "",
+    "armorType": "torso",
+    "protecao": 6,
+    "armorClass": "Peitoral de Placas",
+    "equipped": false,
+    "skillBonuses": [],
+    "magicalArtifact": false,
+    "resistenciaFrio": true,
+    "stylish": false,
+    "bonusVida": 0,
+    "bonusEnergia": 0,
+    "bonusDeslocamento": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "bonusEspacoMochila": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "weight": "pesado",
+    "price": 210,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "quantity": 1
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}
