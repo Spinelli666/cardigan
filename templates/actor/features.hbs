@@ -724,8 +724,9 @@
         
         {{#if system.details.showEffectsTab}}
           {{! Unified Effects List - ActiveEffects and Items together }}
+          {{! ActiveEffects are filtered to hide duplicates of Item efeitos }}
           <ol class='effects-list'>
-            {{#each actor.effects as |effect|}}
+            {{#each filteredEffects as |effect|}}
               <li
                 class='effect flexrow'
                 data-effect-id='{{effect.id}}'
@@ -794,7 +795,7 @@
               </li>
             {{/each}}
 
-            {{#unless actor.effects.size}}
+            {{#unless filteredEffects.length}}
               {{#unless efeitos}}
               <li class="no-effects">
                 <span>No effects available</span>

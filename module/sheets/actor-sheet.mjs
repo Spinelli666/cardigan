@@ -164,6 +164,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Add profession filter state to context
     context.professionFilter = this.professionFilter || 'all';
+    
+    // Filter ActiveEffects to hide those that duplicate Item efeitos
+    // This prevents duplicate display in the effects list while keeping the ActiveEffect
+    // active for token icon display
+    context.filteredEffects = Array.from(this.actor.effects).filter(effect => {
+      // Check if there's an Item with the same name
+      const hasDuplicateItem = context.efeitos?.some(item => item.name === effect.name);
+      // Only show ActiveEffects that don't have a duplicate Item
+      return !hasDuplicateItem;
+    });
 
     return context;
   }

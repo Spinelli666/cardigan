@@ -367,6 +367,41 @@ Hooks.once('setup', () => {
 });
 
 /* -------------------------------------------- */
+/*  Prevent Duplicate Status Effects Display    */
+/* -------------------------------------------- */
+
+/**
+ * Hook to prevent duplicate status effects when applied via Token HUD
+ * If an effect with the same name already exists as an ActiveEffect, prevent creation
+ * Items (efeitos) are allowed to coexist with their visual ActiveEffect representation on tokens
+ */
+Hooks.on('preCreateActiveEffect', (effect, data, options, userId) => {
+  // Only process for actors
+  if (!(effect.parent instanceof Actor)) return true;
+  
+  const actor = effect.parent;
+  const effectName = effect.name;
+  
+  // Only check if this effect already exists as another ActiveEffect
+  // We allow ActiveEffects even if an Item with the same name exists (for token display)
+  const existingActiveEffect = actor.effects.find(e => 
+    e.id !== effect.id && e.name === effectName
+  );
+  
+  if (existingActiveEffect) {
+    console.log(`[CARDIGAN] ActiveEffect "${effectName}" already exists, preventing duplicate`);
+    
+    // Show a notification to the user
+    ui.notifications.warn(`O efeito "${effectName}" já está ativo no personagem.`);
+    
+    // Return false to prevent creation
+    return false;
+  }
+  
+  return true;
+});
+
+/* -------------------------------------------- */
 /*  Item Update Hook for Bidirectional Sync    */
 /* -------------------------------------------- */
 
