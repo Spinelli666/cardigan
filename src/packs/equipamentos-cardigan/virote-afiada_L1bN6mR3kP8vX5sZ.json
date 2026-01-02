@@ -1,0 +1,29 @@
+{
+  "_id": "L1bN6mR3kP8vX5sZ",
+  "_key": "!items!L1bN6mR3kP8vX5sZ",
+  "name": "Virote Afiado",
+  "type": "item-municao",
+  "img": "systems/cardigan/assets/images/weapons/special-ammunition.webp",
+  "folder": "Q3pB7zL1rY4nX0mG",
+  "system": {
+    "description": "",
+    "quantity": 1,
+    "weight": "leve",
+    "price": 18,
+    "isFirearmAmmo": false,
+    "isSpecialAmmo": true
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

@@ -797,21 +797,9 @@
     "ItemMunicao": {
       "Title": "Ammunition",
       "Subtitle": "Arrows, bullets, bolts and other projectiles",
-      "Type": "Ammunition Type",
       "Units": "units",
-      "Damage": "Damage Bonus",
-      "DamageHelp": "Additional damage (e.g., +1, +2)",
-      "Range": "Range Modifier",
-      "RangeUnit": "meters",
-      "Properties": "Special Properties",
-      "PropertiesPlaceholder": "Describe any special properties...",
-      "Types": {
-        "Arrow": "Arrow",
-        "Bolt": "Bolt",
-        "Bullet": "Bullet",
-        "Stone": "Stone",
-        "Dart": "Dart"
-      }
+      "IsFirearmAmmo": "Firearm Ammunition?",
+      "IsSpecialAmmo": "Special Ammunition?"
     },
     "ItemConsumivel": {
       "Title": "Consumable",

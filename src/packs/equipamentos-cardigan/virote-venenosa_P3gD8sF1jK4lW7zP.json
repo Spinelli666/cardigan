@@ -1,0 +1,29 @@
+{
+  "_id": "P3gD8sF1jK4lW7zP",
+  "_key": "!items!P3gD8sF1jK4lW7zP",
+  "name": "Virote Venenoso",
+  "type": "item-municao",
+  "img": "systems/cardigan/assets/images/weapons/special-ammunition.webp",
+  "folder": "Q3pB7zL1rY4nX0mG",
+  "system": {
+    "description": "",
+    "quantity": 1,
+    "weight": "leve",
+    "price": 18,
+    "isFirearmAmmo": false,
+    "isSpecialAmmo": true
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

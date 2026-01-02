@@ -1,7 +1,7 @@
 {
-  "_id": "N2vP7sH1kX5tG8wB",
-  "_key": "!items!N2vP7sH1kX5tG8wB",
-  "name": "Bomba",
+  "_id": "G4hL8zF1xV7nN0pQ",
+  "_key": "!items!G4hL8zF1xV7nN0pQ",
+  "name": "Bomba de Veneno",
   "type": "arma",
   "img": "systems/cardigan/assets/images/weapons/bomb.webp",
   "folder": "Q8fG1hL5pW3dY9mN",
@@ -24,7 +24,7 @@
     "rightHand": false,
     "leftHand": false,
     "weight": "leve",
-    "price": 50,
+    "price": 65,
     "durability": {
       "current": 3,
       "max": 3

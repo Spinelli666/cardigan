@@ -1,7 +1,7 @@
 {
-  "_id": "N2vP7sH1kX5tG8wB",
-  "_key": "!items!N2vP7sH1kX5tG8wB",
-  "name": "Bomba",
+  "_id": "H8vX2mN5sT9kP4zR",
+  "_key": "!items!H8vX2mN5sT9kP4zR",
+  "name": "Bomba de Draxium",
   "type": "arma",
   "img": "systems/cardigan/assets/images/weapons/bomb.webp",
   "folder": "Q8fG1hL5pW3dY9mN",
@@ -24,7 +24,7 @@
     "rightHand": false,
     "leftHand": false,
     "weight": "leve",
-    "price": 50,
+    "price": 65,
     "durability": {
       "current": 3,
       "max": 3

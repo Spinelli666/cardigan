@@ -1,0 +1,18 @@
+{
+  "_id": "J6mF2tW9nS5vK8xR",
+  "_key": "!folders!J6mF2tW9nS5vK8xR",
+  "name": "Munições Comuns",
+  "type": "Item",
+  "color": "#4caf50",
+  "sorting": "a",
+  "folder": "M9uN1cA2oE3sF4oL",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

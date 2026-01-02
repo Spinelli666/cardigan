@@ -12,7 +12,7 @@
     <div class="form-group">
       <label>{{localize "CARDIGAN.Common.Quantity"}}</label>
       <div class="form-fields">
-        <input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="1"/>
+        <input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="0"/>
         <span class="unit">{{localize "CARDIGAN.ItemMunicao.Units"}}</span>
       </div>
     </div>
@@ -23,12 +23,9 @@
         <option value="leve" {{selected system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
         <option value="medio" {{selected system.weight "medio"}}>{{localize "CARDIGAN.WeightMedium"}}</option>
         <option value="pesado" {{selected system.weight "pesado"}}>{{localize "CARDIGAN.WeightHeavy"}}</option>
-        <option value="muito-pesado" {{selected system.weight "muito-pesado"}}>{{localize "CARDIGAN.WeightVeryHeavy"}}</option>
       </select>
     </div>
-  </div>
 
-  <div class="backpack-form-section">
     <div class="form-group">
       <label>{{localize "CARDIGAN.Common.Price"}}</label>
       <div class="form-fields">
@@ -36,19 +33,20 @@
         <span class="unit">{{localize "CARDIGAN.Currency.Gold"}}</span>
       </div>
     </div>
+  </div>
 
-    <div class="form-group">
+  <div class="backpack-form-section">
     <div class="form-group">
       <label class="checkbox">
         <input type="checkbox" name="system.isFirearmAmmo" {{checked system.isFirearmAmmo}} data-dtype="Boolean"/>
-        Ammunition for Firearm?
+        {{localize "CARDIGAN.ItemMunicao.IsFirearmAmmo"}}
       </label>
     </div>
     
     <div class="form-group">
       <label class="checkbox">
         <input type="checkbox" name="system.isSpecialAmmo" {{checked system.isSpecialAmmo}} data-dtype="Boolean"/>
-        Special Ammunition
+        {{localize "CARDIGAN.ItemMunicao.IsSpecialAmmo"}}
       </label>
     </div>
   </div>

@@ -1,9 +1,9 @@
 {
-  "_id": "N2vP7sH1kX5tG8wB",
-  "_key": "!items!N2vP7sH1kX5tG8wB",
-  "name": "Bomba",
+  "_id": "B1qL7dF4zW0jY6mS",
+  "_key": "!items!B1qL7dF4zW0jY6mS",
+  "name": "Bomba de Fumaça",
   "type": "arma",
-  "img": "systems/cardigan/assets/images/weapons/bomb.webp",
+  "img": "systems/cardigan/assets/images/weapons/smoke-bomb.webp",
   "folder": "Q8fG1hL5pW3dY9mN",
   "system": {
     "description": "",
@@ -24,7 +24,7 @@
     "rightHand": false,
     "leftHand": false,
     "weight": "leve",
-    "price": 50,
+    "price": 65,
     "durability": {
       "current": 3,
       "max": 3

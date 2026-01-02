@@ -20,7 +20,12 @@ export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
     schema.weight = new fields.StringField({
       required: true,
       blank: false,
-      initial: "leve"
+      initial: "leve",
+      choices: {
+        "leve": "CARDIGAN.WeightLight",
+        "medio": "CARDIGAN.WeightMedium",
+        "pesado": "CARDIGAN.WeightHeavy"
+      }
     });
 
     schema.price = new fields.NumberField({
@@ -28,19 +33,6 @@ export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
       nullable: false,
       initial: 0,
       min: 0,
-    });
-
-    // Ammunition fields
-    schema.ammunitionType = new fields.StringField({
-      required: false,
-      initial: "arrow",
-      choices: {
-        "arrow": "CARDIGAN.ItemMunicao.Types.Arrow",
-        "bolt": "CARDIGAN.ItemMunicao.Types.Bolt", 
-        "bullet": "CARDIGAN.ItemMunicao.Types.Bullet",
-        "stone": "CARDIGAN.ItemMunicao.Types.Stone",
-        "dart": "CARDIGAN.ItemMunicao.Types.Dart"
-      }
     });
 
     schema.isFirearmAmmo = new fields.BooleanField({

@@ -1,0 +1,29 @@
+{
+  "_id": "Q1cN7mB4xZ9lQ2rT",
+  "_key": "!items!Q1cN7mB4xZ9lQ2rT",
+  "name": "Virote Gélido",
+  "type": "item-municao",
+  "img": "systems/cardigan/assets/images/weapons/special-ammunition.webp",
+  "folder": "Q3pB7zL1rY4nX0mG",
+  "system": {
+    "description": "",
+    "quantity": 1,
+    "weight": "leve",
+    "price": 18,
+    "isFirearmAmmo": false,
+    "isSpecialAmmo": true
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}
