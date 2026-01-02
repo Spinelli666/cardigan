@@ -3,7 +3,7 @@
   "_key": "!items!sS7tT8uU9vV0wW1X",
   "name": "Derrotado",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/derrotado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Você recebeu um golpe fatal e está <code>💤Inconsciente</code>, não podendo realizar nenhum tipo de ação, se mover ou falar, mas também está gravemente ferido, à beira da morte, e por isso deve realizar o teste de <strong>Julgamento</strong>.</p>",
     "efeitoType": "negativo"

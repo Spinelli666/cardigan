@@ -3,7 +3,7 @@
   "_key": "!items!cC2dE4fF5gG6hH7i",
   "name": "Surdo",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/surdo.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Não pode ouvir e recebe <em>Desvantagem Aprimorada</em> em qualquer teste que requeira sua audição.</p>",
     "efeitoType": "negativo"

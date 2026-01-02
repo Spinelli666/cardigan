@@ -280,6 +280,12 @@
   display: none !important;
 }
 
+/* Token HUD - Status Effects customization */
+#token-hud .status-effects {
+  --effect-columns: 6;
+  --effect-size: 42px;
+}
+
 /* ProseMirror - Comportamento padrão do Foundry VTT */
 /* Sem customizações - deixando o editor funcionar naturalmente */
 /* Styles limited to cardigan sheets */

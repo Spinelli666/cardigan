@@ -3,7 +3,7 @@
   "_key": "!items!jK7kL8lM9mN0nO1o",
   "name": "Incendiado",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/incendiado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Está coberto de chamas, recebendo <code>10🔥</code> dano de Fogo a cada rodada enquanto o efeito durar.</p>",
     "efeitoType": "negativo"

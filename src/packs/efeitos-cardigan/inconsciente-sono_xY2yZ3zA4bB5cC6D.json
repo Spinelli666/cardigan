@@ -3,7 +3,7 @@
   "_key": "!items!xY2yZ3zA4bB5cC6D",
   "name": "Inconsciente・Sono",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/inconsciente-sono.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Você cai desacordado, não podendo realizar nenhum tipo de ação, se mover ou falar.</p>",
     "efeitoType": "negativo"

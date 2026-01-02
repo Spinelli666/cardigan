@@ -3,7 +3,7 @@
   "_key": "!items!A1bC2dE3fG4hI5jK",
   "name": "Apavorado",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/apavorado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">É obrigado tentar fugir da batalha ou de quem lhe apavorou enquanto durar esta condição.</p>",
     "efeitoType": "negativo"

@@ -3,7 +3,7 @@
   "_key": "!items!Vv8Ww9Xx0Yy1Zz2A",
   "name": "Enraizado",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/enraizado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Não pode usar ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong>.</p>",
     "efeitoType": "negativo"

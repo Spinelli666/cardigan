@@ -3,7 +3,7 @@
   "_key": "!items!Z2aA3bB4cCd5eE6F",
   "name": "Sangramento",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/sangramento.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Sempre que realizar testes de <em>Precisão, Evasão, Força e Destreza</em>, você recebe <strong><code>5🩸</code></strong> de Dano Físico. Fora de Combate este efeito ocorre a cada <strong>10</strong> minutos. Pode ser removido com <strong>::systems/cardigan/assets/images/alchemy/bandage.webp::Bandagem Curativa</strong> e <strong>::systems/cardigan/assets/images/alchemy/surgical-kit.webp::Conjunto Cirúrgico</strong>.</p>",
     "efeitoType": "negativo"

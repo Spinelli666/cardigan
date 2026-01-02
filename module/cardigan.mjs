@@ -270,8 +270,79 @@ Hooks.once('init', function () {
 });
 
 /* -------------------------------------------- */
-/*  Setup Hook - Text Enrichers                 */
+/*  Status Effects Loader                       */
 /* -------------------------------------------- */
+
+/**
+ * Load status effects from the efeitos-cardigan compendium
+ * and populate CONFIG.statusEffects for token HUD
+ */
+async function loadStatusEffects() {
+  try {
+    console.log('[CARDIGAN] Loading status effects from compendium...');
+    
+    // Get the effects compendium
+    const pack = game.packs.get('cardigan.efeitos-cardigan');
+    if (!pack) {
+      console.warn('[CARDIGAN] Effects compendium not found');
+      return;
+    }
+    
+    // Load all documents from the compendium
+    const documents = await pack.getDocuments();
+    
+    // Initialize status effects array
+    CONFIG.statusEffects = [];
+    
+    // Separate effects by type
+    const positiveEffects = [];
+    const negativeEffects = [];
+    
+    // Process each effect
+    for (const doc of documents) {
+      if (doc.type !== 'efeito') continue;
+      
+      const effectData = {
+        id: doc.name.toLowerCase().replace(/\s+/g, '-'),
+        name: doc.name,
+        img: doc.img,
+        // Store reference to the compendium item for later use
+        _source: `Compendium.cardigan.efeitos-cardigan.Item.${doc.id}`
+      };
+      
+      // Separate by type
+      if (doc.system.efeitoType === 'positivo') {
+        positiveEffects.push(effectData);
+      } else {
+        negativeEffects.push(effectData);
+      }
+    }
+    
+    // Sort alphabetically
+    positiveEffects.sort((a, b) => a.name.localeCompare(b.name));
+    negativeEffects.sort((a, b) => a.name.localeCompare(b.name));
+    
+    // Add to CONFIG in order: negative effects first, then positive
+    // (this matches common RPG convention where debuffs are listed first)
+    CONFIG.statusEffects = [...negativeEffects, ...positiveEffects];
+    
+    console.log(`[CARDIGAN] Loaded ${CONFIG.statusEffects.length} status effects (${negativeEffects.length} negative, ${positiveEffects.length} positive)`);
+    
+  } catch (error) {
+    console.error('[CARDIGAN] Error loading status effects:', error);
+  }
+}
+
+/* -------------------------------------------- */
+/*  Setup Hook - Status Effects & Text Enrichers */
+/* -------------------------------------------- */
+
+Hooks.once('setup', async () => {
+  // Load status effects from compendium
+  await loadStatusEffects();
+  
+  console.log('[CARDIGAN] Status effects configured:', CONFIG.statusEffects);
+})
 
 Hooks.once('setup', () => {
   // Enricher para imagens inline no ProseMirror

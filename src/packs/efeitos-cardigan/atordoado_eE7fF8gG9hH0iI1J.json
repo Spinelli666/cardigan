@@ -3,7 +3,7 @@
   "_key": "!items!eE7fF8gG9hH0iI1J",
   "name": "Atordoado",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/atordoado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Deve passar em um teste de <strong>Vigor</strong> <code>Dif.20</code> no início de seu turno para realizar qualquer ação nesta rodada. Também deve passar em um teste de <strong>Vigor</strong> <code>Dif.16</code> antes de rolar sua <strong>Evasão</strong> ao ser alvejado por ataques ou receberá o dano instantaneamente. O número de rodadas que você passou atordoado equivale a quantas rodadas você não poderá ser atordoado novamente.</p>",
     "efeitoType": "negativo"

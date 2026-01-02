@@ -3,7 +3,7 @@
   "_key": "!items!L8mN9oP0qR1sT2uV",
   "name": "Exaustão",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/exaustao.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Adquirido de diversas formas mas principalmente ao passar mais de <strong>24h</strong> acordado, ou ao preencher os níveis de <code>🍗</code>/<code>💧</code>, este <em>Efeito Negativo</em> aplica <strong>Desvantagem</strong> cumulativa em todo tipo de teste até que seja removido com um <strong>Descanso</strong>. Caso preencha seus níveis de <code>🍗</code>/<code>💧</code> ao mesmo tempo, este efeito vira uma <strong>Desvantagem Aprimorada</strong> que pode continuar a acumular por outras fontes.</p>",
     "efeitoType": "negativo"

@@ -3,7 +3,7 @@
   "_key": "!items!L2mN4oPqR3sT5uVw",
   "name": "Veloz",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-positive.webp",
+  "img": "systems/cardigan/assets/images/effects/veloz.webp",
   "system": {
     "description": "<p style=\"text-align: justify;\">Recebe uma Ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> adicional.</p>",
     "efeitoType": "positivo"

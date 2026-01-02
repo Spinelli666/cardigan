@@ -3,7 +3,7 @@
   "_key": "!items!Uu2vV3wW4xX5yY6z",
   "name": "Paralisado",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/paralisado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Está paralisado e não pode realizar nenhuma ação ou teste até terminar o efeito.</p>",
     "efeitoType": "negativo"

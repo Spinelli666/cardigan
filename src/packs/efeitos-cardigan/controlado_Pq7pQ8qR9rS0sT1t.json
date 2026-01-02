@@ -3,7 +3,7 @@
   "_key": "!items!Pq7pQ8qR9rS0sT1t",
   "name": "Controlado",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/controlado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Seu personagem será completamente controlado por quem o aplicou este efeito, mas apenas fisicamente, com você mantendo sua consciência e personalidade própria.</p>",
     "efeitoType": "negativo"

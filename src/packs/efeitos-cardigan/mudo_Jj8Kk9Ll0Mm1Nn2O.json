@@ -3,7 +3,7 @@
   "_key": "!items!Jj8Kk9Ll0Mm1Nn2O",
   "name": "Mudo",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/mudo.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Não pode falar e recebe <em>Desvantagem Aprimorada</em> em qualquer teste que requeira sua fala.</p>",
     "efeitoType": "negativo"

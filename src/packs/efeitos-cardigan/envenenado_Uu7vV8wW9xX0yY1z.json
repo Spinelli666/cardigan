@@ -3,7 +3,7 @@
   "_key": "!items!Uu7vV8wW9xX0yY1z",
   "name": "Envenenado",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-negative.webp",
+  "img": "systems/cardigan/assets/images/effects/envenenado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Enquanto com este efeito, sempre que receber qualquer tipo de dano você receberá <code>5🐍</code> dano de Veneno adicional. Caso não receba dano enquanto envenenado, quando o efeito terminar você receberá <code>20🐍</code>. Também causa <code>1☣️</code> pontos de <em>Toxidade</em>.</p>",
     "efeitoType": "negativo"

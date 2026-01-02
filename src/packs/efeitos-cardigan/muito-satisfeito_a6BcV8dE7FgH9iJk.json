@@ -3,7 +3,7 @@
   "_key": "!items!a6BcV8dE7FgH9iJk",
   "name": "Muito Satisfeito",
   "type": "efeito",
-  "img": "systems/cardigan/assets/images/effects/effects-positive.webp",
+  "img": "systems/cardigan/assets/images/effects/muito-satisfeito.webp",
   "system": {
     "description": "<p style=\"text-align: justify;\">Recebe <code>💔PV</code> e <code>⚡️PE</code> <code>Temporários</code> das receitas de Culinária permanecerão até seu próximo <em>Descanso</em>.</p>",
     "efeitoType": "positivo"
