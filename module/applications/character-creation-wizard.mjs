@@ -9,7 +9,7 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
     super(options);
     this.actor = actor;
     this.currentStep = 1;
-    this.totalSteps = 3; // Etapa 1: Raça, Etapa 2: Skills, Etapa 3: Abilities
+    this.totalSteps = 4; // Etapa 1: Raça, Etapa 2: Skills, Etapa 3: Abilities, Etapa 4: Equipamentos
     this.selectedRace = null;
     this.races = [];
     this.skills = {};
@@ -29,6 +29,15 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
     for (const abilityKey in CONFIG.CARDIGAN.abilities) {
       this.abilityPoints[abilityKey] = 0;
     }
+    
+    // Etapa 4: Equipamentos
+    this.equipmentBudget = 0; // Será rolado ao entrar na etapa 4
+    this.budgetRolled = false; // Flag para saber se o budget já foi rolado
+    this.equipmentCategories = {}; // { categoryId: { name, items: [], expanded: false } }
+    this.selectedEquipment = []; // Array de UUIDs de equipamentos selecionados
+    
+    // Bônus de atributos da raça
+    this.raceAbilityBonuses = {};
   }
 
   static DEFAULT_OPTIONS = {
@@ -55,7 +64,10 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       selectEnhancement: CharacterCreationWizard.#onSelectEnhancement,
       increaseAbility: CharacterCreationWizard.#onIncreaseAbility,
       decreaseAbility: CharacterCreationWizard.#onDecreaseAbility,
-      randomizeAbilities: CharacterCreationWizard.#onRandomizeAbilities
+      randomizeAbilities: CharacterCreationWizard.#onRandomizeAbilities,
+      rollBudget: CharacterCreationWizard.#onRollBudget,
+      toggleCategory: CharacterCreationWizard.#onToggleCategory,
+      selectEquipment: CharacterCreationWizard.#onSelectEquipment
     }
   };
 
@@ -173,10 +185,13 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       const abilities = [];
       
       for (const [key, labelKey] of Object.entries(CONFIG.CARDIGAN.abilities)) {
+        const raceBonus = this.raceAbilityBonuses[key] || 0;
         abilities.push({
           key: key,
           label: game.i18n.localize(labelKey),
           points: this.abilityPoints[key] || 0,
+          raceBonus: raceBonus,
+          total: (this.abilityPoints[key] || 0) + raceBonus,
           canIncrease: this._canIncreaseAbility(key),
           canDecrease: this.abilityPoints[key] > 0
         });
@@ -196,6 +211,51 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       context.basePointsRemaining = this.baseAbilityPoints - basePointsUsed;
       context.bonusPointsRemaining = this.bonusAbilityPoints - bonusPointsUsed;
       context.totalAbilityPoints = totalAbilityPoints;
+    }
+    
+    // Adicionar dados da etapa 4 (Equipamentos)
+    if (this.currentStep === 4) {
+      // Carregar equipamentos se ainda não foram carregados
+      if (Object.keys(this.equipmentCategories).length === 0) {
+        await this._loadEquipment();
+      }
+      
+      // Preparar dados das categorias e ordenar
+      const categories = Object.entries(this.equipmentCategories)
+        .map(([id, category]) => ({
+          id: id,
+          name: category.name,
+          expanded: category.expanded,
+          order: category.order || 999,
+          items: category.items.map(item => ({
+            uuid: item.uuid,
+            name: item.name,
+            price: item.system.price || 0,
+            selected: this.selectedEquipment.includes(item.uuid),
+            img: item.img
+          }))
+        }))
+        .sort((a, b) => a.order - b.order);
+      
+      context.equipmentCategories = categories;
+      context.equipmentBudget = this.equipmentBudget;
+      context.budgetRolled = this.budgetRolled;
+      
+      // Calcular gasto total
+      let totalSpent = 0;
+      for (const itemUuid of this.selectedEquipment) {
+        // Encontrar o item nas categorias
+        for (const category of Object.values(this.equipmentCategories)) {
+          const item = category.items.find(i => i.uuid === itemUuid);
+          if (item) {
+            totalSpent += item.system.price || 0;
+            break;
+          }
+        }
+      }
+      
+      context.totalSpent = totalSpent;
+      context.remainingBudget = this.equipmentBudget - totalSpent;
     }
 
     return context;
@@ -220,7 +280,8 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
             img: race.img || 'icons/svg/mystery-man.svg',
             uuid: race.uuid,
             system: {
-              description: race.system.description || ''
+              description: race.system.description || '',
+              abilityModifiers: race.system.abilityModifiers || {}
             },
             source: 'compendium',
             selected: false
@@ -237,7 +298,8 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
           img: race.img || 'icons/svg/mystery-man.svg',
           uuid: race.uuid,
           system: {
-            description: race.system.description || ''
+            description: race.system.description || '',
+            abilityModifiers: race.system.abilityModifiers || {}
           },
           source: 'world',
           selected: false
@@ -255,6 +317,90 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
   }
 
   /**
+   * Carrega equipamentos do compendium organizados por pastas
+   */
+  async _loadEquipment() {
+    try {
+      const pack = game.packs.get("cardigan.equipamentos-cardigan");
+      if (!pack) {
+        console.error('[CharacterWizard] Equipment compendium not found');
+        return;
+      }
+      
+      // Carregar todos os documentos (items e folders)
+      const documents = await pack.getDocuments();
+      
+      // Obter folders do pack
+      const folders = pack.folders || [];
+      
+      // Criar map de folders por ID
+      const folderMap = new Map();
+      for (const folder of folders) {
+        folderMap.set(folder.id, {
+          id: folder.id,
+          name: folder.name,
+          items: [],
+          expanded: false
+        });
+      }
+      
+      // Organizar items por folder
+      for (const doc of documents) {
+        if (doc.folder && folderMap.has(doc.folder.id)) {
+          const folder = folderMap.get(doc.folder.id);
+          folder.items.push({
+            uuid: doc.uuid,
+            name: doc.name,
+            img: doc.img,
+            system: doc.system
+          });
+        }
+      }
+      
+      // Converter map para objeto e ordenar items por nome
+      // Definir ordem específica das categorias
+      const categoryOrder = {
+        'cabeca': 1,
+        'torso': 2,
+        'bracos': 3,
+        'pernas': 4,
+        'pes': 5,
+        'acessorios': 6,
+        'armas-marciais-leves': 7,
+        'armas-marciais-pesadas': 8,
+        'armas-distancia-leves': 9,
+        'armas-distancia-pesadas': 10,
+        'municoes-comuns': 11,
+        'municoes-especiais': 12
+      };
+      
+      this.equipmentCategories = {};
+      for (const [id, folder] of folderMap) {
+        if (folder.items.length > 0) {
+          folder.items.sort((a, b) => a.name.localeCompare(b.name));
+          // Adicionar ordem baseada no nome da pasta (normalizado)
+          const normalizedName = folder.name.toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[àáâãäå]/g, 'a')
+            .replace(/ç/g, 'c')
+            .replace(/[èéêë]/g, 'e')
+            .replace(/[ìíîï]/g, 'i')
+            .replace(/[òóôõö]/g, 'o')
+            .replace(/[ùúûü]/g, 'u')
+            .replace(/\s+/g, '-');
+          folder.order = categoryOrder[normalizedName] || 999;
+          this.equipmentCategories[id] = folder;
+        }
+      }
+      
+      console.log('[CharacterWizard] Loaded equipment categories:', Object.keys(this.equipmentCategories).length);
+    } catch (error) {
+      console.error('[CharacterWizard] Error loading equipment:', error);
+      ui.notifications.error("Erro ao carregar equipamentos");
+    }
+  }
+
+  /**
    * Retorna o título da etapa atual
    */
   _getStepTitle() {
@@ -265,6 +411,8 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         return "Distribuir Pontos de Habilidades";
       case 3:
         return "Distribuir Pontos de Atributos";
+      case 4:
+        return "Escolher Equipamentos";
       default:
         return "";
     }
@@ -431,6 +579,10 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       this.selectedRace = selectedRace;
       cardElement.classList.add('selected');
       console.log('[CharacterWizard] Selected race:', selectedRace.name);
+      
+      // Armazenar os bônus de atributos da raça
+      this.raceAbilityBonuses = selectedRace.system?.abilityModifiers || {};
+      console.log('[CharacterWizard] Race ability bonuses:', this.raceAbilityBonuses);
       
       // Ajustar pontos de habilidade baseado na raça
       // Elfo = 3 pontos (mas começa no nível 1 também)
@@ -649,6 +801,14 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         }
         
         return true;
+      case 4:
+        // Validar que o orçamento foi rolado
+        if (!this.budgetRolled) {
+          ui.notifications.warn("Role o orçamento antes de continuar");
+          return false;
+        }
+        
+        return true;
       default:
         return true;
     }
@@ -750,6 +910,104 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
   }
 
   /**
+   * Handler para rolar o orçamento de equipamentos
+   */
+  static async #onRollBudget(event, target) {
+    // Rolar 4d100+100 com vantagem (rola duas vezes, pega o maior)
+    const roll1 = new Roll("4d100 + 100");
+    await roll1.evaluate();
+    
+    const roll2 = new Roll("4d100 + 100");
+    await roll2.evaluate();
+    
+    // Pegar o maior resultado
+    this.equipmentBudget = Math.max(roll1.total, roll2.total);
+    this.budgetRolled = true;
+    
+    // Mostrar as duas rolagens no chat
+    await roll1.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      flavor: `🎲 Orçamento Inicial (Rolagem 1)`
+    });
+    
+    await roll2.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      flavor: `🎲 Orçamento Inicial (Rolagem 2)`
+    });
+    
+    // Mensagem final com o resultado escolhido
+    ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      content: `<div class="cardigan-chat-message">
+        <h3>💰 Orçamento para Equipamentos</h3>
+        <p><strong>Resultado Final:</strong> ${this.equipmentBudget} moedas de ouro</p>
+        <p><em>O maior resultado entre as duas rolagens foi escolhido!</em></p>
+      </div>`
+    });
+    
+    await this.render(true);
+  }
+
+  /**
+   * Handler para expandir/colapsar categoria de equipamento
+   */
+  static async #onToggleCategory(event, target) {
+    const categoryId = target.dataset.categoryId;
+    if (!categoryId || !this.equipmentCategories[categoryId]) return;
+    
+    this.equipmentCategories[categoryId].expanded = !this.equipmentCategories[categoryId].expanded;
+    await this.render(true);
+  }
+
+  /**
+   * Handler para selecionar/desselecionar equipamento
+   */
+  static async #onSelectEquipment(event, target) {
+    const itemUuid = target.dataset.itemUuid;
+    if (!itemUuid) return;
+    
+    const index = this.selectedEquipment.indexOf(itemUuid);
+    
+    if (index > -1) {
+      // Desselecionar
+      this.selectedEquipment.splice(index, 1);
+    } else {
+      // Selecionar - verificar se tem orçamento suficiente
+      // Encontrar o item nas categorias
+      let itemPrice = 0;
+      for (const category of Object.values(this.equipmentCategories)) {
+        const item = category.items.find(i => i.uuid === itemUuid);
+        if (item) {
+          itemPrice = item.system.price || 0;
+          break;
+        }
+      }
+      
+      // Calcular gasto atual
+      let totalSpent = 0;
+      for (const selectedUuid of this.selectedEquipment) {
+        for (const category of Object.values(this.equipmentCategories)) {
+          const item = category.items.find(i => i.uuid === selectedUuid);
+          if (item) {
+            totalSpent += item.system.price || 0;
+            break;
+          }
+        }
+      }
+      
+      // Verificar se tem orçamento suficiente
+      if (totalSpent + itemPrice > this.equipmentBudget) {
+        ui.notifications.warn(`Orçamento insuficiente! Você tem ${this.equipmentBudget - totalSpent} moedas restantes.`);
+        return;
+      }
+      
+      this.selectedEquipment.push(itemUuid);
+    }
+    
+    await this.render(true);
+  }
+
+  /**
    * Handler para botão Concluir
    */
   static async #onFinish(event, target) {
@@ -838,6 +1096,43 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
     // Criar todos os items de uma vez
       if (itemsToAdd.length > 0) {
         await this.actor.createEmbeddedDocuments("Item", itemsToAdd);
+      }
+      
+      // Adicionar equipamentos selecionados
+      if (this.selectedEquipment.length > 0) {
+        const equipmentToAdd = [];
+        for (const itemUuid of this.selectedEquipment) {
+          const equipmentDoc = await fromUuid(itemUuid);
+          if (equipmentDoc) {
+            equipmentToAdd.push(equipmentDoc.toObject());
+          }
+        }
+        
+        if (equipmentToAdd.length > 0) {
+          await this.actor.createEmbeddedDocuments("Item", equipmentToAdd);
+          console.log('[CharacterWizard] Added equipment items:', equipmentToAdd.length);
+        }
+      }
+      
+      // Subtrair o gasto total das moedas do personagem
+      if (this.budgetRolled && this.selectedEquipment.length > 0) {
+        let totalSpent = 0;
+        for (const itemUuid of this.selectedEquipment) {
+          for (const category of Object.values(this.equipmentCategories)) {
+            const item = category.items.find(i => i.uuid === itemUuid);
+            if (item) {
+              totalSpent += item.system.price || 0;
+              break;
+            }
+          }
+        }
+        
+        // Definir moedas restantes
+        const remainingGold = this.equipmentBudget - totalSpent;
+        await this.actor.update({
+          'system.money': remainingGold
+        });
+        console.log('[CharacterWizard] Set remaining gold:', remainingGold);
       }
 
       // Aplicar aprimoramentos selecionados

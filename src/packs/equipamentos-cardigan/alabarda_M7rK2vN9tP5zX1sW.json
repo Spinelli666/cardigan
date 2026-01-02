@@ -1,13 +1,13 @@
 {
-  "_id": "X5bN1qG4jH7mD0fS",
-  "_key": "!items!X5bN1qG4jH7mD0fS",
-  "name": "Machado Pesado",
+  "_id": "M7rK2vN9tP5zX1sW",
+  "_key": "!items!M7rK2vN9tP5zX1sW",
+  "name": "Alabarda",
   "type": "arma",
-  "img": "systems/cardigan/assets/images/weapons/heavy-axe.webp",
+  "img": "systems/cardigan/assets/images/weapons/halberd.webp",
   "folder": "N4vL7rM0kX3pS6zT",
   "system": {
     "description": "",
-    "weaponType": "Machado Pesado",
+    "weaponType": "Alabarda",
     "melee": true,
     "ranged": false,
     "isFirearm": false,
@@ -20,7 +20,7 @@
       "useDexterity": false,
       "total": "14"
     },
-    "properties": ["ferir", "traspassar"],
+    "properties": ["perfurar", "extensao"],
     "rightHand": false,
     "leftHand": false,
     "weight": "pesado",

@@ -13463,10 +13463,25 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .character-creation-wizard .ability-distribution .ability-row .ability-label {
   flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .character-creation-wizard .ability-distribution .ability-row .ability-label strong {
   font-size: 16px;
   color: var(--cardigan-c-dark);
+}
+.character-creation-wizard .ability-distribution .ability-row .ability-label .race-bonus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 7px;
+  background: #4caf50;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 10px;
+  opacity: 0.9;
 }
 .character-creation-wizard .ability-distribution .ability-row .ability-controls {
   display: flex;
@@ -13474,11 +13489,38 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   gap: 15px;
 }
 .character-creation-wizard .ability-distribution .ability-row .ability-controls .ability-value {
-  font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
   font-weight: bold;
+  min-width: 120px;
+  justify-content: center;
+}
+.character-creation-wizard .ability-distribution .ability-row .ability-controls .ability-value .points-allocated {
+  color: #64b5f6;
+  font-size: 18px;
+  font-weight: 600;
+}
+.character-creation-wizard .ability-distribution .ability-row .ability-controls .ability-value .points-separator {
+  color: #888;
+  font-size: 14px;
+  font-weight: normal;
+}
+.character-creation-wizard .ability-distribution .ability-row .ability-controls .ability-value .points-race {
   color: #4caf50;
-  min-width: 40px;
-  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+.character-creation-wizard .ability-distribution .ability-row .ability-controls .ability-value .points-total {
+  color: #ff9800;
+  font-size: 20px;
+  font-weight: bold;
+}
+.character-creation-wizard .ability-distribution .ability-row .ability-controls .ability-value .points-total-single {
+  color: #ff9800;
+  font-size: 18px;
+  font-weight: 600;
 }
 .character-creation-wizard .ability-distribution .ability-row .ability-controls .ability-btn {
   width: 36px;
@@ -13609,6 +13651,277 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .character-creation-wizard .wizard-button.next:hover, .character-creation-wizard .wizard-button.finish:hover {
   background: #45a049;
+}
+.character-creation-wizard {
+  /* ============================================ */
+  /*  Equipment Selection (Step 4)               */
+  /* ============================================ */
+}
+.character-creation-wizard .equipment-selection .budget-roller {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
+  border-radius: 12px;
+  border: 2px dashed var(--cardigan-c-beige);
+}
+.character-creation-wizard .equipment-selection .budget-roller .instruction {
+  font-size: 16px;
+  margin-bottom: 25px;
+  color: var(--cardigan-c-dark);
+}
+.character-creation-wizard .equipment-selection .budget-roller .roll-budget-button {
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+  color: var(--cardigan-c-dark);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+.character-creation-wizard .equipment-selection .budget-roller .roll-budget-button i {
+  margin-right: 10px;
+  animation: diceRoll 2s infinite;
+}
+.character-creation-wizard .equipment-selection .budget-roller .roll-budget-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #ffca28 0%, #ffa726 100%);
+}
+.character-creation-wizard .equipment-selection .budget-roller .roll-budget-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.character-creation-wizard .equipment-selection .budget-roller .roll-info {
+  margin-top: 15px;
+  font-size: 13px;
+  color: var(--cardigan-c-tan);
+  font-style: italic;
+}
+.character-creation-wizard .equipment-selection .budget-display {
+  margin-bottom: 25px;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(46, 125, 50, 0.1) 100%);
+  border: 2px solid #4caf50;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card h3 {
+  margin: 0 0 15px 0;
+  color: #2e7d32;
+  font-size: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card h3 i {
+  color: #ffc107;
+  font-size: 24px;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values > div {
+  text-align: center;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values > div .label {
+  display: block;
+  font-size: 12px;
+  color: var(--cardigan-c-tan);
+  margin-bottom: 5px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values > div .value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values > div .value i {
+  font-size: 18px;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values .budget-total {
+  border-left: 3px solid #2196f3;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values .budget-total .value {
+  color: #1976d2;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values .budget-total .value i.gold {
+  color: #ffc107;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values .budget-spent {
+  border-left: 3px solid #ff9800;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values .budget-spent .value {
+  color: #f57c00;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values .budget-spent .value i.spent {
+  color: #ff5722;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values .budget-remaining {
+  border-left: 3px solid #4caf50;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values .budget-remaining .value {
+  color: #2e7d32;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values .budget-remaining .value i.remaining {
+  color: #66bb6a;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values .budget-remaining.negative {
+  border-left-color: #f44336;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values .budget-remaining.negative .value {
+  color: #c62828;
+}
+.character-creation-wizard .equipment-selection .budget-display .budget-card .budget-values .budget-remaining.negative .value i.remaining {
+  color: #ef5350;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .instruction {
+  margin-bottom: 15px;
+  text-align: left;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category {
+  margin-bottom: 15px;
+  background: var(--cardigan-c-groove);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--cardigan-c-beige);
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-header {
+  padding: 12px 15px;
+  background: linear-gradient(135deg, rgba(139, 109, 80, 0.2) 0%, rgba(101, 67, 33, 0.2) 100%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-header:hover {
+  background: linear-gradient(135deg, rgba(139, 109, 80, 0.3) 0%, rgba(101, 67, 33, 0.3) 100%);
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-header i {
+  color: var(--cardigan-c-dark);
+  transition: transform 0.3s ease;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-header strong {
+  flex: 1;
+  color: var(--cardigan-c-dark);
+  font-size: 15px;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-header .item-count {
+  color: var(--cardigan-c-tan);
+  font-size: 12px;
+  font-weight: normal;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.15);
+  animation: slideDown 0.3s ease;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: #f5f5f5;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item:hover {
+  background: #ffffff;
+  border-color: var(--cardigan-c-beige);
+  transform: translateX(5px);
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item.selected {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(46, 125, 50, 0.2) 100%);
+  border-color: #4caf50;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item.selected .item-name {
+  color: #2e7d32;
+  font-weight: bold;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item.selected .item-price {
+  color: #1b5e20;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item.selected .selected-icon {
+  color: #4caf50;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item .item-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--cardigan-c-beige);
+  flex-shrink: 0;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item .item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item .item-info .item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cardigan-c-dark);
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item .item-info .item-price {
+  font-size: 12px;
+  color: var(--cardigan-c-tan);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item .item-info .item-price i {
+  color: #ffc107;
+  font-size: 11px;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item .selected-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.character-creation-wizard .equipment-selection .equipment-categories .equipment-category .category-items .equipment-item:last-child {
+  margin-bottom: 0;
+}
+@keyframes diceRoll {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-15deg);
+  }
+  75% {
+    transform: rotate(15deg);
+  }
+}
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Enhancement tooltip styles (global) */

@@ -141,6 +141,9 @@
             <div class="ability-row">
               <div class="ability-label">
                 <strong>{{label}}</strong>
+                {{#if raceBonus}}
+                  <span class="race-bonus" title="Bônus da Raça">+{{raceBonus}}</span>
+                {{/if}}
               </div>
               <div class="ability-controls">
                 <button type="button" 
@@ -150,7 +153,17 @@
                         {{#unless canDecrease}}disabled{{/unless}}>
                   <i class="fas fa-minus"></i>
                 </button>
-                <div class="ability-value">{{points}}</div>
+                <div class="ability-value">
+                  <span class="points-allocated">{{points}}</span>
+                  {{#if raceBonus}}
+                    <span class="points-separator">+</span>
+                    <span class="points-race">{{raceBonus}}</span>
+                    <span class="points-separator">=</span>
+                    <span class="points-total">{{total}}</span>
+                  {{else}}
+                    <span class="points-total-single">= {{total}}</span>
+                  {{/if}}
+                </div>
                 <button type="button" 
                         class="ability-btn increase" 
                         data-action="increaseAbility" 
@@ -166,6 +179,70 @@
         <div class="distribution-summary">
           <p><i class="fas fa-info-circle"></i> Distribua os 12 pontos base (máximo 3 por atributo) e depois os 3 pontos bônus (sem limite).</p>
         </div>
+      </div>
+    {{/if}}
+    
+    {{#if (eq currentStep 4)}}
+      {{! Etapa 4: Seleção de Equipamentos }}
+      <div class="equipment-selection">
+        {{#unless budgetRolled}}
+          <div class="budget-roller">
+            <p class="instruction">Role os dados para determinar seu orçamento inicial de equipamentos:</p>
+            <button type="button" class="roll-budget-button" data-action="rollBudget">
+              <i class="fas fa-dice-d20"></i> Rolar Orçamento (4d100+100)
+            </button>
+            <p class="roll-info"><i class="fas fa-info-circle"></i> O sistema rolará duas vezes e escolherá o maior resultado!</p>
+          </div>
+        {{else}}
+          <div class="budget-display">
+            <div class="budget-card">
+              <h3><i class="fas fa-coins"></i> Orçamento</h3>
+              <div class="budget-values">
+                <div class="budget-total">
+                  <span class="label">Total:</span>
+                  <span class="value">{{equipmentBudget}} <i class="fas fa-coins gold"></i></span>
+                </div>
+                <div class="budget-spent">
+                  <span class="label">Gasto:</span>
+                  <span class="value">{{totalSpent}} <i class="fas fa-coins spent"></i></span>
+                </div>
+                <div class="budget-remaining {{#if (lt remainingBudget 0)}}negative{{/if}}">
+                  <span class="label">Restante:</span>
+                  <span class="value">{{remainingBudget}} <i class="fas fa-coins remaining"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="equipment-categories">
+            <p class="instruction">Selecione os equipamentos que deseja comprar:</p>
+            {{#each equipmentCategories}}
+              <div class="equipment-category">
+                <div class="category-header" data-action="toggleCategory" data-category-id="{{id}}">
+                  <i class="fas fa-chevron-{{#if expanded}}down{{else}}right{{/if}}"></i>
+                  <strong>{{name}}</strong>
+                  <span class="item-count">({{items.length}} itens)</span>
+                </div>
+                {{#if expanded}}
+                  <div class="category-items">
+                    {{#each items}}
+                      <div class="equipment-item {{#if selected}}selected{{/if}}" data-action="selectEquipment" data-item-uuid="{{uuid}}">
+                        <img src="{{img}}" alt="{{name}}" class="item-icon" />
+                        <div class="item-info">
+                          <span class="item-name">{{name}}</span>
+                          <span class="item-price">{{price}} <i class="fas fa-coins"></i></span>
+                        </div>
+                        {{#if selected}}
+                          <i class="fas fa-check-circle selected-icon"></i>
+                        {{/if}}
+                      </div>
+                    {{/each}}
+                  </div>
+                {{/if}}
+              </div>
+            {{/each}}
+          </div>
+        {{/unless}}
       </div>
     {{/if}}
   </div>
