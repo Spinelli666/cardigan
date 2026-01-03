@@ -107,9 +107,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     skills: {
       template: 'systems/cardigan/templates/actor/skills.hbs',
     },
-    spells: {
-      template: 'systems/cardigan/templates/actor/spells.hbs',
-    },
     equipamentos: {
       template: 'systems/cardigan/templates/actor/equipamentos.hbs',
     },
@@ -125,7 +122,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'character':
-        options.parts.push('features', 'skills', 'spells', 'equipamentos');
+        options.parts.push('features', 'skills', 'equipamentos');
         break;
       case 'npc':
         options.parts.push('skills', 'equipamentos');
@@ -185,7 +182,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       case 'features':
         context.tab = context.tabs[partId];
         break;
-      case 'spells':
       case 'skills':
       case 'equipamentos':
         context.tab = context.tabs[partId];
@@ -248,14 +244,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           tab.id = 'skills';
           tab.label += 'Skills';
           break;
-        case 'spells':
-          tab.id = 'spells';
-          tab.label += 'Spells';
-          break;
         case 'equipamentos':
           tab.id = 'equipamentos';
           tab.label += 'Equipamentos';
           break;
+        default:
+          // Unknown part, skip it
+          return tabs;
       }
       if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
       tabs[partId] = tab;
@@ -345,9 +340,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   _prepareItems(context) {
     // Initialize containers.
-    // You can just use `this.document.itemTypes` instead
-    // if you don't need to subdivide a given type like
-    // this sheet does with spells
     const backpack = [];
     const features = [];
     const efeitos = [];
@@ -367,18 +359,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const blacksmithingRecipes = [];
     const alchemyRecipes = [];
     const carpentryRecipes = [];
-    const spells = {
-      0: [],
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: [],
-      7: [],
-      8: [],
-      9: [],
-    };
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
@@ -464,22 +444,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           carpentryRecipes.push(i);
         }
       }
-      // Append to spells.
-      else if (i.type === 'spell') {
-        if (i.system.spellLevel != undefined) {
-          spells[i.system.spellLevel].push(i);
-        }
-      }
     }
 
 
 
     // Add unarmed attacks for free hands
     this._addUnarmedAttacks(armas);
-
-    for (const s of Object.values(spells)) {
-      s.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    }
 
     // Sort armors by type order (Cabeça, Acessórios, Torso, Braços, Pernas, Pés)
     const armorTypeOrder = {
@@ -583,7 +553,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       const orderB = armorTypeOrder[b.system.armorType] || 99;
       return orderA - orderB;
     });
-    context.spells = spells;
 
     // Calculate armor totals for equipped armors
     this._calculateArmorTotals(context);

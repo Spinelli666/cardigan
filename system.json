@@ -37,9 +37,6 @@
         "feature": {
             "htmlFields": ["description"]
         },
-        "spell": {
-            "htmlFields": ["description"]
-        },
         "efeito": {
             "htmlFields": ["description"]
         },

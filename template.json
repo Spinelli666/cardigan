@@ -108,7 +108,7 @@
     }
   },
   "Item": {
-    "types": ["item-comum", "item-municao", "item-consumivel", "item-ingredient", "item-recipe", "feature", "race", "spell", "efeito", "arma", "armadura", "skill"],
+    "types": ["item-comum", "item-municao", "item-consumivel", "item-ingredient", "item-recipe", "feature", "race", "efeito", "arma", "armadura", "skill"],
     "htmlFields": ["description"],
     "templates": {
       "base": {
@@ -184,10 +184,6 @@
         "intelligence": 0,
         "psionics": 0
       }
-    },
-    "spell": {
-      "templates": ["base"],
-      "spellLevel": 1
     },
     "efeito": {
       "templates": ["base"],

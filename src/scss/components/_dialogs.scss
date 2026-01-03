@@ -222,16 +222,6 @@
             }
           }
           
-          &[data-type="spell"] {
-            .item-icon {
-              color: #6c5ce7;
-            }
-            &:hover .item-icon {
-              color: #5f3dc4;
-              text-shadow: 0 0 10px rgba(108, 92, 231, 0.5);
-            }
-          }
-          
           &[data-type="efeito"] {
             .item-icon {
               color: #a29bfe;

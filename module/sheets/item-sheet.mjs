@@ -136,9 +136,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     modifiersItemConsumivel: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-consumivel-modifiers.hbs',
     },
-    attributesSpell: {
-      template: 'systems/cardigan/templates/item/attribute-parts/spell.hbs',
-    },
     attributesEfeito: {
       template: 'systems/cardigan/templates/item/attribute-parts/efeito.hbs',
     },
@@ -205,9 +202,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'item-ingredient':
         options.parts.push('attributesItemIngredient');
         break;
-      case 'spell':
-        options.parts.push('attributesSpell');
-        break;
       case 'efeito':
         // Efeitos têm descrição e podem ter atributos básicos se necessário
         options.parts.push('attributesEfeito');
@@ -263,7 +257,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesItemComum':
       case 'attributesItemMunicao':
       case 'attributesItemConsumivel':
-      case 'attributesSpell':
       case 'attributesEfeito':
       case 'attributesArma':
       case 'attributesArmadura':
@@ -494,7 +487,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesItemComum':
         case 'attributesItemMunicao':
         case 'attributesItemConsumivel':
-        case 'attributesSpell':
         case 'attributesEfeito':
         case 'attributesArma':
         case 'attributesArmadura':
@@ -856,8 +848,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       // These data attributes are reserved for the action handling
       if (['action', 'documentClass'].includes(dataKey)) continue;
       // Nested properties require dot notation in the HTML, e.g. anything with `system`
-      // An example exists in spells.hbs, with `data-system.spell-level`
-      // which turns into the dataKey 'system.spellLevel'
       foundry.utils.setProperty(effectData, dataKey, value);
     }
 

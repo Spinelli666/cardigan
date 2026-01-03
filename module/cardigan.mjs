@@ -78,7 +78,6 @@ Hooks.once('init', function () {
     feature: models.CardiganSystemFeature,
     race: models.CardiganSystemRace,
     skill: models.CardiganSystemSkill,
-    spell: models.CardiganSystemSpell,
     efeito: models.CardiganSystemEfeito,
     arma: models.CardiganSystemArma,
     armadura: models.CardiganSystemArmadura,

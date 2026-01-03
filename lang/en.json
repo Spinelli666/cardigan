@@ -9,7 +9,6 @@
       "item-ingredient": "New Ingredient",
       "item-recipe": "New Recipe",
       "skill": "New Skill",
-      "spell": "New Spell",
       "efeito": "New Effect",
       "feature": "New Feature",
       "race": "New Race"
@@ -193,7 +192,6 @@
         "Features": "Features",
         "Skills": "Skills",
         "Backpack": "Skills",
-        "Spells": "Spells",
         "Equipamentos": "Equipment"
       },
       "Character": {
@@ -260,15 +258,6 @@
             "label": "Weight"
           }
         }
-      },
-      "Spell": {
-        "FIELDS": {
-          "level": {
-            "label": "Spell Level"
-          }
-        },
-        "SpellLVL": "Level {level} Spells",
-        "AddLVL": "Add LVL {level}"
       },
       "Skill": {
         "Effect": "Effect",
@@ -1054,7 +1043,6 @@
       "item-recipe": "Recipe",
       "feature": "Feature",
       "race": "Raça",
-      "spell": "Spell",
       "efeito": "Efeito",
       "arma": "Weapon",
       "armadura": "Armor",

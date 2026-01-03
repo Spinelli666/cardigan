@@ -11,7 +11,6 @@ export {default as CardiganSystemItemMunicao} from "./item-municao.mjs";
 export {default as CardiganSystemItemConsumivel} from "./item-consumivel.mjs";
 export {default as CardiganSystemItemIngredient} from "./item-ingredient.mjs";
 export {default as CardiganSystemItemRecipe} from "./item-recipe.mjs";
-export {default as CardiganSystemSpell} from "./item-spell.mjs";
 export {default as CardiganSystemEfeito} from "./item-efeito.mjs";
 export {default as CardiganSystemArma} from "./item-arma.mjs";
 export {default as CardiganSystemArmadura} from "./item-armadura.mjs";
