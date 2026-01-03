@@ -79,6 +79,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       filterProfession: this._onFilterProfession,
       initiateTrade: this._onInitiateTrade,
       openCharacterWizard: this._onOpenCharacterWizard,
+      openLevelUpWizard: this._onOpenLevelUpWizard,
       // Removemos as ações do modal para implementar via event listeners diretos
     },
     // Custom property that's merged into `this.options`
@@ -9610,6 +9611,35 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     await wizard.render(true);
   }
 
+  /**
+   * Handle opening the level up wizard
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @private
+   */
+  static async _onOpenLevelUpWizard(event, target) {
+    const actor = this.actor;
+    
+    // Verificar se o personagem está pronto para upar
+    const currentLevel = actor.system.attributes.level.value || 0;
+    const currentXP = actor.system.experience.current || 0;
+    const nextLevelXP = actor.system.experience.nextLevel || 100;
+    
+    if (currentLevel === 0) {
+      ui.notifications.warn("Use o botão 'Criar Personagem' primeiro!");
+      return;
+    }
+    
+    if (currentXP < nextLevelXP) {
+      ui.notifications.warn(`Você precisa de ${nextLevelXP - currentXP} XP para upar de nível!`);
+      return;
+    }
+    
+    // Abrir o wizard de level up
+    const { LevelUpWizard } = await import('../applications/level-up-wizard.mjs');
+    const wizard = new LevelUpWizard(actor);
+    await wizard.render(true);
+  }
 
 
 }

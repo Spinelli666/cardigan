@@ -1028,7 +1028,6 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       }
 
     // Adicionar as skills selecionadas ao ator
-    const pathIncrements = {};
     let hasAndarilhoSkill = false;
     let hasFeiticeiroSkill = false;
     
@@ -1037,11 +1036,9 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       if (skillDocument) {
         itemsToAdd.push(skillDocument.toObject());
         
-        // Contar incrementos por caminho (APENAS skills contam, não aprimoramentos)
+        // Verificar tipo de skill para adicionar skills automáticas
         const skillClass = skillDocument.system.skillClass;
         if (skillClass) {
-          pathIncrements[skillClass] = (pathIncrements[skillClass] || 0) + 1;
-          
           // Verificar se tem pelo menos 1 skill do Andarilho
           if (skillClass === 'andarilho') {
             hasAndarilhoSkill = true;
@@ -1157,7 +1154,7 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         }
       }
 
-      // Incrementar pontos de caminho e definir level inicial como 1
+      // Incrementar level inicial como 1
       const updates = {
         'system.attributes.level.value': 1
       };
@@ -1169,10 +1166,8 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         }
       }
       
-      for (const [pathClass, count] of Object.entries(pathIncrements)) {
-        const currentValue = this.actor.system.classes?.[pathClass] || 0;
-        updates[`system.classes.${pathClass}`] = currentValue + count;
-      }
+      // Os contadores de classe (system.classes.andarilho, etc.) são incrementados
+      // automaticamente pelo Item._onCreate quando as skills são criadas
       
       await this.actor.update(updates);
 

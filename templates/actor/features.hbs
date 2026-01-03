@@ -135,6 +135,12 @@
                 <i class='fas fa-hat-wizard'></i>
               </button>
             </div>
+            {{else if (gte system.experience.current system.experience.nextLevel)}}
+            <div class='wizard-button-container'>
+              <button type='button' class='wizard-button-small level-up-button' data-action='openLevelUpWizard' title='Level Up!'>
+                <i class='fas fa-arrow-up'></i>
+              </button>
+            </div>
             {{/if}}
           </div>
         </div>

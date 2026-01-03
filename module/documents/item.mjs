@@ -47,6 +47,8 @@ export class CardiganSystemItem extends Item {
     // Add linked skills when a skill is added to an actor
     if (this.type === 'skill' && this.actor) {
       await this._addLinkedSkills();
+      // Increment class counter for this skill
+      await this._incrementClassCounter();
     }
 
     // Add racial skills when a race is added to an actor
@@ -54,6 +56,26 @@ export class CardiganSystemItem extends Item {
       await this._addRacialSkills();
       // Apply custom race bonuses (e.g., Norsca natural armor)
       await this._applyCustomRaceBonuses();
+    }
+  }
+
+  /**
+   * Perform preliminary operations after an Item document is deleted.
+   * @param {object} options  - Additional options which modify the deletion request
+   * @param {string} userId   - The id of the User requesting the document deletion
+   * @override
+   */
+  async _onDelete(options, userId) {
+    await super._onDelete(options, userId);
+    
+    console.log(`[Item._onDelete] Item deleted: ${this.name}, type: ${this.type}, hasActor: ${!!this.actor}, userId: ${userId}, game.user.id: ${game.user.id}`);
+    
+    // Only run on the client that initiated the action (avoid duplicate application)
+    if (userId !== game.user.id) return;
+    
+    // Decrement class counter when a skill is deleted
+    if (this.type === 'skill' && this.actor) {
+      await this._decrementClassCounter();
     }
   }
 
@@ -713,6 +735,92 @@ export class CardiganSystemItem extends Item {
       console.warn("Error detecting critical results:", error);
       return {};
     }
+  }
+
+  /**
+   * Increment the appropriate class counter when a skill is added
+   * @private
+   */
+  async _incrementClassCounter() {
+    // Skip if this is not a skill or has no actor
+    if (this.type !== 'skill' || !this.actor) return;
+    
+    // Get the skill class
+    const skillClass = this.system.skillClass;
+    
+    // Skip racial skills and auto-added skills
+    if (skillClass === 'raciais' || skillClass === 'unicas') {
+      console.log(`[Item._incrementClassCounter] Skipping counter increment for: ${this.name} (${skillClass})`);
+      return;
+    }
+    
+    // Skip Componentes and Despertar Psiônico (auto-added skills)
+    if (this.name === 'Componentes' || this.name === 'Despertar Psiônico') {
+      console.log(`[Item._incrementClassCounter] Skipping auto-added skill: ${this.name}`);
+      return;
+    }
+    
+    // Valid class types that have counters
+    const validClasses = ['andarilho', 'guerreiro', 'ladino', 'feiticeiro'];
+    
+    if (!validClasses.includes(skillClass)) {
+      console.log(`[Item._incrementClassCounter] Skill ${this.name} has invalid skillClass: ${skillClass}`);
+      return;
+    }
+    
+    // Get current counter value
+    const currentValue = this.actor.system.classes[skillClass] || 0;
+    const newValue = currentValue + 1;
+    
+    // Update the counter
+    await this.actor.update({
+      [`system.classes.${skillClass}`]: newValue
+    });
+    
+    console.log(`[Item._incrementClassCounter] Incremented ${skillClass} counter from ${currentValue} to ${newValue} for skill: ${this.name}`);
+  }
+
+  /**
+   * Decrement the appropriate class counter when a skill is deleted
+   * @private
+   */
+  async _decrementClassCounter() {
+    // Skip if this is not a skill or has no actor
+    if (this.type !== 'skill' || !this.actor) return;
+    
+    // Get the skill class
+    const skillClass = this.system.skillClass;
+    
+    // Skip racial skills and auto-added skills
+    if (skillClass === 'raciais' || skillClass === 'unicas') {
+      console.log(`[Item._decrementClassCounter] Skipping counter decrement for: ${this.name} (${skillClass})`);
+      return;
+    }
+    
+    // Skip Componentes and Despertar Psiônico (auto-added skills)
+    if (this.name === 'Componentes' || this.name === 'Despertar Psiônico') {
+      console.log(`[Item._decrementClassCounter] Skipping auto-added skill: ${this.name}`);
+      return;
+    }
+    
+    // Valid class types that have counters
+    const validClasses = ['andarilho', 'guerreiro', 'ladino', 'feiticeiro'];
+    
+    if (!validClasses.includes(skillClass)) {
+      console.log(`[Item._decrementClassCounter] Skill ${this.name} has invalid skillClass: ${skillClass}`);
+      return;
+    }
+    
+    // Get current counter value
+    const currentValue = this.actor.system.classes[skillClass] || 0;
+    const newValue = Math.max(0, currentValue - 1); // Never go below 0
+    
+    // Update the counter
+    await this.actor.update({
+      [`system.classes.${skillClass}`]: newValue
+    });
+    
+    console.log(`[Item._decrementClassCounter] Decremented ${skillClass} counter from ${currentValue} to ${newValue} for skill: ${this.name}`);
   }
 
   /* -------------------------------------------- */

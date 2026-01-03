@@ -1,0 +1,175 @@
+<form class="level-up-wizard">
+  
+  {{! Wizard Header }}
+  <div class="wizard-header">
+    <h2>
+      <i class="fas fa-arrow-up"></i>
+      Level Up para Nível {{newLevel}}
+    </h2>
+    <p class="step-title">{{stepTitle}}</p>
+    <div class="step-indicator">
+      Passo {{currentStep}} de {{totalSteps}}
+    </div>
+  </div>
+
+  {{! Wizard Content }}
+  <div class="wizard-content">
+    
+    {{!-- Step 1: Skill/Enhancement Selection --}}
+    {{#if (eq currentStep 1)}}
+      <div class="skill-selection">
+        <p class="instruction">
+          Selecione 1 habilidade ou aprimoramento. {{#if currentPath}}Você está visualizando: <strong>{{currentPathName}}</strong>{{else}}Selecione um caminho acima para ver as habilidades disponíveis.{{/if}}
+        </p>
+        
+        <div class="paths-grid">
+          {{#each paths}}
+            <div class="path-icon {{#if active}}active{{/if}}" data-action="selectPath" data-path-id="{{id}}">
+              <img src="{{img}}" alt="{{name}}" />
+              <span class="path-name">{{name}}</span>
+              <span class="skill-count">{{skillCount}} skills</span>
+            </div>
+          {{/each}}
+        </div>
+
+        {{#if currentPathSkills}}
+          <div class="skills-list">
+            <h3>Habilidades - {{currentPathName}}</h3>
+            {{#each currentPathSkills}}
+              <div class="skill-item {{#if selected}}selected{{/if}} {{#if isOwned}}owned{{/if}}">
+                <div class="skill-header" data-action="toggleSkillDetails" data-skill-uuid="{{uuid}}">
+                  <img src="{{img}}" alt="{{name}}" class="skill-icon" />
+                  <div class="skill-title">
+                    <span class="skill-name">
+                      {{name}}
+                      {{#if isOwned}}
+                        <span class="owned-indicator">★</span>
+                      {{/if}}
+                    </span>
+                    {{#if skillActionTypes}}
+                      <span class="skill-meta">
+                        {{#each skillActionTypes}}{{this}}{{#unless @last}} • {{/unless}}{{/each}}
+                        {{#if ../hasEnergyCost}} • Energia: {{../energyCost}}{{/if}}
+                      </span>
+                    {{/if}}
+                  </div>
+                  <button type="button" class="select-skill-btn {{#if selected}}selected{{/if}}" data-action="selectSkill" data-skill-uuid="{{uuid}}">
+                    {{#if selected}}
+                      <i class="fas fa-check-circle"></i>
+                    {{else}}
+                      <i class="far fa-circle"></i>
+                    {{/if}}
+                  </button>
+                  <i class="fas fa-chevron-{{#if expanded}}up{{else}}down{{/if}} expand-icon"></i>
+                </div>
+
+                {{#if expanded}}
+                  <div class="skill-details-wrapper">
+                    {{#if spellCategories}}
+                      <div class="spell-categories">
+                        {{#each spellCategories}}
+                          <img src="systems/cardigan/assets/images/decorative/{{this}}.webp" alt="{{this}}" class="spell-category-img" />
+                        {{/each}}
+                      </div>
+                    {{/if}}
+
+                    <div class="skill-description">
+                      {{{description}}}
+                    </div>
+
+                    {{#if enhancements}}
+                      <div class="enhancements-section">
+                        <h4>Aprimoramentos (1 ponto cada)</h4>
+                        {{#each enhancements}}
+                          <div class="enhancement-option {{#if acquired}}acquired{{/if}} {{#if (eq @root.selectedEnhancementIndex index)}}selected{{/if}} {{#unless acquired}}{{else}}disabled{{/unless}}" 
+                               {{#unless acquired}}data-action="selectEnhancement" data-skill-uuid="{{../uuid}}" data-enhancement-index="{{index}}"{{/unless}}>
+                            <div class="enhancement-header">
+                              <input type="checkbox" {{#if acquired}}checked{{else}}{{#if (eq @root.selectedEnhancementIndex index)}}checked{{/if}}{{/if}} readonly {{#if acquired}}disabled{{/if}}>
+                              <strong>{{name}}</strong>
+                              {{#if acquired}}
+                                <span class="acquired-badge">✓ Adquirido</span>
+                              {{/if}}
+                            </div>
+                            {{#if description}}
+                              <div class="enhancement-desc">
+                                {{{description}}}
+                              </div>
+                            {{/if}}
+                          </div>
+                        {{/each}}
+                      </div>
+                    {{/if}}
+                  </div>
+                {{/if}}
+              </div>
+            {{/each}}
+          </div>
+        {{else}}
+          <div class="no-path-selected">
+            <i class="fas fa-hand-point-up"></i>
+            <p>Selecione um caminho acima para ver as habilidades disponíveis</p>
+          </div>
+        {{/if}}
+      </div>
+    {{/if}}
+    
+    {{!-- Step 2: Attribute Distribution --}}
+    {{#if (eq currentStep 2)}}
+      <div class="ability-distribution">
+        <p class="instruction">
+          Escolha <strong>um atributo</strong> para aumentar em +1:
+        </p>
+        
+        <div class="abilities-grid">
+          {{#each abilities}}
+            <div class="ability-row {{#if selected}}selected{{/if}}"
+                 data-action="selectAttribute"
+                 data-ability-key="{{key}}">
+              
+              <div class="ability-label">
+                <strong>{{label}}</strong>
+              </div>
+              
+              <div class="ability-controls">
+                <div class="ability-value">
+                  <span class="points-allocated">{{currentValue}}</span>
+                  {{#if selected}}
+                    <span class="points-separator">→</span>
+                    <span class="points-total">{{newValue}}</span>
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+    
+  </div>
+
+  {{! Wizard Footer }}
+  <div class="wizard-footer">
+    <button type="button" class="wizard-btn cancel-btn" data-action="cancel">
+      <i class="fas fa-times"></i> Cancelar
+    </button>
+    
+    <div class="navigation-buttons">
+      {{#unless isFirstStep}}
+        <button type="button" class="wizard-btn prev-btn" data-action="previous">
+          <i class="fas fa-arrow-left"></i> Anterior
+        </button>
+      {{/unless}}
+      
+      {{#if isFinalStep}}
+        <button type="button" class="wizard-btn finish-btn" data-action="finish">
+          <i class="fas fa-check"></i> Finalizar
+        </button>
+      {{else}}
+        <button type="button" class="wizard-btn next-btn" data-action="next">
+          Próximo <i class="fas fa-arrow-right"></i>
+        </button>
+      {{/if}}
+    </div>
+  </div>
+  
+</form>
