@@ -3,13 +3,15 @@
 }
 
 .sheet-header {
-  flex: 0 auto;
-  overflow: hidden;
+  flex: 0 0 auto;
+  overflow: visible;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
   margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
 
   .profile-img {
     flex: 0 0 100px;
@@ -23,20 +25,22 @@
 }
 
 .sheet-tabs {
-  flex: 0;
+  flex: 0 0 auto;
 }
 
-.sheet-body,
-.sheet-body .tab,
-.sheet-body .tab .editor {
-  height: 100%;
-}
+// Each tab section should scroll independently
+.tab {
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  &.biography {
+    display: flex;
+    flex-direction: column;
 
-.tab.biography {
-  flex: 1;
-
-  .editor {
-    height: 100%;
+    .editor {
+      flex: 1;
+      height: 100%;
+    }
   }
 }
 

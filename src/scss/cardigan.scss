@@ -18,6 +18,36 @@
 /* ProseMirror - Comportamento padrão do Foundry VTT */
 /* Sem customizações - deixando o editor funcionar naturalmente */
 
+/* Actor sheet specific flexbox layout - MUST be outside .cardigan scope */
+.cardigan.actor {
+  .window-content {
+    overflow: hidden;
+    padding: 5px;
+    
+    form {
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  
+  // Sheet body wraps header, tabs, and tab content
+  .sheet-body {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  
+  // Individual tabs scroll from navbar down
+  .tab {
+    flex: 1;
+    min-height: 0;
+  }
+}
+
 /* Styles limited to cardigan sheets */
 .cardigan {
   // Tab visibility control for item sheets

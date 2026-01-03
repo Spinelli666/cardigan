@@ -38,12 +38,19 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   static DEFAULT_OPTIONS = {
     classes: ['cardigan', 'actor'],
     position: {
-      width: 600,
-      height: 600,  // ✅ Volta para altura fixa original
+      width: 815,
+      height: 900,
     },
     window: {
-      resizable: true,      // ✅ Mantém redimensionável
-      minimizable: true,    // ✅ Mantém minimizável
+      resizable: true,
+      minimizable: true,
+      controls: [
+        {
+          icon: 'fa-solid fa-cog',
+          label: 'SHEETS.DefaultDocumentSheet',
+          action: 'showSheetConfig'
+        }
+      ]
     },
     actions: {
       onEditImage: this._onEditImage,
