@@ -70,7 +70,6 @@ export class ItemCreateDialog extends HandlebarsApplicationMixin(ApplicationV2) 
         icon: "fas fa-user",
         types: [
           { type: "skill", label: "TYPES.Item.skill", icon: "fas fa-fist-raised" },
-          { type: "feature", label: "TYPES.Item.feature", icon: "fas fa-star" },
           { type: "race", label: "TYPES.Item.race", icon: "fas fa-users" }
         ]
       },

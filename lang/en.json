@@ -10,7 +10,6 @@
       "item-recipe": "New Recipe",
       "skill": "New Skill",
       "efeito": "New Effect",
-      "feature": "New Feature",
       "race": "New Race"
     }
   },
@@ -1041,7 +1040,6 @@
       "item-consumivel": "Consumable",
       "item-ingredient": "Ingredient",
       "item-recipe": "Recipe",
-      "feature": "Feature",
       "race": "Raça",
       "efeito": "Efeito",
       "arma": "Weapon",

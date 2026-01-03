@@ -75,7 +75,6 @@ Hooks.once('init', function () {
     "item-consumivel": models.CardiganSystemItemConsumivel,
     "item-ingredient": models.CardiganSystemItemIngredient,
     "item-recipe": models.CardiganSystemItemRecipe,
-    feature: models.CardiganSystemFeature,
     race: models.CardiganSystemRace,
     skill: models.CardiganSystemSkill,
     efeito: models.CardiganSystemEfeito,

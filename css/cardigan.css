@@ -2492,9 +2492,6 @@
 .cardigan .item-selection-modal .modal-content .modal-body .item-type-options .item-type-option[data-type=arma] i {
   color: #ff6b6b;
 }
-.cardigan .item-selection-modal .modal-content .modal-body .item-type-options .item-type-option[data-type=feature] i {
-  color: #ffd93d;
-}
 .cardigan .item-selection-modal .modal-content .modal-body .item-type-options .item-type-option[data-type=efeito] i {
   color: #a29bfe;
 }
@@ -3583,13 +3580,6 @@
 .cardigan .item-type-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=arma]:hover .item-icon {
   color: #ff5252;
   text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
-}
-.cardigan .item-type-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=feature] .item-icon {
-  color: #ffd93d;
-}
-.cardigan .item-type-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=feature]:hover .item-icon {
-  color: #ffcd02;
-  text-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
 }
 .cardigan .item-type-selection .item-type-selection-form .modal-body .item-type-grid .item-type-option[data-type=efeito] .item-icon {
   color: #a29bfe;

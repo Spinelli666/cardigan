@@ -34,9 +34,6 @@
         "item-recipe": {
             "htmlFields": ["description"]
         },
-        "feature": {
-            "htmlFields": ["description"]
-        },
         "efeito": {
             "htmlFields": ["description"]
         },

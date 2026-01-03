@@ -99,7 +99,7 @@ export class MerchantTradeDialog extends api.HandlebarsApplicationMixin(api.Appl
     
     // Get all merchant items (only unequipped items from backpack)
     const merchantAllItems = this.merchant.items
-      .filter(i => !['feature', 'race', 'efeito', 'skill'].includes(i.type))
+      .filter(i => !['race', 'efeito', 'skill'].includes(i.type))
       .filter(i => !i.system.equipped) // Only show items that are NOT equipped
       .map(i => ({
         id: i.id,

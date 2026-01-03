@@ -120,10 +120,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     description: {
       template: 'systems/cardigan/templates/item/description.hbs',
     },
-    attributesFeature: {
-      template:
-        'systems/cardigan/templates/item/attribute-parts/feature.hbs',
-    },
     attributesItemComum: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-comum.hbs',
     },
@@ -177,16 +173,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     if (this.document.limited) return;
     // Control which parts show based on document subtype
     switch (this.document.type) {
-      case 'feature':
-        // Para features que são "Efeito", apenas mostrar descrição (sem Attributes e Effects)
-        if (this.document.name === 'Efeito' || this.document.name.includes('Efeito')) {
-          // Efeitos só têm descrição - sem abas de Attributes e Effects
-          break;
-        } else {
-          // Features normais têm Attributes e Effects
-          options.parts.push('attributesFeature', 'effects');
-        }
-        break;
       case 'backpack':
         // Tipo backpack foi removido - não deve mais chegar aqui
         break;
@@ -253,7 +239,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   /** @override */
   async _preparePartContext(partId, context) {
     switch (partId) {
-      case 'attributesFeature':
       case 'attributesItemComum':
       case 'attributesItemMunicao':
       case 'attributesItemConsumivel':
@@ -483,7 +468,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           tab.id = 'description';
           tab.label += 'Description';
           break;
-        case 'attributesFeature':
         case 'attributesItemComum':
         case 'attributesItemMunicao':
         case 'attributesItemConsumivel':

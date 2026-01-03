@@ -387,15 +387,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           backpack.push(i);
         }
       }
-      // Append to features or efeitos.
-      else if (i.type === 'feature') {
-        // Se o nome contém "Efeito", vai para efeitos
-        if (i.name && i.name.includes('Efeito')) {
-          efeitos.push(i);
-        } else {
-          features.push(i);
-        }
-      }
       // Append to efeitos (tipo dedicado).
       else if (i.type === 'efeito') {
         efeitos.push(i);

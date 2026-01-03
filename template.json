@@ -108,7 +108,7 @@
     }
   },
   "Item": {
-    "types": ["item-comum", "item-municao", "item-consumivel", "item-ingredient", "item-recipe", "feature", "race", "efeito", "arma", "armadura", "skill"],
+    "types": ["item-comum", "item-municao", "item-consumivel", "item-ingredient", "item-recipe", "race", "efeito", "arma", "armadura", "skill"],
     "htmlFields": ["description"],
     "templates": {
       "base": {
@@ -163,9 +163,6 @@
       "requiredIngredients": [],
       "resultItem": "",
       "resultQuantity": 1
-    },
-    "feature": {
-      "templates": ["base"]
     },
     "race": {
       "templates": ["base"],
