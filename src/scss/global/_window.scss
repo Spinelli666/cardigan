@@ -7,6 +7,10 @@
   background: rgba(17, 42, 53, 0.7) !important;
   border: 5px solid transparent;
   border-image: linear-gradient(180deg, #C0863B 38%, #7E5827 100%) 1;
+  
+  // Habilitar container queries para detectar resize
+  container-type: size;
+  container-name: actor-sheet;
 
   .window-content {
     padding: 0px !important;
