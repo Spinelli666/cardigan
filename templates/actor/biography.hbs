@@ -4,6 +4,20 @@
   data-group='primary'
   data-tab='biography'
 >
+  {{#unless (eq actor.type "npc")}}
+  <div class='rest-buttons flexrow flex-center'>
+    <button type='button' class='rest-button short-rest' data-action='shortRest' title='Short Rest (1d20 + 2×Vigor)'>
+      <i class='fas fa-moon'></i> Short Rest
+    </button>
+    <button type='button' class='rest-button long-rest' data-action='longRest' title='Long Rest (2d20 + 3×Vigor)'>
+      <i class='fas fa-bed'></i> Long Rest
+    </button>
+    <button type='button' class='rest-button trade-button' data-action='initiateTrade' title='Negociar Items com outros jogadores'>
+      <i class='fas fa-handshake'></i> Negociar
+    </button>
+  </div>
+  {{/unless}}
+  
   {{! Editors must receive enriched text data from getData to properly handle rolls, UUID links, etc. }}
   {{#if editable}} 
     <prose-mirror name="system.biography" data-document-u-u-i-d="{{actor.uuid}}" value="{{system.biography}}" collaborate="true" toggled="true">

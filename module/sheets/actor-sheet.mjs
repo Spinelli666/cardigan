@@ -38,8 +38,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   static DEFAULT_OPTIONS = {
     classes: ['cardigan', 'actor'],
     position: {
-      width: 815,
-      height: 900,
+      width: 516,
+      height: 679,
     },
     window: {
       resizable: true,
