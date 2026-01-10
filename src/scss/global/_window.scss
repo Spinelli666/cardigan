@@ -12,24 +12,51 @@
   container-type: size;
   container-name: actor-sheet;
 
+  // Moldura decorativa - fora do window-content, acima de tudo
+  .moldura-esquerda-overlay {
+    position: absolute;
+    top: -92px;
+    left: 0;
+    width: 259.95pxpx;
+    height: 278.05px;
+    pointer-events: none; // Não interfere com cliques
+    z-index: 1000; // Fica acima do window-header (z-index ~100)
+  }
+
+  // Tamanho mínimo e máximo da janela
+  &:not(.minimized, .minimizing, .maximizing) {
+    min-width: 526px;
+    min-height: 679px;
+    max-width: 526px; // Largura máxima
+  }
+
   .window-content {
     padding: 0px !important;
     width: 100%;
     height: 100%;
     transition: width 0.3s ease, height 0.3s ease;
     background: transparent;
+    position: relative;
+    z-index: 50; // Acima do window-header
+    margin-top: -36px; // Sobe para cobrir o window-header
   }
 
   .window-header {
-    background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 0%, rgba(50, 65, 72, 0.19) 100%);
+    background: none !important; // Remove todos os backgrounds
     display: flex;
     justify-content: flex-end;
     border: none !important;
     padding: 0rem 0.2rem 0rem 0.5rem;
+    position: relative;
+    z-index: 100; // Acima do window-content (z-index: 50)
 
     .window-title {
       display: none;
     }
+  }
+
+  .window-resize-handle {
+    z-index: 150; // Acima do window-content e window-header
   }
   
   // Mostrar o título apenas quando minimizado

@@ -6,24 +6,133 @@
   flex: 0 0 auto;
   overflow: visible;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  flex-direction: column; // Mudou para column para empilhar top-container e bottom-section
   position: relative;
-  z-index: 1;
+  z-index: 100; // Aumentado para ficar acima do window-header
   opacity: 0.7;
-  background: linear-gradient(180deg, rgba(50, 65, 72, 0.19) 0%, rgba(118, 212, 255, 0.19) 100%);
+  background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 28.78%, rgba(118, 212, 255, 0.19) 100%);
   
   // Crescimento controlado: 227px base, até máximo 280px (+23%)
   height: clamp(227px, 25vh, 280px);
+  gap: 0;
 
-  .profile-img {
-    flex: 0 0 100px;
-    border-radius: 4px;
+  // Top Container - Holds left, center, right in horizontal layout
+  .header-top-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    gap: 0;
   }
 
-  .header-fields {
-    flex: 1;
+  // Left Aside - Four blocks with different border colors
+  .header-left {
+    width: 155.54px;
+    height: 182.55px;
+    border: 2px solid red;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    
+    // Muda para laranja em janelas médias
+    @container actor-sheet (min-height: 700px) {
+      border-color: orange;
+    }
+    
+    // Muda para amarelo em janelas grandes
+    @container actor-sheet (min-height: 1000px) {
+      border-color: yellow;
+    }
+
+    // Bloco 1 - Purple border
+    .bloco-1 {
+      border: 2px solid purple;
+      flex: 1;
+    }
+
+    // Bloco 2 - Magenta border
+    .bloco-2 {
+      border: 2px solid magenta;
+      flex: 1;
+    }
+
+    // Bloco 3 - Pink border
+    .bloco-3 {
+      border: 2px solid pink;
+      flex: 1;
+    }
+
+    // Bloco 4 - Coral border
+    .bloco-4 {
+      border: 2px solid coral;
+      flex: 1;
+    }
+  }
+
+  // Center Div - Profile Image (temporary blue border)
+  .header-center {
+    width: 201.42px;
+    height: 176.37px;
+    border: 2px solid blue;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // Muda para cyan em janelas médias
+    @container actor-sheet (min-height: 700px) {
+      border-color: cyan;
+    }
+    
+    // Muda para navy em janelas grandes
+    @container actor-sheet (min-height: 1000px) {
+      border-color: navy;
+    }
+
+    .profile-img {
+      width: 176.51px;
+      height: 176.37px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
+  }
+
+  // Right Aside - Character Name (temporary green border)
+  .header-right {
+    width: 155.54px;
+    height: 182.55px;
+    border: 2px solid green;
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    padding: 4px;
+
+    // Muda para lime em janelas médias
+    @container actor-sheet (min-height: 700px) {
+      border-color: lime;
+    }
+    
+    // Muda para darkgreen em janelas grandes
+    @container actor-sheet (min-height: 1000px) {
+      border-color: darkgreen;
+    }
+
+    input[name='name'] {
+      width: 100%;
+      font-size: 16px;
+      text-align: center;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      padding: 4px;
+    }
+  }
+
+  // Bottom Section - Empty for now
+  .header-bottom-section {
+    border: 2px solid orange;
+    flex: 1; // Ocupará o espaço restante do header
   }
 }
 

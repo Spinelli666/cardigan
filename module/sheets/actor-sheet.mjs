@@ -38,7 +38,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   static DEFAULT_OPTIONS = {
     classes: ['cardigan', 'actor'],
     position: {
-      width: 516,
+      width: 526,
       height: 679,
     },
     window: {
@@ -277,6 +277,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     this.#dragDrop.forEach((d) => d.bind(this.element));
     this.#disableOverrides();
     
+    // Add decorative frame image above window-header
+    this.#addDecorativeFrame();
+    
     // Clear any existing modal listeners to prevent conflicts
     this._clearAbilitiesModalListeners();
     
@@ -338,6 +341,57 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
+  }
+
+  /**
+   * Add decorative frame image above window-header
+   * @private
+   */
+  #addDecorativeFrame() {
+    // Remove existing frame if any
+    const existingFrame = this.element.querySelector('.moldura-esquerda-overlay');
+    if (existingFrame) existingFrame.remove();
+    
+    // Create and insert the decorative frame image
+    const frame = document.createElement('img');
+    frame.className = 'moldura-esquerda-overlay';
+    frame.src = 'systems/cardigan/assets/images/decorative/Moldura Esquerda.webp';
+    frame.alt = 'Moldura Esquerda';
+    
+    // Insert at the beginning of the application element (before window-header)
+    this.element.insertBefore(frame, this.element.firstChild);
+    
+    // Position frame to align with header-left (after a small delay to ensure layout is ready)
+    setTimeout(() => this.#positionDecorativeFrame(), 10);
+    
+    // Add resize observer to reposition frame when window is resized
+    if (!this._frameResizeObserver) {
+      this._frameResizeObserver = new ResizeObserver(() => {
+        this.#positionDecorativeFrame();
+      });
+      this._frameResizeObserver.observe(this.element);
+    }
+  }
+
+  /**
+   * Position the decorative frame to align with header-left
+   * @private
+   */
+  #positionDecorativeFrame() {
+    const frame = this.element.querySelector('.moldura-esquerda-overlay');
+    const headerLeft = this.element.querySelector('.header-left');
+    
+    if (!frame || !headerLeft) return;
+    
+    // Get the position of header-left relative to the application element
+    const appRect = this.element.getBoundingClientRect();
+    const leftRect = headerLeft.getBoundingClientRect();
+    
+    // Calculate the left offset and adjust by -108px (from 5.875px to -102.125px)
+    const leftOffset = (leftRect.left - appRect.left) - 108;
+    
+    // Update frame position
+    frame.style.left = `${leftOffset}px`;
   }
 
   /**
@@ -827,7 +881,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const { img } =
       this.document.constructor.getDefaultArtwork?.(this.document.toObject()) ??
       {};
-    const fp = new FilePicker({
+    const fp = new foundry.applications.apps.FilePicker({
       current,
       type: 'image',
       redirectToRoot: img ? [img] : [],

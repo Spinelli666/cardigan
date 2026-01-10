@@ -29,6 +29,22 @@
   container-type: size;
   container-name: actor-sheet;
 }
+.application.cardigan.actor .moldura-esquerda-overlay,
+.cardigan.actor.sheet .moldura-esquerda-overlay {
+  position: absolute;
+  top: -92px;
+  left: 0;
+  width: 259.95pxpx;
+  height: 278.05px;
+  pointer-events: none;
+  z-index: 1000;
+}
+.application.cardigan.actor:not(.minimized, .minimizing, .maximizing),
+.cardigan.actor.sheet:not(.minimized, .minimizing, .maximizing) {
+  min-width: 526px;
+  min-height: 679px;
+  max-width: 526px;
+}
 .application.cardigan.actor .window-content,
 .cardigan.actor.sheet .window-content {
   padding: 0px !important;
@@ -36,18 +52,27 @@
   height: 100%;
   transition: width 0.3s ease, height 0.3s ease;
   background: transparent;
+  position: relative;
+  z-index: 50;
+  margin-top: -36px;
 }
 .application.cardigan.actor .window-header,
 .cardigan.actor.sheet .window-header {
-  background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 0%, rgba(50, 65, 72, 0.19) 100%);
+  background: none !important;
   display: flex;
   justify-content: flex-end;
   border: none !important;
   padding: 0rem 0.2rem 0rem 0.5rem;
+  position: relative;
+  z-index: 100;
 }
 .application.cardigan.actor .window-header .window-title,
 .cardigan.actor.sheet .window-header .window-title {
   display: none;
+}
+.application.cardigan.actor .window-resize-handle,
+.cardigan.actor.sheet .window-resize-handle {
+  z-index: 150;
 }
 .application.cardigan.actor.minimized,
 .cardigan.actor.sheet.minimized {
@@ -363,20 +388,111 @@
   flex: 0 0 auto;
   overflow: visible;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  flex-direction: column;
   position: relative;
-  z-index: 1;
+  z-index: 100;
   opacity: 0.7;
-  background: linear-gradient(180deg, rgba(50, 65, 72, 0.19) 0%, rgba(118, 212, 255, 0.19) 100%);
+  background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 28.78%, rgba(118, 212, 255, 0.19) 100%);
   height: clamp(227px, 25vh, 280px);
+  gap: 0;
 }
-.cardigan .sheet-header .profile-img {
-  flex: 0 0 100px;
+.cardigan .sheet-header .header-top-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  gap: 0;
+}
+.cardigan .sheet-header .header-left {
+  width: 155.54px;
+  height: 182.55px;
+  border: 2px solid red;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+@container actor-sheet (min-height: 700px) {
+  .cardigan .sheet-header .header-left {
+    border-color: orange;
+  }
+}
+@container actor-sheet (min-height: 1000px) {
+  .cardigan .sheet-header .header-left {
+    border-color: yellow;
+  }
+}
+.cardigan .sheet-header .header-left .bloco-1 {
+  border: 2px solid purple;
+  flex: 1;
+}
+.cardigan .sheet-header .header-left .bloco-2 {
+  border: 2px solid magenta;
+  flex: 1;
+}
+.cardigan .sheet-header .header-left .bloco-3 {
+  border: 2px solid pink;
+  flex: 1;
+}
+.cardigan .sheet-header .header-left .bloco-4 {
+  border: 2px solid coral;
+  flex: 1;
+}
+.cardigan .sheet-header .header-center {
+  width: 201.42px;
+  height: 176.37px;
+  border: 2px solid blue;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@container actor-sheet (min-height: 700px) {
+  .cardigan .sheet-header .header-center {
+    border-color: cyan;
+  }
+}
+@container actor-sheet (min-height: 1000px) {
+  .cardigan .sheet-header .header-center {
+    border-color: navy;
+  }
+}
+.cardigan .sheet-header .header-center .profile-img {
+  width: 176.51px;
+  height: 176.37px;
   border-radius: 4px;
+  object-fit: cover;
 }
-.cardigan .sheet-header .header-fields {
+.cardigan .sheet-header .header-right {
+  width: 155.54px;
+  height: 182.55px;
+  border: 2px solid green;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  padding: 4px;
+}
+@container actor-sheet (min-height: 700px) {
+  .cardigan .sheet-header .header-right {
+    border-color: lime;
+  }
+}
+@container actor-sheet (min-height: 1000px) {
+  .cardigan .sheet-header .header-right {
+    border-color: darkgreen;
+  }
+}
+.cardigan .sheet-header .header-right input[name=name] {
+  width: 100%;
+  font-size: 16px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px;
+}
+.cardigan .sheet-header .header-bottom-section {
+  border: 2px solid orange;
   flex: 1;
 }
 .cardigan .sheet-tabs {
