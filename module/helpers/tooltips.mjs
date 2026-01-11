@@ -100,6 +100,7 @@ export default class CardiganTooltips {
     if ( !content ) return;
     this.tooltip.innerHTML = content;
     this.tooltip.classList.remove("theme-dark");
+    this.tooltip.classList.add("cardigan-tooltip");
     if ( classes?.length ) this.tooltip.classList.add(...classes);
     const { tooltipDirection } = game.tooltip.element.dataset;
     requestAnimationFrame(() => this._positionItemTooltip(tooltipDirection));
@@ -115,27 +116,16 @@ export default class CardiganTooltips {
   _positionItemTooltip(direction) {
     if (!this.tooltip) return;
     
-    if ( !direction ) {
-      direction = TooltipManager.TOOLTIP_DIRECTIONS.LEFT;
-      game.tooltip._setAnchor(direction);
-    }
-
-    const pos = this.tooltip.getBoundingClientRect();
+    // Always use DOWN direction (tooltip below element)
     const dirs = TooltipManager.TOOLTIP_DIRECTIONS;
-    const { innerHeight, innerWidth } = this.tooltip.ownerDocument.defaultView;
-    switch ( direction ) {
-      case dirs.UP:
-        if ( pos.y - TooltipManager.TOOLTIP_MARGIN_PX <= 0 ) direction = dirs.DOWN;
-        break;
-      case dirs.DOWN:
-        if ( pos.y + this.tooltip.offsetHeight > innerHeight ) direction = dirs.UP;
-        break;
-      case dirs.LEFT:
-        if ( pos.x - TooltipManager.TOOLTIP_MARGIN_PX <= 0 ) direction = dirs.RIGHT;
-        break;
-      case dirs.RIGHT:
-        if ( pos.x + this.tooltip.offsetWidth + TooltipManager.TOOLTIP_MARGIN_PX > innerWidth ) direction = dirs.LEFT;
-        break;
+    direction = dirs.DOWN;
+    
+    const pos = this.tooltip.getBoundingClientRect();
+    const { innerHeight } = this.tooltip.ownerDocument.defaultView;
+    
+    // Only switch to UP if there's not enough space below
+    if ( pos.y + this.tooltip.offsetHeight > innerHeight ) {
+      direction = dirs.UP;
     }
 
     if ( direction !== game.tooltip.direction ) game.tooltip._setAnchor(direction);

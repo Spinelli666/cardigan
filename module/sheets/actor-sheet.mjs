@@ -148,7 +148,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     if (!existingFrame) {
       const decorativeFrame = document.createElement('img');
       decorativeFrame.className = 'moldura-esquerda-overlay';
-      decorativeFrame.src = 'systems/cardigan/assets/images/decorative/Moldura Esquerda.webp';
+      decorativeFrame.src = 'systems/cardigan/assets/images/decorative/left-frame.webp';
       decorativeFrame.alt = 'Moldura Esquerda';
       
       // Insert at the beginning of the frame
@@ -355,6 +355,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Setup context menu for weapons
     this.#setupContextMenus();
+    
+    // Setup custom window controls (includes drag functionality)
+    this.#setupCustomControls();
+    
+    // Setup minimized window header drag and double-click
+    this.#setupMinimizedHeader();
     
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
@@ -6088,6 +6094,184 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     new ContextMenu5e(this.element, "[data-item-id]", [], {
       onOpen: this._onOpenContextMenu.bind(this),
       jQuery: false
+    });
+  }
+
+  /**
+   * Enable dragging the window by clicking and holding the window-controls-custom div
+   * @private
+   */
+  #enableWindowDrag() {
+    const controlsDiv = this.element.querySelector('.window-controls-custom');
+    if (!controlsDiv) return;
+
+    // Remove existing drag listeners to prevent duplicates
+    if (controlsDiv._dragHandler) {
+      controlsDiv.removeEventListener('mousedown', controlsDiv._dragHandler);
+    }
+
+    const dragHandler = (event) => {
+      // Ignore if clicking on buttons inside the controls div
+      const target = event.target;
+      const isButton = target.matches('button, .control-btn, i') ||
+                       target.closest('button, .control-btn');
+      
+      if (isButton) return;
+      
+      // Only allow left mouse button
+      if (event.button !== 0) return;
+
+      // Prevent text selection during drag
+      event.preventDefault();
+      
+      // Add dragging class to change cursor
+      controlsDiv.classList.add('dragging');
+
+      // Get the window element
+      const window = this.element;
+      
+      // Calculate initial offset
+      const shiftX = event.clientX - window.offsetLeft;
+      const shiftY = event.clientY - window.offsetTop;
+
+      const onMouseMove = (moveEvent) => {
+        // Calculate new position
+        const newLeft = moveEvent.clientX - shiftX;
+        const newTop = moveEvent.clientY - shiftY;
+
+        // Apply new position
+        window.style.left = `${newLeft}px`;
+        window.style.top = `${newTop}px`;
+        
+        // Update the position in the application
+        this.position.left = newLeft;
+        this.position.top = newTop;
+      };
+
+      const onMouseUp = () => {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+        
+        // Remove dragging class
+        controlsDiv.classList.remove('dragging');
+        
+        // Save the final position
+        this.setPosition(this.position);
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    };
+
+    // Store the handler for cleanup
+    controlsDiv._dragHandler = dragHandler;
+    controlsDiv.addEventListener('mousedown', dragHandler);
+  }
+
+  /**
+   * Setup custom window control buttons (config, toggle, copy UUID, minimize, close)
+   * @private
+   */
+  #setupCustomControls() {
+    // Enable dragging via controls div
+    this.#enableWindowDrag();
+    
+    // Alternar controles (toggle Foundry dropdown)
+    const toggleControlsBtn = this.element.querySelector('.toggle-controls-btn');
+    if (toggleControlsBtn) {
+      toggleControlsBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Find the Foundry controls dropdown
+        const dropdown = this.element.querySelector('.controls-dropdown');
+        if (dropdown) {
+          // Toggle the expanded class
+          dropdown.classList.toggle('expanded');
+        }
+      });
+    }
+
+    // Duplo clique na div para minimizar
+    const controlsDiv = this.element.querySelector('.window-controls-custom');
+    if (controlsDiv) {
+      controlsDiv.addEventListener('dblclick', (event) => {
+        // Ignore if double-clicking on buttons
+        const target = event.target;
+        const isButton = target.matches('button, .control-btn, i') ||
+                         target.closest('button, .control-btn');
+        
+        if (isButton) return;
+        
+        // Minimize the window
+        this.minimize();
+      });
+    }
+
+    // Fechar
+    const closeBtn = this.element.querySelector('.close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        this.close();
+      });
+    }
+  }
+
+  /**
+   * Setup drag and double-click functionality for minimized window header
+   * @private
+   */
+  #setupMinimizedHeader() {
+    const windowHeader = this.element.querySelector('.window-header');
+    if (!windowHeader) return;
+
+    // Enable dragging when minimized
+    windowHeader.addEventListener('mousedown', (event) => {
+      // Only enable drag when window is minimized
+      if (!this.element.classList.contains('minimized')) return;
+      
+      // Ignore if clicking on close button
+      if (event.target.closest('.header-control')) return;
+      
+      // Only allow left mouse button
+      if (event.button !== 0) return;
+
+      event.preventDefault();
+
+      const window = this.element;
+      const shiftX = event.clientX - window.offsetLeft;
+      const shiftY = event.clientY - window.offsetTop;
+
+      const onMouseMove = (moveEvent) => {
+        const newLeft = moveEvent.clientX - shiftX;
+        const newTop = moveEvent.clientY - shiftY;
+
+        window.style.left = `${newLeft}px`;
+        window.style.top = `${newTop}px`;
+        
+        this.position.left = newLeft;
+        this.position.top = newTop;
+      };
+
+      const onMouseUp = () => {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+        this.setPosition(this.position);
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
+
+    // Double-click to maximize when minimized
+    windowHeader.addEventListener('dblclick', (event) => {
+      // Only enable maximize when window is minimized
+      if (!this.element.classList.contains('minimized')) return;
+      
+      // Ignore if clicking on close button
+      if (event.target.closest('.header-control')) return;
+      
+      this.maximize();
     });
   }
 

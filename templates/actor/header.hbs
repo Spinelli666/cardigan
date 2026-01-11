@@ -4,7 +4,67 @@
   <div class='header-top-container'>
     {{! Left Aside - Four blocks }}
     <aside class='header-left'>
-      <div class='bloco-1'></div>
+      <div class='bloco-1'>
+        {{! XP e Level Container }}
+        <div class='xp-level-container'>
+          {{! Wizard/Level Up Icon - Always visible }}
+          {{#if (lte system.attributes.level.value 0)}}
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
+               alt='Criar Personagem' 
+               class='wizard-icon pulsing' 
+               data-action='openCharacterWizard' 
+               data-tooltip='Criar Personagem' />
+          {{else if (gte system.experience.current system.experience.nextLevel)}}
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
+               alt='Level Up!' 
+               class='wizard-icon pulsing' 
+               data-action='openLevelUpWizard' 
+               data-tooltip='Subir de Nível' />
+          {{else}}
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
+               alt='Level & XP' 
+               class='wizard-icon'
+               data-tooltip='Nível' />
+          {{/if}}
+          
+          {{! Triangle Arrow Icon }}
+          <i class="fa-solid fa-caret-right triangle-arrow"></i>
+          
+          {{! Level Input }}
+          <div class='level-container'>
+            <input
+              type='number'
+              name='system.attributes.level.value'
+              value='{{system.attributes.level.value}}'
+              data-dtype='Number'
+              min='0'
+              class='level-input'
+            />
+          </div>
+          
+          {{! XP Input }}
+          <div class='xp-container'>
+            <input
+              type='number'
+              name='system.experience.current'
+              value='{{system.experience.current}}'
+              data-dtype='Number'
+              min='0'
+              class='status-current'
+            />
+            <img src='systems/cardigan/assets/images/decorative/field-divider.svg' alt='/' class='status-separator' />
+            <input
+              type='number'
+              name='system.experience.nextLevel'
+              value='{{system.experience.nextLevel}}'
+              data-dtype='Number'
+              min='0'
+              class='status-next'
+              readonly
+            />
+          </div>
+        </div>
+      </div>
       <div class='bloco-2'></div>
       <div class='bloco-3'></div>
       <div class='bloco-4'></div>
@@ -23,6 +83,18 @@
 
     {{! Right Aside }}
     <aside class='header-right'>
+      {{! Window control buttons - replicando os botões do window-header }}
+      <div class='window-controls-custom'>
+        {{! Botão de alternar controles (se existir) }}
+        <button type='button' class='control-btn toggle-controls-btn' data-action='toggleControls' title='Alternar Controles'>
+          <i class='fas fa-ellipsis-vertical'></i>
+        </button>
+        
+        {{! Botão de fechar }}
+        <button type='button' class='control-btn close-btn' data-action='close' title='Fechar'>
+          <i class='fas fa-xmark'></i>
+        </button>
+      </div>
     </aside>
   </div>
 

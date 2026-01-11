@@ -87,63 +87,9 @@
         </div>
       </div>
 
-      {{! Container Classes, XP & Levels - Coluna direita }}
+      {{! Container Classes - Coluna direita }}
       <div class='container-teste'>
-        <h3>Classes, XP & Levels</h3>
-        
-        {{! XP e Level Container }}
-        <div class='xp-level-container'>
-          <div class='xp-container'>
-            <label class='status-label'>XP:</label>
-            <div class='status-display'>
-              <input
-                type='number'
-                name='system.experience.current'
-                value='{{system.experience.current}}'
-                data-dtype='Number'
-                min='0'
-                class='status-current'
-              />
-              <span class='status-separator'>/</span>
-              <input
-                type='number'
-                name='system.experience.nextLevel'
-                value='{{system.experience.nextLevel}}'
-                data-dtype='Number'
-                min='0'
-                class='status-next'
-                readonly
-              />
-            </div>
-          </div>
-          
-          <div class='level-container'>
-            <label class='level-label'>Level:</label>
-            <div class='level-display'>
-              <input
-                type='number'
-                name='system.attributes.level.value'
-                value='{{system.attributes.level.value}}'
-                data-dtype='Number'
-                min='0'
-                class='level-input'
-              />
-            </div>
-            {{#if (lte system.attributes.level.value 0)}}
-            <div class='wizard-button-container'>
-              <button type='button' class='wizard-button-small' data-action='openCharacterWizard' title='Criar Personagem'>
-                <i class='fas fa-hat-wizard'></i>
-              </button>
-            </div>
-            {{else if (gte system.experience.current system.experience.nextLevel)}}
-            <div class='wizard-button-container'>
-              <button type='button' class='wizard-button-small level-up-button' data-action='openLevelUpWizard' title='Level Up!'>
-                <i class='fas fa-arrow-up'></i>
-              </button>
-            </div>
-            {{/if}}
-          </div>
-        </div>
+        <h3>Classes</h3>
         
         {{! Classes Row }}
         <div class='classes-row'>

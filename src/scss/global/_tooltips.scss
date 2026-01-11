@@ -2,17 +2,24 @@
 /*  Custom Tooltips                   */
 /* ---------------------------------- */
 
+// Override Foundry's default tooltip size
+#tooltip, .locked-tooltip {
+  font-size: 11px !important;
+  max-width: 250px !important;
+  padding: 6px 10px !important;
+}
+
 #tooltip.cardigan-tooltip {
   font-family: 'Roboto', sans-serif;
-  font-size: 13px;
+  font-size: 11px;
   text-align: start;
   color: var(--color-text-light-primary, #f0f0f0);
-  border-radius: 5px;
-  padding: 8px 12px;
+  border-radius: 4px;
+  padding: 6px 10px;
   background: #2a2a2a;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.45);
   border: 2px solid #d4af37;
-  max-width: 300px;
+  max-width: 250px;
 
   // Hide document type icons in tooltip content
   .content-link i {
