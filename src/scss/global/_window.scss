@@ -4,7 +4,7 @@
 
 .application.cardigan.actor,
 .cardigan.actor.sheet {
-  background: rgba(17, 42, 53, 0.7) !important;
+  background: transparent !important;
   border: 5px solid transparent;
   border-image: linear-gradient(180deg, #C0863B 38%, #7E5827 100%) 1;
   
@@ -16,11 +16,16 @@
   .moldura-esquerda-overlay {
     position: absolute;
     top: -92px;
-    left: 0;
+    left: -106px;
     width: 259.95pxpx;
-    height: 278.05px;
+    height: 281.05px;
     pointer-events: none; // Não interfere com cliques
     z-index: 1000; // Fica acima do window-header (z-index ~100)
+  }
+
+  // Ocultar moldura quando minimizado
+  &.minimized .moldura-esquerda-overlay {
+    display: none;
   }
 
   // Tamanho mínimo e máximo da janela
@@ -35,7 +40,9 @@
     width: 100%;
     height: 100%;
     transition: width 0.3s ease, height 0.3s ease;
-    background: transparent;
+    background: rgba(14, 41, 56, 0.9);
+    // backdrop-filter: none !important; // Remove blur do Foundry
+    // -webkit-backdrop-filter: none !important; // Remove blur WebKit
     position: relative;
     z-index: 50; // Acima do window-header
     margin-top: -36px; // Sobe para cobrir o window-header
@@ -61,6 +68,7 @@
   
   // Mostrar o título apenas quando minimizado
   &.minimized {
+    background: rgba(14, 41, 56, 0.9) !important;
     border: 3px solid transparent;
     border-image: linear-gradient(180deg, #C0863B 38%, #7E5827 100%) 1;
     

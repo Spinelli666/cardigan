@@ -140,6 +140,27 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   /* -------------------------------------------- */
 
   /** @override */
+  async _renderFrame(options) {
+    const frame = await super._renderFrame(options);
+    
+    // Add decorative frame to the window frame (persists through minimize/maximize)
+    const existingFrame = frame.querySelector('.moldura-esquerda-overlay');
+    if (!existingFrame) {
+      const decorativeFrame = document.createElement('img');
+      decorativeFrame.className = 'moldura-esquerda-overlay';
+      decorativeFrame.src = 'systems/cardigan/assets/images/decorative/Moldura Esquerda.webp';
+      decorativeFrame.alt = 'Moldura Esquerda';
+      
+      // Insert at the beginning of the frame
+      frame.insertBefore(decorativeFrame, frame.firstChild);
+    }
+    
+    return frame;
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
   async _prepareContext(options) {
     // Output initialization
     const context = {
@@ -277,9 +298,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     this.#dragDrop.forEach((d) => d.bind(this.element));
     this.#disableOverrides();
     
-    // Add decorative frame image above window-header
-    this.#addDecorativeFrame();
-    
     // Clear any existing modal listeners to prevent conflicts
     this._clearAbilitiesModalListeners();
     
@@ -341,57 +359,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
-  }
-
-  /**
-   * Add decorative frame image above window-header
-   * @private
-   */
-  #addDecorativeFrame() {
-    // Remove existing frame if any
-    const existingFrame = this.element.querySelector('.moldura-esquerda-overlay');
-    if (existingFrame) existingFrame.remove();
-    
-    // Create and insert the decorative frame image
-    const frame = document.createElement('img');
-    frame.className = 'moldura-esquerda-overlay';
-    frame.src = 'systems/cardigan/assets/images/decorative/Moldura Esquerda.webp';
-    frame.alt = 'Moldura Esquerda';
-    
-    // Insert at the beginning of the application element (before window-header)
-    this.element.insertBefore(frame, this.element.firstChild);
-    
-    // Position frame to align with header-left (after a small delay to ensure layout is ready)
-    setTimeout(() => this.#positionDecorativeFrame(), 10);
-    
-    // Add resize observer to reposition frame when window is resized
-    if (!this._frameResizeObserver) {
-      this._frameResizeObserver = new ResizeObserver(() => {
-        this.#positionDecorativeFrame();
-      });
-      this._frameResizeObserver.observe(this.element);
-    }
-  }
-
-  /**
-   * Position the decorative frame to align with header-left
-   * @private
-   */
-  #positionDecorativeFrame() {
-    const frame = this.element.querySelector('.moldura-esquerda-overlay');
-    const headerLeft = this.element.querySelector('.header-left');
-    
-    if (!frame || !headerLeft) return;
-    
-    // Get the position of header-left relative to the application element
-    const appRect = this.element.getBoundingClientRect();
-    const leftRect = headerLeft.getBoundingClientRect();
-    
-    // Calculate the left offset and adjust by -108px (from 5.875px to -102.125px)
-    const leftOffset = (leftRect.left - appRect.left) - 108;
-    
-    // Update frame position
-    frame.style.left = `${leftOffset}px`;
   }
 
   /**
@@ -1339,8 +1306,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     event.preventDefault();
     
     try {
-      // Create the death die roll (1d12)
-      const roll = new Roll('1d12');
+      // Create the death die roll (1d20)
+      const roll = new Roll('1d20');
       
       // Evaluate the roll
       await roll.evaluate();
@@ -1351,8 +1318,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       let updateData = {};
       
       // Apply automatic effects based on result
-      if (result >= 1 && result <= 6) {
-        // 1-6: Death Sentence
+      if (result >= 1 && result <= 10) {
+        // 1-10: Death Sentence
         const currentDeathSentence = this.document.system.status?.deathSentence ?? null;
         
         if (currentDeathSentence === 3) {
@@ -1375,8 +1342,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
             flavorMessage += `\n PERSONAGEM MORREU! (3 Sentenças de Morte)`;
           }
         }
-      } else if (result >= 7 && result <= 12) {
-        // 7-12: Dádiva da Vida
+      } else if (result >= 11 && result <= 20) {
+        // 11-20: Dádiva da Vida
         const currentLifeGift = this.document.system.status?.giftOfLife ?? null;
         
         if (currentLifeGift === 3) {

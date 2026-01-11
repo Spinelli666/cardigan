@@ -96,10 +96,11 @@
       height: 176.37px;
       border-radius: 4px;
       object-fit: cover;
+      filter: saturate(1.3) contrast(1.1) brightness(1.05);
     }
   }
 
-  // Right Aside - Character Name (temporary green border)
+  // Right Aside (temporary green border)
   .header-right {
     width: 155.54px;
     height: 182.55px;
@@ -118,6 +119,16 @@
     @container actor-sheet (min-height: 1000px) {
       border-color: darkgreen;
     }
+  }
+
+  // Bottom Section - Character Name
+  .header-bottom-section {
+    // border: 2px solid orange;
+    flex: 1; // Ocupará o espaço restante do header
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
 
     input[name='name'] {
       width: 100%;
@@ -127,12 +138,6 @@
       background: rgba(255, 255, 255, 0.1);
       padding: 4px;
     }
-  }
-
-  // Bottom Section - Empty for now
-  .header-bottom-section {
-    border: 2px solid orange;
-    flex: 1; // Ocupará o espaço restante do header
   }
 }
 
