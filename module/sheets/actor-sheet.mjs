@@ -1374,21 +1374,26 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
       }
       
-      // Update the actor if there are changes to apply
-      if (Object.keys(updateData).length > 0) {
-        await this.document.update(updateData);
-      }
-      
       // Detect critical results
       const flags = this.constructor._detectCriticalResults(roll, this.document, null);
       
-      // Send to chat
+      // Send to chat FIRST - so result appears before checkbox is marked
       const chatMessage = await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.document }),
         flavor: flavorMessage,
         rollMode: game.settings.get('core', 'rollMode'),
         flags: flags
       });
+      
+      // Wait for Dice So Nice! animation to complete (if module is active)
+      if (game.dice3d) {
+        await game.dice3d.waitFor3DAnimationByMessageID(chatMessage.id);
+      }
+      
+      // Update the actor AFTER chat message AND dice animation
+      if (Object.keys(updateData).length > 0) {
+        await this.document.update(updateData);
+      }
       
       return roll;
     } catch (error) {

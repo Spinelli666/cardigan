@@ -6,11 +6,6 @@
   padding: 3px;
   z-index: 200;
   position: relative;
-
-  border-bottom: 5px solid transparent;
-  border-image: url('../../assets/images/decorative/border-bottom.svg') 5 fill;
-  border-image-outset: 0;
-  border-image-repeat: stretch;
 }
 
 .death-fields-container {
@@ -68,35 +63,68 @@
       margin: 0;
 
       input[type='checkbox'] {
-        width: 18px;
-        height: 18px;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        position: relative;
+        width: 18px !important;
+        height: 18px !important;
+        min-width: 18px !important;
+        min-height: 18px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        border: 2px solid rgba(105, 76, 39, 0.6) !important;
+        background: none !important;
         cursor: pointer;
-        margin: 0;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        border-radius: 50%;
-        background: transparent;
-        border: 2px solid rgba(207, 149, 76, 0.60);
-        transition: all 0.2s ease;
-        flex-shrink: 0;
-        aspect-ratio: 1;
+        transition: all 0.3s ease;
+        box-shadow: none !important;
+        vertical-align: middle;
 
-        &::before,
-        &::after {
+        // Remover pseudo-elementos do Foundry VTT
+        &::before {
           content: none !important;
           display: none !important;
         }
 
-        &:hover {
-          border-color: rgba(207, 149, 76, 1.0);
+        // Ícone de check customizado
+        &::after {
+          content: '' !important;
+          position: absolute;
+          display: none;
+          left: 50%;
+          top: 50%;
+          width: 4px;
+          height: 8px;
+          border: solid #FFD700;
+          border-width: 0 2px 2px 0 !important;
+          transform: translate(-50%, -60%) rotate(45deg);
+          background: none !important;
         }
 
         &:checked {
-          border-radius: 10px;
+          background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
+          border: none !important;
+          border-color: transparent !important;
+          box-shadow: none !important;
           transform: rotate(45deg);
-          background: linear-gradient(135deg, #CF954C 47.22%, #694C27 80.56%);
-          border: none;
+          border-radius: 4px !important;
+          flex-shrink: 0;
+          aspect-ratio: 1;
+
+          &::after {
+            display: none !important;
+          }
+        }
+
+        &:hover {
+          border-color: #CF954C !important;
+          box-shadow: none !important;
+        }
+
+        &:focus {
+          outline: none !important;
+          box-shadow: none !important;
         }
       }
     }
@@ -143,35 +171,68 @@
       margin: 0;
 
       input[type='checkbox'] {
-        width: 18px;
-        height: 18px;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        position: relative;
+        width: 18px !important;
+        height: 18px !important;
+        min-width: 18px !important;
+        min-height: 18px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        border: 2px solid rgba(105, 76, 39, 0.6) !important;
+        background: none !important;
         cursor: pointer;
-        margin: 0;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        border-radius: 50%;
-        background: transparent;
-        border: 2px solid rgba(207, 149, 76, 0.60);
-        transition: all 0.2s ease;
-        flex-shrink: 0;
-        aspect-ratio: 1;
+        transition: all 0.3s ease;
+        box-shadow: none !important;
+        vertical-align: middle;
 
-        &::before,
-        &::after {
+        // Remover pseudo-elementos do Foundry VTT
+        &::before {
           content: none !important;
           display: none !important;
         }
 
-        &:hover {
-          border-color: rgba(207, 149, 76, 1.0);
+        // Ícone de check customizado
+        &::after {
+          content: '' !important;
+          position: absolute;
+          display: none;
+          left: 50%;
+          top: 50%;
+          width: 4px;
+          height: 8px;
+          border: solid #FFD700;
+          border-width: 0 2px 2px 0 !important;
+          transform: translate(-50%, -60%) rotate(45deg);
+          background: none !important;
         }
 
         &:checked {
-          border-radius: 10px;
+          background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
+          border: none !important;
+          border-color: transparent !important;
+          box-shadow: none !important;
           transform: rotate(45deg);
-          background: linear-gradient(135deg, #CF954C 47.22%, #694C27 80.56%);
-          border: none;
+          border-radius: 4px !important;
+          flex-shrink: 0;
+          aspect-ratio: 1;
+
+          &::after {
+            display: none !important;
+          }
+        }
+
+        &:hover {
+          border-color: #CF954C !important;
+          box-shadow: none !important;
+        }
+
+        &:focus {
+          outline: none !important;
+          box-shadow: none !important;
         }
       }
     }
@@ -192,13 +253,17 @@
     cursor: pointer;
     transition: all 0.2s ease;
 
-    &:hover {
+    &:hover:not(.disabled) {
       filter: drop-shadow(0px 0px 4px rgba(255, 183, 92, 0.6));
       transform: scale(1.1);
     }
 
-    &:active {
+    &:active:not(.disabled) {
       transform: scale(0.95);
+    }
+
+    &.disabled {
+      cursor: not-allowed;
     }
   }
 }
