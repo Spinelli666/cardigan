@@ -452,6 +452,7 @@
   gap: 0;
 }
 .cardigan .sheet-header .header-left {
+  padding: 0px 11px;
   width: 155.54px;
   height: 182.55px;
   flex-shrink: 0;
@@ -548,52 +549,16 @@
   cursor: grabbing;
 }
 .cardigan .sheet-header .header-right .window-controls-custom .control-btn {
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(0, 0, 0, 0.4);
-  color: rgba(255, 255, 255, 0.7);
-  border-radius: 3px;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  cursor: pointer;
 }
 .cardigan .sheet-header .header-right .window-controls-custom .control-btn i {
-  font-size: 10px;
-  pointer-events: none;
-}
-.cardigan .sheet-header .header-right .window-controls-custom .control-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  border-color: rgba(255, 255, 255, 0.4);
-}
-.cardigan .sheet-header .header-right .window-controls-custom .control-btn.close-btn:hover {
-  background: rgba(220, 53, 69, 0.8);
-  border-color: rgba(255, 100, 100, 0.9);
-  color: white;
-}
-.cardigan .sheet-header .header-right .window-controls-custom .control-btn.minimize-btn:hover {
-  background: rgba(52, 144, 220, 0.8);
-  border-color: rgba(100, 180, 255, 0.9);
-  color: white;
-}
-.cardigan .sheet-header .header-right .window-controls-custom .control-btn.config-btn:hover {
-  background: rgba(108, 117, 125, 0.8);
-  border-color: rgba(150, 160, 170, 0.9);
-  color: white;
-}
-.cardigan .sheet-header .header-right .window-controls-custom .control-btn.copy-uuid-btn:hover {
-  background: rgba(40, 167, 69, 0.8);
-  border-color: rgba(80, 200, 120, 0.9);
-  color: white;
-}
-.cardigan .sheet-header .header-right .window-controls-custom .control-btn.toggle-controls-btn:hover {
-  background: rgba(255, 193, 7, 0.8);
-  border-color: rgba(255, 220, 100, 0.9);
-  color: rgba(0, 0, 0, 0.8);
+  font-size: 8px;
 }
 .cardigan .sheet-header .header-bottom-section {
   flex: 1;
@@ -3255,7 +3220,13 @@
   justify-content: center;
   width: 100%;
 }
-.cardigan .bloco-1 .triangle-arrow {
+.cardigan .bloco-1 .icon-arrow-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  align-items: center;
+}
+.cardigan .bloco-1 .icon-arrow-wrapper .triangle-arrow {
   font-size: 9px;
   background: linear-gradient(143deg, #FFB75C 2.94%, #694C27 97.06%);
   -webkit-background-clip: text;
@@ -3269,11 +3240,12 @@
   width: 23px;
   height: 23px;
   object-fit: contain;
-  cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
+  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
 }
 .cardigan .bloco-1 .wizard-icon.pulsing {
+  cursor: pointer;
   animation: pulse-glow 2s ease-in-out infinite;
 }
 .cardigan .bloco-1 .wizard-icon.pulsing:hover {
@@ -3281,7 +3253,7 @@
   animation: none;
   filter: drop-shadow(0 0 20px rgb(255, 183, 92)) drop-shadow(0 0 15px rgb(255, 215, 130));
 }
-.cardigan .bloco-1 .wizard-icon:active {
+.cardigan .bloco-1 .wizard-icon.pulsing:active {
   transform: scale(0.95);
 }
 .cardigan .bloco-1 .level-container {
@@ -3303,6 +3275,7 @@
   font-size: 14px;
   color: white;
   outline: none;
+  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
 }
 .cardigan .bloco-1 .level-container .level-input:focus {
   border-color: rgba(207, 149, 76, 0.9);
@@ -3321,6 +3294,7 @@
   background: rgba(105, 76, 39, 0.6);
   flex-shrink: 1;
   min-width: 0;
+  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
 }
 .cardigan .bloco-1 .xp-container:focus-within {
   border-color: rgba(207, 149, 76, 0.9);
@@ -3348,52 +3322,356 @@
   object-fit: contain;
 }
 .cardigan {
-  /* Armor Container Styles */
+  /* Movement & Critical Hit Container Styles */
 }
-.cardigan .armadura-container {
-  margin-bottom: 10px;
-}
-.cardigan .armadura-container .status-label {
-  font-weight: bold;
-  font-size: 14px;
-  color: #fff;
-  margin-bottom: 4px;
-  display: block;
-}
-.cardigan .armadura-container .status-display {
-  display: inline-flex;
+.cardigan .bloco-2 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 8px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 2px;
-  background: transparent;
-  width: auto;
-  min-width: 0;
-  max-width: 220px;
+  padding: 3px;
+  z-index: 200;
+  border-bottom: 3px solid transparent;
+  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
+  border-image-slice: 0 0 100% 0;
+  border-image-repeat: stretch;
+}
+.cardigan .bloco-2 .movement-crit-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
   justify-content: center;
 }
-.cardigan .armadura-container .status-current,
-.cardigan .armadura-container .status-next {
+.cardigan .bloco-2 .movement-field,
+.cardigan .bloco-2 .crit-field {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+}
+.cardigan .bloco-2 .movement-field .icon-arrow-wrapper,
+.cardigan .bloco-2 .crit-field .icon-arrow-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  align-items: center;
+}
+.cardigan .bloco-2 .movement-field .icon-arrow-wrapper .triangle-arrow,
+.cardigan .bloco-2 .crit-field .icon-arrow-wrapper .triangle-arrow {
+  font-size: 9px;
+  background: linear-gradient(143deg, #FFB75C 2.94%, #694C27 97.06%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  flex-shrink: 0;
+  margin-left: -2px;
+  padding-top: 2px;
+}
+.cardigan .bloco-2 .movement-icon,
+.cardigan .bloco-2 .crit-icon {
+  width: 23px;
+  height: 23px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+.cardigan .bloco-2 .movement-input,
+.cardigan .bloco-2 .crit-input {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  padding: 0px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: 1.7px solid rgba(207, 149, 76, 0.6);
+  background: rgba(105, 76, 39, 0.6);
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  outline: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+.cardigan .bloco-2 .movement-input:focus,
+.cardigan .bloco-2 .crit-input:focus {
+  border-color: rgba(207, 149, 76, 0.9);
+  background: rgba(105, 76, 39, 0.85);
+}
+.cardigan {
+  /* Armor Container Styles */
+}
+.cardigan .bloco-3 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3px;
+  z-index: 200;
+  border-bottom: 3px solid transparent;
+  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
+  border-image-slice: 0 0 100% 0;
+  border-image-repeat: stretch;
+}
+.cardigan .bloco-3 .armor-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.cardigan .bloco-3 .icon-arrow-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  align-items: center;
+}
+.cardigan .bloco-3 .icon-arrow-wrapper .triangle-arrow {
+  font-size: 9px;
+  background: linear-gradient(143deg, #FFB75C 2.94%, #694C27 97.06%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  flex-shrink: 0;
+  margin-left: -2px;
+  padding-top: 2px;
+}
+.cardigan .bloco-3 .armor-icon {
+  width: 23px;
+  height: 23px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
+}
+.cardigan .bloco-3 .armor-value-container {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  width: 60px;
+  height: 24px;
+  padding: 0.25px 0px 0px 0px;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1.7px solid rgba(207, 149, 76, 0.6);
+  background: rgba(105, 76, 39, 0.6);
+  flex-shrink: 1;
+  min-width: 0;
+  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
+}
+.cardigan .bloco-3 .armor-value-container:focus-within {
+  border-color: rgba(207, 149, 76, 0.9);
+  background: rgba(105, 76, 39, 0.85);
+}
+.cardigan .bloco-3 .armor-value-container .armor-current,
+.cardigan .bloco-3 .armor-value-container .armor-max {
   border: none;
   background: transparent;
   text-align: center;
   font-size: 14px;
-  font-weight: bold;
-  padding: 4px 0;
-  width: 38px !important;
-  min-width: 38px !important;
-  max-width: 38px !important;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  color: white;
   outline: none;
-  box-sizing: border-box;
-  flex: 0 0 38px;
+  flex-shrink: 1;
+  min-width: 0;
 }
-.cardigan .armadura-container .status-separator {
+.cardigan .bloco-3 .armor-value-container .armor-separator {
+  margin: 0px -6px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+.cardigan .bloco-3 .armor-bonus {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  padding: 0px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  border: 1.7px solid rgba(207, 149, 76, 0.6);
+  background: rgba(105, 76, 39, 0.6);
+  text-align: center;
   font-size: 14px;
-  font-weight: bold;
-  color: #666;
-  margin: 0 2px;
-  user-select: none;
+  color: white;
+  outline: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+.cardigan .bloco-3 .armor-bonus:focus {
+  border-color: rgba(207, 149, 76, 0.9);
+  background: rgba(105, 76, 39, 0.85);
+}
+.cardigan .bloco-4 {
+  padding: 3px;
+  z-index: 200;
+  position: relative;
+  border-bottom: 5px solid transparent;
+  border-image: url("../../assets/images/decorative/border-bottom.svg") 5 fill;
+  border-image-outset: 0;
+  border-image-repeat: stretch;
+}
+.cardigan .death-fields-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+.cardigan .death-life-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.cardigan .gift-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.cardigan .gift-field .icon-arrow-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.cardigan .gift-field .icon-arrow-wrapper .triangle-arrow {
+  font-size: 9px;
+  color: #FFB75C;
+  background: linear-gradient(143deg, #FFB75C 0%, #694C27 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-left: -2px;
+}
+.cardigan .gift-field .gift-icon {
+  width: 23px;
+  height: 23px;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+}
+.cardigan .gift-field .sequential-group {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.cardigan .gift-field .sequential-group .sequential-option {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.cardigan .gift-field .sequential-group .sequential-option input[type=checkbox] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid rgba(207, 149, 76, 0.6);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+}
+.cardigan .gift-field .sequential-group .sequential-option input[type=checkbox]::before, .cardigan .gift-field .sequential-group .sequential-option input[type=checkbox]::after {
+  content: none !important;
+  display: none !important;
+}
+.cardigan .gift-field .sequential-group .sequential-option input[type=checkbox]:hover {
+  border-color: rgb(207, 149, 76);
+}
+.cardigan .gift-field .sequential-group .sequential-option input[type=checkbox]:checked {
+  border-radius: 10px;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg, #CF954C 47.22%, #694C27 80.56%);
+  border: none;
+}
+.cardigan .death-sentence-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.cardigan .death-sentence-field .icon-arrow-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.cardigan .death-sentence-field .icon-arrow-wrapper .triangle-arrow {
+  font-size: 9px;
+  color: #FFB75C;
+  background: linear-gradient(143deg, #FFB75C 0%, #694C27 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-left: -2px;
+}
+.cardigan .death-sentence-field .death-sentence-icon {
+  width: 23px;
+  height: 23px;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+}
+.cardigan .death-sentence-field .sequential-group {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.cardigan .death-sentence-field .sequential-group .sequential-option {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.cardigan .death-sentence-field .sequential-group .sequential-option input[type=checkbox] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid rgba(207, 149, 76, 0.6);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+}
+.cardigan .death-sentence-field .sequential-group .sequential-option input[type=checkbox]::before, .cardigan .death-sentence-field .sequential-group .sequential-option input[type=checkbox]::after {
+  content: none !important;
+  display: none !important;
+}
+.cardigan .death-sentence-field .sequential-group .sequential-option input[type=checkbox]:hover {
+  border-color: rgb(207, 149, 76);
+}
+.cardigan .death-sentence-field .sequential-group .sequential-option input[type=checkbox]:checked {
+  border-radius: 10px;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg, #CF954C 47.22%, #694C27 80.56%);
+  border: none;
+}
+.cardigan .death-die-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.cardigan .death-die-field .death-die-icon {
+  width: 23px;
+  height: 23px;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.cardigan .death-die-field .death-die-icon:hover {
+  filter: drop-shadow(0px 0px 4px rgba(255, 183, 92, 0.6));
+  transform: scale(1.1);
+}
+.cardigan .death-die-field .death-die-icon:active {
+  transform: scale(0.95);
 }
 .cardigan {
   /* Mochila/Backpack Container Styles */

@@ -7,28 +7,30 @@
       <div class='bloco-1'>
         {{! XP e Level Container }}
         <div class='xp-level-container'>
-          {{! Wizard/Level Up Icon - Always visible }}
-          {{#if (lte system.attributes.level.value 0)}}
-          <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
-               alt='Criar Personagem' 
-               class='wizard-icon pulsing' 
-               data-action='openCharacterWizard' 
-               data-tooltip='Criar Personagem' />
-          {{else if (gte system.experience.current system.experience.nextLevel)}}
-          <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
-               alt='Level Up!' 
-               class='wizard-icon pulsing' 
-               data-action='openLevelUpWizard' 
-               data-tooltip='Subir de Nível' />
-          {{else}}
-          <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
-               alt='Level & XP' 
-               class='wizard-icon'
-               data-tooltip='Nível' />
-          {{/if}}
-          
-          {{! Triangle Arrow Icon }}
-          <i class="fa-solid fa-caret-right triangle-arrow"></i>
+          <div class='icon-arrow-wrapper'>
+            {{! Wizard/Level Up Icon - Always visible }}
+            {{#if (lte system.attributes.level.value 0)}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
+                 alt='Criar Personagem' 
+                 class='wizard-icon pulsing' 
+                 data-action='openCharacterWizard' 
+                 data-tooltip='Criar Personagem' />
+            {{else if (gte system.experience.current system.experience.nextLevel)}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
+                 alt='Level Up!' 
+                 class='wizard-icon pulsing' 
+                 data-action='openLevelUpWizard' 
+                 data-tooltip='Subir de Nível' />
+            {{else}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
+                 alt='Level & XP' 
+                 class='wizard-icon'
+                 data-tooltip='Nível' />
+            {{/if}}
+            
+            {{! Triangle Arrow Icon }}
+            <i class="fa-solid fa-caret-right triangle-arrow"></i>
+          </div>
           
           {{! Level Input }}
           <div class='level-container'>
@@ -65,9 +67,163 @@
           </div>
         </div>
       </div>
-      <div class='bloco-2'></div>
-      <div class='bloco-3'></div>
-      <div class='bloco-4'></div>
+      <div class='bloco-2'>
+        {{! Movement e Critical Hit Container }}
+        <div class='movement-crit-container'>
+          {{! Movement Input }}
+          <div class='movement-field'>
+            <div class='icon-arrow-wrapper'>
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-movement.svg' alt='Movement' class='movement-icon' data-tooltip="Deslocamento"/>
+              <i class="fa-solid fa-caret-right triangle-arrow"></i>
+            </div>
+            <input
+              type='number'
+              name='system.details.movement'
+              value='{{system.details.movement}}'
+              data-dtype='Number'
+              min='0'
+              class='movement-input'
+            />
+          </div>
+          
+          {{! Critical Hit Input }}
+          <div class='crit-field'>
+            <div class='icon-arrow-wrapper'>
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-critical.svg' alt='Critical Hit' class='crit-icon' data-tooltip="Acerto Crítico"/>
+              <i class="fa-solid fa-caret-right triangle-arrow"></i>
+            </div>
+            <input
+              type='number'
+              name='system.details.criticalHit'
+              value='{{system.details.criticalHit}}'
+              data-dtype='Number'
+              class='crit-input'
+            />
+          </div>
+        </div>
+      </div>
+      <div class='bloco-3'>
+        {{! Armor Container }}
+        <div class='armor-container'>
+          <div class='icon-arrow-wrapper'>
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-armor.svg' alt='Armor' class='armor-icon' data-tooltip="Armadura"/>
+            <i class="fa-solid fa-caret-right triangle-arrow"></i>
+          </div>
+          
+          {{! Armor Value / Max }}
+          <div class='armor-value-container'>
+            <input
+              type='number'
+              name='system.armor.value'
+              value='{{system.armor.value}}'
+              data-dtype='Number'
+              min='0'
+              class='armor-current'
+            />
+            <img src='systems/cardigan/assets/images/decorative/field-divider.svg' alt='/' class='armor-separator' />
+            <input
+              type='number'
+              name='system.armor.max'
+              value='{{system.armor.max}}'
+              data-dtype='Number'
+              min='0'
+              class='armor-max'
+              readonly
+            />
+          </div>
+          
+          {{! Armor Bonus }}
+          <input
+            type='number'
+            name='system.status.armorBonus'
+            value='{{system.status.armorBonus}}'
+            data-dtype='Number'
+            class='armor-bonus'
+            data-tooltip="Armadura Temporária"
+          />
+        </div>
+      </div>
+      <div class='bloco-4'>
+        {{! Death Fields Container }}
+        <div class='death-fields-container'>
+          {{! Death Sentence and Gift of Life Group }}
+          <div class='death-life-group'>
+            {{! Death Sentence }}
+            <div class='death-sentence-field'>
+              <div class='icon-arrow-wrapper'>
+                <img src='systems/cardigan/assets/images/decorative/icons/icon-death-sentence.svg' alt='Death Sentence' class='death-sentence-icon' data-tooltip="Death Sentence"/>
+                <i class="fa-solid fa-caret-right triangle-arrow"></i>
+              </div>
+              <div class='sequential-group' data-field='deathSentence'>
+                <input type='hidden' name='system.status.deathSentence' value='{{system.status.deathSentence}}' data-dtype='Number' />
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='1'
+                    {{#if (gte system.status.deathSentence 1)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='2'
+                    {{#if (gte system.status.deathSentence 2)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='3'
+                    {{#if (gte system.status.deathSentence 3)}}checked{{/if}}
+                  />
+                </label>
+              </div>
+            </div>
+
+            {{! Gift of Life }}
+            <div class='gift-field'>
+              <div class='icon-arrow-wrapper'>
+                <img src='systems/cardigan/assets/images/decorative/icons/icon-gift-life.svg' alt='Gift of Life' class='gift-icon' data-tooltip="Gift of Life"/>
+                <i class="fa-solid fa-caret-right triangle-arrow"></i>
+              </div>
+              <div class='sequential-group' data-field='giftOfLife'>
+                <input type='hidden' name='system.status.giftOfLife' value='{{system.status.giftOfLife}}' data-dtype='Number' />
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='1'
+                    {{#if (gte system.status.giftOfLife 1)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='2'
+                    {{#if (gte system.status.giftOfLife 2)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='3'
+                    {{#if (gte system.status.giftOfLife 3)}}checked{{/if}}
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {{! Death Die }}
+          <div class='death-die-field'>
+            <img 
+              src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' 
+              alt='Death Die' 
+              class='death-die-icon'
+              data-action='rollDeathDie'
+            />
+          </div>
+        </div>
+      </div>
     </aside>
 
     {{! Center Div - Profile Image }}

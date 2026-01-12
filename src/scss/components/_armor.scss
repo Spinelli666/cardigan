@@ -1,19 +1,7 @@
-/* XP, Level & Classes Container Styles */
+/* Armor Container Styles */
 
-// Keyframes para animação de glow suave pulsando
-@keyframes pulse-glow {
-  0%, 100% {
-    filter: drop-shadow(0 0 8px rgba(255, 183, 92, 0.8));
-  }
-  50% {
-    filter: drop-shadow(0 0 20px rgba(255, 183, 92, 1)) 
-            drop-shadow(0 0 15px rgba(255, 215, 130, 1));
-  }
-}
-
-// Bloco 1 - Purple border com XP e Level
-.bloco-1 {
-  // border: 2px solid purple;
+// Bloco 3 - Armor
+.bloco-3 {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -25,8 +13,8 @@
   border-image: url('../assets/images/decorative/border-bottom.svg') 0 0 100% 0;
   border-image-slice: 0 0 100% 0;
   border-image-repeat: stretch;
-  
-  .xp-level-container {
+
+  .armor-container {
     display: flex;
     flex-direction: row;
     gap: 5px;
@@ -40,7 +28,7 @@
     flex-direction: row;
     gap: 3px;
     align-items: center;
-    
+
     .triangle-arrow {
       font-size: 9px;
       background: linear-gradient(143deg, #FFB75C 2.94%, #694C27 97.06%);
@@ -53,60 +41,15 @@
     }
   }
 
-  .wizard-icon {
+  .armor-icon {
     width: 23px;
     height: 23px;
     object-fit: contain;
-    transition: all 0.2s ease;
     flex-shrink: 0;
     filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
-    
-    &.pulsing {
-      cursor: pointer;
-      animation: pulse-glow 2s ease-in-out infinite;
-
-      &:hover {
-        transform: scale(1.1);
-        animation: none;
-        filter: drop-shadow(0 0 20px rgba(255, 183, 92, 1))
-                drop-shadow(0 0 15px rgba(255, 215, 130, 1));
-      }
-
-      &:active {
-        transform: scale(0.95);
-      }
-    }
   }
 
-  .level-container {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    
-    .level-input {
-      display: flex;
-      width: 24px;
-      height: 24px;
-      padding: 0.25px 0px 0px 0px;
-      justify-content: center;
-      align-items: center;
-      border-radius: 6px;
-      border: 1.7px solid rgba(207, 149, 76, 0.60);
-      background: rgba(105, 76, 39, 0.60);
-      text-align: center;
-      font-size: 14px;
-      color: white;
-      outline: none;
-      filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
-
-      &:focus {
-        border-color: rgba(207, 149, 76, 0.90);
-        background: rgba(105, 76, 39, 0.85);
-      }
-    }
-  }
-
-  .xp-container {
+  .armor-value-container {
     display: flex;
     align-items: center;
     gap: 0px;
@@ -126,8 +69,8 @@
       background: rgba(105, 76, 39, 0.85);
     }
 
-    .status-current,
-    .status-next {
+    .armor-current,
+    .armor-max {
       border: none;
       background: transparent;
       text-align: center;
@@ -141,12 +84,34 @@
       min-width: 0;
     }
 
-    .status-separator {
+    .armor-separator {
       margin: 0px -6px;
       width: 18px;
       height: 18px;
       flex-shrink: 0;
       object-fit: contain;
+    }
+  }
+
+  .armor-bonus {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    padding: 0px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    border: 1.7px solid rgba(207, 149, 76, 0.60);
+    background: rgba(105, 76, 39, 0.60);
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    outline: none;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+
+    &:focus {
+      border-color: rgba(207, 149, 76, 0.90);
+      background: rgba(105, 76, 39, 0.85);
     }
   }
 }

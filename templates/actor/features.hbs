@@ -59,31 +59,6 @@
               {{/if}}
             </div>
           </div>
-          
-          {{! Deslocamento }}
-          <div class='detail-field'>
-            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.movement.label"}}:</label>
-            <input
-              type='number'
-              name='system.details.movement'
-              value='{{system.details.movement}}'
-              data-dtype='Number'
-              min='0'
-              class='dynamic-field'
-            />
-          </div>
-          
-          {{! Acerto Crítico }}
-          <div class='detail-field'>
-            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.criticalHit.label"}}:</label>
-            <input
-              type='number'
-              name='system.details.criticalHit'
-              value='{{system.details.criticalHit}}'
-              data-dtype='Number'
-              class='dynamic-field'
-            />
-          </div>
         </div>
       </div>
 
@@ -206,39 +181,6 @@
                 data-dtype='Number'
                 class='bonus-input dynamic-field'
                 title='Energy Bonus'
-              />
-            </div>
-          </div>
-          <div class='armadura-container horizontal-field'>
-            <label class='status-label label-left'>Armor:</label>
-            <div class='status-display'>
-              <input
-                type='number'
-                name='system.armor.value'
-                value='{{system.armor.value}}'
-                data-dtype='Number'
-                min='0'
-                class='status-current dynamic-field'
-              />
-              <span class='status-separator'>/</span>
-              <input
-                type='number'
-                name='system.armor.max'
-                value='{{system.armor.max}}'
-                data-dtype='Number'
-                min='0'
-                class='status-next'
-                readonly
-              />
-            </div>
-            <div class='bonus-container'>
-              <input
-                type='number'
-                name='system.status.armorBonus'
-                value='{{system.status.armorBonus}}'
-                data-dtype='Number'
-                class='bonus-input dynamic-field'
-                title='Armor Bonus'
               />
             </div>
           </div>
@@ -543,21 +485,7 @@
                 </label>
               </div>
             </div>
-            <!-- Death Die -->
-            <div class='death-die-row horizontal-field'>
-              <label class='status-label label-left'>Death Die:</label>
-              <div class='death-die-button-container'>
-                <button 
-                  type='button' 
-                  class='death-die-button'
-                  data-action='rollDeathDie'
-                  data-roll='1d12'
-                  data-label='Death Die'
-                >
-                  Roll 1d12
-                </button>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>

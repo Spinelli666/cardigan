@@ -1,0 +1,204 @@
+// ==========================================
+// Bloco 4 - Death Fields (Gift of Life, Death Sentence, Death Die)
+// ==========================================
+
+.bloco-4 {
+  padding: 3px;
+  z-index: 200;
+  position: relative;
+
+  border-bottom: 5px solid transparent;
+  border-image: url('../../assets/images/decorative/border-bottom.svg') 5 fill;
+  border-image-outset: 0;
+  border-image-repeat: stretch;
+}
+
+.death-fields-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+// Death-Life Group (left side)
+.death-life-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+// Gift of Life Field
+.gift-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+
+  .icon-arrow-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+
+    .triangle-arrow {
+      font-size: 9px;
+      color: #FFB75C;
+      background: linear-gradient(143deg, #FFB75C 0%, #694C27 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-left: -2px;
+    }
+  }
+
+  .gift-icon {
+    width: 23px;
+    height: 23px;
+    filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+  }
+
+  .sequential-group {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+
+    .sequential-option {
+      display: flex;
+      align-items: center;
+      margin: 0;
+
+      input[type='checkbox'] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        margin: 0;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        border-radius: 50%;
+        background: transparent;
+        border: 2px solid rgba(207, 149, 76, 0.60);
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+        aspect-ratio: 1;
+
+        &::before,
+        &::after {
+          content: none !important;
+          display: none !important;
+        }
+
+        &:hover {
+          border-color: rgba(207, 149, 76, 1.0);
+        }
+
+        &:checked {
+          border-radius: 10px;
+          transform: rotate(45deg);
+          background: linear-gradient(135deg, #CF954C 47.22%, #694C27 80.56%);
+          border: none;
+        }
+      }
+    }
+  }
+}
+
+// Death Sentence Field
+.death-sentence-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+
+  .icon-arrow-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+
+    .triangle-arrow {
+      font-size: 9px;
+      color: #FFB75C;
+      background: linear-gradient(143deg, #FFB75C 0%, #694C27 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-left: -2px;
+    }
+  }
+
+  .death-sentence-icon {
+    width: 23px;
+    height: 23px;
+    filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+  }
+
+  .sequential-group {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+
+    .sequential-option {
+      display: flex;
+      align-items: center;
+      margin: 0;
+
+      input[type='checkbox'] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        margin: 0;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        border-radius: 50%;
+        background: transparent;
+        border: 2px solid rgba(207, 149, 76, 0.60);
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+        aspect-ratio: 1;
+
+        &::before,
+        &::after {
+          content: none !important;
+          display: none !important;
+        }
+
+        &:hover {
+          border-color: rgba(207, 149, 76, 1.0);
+        }
+
+        &:checked {
+          border-radius: 10px;
+          transform: rotate(45deg);
+          background: linear-gradient(135deg, #CF954C 47.22%, #694C27 80.56%);
+          border: none;
+        }
+      }
+    }
+  }
+}
+
+// Death Die Field
+.death-die-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+
+  .death-die-icon {
+    width: 23px;
+    height: 23px;
+    filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      filter: drop-shadow(0px 0px 4px rgba(255, 183, 92, 0.6));
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
