@@ -16,15 +16,24 @@
   .moldura-esquerda-overlay {
     position: absolute;
     top: -92px;
-    left: -106px;
-    width: 259.95pxpx;
+    left: -105px;
     height: 281.05px;
     pointer-events: none; // Não interfere com cliques
     z-index: 1000; // Fica acima do window-header (z-index ~100)
   }
 
-  // Ocultar moldura quando minimizado
-  &.minimized .moldura-esquerda-overlay {
+  .moldura-direita-overlay {
+    position: absolute;
+    top: -92px;
+    right: -82px;
+    height: 281.05px;
+    pointer-events: none; // Não interfere com cliques
+    z-index: 1000; // Fica acima do window-header (z-index ~100)
+  }
+
+  // Ocultar molduras quando minimizado
+  &.minimized .moldura-esquerda-overlay,
+  &.minimized .moldura-direita-overlay {
     display: none;
   }
 

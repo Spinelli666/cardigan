@@ -145,7 +145,7 @@
       </div>
       <div class='bloco-4'>
         {{! Death Fields Container }}
-        <div class='death-fields-container'>
+        <div class='death-fields-container {{#if (gt system.health.value 0)}}no-death-die{{/if}}'>
           {{! Death Sentence and Gift of Life Group }}
           <div class='death-life-group'>
             {{! Death Sentence }}
@@ -214,6 +214,7 @@
           </div>
 
           {{! Death Die }}
+          {{#if (lte system.health.value 0)}}
           <div class='death-die-field'>
             <img 
               src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' 
@@ -223,6 +224,7 @@
               data-action='rollDeathDie'
             />
           </div>
+          {{/if}}
         </div>
       </div>
     </aside>

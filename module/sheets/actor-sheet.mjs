@@ -143,16 +143,28 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   async _renderFrame(options) {
     const frame = await super._renderFrame(options);
     
-    // Add decorative frame to the window frame (persists through minimize/maximize)
-    const existingFrame = frame.querySelector('.moldura-esquerda-overlay');
-    if (!existingFrame) {
-      const decorativeFrame = document.createElement('img');
-      decorativeFrame.className = 'moldura-esquerda-overlay';
-      decorativeFrame.src = 'systems/cardigan/assets/images/decorative/left-frame.webp';
-      decorativeFrame.alt = 'Moldura Esquerda';
+    // Add decorative left frame to the window frame (persists through minimize/maximize)
+    const existingLeftFrame = frame.querySelector('.moldura-esquerda-overlay');
+    if (!existingLeftFrame) {
+      const leftFrame = document.createElement('img');
+      leftFrame.className = 'moldura-esquerda-overlay';
+      leftFrame.src = 'systems/cardigan/assets/images/decorative/left-frame.webp';
+      leftFrame.alt = 'Moldura Esquerda';
       
       // Insert at the beginning of the frame
-      frame.insertBefore(decorativeFrame, frame.firstChild);
+      frame.insertBefore(leftFrame, frame.firstChild);
+    }
+    
+    // Add decorative right frame to the window frame (persists through minimize/maximize)
+    const existingRightFrame = frame.querySelector('.moldura-direita-overlay');
+    if (!existingRightFrame) {
+      const rightFrame = document.createElement('img');
+      rightFrame.className = 'moldura-direita-overlay';
+      rightFrame.src = 'systems/cardigan/assets/images/decorative/right-frame.webp';
+      rightFrame.alt = 'Moldura Direita';
+      
+      // Insert after left frame
+      frame.insertBefore(rightFrame, frame.children[1]);
     }
     
     return frame;

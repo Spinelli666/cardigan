@@ -34,14 +34,23 @@
 .cardigan.actor.sheet .moldura-esquerda-overlay {
   position: absolute;
   top: -92px;
-  left: -106px;
-  width: 259.95pxpx;
+  left: -105px;
   height: 281.05px;
   pointer-events: none;
   z-index: 1000;
 }
-.application.cardigan.actor.minimized .moldura-esquerda-overlay,
-.cardigan.actor.sheet.minimized .moldura-esquerda-overlay {
+.application.cardigan.actor .moldura-direita-overlay,
+.cardigan.actor.sheet .moldura-direita-overlay {
+  position: absolute;
+  top: -92px;
+  right: -82px;
+  height: 281.05px;
+  pointer-events: none;
+  z-index: 1000;
+}
+.application.cardigan.actor.minimized .moldura-esquerda-overlay, .application.cardigan.actor.minimized .moldura-direita-overlay,
+.cardigan.actor.sheet.minimized .moldura-esquerda-overlay,
+.cardigan.actor.sheet.minimized .moldura-direita-overlay {
   display: none;
 }
 .application.cardigan.actor:not(.minimized, .minimizing, .maximizing),
@@ -455,6 +464,7 @@
   padding: 0px 11px;
   width: 155.54px;
   height: 182.55px;
+  border: 2px solid red;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -473,18 +483,10 @@
     border-color: yellow;
   }
 }
-.cardigan .sheet-header .header-left .bloco-2 {
-  flex: 1;
-}
-.cardigan .sheet-header .header-left .bloco-3 {
-  flex: 1;
-}
-.cardigan .sheet-header .header-left .bloco-4 {
-  flex: 1;
-}
 .cardigan .sheet-header .header-center {
   width: 201.42px;
   height: 176.37px;
+  border: 2px solid blue;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -505,7 +507,7 @@
   height: 176.37px;
   border-radius: 4px;
   object-fit: cover;
-  filter: saturate(1.3) contrast(1.1) brightness(1.05);
+  filter: saturate(1.3) contrast(1.1) brightness(1.1);
 }
 .cardigan .sheet-header .header-right {
   width: 155.54px;
@@ -3517,6 +3519,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 5px;
+}
+.cardigan .death-fields-container.no-death-die {
+  justify-content: center;
 }
 .cardigan .death-life-group {
   display: flex;
