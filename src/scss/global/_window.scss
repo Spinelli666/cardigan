@@ -25,7 +25,7 @@
   .moldura-direita-overlay {
     position: absolute;
     top: -92px;
-    right: -82px;
+    right: -105px;
     height: 281.05px;
     pointer-events: none; // Não interfere com cliques
     z-index: 1000; // Fica acima do window-header (z-index ~100)
@@ -119,14 +119,16 @@
 
 // Z-index do dropdown de controles
 .controls-dropdown {
-  z-index: 350 !important;
+  z-index: 1000 !important;
   transition: max-height 100ms;
+  top: 21px !important;
   
   &.expanded {
-    z-index: 350 !important;
+    z-index: 1000 !important;
     transition: max-height 500ms;
     scrollbar-width: none !important;
     scrollbar-color: none !important;
+    top: 21px !important;
   }
 }
 

@@ -43,7 +43,7 @@
 .cardigan.actor.sheet .moldura-direita-overlay {
   position: absolute;
   top: -92px;
-  right: -82px;
+  right: -105px;
   height: 281.05px;
   pointer-events: none;
   z-index: 1000;
@@ -121,14 +121,16 @@
 }
 
 .controls-dropdown {
-  z-index: 350 !important;
+  z-index: 1000 !important;
   transition: max-height 100ms;
+  top: 21px !important;
 }
 .controls-dropdown.expanded {
-  z-index: 350 !important;
+  z-index: 1000 !important;
   transition: max-height 500ms;
   scrollbar-width: none !important;
   scrollbar-color: none !important;
+  top: 21px !important;
 }
 
 .grid,
@@ -540,7 +542,7 @@
   justify-content: flex-end;
   border: 2px solid red;
   position: absolute;
-  right: 0px !important;
+  right: -3px !important;
   top: 0px !important;
   left: -205.54px;
   margin-top: -4px !important;
@@ -553,6 +555,7 @@
 .cardigan .sheet-header .header-right .window-controls-custom .control-btn {
   width: 16px;
   height: 16px;
+  min-height: 0;
   padding: 0;
   display: flex;
   align-items: center;
