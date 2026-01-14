@@ -11,6 +11,30 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
     'CARDIGAN.Item.Arma',
   ];
 
+  /** Weight choices for weapons */
+  static WEIGHT_CHOICES = {
+    leve: "CARDIGAN.Light",
+    pesado: "CARDIGAN.Heavy"
+  };
+
+  /** Vorpal property damage bonus when wielded with both hands */
+  static VORPAL_BONUS = 4;
+
+  /** Maximum durability value for weapons */
+  static DURABILITY_MAX = 3;
+
+  /** Valid weapon properties that can be applied */
+  static VALID_PROPERTIES = [
+    'certeiro',
+    'contundente',
+    'eletrocutar',
+    'ferir',
+    'impacto',
+    'incendiar',
+    'traspassar',
+    'vorpal'
+  ];
+
   static defineSchema() {
     const fields = foundry.data.fields;
     const requiredInteger = { required: true, nullable: false, integer: true };
@@ -57,10 +81,7 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
         required: true, 
         blank: false, 
         initial: "leve",
-        choices: {
-          "leve": "CARDIGAN.Light",
-          "pesado": "CARDIGAN.Heavy"
-        },
+        choices: CardiganSystemArma.WEIGHT_CHOICES,
         clean: (value) => {
           // Convert old numeric values to string choices
           if (typeof value === 'number') {
@@ -75,8 +96,8 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
       }),
       price: new fields.NumberField({ required: true, nullable: false, initial: 0, min: 0 }),
       durability: new fields.SchemaField({
-        current: new fields.NumberField({ required: true, nullable: false, initial: 3, min: 0, max: 3, integer: true }),
-        max: new fields.NumberField({ required: true, nullable: false, initial: 3, min: 3, max: 3, integer: true })
+        current: new fields.NumberField({ required: true, nullable: false, initial: CardiganSystemArma.DURABILITY_MAX, min: 0, max: CardiganSystemArma.DURABILITY_MAX, integer: true }),
+        max: new fields.NumberField({ required: true, nullable: false, initial: CardiganSystemArma.DURABILITY_MAX, min: CardiganSystemArma.DURABILITY_MAX, max: CardiganSystemArma.DURABILITY_MAX, integer: true })
       }),
       skillBonuses: new fields.ArrayField(
         new fields.SchemaField({
@@ -97,6 +118,9 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
   prepareDerivedData() {
     super.prepareDerivedData();
     
+    // Clean invalid properties from array
+    this._cleanProperties();
+    
     // Automatically set equipped based on hand usage
     // A weapon is equipped if it's in at least one hand
     this.equipped = this.rightHand || this.leftHand;
@@ -105,10 +129,23 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
     this._calculateDamageTotal();
   }
 
-  /**
-   * Calculate the total damage including ability modifier and weapon properties
-   * @private
-   */
+  /** Remove invalid properties from array */
+  _cleanProperties() {
+    if (!Array.isArray(this.properties)) return;
+    
+    this.properties = this.properties.filter(prop => 
+      CardiganSystemArma.VALID_PROPERTIES.includes(prop)
+    );
+  }
+
+  /** Calculate Vorpal bonus (4 if both hands, 0 otherwise) */
+  _calculateVorpalBonus() {
+    if (!this.properties?.includes('vorpal')) return 0;
+    if (this.rightHand && this.leftHand) return CardiganSystemArma.VORPAL_BONUS;
+    return 0;
+  }
+
+  /** Calculate total damage (base + ability + Vorpal) */
   _calculateDamageTotal() {
     const actor = this.parent?.actor;
     if (!actor) {
@@ -126,16 +163,8 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
       abilityBonus = actor.system.abilities.dexterity.value || 0;
     }
 
-    // Check for Vorpal property bonus (+4 if wielded in both hands)
-    let vorpalBonus = 0;
-    if (this.properties?.includes('vorpal')) {
-      // Weapon has Vorpal property - check if wielded in both hands
-      if (this.rightHand && this.leftHand) {
-        vorpalBonus = 4;
-      }
-    }
-
-    // Calculate total damage
+    // Calculate total damage with bonuses
+    const vorpalBonus = this._calculateVorpalBonus();
     const totalBonus = abilityBonus + vorpalBonus;
     
     if (totalBonus > 0) {
@@ -156,5 +185,122 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
       // No bonuses, just use base damage
       this.damage.total = baseDamage;
     }
+  }
+
+  /** Create melee weapon (STR bonus) - options: {weight, properties, price, weaponType} */
+  static createMeleeWeapon(name, damage, options = {}) {
+    return {
+      name,
+      type: 'arma',
+      system: {
+        weaponType: options.weaponType || '',
+        melee: true,
+        ranged: false,
+        isFirearm: false,
+        magazine: 0,
+        loadedAmmo: 0,
+        loadedAmmoTypes: {},
+        damage: {
+          value: damage,
+          useStrength: true,
+          useDexterity: false,
+          total: damage
+        },
+        properties: options.properties || [],
+        rightHand: false,
+        leftHand: false,
+        weight: options.weight || 'leve',
+        price: options.price || 0,
+        durability: {
+          current: CardiganSystemArma.DURABILITY_MAX,
+          max: CardiganSystemArma.DURABILITY_MAX
+        },
+        skillBonuses: [],
+        equipped: false,
+        magicalArtifact: false,
+        protection: {
+          enabled: false,
+          value: 0
+        }
+      }
+    };
+  }
+
+  /** Create ranged weapon (DEX bonus) - options: {weight, properties, price, weaponType} */
+  static createRangedWeapon(name, damage, magazine, options = {}) {
+    return {
+      name,
+      type: 'arma',
+      system: {
+        weaponType: options.weaponType || '',
+        melee: false,
+        ranged: true,
+        isFirearm: false,
+        magazine,
+        loadedAmmo: 0,
+        loadedAmmoTypes: {},
+        damage: {
+          value: damage,
+          useStrength: false,
+          useDexterity: true,
+          total: damage
+        },
+        properties: options.properties || [],
+        rightHand: false,
+        leftHand: false,
+        weight: options.weight || 'leve',
+        price: options.price || 0,
+        durability: {
+          current: CardiganSystemArma.DURABILITY_MAX,
+          max: CardiganSystemArma.DURABILITY_MAX
+        },
+        skillBonuses: [],
+        equipped: false,
+        magicalArtifact: false,
+        protection: {
+          enabled: false,
+          value: 0
+        }
+      }
+    };
+  }
+
+  /** Create firearm (DEX bonus, isFirearm=true) - options: {weight, properties, price, weaponType} */
+  static createFirearm(name, damage, magazine, options = {}) {
+    return {
+      name,
+      type: 'arma',
+      system: {
+        weaponType: options.weaponType || '',
+        melee: false,
+        ranged: true,
+        isFirearm: true,
+        magazine,
+        loadedAmmo: 0,
+        loadedAmmoTypes: {},
+        damage: {
+          value: damage,
+          useStrength: false,
+          useDexterity: true,
+          total: damage
+        },
+        properties: options.properties || [],
+        rightHand: false,
+        leftHand: false,
+        weight: options.weight || 'pesado',
+        price: options.price || 0,
+        durability: {
+          current: CardiganSystemArma.DURABILITY_MAX,
+          max: CardiganSystemArma.DURABILITY_MAX
+        },
+        skillBonuses: [],
+        equipped: false,
+        magicalArtifact: false,
+        protection: {
+          enabled: false,
+          value: 0
+        }
+      }
+    };
   }
 }
