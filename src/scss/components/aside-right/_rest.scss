@@ -1,0 +1,40 @@
+// ========================================
+// REST BUTTON - Header Right
+// ========================================
+
+.rest-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+
+  .rest-btn {
+    background: rgba(105, 76, 39, 0.5);
+    border: 3px solid rgba(207, 149, 76, 0.5);
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+      background: rgba(105, 76, 39, 0.7);
+      border-color: rgba(207, 149, 76, 0.8);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    .rest-icon {
+      width: 26px;
+      height: 26px;
+      filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+    }
+  }
+}

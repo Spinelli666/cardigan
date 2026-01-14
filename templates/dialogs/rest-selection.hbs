@@ -1,0 +1,34 @@
+{{!-- Rest Selection Dialog Template --}}
+<div class="rest-selection-dialog">
+  <div class="dialog-header">
+    <h2>{{localize "CARDIGAN.Rest.SelectRestType"}}</h2>
+    <p>{{localize "CARDIGAN.Rest.SelectRestDescription"}}</p>
+  </div>
+  
+  <div class="dialog-content">
+    <div class="rest-options">
+      <div class="rest-option" data-rest-type="short">
+        <div class="rest-icon">
+          <i class="fas fa-coffee"></i>
+        </div>
+        <div class="rest-label">{{localize "CARDIGAN.Rest.ShortRest"}}</div>
+        <div class="rest-description">{{localize "CARDIGAN.Rest.ShortRestDescription"}}</div>
+      </div>
+      
+      <div class="rest-option" data-rest-type="long">
+        <div class="rest-icon">
+          <i class="fas fa-bed"></i>
+        </div>
+        <div class="rest-label">{{localize "CARDIGAN.Rest.LongRest"}}</div>
+        <div class="rest-description">{{localize "CARDIGAN.Rest.LongRestDescription"}}</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="dialog-footer">
+    <button type="button" class="dialog-button cancel" data-action="cancel">
+      <i class="fas fa-times"></i>
+      {{localize "Cancel"}}
+    </button>
+  </div>
+</div>

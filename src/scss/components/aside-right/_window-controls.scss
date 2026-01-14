@@ -1,0 +1,38 @@
+// ========================================
+// WINDOW CONTROLS - Header Right
+// ========================================
+
+.window-controls-custom {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  border: 2px solid red;
+  position: absolute;
+  right: -3px !important;
+  top: 0px !important;
+  left: -205.54px;
+  margin-top: -4px !important;
+  padding-top: 4px !important;
+  cursor: grab;
+  
+  &.dragging {
+    cursor: grabbing;
+  }
+
+  .control-btn {
+    width: 16px;
+    height: 16px;
+    min-height: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    
+    i {
+      font-size: 8px;
+    }
+  }
+}

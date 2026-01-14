@@ -2,6 +2,7 @@ const { api, sheets } = foundry.applications;
 import ContextMenu5e from '../applications/context-menu.mjs';
 import { ItemTypeSelectionDialog } from '../applications/item-type-selection-dialog.mjs';
 import { HandSelectionDialog } from '../applications/hand-selection-dialog.mjs';
+import { RestSelectionDialog } from '../applications/rest-selection-dialog.mjs';
 import { RecipeCraftingDialog } from '../applications/recipe-crafting-dialog.mjs';
 import { buildRollFormula } from '../helpers/config.mjs';
 import { AdvantageSelectionDialog } from '../applications/advantage-selection-dialog.mjs';
@@ -71,6 +72,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       showEffectInChat: this._onShowEffectInChat,
       skillToChat: this._onSkillToChat,
 
+      rest: this._onRest,
       shortRest: this._onShortRest,
       longRest: this._onLongRest,
 
@@ -2246,13 +2248,28 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
               message = `${this.actor.name}: Estado mental estabilizado.`;
             } else if (field === 'toxicity' && newValue === null) {
               message = `${this.actor.name}: Toxinas eliminadas do organismo.`;
+            } else if (field === 'fracture' && newValue === null) {
+              message = `${this.actor.name}: Fraturas completamente curadas.`;
             }
           }
           
           // Atualizar o valor no ator
-          await this.actor.update({
-            [`system.status.${field}`]: newValue
-          });
+          try {
+            await this.actor.update({
+              [`system.status.${field}`]: newValue
+            });
+            
+            // Mostrar notificação de info quando fracture for zerada
+            if (field === 'fracture' && newValue === null) {
+              ui.notifications.info("Fratura zerada.");
+            }
+          } catch (error) {
+            console.error(`Error updating ${field}:`, error);
+            if (field === 'fracture') {
+              ui.notifications.error(`Erro ao zerar Fratura: ${error.message}`);
+            }
+            return; // Não enviar mensagem de chat em caso de erro
+          }
           
           // Enviar mensagem para o chat se houver
           if (message) {
@@ -9320,6 +9337,25 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       console.error("[CRITICAL HIT] Error processing critical hit boost:", error);
       return null;
     }
+  }
+
+  /**
+   * Handle rest button click - shows dialog to select rest type
+   * @param {Event} event - The click event
+   * @param {HTMLElement} target - The clicked element
+   */
+  static async _onRest(event, target) {
+    event.preventDefault();
+    const actor = this.document;
+    
+    // Show rest selection dialog
+    const restType = await RestSelectionDialog.show(actor);
+    
+    // If user cancelled, do nothing
+    if (!restType) return;
+    
+    // Perform the selected rest type
+    await CardiganSystemActorSheet._performRest(actor, restType);
   }
 
   /**

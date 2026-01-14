@@ -242,6 +242,224 @@
 
     {{! Right Aside }}
     <aside class='header-right'>
+      {{! Fracture Field }}
+      <div class='fracture-field'>
+        <div class='icon-arrow-wrapper'>
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-fracture.svg' alt='Fracture' class='fracture-icon' data-tooltip="Fratura"/>
+          <i class="fa-solid fa-caret-right triangle-arrow"></i>
+        </div>
+        <div class='sequential-group' data-field='fracture'>
+          <input type='hidden' name='system.status.fracture' value='{{system.status.fracture}}' data-dtype='Number' />
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='1'
+              {{#if (gte system.status.fracture 1)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='2'
+              {{#if (gte system.status.fracture 2)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='3'
+              {{#if (gte system.status.fracture 3)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='4'
+              {{#if (gte system.status.fracture 4)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='5'
+              {{#if (gte system.status.fracture 5)}}checked{{/if}}
+            />
+          </label>
+        </div>
+      </div>
+
+      {{! Toxicity Field }}
+      <div class='toxicity-field'>
+        <div class='icon-arrow-wrapper'>
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-toxic.svg' alt='Toxicity' class='toxicity-icon' data-tooltip="Toxicidade"/>
+          <i class="fa-solid fa-caret-right triangle-arrow"></i>
+        </div>
+        <div class='sequential-group' data-field='toxicity'>
+          <input type='hidden' name='system.status.toxicity' value='{{system.status.toxicity}}' data-dtype='Number' />
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='1'
+              {{#if (gte system.status.toxicity 1)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='2'
+              {{#if (gte system.status.toxicity 2)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='3'
+              {{#if (gte system.status.toxicity 3)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='4'
+              {{#if (gte system.status.toxicity 4)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='5'
+              {{#if (gte system.status.toxicity 5)}}checked{{/if}}
+            />
+          </label>
+        </div>
+      </div>
+
+      {{! Sanity Field }}
+      <div class='sanity-field'>
+        <div class='icon-arrow-wrapper'>
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-sanity.svg' alt='Sanity' class='sanity-icon' data-tooltip="Sanidade"/>
+          <i class="fa-solid fa-caret-right triangle-arrow"></i>
+        </div>
+        <div class='sequential-group' data-field='sanity'>
+          <input type='hidden' name='system.status.sanity' value='{{system.status.sanity}}' data-dtype='Number' />
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='1'
+              {{#if (gte system.status.sanity 1)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='2'
+              {{#if (gte system.status.sanity 2)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='3'
+              {{#if (gte system.status.sanity 3)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='4'
+              {{#if (gte system.status.sanity 4)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='5'
+              {{#if (gte system.status.sanity 5)}}checked{{/if}}
+            />
+          </label>
+        </div>
+      </div>
+
+      {{! Hunger-Thirst Group }}
+      <div class='hunger-thirst-group'>
+        {{! Hunger }}
+        <div class='hunger-field'>
+          <div class='icon-arrow-wrapper'>
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-hunger.svg' alt='Hunger' class='hunger-icon' data-tooltip="Fome"/>
+            <i class="fa-solid fa-caret-right triangle-arrow"></i>
+          </div>
+          <div class='radio-group' data-field='hunger'>
+            <input type='hidden' name='system.status.hunger' value='{{system.status.hunger}}' data-dtype='Number' />
+            <label class='radio-option'>
+              <input
+                type='checkbox'
+                name='hunger-1'
+                data-level='1'
+                {{#if (gte system.status.hunger 1)}}checked{{/if}}
+              />
+            </label>
+            <label class='radio-option'>
+              <input
+                type='checkbox'
+                name='hunger-2'
+                data-level='2'
+                {{#if (gte system.status.hunger 2)}}checked{{/if}}
+              />
+            </label>
+            <label class='radio-option'>
+              <input
+                type='checkbox'
+                name='hunger-3'
+                data-level='3'
+                {{#if (gte system.status.hunger 3)}}checked{{/if}}
+              />
+            </label>
+          </div>
+        </div>
+
+        {{! Thirst }}
+        <div class='thirst-field'>
+          <div class='icon-arrow-wrapper'>
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-thirst.svg' alt='Thirst' class='thirst-icon' data-tooltip="Sede"/>
+            <i class="fa-solid fa-caret-right triangle-arrow"></i>
+          </div>
+          <div class='radio-group' data-field='thirst'>
+            <input type='hidden' name='system.status.thirst' value='{{system.status.thirst}}' data-dtype='Number' />
+            <label class='radio-option'>
+              <input
+                type='checkbox'
+                name='thirst-1'
+                data-level='1'
+                {{#if (gte system.status.thirst 1)}}checked{{/if}}
+              />
+            </label>
+            <label class='radio-option'>
+              <input
+                type='checkbox'
+                name='thirst-2'
+                data-level='2'
+                {{#if (gte system.status.thirst 2)}}checked{{/if}}
+              />
+            </label>
+            <label class='radio-option'>
+              <input
+                type='checkbox'
+                name='thirst-3'
+                data-level='3'
+                {{#if (gte system.status.thirst 3)}}checked{{/if}}
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {{! Rest Button }}
+      <div class='rest-button-container'>
+        <button type='button' class='rest-btn' data-action='rest' data-tooltip='Descanso'>
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-rest.svg' alt='Rest' class='rest-icon'/>
+        </button>
+      </div>
+
       {{! Window control buttons - replicando os botões do window-header }}
       <div class='window-controls-custom'>
         {{! Botão de alternar controles (se existir) }}

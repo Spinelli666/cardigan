@@ -71,6 +71,12 @@
   @import 'components/aside-left/movement-crit';
   @import 'components/aside-left/armor';
   @import 'components/aside-left/death-fields';
+  @import 'components/aside-right/fracture';
+  @import 'components/aside-right/toxicity';
+  @import 'components/aside-right/sanity';
+  @import 'components/aside-right/hunger-thirst';
+  @import 'components/aside-right/rest';
+  @import 'components/aside-right/window-controls';
   @import 'components/status';
   @import 'components/dialogs';
   @import 'components/abilities';
@@ -89,6 +95,7 @@
 @import 'dialogs/skill-linked-skills-dialog';
 @import 'dialogs/racial-skills-dialog';
 @import 'dialogs/advantage-selection-dialog';
+@import 'dialogs/rest-selection-dialog';
 @import 'dialogs/evasion-result-dialog';
 @import 'dialogs/attack-result-dialog';
 @import 'dialogs/armor-durability-selection';

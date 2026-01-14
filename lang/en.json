@@ -1027,24 +1027,6 @@
         "Enchanting": "Enchanting",
         "Herbalism": "Herbalism"
       }
-    }
-  },
-  "TYPES": {
-    "Actor": {
-      "character": "Character",
-      "npc": "NPC"
-    },
-    "Item": {
-      "item-comum": "Common Item",
-      "item-municao": "Ammunition",
-      "item-consumivel": "Consumable",
-      "item-ingredient": "Ingredient",
-      "item-recipe": "Recipe",
-      "race": "Raça",
-      "efeito": "Efeito",
-      "arma": "Weapon",
-      "armadura": "Armor",
-      "skill": "Skill"
     },
     "Skill": {
       "BasicInfo": "Basic Information",
@@ -1060,6 +1042,10 @@
       "LongRest": "Long Rest",
       "ShortRestTitle": "Short Rest (1d20 + 2×Vigor)",
       "LongRestTitle": "Long Rest (2d20 + 3×Vigor)",
+      "SelectRestType": "Select Rest Type",
+      "SelectRestDescription": "Choose the type of rest you want to take:",
+      "ShortRestDescription": "Recover some health and energy (1d20 + 2×Vigor)",
+      "LongRestDescription": "Recover more health and energy, remove effects (2d20 + 3×Vigor)",
       "RestDialog": {
         "Title": "Rest Results",
         "HealthRecovered": "Vida Recuperada: {amount}",
@@ -1093,6 +1079,24 @@
         "Title": "Selecionar Efeitos para Skill",
         "Description": "Selecione os efeitos que esta skill poderá aplicar quando usada:"
       }
+    }
+  },
+  "TYPES": {
+    "Actor": {
+      "character": "Character",
+      "npc": "NPC"
+    },
+    "Item": {
+      "item-comum": "Common Item",
+      "item-municao": "Ammunition",
+      "item-consumivel": "Consumable",
+      "item-ingredient": "Ingredient",
+      "item-recipe": "Recipe",
+      "race": "Raça",
+      "efeito": "Efeito",
+      "arma": "Weapon",
+      "armadura": "Armor",
+      "skill": "Skill"
     }
   }
 }

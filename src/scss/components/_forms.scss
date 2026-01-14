@@ -50,11 +50,14 @@
     border: 2px solid red;
     flex-shrink: 0;
     display: flex;
+    align-items: center !important;
+    justify-content: center !important;
     flex-direction: column;
     gap: 0;
     position: relative;
     z-index: 150; // Fica acima do window-header (z-index: 100)
-    filter: saturate(1.3) contrast(1.1) brightness(1.05);
+    // filter: saturate(1.3) contrast(1.1) brightness(1.05);
+    filter: saturate(1.2);
     
     // Muda para laranja em janelas médias
     @container actor-sheet (min-height: 700px) {
@@ -103,12 +106,16 @@
     border: 2px solid green;
     flex-shrink: 0;
     display: flex;
+    align-items: center !important;
+    justify-content: center !important;
     flex-direction: column;
     align-items: flex-end;
     justify-content: flex-start;
     padding: 4px;
     position: relative;
     z-index: 200; // Fica acima de tudo
+    // filter: saturate(1.3) contrast(1.1) brightness(1.05);
+    filter: saturate(1.2);
 
     // Muda para lime em janelas médias
     @container actor-sheet (min-height: 700px) {
@@ -118,42 +125,6 @@
     // Muda para darkgreen em janelas grandes
     @container actor-sheet (min-height: 1000px) {
       border-color: darkgreen;
-    }
-
-    // Custom window controls
-    .window-controls-custom {
-      display: flex;
-      gap: 2px;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      border: 2px solid red;
-      position: absolute;
-      right: -3px !important;
-      top: 0px !important;
-      left: -205.54px;
-      margin-top: -4px !important;
-      padding-top: 4px !important;
-      cursor: grab;
-      
-      &.dragging {
-        cursor: grabbing;
-      }
-
-      .control-btn {
-        width: 16px;
-        height: 16px;
-        min-height: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        
-        i {
-          font-size: 8px;
-        }
-      }
     }
   }
 

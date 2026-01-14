@@ -1,0 +1,108 @@
+// ========================================
+// FRACTURE FIELD - Header Right
+// ========================================
+
+.fracture-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  padding: 3px;
+  margin-top: 20px;
+  border-bottom: 3px solid transparent;
+  border-image: url('../assets/images/decorative/border-bottom.svg') 0 0 100% 0;
+
+  .icon-arrow-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+
+    .triangle-arrow {
+      font-size: 9px;
+      color: #CF954C;
+      background: linear-gradient(143deg, #CF954C 0%, #694C27 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-left: -2px;
+    }
+  }
+
+  .fracture-icon {
+    width: 23px;
+    height: 18px;
+    filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+  }
+
+  .sequential-group {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+
+    .sequential-option {
+      display: flex;
+      align-items: center;
+      margin: 0;
+
+      input[type='checkbox'] {
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        position: relative;
+        width: 18px !important;
+        height: 18px !important;
+        min-width: 18px !important;
+        min-height: 18px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        border: 2px solid rgba(105, 76, 39, 0.6) !important;
+        background: none !important;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: none !important;
+        vertical-align: middle;
+
+        // Remover pseudo-elementos do Foundry VTT
+        &::before {
+          content: none !important;
+          display: none !important;
+        }
+
+        // Ícone de check customizado
+        &::after {
+          content: '' !important;
+          position: absolute;
+          display: none;
+          left: 50%;
+          top: 50%;
+          width: 4px;
+          height: 8px;
+          border: solid #FFD700;
+          border-width: 0 2px 2px 0 !important;
+          transform: translate(-50%, -60%) rotate(45deg);
+          background: none !important;
+        }
+
+        &:checked {
+          background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
+          border: none !important;
+          border-color: transparent !important;
+          box-shadow: none !important;
+          transform: rotate(45deg);
+          border-radius: 4px !important;
+          flex-shrink: 0;
+          aspect-ratio: 1;
+
+          &::after {
+            display: none !important;
+          }
+        }
+
+        &:hover {
+          border-color: #CF954C !important;
+        }
+      }
+    }
+  }
+}

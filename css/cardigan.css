@@ -469,11 +469,13 @@
   border: 2px solid red;
   flex-shrink: 0;
   display: flex;
+  align-items: center !important;
+  justify-content: center !important;
   flex-direction: column;
   gap: 0;
   position: relative;
   z-index: 150;
-  filter: saturate(1.3) contrast(1.1) brightness(1.05);
+  filter: saturate(1.2);
 }
 @container actor-sheet (min-height: 700px) {
   .cardigan .sheet-header .header-left {
@@ -517,12 +519,15 @@
   border: 2px solid green;
   flex-shrink: 0;
   display: flex;
+  align-items: center !important;
+  justify-content: center !important;
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-start;
   padding: 4px;
   position: relative;
   z-index: 200;
+  filter: saturate(1.2);
 }
 @container actor-sheet (min-height: 700px) {
   .cardigan .sheet-header .header-right {
@@ -533,37 +538,6 @@
   .cardigan .sheet-header .header-right {
     border-color: darkgreen;
   }
-}
-.cardigan .sheet-header .header-right .window-controls-custom {
-  display: flex;
-  gap: 2px;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  border: 2px solid red;
-  position: absolute;
-  right: -3px !important;
-  top: 0px !important;
-  left: -205.54px;
-  margin-top: -4px !important;
-  padding-top: 4px !important;
-  cursor: grab;
-}
-.cardigan .sheet-header .header-right .window-controls-custom.dragging {
-  cursor: grabbing;
-}
-.cardigan .sheet-header .header-right .window-controls-custom .control-btn {
-  width: 16px;
-  height: 16px;
-  min-height: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-.cardigan .sheet-header .header-right .window-controls-custom .control-btn i {
-  font-size: 8px;
 }
 .cardigan .sheet-header .header-bottom-section {
   flex: 1;
@@ -3737,6 +3711,525 @@
 }
 .cardigan .death-die-field .death-die-icon.disabled {
   cursor: not-allowed;
+}
+.cardigan .fracture-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  padding: 3px;
+  margin-top: 20px;
+  border-bottom: 3px solid transparent;
+  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
+}
+.cardigan .fracture-field .icon-arrow-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.cardigan .fracture-field .icon-arrow-wrapper .triangle-arrow {
+  font-size: 9px;
+  color: #CF954C;
+  background: linear-gradient(143deg, #CF954C 0%, #694C27 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-left: -2px;
+}
+.cardigan .fracture-field .fracture-icon {
+  width: 23px;
+  height: 18px;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+}
+.cardigan .fracture-field .sequential-group {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.cardigan .fracture-field .sequential-group .sequential-option {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.cardigan .fracture-field .sequential-group .sequential-option input[type=checkbox] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  position: relative;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  border: 2px solid rgba(105, 76, 39, 0.6) !important;
+  background: none !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: none !important;
+  vertical-align: middle;
+}
+.cardigan .fracture-field .sequential-group .sequential-option input[type=checkbox]::before {
+  content: none !important;
+  display: none !important;
+}
+.cardigan .fracture-field .sequential-group .sequential-option input[type=checkbox]::after {
+  content: "" !important;
+  position: absolute;
+  display: none;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 8px;
+  border: solid #FFD700;
+  border-width: 0 2px 2px 0 !important;
+  transform: translate(-50%, -60%) rotate(45deg);
+  background: none !important;
+}
+.cardigan .fracture-field .sequential-group .sequential-option input[type=checkbox]:checked {
+  background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
+  border: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: rotate(45deg);
+  border-radius: 4px !important;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+}
+.cardigan .fracture-field .sequential-group .sequential-option input[type=checkbox]:checked::after {
+  display: none !important;
+}
+.cardigan .fracture-field .sequential-group .sequential-option input[type=checkbox]:hover {
+  border-color: #CF954C !important;
+}
+.cardigan .toxicity-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  padding: 3px;
+  margin-top: 5px;
+  border-bottom: 3px solid transparent;
+  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
+}
+.cardigan .toxicity-field .icon-arrow-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.cardigan .toxicity-field .icon-arrow-wrapper .triangle-arrow {
+  font-size: 9px;
+  color: #CF954C;
+  background: linear-gradient(143deg, #CF954C 0%, #694C27 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-left: -2px;
+}
+.cardigan .toxicity-field .toxicity-icon {
+  width: 23px;
+  height: 23px;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+}
+.cardigan .toxicity-field .sequential-group {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.cardigan .toxicity-field .sequential-group .sequential-option {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.cardigan .toxicity-field .sequential-group .sequential-option input[type=checkbox] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  position: relative;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  border: 2px solid rgba(105, 76, 39, 0.6) !important;
+  background: none !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: none !important;
+  vertical-align: middle;
+}
+.cardigan .toxicity-field .sequential-group .sequential-option input[type=checkbox]::before {
+  content: none !important;
+  display: none !important;
+}
+.cardigan .toxicity-field .sequential-group .sequential-option input[type=checkbox]::after {
+  content: "" !important;
+  position: absolute;
+  display: none;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 8px;
+  border: solid #FFD700;
+  border-width: 0 2px 2px 0 !important;
+  transform: translate(-50%, -60%) rotate(45deg);
+  background: none !important;
+}
+.cardigan .toxicity-field .sequential-group .sequential-option input[type=checkbox]:checked {
+  background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
+  border: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: rotate(45deg);
+  border-radius: 4px !important;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+}
+.cardigan .toxicity-field .sequential-group .sequential-option input[type=checkbox]:checked::after {
+  display: none !important;
+}
+.cardigan .toxicity-field .sequential-group .sequential-option input[type=checkbox]:hover {
+  border-color: #CF954C !important;
+}
+.cardigan .sanity-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  padding: 3px;
+  margin-top: 5px;
+  border-bottom: 3px solid transparent;
+  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
+}
+.cardigan .sanity-field .icon-arrow-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.cardigan .sanity-field .icon-arrow-wrapper .triangle-arrow {
+  font-size: 9px;
+  color: #CF954C;
+  background: linear-gradient(143deg, #CF954C 0%, #694C27 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-left: -2px;
+}
+.cardigan .sanity-field .sanity-icon {
+  width: 23px;
+  height: 23px;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+}
+.cardigan .sanity-field .sequential-group {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.cardigan .sanity-field .sequential-group .sequential-option {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.cardigan .sanity-field .sequential-group .sequential-option input[type=checkbox] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  position: relative;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  border: 2px solid rgba(105, 76, 39, 0.6) !important;
+  background: none !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: none !important;
+  vertical-align: middle;
+}
+.cardigan .sanity-field .sequential-group .sequential-option input[type=checkbox]::before {
+  content: none !important;
+  display: none !important;
+}
+.cardigan .sanity-field .sequential-group .sequential-option input[type=checkbox]::after {
+  content: "" !important;
+  position: absolute;
+  display: none;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 8px;
+  border: solid #FFD700;
+  border-width: 0 2px 2px 0 !important;
+  transform: translate(-50%, -60%) rotate(45deg);
+  background: none !important;
+}
+.cardigan .sanity-field .sequential-group .sequential-option input[type=checkbox]:checked {
+  background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
+  border: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: rotate(45deg);
+  border-radius: 4px !important;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+}
+.cardigan .sanity-field .sequential-group .sequential-option input[type=checkbox]:checked::after {
+  display: none !important;
+}
+.cardigan .sanity-field .sequential-group .sequential-option input[type=checkbox]:hover {
+  border-color: #CF954C !important;
+}
+.cardigan .hunger-thirst-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-bottom: 3px solid transparent;
+  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
+  padding-bottom: 3px;
+  margin-top: 5px;
+}
+.cardigan .hunger-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.cardigan .hunger-field .icon-arrow-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.cardigan .hunger-field .icon-arrow-wrapper .triangle-arrow {
+  font-size: 9px;
+  color: #CF954C;
+  background: linear-gradient(143deg, #CF954C 0%, #694C27 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-left: -2px;
+}
+.cardigan .hunger-field .hunger-icon {
+  width: 23px;
+  height: 23px;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+}
+.cardigan .hunger-field .radio-group {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.cardigan .hunger-field .radio-group .radio-option {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.cardigan .hunger-field .radio-group .radio-option input[type=checkbox] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  position: relative;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  border: 2px solid rgba(105, 76, 39, 0.6) !important;
+  background: none !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: none !important;
+  vertical-align: middle;
+}
+.cardigan .hunger-field .radio-group .radio-option input[type=checkbox]::before {
+  content: none !important;
+  display: none !important;
+}
+.cardigan .hunger-field .radio-group .radio-option input[type=checkbox]::after {
+  content: "" !important;
+  position: absolute;
+  display: none;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 8px;
+  border: solid #FFD700;
+  border-width: 0 2px 2px 0 !important;
+  transform: translate(-50%, -60%) rotate(45deg);
+  background: none !important;
+}
+.cardigan .hunger-field .radio-group .radio-option input[type=checkbox]:checked {
+  background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
+  border: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: rotate(45deg);
+  border-radius: 4px !important;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+}
+.cardigan .hunger-field .radio-group .radio-option input[type=checkbox]:checked::after {
+  display: none !important;
+}
+.cardigan .hunger-field .radio-group .radio-option input[type=checkbox]:hover {
+  border-color: #CF954C !important;
+}
+.cardigan .thirst-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.cardigan .thirst-field .icon-arrow-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.cardigan .thirst-field .icon-arrow-wrapper .triangle-arrow {
+  font-size: 9px;
+  color: #CF954C;
+  background: linear-gradient(143deg, #CF954C 0%, #694C27 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-left: -2px;
+}
+.cardigan .thirst-field .thirst-icon {
+  width: 23px;
+  height: 23px;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+}
+.cardigan .thirst-field .radio-group {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.cardigan .thirst-field .radio-group .radio-option {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.cardigan .thirst-field .radio-group .radio-option input[type=checkbox] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  position: relative;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  border: 2px solid rgba(105, 76, 39, 0.6) !important;
+  background: none !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: none !important;
+  vertical-align: middle;
+}
+.cardigan .thirst-field .radio-group .radio-option input[type=checkbox]::before {
+  content: none !important;
+  display: none !important;
+}
+.cardigan .thirst-field .radio-group .radio-option input[type=checkbox]::after {
+  content: "" !important;
+  position: absolute;
+  display: none;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 8px;
+  border: solid #FFD700;
+  border-width: 0 2px 2px 0 !important;
+  transform: translate(-50%, -60%) rotate(45deg);
+  background: none !important;
+}
+.cardigan .thirst-field .radio-group .radio-option input[type=checkbox]:checked {
+  background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
+  border: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: rotate(45deg);
+  border-radius: 4px !important;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+}
+.cardigan .thirst-field .radio-group .radio-option input[type=checkbox]:checked::after {
+  display: none !important;
+}
+.cardigan .thirst-field .radio-group .radio-option input[type=checkbox]:hover {
+  border-color: #CF954C !important;
+}
+.cardigan .rest-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}
+.cardigan .rest-button-container .rest-btn {
+  background: rgba(105, 76, 39, 0.5);
+  border: 3px solid rgba(207, 149, 76, 0.5);
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.cardigan .rest-button-container .rest-btn:hover {
+  transform: scale(1.1);
+  background: rgba(105, 76, 39, 0.7);
+  border-color: rgba(207, 149, 76, 0.8);
+}
+.cardigan .rest-button-container .rest-btn:active {
+  transform: scale(0.95);
+}
+.cardigan .rest-button-container .rest-btn .rest-icon {
+  width: 26px;
+  height: 26px;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+}
+.cardigan .window-controls-custom {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  border: 2px solid red;
+  position: absolute;
+  right: -3px !important;
+  top: 0px !important;
+  left: -205.54px;
+  margin-top: -4px !important;
+  padding-top: 4px !important;
+  cursor: grab;
+}
+.cardigan .window-controls-custom.dragging {
+  cursor: grabbing;
+}
+.cardigan .window-controls-custom .control-btn {
+  width: 16px;
+  height: 16px;
+  min-height: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.cardigan .window-controls-custom .control-btn i {
+  font-size: 8px;
 }
 .cardigan {
   /* Mochila/Backpack Container Styles */
@@ -11783,6 +12276,128 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 .advantage-selection-dialog .roll-option-button:active {
   transform: translateY(0);
   box-shadow: 0 0 5px rgba(255, 100, 0, 0.3);
+}
+
+.rest-selection-dialog .dialog-header {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+.rest-selection-dialog .dialog-header h2 {
+  margin: 0 0 10px 0;
+  font-size: 20px;
+  color: #CF954C;
+}
+.rest-selection-dialog .dialog-header p {
+  margin: 0;
+  font-size: 14px;
+  color: #ccc;
+}
+.rest-selection-dialog .dialog-content {
+  padding: 20px;
+}
+.rest-selection-dialog .rest-options {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+.rest-selection-dialog .rest-option {
+  flex: 1;
+  max-width: 180px;
+  padding: 20px;
+  border: 2px solid rgba(105, 76, 39, 0.6);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+.rest-selection-dialog .rest-option .rest-icon {
+  font-size: 48px;
+  color: #CF954C;
+  transition: all 0.3s ease;
+}
+.rest-selection-dialog .rest-option .rest-label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #CF954C;
+  text-align: center;
+}
+.rest-selection-dialog .rest-option .rest-description {
+  font-size: 12px;
+  color: #ccc;
+  text-align: center;
+  line-height: 1.4;
+}
+.rest-selection-dialog .rest-option:hover, .rest-selection-dialog .rest-option.hovered {
+  border-color: #CF954C;
+  background: rgba(207, 149, 76, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(207, 149, 76, 0.3);
+}
+.rest-selection-dialog .rest-option:hover .rest-icon, .rest-selection-dialog .rest-option.hovered .rest-icon {
+  transform: scale(1.1);
+  color: #FFB366;
+}
+.rest-selection-dialog .rest-option:active {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(207, 149, 76, 0.2);
+}
+.rest-selection-dialog .rest-option[data-rest-type=short] .rest-icon {
+  color: #4caf50;
+}
+.rest-selection-dialog .rest-option[data-rest-type=short]:hover, .rest-selection-dialog .rest-option[data-rest-type=short].hovered {
+  border-color: #4caf50;
+  background: rgba(76, 175, 80, 0.1);
+}
+.rest-selection-dialog .rest-option[data-rest-type=short]:hover .rest-icon, .rest-selection-dialog .rest-option[data-rest-type=short].hovered .rest-icon {
+  color: #66bb6a;
+}
+.rest-selection-dialog .rest-option[data-rest-type=long] .rest-icon {
+  color: #2196f3;
+}
+.rest-selection-dialog .rest-option[data-rest-type=long]:hover, .rest-selection-dialog .rest-option[data-rest-type=long].hovered {
+  border-color: #2196f3;
+  background: rgba(33, 150, 243, 0.1);
+}
+.rest-selection-dialog .rest-option[data-rest-type=long]:hover .rest-icon, .rest-selection-dialog .rest-option[data-rest-type=long].hovered .rest-icon {
+  color: #42a5f5;
+}
+.rest-selection-dialog .dialog-footer {
+  padding: 15px 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+}
+.rest-selection-dialog .dialog-footer .dialog-button {
+  padding: 8px 16px;
+  border: 1px solid rgba(105, 76, 39, 0.6);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  color: #ccc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+.rest-selection-dialog .dialog-footer .dialog-button i {
+  font-size: 14px;
+}
+.rest-selection-dialog .dialog-footer .dialog-button:hover {
+  border-color: #CF954C;
+  background: rgba(207, 149, 76, 0.1);
+  color: #fff;
+}
+.rest-selection-dialog .dialog-footer .dialog-button.cancel {
+  border-color: #f44336;
+}
+.rest-selection-dialog .dialog-footer .dialog-button.cancel:hover {
+  border-color: #ef5350;
+  background: rgba(244, 67, 54, 0.1);
 }
 
 .evasion-result-dialog {
