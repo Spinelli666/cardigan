@@ -6,6 +6,13 @@ export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
     'CARDIGAN.Item.ItemMunicao',
   ];
 
+  /** Weight choices for ammunition */
+  static WEIGHT_CHOICES = {
+    "leve": "CARDIGAN.WeightLight",
+    "medio": "CARDIGAN.WeightMedium",
+    "pesado": "CARDIGAN.WeightHeavy"
+  };
+
   static defineSchema() {
     const fields = foundry.data.fields;
     const requiredInteger = { required: true, nullable: false, integer: true };
@@ -21,11 +28,7 @@ export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
       required: true,
       blank: false,
       initial: "leve",
-      choices: {
-        "leve": "CARDIGAN.WeightLight",
-        "medio": "CARDIGAN.WeightMedium",
-        "pesado": "CARDIGAN.WeightHeavy"
-      }
+      choices: CardiganSystemItemMunicao.WEIGHT_CHOICES
     });
 
     schema.price = new fields.NumberField({
@@ -46,5 +49,35 @@ export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
     });
 
     return schema;
+  }
+
+  /** Create ammunition with default settings - options: {quantity, weight, price, isSpecialAmmo} */
+  static createAmmo(name, options = {}) {
+    return {
+      name,
+      type: 'municao',
+      system: {
+        quantity: options.quantity || 1,
+        weight: options.weight || 'leve',
+        price: options.price || 0,
+        isFirearmAmmo: false,
+        isSpecialAmmo: options.isSpecialAmmo || false
+      }
+    };
+  }
+
+  /** Create firearm ammunition - options: {quantity, weight, price, isSpecialAmmo} */
+  static createFirearmAmmo(name, options = {}) {
+    return {
+      name,
+      type: 'municao',
+      system: {
+        quantity: options.quantity || 1,
+        weight: options.weight || 'leve',
+        price: options.price || 0,
+        isFirearmAmmo: true,
+        isSpecialAmmo: options.isSpecialAmmo || false
+      }
+    };
   }
 }
