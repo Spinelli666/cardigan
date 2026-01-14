@@ -1,11 +1,93 @@
 import CardiganSystemItemBase from './base-item.mjs';
 
+/**
+ * Data model for consumable items (potions, food, scrolls, medicine, bombs).
+ * Provides modifiers for skills, health, energy, status ailments, and active effects.
+ * @extends {CardiganSystemItemBase}
+ */
 export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase {
   static LOCALIZATION_PREFIXES = [
     'CARDIGAN.Item.base',
     'CARDIGAN.Item.ItemConsumivel',
   ];
 
+  /**
+   * Available character abilities for skill checks and bonuses.
+   * Used in temporarySkillBonus, criticalHitSkillBonus, criticalFailureSkillLoss fields.
+   * 
+   * @type {Object<string, string>}
+   * @constant
+   * 
+   * @property {string} accuracy - Accuracy (Acerto)
+   * @property {string} evasion - Evasion (Evasão)
+   * @property {string} strength - Strength (Força)
+   * @property {string} dexterity - Dexterity (Destreza)
+   * @property {string} stamina - Stamina (Vigor)
+   * @property {string} stealth - Stealth (Furtividade)
+   * @property {string} persuasion - Persuasion (Persuasão)
+   * @property {string} intelligence - Intelligence (Inteligência)
+   * @property {string} psionics - Psionics (Psiônicos)
+   */
+  static ABILITY_CHOICES = {
+    "accuracy": "CARDIGAN.Ability.Accuracy.long",
+    "evasion": "CARDIGAN.Ability.Evasion.long",
+    "strength": "CARDIGAN.Ability.Strength.long",
+    "dexterity": "CARDIGAN.Ability.Dexterity.long",
+    "stamina": "CARDIGAN.Ability.Stamina.long",
+    "stealth": "CARDIGAN.Ability.Stealth.long",
+    "persuasion": "CARDIGAN.Ability.Persuasion.long",
+    "intelligence": "CARDIGAN.Ability.Intelligence.long",
+    "psionics": "CARDIGAN.Ability.Psionics.long"
+  };
+
+  /** Modifier operation types (increase/decrease) */
+  static MODIFIER_TYPE_CHOICES = {
+    "increase": "CARDIGAN.ItemConsumivel.ModifierIncrease",
+    "decrease": "CARDIGAN.ItemConsumivel.ModifierDecrease"
+  };
+
+  /** Health modifier types (add/subtract) */
+  static HEALTH_MODIFIER_TYPE_CHOICES = {
+    "add": "CARDIGAN.ItemConsumivel.HealthAdd",
+    "subtract": "CARDIGAN.ItemConsumivel.HealthSubtract"
+  };
+
+  /** Energy modifier types (add/subtract) */
+  static ENERGY_MODIFIER_TYPE_CHOICES = {
+    "add": "CARDIGAN.ItemConsumivel.EnergyModifierTypeAdd",
+    "subtract": "CARDIGAN.ItemConsumivel.EnergyModifierTypeSubtract"
+  };
+
+  /** Standard dice options (1d4 to 1d20) */
+  static DICE_CHOICES = {
+    "1d4": "1d4",
+    "1d6": "1d6",
+    "1d8": "1d8",
+    "1d10": "1d10",
+    "1d12": "1d12",
+    "1d20": "1d20"
+  };
+
+  /** Extended dice options including multi-dice (1d4 to 1d20, 2d6, 3d6) */
+  static EXTENDED_DICE_CHOICES = {
+    "1d4": "1d4",
+    "1d6": "1d6",
+    "1d8": "1d8",
+    "1d10": "1d10",
+    "1d12": "1d12",
+    "1d20": "1d20",
+    "2d6": "2d6",
+    "3d6": "3d6"
+  };
+
+  /** Mathematical operations for system modifiers (add/subtract/multiply) */
+  static OPERATION_CHOICES = {
+    "add": "CARDIGAN.Modifiers.Add",
+    "subtract": "CARDIGAN.Modifiers.Subtract",
+    "multiply": "CARDIGAN.Modifiers.Multiply"
+  };
+
+  /** Define the data schema for consumable items */
   static defineSchema() {
     const fields = foundry.data.fields;
     const requiredInteger = { required: true, nullable: false, integer: true };
@@ -97,17 +179,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       required: false,
       blank: true,
       initial: "accuracy",
-      choices: {
-        "accuracy": "CARDIGAN.Ability.Accuracy.long",
-        "evasion": "CARDIGAN.Ability.Evasion.long",
-        "strength": "CARDIGAN.Ability.Strength.long",
-        "dexterity": "CARDIGAN.Ability.Dexterity.long",
-        "stamina": "CARDIGAN.Ability.Stamina.long",
-        "stealth": "CARDIGAN.Ability.Stealth.long",
-        "persuasion": "CARDIGAN.Ability.Persuasion.long",
-        "intelligence": "CARDIGAN.Ability.Intelligence.long",
-        "psionics": "CARDIGAN.Ability.Psionics.long"
-      },
+      choices: CardiganSystemItemConsumivel.ABILITY_CHOICES,
       label: "CARDIGAN.ItemConsumivel.SkillCheckAbility"
     });
 
@@ -146,17 +218,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
         ability: new fields.StringField({
           required: true,
           initial: "accuracy",
-          choices: {
-            "accuracy": "CARDIGAN.Ability.Accuracy.long",
-            "evasion": "CARDIGAN.Ability.Evasion.long",
-            "strength": "CARDIGAN.Ability.Strength.long",
-            "dexterity": "CARDIGAN.Ability.Dexterity.long",
-            "stamina": "CARDIGAN.Ability.Stamina.long",
-            "stealth": "CARDIGAN.Ability.Stealth.long",
-            "persuasion": "CARDIGAN.Ability.Persuasion.long",
-            "intelligence": "CARDIGAN.Ability.Intelligence.long",
-            "psionics": "CARDIGAN.Ability.Psionics.long"
-          }
+          choices: CardiganSystemItemConsumivel.ABILITY_CHOICES
         }),
         value: new fields.NumberField({
           required: true,
@@ -196,17 +258,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
         ability: new fields.StringField({
           required: true,
           initial: "accuracy",
-          choices: {
-            "accuracy": "CARDIGAN.Ability.Accuracy.long",
-            "evasion": "CARDIGAN.Ability.Evasion.long",
-            "strength": "CARDIGAN.Ability.Strength.long",
-            "dexterity": "CARDIGAN.Ability.Dexterity.long",
-            "stamina": "CARDIGAN.Ability.Stamina.long",
-            "stealth": "CARDIGAN.Ability.Stealth.long",
-            "persuasion": "CARDIGAN.Ability.Persuasion.long",
-            "intelligence": "CARDIGAN.Ability.Intelligence.long",
-            "psionics": "CARDIGAN.Ability.Psionics.long"
-          }
+          choices: CardiganSystemItemConsumivel.ABILITY_CHOICES
         }),
         value: new fields.NumberField({
           required: true,
@@ -230,17 +282,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
         ability: new fields.StringField({
           required: true,
           initial: "accuracy",
-          choices: {
-            "accuracy": "CARDIGAN.Ability.Accuracy.long",
-            "evasion": "CARDIGAN.Ability.Evasion.long",
-            "strength": "CARDIGAN.Ability.Strength.long",
-            "dexterity": "CARDIGAN.Ability.Dexterity.long",
-            "stamina": "CARDIGAN.Ability.Stamina.long",
-            "stealth": "CARDIGAN.Ability.Stealth.long",
-            "persuasion": "CARDIGAN.Ability.Persuasion.long",
-            "intelligence": "CARDIGAN.Ability.Intelligence.long",
-            "psionics": "CARDIGAN.Ability.Psionics.long"
-          }
+          choices: CardiganSystemItemConsumivel.ABILITY_CHOICES
         }),
         value: new fields.NumberField({
           required: true,
@@ -263,10 +305,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       required: false,
       blank: true,
       initial: "add",
-      choices: {
-        "add": "CARDIGAN.ItemConsumivel.HealthAdd",
-        "subtract": "CARDIGAN.ItemConsumivel.HealthSubtract"
-      },
+      choices: CardiganSystemItemConsumivel.HEALTH_MODIFIER_TYPE_CHOICES,
       label: "CARDIGAN.ItemConsumivel.HealthModifierType"
     });
 
@@ -274,14 +313,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       required: false,
       blank: true,
       initial: "1d20",
-      choices: {
-        "1d20": "1d20",
-        "1d12": "1d12",
-        "1d10": "1d10",
-        "1d8": "1d8",
-        "1d6": "1d6",
-        "1d4": "1d4"
-      },
+      choices: CardiganSystemItemConsumivel.DICE_CHOICES,
       label: "CARDIGAN.ItemConsumivel.HealthModifierDice"
     });
 
@@ -304,17 +336,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       required: false,
       blank: true,
       initial: "accuracy",
-      choices: {
-        "accuracy": "CARDIGAN.Ability.Accuracy.long",
-        "evasion": "CARDIGAN.Ability.Evasion.long",
-        "strength": "CARDIGAN.Ability.Strength.long",
-        "dexterity": "CARDIGAN.Ability.Dexterity.long",
-        "stamina": "CARDIGAN.Ability.Stamina.long",
-        "stealth": "CARDIGAN.Ability.Stealth.long",
-        "persuasion": "CARDIGAN.Ability.Persuasion.long",
-        "intelligence": "CARDIGAN.Ability.Intelligence.long",
-        "psionics": "CARDIGAN.Ability.Psionics.long"
-      },
+      choices: CardiganSystemItemConsumivel.ABILITY_CHOICES,
       label: "CARDIGAN.ItemConsumivel.HealthModifierSkill"
     });
 
@@ -348,24 +370,14 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     schema.energyModifierType = new fields.StringField({
       required: true,
       initial: "add",
-      choices: {
-        "add": "CARDIGAN.ItemConsumivel.EnergyModifierTypeAdd",
-        "subtract": "CARDIGAN.ItemConsumivel.EnergyModifierTypeSubtract"
-      },
+      choices: CardiganSystemItemConsumivel.ENERGY_MODIFIER_TYPE_CHOICES,
       label: "CARDIGAN.ItemConsumivel.EnergyModifierType"
     });
 
     schema.energyModifierDice = new fields.StringField({
       required: true,
       initial: "1d4",
-      choices: {
-        "1d4": "1d4",
-        "1d6": "1d6", 
-        "1d8": "1d8",
-        "1d10": "1d10",
-        "1d12": "1d12",
-        "1d20": "1d20"
-      },
+      choices: CardiganSystemItemConsumivel.DICE_CHOICES,
       label: "CARDIGAN.ItemConsumivel.EnergyModifierDice"
     });
 
@@ -387,17 +399,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     schema.energyModifierSkill = new fields.StringField({
       required: true,
       initial: "accuracy",
-      choices: {
-        "accuracy": "CARDIGAN.Ability.Accuracy.long",
-        "evasion": "CARDIGAN.Ability.Evasion.long",
-        "strength": "CARDIGAN.Ability.Strength.long",
-        "dexterity": "CARDIGAN.Ability.Dexterity.long",
-        "stamina": "CARDIGAN.Ability.Stamina.long",
-        "stealth": "CARDIGAN.Ability.Stealth.long",
-        "persuasion": "CARDIGAN.Ability.Persuasion.long",
-        "intelligence": "CARDIGAN.Ability.Intelligence.long",
-        "psionics": "CARDIGAN.Ability.Psionics.long"
-      },
+      choices: CardiganSystemItemConsumivel.ABILITY_CHOICES,
       label: "CARDIGAN.ItemConsumivel.EnergyModifierSkill"
     });
 
@@ -452,10 +454,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     schema.sanityModifierType = new fields.StringField({
       required: false,
       initial: "increase",
-      choices: {
-        "increase": "CARDIGAN.ItemConsumivel.SanityIncrease",
-        "decrease": "CARDIGAN.ItemConsumivel.SanityDecrease"
-      },
+      choices: CardiganSystemItemConsumivel.MODIFIER_TYPE_CHOICES,
       label: "CARDIGAN.ItemConsumivel.SanityModifierType"
     });
 
@@ -478,10 +477,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     schema.toxicityModifierType = new fields.StringField({
       required: false,
       initial: "increase",
-      choices: {
-        "increase": "CARDIGAN.ItemConsumivel.ModifierIncrease",
-        "decrease": "CARDIGAN.ItemConsumivel.ModifierDecrease"
-      },
+      choices: CardiganSystemItemConsumivel.MODIFIER_TYPE_CHOICES,
       label: "CARDIGAN.ItemConsumivel.ToxicityModifierType"
     });
 
@@ -504,10 +500,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     schema.fractureModifierType = new fields.StringField({
       required: false,
       initial: "increase",
-      choices: {
-        "increase": "CARDIGAN.ItemConsumivel.ModifierIncrease",
-        "decrease": "CARDIGAN.ItemConsumivel.ModifierDecrease"
-      },
+      choices: CardiganSystemItemConsumivel.MODIFIER_TYPE_CHOICES,
       label: "CARDIGAN.ItemConsumivel.FractureModifierType"
     });
 
@@ -537,10 +530,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     schema.foodModifierType = new fields.StringField({
       required: false,
       initial: "increase",
-      choices: {
-        "increase": "CARDIGAN.ItemConsumivel.ModifierIncrease",
-        "decrease": "CARDIGAN.ItemConsumivel.ModifierDecrease"
-      },
+      choices: CardiganSystemItemConsumivel.MODIFIER_TYPE_CHOICES,
       label: "CARDIGAN.ItemConsumivel.FoodModifierType"
     });
 
@@ -563,10 +553,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     schema.waterModifierType = new fields.StringField({
       required: false,
       initial: "increase",
-      choices: {
-        "increase": "CARDIGAN.ItemConsumivel.ModifierIncrease",
-        "decrease": "CARDIGAN.ItemConsumivel.ModifierDecrease"
-      },
+      choices: CardiganSystemItemConsumivel.MODIFIER_TYPE_CHOICES,
       label: "CARDIGAN.ItemConsumivel.WaterModifierType"
     });
 
@@ -646,11 +633,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
         operation: new fields.StringField({ 
           required: true, 
           initial: "add",
-          choices: {
-            "add": "CARDIGAN.Modifiers.Add",
-            "subtract": "CARDIGAN.Modifiers.Subtract",
-            "multiply": "CARDIGAN.Modifiers.Multiply"
-          }
+          choices: CardiganSystemItemConsumivel.OPERATION_CHOICES
         }),
         value: new fields.NumberField({ required: true, initial: 1 }),
         duration: new fields.StringField({
@@ -672,16 +655,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
           required: true, 
           blank: true, 
           initial: "1d20",
-          choices: {
-            "1d4": "1d4",
-            "1d6": "1d6", 
-            "1d8": "1d8",
-            "1d10": "1d10",
-            "1d12": "1d12",
-            "1d20": "1d20",
-            "2d6": "2d6",
-            "3d6": "3d6"
-          }
+          choices: CardiganSystemItemConsumivel.EXTENDED_DICE_CHOICES
         }),
         skillModifier: new fields.SchemaField({
           skill: new fields.StringField({ 
@@ -701,11 +675,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
           operation: new fields.StringField({
             required: true,
             initial: "add",
-            choices: {
-              "add": "CARDIGAN.Modifiers.Add",
-              "subtract": "CARDIGAN.Modifiers.Subtract",
-              "multiply": "CARDIGAN.Modifiers.Multiply"
-            }
+            choices: CardiganSystemItemConsumivel.OPERATION_CHOICES
           })
         }),
         rollDescription: new fields.HTMLField({ required: true, blank: true, initial: "" })
@@ -757,5 +727,286 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     });
 
     return schema;
+  }
+
+  /** Prepare derived data: cleans arrays, calculates modifier count, sets UI flags */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+    
+    // Clean empty entries from arrays
+    this._cleanArrayFields();
+    
+    // Calculate active modifiers count
+    this._calculateActiveModifiersCount();
+    
+    // Set derived flags for UI conditionals
+    this._setDerivedFlags();
+  }
+
+  /** Remove empty/invalid entries from array fields (skill bonuses, effects, etc.) */
+  _cleanArrayFields() {
+    // Clean temporary skill bonuses (remove entries with no ability or zero value)
+    if (Array.isArray(this.temporarySkillBonus)) {
+      this.temporarySkillBonus = this.temporarySkillBonus.filter(
+        bonus => bonus.ability && bonus.value > 0
+      );
+    }
+
+    // Clean critical failure skill loss
+    if (Array.isArray(this.criticalFailureSkillLoss)) {
+      this.criticalFailureSkillLoss = this.criticalFailureSkillLoss.filter(
+        loss => loss.ability && loss.value > 0
+      );
+    }
+
+    // Clean critical hit skill bonus
+    if (Array.isArray(this.criticalHitSkillBonus)) {
+      this.criticalHitSkillBonus = this.criticalHitSkillBonus.filter(
+        bonus => bonus.ability && bonus.value > 0
+      );
+    }
+
+    // Clean critical failure effects (remove entries with no id/name)
+    if (Array.isArray(this.criticalFailureEffects)) {
+      this.criticalFailureEffects = this.criticalFailureEffects.filter(
+        effect => effect.id && effect.name
+      );
+    }
+
+    // Clean critical hit effects
+    if (Array.isArray(this.criticalHitEffects)) {
+      this.criticalHitEffects = this.criticalHitEffects.filter(
+        effect => effect.id && effect.name
+      );
+    }
+
+    // Clean base effects
+    if (Array.isArray(this.effects)) {
+      this.effects = this.effects.filter(
+        effect => effect.effectId
+      );
+    }
+
+    // Clean custom effects
+    if (Array.isArray(this.customEffects)) {
+      this.customEffects = this.customEffects.filter(
+        effect => effect.id && effect.name
+      );
+    }
+
+    // Clean modifiers.skillEffects
+    if (this.modifiers?.skillEffects && Array.isArray(this.modifiers.skillEffects)) {
+      this.modifiers.skillEffects = this.modifiers.skillEffects.filter(
+        effect => effect.skill && effect.value !== 0
+      );
+    }
+
+    // Clean modifiers.systemEffects
+    if (this.modifiers?.systemEffects && Array.isArray(this.modifiers.systemEffects)) {
+      this.modifiers.systemEffects = this.modifiers.systemEffects.filter(
+        effect => effect.effectId
+      );
+    }
+  }
+
+  /** Calculate total number of active modifiers for UI indicators */
+  _calculateActiveModifiersCount() {
+    let count = 0;
+    
+    // Count boolean-gated modifiers
+    if (this.hasHealthModifier) count++;
+    if (this.hasEnergyModifier) count++;
+    if (this.hasSanityModifier) count++;
+    if (this.hasToxicityModifier) count++;
+    if (this.hasFractureModifier) count++;
+    if (this.hasFoodModifier) count++;
+    if (this.hasWaterModifier) count++;
+    if (this.hasMovementBoost) count++;
+    if (this.hasCriticalHitBoost) count++;
+    if (this.hasArmorBonus) count++;
+    if (this.hasTemporarySkillBonus && this.temporarySkillBonus?.length > 0) count++;
+    if (this.hasCriticalHitEffects && this.criticalHitEffects?.length > 0) count++;
+    if (this.hasCriticalFailureEffects && this.criticalFailureEffects?.length > 0) count++;
+    if (this.hasCriticalHitSkillBonus && this.criticalHitSkillBonus?.length > 0) count++;
+    if (this.hasCriticalFailureSkillLoss && this.criticalFailureSkillLoss?.length > 0) count++;
+    
+    this.activeModifiersCount = count;
+  }
+
+  /** Set derived boolean flags for UI conditionals (hasAnyModifier, requiresAbilityCheck, etc.) */
+  _setDerivedFlags() {
+    // Flag: item has any modifier (useful for UI sections)
+    this.hasAnyModifier = this.activeModifiersCount > 0;
+    
+    // Flag: item requires any kind of check
+    this.requiresAbilityCheck = this.hasSkillCheck || this.requiresCheck;
+    
+    // Flag: item has critical outcomes (success/failure)
+    this.hasCriticalOutcomes = 
+      this.hasCriticalHitEffects || 
+      this.hasCriticalFailureEffects ||
+      this.hasCriticalHitSkillBonus ||
+      this.hasCriticalFailureSkillLoss;
+    
+    // Flag: item affects status ailments
+    this.affectsStatusAilments = 
+      this.hasSanityModifier ||
+      this.hasToxicityModifier ||
+      this.hasFractureModifier ||
+      this.hasFoodModifier ||
+      this.hasWaterModifier;
+    
+    // Flag: item affects resources (HP/Energy)
+    this.affectsResources = this.hasHealthModifier || this.hasEnergyModifier;
+    
+    // Flag: item affects combat stats
+    this.affectsCombat = 
+      this.hasArmorBonus ||
+      this.hasMovementBoost ||
+      this.hasCriticalHitBoost ||
+      (this.hasTemporarySkillBonus && this.temporarySkillBonus?.length > 0);
+  }
+
+  // ============================================================================
+  // FACTORY METHODS - Create common consumable presets
+  // ============================================================================
+
+  /**
+   * Create a healing potion preset
+   * @param {string} name - Item name
+   * @param {string} healDice - Healing dice (e.g., "2d6")
+   * @param {number} bonus - Flat healing bonus
+   * @returns {Object} Item creation data
+   */
+  static createHealingPotion(name = "Poção de Cura", healDice = "2d6", bonus = 4) {
+    return {
+      name: name,
+      type: "consumivel",
+      system: {
+        consumableType: "potion",
+        useTime: "1 turno",
+        hasHealthModifier: true,
+        healthModifierType: "add",
+        healthDice: healDice,
+        healthModifier: bonus,
+        description: `Restaura ${healDice}+${bonus} pontos de vida.`
+      }
+    };
+  }
+
+  /**
+   * Create an energy potion preset
+   * @param {string} name - Item name
+   * @param {string} energyDice - Energy dice (e.g., "1d8")
+   * @param {number} bonus - Flat energy bonus
+   * @returns {Object} Item creation data
+   */
+  static createEnergyPotion(name = "Poção de Energia", energyDice = "1d8", bonus = 2) {
+    return {
+      name: name,
+      type: "consumivel",
+      system: {
+        consumableType: "potion",
+        useTime: "1 turno",
+        hasEnergyModifier: true,
+        energyModifierType: "add",
+        energyDice: energyDice,
+        energyModifier: bonus,
+        description: `Restaura ${energyDice}+${bonus} pontos de energia.`
+      }
+    };
+  }
+
+  /**
+   * Create an antidote preset
+   * @param {string} name - Item name
+   * @param {number} toxicityReduction - Toxicity reduction amount
+   * @returns {Object} Item creation data
+   */
+  static createAntidote(name = "Antídoto", toxicityReduction = -5) {
+    return {
+      name: name,
+      type: "consumivel",
+      system: {
+        consumableType: "medicine",
+        useTime: "1 turno",
+        hasToxicityModifier: true,
+        toxicityModifier: toxicityReduction,
+        description: `Reduz toxicidade em ${Math.abs(toxicityReduction)} pontos.`
+      }
+    };
+  }
+
+  /**
+   * Create a bomb preset
+   * @param {string} name - Item name
+   * @param {string} damageDice - Damage dice (e.g., "3d6")
+   * @param {number} bonus - Flat damage bonus
+   * @returns {Object} Item creation data
+   */
+  static createBomb(name = "Bomba", damageDice = "3d6", bonus = 0) {
+    return {
+      name: name,
+      type: "consumivel",
+      system: {
+        consumableType: "bomb",
+        useTime: "1 turno",
+        requiresAbilityCheck: true,
+        abilityForCheck: "accuracy",
+        difficultyClass: 12,
+        hasHealthModifier: true,
+        healthModifierType: "subtract",
+        healthDice: damageDice,
+        healthModifier: bonus,
+        description: `Causa ${damageDice}${bonus > 0 ? `+${bonus}` : ''} de dano (Teste de Acerto CD 12).`
+      }
+    };
+  }
+
+  /**
+   * Create a food item preset
+   * @param {string} name - Item name
+   * @param {number} hungerReduction - Hunger reduction amount
+   * @returns {Object} Item creation data
+   */
+  static createFoodItem(name = "Ração", hungerReduction = -2) {
+    return {
+      name: name,
+      type: "consumivel",
+      system: {
+        consumableType: "food",
+        useTime: "5 minutos",
+        hasFoodModifier: true,
+        foodModifier: hungerReduction,
+        description: `Reduz fome em ${Math.abs(hungerReduction)} pontos.`
+      }
+    };
+  }
+
+  /**
+   * Create a skill buff potion preset
+   * @param {string} name - Item name
+   * @param {string} ability - Ability to boost (e.g., "strength")
+   * @param {number} bonus - Bonus value
+   * @param {string} duration - Effect duration
+   * @returns {Object} Item creation data
+   */
+  static createSkillBuffPotion(name = "Poção de Força", ability = "strength", bonus = 2, duration = "1 hora") {
+    return {
+      name: name,
+      type: "consumivel",
+      system: {
+        consumableType: "potion",
+        useTime: "1 turno",
+        hasTemporarySkillBonus: true,
+        temporarySkillBonus: [{
+          ability: ability,
+          value: bonus,
+          dice: "",
+          duration: duration
+        }],
+        description: `Concede +${bonus} em ${ability} por ${duration}.`
+      }
+    };
   }
 }
