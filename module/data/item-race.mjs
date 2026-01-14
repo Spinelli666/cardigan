@@ -86,4 +86,31 @@ export default class CardiganSystemRace extends CardiganSystemItemBase {
     
     return schema;
   }
+  
+  static createRace(name, options = {}) {
+    return {
+      name: name,
+      type: 'race',
+      img: options.img || 'icons/svg/item-bag.svg',
+      system: {
+        description: options.description || '',
+        movementBonus: options.movementBonus || 0,
+        healthBonus: options.healthBonus || 0,
+        powerBonus: options.powerBonus || 0,
+        armorBonus: options.armorBonus || 0,
+        racialSkills: options.racialSkills || [],
+        abilityModifiers: {
+          accuracy: options.abilityModifiers?.accuracy || 0,
+          evasion: options.abilityModifiers?.evasion || 0,
+          strength: options.abilityModifiers?.strength || 0,
+          dexterity: options.abilityModifiers?.dexterity || 0,
+          stamina: options.abilityModifiers?.stamina || 0,
+          stealth: options.abilityModifiers?.stealth || 0,
+          persuasion: options.abilityModifiers?.persuasion || 0,
+          intelligence: options.abilityModifiers?.intelligence || 0,
+          psionics: options.abilityModifiers?.psionics || 0
+        }
+      }
+    };
+  }
 }
