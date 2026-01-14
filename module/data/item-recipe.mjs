@@ -6,6 +6,29 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
     'CARDIGAN.Item.ItemRecipe',
   ];
 
+  static RECIPE_TYPE_CHOICES = {
+    "culinary": "CARDIGAN.Item.ItemRecipe.recipeType.culinary",
+    "tailoring": "CARDIGAN.Item.ItemRecipe.recipeType.tailoring",
+    "tecnomagic": "CARDIGAN.Item.ItemRecipe.recipeType.tecnomagic",
+    "blacksmithing": "CARDIGAN.Item.ItemRecipe.recipeType.blacksmithing",
+    "alchemy": "CARDIGAN.Item.ItemRecipe.recipeType.alchemy",
+    "carpentry": "CARDIGAN.Item.ItemRecipe.recipeType.carpentry"
+  };
+
+  static DIFFICULTY_CHOICES = {
+    "easy": "CARDIGAN.Item.ItemRecipe.difficulty.easy",
+    "medium": "CARDIGAN.Item.ItemRecipe.difficulty.medium",
+    "hard": "CARDIGAN.Item.ItemRecipe.difficulty.hard",
+    "master": "CARDIGAN.Item.ItemRecipe.difficulty.master"
+  };
+
+  static CONSUMABLE_TYPE_CHOICES = {
+    "food": "CARDIGAN.Item.ItemRecipe.consumableType.food",
+    "drink": "CARDIGAN.Item.ItemRecipe.consumableType.drink",
+    "potion": "CARDIGAN.Item.ItemRecipe.consumableType.potion",
+    "other": "CARDIGAN.Item.ItemRecipe.consumableType.other"
+  };
+
   static defineSchema() {
     const fields = foundry.data.fields;
     const requiredInteger = { required: true, nullable: false, integer: true };
@@ -35,14 +58,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
       required: true,
       blank: false,
       initial: "culinary",
-      choices: {
-        "culinary": "CARDIGAN.Item.ItemRecipe.recipeType.culinary",
-        "tailoring": "CARDIGAN.Item.ItemRecipe.recipeType.tailoring",
-        "tecnomagic": "CARDIGAN.Item.ItemRecipe.recipeType.tecnomagic",
-        "blacksmithing": "CARDIGAN.Item.ItemRecipe.recipeType.blacksmithing",
-        "alchemy": "CARDIGAN.Item.ItemRecipe.recipeType.alchemy",
-        "carpentry": "CARDIGAN.Item.ItemRecipe.recipeType.carpentry"
-      },
+      choices: CardiganSystemItemRecipe.RECIPE_TYPE_CHOICES,
       label: "CARDIGAN.Item.ItemRecipe.recipeType.label",
       hint: "CARDIGAN.Item.ItemRecipe.recipeType.hint"
     });
@@ -52,12 +68,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
       required: true,
       blank: false,
       initial: "easy",
-      choices: {
-        "easy": "CARDIGAN.Item.ItemRecipe.difficulty.easy",
-        "medium": "CARDIGAN.Item.ItemRecipe.difficulty.medium", 
-        "hard": "CARDIGAN.Item.ItemRecipe.difficulty.hard",
-        "master": "CARDIGAN.Item.ItemRecipe.difficulty.master"
-      },
+      choices: CardiganSystemItemRecipe.DIFFICULTY_CHOICES,
       label: "CARDIGAN.Item.ItemRecipe.difficulty.label",
       hint: "CARDIGAN.Item.ItemRecipe.difficulty.hint"
     });
@@ -66,12 +77,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
       required: true,
       blank: false,
       initial: "food",
-      choices: {
-        "food": "CARDIGAN.Item.ItemRecipe.consumableType.food",
-        "drink": "CARDIGAN.Item.ItemRecipe.consumableType.drink",
-        "potion": "CARDIGAN.Item.ItemRecipe.consumableType.potion",
-        "other": "CARDIGAN.Item.ItemRecipe.consumableType.other"
-      },
+      choices: CardiganSystemItemRecipe.CONSUMABLE_TYPE_CHOICES,
       label: "CARDIGAN.Item.ItemRecipe.consumableType.label",
       hint: "CARDIGAN.Item.ItemRecipe.consumableType.hint"
     });
@@ -219,5 +225,24 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
     );
 
     return schema;
+  }
+
+  static createRecipe(name, options = {}) {
+    return {
+      name: name,
+      type: 'recipe',
+      img: options.img || 'icons/svg/book.svg',
+      system: {
+        description: options.description || '',
+        quantity: options.quantity || 1,
+        weight: options.weight || 'leve',
+        price: options.price || 0,
+        recipeType: options.recipeType || 'culinary',
+        difficulty: options.difficulty || 'easy',
+        consumableType: options.consumableType || 'food',
+        requiredIngredients: options.requiredIngredients || [],
+        resultItems: options.resultItems || []
+      }
+    };
   }
 }
