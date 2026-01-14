@@ -6,6 +6,25 @@ export default class CardiganSystemItemComum extends CardiganSystemItemBase {
     'CARDIGAN.Item.ItemComum',
   ];
 
+  /** Category choices for common items */
+  static CATEGORY_CHOICES = {
+    "equipment": "CARDIGAN.ItemComum.Categories.Equipment",
+    "tool": "CARDIGAN.ItemComum.Categories.Tool",
+    "misc": "CARDIGAN.ItemComum.Categories.Misc",
+    "valuable": "CARDIGAN.ItemComum.Categories.Valuable"
+  };
+
+  /** Profession choices for common items */
+  static PROFESSION_CHOICES = {
+    "general": "CARDIGAN.ItemIngredient.Professions.General",
+    "alchemy": "CARDIGAN.ItemIngredient.Professions.Alchemy",
+    "blacksmithing": "CARDIGAN.ItemIngredient.Professions.Blacksmithing",
+    "carpentry": "CARDIGAN.ItemIngredient.Professions.Carpentry",
+    "culinary": "CARDIGAN.ItemIngredient.Professions.Culinary",
+    "tailoring": "CARDIGAN.ItemIngredient.Professions.Tailoring",
+    "tecnomagic": "CARDIGAN.ItemIngredient.Professions.Tecnomagic"
+  };
+
   static defineSchema() {
     const fields = foundry.data.fields;
     const requiredInteger = { required: true, nullable: false, integer: true };
@@ -34,12 +53,7 @@ export default class CardiganSystemItemComum extends CardiganSystemItemBase {
     schema.category = new fields.StringField({
       required: false,
       initial: "misc",
-      choices: {
-        "equipment": "CARDIGAN.ItemComum.Categories.Equipment",
-        "tool": "CARDIGAN.ItemComum.Categories.Tool",
-        "misc": "CARDIGAN.ItemComum.Categories.Misc",
-        "valuable": "CARDIGAN.ItemComum.Categories.Valuable"
-      }
+      choices: CardiganSystemItemComum.CATEGORY_CHOICES
     });
 
     schema.usage = new fields.StringField({ required: false, blank: true });
@@ -47,17 +61,25 @@ export default class CardiganSystemItemComum extends CardiganSystemItemBase {
     schema.profession = new fields.StringField({
       required: false,
       initial: "general",
-      choices: {
-        "general": "CARDIGAN.ItemIngredient.Professions.General",
-        "alchemy": "CARDIGAN.ItemIngredient.Professions.Alchemy",
-        "blacksmithing": "CARDIGAN.ItemIngredient.Professions.Blacksmithing",
-        "carpentry": "CARDIGAN.ItemIngredient.Professions.Carpentry",
-        "culinary": "CARDIGAN.ItemIngredient.Professions.Culinary",
-        "tailoring": "CARDIGAN.ItemIngredient.Professions.Tailoring",
-        "tecnomagic": "CARDIGAN.ItemIngredient.Professions.Tecnomagic"
-      }
+      choices: CardiganSystemItemComum.PROFESSION_CHOICES
     });
 
     return schema;
+  }
+
+  /** Create common item with default settings - options: {quantity, weight, price, category, usage, profession} */
+  static createCommonItem(name, options = {}) {
+    return {
+      name,
+      type: 'comum',
+      system: {
+        quantity: options.quantity || 1,
+        weight: options.weight || 'leve',
+        price: options.price || 0,
+        category: options.category || 'misc',
+        usage: options.usage || '',
+        profession: options.profession || 'general'
+      }
+    };
   }
 }
