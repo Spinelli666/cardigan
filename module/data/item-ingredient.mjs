@@ -6,6 +6,17 @@ export default class CardiganSystemItemIngredient extends CardiganSystemItemBase
     'CARDIGAN.Item.ItemIngredient',
   ];
 
+  /** Profession choices for ingredients */
+  static PROFESSION_CHOICES = {
+    "general": "CARDIGAN.ItemIngredient.Professions.General",
+    "alchemy": "CARDIGAN.ItemIngredient.Professions.Alchemy",
+    "blacksmithing": "CARDIGAN.ItemIngredient.Professions.Blacksmithing",
+    "carpentry": "CARDIGAN.ItemIngredient.Professions.Carpentry",
+    "culinary": "CARDIGAN.ItemIngredient.Professions.Culinary",
+    "tailoring": "CARDIGAN.ItemIngredient.Professions.Tailoring",
+    "tecnomagic": "CARDIGAN.ItemIngredient.Professions.Tecnomagic"
+  };
+
   static defineSchema() {
     const fields = foundry.data.fields;
     const requiredInteger = { required: true, nullable: false, integer: true };
@@ -27,17 +38,22 @@ export default class CardiganSystemItemIngredient extends CardiganSystemItemBase
     schema.profession = new fields.StringField({
       required: false,
       initial: "general",
-      choices: {
-        "general": "CARDIGAN.ItemIngredient.Professions.General",
-        "alchemy": "CARDIGAN.ItemIngredient.Professions.Alchemy",
-        "blacksmithing": "CARDIGAN.ItemIngredient.Professions.Blacksmithing",
-        "carpentry": "CARDIGAN.ItemIngredient.Professions.Carpentry",
-        "culinary": "CARDIGAN.ItemIngredient.Professions.Culinary",
-        "tailoring": "CARDIGAN.ItemIngredient.Professions.Tailoring",
-        "tecnomagic": "CARDIGAN.ItemIngredient.Professions.Tecnomagic"
-      }
+      choices: CardiganSystemItemIngredient.PROFESSION_CHOICES
     });
 
     return schema;
+  }
+
+  /** Create ingredient with default settings - options: {quantity, weight, profession} */
+  static createIngredient(name, options = {}) {
+    return {
+      name,
+      type: 'ingredient',
+      system: {
+        quantity: options.quantity || 1,
+        weight: options.weight || 'leve',
+        profession: options.profession || 'general'
+      }
+    };
   }
 }
