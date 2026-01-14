@@ -121,4 +121,34 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
 
     return schema;
   }
+
+  static createEffect(name, options = {}) {
+    return {
+      name: name,
+      type: 'efeito',
+      img: options.img || 'icons/svg/aura.svg',
+      system: {
+        description: options.description || '',
+        efeitoType: options.efeitoType || 'negativo',
+        duration: options.duration || 0,
+        consumableTracking: {
+          isTrackingEffect: options.consumableTracking?.isTrackingEffect || false,
+          originalItemName: options.consumableTracking?.originalItemName || '',
+          originalItemId: options.consumableTracking?.originalItemId || '',
+          rollType: options.consumableTracking?.rollType || 'normal',
+          appliedEffects: options.consumableTracking?.appliedEffects || [],
+          appliedSkillBonuses: options.consumableTracking?.appliedSkillBonuses || [],
+          appliedAttributeModifiers: options.consumableTracking?.appliedAttributeModifiers || []
+        },
+        isTemporaryHealth: options.isTemporaryHealth || false,
+        healthBonusValue: options.healthBonusValue || 0,
+        sourceItemId: options.sourceItemId || '',
+        sourceItemName: options.sourceItemName || '',
+        isTemporaryEnergy: options.isTemporaryEnergy || false,
+        energyBonusValue: options.energyBonusValue || 0,
+        isTemporaryArmor: options.isTemporaryArmor || false,
+        armorBonusValue: options.armorBonusValue || 0
+      }
+    };
+  }
 }
