@@ -150,9 +150,10 @@ export class CardiganSystemActor extends Actor {
     await super._onUpdate(changed, options, userId);
     
     // Sync status-based effects
-    const { FraturaEffect, ExaustaoEffect } = await import('../effects/index.mjs');
+    const { FraturaEffect, ExaustaoEffect, ToxicidadeEffect } = await import('../effects/index.mjs');
     await FraturaEffect.onActorUpdate(this, changed, userId);
     await ExaustaoEffect.onActorUpdate(this, changed, userId);
+    await ToxicidadeEffect.onActorUpdate(this, changed, userId);
   }
 
   /**

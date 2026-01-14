@@ -10,6 +10,7 @@ export { default as ImparavelEffect } from './effects/imparavel.mjs';
 export { default as PersistenciaEffect } from './effects/persistencia.mjs';
 export { FraturaEffect } from './effects/fratura.mjs';
 export { ExaustaoEffect } from './effects/exaustao.mjs';
+export { ToxicidadeEffect } from './effects/toxicidade.mjs';
 export { SangramentoEffect } from './effects/sangramento.mjs';
 export { IncendiadoEffect } from './effects/incendiado.mjs';
 export { EletrocutadoEffect } from './effects/eletrocutado.mjs';
@@ -29,6 +30,7 @@ export async function initializeEffects() {
   const PersistenciaEffect = (await import('./effects/persistencia.mjs')).default;
   const { FraturaEffect } = await import('./effects/fratura.mjs');
   const { ExaustaoEffect } = await import('./effects/exaustao.mjs');
+  const { ToxicidadeEffect } = await import('./effects/toxicidade.mjs');
   const { SangramentoEffect } = await import('./effects/sangramento.mjs');
   const { IncendiadoEffect } = await import('./effects/incendiado.mjs');
   const { EletrocutadoEffect } = await import('./effects/eletrocutado.mjs');
@@ -43,6 +45,7 @@ export async function initializeEffects() {
   EffectManager.register('Persistência', PersistenciaEffect);
   EffectManager.register('Fratura', FraturaEffect);
   EffectManager.register('Exaustão', ExaustaoEffect);
+  EffectManager.register('Toxicidade', ToxicidadeEffect);
   EffectManager.register('Sangramento', SangramentoEffect);
   EffectManager.register('Incendiado', IncendiadoEffect);
   EffectManager.register('Eletrocutado', EletrocutadoEffect);

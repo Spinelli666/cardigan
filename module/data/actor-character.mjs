@@ -17,7 +17,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       }),
     });
 
-    // Iterate over ability names and create a new SchemaField for each.
     schema.abilities = new fields.SchemaField(
       Object.keys(CONFIG.CARDIGAN.abilities).reduce((obj, ability) => {
         obj[ability] = new fields.SchemaField({
@@ -46,18 +45,17 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       }, {})
     );
 
-    // Adiciona campos de status com radio buttons sequenciais
     schema.status = new fields.SchemaField({
-      hunger: new fields.NumberField({ initial: 0, min: 0, max: 3, integer: true }), // Radio 0-3 for Hunger, initial 0 = none marked
-      thirst: new fields.NumberField({ initial: 0, min: 0, max: 3, integer: true }), // Radio 0-3 for Thirst, initial 0 = none marked
-      fracture: new fields.NumberField({ initial: 0, min: 0, max: 5, integer: true }), // Radio 0-5 for Fracture levels
-      giftOfLife: new fields.NumberField({ initial: null, min: 0, max: 3, integer: true }), // Radio 0-3 for Gift of Life, null = none selected
-      deathSentence: new fields.NumberField({ initial: null, min: 0, max: 3, integer: true }), // Radio 0-3 for Death Sentence, null = none selected
-      sanity: new fields.NumberField({ initial: null, min: 0, max: 5, integer: true }), // Radio 0-5 for Sanity levels, null = none selected
-      toxicity: new fields.NumberField({ initial: null, min: 0, max: 5, integer: true }), // Radio 0-5 for Toxicity levels, null = none selected
-      healthBonus: new fields.NumberField({ initial: 0, integer: true }), // Bonus to maximum health
-      energyBonus: new fields.NumberField({ initial: 0, integer: true }), // Bonus to maximum energy  
-      armorBonus: new fields.NumberField({ initial: 0, integer: true }) // Bonus to maximum armor
+      hunger: new fields.NumberField({ initial: 0, min: 0, max: 3, integer: true }),
+      thirst: new fields.NumberField({ initial: 0, min: 0, max: 3, integer: true }),
+      fracture: new fields.NumberField({ initial: 0, min: 0, max: 5, integer: true }),
+      giftOfLife: new fields.NumberField({ initial: null, min: 0, max: 3, integer: true }),
+      deathSentence: new fields.NumberField({ initial: null, min: 0, max: 3, integer: true }),
+      sanity: new fields.NumberField({ initial: null, min: 0, max: 5, integer: true }),
+      toxicity: new fields.NumberField({ initial: null, min: 0, max: 5, integer: true }),
+      healthBonus: new fields.NumberField({ initial: 0, integer: true }),
+      energyBonus: new fields.NumberField({ initial: 0, integer: true }),
+      armorBonus: new fields.NumberField({ initial: 0, integer: true })
     });
 
     // Temporary effects for health bonuses from consumables
@@ -74,7 +72,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       { initial: [] }
     );
 
-    // Adiciona campos de detalhes incluindo notas adicionais
     schema.details = new fields.SchemaField({
       name: new fields.StringField({ initial: "" }),
       age: new fields.NumberField({ initial: 0, integer: true }),
@@ -83,270 +80,72 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       movementManual: new fields.NumberField({ initial: 0, integer: true }),
       criticalHit: new fields.NumberField({ initial: 20, integer: true }),
       criticalHitManual: new fields.NumberField({ initial: 0, integer: true }),
-      additionalNotes: new fields.StringField({ initial: "" }), // Campo para notas adicionais como texto simples
-      showAdditionalNotes: new fields.BooleanField({ initial: true }), // Controle de exibição das notas
-      showEffectsTab: new fields.BooleanField({ initial: true }), // Controle de exibição da seção de efeitos
-      showWeaponsTable: new fields.BooleanField({ initial: true }), // Controle de exibição da tabela de armas
-      showCulinaryTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela culinária
-      showTailoringTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de alfaiataria
-      showTecnomagicTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de tecnomagia
-      showBlacksmithingTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de ferraria
-      showAlchemyTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de alquimia
-      showCarpentryTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de carpintaria
-      showSkillsAndarilhoTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de skills Andarilho
-      showSkillsGuerreiroTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de skills Guerreiro
-      showSkillsLadinoTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de skills Ladino
-      showSkillsFeiticeiroTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de skills Feiticeiro
-      showSkillsRaciaisTable: new fields.BooleanField({ initial: false }), // Controle de exibição da tabela de skills Raciais
-      showSkillsUnicasTable: new fields.BooleanField({ initial: false }) // Controle de exibição da tabela de skills Únicas
+      additionalNotes: new fields.StringField({ initial: "" }),
+      showAdditionalNotes: new fields.BooleanField({ initial: true }),
+      showEffectsTab: new fields.BooleanField({ initial: true }),
+      showWeaponsTable: new fields.BooleanField({ initial: true }),
+      showCulinaryTable: new fields.BooleanField({ initial: false }),
+      showTailoringTable: new fields.BooleanField({ initial: false }),
+      showTecnomagicTable: new fields.BooleanField({ initial: false }),
+      showBlacksmithingTable: new fields.BooleanField({ initial: false }),
+      showAlchemyTable: new fields.BooleanField({ initial: false }),
+      showCarpentryTable: new fields.BooleanField({ initial: false }),
+      showSkillsAndarilhoTable: new fields.BooleanField({ initial: false }),
+      showSkillsGuerreiroTable: new fields.BooleanField({ initial: false }),
+      showSkillsLadinoTable: new fields.BooleanField({ initial: false }),
+      showSkillsFeiticeiroTable: new fields.BooleanField({ initial: false }),
+      showSkillsRaciaisTable: new fields.BooleanField({ initial: false }),
+      showSkillsUnicasTable: new fields.BooleanField({ initial: false })
     });
 
     return schema;
   }
 
   prepareDerivedData() {
-    // Level is no longer calculated automatically from class points
-    // It will be managed manually or through a different system
+    // Prepare level and experience progression
+    this._prepareLevelAndExperience();
     
     // Calculate race bonuses FIRST and apply to baseValue
     this._calculateRaceBonuses();
 
-    // Loop through ability scores to handle labels and calculate base values
-    for (const key in this.abilities) {
-      // Handle ability label localization.
-      this.abilities[key].label =
-        game.i18n.localize(CONFIG.CARDIGAN.abilities[key]) ?? key;
-        
-      // Calculate final value using Dynamic Base + Manual Field Pattern
-      const baseValue = this.abilities[key].baseValue || 0;
-      const manualValue = this.abilities[key].manualValue || 0;
-      this.abilities[key].value = baseValue + manualValue;
-    }
+    // Prepare all ability scores (labels, values, bonuses)
+    this._prepareAbilities();
 
     // Calculate weapon skill bonuses and add to abilities
     this._calculateWeaponSkillBonuses();
     
-    // Calculate armor bonuses and add to abilities/stats
-    this._calculateArmorBonuses();
+    // Calculate armor system bonuses (protection, health, energy, movement, backpack, skill bonuses)
+    this._prepareArmorSystem();
     
-    // AGORA calcular valor final da perícia (value + totalBonus) para exibição
-    // após os bônus de armas terem sido calculados
-    for (const key in this.abilities) {
-      const baseValue = this.abilities[key].value || 0;
-      const totalBonus = this.abilities[key].totalBonus || 0;
-      this.abilities[key].total = baseValue + totalBonus;
-    }
+    // Recalculate ability totals after all bonuses have been applied
+    this._updateAbilityTotals();
 
-    // Regra: cada ponto de Stamina adiciona +10 à vida máxima e +1 à energia máxima
-    const stamina = this.abilities?.stamina?.value ?? 0;
-    const staminaTotalBonus = this.abilities?.stamina?.totalBonus ?? 0;
-    const totalStamina = stamina + staminaTotalBonus;
-    const staminaHealthBonus = totalStamina * 10;
-    const staminaEnergyBonus = totalStamina * 1;
-    
-    // Regra: cada level de 2 até 10 adiciona +5 à vida e +1 à energia máxima (level 1 não dá bonus)
-    const level = this.attributes?.level?.value ?? 0;
-    const levelHealthBonus = Math.max(0, Math.min(level, 10) - 1) * 5;
-    const levelEnergyBonus = Math.max(0, Math.min(level, 10) - 1) * 1;
-    
-    // NOVA REGRA FRATURA: cada ponto de Fratura reduz vida e energia máxima em 5
-    const fractureLevel = this.status?.fracture ?? 0;
-    const fractureReduction = fractureLevel * 5;
-    
-    // Get bonus values (manual bonuses from status)
-    const healthBonus = this.status?.healthBonus ?? 0;
-    const energyBonus = this.status?.energyBonus ?? 0;
-    const armorBonus = this.status?.armorBonus ?? 0;
-    
-    // Get armor bonuses (calculated from equipped armors)
-    const armorHealthBonus = this._armorHealthBonus ?? 0;
-    const armorEnergyBonus = this._armorEnergyBonus ?? 0;
-    const armorProtectionBonus = this._armorProtectionBonus ?? 0;
-    const armorMovementBonus = this._armorMovementBonus ?? 0;
-    
-    // Get race bonuses (calculated from race item)
-    const raceHealthBonus = this._raceHealthBonus ?? 0;
-    const racePowerBonus = this._racePowerBonus ?? 0;
-    const raceArmorBonus = this._raceArmorBonus ?? 0;
-    
-    this.health.max = Math.max(0, 0 + staminaHealthBonus + levelHealthBonus - fractureReduction + healthBonus + armorHealthBonus + raceHealthBonus);
-    this.power.max = Math.max(0, 0 + staminaEnergyBonus + levelEnergyBonus - fractureReduction + energyBonus + armorEnergyBonus + racePowerBonus);
-    
-    // Calculate armor maximum based on armor bonus from equipped armors + manual bonus + race bonus
-    this.armor.max = Math.max(0, armorBonus + armorProtectionBonus + raceArmorBonus);
-    
-    // Calculate backpack maximum capacity based on Strength (every 2 points of Strength = +1 capacity)
-    // Use value (baseValue + manualValue) + bonus + totalBonus for complete strength calculation
-    const strengthValue = this.abilities?.strength?.value || 0;
-    const strengthBonus = this.abilities?.strength?.bonus || 0;
-    const strengthTotalBonus = this.abilities?.strength?.totalBonus || 0;
-    const totalStrength = strengthValue + strengthBonus + strengthTotalBonus;
-    const baseBackpackCapacity = 15 + Math.floor(totalStrength / 2);
-    
-    // Add armor backpack space bonuses
-    const armorBackpackBonus = this._armorBackpackSpaceBonus || 0;
-    this.backpack.max = baseBackpackCapacity + armorBackpackBonus;
-    
-    // CAMPO DE TESTE: Implementa lógica de campo manual com bônus automático
-    // Exemplo: se stamina é 2, bônus automático é 20 (2 * 10)
-    const staminaBonusForTest = totalStamina * 10; // Bônus baseado em stamina
-    const testFieldInput = this.status?.testField ?? 0; // Valor manual digitado
-    
-    // Se não existe um campo calculado ainda, cria
-    if (!this.status.testFieldCalculated) {
-      this.status.testFieldCalculated = testFieldInput + staminaBonusForTest;
-    }
-    
-    // Sempre recalcula o valor baseado no input + bônus
-    this.status.testFieldCalculated = testFieldInput + staminaBonusForTest;
-    
-    // NOTA: Removido o cálculo automático de armor.max para permitir que ActiveEffects
-    // funcionem corretamente. O valor base da armadura máxima é definido no prepareBaseData()
-    // e ActiveEffects como "Congelado • Petrificado" podem adicionar bônus ao valor base.
-    // Se precisar de armadura base, use armorBonus do status.
-    
-    // Ajustar valores atuais se excederem o novo máximo
-    if (this.health.value > this.health.max) {
-      this.health.value = this.health.max;
-    }
-    if (this.power.value > this.power.max) {
-      this.power.value = this.power.max;
-    }
-    if (this.armor.value > this.armor.max) {
-      this.armor.value = this.armor.max;
-    }
+    // Calculate health, energy, armor and backpack resources
+    this._prepareHealthAndEnergy();
 
-    // Calcular Acerto Crítico baseado na Destreza
-    // Regra: cada 3 pontos de Destreza (valor + bônus total) reduz o número crítico em 1 (20 base)
-    const dexterity = this.abilities?.dexterity?.value ?? 0;
-    const dexterityTotalBonus = this.abilities?.dexterity?.totalBonus ?? 0;
-    const totalDexterity = dexterity + dexterityTotalBonus;
-    const dexterityCriticalEffect = Math.floor(totalDexterity / 3); // Crítico: cada 3 pontos
-    
-    // Check for Certeiro weapon property bonus
-    let certeiroCriticalBonus = 0;
-    const weapons = this.parent?.items?.filter(item => item.type === 'arma') || [];
-    
-    for (const weapon of weapons) {
-      // Check if weapon is equipped in right hand or left hand
-      const isEquipped = weapon.system.rightHand || weapon.system.leftHand;
-      if (!isEquipped) continue;
-      
-      // Skip broken weapons
-      const currentDurability = weapon.system.durability?.current ?? 0;
-      if (currentDurability <= 0) continue;
-      
-      // Check if weapon has Certeiro property
-      if (weapon.system.properties?.includes('certeiro')) {
-        certeiroCriticalBonus -= 1;
-      }
-    }
-    
-    const autoValue = Math.max(1, 20 - dexterityCriticalEffect + certeiroCriticalBonus); // Valor automático (mínimo de 1)
-    const manualValue = this.details.criticalHitManual ?? 0; // Valor manual
-    this.details.criticalHit = autoValue + manualValue; // Total = automático + manual
+    // Calculate critical hit threshold
+    this._prepareCriticalHit();
 
-    // Calcular movimento baseado na Destreza total (incluindo bônus de armas) + bônus de armaduras + bônus de raça
-    // Regra: a cada 2 pontos de Destreza = +1 movimento
-    const dexterityMovement = Math.floor(totalDexterity / 2);
-    const armorMovementBonusTotal = this._armorMovementBonus ?? 0;
-    const raceMovementBonus = this._raceMovementBonus ?? 0;
-    const autoMovementValue = dexterityMovement + armorMovementBonusTotal + raceMovementBonus; // Valor automático
-    const manualMovementValue = this.details.movementManual ?? 0; // Valor manual
-    this.details.movement = autoMovementValue + manualMovementValue; // Total = automático + manual
+    // Calculate movement
+    this._prepareMovement();
 
-    // Verificar estado de Hunger
-    const hungerLevel = this.status?.hunger ?? 0;
-    const thirstLevel = this.status?.thirst ?? 0;
-    
-    if (hungerLevel === 0) {
-      this.status.hungerMessage = ""; // Nenhuma marcada = sem mensagem (estado normal)
-    } else if (hungerLevel === 1) {
-      this.status.hungerMessage = "O personagem está ficando com fome. [1 de Fome]";
-    } else if (hungerLevel === 2) {
-      this.status.hungerMessage = "O personagem está ficando com mais fome. [2 de Fome]";
-    } else if (hungerLevel === 3) {
-      this.status.hungerMessage = "O personagem está faminto! [3 de Fome]";
-    }
-
-    // Verificar estado de Thirst
-    if (thirstLevel === 0) {
-      this.status.thirstMessage = ""; // Nenhuma marcada = sem mensagem (estado normal)
-    } else if (thirstLevel === 1) {
-      this.status.thirstMessage = "O personagem está ficando com sede. [1 de Sede]";
-    } else if (thirstLevel === 2) {
-      this.status.thirstMessage = "O personagem está ficando com mais sede. [2 de Sede]";
-    } else if (thirstLevel === 3) {
-      this.status.thirstMessage = "O personagem está sedento! [3 de Sede]";
-    }
-
-    // Verificar estado de Sanidade
-    const sanityLevel = this.status?.sanity ?? null;
-    if (sanityLevel === null || sanityLevel === 0) {
-      this.status.sanityMessage = ""; // Estado normal
-    } else if (sanityLevel === 1) {
-      this.status.sanityMessage = "Ansioso, você está estressado, tenso e desconfiado.";
-    } else if (sanityLevel === 2) {
-      this.status.sanityMessage = "Paranoico, você está desesperado, neurótico e pessimista.";
-    } else if (sanityLevel === 3) {
-      this.status.sanityMessage = "Violento, você inconsequente, você está hostil e insensível.";
-    } else if (sanityLevel === 4) {
-      this.status.sanityMessage = "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.";
-    } else if (sanityLevel === 5) {
-      this.status.sanityMessage = "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição.";
-    }
-
-    // Verificar estado de Toxicity
-    const toxicityLevel = this.status?.toxicity ?? null;
-    if (toxicityLevel === null || toxicityLevel === 0) {
-      this.status.toxicityMessage = ""; // Estado normal
-    } else if (toxicityLevel === 1) {
-      this.status.toxicityMessage = "Levemente intoxicado, você sente náusea e tontura.";
-    } else if (toxicityLevel === 2) {
-      this.status.toxicityMessage = "Intoxicação moderada, você está enjoado e com visão turva.";
-    } else if (toxicityLevel === 3) {
-      this.status.toxicityMessage = "Severamente intoxicado, você está vomitando e com dores intensas.";
-    } else if (toxicityLevel === 4) {
-      this.status.toxicityMessage = "Intoxicação crítica, você está delirando e perdendo consciência.";
-    } else if (toxicityLevel === 5) {
-      this.status.toxicityMessage = "Envenenamento fatal, você está à beira da morte por toxinas.";
-    }
-
-    // Verificar estado de Toxicity e aplicar efeitos de envenenamento fatal automaticamente
-    // Usar setTimeout para não bloquear o prepareDerivedData com async
-    if (toxicityLevel === 5) {
-      setTimeout(() => {
-        this._checkAndApplyToxicityEffects(toxicityLevel);
-      }, 100);
-    } else {
-      // Verificar se precisa remover efeitos existentes
-      setTimeout(() => {
-        this._checkAndApplyToxicityEffects(toxicityLevel);
-      }, 100);
-    }
+    // Prepare status resources (Hunger, Thirst, Sanity, Toxicity)
+    this._prepareStatusResources();
   }
 
   /**
-   * Calculate race bonuses and apply them to character abilities' baseValue
-   * Only one race item should exist per character
-   * Race modifiers affect the base ability values (not bonus)
-   * Race modifiers are ADDED to existing baseValue (which may contain wizard points)
+   * Calculate race bonuses and apply to abilities' baseValue (adds to wizard points)
    * @private
    */
   _calculateRaceBonuses() {
-    // Get the race item from the actor (should only be one)
     const raceItem = this.parent?.items?.find(item => item.type === 'race');
     
-    // Store wizard points (current baseValue before race calculation)
     const wizardPoints = {};
     for (const key in this.abilities) {
-      // Preserve existing baseValue as wizard points
       wizardPoints[key] = this.abilities[key].baseValue || 0;
     }
     
-    // If no race, keep wizard points (don't reset to 0)
     if (!raceItem) {
-      // Reset bonuses from race
       this._raceMovementBonus = 0;
       this._raceHealthBonus = 0;
       this._racePowerBonus = 0;
@@ -354,15 +153,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       return;
     }
     
-    // Apply race ability modifiers by ADDING to wizard points
     const abilityModifiers = raceItem.system.abilityModifiers || {};
     for (const key in this.abilities) {
       const raceModifier = abilityModifiers[key] || 0;
-      // ADD race modifier to wizard points instead of replacing
       this.abilities[key].baseValue = wizardPoints[key] + raceModifier;
     }
     
-    // Store race bonuses for later calculation
     this._raceMovementBonus = raceItem.system.movementBonus || 0;
     this._raceHealthBonus = raceItem.system.healthBonus || 0;
     this._racePowerBonus = raceItem.system.powerBonus || 0;
@@ -370,28 +166,48 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
   }
 
   /**
-   * Calculate weapon skill bonuses and add them to character abilities
-   * Only equipped weapons (rightHand or leftHand) contribute to bonuses
-   * Multiple weapons with the same skill bonus are cumulative
+   * Localize ability labels and calculate values (baseValue + manualValue)
+   * @private
+   */
+  _prepareAbilities() {
+    for (const key in this.abilities) {
+      this.abilities[key].label =
+        game.i18n.localize(CONFIG.CARDIGAN.abilities[key]) ?? key;
+        
+      const baseValue = this.abilities[key].baseValue || 0;
+      const manualValue = this.abilities[key].manualValue || 0;
+      this.abilities[key].value = baseValue + manualValue;
+    }
+  }
+
+  /**
+   * Recalculate ability totals (value + totalBonus) after all bonuses applied
+   * @private
+   */
+  _updateAbilityTotals() {
+    for (const key in this.abilities) {
+      const baseValue = this.abilities[key].value || 0;
+      const totalBonus = this.abilities[key].totalBonus || 0;
+      this.abilities[key].total = baseValue + totalBonus;
+    }
+  }
+
+  /**
+   * Calculate and apply skill bonuses from equipped weapons (cumulative)
    * @private
    */
   _calculateWeaponSkillBonuses() {
-    // First, calculate weapon bonuses for all abilities
     const weaponBonuses = {};
     for (const key in this.abilities) {
       weaponBonuses[key] = 0;
     }
 
-    // Get all weapons from the actor
     const weapons = this.parent?.items?.filter(item => item.type === 'arma') || [];
     
-    // Calculate total bonuses from equipped weapons only
     for (const weapon of weapons) {
-      // Only apply bonuses if weapon is equipped in one or both hands
       const isEquipped = weapon.system.rightHand || weapon.system.leftHand;
       if (!isEquipped) continue;
       
-      // Skip if weapon is broken (durability 0 or less)
       const currentDurability = weapon.system.durability?.current ?? 0;
       if (currentDurability <= 0) continue;
       
@@ -401,30 +217,22 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
         const skill = skillBonus.skill;
         const bonus = skillBonus.bonus || 0;
         
-        // Skip if no skill selected or bonus is 0
         if (!skill || bonus === 0) continue;
         
-        // Add bonus to the corresponding ability
         if (weaponBonuses.hasOwnProperty(skill)) {
           weaponBonuses[skill] += bonus;
         }
       }
     }
 
-    // Apply weapon bonuses creating a separate totalBonus field
-    // Keep the original bonus field untouched (manual bonus only)
     for (const key in this.abilities) {
       const manualBonus = this.abilities[key].manualBonus || 0;
       const weaponBonus = weaponBonuses[key] || 0;
       
-      // Store weapon bonus separately
       this.abilities[key].weaponBonus = weaponBonus;
-      
-      // Create totalBonus field that combines manual + weapon bonuses
       this.abilities[key].totalBonus = manualBonus + weaponBonus;
     }
 
-    // Recalculate totals with the totalBonus values
     for (const key in this.abilities) {
       const baseValue = this.abilities[key].value || 0;
       const totalBonus = this.abilities[key].totalBonus || 0;
@@ -433,9 +241,165 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
   }
 
   /**
-   * Calculate armor bonuses and add them to character abilities and stats
-   * Only equipped armors contribute to bonuses
-   * Multiple armors with bonuses are cumulative
+   * Calculate all armor bonuses (protection, health, energy, movement, backpack, skills)
+   * @private
+   */
+  _prepareArmorSystem() {
+    this._calculateArmorBonuses();
+  }
+
+  /**
+   * Calculate critical hit threshold: 20 - (Dex÷3) - Certeiro + manual
+   * @private
+   */
+  _prepareCriticalHit() {
+    const dexterity = this.abilities?.dexterity?.value ?? 0;
+    const dexterityTotalBonus = this.abilities?.dexterity?.totalBonus ?? 0;
+    const totalDexterity = dexterity + dexterityTotalBonus;
+    
+    const dexterityCriticalEffect = Math.floor(totalDexterity / 3);
+    
+    let certeiroCriticalBonus = 0;
+    const weapons = this.parent?.items?.filter(item => item.type === 'arma') || [];
+    
+    for (const weapon of weapons) {
+      const isEquipped = weapon.system.rightHand || weapon.system.leftHand;
+      if (!isEquipped) continue;
+      
+      const currentDurability = weapon.system.durability?.current ?? 0;
+      if (currentDurability <= 0) continue;
+      
+      if (weapon.system.properties?.includes('certeiro')) {
+        certeiroCriticalBonus -= 1;
+      }
+    }
+    
+    const autoValue = Math.max(1, 20 - dexterityCriticalEffect + certeiroCriticalBonus);
+    const manualValue = this.details.criticalHitManual ?? 0;
+    this.details.criticalHit = autoValue + manualValue;
+  }
+
+  /**
+   * Calculate movement: Dex÷2 + armor + race + manual
+   * @private
+   */
+  _prepareMovement() {
+    const totalDexterity = this._getTotalAbility('dexterity');
+    const dexterityMovement = Math.floor(totalDexterity / 2);
+    
+    const armorMovementBonus = this._armorMovementBonus ?? 0;
+    const raceMovementBonus = this._raceMovementBonus ?? 0;
+    const manualMovement = this.details.movementManual ?? 0;
+    
+    this.details.movement = dexterityMovement + armorMovementBonus + raceMovementBonus + manualMovement;
+  }
+
+  /**
+   * Set status messages for Hunger, Thirst, Sanity, and Toxicity using lookup tables
+   * @private
+   */
+  _prepareStatusResources() {
+    // Hunger status messages lookup table
+    const HUNGER_MESSAGES = {
+      0: "",
+      1: "O personagem está ficando com fome. [1 de Fome]",
+      2: "O personagem está ficando com mais fome. [2 de Fome]",
+      3: "O personagem está faminto! [3 de Fome]"
+    };
+
+    // Thirst status messages lookup table
+    const THIRST_MESSAGES = {
+      0: "",
+      1: "O personagem está ficando com sede. [1 de Sede]",
+      2: "O personagem está ficando com mais sede. [2 de Sede]",
+      3: "O personagem está sedento! [3 de Sede]"
+    };
+
+    // Sanity status messages lookup table
+    const SANITY_MESSAGES = {
+      0: "",
+      1: "Ansioso, você está estressado, tenso e desconfiado.",
+      2: "Paranoico, você está desesperado, neurótico e pessimista.",
+      3: "Violento, você inconsequente, você está hostil e insensível.",
+      4: "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.",
+      5: "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição."
+    };
+
+    // Toxicity status messages lookup table
+    const TOXICITY_MESSAGES = {
+      0: "",
+      1: "Levemente intoxicado, você sente náusea e tontura.",
+      2: "Intoxicação moderada, você está enjoado e com visão turva.",
+      3: "Severamente intoxicado, você está vomitando e com dores intensas.",
+      4: "Intoxicação crítica, você está delirando e perdendo consciência.",
+      5: "Envenenamento fatal, você está à beira da morte por toxinas."
+    };
+
+    // Get current status levels
+    const hungerLevel = this.status?.hunger ?? 0;
+    const thirstLevel = this.status?.thirst ?? 0;
+    const sanityLevel = this.status?.sanity ?? 0;
+    const toxicityLevel = this.status?.toxicity ?? 0;
+
+    // Set status messages using lookup tables
+    this.status.hungerMessage = HUNGER_MESSAGES[hungerLevel] ?? "";
+    this.status.thirstMessage = THIRST_MESSAGES[thirstLevel] ?? "";
+    this.status.sanityMessage = SANITY_MESSAGES[sanityLevel] ?? "";
+    this.status.toxicityMessage = TOXICITY_MESSAGES[toxicityLevel] ?? "";
+  }
+
+  /**
+   * Calculate max HP, Energy, Armor, and Backpack based on stats and equipment
+   * @private
+   */
+  _prepareHealthAndEnergy() {
+    // Stamina bonuses (rule: each point adds +10 HP and +1 Energy)
+    const totalStamina = this._getTotalAbility('stamina');
+    const staminaHealthBonus = totalStamina * 10;
+    const staminaEnergyBonus = totalStamina * 1;
+    
+    // Level bonuses (rule: levels 2-10 give +5 HP and +1 Energy each, level 1 gives nothing)
+    const level = this.attributes?.level?.value ?? 0;
+    const levelHealthBonus = Math.max(0, Math.min(level, 10) - 1) * 5;
+    const levelEnergyBonus = Math.max(0, Math.min(level, 10) - 1) * 1;
+    
+    // Fracture reduction (rule: each Fracture point reduces HP and Energy by 5)
+    const fractureLevel = this.status?.fracture ?? 0;
+    const fractureReduction = fractureLevel * 5;
+    
+    // Manual bonuses from status
+    const healthBonus = this.status?.healthBonus ?? 0;
+    const energyBonus = this.status?.energyBonus ?? 0;
+    const armorBonus = this.status?.armorBonus ?? 0;
+    
+    // Equipment bonuses (calculated from equipped armors)
+    const armorHealthBonus = this._armorHealthBonus ?? 0;
+    const armorEnergyBonus = this._armorEnergyBonus ?? 0;
+    const armorProtectionBonus = this._armorProtectionBonus ?? 0;
+    
+    // Race bonuses (calculated from race item)
+    const raceHealthBonus = this._raceHealthBonus ?? 0;
+    const racePowerBonus = this._racePowerBonus ?? 0;
+    const raceArmorBonus = this._raceArmorBonus ?? 0;
+    
+    // Calculate maximum values
+    this.health.max = Math.max(0, staminaHealthBonus + levelHealthBonus - fractureReduction + healthBonus + armorHealthBonus + raceHealthBonus);
+    this.power.max = Math.max(0, staminaEnergyBonus + levelEnergyBonus - fractureReduction + energyBonus + armorEnergyBonus + racePowerBonus);
+    this.armor.max = Math.max(0, armorBonus + armorProtectionBonus + raceArmorBonus);
+    
+    // Backpack capacity (rule: 15 base + Strength/2 + armor bonus)
+    const totalStrength = this._getTotalAbility('strength');
+    const baseBackpackCapacity = 15 + Math.floor(totalStrength / 2);
+    const armorBackpackBonus = this._armorBackpackSpaceBonus || 0;
+    this.backpack.max = baseBackpackCapacity + armorBackpackBonus;
+    
+    if (this.health.value > this.health.max) this.health.value = this.health.max;
+    if (this.power.value > this.power.max) this.power.value = this.power.max;
+    if (this.armor.value > this.armor.max) this.armor.value = this.armor.max;
+  }
+
+  /**
+   * Calculate and apply bonuses from equipped armors (cumulative)
    * @private
    */
   _calculateArmorBonuses() {
@@ -564,222 +528,39 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     }
   }
 
-  /* ========================================
-   * DEPRECATED: Legacy Exhaustion System
-   * This code has been replaced by ExaustaoEffect in module/effects/effects/exaustao.mjs
-   * Keeping here temporarily for reference, can be removed in future versions
-   * ======================================== 
-  async _checkAndApplyExhaustionEffect(hungerLevel, thirstLevel) { ... }
-  async _applyExhaustionEffect(hungerLevel, thirstLevel) { ... }
-  _generateExhaustionDescription(originalItem) { ... }
-  _generateExhaustionDescriptionPlainText(originalItem) { ... }
-  _getExhaustionCause(hungerLevel, thirstLevel) { ... }
-  testExhaustionSystem() { ... }
-  ======================================== */
-
   /**
-   * Verifica e aplica/remove os efeitos de toxicidade baseado no nível
-   * Aplica "Inconsciente" e "Intoxicado" quando toxicidade chega ao nível 5 (máximo)
-   * @param {number} toxicityLevel - Nível atual de toxicidade (0-5)
+   * Get total ability value (value + totalBonus)
+   * @param {string} abilityName - Ability name (dexterity, stamina, etc)
+   * @returns {number} Total value or 0
    * @private
    */
-  async _checkAndApplyToxicityEffects(toxicityLevel) {
+  _getTotalAbility(abilityName) {
+    const ability = this.abilities?.[abilityName];
+    if (!ability) return 0;
     
-    const shouldHaveToxicityEffects = toxicityLevel === 5;
-    
-    const currentToxicityEffects = this.parent.effects.filter(effect => {
-      const isToxicityEffect = effect.flags?.cardigan?.source === "toxicity_level5";
-      return isToxicityEffect;
-    });
-
-    if (shouldHaveToxicityEffects && currentToxicityEffects.length === 0) {
-      await this._applyToxicityEffects(toxicityLevel);
-    } else if (!shouldHaveToxicityEffects && currentToxicityEffects.length > 0) {
-      const effectIds = currentToxicityEffects.map(effect => effect.id);
-      
-      if (effectIds.length > 0) {
-        try {
-          await this.parent.deleteEmbeddedDocuments('ActiveEffect', effectIds);
-          
-          // Forçar atualização da ficha
-          if (this.parent.sheet && this.parent.sheet.rendered) {
-            this.parent.sheet.render(false);
-          }
-        } catch (error) {
-          console.error('[CARDIGAN] Erro ao remover efeitos de toxicidade:', error);
-        }
-      }
-    } else {
-    }
+    const value = ability.value ?? 0;
+    const totalBonus = ability.totalBonus ?? 0;
+    return value + totalBonus;
   }
 
   /**
-   * Aplica os efeitos de toxicidade na ficha do personagem (Inconsciente e Intoxicado)
-   * @param {number} toxicityLevel - Nível atual de toxicidade
+   * Ensure level has valid value (minimum 0)
    * @private
    */
-  async _applyToxicityEffects(toxicityLevel) {
-    try {
-      
-      // Buscar os efeitos no compêndio
-      const pack = game.packs.get('cardigan.efeitos-cardigan');
-      if (!pack) {
-        console.error('[CARDIGAN] Compêndio de efeitos não encontrado');
-        return;
-      }
-
-      const packContent = await pack.getDocuments();
-      
-      // Buscar os efeitos específicos com nomes corretos do compêndio
-      const unconsciousItem = packContent.find(item => item.name === "Inconsciente・Sono");
-      const intoxicatedItem = packContent.find(item => item.name === "Intoxicado");
-      
-
-      if (!unconsciousItem || !intoxicatedItem) {
-        console.error('[CARDIGAN] Efeitos "Inconsciente・Sono" ou "Intoxicado" não encontrados no compêndio');
-        return;
-      }
-
-      // Criar os ActiveEffects com nomes corretos e descrições nas flags
-      const effectsData = [
-        {
-          name: "Inconsciente・Sono",
-          img: unconsciousItem.img || "systems/cardigan/assets/images/effects/effects-negative.webp",
-          flags: {
-            cardigan: {
-              source: "toxicity_level5",
-              originalName: unconsciousItem.name,
-              originalId: unconsciousItem.id,
-              autoGenerated: true,
-              effectType: "unconscious",
-              description: this._generateToxicityEffectDescription(unconsciousItem, "inconsciente"),
-              descriptionPlainText: this._generateToxicityEffectDescriptionPlainText(unconsciousItem, "inconsciente")
-            }
-          },
-          disabled: false,
-          transfer: false
-        },
-        {
-          name: "Intoxicado",
-          img: intoxicatedItem.img || "systems/cardigan/assets/images/effects/effects-negative.webp",
-          flags: {
-            cardigan: {
-              source: "toxicity_level5",
-              originalName: intoxicatedItem.name,
-              originalId: intoxicatedItem.id,
-              autoGenerated: true,
-              effectType: "intoxicated",
-              description: this._generateToxicityEffectDescription(intoxicatedItem, "intoxicado"),
-              descriptionPlainText: this._generateToxicityEffectDescriptionPlainText(intoxicatedItem, "intoxicado")
-            }
-          },
-          disabled: false,
-          transfer: false
-        }
-      ];
-      
-      
-      const createdEffects = await this.parent.createEmbeddedDocuments('ActiveEffect', effectsData);
-      
-      // Forçar atualização da ficha
-      if (this.parent.sheet && this.parent.sheet.rendered) {
-        this.parent.sheet.render(false);
-      }
-      
-      
-      // Mensagem no chat com nomes corretos
-      ChatMessage.create({
-        content: `${this.parent.name}: Efeitos "Inconsciente・Sono" e "Intoxicado" aplicados automaticamente devido ao envenenamento fatal (Toxicidade nível 5).`,
-        speaker: ChatMessage.getSpeaker({ actor: this.parent })
-      });
-      
-    } catch (error) {
-      console.error('[CARDIGAN] Erro ao aplicar efeitos de toxicidade:', error);
-    }
-  }
-
-  /**
-   * Gera descrição do efeito de toxicidade usando a descrição do compêndio
-   * @param {Item} originalItem - Item original do compêndio
-   * @param {string} effectType - Tipo do efeito ("inconsciente" ou "intoxicado")
-   * @returns {string} Descrição do efeito
-   * @private
-   */
-  _generateToxicityEffectDescription(originalItem, effectType) {
-    const originalDescription = originalItem.system.description || "";
-    const cause = "envenenamento fatal (Toxicidade nível 5)";
-    
-    // Adicionar informação sobre a causa automática
-    if (originalDescription.includes("</p>")) {
-      return originalDescription.replace("</p>", ` <em>(Aplicado automaticamente devido a ${cause})</em></p>`);
-    } else if (originalDescription.trim()) {
-      return `<p>${originalDescription} <em>(Aplicado automaticamente devido a ${cause})</em></p>`;
-    } else {
-      return `<p>Efeito ${effectType} aplicado automaticamente devido a ${cause}.</p>`;
-    }
-  }
-
-  /**
-   * Gera versão texto simples da descrição de toxicidade para tooltips
-   * @param {Item} originalItem - Item original do compêndio
-   * @param {string} effectType - Tipo do efeito ("inconsciente" ou "intoxicado")
-   * @returns {string} Descrição em texto simples
-   * @private
-   */
-  _generateToxicityEffectDescriptionPlainText(originalItem, effectType) {
-    const originalDescription = originalItem.system.description || "";
-    
-    // Remover tags HTML para tooltip (sem informação de causa automática)
-    const plainText = originalDescription.replace(/<[^>]*>/g, '').trim();
-    
-    if (plainText) {
-      return plainText;
-    } else {
-      return `Efeito ${effectType}.`;
-    }
-  }
-
-  /**
-   * Método de teste para verificar o sistema de toxicidade manualmente
-   * Pode ser chamado no console: actor.system.testToxicitySystem()
-   */
-  testToxicitySystem() {
-    
-    // Forçar verificação
-    this._checkAndApplyToxicityEffects(this.status?.toxicity ?? 0);
-  }
-
-  /**
-   * Calculate level automatically based on the sum of all class points
-   * @private
-   */
-  _calculateLevel() {
-    if (this.classes) {
-      // Calcular total de pontos
-      const totalClassPoints = Object.values(this.classes).reduce((sum, classValue) => {
-        return sum + (classValue || 0);
-      }, 0);
-      
-      // Regra: Qualquer ponto no caminho = Level igual aos pontos
-      // 1 ponto = Level 1, 2 pontos = Level 2, etc.
-      // A vantagem do Elfo é ter 3 pontos iniciais para gastar (vs 2 de outras raças)
-      let calculatedLevel = totalClassPoints;
-      
-      // Set the calculated level
-      this.attributes.level.value = calculatedLevel;
-    }
+  _prepareLevelAndExperience() {
+    const level = this.attributes?.level?.value ?? 0;
+    this.attributes.level.value = Math.max(0, level);
   }
 
   getRollData() {
     const data = {};
 
-    // Copy abilities directly to root level for easier access (@accuracy.value instead of @abilities.accuracy.value)
     if (this.abilities) {
       for (let [k, v] of Object.entries(this.abilities)) {
         data[k] = {
-          value: v.value || 0,           // Base value
-          bonus: v.totalBonus || 0,      // Total bonus (manual + weapons)
-          total: (v.value || 0) + (v.totalBonus || 0)  // Combined total
+          value: v.value || 0,
+          bonus: v.totalBonus || 0,
+          total: (v.value || 0) + (v.totalBonus || 0)
         };
       }
     }
