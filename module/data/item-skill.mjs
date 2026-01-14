@@ -277,4 +277,38 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
 
     this.effectiveCustomEffects = uniqueEffects;
   }
+
+  static createSkill(name, options = {}) {
+    return {
+      name: name,
+      type: 'skill',
+      img: options.img || 'icons/svg/upgrade.svg',
+      system: {
+        description: options.description || '',
+        skillActionTypes: options.skillActionTypes || ['passiva'],
+        skillClass: options.skillClass || 'andarilho',
+        spellCategories: options.spellCategories || [],
+        hasEnergyCost: options.hasEnergyCost || false,
+        energyCost: options.energyCost || 0,
+        energySpent: options.energySpent || false,
+        hasCustomEffects: options.hasCustomEffects || false,
+        customEffects: options.customEffects || [],
+        hasLinkedSkills: options.hasLinkedSkills || false,
+        linkedSkills: options.linkedSkills || [],
+        isLinkedSkill: options.isLinkedSkill || false,
+        enhancementLinkedSkill: options.enhancementLinkedSkill || {
+          isEnhancementLinked: false,
+          parentSkillId: '',
+          parentSkillName: '',
+          enhancementIndex: -1
+        },
+        enhancements: options.enhancements || [
+          { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false, customEffects: [], hasLinkedSkills: false, linkedSkills: [] },
+          { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false, customEffects: [], hasLinkedSkills: false, linkedSkills: [] },
+          { name: '', description: '', hasEnergy: false, energyCost: 0, hasEffects: false, customEffects: [], hasLinkedSkills: false, linkedSkills: [] }
+        ],
+        acquiredEnhancements: options.acquiredEnhancements || [false, false, false]
+      }
+    };
+  }
 }
