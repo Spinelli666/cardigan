@@ -27,76 +27,164 @@ Criado `ToxicidadeEffect` seguindo o padrão estabelecido por `ExaustaoEffect` e
 - ✅ Código testável e manutenível
 - ✅ Previne operações concorrentes com Set de sync
 
+
+
 ---
 
-## ❓ Questões Respondidas (ETAPA 6)
+## 🌍 FUTURA INVESTIGAÇÃO: Padronização Completa de Idioma (Inglês)
 
-#### 1. Toxicity Effects Lifecycle
-- [ ] **Como Foundry gerencia aplicação de efeitos durante prepareDerivedData?**
-  - Documentação: https://foundryvtt.com/api/classes/client.DataModel.html#prepareDerivedData
-  - Verificar se prepareDerivedData deve ser **sempre síncrono**
-  - Checar outros sistemas oficiais (dnd5e, pf2e) para patterns
+### 📊 Situação Atual (Análise de 14/01/2026)
 
-- [ ] **Existe risco de race condition ao aplicar efeitos assíncronos?**
-  - Testar: Alterar toxicity rapidamente (0→5→0→5)
-  - Verificar: Efeitos duplicados no ator
-  - Analisar: Timing entre prepareDerivedData e render da sheet
+**Padrão inconsistente detectado:**
+- ✅ **Classes/Métodos**: Inglês (`ArmorData`, `prepareDerivedData`, `_calculateTypeOrder`)
+- ❌ **Campos do Schema**: **Português** (`protecao`, `bonusVida`, `bonusEnergia`, `armorType`)
+- ❌ **Valores de Enum**: **Português** (`"cabeca"`, `"torso"`, `"bracos"`, `"pernas"`, `"pes"`)
+- ✅ **i18n Keys**: Inglês (`CARDIGAN.ArmorType.Cabeca`)
+- ⚠️ **Comentários**: Misto (alguns em PT, alguns em EN)
 
-- [ ] **Outros sistemas usam setTimeout ou há pattern melhor?**
-  - Investigar: Foundry Hooks (updateActor, preUpdateActor)
-  - Analisar: Override de `_preUpdate()` no DataModel
-  - Verificar: ActiveEffect application lifecycle
+**Arquivos afetados (estimativa):**
+- `module/data/item-*.mjs` (10+ arquivos)
+- `module/data/actor-*.mjs` (3 arquivos)
+- `module/sheets/*.mjs` (2 arquivos massivos)
+- `templates/**/*.hbs` (50+ templates)
+- `src/packs/**/*.json` (centenas de items salvos)
 
-#### 2. Performance Impact
-- [ ] **Qual tempo médio de execução de prepareDerivedData atualmente?**
-  ```javascript
-  // Script de medição (rodar no console)
-  const actor = game.actors.getName("Personagem Teste");
-  console.time('prepareDerivedData');
-  for (let i = 0; i < 100; i++) {
-    actor.system.prepareDerivedData();
+### 🎯 Objetivo da Migração
+
+**Transformar:**
+```javascript
+// ❌ ATUAL (mistura PT/EN)
+class ArmorData extends BaseItemData {
+  static schema = {
+    armorType: new StringField({
+      choices: ["cabeca", "torso", "bracos"] // PT
+    }),
+    protecao: new NumberField(),      // PT
+    bonusVida: new NumberField(),     // PT
+    bonusDeslocamento: new SchemaField() // PT
   }
-  console.timeEnd('prepareDerivedData');
-  // Tempo esperado: <10ms para 100 iterações
+}
+```
+
+**Para:**
+```javascript
+// ✅ FUTURO (100% inglês)
+class ArmorData extends BaseItemData {
+  static schema = {
+    armorType: new StringField({
+      choices: ["head", "torso", "arms", "legs", "feet"] // EN
+    }),
+    protection: new NumberField(),    // EN
+    lifeBonus: new NumberField(),     // EN
+    movementBonus: new SchemaField()  // EN
+  }
+}
+```
+
+### 📋 Plano de Migração (MULTI-ETAPAS)
+
+#### ETAPA 1: Mapeamento e Análise de Impacto
+- [ ] Mapear **todos** os campos em português nos schemas
+- [ ] Identificar dependências (templates, macros, módulos externos)
+- [ ] Estimar breaking changes (API surface alterada)
+- [ ] Verificar se há macros da comunidade usando esses campos
+- [ ] Analisar save games existentes (estrutura de dados)
+
+#### ETAPA 2: Criar Sistema de Migração de Dados
+- [ ] Implementar `DataMigration` handler no estilo Foundry
+- [ ] Criar mapeamento PT→EN para todos os campos:
+  ```javascript
+  const FIELD_MIGRATION_MAP = {
+    'protecao': 'protection',
+    'bonusVida': 'lifeBonus',
+    'bonusEnergia': 'energyBonus',
+    'bonusDeslocamento': 'movementBonus',
+    // ... +50 campos
+  }
   ```
+- [ ] Desenvolver script de migração de compendiums
+- [ ] Testar migração em cópia de backup do mundo
 
-- [ ] **Há limite de performance aceitável para cálculos derivados?**
-  - Foundry best practices: ~5ms por actor
-  - Testar com 10 actors simultâneos na cena
-  - Medir impacto no render time da sheet
+#### ETAPA 3: Refatorar Schemas (Data Models)
+- [ ] **item-armadura.mjs**: `protecao` → `protection`, `bonusVida` → `lifeBonus`
+- [ ] **item-arma.mjs**: campos de armas
+- [ ] **item-consumivel.mjs**: campos de consumíveis
+- [ ] **item-skill.mjs**: campos de skills
+- [ ] **actor-character.mjs**: habilidades, recursos
+- [ ] **actor-npc.mjs**: campos de NPCs
 
-- [ ] **Foundry faz cache ou recalcula a cada render?**
-  - Verificar quando prepareDerivedData é chamado:
-    - A cada update?
-    - A cada render da sheet?
-    - Apenas quando dados base mudam?
+#### ETAPA 4: Atualizar Templates Handlebars
+- [ ] Buscar/substituir `{{system.protecao}}` → `{{system.protection}}`
+- [ ] Atualizar `templates/item/attribute-parts/*.hbs` (10+ arquivos)
+- [ ] Revisar `templates/actor/*.hbs` (5 arquivos)
+- [ ] Testar renderização de todas as sheets
 
-#### 3. Backward Compatibility
-- [ ] **Há módulos/macros que acessam diretamente actor.system.abilities?**
-  - Buscar no Discord da comunidade
-  - Verificar macros do mundo atual
-  - Checar módulos instalados (API Usage Scanner)
+#### ETAPA 5: Refatorar Sheets (JavaScript)
+- [ ] **actor-sheet.mjs** (9,870 linhas): substituir referências PT
+- [ ] **item-sheet.mjs**: atualizar event handlers
+- [ ] Verificar `_prepareItems()`, `_calculateArmorTotals()`, etc.
 
-- [ ] **Algum código externo depende de ordem de execução específica?**
-  - Revisar macros customizados
-  - Verificar módulos que extendem CardiganSystemCharacter
-  - Testar com módulos comuns (Simple Calendar, etc)
+#### ETAPA 6: Atualizar Compendiums
+- [ ] Executar script de migração em `src/packs/equipamentos-cardigan/*.json`
+- [ ] Migrar `src/packs/racas-cardigan/*.json`
+- [ ] Migrar `src/packs/skills-cardigan/*.json`
+- [ ] Reconstruir `.ldb` files com `rebuild-*.sh` scripts
 
-- [ ] **Há saved games/characters de versões antigas para testar?**
-  - Criar backup do mundo atual
-  - Testar importação de characters antigos
-  - Validar migração de dados
+#### ETAPA 7: Backward Compatibility Layer (CRÍTICO)
+- [ ] Implementar **deprecation warnings** para campos antigos:
+  ```javascript
+  get protecao() {
+    foundry.utils.logCompatibilityWarning(
+      'protecao is deprecated, use protection instead',
+      { since: 'v2.0', until: 'v3.0' }
+    );
+    return this.protection;
+  }
+  ```
+- [ ] Manter aliases por 2-3 versões (soft migration)
+- [ ] Documentar breaking changes no CHANGELOG
 
-#### 4. i18n Future
-- [ ] **Mensagens de status devem ser localizadas agora ou depois?**
-  - Decisão de produto: Suporte a EN/ES/FR?
-  - Quando: Versão 1.1 ou 2.0?
-  - Estrutura atual (lookup tables) já prepara para i18n
+#### ETAPA 8: Testing & Validation
+- [ ] Validar todos os testes manuais (checklist de QA)
+- [ ] Testar importação de characters antigos
+- [ ] Verificar módulos compatíveis (se houver)
+- [ ] Fazer playtest com mundo de produção (backup!)
 
-- [ ] **Há plano de suportar outros idiomas além de PT-BR?**
-  - Verificar demanda da comunidade
-  - Estimar esforço de tradução
-  - Definir estrutura de chaves i18n
+### ⚠️ Riscos e Mitigações
+
+| Risco | Probabilidade | Impacto | Mitigação |
+|-------|---------------|---------|-----------|
+| **Quebra save games existentes** | Alta | Crítico | Sistema de migração automática + backup obrigatório |
+| **Macros da comunidade quebram** | Média | Alto | Deprecation warnings + aliases temporários |
+| **Módulos externos incompatíveis** | Baixa | Médio | Documentar API changes, versão major bump |
+| **Perda de dados em compendiums** | Baixa | Crítico | Testar scripts em cópia, validação pós-migração |
+| **Regressões em funcionalidades** | Média | Alto | Checklist de QA extensivo, playtest |
+
+### 📅 Cronograma Sugerido
+
+**Quando executar:**
+- ✅ **AGORA**: Documentar problema (este documento)
+- ⏳ **Após refatoração completa**: Quando todos os arquivos `module/data/*.mjs` estiverem limpos
+- 🎯 **Versão Major (v2.0)**: Breaking change justificado
+- 📆 **Estimativa**: 3-4 semanas de trabalho (full-time) ou 2-3 meses (part-time)
+
+**Prioridade:** 🟡 **MÉDIA** (não urgente, mas importante para qualidade de código)
+
+### 🔗 Referências
+
+- [Foundry VTT Data Migration Guide](https://foundryvtt.com/article/migration/)
+- [dnd5e System Migration Examples](https://github.com/foundryvtt/dnd5e/blob/master/module/migration.mjs)
+- [PF2e System Deprecation Warnings](https://github.com/foundryvtt/pf2e/search?q=logCompatibilityWarning)
+
+### ✅ Decisão Temporária (14/01/2026)
+
+**Para refatorações atuais:**
+- ✅ **Manter campos em português** (compatibilidade)
+- ✅ **Padronizar comentários em inglês** (JSDoc)
+- ✅ **Métodos em inglês** (já é o padrão)
+- ✅ **Constantes em SCREAMING_SNAKE_CASE inglês** (já implementado)
+
+**Revisão futura:** Ao completar todas as refatorações do `module/data/`, avaliar se vale o esforço da migração completa.
 
 ---
 

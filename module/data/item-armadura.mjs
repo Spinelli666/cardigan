@@ -8,6 +8,17 @@ const { NumberField, StringField, BooleanField, ArrayField, SchemaField, ObjectF
  */
 export default class ArmorData extends BaseItemData {
 
+  static ARMOR_TYPE_ORDER = {
+    "cabeca": 1,
+    "acessorios": 2,
+    "torso": 3,
+    "bracos": 4,
+    "pernas": 5,
+    "pes": 6
+  };
+  
+  static DEFAULT_TYPE_ORDER = 99;
+
   /** @inheritdoc */
   static defineSchema() {
     const fields = foundry.data.fields;
@@ -16,7 +27,6 @@ export default class ArmorData extends BaseItemData {
     return {
       ...parentSchema,
       
-      // Basic armor properties
       armorType: new StringField({
         required: true,
         initial: "torso",
@@ -30,7 +40,6 @@ export default class ArmorData extends BaseItemData {
         }
       }),
       
-      // Armor protection value
       protecao: new NumberField({
         required: true,
         nullable: false,
@@ -39,18 +48,14 @@ export default class ArmorData extends BaseItemData {
         min: 0
       }),
       
-      // Armor class/type description (like weaponType in weapons)
       armorClass: new StringField({
         required: false, 
         blank: true, 
         initial: ""
       }),
       
-      // Equipment status
       equipped: new BooleanField({initial: false}),
       
-      // Skill bonus
-      // Skill bonuses (array like weapons)
       skillBonuses: new ArrayField(new SchemaField({
         skill: new StringField({initial: ""}),
         bonus: new NumberField({
@@ -61,16 +66,10 @@ export default class ArmorData extends BaseItemData {
         })
       })),
       
-      // Magic artifact (same as weapons)
       magicalArtifact: new BooleanField({initial: false}),
-      
-      // Cold resistance
       resistenciaFrio: new BooleanField({initial: false}),
-      
-      // Stylish
       stylish: new BooleanField({initial: false}),
       
-      // Life and energy bonuses
       bonusVida: new NumberField({
         required: true,
         nullable: false,
@@ -85,7 +84,6 @@ export default class ArmorData extends BaseItemData {
         initial: 0
       }),
       
-      // Movement bonus
       bonusDeslocamento: new SchemaField({
         enabled: new BooleanField({initial: false}),
         bonus: new NumberField({
@@ -96,7 +94,6 @@ export default class ArmorData extends BaseItemData {
         })
       }),
 
-      // Backpack space bonus
       bonusEspacoMochila: new SchemaField({
         enabled: new BooleanField({initial: false}),
         bonus: new NumberField({
@@ -108,7 +105,6 @@ export default class ArmorData extends BaseItemData {
         })
       }),
       
-      // Weight and price
       weight: new StringField({
         required: true,
         initial: "leve",
@@ -137,7 +133,6 @@ export default class ArmorData extends BaseItemData {
         min: 0
       }),
       
-      // Durability (same as weapons)
       durability: new SchemaField({
         current: new NumberField({
           required: true,
@@ -162,58 +157,54 @@ export default class ArmorData extends BaseItemData {
   prepareDerivedData() {
     super.prepareDerivedData();
     
-    // Clean old field names for backward compatibility
     this._cleanLegacyFields();
     
-    // Ensure skillBonuses is always an array
     if (!Array.isArray(this.skillBonuses)) {
       this.skillBonuses = [];
     }
     
-    // Set armor type order for sorting
-    const typeOrder = {
-      "cabeca": 1,
-      "acessorios": 2,
-      "torso": 3,
-      "bracos": 4,
-      "pernas": 5,
-      "pes": 6
-    };
-    
-    this.typeOrder = typeOrder[this.armorType] || 99;
-    
-    // Calculate derived values
+    this._calculateTypeOrder();
+    this._calculateDerivedFlags();
+  }
+
+  /**
+   * Calculate armor type order for sorting
+   * @private
+   */
+  _calculateTypeOrder() {
+    this.typeOrder = ArmorData.ARMOR_TYPE_ORDER[this.armorType] ?? ArmorData.DEFAULT_TYPE_ORDER;
+  }
+
+  /**
+   * Calculate convenience flags for UI display
+   * @private
+   */
+  _calculateDerivedFlags() {
     this.isDamaged = this.durability.current < this.durability.max;
     this.isBroken = this.durability.current <= 0;
-    this.hasSkillBonus = this.skillBonuses && this.skillBonuses.length > 0 && this.skillBonuses.some(bonus => bonus.skill && bonus.bonus !== 0);
+    this.hasSkillBonus = this.skillBonuses?.length > 0 && this.skillBonuses.some(b => b.skill && b.bonus !== 0);
     this.hasMovementBonus = this.bonusDeslocamento.enabled && this.bonusDeslocamento.bonus !== 0;
     this.hasAttributeBonus = this.bonusVida !== 0 || this.bonusEnergia !== 0;
   }
 
   /**
-   * Clean legacy field names for backward compatibility
+   * Migrate legacy field names (backward compatibility)
    * @private
    */
   _cleanLegacyFields() {
-    // Convert old durabilidade to durability
     if (this.durabilidade && !this.durability) {
       this.durability = {
-        current: this.durabilidade.value || this.durabilidade.current || 3,
-        max: this.durabilidade.max || 3
+        current: this.durabilidade.value ?? this.durabilidade.current ?? 3,
+        max: this.durabilidade.max ?? 3
       };
-      delete this.durabilidade;
     }
     
-    // Convert old propriedades to properties
     if (this.propriedades && !this.properties) {
-      this.properties = this.propriedades || [];
-      delete this.propriedades;
+      this.properties = this.propriedades;
     }
     
-    // Convert old artefatoMagico to magicalArtifact
     if (this.artefatoMagico !== undefined && this.magicalArtifact === undefined) {
       this.magicalArtifact = this.artefatoMagico;
-      delete this.artefatoMagico;
     }
   }
 }
