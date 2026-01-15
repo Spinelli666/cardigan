@@ -61,13 +61,14 @@
   .header-left {
     width: 155.54px;
     height: 182.55px;
-    border: 2px solid red;
     flex-shrink: 0;
+    border: 2px solid red;
     display: flex;
     align-items: center !important;
     flex-direction: column;
     gap: 0;
     position: relative;
+    padding-right: 6px;
     z-index: 150; // Fica acima do window-header (z-index: 100)
     transform: translateZ(0);
     
@@ -85,8 +86,10 @@
       padding: 0px 18px;
 
       img {
-        width: 100%;
-        height: auto;
+        width: 120px;
+        height: 2px;
+        min-width: 120px;
+        min-height: 2px;
         display: block;
         transform: scaleY(1.9);
       }

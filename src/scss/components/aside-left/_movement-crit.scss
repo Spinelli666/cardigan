@@ -4,7 +4,7 @@
 .movement-crit-container {
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  gap: 8px;
   align-items: center;
   justify-content: center;
   z-index: 200;
@@ -36,10 +36,18 @@
     }
   }
 
+  .movement-field {
+    .triangle-arrow {
+      margin-left: -2.8px;
+    }
+  }
+
   .movement-icon,
   .crit-icon {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
     object-fit: contain;
     flex-shrink: 0;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
@@ -49,7 +57,7 @@
   .crit-input {
     display: flex;
     width: 23px;
-    height: 22px;
+    height: 23px;
     padding: 0px;
     justify-content: center;
     align-items: center;
@@ -66,5 +74,9 @@
       border-color: rgba(207, 149, 76, 0.90);
       background: rgba(105, 76, 39, 0.85);
     }
+  }
+
+  .crit-input {
+    margin-left: 0.5px !important;
   }
 }
