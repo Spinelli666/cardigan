@@ -1,27 +1,14 @@
 /* Movement & Critical Hit Container Styles */
 
 // Bloco 2 - Movement e Critical Hit
-.bloco-2 {
-  // border: 2px solid magenta;
-  flex: 1;
+.movement-crit-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  gap: 5px;
   align-items: center;
-  padding: 3px;
+  justify-content: center;
   z-index: 200;
-  border-bottom: 3px solid transparent;
-  border-image: url('../assets/images/decorative/border-bottom.svg') 0 0 100% 0;
-  border-image-slice: 0 0 100% 0;
-  border-image-repeat: stretch;
-
-  .movement-crit-container {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    align-items: center;
-    justify-content: center;
-  }
+  margin: 5px 0px 5px 0px;
 
   .movement-field,
   .crit-field {
@@ -51,8 +38,8 @@
 
   .movement-icon,
   .crit-icon {
-    width: 23px;
-    height: 23px;
+    width: 22px;
+    height: 22px;
     object-fit: contain;
     flex-shrink: 0;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
@@ -61,8 +48,8 @@
   .movement-input,
   .crit-input {
     display: flex;
-    width: 24px;
-    height: 24px;
+    width: 23px;
+    height: 22px;
     padding: 0px;
     justify-content: center;
     align-items: center;

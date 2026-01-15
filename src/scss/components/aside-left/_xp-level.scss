@@ -12,28 +12,15 @@
 }
 
 // Bloco 1 - Purple border com XP e Level
-.bloco-1 {
-  // border: 2px solid purple;
-  flex: 1;
+.xp-level-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  gap: 5px;
   align-items: center;
-  padding: 3px;
+  justify-content: center;
+  width: 100%;
   z-index: 200;
-  border-bottom: 3px solid transparent;
-  border-image: url('../assets/images/decorative/border-bottom.svg') 0 0 100% 0;
-  border-image-slice: 0 0 100% 0;
-  border-image-repeat: stretch;
-  
-  .xp-level-container {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
+  margin: 11px 0px 5px 0px;
 
   .icon-arrow-wrapper {
     display: flex;
@@ -54,8 +41,8 @@
   }
 
   .wizard-icon {
-    width: 23px;
-    height: 23px;
+    width: 22px;
+    height: 22px;
     object-fit: contain;
     transition: all 0.2s ease;
     flex-shrink: 0;
@@ -85,8 +72,8 @@
     
     .level-input {
       display: flex;
-      width: 24px;
-      height: 24px;
+      width: 23px;
+      height: 23px;
       padding: 0.25px 0px 0px 0px;
       justify-content: center;
       align-items: center;
@@ -110,8 +97,8 @@
     display: flex;
     align-items: center;
     gap: 0px;
-    width: 60px;
-    height: 24px;
+    width: 57px;
+    height: 23px;
     padding: 0.25px 0px 0px 0px;
     justify-content: center;
     border-radius: 6px;
@@ -133,8 +120,8 @@
       text-align: center;
       font-size: 14px;
       padding: 0;
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 26px;
       color: white;
       outline: none;
       flex-shrink: 1;
@@ -143,8 +130,8 @@
 
     .status-separator {
       margin: 0px -6px;
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       flex-shrink: 0;
       object-fit: contain;
     }

@@ -4,7 +4,6 @@
   <div class='header-top-container'>
     {{! Left Aside - Four blocks }}
     <aside class='header-left'>
-      <div class='bloco-1'>
         {{! XP e Level Container }}
         <div class='xp-level-container'>
           <div class='icon-arrow-wrapper'>
@@ -66,8 +65,9 @@
             />
           </div>
         </div>
-      </div>
-      <div class='bloco-2'>
+        <div class='border-divider'>
+          <img src='systems/cardigan/assets/images/decorative/border-bottom.svg' alt='' />
+        </div>
         {{! Movement e Critical Hit Container }}
         <div class='movement-crit-container'>
           {{! Movement Input }}
@@ -101,8 +101,9 @@
             />
           </div>
         </div>
-      </div>
-      <div class='bloco-3'>
+        <div class='border-divider'>
+          <img src='systems/cardigan/assets/images/decorative/border-bottom.svg' alt='' />
+        </div>
         {{! Armor Container }}
         <div class='armor-container'>
           <div class='icon-arrow-wrapper'>
@@ -142,8 +143,9 @@
             data-tooltip="Armadura Temporária"
           />
         </div>
-      </div>
-      <div class='bloco-4'>
+        <div class='border-divider'>
+          <img src='systems/cardigan/assets/images/decorative/border-bottom.svg' alt='' />
+        </div>
         {{! Death Fields Container }}
         <div class='death-fields-container {{#if (gt system.health.value 0)}}no-death-die{{/if}}'>
           {{! Death Sentence and Gift of Life Group }}
@@ -226,7 +228,6 @@
           </div>
           {{/if}}
         </div>
-      </div>
     </aside>
 
     {{! Center Div - Profile Image }}

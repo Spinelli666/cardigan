@@ -449,8 +449,20 @@
 }
 .cardigan .sheet-header {
   z-index: 100;
+}
+.cardigan .sheet-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   opacity: 0.7;
   background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 28.78%, rgba(118, 212, 255, 0.19) 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+.cardigan .sheet-header {
   height: clamp(227px, 25vh, 280px);
   gap: 0;
 }
@@ -459,23 +471,20 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-evenly;
-  align-items: flex-start;
   gap: 0;
 }
 .cardigan .sheet-header .header-left {
-  padding: 0px 11px;
   width: 155.54px;
   height: 182.55px;
   border: 2px solid red;
   flex-shrink: 0;
   display: flex;
   align-items: center !important;
-  justify-content: center !important;
   flex-direction: column;
   gap: 0;
   position: relative;
   z-index: 150;
-  filter: saturate(1.2);
+  transform: translateZ(0);
 }
 @container actor-sheet (min-height: 700px) {
   .cardigan .sheet-header .header-left {
@@ -486,6 +495,15 @@
   .cardigan .sheet-header .header-left {
     border-color: yellow;
   }
+}
+.cardigan .sheet-header .header-left .border-divider {
+  padding: 0px 18px;
+}
+.cardigan .sheet-header .header-left .border-divider img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: scaleY(1.9);
 }
 .cardigan .sheet-header .header-center {
   width: 201.42px;
@@ -511,7 +529,6 @@
   height: 176.37px;
   border-radius: 4px;
   object-fit: cover;
-  filter: saturate(1.3) contrast(1.1) brightness(1.1);
 }
 .cardigan .sheet-header .header-right {
   width: 155.54px;
@@ -527,7 +544,6 @@
   padding: 4px;
   position: relative;
   z-index: 200;
-  filter: saturate(1.2);
 }
 @container actor-sheet (min-height: 700px) {
   .cardigan .sheet-header .header-right {
@@ -3178,34 +3194,23 @@
     filter: drop-shadow(0 0 20px rgb(255, 183, 92)) drop-shadow(0 0 15px rgb(255, 215, 130));
   }
 }
-.cardigan .bloco-1 {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 3px;
-  z-index: 200;
-  border-bottom: 3px solid transparent;
-  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
-  border-image-slice: 0 0 100% 0;
-  border-image-repeat: stretch;
-}
-.cardigan .bloco-1 .xp-level-container {
+.cardigan .xp-level-container {
   display: flex;
   flex-direction: row;
   gap: 5px;
   align-items: center;
   justify-content: center;
   width: 100%;
+  z-index: 200;
+  margin: 11px 0px 5px 0px;
 }
-.cardigan .bloco-1 .icon-arrow-wrapper {
+.cardigan .xp-level-container .icon-arrow-wrapper {
   display: flex;
   flex-direction: row;
   gap: 3px;
   align-items: center;
 }
-.cardigan .bloco-1 .icon-arrow-wrapper .triangle-arrow {
+.cardigan .xp-level-container .icon-arrow-wrapper .triangle-arrow {
   font-size: 9px;
   background: linear-gradient(143deg, #FFB75C 2.94%, #694C27 97.06%);
   -webkit-background-clip: text;
@@ -3215,35 +3220,35 @@
   margin-left: -2px;
   padding-top: 2px;
 }
-.cardigan .bloco-1 .wizard-icon {
-  width: 23px;
-  height: 23px;
+.cardigan .xp-level-container .wizard-icon {
+  width: 22px;
+  height: 22px;
   object-fit: contain;
   transition: all 0.2s ease;
   flex-shrink: 0;
   filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
 }
-.cardigan .bloco-1 .wizard-icon.pulsing {
+.cardigan .xp-level-container .wizard-icon.pulsing {
   cursor: pointer;
   animation: pulse-glow 2s ease-in-out infinite;
 }
-.cardigan .bloco-1 .wizard-icon.pulsing:hover {
+.cardigan .xp-level-container .wizard-icon.pulsing:hover {
   transform: scale(1.1);
   animation: none;
   filter: drop-shadow(0 0 20px rgb(255, 183, 92)) drop-shadow(0 0 15px rgb(255, 215, 130));
 }
-.cardigan .bloco-1 .wizard-icon.pulsing:active {
+.cardigan .xp-level-container .wizard-icon.pulsing:active {
   transform: scale(0.95);
 }
-.cardigan .bloco-1 .level-container {
+.cardigan .xp-level-container .level-container {
   display: flex;
   align-items: center;
   flex-shrink: 0;
 }
-.cardigan .bloco-1 .level-container .level-input {
+.cardigan .xp-level-container .level-container .level-input {
   display: flex;
-  width: 24px;
-  height: 24px;
+  width: 23px;
+  height: 23px;
   padding: 0.25px 0px 0px 0px;
   justify-content: center;
   align-items: center;
@@ -3256,16 +3261,16 @@
   outline: none;
   filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
 }
-.cardigan .bloco-1 .level-container .level-input:focus {
+.cardigan .xp-level-container .level-container .level-input:focus {
   border-color: rgba(207, 149, 76, 0.9);
   background: rgba(105, 76, 39, 0.85);
 }
-.cardigan .bloco-1 .xp-container {
+.cardigan .xp-level-container .xp-container {
   display: flex;
   align-items: center;
   gap: 0px;
-  width: 60px;
-  height: 24px;
+  width: 57px;
+  height: 23px;
   padding: 0.25px 0px 0px 0px;
   justify-content: center;
   border-radius: 6px;
@@ -3275,70 +3280,59 @@
   min-width: 0;
   filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
 }
-.cardigan .bloco-1 .xp-container:focus-within {
+.cardigan .xp-level-container .xp-container:focus-within {
   border-color: rgba(207, 149, 76, 0.9);
   background: rgba(105, 76, 39, 0.85);
 }
-.cardigan .bloco-1 .xp-container .status-current,
-.cardigan .bloco-1 .xp-container .status-next {
+.cardigan .xp-level-container .xp-container .status-current,
+.cardigan .xp-level-container .xp-container .status-next {
   border: none;
   background: transparent;
   text-align: center;
   font-size: 14px;
   padding: 0;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 26px;
   color: white;
   outline: none;
   flex-shrink: 1;
   min-width: 0;
 }
-.cardigan .bloco-1 .xp-container .status-separator {
+.cardigan .xp-level-container .xp-container .status-separator {
   margin: 0px -6px;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
   object-fit: contain;
 }
 .cardigan {
   /* Movement & Critical Hit Container Styles */
 }
-.cardigan .bloco-2 {
-  flex: 1;
+.cardigan .movement-crit-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  gap: 5px;
   align-items: center;
-  padding: 3px;
+  justify-content: center;
   z-index: 200;
-  border-bottom: 3px solid transparent;
-  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
-  border-image-slice: 0 0 100% 0;
-  border-image-repeat: stretch;
+  margin: 5px 0px 5px 0px;
 }
-.cardigan .bloco-2 .movement-crit-container {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-  align-items: center;
-  justify-content: center;
-}
-.cardigan .bloco-2 .movement-field,
-.cardigan .bloco-2 .crit-field {
+.cardigan .movement-crit-container .movement-field,
+.cardigan .movement-crit-container .crit-field {
   display: flex;
   flex-direction: row;
   gap: 5px;
   align-items: center;
 }
-.cardigan .bloco-2 .movement-field .icon-arrow-wrapper,
-.cardigan .bloco-2 .crit-field .icon-arrow-wrapper {
+.cardigan .movement-crit-container .movement-field .icon-arrow-wrapper,
+.cardigan .movement-crit-container .crit-field .icon-arrow-wrapper {
   display: flex;
   flex-direction: row;
   gap: 3px;
   align-items: center;
 }
-.cardigan .bloco-2 .movement-field .icon-arrow-wrapper .triangle-arrow,
-.cardigan .bloco-2 .crit-field .icon-arrow-wrapper .triangle-arrow {
+.cardigan .movement-crit-container .movement-field .icon-arrow-wrapper .triangle-arrow,
+.cardigan .movement-crit-container .crit-field .icon-arrow-wrapper .triangle-arrow {
   font-size: 9px;
   background: linear-gradient(143deg, #FFB75C 2.94%, #694C27 97.06%);
   -webkit-background-clip: text;
@@ -3348,19 +3342,19 @@
   margin-left: -2px;
   padding-top: 2px;
 }
-.cardigan .bloco-2 .movement-icon,
-.cardigan .bloco-2 .crit-icon {
-  width: 23px;
-  height: 23px;
+.cardigan .movement-crit-container .movement-icon,
+.cardigan .movement-crit-container .crit-icon {
+  width: 22px;
+  height: 22px;
   object-fit: contain;
   flex-shrink: 0;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
 }
-.cardigan .bloco-2 .movement-input,
-.cardigan .bloco-2 .crit-input {
+.cardigan .movement-crit-container .movement-input,
+.cardigan .movement-crit-container .crit-input {
   display: flex;
-  width: 24px;
-  height: 24px;
+  width: 23px;
+  height: 22px;
   padding: 0px;
   justify-content: center;
   align-items: center;
@@ -3373,42 +3367,31 @@
   outline: none;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
 }
-.cardigan .bloco-2 .movement-input:focus,
-.cardigan .bloco-2 .crit-input:focus {
+.cardigan .movement-crit-container .movement-input:focus,
+.cardigan .movement-crit-container .crit-input:focus {
   border-color: rgba(207, 149, 76, 0.9);
   background: rgba(105, 76, 39, 0.85);
 }
 .cardigan {
   /* Armor Container Styles */
 }
-.cardigan .bloco-3 {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 3px;
-  z-index: 200;
-  border-bottom: 3px solid transparent;
-  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
-  border-image-slice: 0 0 100% 0;
-  border-image-repeat: stretch;
-}
-.cardigan .bloco-3 .armor-container {
+.cardigan .armor-container {
   display: flex;
   flex-direction: row;
   gap: 5px;
   align-items: center;
   justify-content: center;
   width: 100%;
+  z-index: 200;
+  margin: 5px 0px 5px 0px;
 }
-.cardigan .bloco-3 .icon-arrow-wrapper {
+.cardigan .armor-container .icon-arrow-wrapper {
   display: flex;
   flex-direction: row;
   gap: 3px;
   align-items: center;
 }
-.cardigan .bloco-3 .icon-arrow-wrapper .triangle-arrow {
+.cardigan .armor-container .icon-arrow-wrapper .triangle-arrow {
   font-size: 9px;
   background: linear-gradient(143deg, #FFB75C 2.94%, #694C27 97.06%);
   -webkit-background-clip: text;
@@ -3418,19 +3401,19 @@
   margin-left: -2px;
   padding-top: 2px;
 }
-.cardigan .bloco-3 .armor-icon {
-  width: 23px;
-  height: 23px;
+.cardigan .armor-container .armor-icon {
+  width: 22px;
+  height: 22px;
   object-fit: contain;
   flex-shrink: 0;
   filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
 }
-.cardigan .bloco-3 .armor-value-container {
+.cardigan .armor-container .armor-value-container {
   display: flex;
   align-items: center;
   gap: 0px;
-  width: 60px;
-  height: 24px;
+  width: 59px;
+  height: 23px;
   padding: 0.25px 0px 0px 0px;
   justify-content: center;
   border-radius: 6px;
@@ -3440,35 +3423,35 @@
   min-width: 0;
   filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
 }
-.cardigan .bloco-3 .armor-value-container:focus-within {
+.cardigan .armor-container .armor-value-container:focus-within {
   border-color: rgba(207, 149, 76, 0.9);
   background: rgba(105, 76, 39, 0.85);
 }
-.cardigan .bloco-3 .armor-value-container .armor-current,
-.cardigan .bloco-3 .armor-value-container .armor-max {
+.cardigan .armor-container .armor-value-container .armor-current,
+.cardigan .armor-container .armor-value-container .armor-max {
   border: none;
   background: transparent;
   text-align: center;
   font-size: 14px;
   padding: 0;
-  width: 24px;
-  height: 24px;
+  width: 23px;
+  height: 23px;
   color: white;
   outline: none;
   flex-shrink: 1;
   min-width: 0;
 }
-.cardigan .bloco-3 .armor-value-container .armor-separator {
+.cardigan .armor-container .armor-value-container .armor-separator {
   margin: 0px -6px;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
   object-fit: contain;
 }
-.cardigan .bloco-3 .armor-bonus {
+.cardigan .armor-container .armor-bonus {
   display: flex;
-  width: 24px;
-  height: 24px;
+  width: 23px;
+  height: 23px;
   padding: 0px;
   justify-content: center;
   align-items: center;
@@ -3481,21 +3464,20 @@
   outline: none;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
 }
-.cardigan .bloco-3 .armor-bonus:focus {
+.cardigan .armor-container .armor-bonus:focus {
   border-color: rgba(207, 149, 76, 0.9);
   background: rgba(105, 76, 39, 0.85);
 }
-.cardigan .bloco-4 {
-  padding: 3px;
+.cardigan .death-fields-container {
   z-index: 200;
   position: relative;
-}
-.cardigan .death-fields-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 5px;
+  gap: 4px;
+  margin: 4px 0px 0px 0px;
+  transform: translateZ(0);
 }
 .cardigan .death-fields-container.no-death-die {
   justify-content: center;
@@ -3503,13 +3485,13 @@
 .cardigan .death-life-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
 }
 .cardigan .gift-field {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
 }
 .cardigan .gift-field .icon-arrow-wrapper {
   display: flex;
@@ -3526,8 +3508,8 @@
   margin-left: -2px;
 }
 .cardigan .gift-field .gift-icon {
-  width: 23px;
-  height: 23px;
+  width: 15px;
+  height: 15px;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
 }
 .cardigan .gift-field .sequential-group {
@@ -3545,17 +3527,17 @@
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   position: relative;
-  width: 18px !important;
-  height: 18px !important;
-  min-width: 18px !important;
-  min-height: 18px !important;
+  width: 15px !important;
+  height: 15px !important;
+  min-width: 15px !important;
+  min-height: 15px !important;
   margin: 0 !important;
   padding: 0 !important;
   border-radius: 50% !important;
   border: 2px solid rgba(105, 76, 39, 0.6) !important;
   background: none !important;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.15s ease;
   box-shadow: none !important;
   vertical-align: middle;
 }
@@ -3577,6 +3559,11 @@
   background: none !important;
 }
 .cardigan .gift-field .sequential-group .sequential-option input[type=checkbox]:checked {
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  min-height: 13px !important;
+  margin: 1px !important;
   background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
   border: none !important;
   border-color: transparent !important;
@@ -3584,7 +3571,6 @@
   transform: rotate(45deg);
   border-radius: 4px !important;
   flex-shrink: 0;
-  aspect-ratio: 1;
 }
 .cardigan .gift-field .sequential-group .sequential-option input[type=checkbox]:checked::after {
   display: none !important;
@@ -3601,7 +3587,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
 }
 .cardigan .death-sentence-field .icon-arrow-wrapper {
   display: flex;
@@ -3618,8 +3604,8 @@
   margin-left: -2px;
 }
 .cardigan .death-sentence-field .death-sentence-icon {
-  width: 23px;
-  height: 23px;
+  width: 15px;
+  height: 15px;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
 }
 .cardigan .death-sentence-field .sequential-group {
@@ -3637,17 +3623,17 @@
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   position: relative;
-  width: 18px !important;
-  height: 18px !important;
-  min-width: 18px !important;
-  min-height: 18px !important;
+  width: 15px !important;
+  height: 15px !important;
+  min-width: 15px !important;
+  min-height: 15px !important;
   margin: 0 !important;
   padding: 0 !important;
   border-radius: 50% !important;
   border: 2px solid rgba(105, 76, 39, 0.6) !important;
   background: none !important;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.15s ease;
   box-shadow: none !important;
   vertical-align: middle;
 }
@@ -3669,6 +3655,11 @@
   background: none !important;
 }
 .cardigan .death-sentence-field .sequential-group .sequential-option input[type=checkbox]:checked {
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  min-height: 13px !important;
+  margin: 1px !important;
   background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
   border: none !important;
   border-color: transparent !important;
@@ -3676,7 +3667,6 @@
   transform: rotate(45deg);
   border-radius: 4px !important;
   flex-shrink: 0;
-  aspect-ratio: 1;
 }
 .cardigan .death-sentence-field .sequential-group .sequential-option input[type=checkbox]:checked::after {
   display: none !important;
@@ -3693,14 +3683,14 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
 }
 .cardigan .death-die-field .death-die-icon {
-  width: 23px;
-  height: 23px;
+  width: 16px;
+  height: 16px;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 .cardigan .death-die-field .death-die-icon:hover:not(.disabled) {
   filter: drop-shadow(0px 0px 4px rgba(255, 183, 92, 0.6));
