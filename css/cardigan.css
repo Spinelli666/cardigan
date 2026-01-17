@@ -477,7 +477,6 @@
   width: 155.54px;
   height: 182.55px;
   flex-shrink: 0;
-  border: 2px solid red;
   display: flex;
   align-items: center !important;
   flex-direction: column;
@@ -3205,7 +3204,7 @@
   justify-content: center;
   width: 100%;
   z-index: 200;
-  margin: 11px 0px 5px 0px;
+  margin: 11px 0px 2.7px 0px;
 }
 .cardigan .xp-level-container .icon-arrow-wrapper {
   display: flex;
@@ -3224,10 +3223,10 @@
   padding-top: 2px;
 }
 .cardigan .xp-level-container .wizard-icon {
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  min-height: 20px;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
   object-fit: contain;
   transition: all 0.2s ease;
   flex-shrink: 0;
@@ -3316,26 +3315,29 @@
   /* Movement & Critical Hit Container Styles */
 }
 .cardigan .movement-crit-container {
+  position: relative;
   display: flex;
   flex-direction: row;
-  gap: 8px;
   align-items: center;
   justify-content: center;
   z-index: 200;
-  margin: 5px 0px 5px 0px;
+  margin: 0.5px 0px 0.5px 0px;
+  height: 30px;
+  width: 100%;
 }
 .cardigan .movement-crit-container .movement-field,
 .cardigan .movement-crit-container .crit-field {
+  position: absolute;
   display: flex;
   flex-direction: row;
-  gap: 5px;
   align-items: center;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .cardigan .movement-crit-container .movement-field .icon-arrow-wrapper,
 .cardigan .movement-crit-container .crit-field .icon-arrow-wrapper {
   display: flex;
   flex-direction: row;
-  gap: 3px;
   align-items: center;
 }
 .cardigan .movement-crit-container .movement-field .icon-arrow-wrapper .triangle-arrow,
@@ -3346,18 +3348,34 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   flex-shrink: 0;
-  margin-left: -2px;
   padding-top: 2px;
 }
-.cardigan .movement-crit-container .movement-field .triangle-arrow {
-  margin-left: -2.8px;
+.cardigan .movement-crit-container .movement-field {
+  margin-left: 15px !important;
+  left: 0;
+}
+.cardigan .movement-crit-container .movement-field .icon-arrow-wrapper .triangle-arrow {
+  margin-left: 0.5px;
+}
+.cardigan .movement-crit-container .movement-field .movement-input {
+  margin-left: 5px;
+}
+.cardigan .movement-crit-container .crit-field {
+  margin-right: 14.5px;
+  right: 0;
+}
+.cardigan .movement-crit-container .crit-field .crit-icon {
+  margin-right: 1.5px;
+}
+.cardigan .movement-crit-container .crit-field .icon-arrow-wrapper .triangle-arrow {
+  margin-right: 3.5px;
 }
 .cardigan .movement-crit-container .movement-icon,
 .cardigan .movement-crit-container .crit-icon {
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  min-height: 20px;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
   object-fit: contain;
   flex-shrink: 0;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
@@ -3384,9 +3402,6 @@
   border-color: rgba(207, 149, 76, 0.9);
   background: rgba(105, 76, 39, 0.85);
 }
-.cardigan .movement-crit-container .crit-input {
-  margin-left: 0.5px !important;
-}
 .cardigan {
   /* Armor Container Styles */
 }
@@ -3398,9 +3413,10 @@
   justify-content: center;
   width: 100%;
   z-index: 200;
-  margin: 5px 0px 5px 0px;
+  margin: 4px 0px 4px 0px;
 }
 .cardigan .armor-container .icon-arrow-wrapper {
+  margin-left: 3px;
   display: flex;
   flex-direction: row;
   gap: 3px;
@@ -3413,7 +3429,6 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   flex-shrink: 0;
-  margin-left: -2px;
   padding-top: 2px;
 }
 .cardigan .armor-container .armor-icon {
@@ -3494,14 +3509,20 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 4px;
-  margin: 4px 0px 0px 0px;
+  margin: 2px 0px 0px 0px;
   transform: translateZ(0);
+  height: 40px;
+  width: 100%;
 }
 .cardigan .death-fields-container.no-death-die {
   justify-content: center;
 }
 .cardigan .death-life-group {
+  margin-left: 20px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -3515,7 +3536,6 @@
 .cardigan .gift-field .icon-arrow-wrapper {
   display: flex;
   align-items: center;
-  gap: 3px;
 }
 .cardigan .gift-field .icon-arrow-wrapper .triangle-arrow {
   font-size: 9px;
@@ -3524,7 +3544,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-left: -2px;
+  margin-left: 5.5px;
 }
 .cardigan .gift-field .gift-icon {
   width: 15px;
@@ -3537,6 +3557,7 @@
   display: flex;
   gap: 3px;
   align-items: center;
+  margin-left: 0.5px;
 }
 .cardigan .gift-field .sequential-group .sequential-option {
   display: flex;
@@ -3608,12 +3629,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-right: 33px;
   gap: 4px;
 }
 .cardigan .death-sentence-field .icon-arrow-wrapper {
   display: flex;
   align-items: center;
-  gap: 3px;
 }
 .cardigan .death-sentence-field .icon-arrow-wrapper .triangle-arrow {
   font-size: 9px;
@@ -3622,7 +3643,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-left: -2px;
+  margin-left: 5.5px;
 }
 .cardigan .death-sentence-field .death-sentence-icon {
   width: 15px;
@@ -3635,6 +3656,7 @@
   display: flex;
   gap: 3px;
   align-items: center;
+  margin-left: 0.5px;
 }
 .cardigan .death-sentence-field .sequential-group .sequential-option {
   display: flex;
@@ -3703,16 +3725,21 @@
   box-shadow: none !important;
 }
 .cardigan .death-die-field {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 4px;
+  margin-right: 32.8px;
 }
 .cardigan .death-die-field .death-die-icon {
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
-  min-height: 16px;
+  width: 15.5px;
+  height: 15.5px;
+  min-width: 15.5px;
+  min-height: 15.5px;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
   cursor: pointer;
   transition: transform 0.2s ease, filter 0.2s ease;
@@ -3734,8 +3761,6 @@
   gap: 5px;
   padding: 3px;
   margin-top: 20px;
-  border-bottom: 3px solid transparent;
-  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
 }
 .cardigan .fracture-field .icon-arrow-wrapper {
   display: flex;
@@ -3752,8 +3777,8 @@
   margin-left: -2px;
 }
 .cardigan .fracture-field .fracture-icon {
-  width: 23px;
-  height: 18px;
+  width: 18px;
+  height: 13px;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
 }
 .cardigan .fracture-field .sequential-group {
@@ -3771,10 +3796,10 @@
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   position: relative;
-  width: 18px !important;
-  height: 18px !important;
-  min-width: 18px !important;
-  min-height: 18px !important;
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
   border-radius: 50% !important;
@@ -3825,8 +3850,6 @@
   gap: 5px;
   padding: 3px;
   margin-top: 5px;
-  border-bottom: 3px solid transparent;
-  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
 }
 .cardigan .toxicity-field .icon-arrow-wrapper {
   display: flex;
@@ -3843,8 +3866,8 @@
   margin-left: -2px;
 }
 .cardigan .toxicity-field .toxicity-icon {
-  width: 23px;
-  height: 23px;
+  width: 18px;
+  height: 18px;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
 }
 .cardigan .toxicity-field .sequential-group {
@@ -3862,10 +3885,10 @@
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   position: relative;
-  width: 18px !important;
-  height: 18px !important;
-  min-width: 18px !important;
-  min-height: 18px !important;
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
   border-radius: 50% !important;
@@ -3916,8 +3939,6 @@
   gap: 5px;
   padding: 3px;
   margin-top: 5px;
-  border-bottom: 3px solid transparent;
-  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
 }
 .cardigan .sanity-field .icon-arrow-wrapper {
   display: flex;
@@ -3934,8 +3955,8 @@
   margin-left: -2px;
 }
 .cardigan .sanity-field .sanity-icon {
-  width: 23px;
-  height: 23px;
+  width: 18px;
+  height: 18px;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
 }
 .cardigan .sanity-field .sequential-group {
@@ -3953,10 +3974,10 @@
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   position: relative;
-  width: 18px !important;
-  height: 18px !important;
-  min-width: 18px !important;
-  min-height: 18px !important;
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
   border-radius: 50% !important;
@@ -4004,8 +4025,6 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  border-bottom: 3px solid transparent;
-  border-image: url("../assets/images/decorative/border-bottom.svg") 0 0 100% 0;
   padding-bottom: 3px;
   margin-top: 5px;
 }
@@ -4030,8 +4049,8 @@
   margin-left: -2px;
 }
 .cardigan .hunger-field .hunger-icon {
-  width: 23px;
-  height: 23px;
+  width: 18px;
+  height: 18px;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
 }
 .cardigan .hunger-field .radio-group {
@@ -4049,10 +4068,10 @@
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   position: relative;
-  width: 18px !important;
-  height: 18px !important;
-  min-width: 18px !important;
-  min-height: 18px !important;
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
   border-radius: 50% !important;
@@ -4117,8 +4136,8 @@
   margin-left: -2px;
 }
 .cardigan .thirst-field .thirst-icon {
-  width: 23px;
-  height: 23px;
+  width: 18px;
+  height: 18px;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
 }
 .cardigan .thirst-field .radio-group {
@@ -4136,10 +4155,10 @@
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   position: relative;
-  width: 18px !important;
-  height: 18px !important;
-  min-width: 18px !important;
-  min-height: 18px !important;
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
   border-radius: 50% !important;
@@ -4193,8 +4212,8 @@
   background: rgba(105, 76, 39, 0.5);
   border: 3px solid rgba(207, 149, 76, 0.5);
   cursor: pointer;
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   padding: 0;
   border-radius: 50%;
   display: flex;
@@ -4211,8 +4230,8 @@
   transform: scale(0.95);
 }
 .cardigan .rest-button-container .rest-btn .rest-icon {
-  width: 26px;
-  height: 26px;
+  width: 21px;
+  height: 21px;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
 }
 .cardigan .window-controls-custom {
@@ -4234,8 +4253,8 @@
   cursor: grabbing;
 }
 .cardigan .window-controls-custom .control-btn {
-  width: 16px;
-  height: 16px;
+  width: 11px;
+  height: 11px;
   min-height: 0;
   padding: 0;
   display: flex;

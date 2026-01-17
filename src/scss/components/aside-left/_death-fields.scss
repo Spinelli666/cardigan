@@ -4,14 +4,15 @@
 
 .death-fields-container {
   z-index: 200;
-  position: relative;
+  position: relative; // Contexto de posicionamento
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 4px;
-  margin: 4px 0px 0px 0px;
+  margin: 2px 0px 0px 0px;
   transform: translateZ(0);
+  height: 40px; // Altura fixa para controle
+  width: 100%; // Largura total disponível
 
   &.no-death-die {
     justify-content: center;
@@ -20,6 +21,11 @@
 
 // Death-Life Group (left side)
 .death-life-group {
+  margin-left: 20px;
+  position: absolute; // Trava o grupo à esquerda
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -35,7 +41,6 @@
   .icon-arrow-wrapper {
     display: flex;
     align-items: center;
-    gap: 3px;
 
     .triangle-arrow {
       font-size: 9px;
@@ -44,7 +49,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-left: -2px;
+      margin-left: 5.5px;
     }
   }
 
@@ -60,6 +65,7 @@
     display: flex;
     gap: 3px;
     align-items: center;
+    margin-left: 0.5px;
 
     .sequential-option {
       display: flex;
@@ -144,12 +150,13 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-right: 33px;
   gap: 4px;
+
 
   .icon-arrow-wrapper {
     display: flex;
     align-items: center;
-    gap: 3px;
 
     .triangle-arrow {
       font-size: 9px;
@@ -158,7 +165,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-left: -2px;
+      margin-left: 5.5px;
     }
   }
 
@@ -174,6 +181,7 @@
     display: flex;
     gap: 3px;
     align-items: center;
+    margin-left: 0.5px;
 
     .sequential-option {
       display: flex;
@@ -255,16 +263,21 @@
 
 // Death Die Field
 .death-die-field {
+  position: absolute; // Trava o death-die à direita
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 4px;
+  margin-right: 32.8px;
 
   .death-die-icon {
-    width: 16px;
-    height: 16px;
-    min-width: 16px;
-    min-height: 16px;
+    width: 15.5px;
+    height: 15.5px;
+    min-width: 15.5px;
+    min-height: 15.5px;
     filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
     cursor: pointer;
     transition: transform 0.2s ease, filter 0.2s ease;

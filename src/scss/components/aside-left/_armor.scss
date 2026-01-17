@@ -9,9 +9,10 @@
   justify-content: center;
   width: 100%;
   z-index: 200;
-  margin: 5px 0px 5px 0px;
+  margin: 4px 0px 4px 0px;
 
   .icon-arrow-wrapper {
+    margin-left: 3px;
     display: flex;
     flex-direction: row;
     gap: 3px;
@@ -24,7 +25,6 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       flex-shrink: 0;
-      margin-left: -2px;
       padding-top: 2px;
     }
   }
