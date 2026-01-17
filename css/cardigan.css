@@ -480,21 +480,10 @@
   display: flex;
   align-items: center !important;
   flex-direction: column;
-  gap: 0;
   position: relative;
   padding-right: 6px;
   z-index: 150;
   transform: translateZ(0);
-}
-@container actor-sheet (min-height: 700px) {
-  .cardigan .sheet-header .header-left {
-    border-color: orange;
-  }
-}
-@container actor-sheet (min-height: 1000px) {
-  .cardigan .sheet-header .header-left {
-    border-color: yellow;
-  }
 }
 .cardigan .sheet-header .header-left .border-divider {
   padding: 0px 18px;
@@ -516,16 +505,6 @@
   align-items: center;
   justify-content: center;
 }
-@container actor-sheet (min-height: 700px) {
-  .cardigan .sheet-header .header-center {
-    border-color: cyan;
-  }
-}
-@container actor-sheet (min-height: 1000px) {
-  .cardigan .sheet-header .header-center {
-    border-color: navy;
-  }
-}
 .cardigan .sheet-header .header-center .profile-img {
   width: 176.51px;
   height: 176.37px;
@@ -539,23 +518,21 @@
   flex-shrink: 0;
   display: flex;
   align-items: center !important;
-  justify-content: center !important;
   flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-start;
-  padding: 4px;
+  padding-left: 6px;
   position: relative;
   z-index: 200;
 }
-@container actor-sheet (min-height: 700px) {
-  .cardigan .sheet-header .header-right {
-    border-color: lime;
-  }
+.cardigan .sheet-header .header-right .border-divider {
+  padding: 0px 18px;
 }
-@container actor-sheet (min-height: 1000px) {
-  .cardigan .sheet-header .header-right {
-    border-color: darkgreen;
-  }
+.cardigan .sheet-header .header-right .border-divider img {
+  width: 120px;
+  height: 2px;
+  min-width: 120px;
+  min-height: 2px;
+  display: block;
+  transform: scaleY(1.9);
 }
 .cardigan .sheet-header .header-bottom-section {
   flex: 1;
@@ -3757,10 +3734,11 @@
 .cardigan .fracture-field {
   display: flex;
   flex-direction: row;
-  align-items: center;
   gap: 5px;
-  padding: 3px;
-  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 11px 0px 0px 0px;
 }
 .cardigan .fracture-field .icon-arrow-wrapper {
   display: flex;
@@ -3847,9 +3825,10 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 5px;
-  padding: 3px;
-  margin-top: 5px;
+  width: 100%;
+  margin: 0px 0px 0px 0px;
 }
 .cardigan .toxicity-field .icon-arrow-wrapper {
   display: flex;
@@ -3936,9 +3915,10 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 5px;
-  padding: 3px;
-  margin-top: 5px;
+  width: 100%;
+  margin: 0px 0px 0px 0px;
 }
 .cardigan .sanity-field .icon-arrow-wrapper {
   display: flex;
@@ -4024,9 +4004,9 @@
 .cardigan .hunger-thirst-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   padding-bottom: 3px;
-  margin-top: 5px;
+  margin: 0px 0px 0px 0px;
 }
 .cardigan .hunger-field {
   display: flex;
