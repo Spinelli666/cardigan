@@ -3,15 +3,20 @@
 // ========================================
 
 .fracture-field {
+  position: relative;
   display: flex;
   flex-direction: row;
   gap: 5px;
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin: 11px 0px 0px 0px;
+  margin: 10px 0px 3px 0px;
 
   .icon-arrow-wrapper {
+    position: absolute;
+    left: 22px;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
     gap: 3px;
@@ -23,13 +28,14 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-left: -2px;
+      margin-left: 0px;
     }
   }
 
   .fracture-icon {
-    width: 18px;
-    height: 13px;
+    width: 21px;
+    height: 16px;
+    margin-bottom: 5px;
     filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
   }
 
@@ -37,6 +43,7 @@
     display: flex;
     gap: 3px;
     align-items: center;
+    margin-left: 37px;
 
     .sequential-option {
       display: flex;
