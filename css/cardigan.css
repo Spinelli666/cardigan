@@ -514,7 +514,6 @@
 .cardigan .sheet-header .header-right {
   width: 155.54px;
   height: 182.55px;
-  border: 2px solid green;
   flex-shrink: 0;
   display: flex;
   align-items: center !important;
@@ -536,20 +535,23 @@
 .cardigan .sheet-header .header-bottom-section {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 4px;
+  gap: 6px;
 }
 .cardigan .sheet-header .header-bottom-section input[name=name] {
-  width: 100%;
-  font-size: 16px;
+  width: 280px;
+  font-size: 13px;
   text-align: center;
   border: 1px solid rgba(0, 0, 0, 0.3);
   background: rgba(255, 255, 255, 0.1);
-  padding: 4px;
+  padding: 3px 6px;
 }
 .cardigan .sheet-tabs {
   flex: 0 0 auto;
+  z-index: 200;
 }
 .cardigan .tab {
   overflow-y: auto;
@@ -4562,6 +4564,204 @@
 .cardigan .reset-button:focus {
   outline: 2px solid #3498db;
   outline-offset: 1px;
+}
+.cardigan {
+  /* =========================
+     HEALTH BAR - Inside Frame Overlay
+     ========================= */
+}
+.cardigan .health-bar-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  aspect-ratio: 16/3; /* Ajuste conforme proporção da moldura */
+  margin: 0 auto 10px;
+}
+.cardigan {
+  /* Background (empty state - vermelho escuro) */
+}
+.cardigan .health-bar-background {
+  position: absolute;
+  top: -54%;
+  left: 15%;
+  bottom: 102%;
+  width: 26%; /* Mesma largura máxima do fill */
+  background: linear-gradient(90deg, #2a0a0c, #3b0c10);
+  clip-path: polygon(2% 50%, 26% 10%, 76% 10%, 98% 50%, 76% 90%, 26% 90%);
+  z-index: 1;
+}
+.cardigan {
+  /* Fill wrapper (controla visibilidade via overflow) */
+}
+.cardigan .health-bar-fill {
+  position: absolute;
+  top: -54%;
+  left: 15%;
+  bottom: 102%;
+  width: 0%; /* Largura controlada por JS (0-26%) */
+  overflow: hidden;
+  transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: width;
+  z-index: 2;
+}
+.cardigan {
+  /* Fill interno fixo com largura sempre 26% do container pai */
+}
+.cardigan .health-bar-fill::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 104px; /* 26% de 400px (max-width do container) */
+  background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
+  clip-path: polygon(1px 50%, 27.04px 10%, 79.04px 10%, 101.92px 50%, 79.04px 90%, 27.04px 90%);
+}
+.cardigan {
+  /* Shine effect */
+}
+.cardigan .health-bar-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.3) 45%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  clip-path: polygon(2% 50%, 26% 10%, 76% 10%, 98% 50%, 76% 90%, 26% 90%);
+}
+.cardigan {
+  /* Frame overlay (por cima de tudo) */
+}
+.cardigan .frame-status {
+  position: absolute;
+  top: -54px; /* Ajuste vertical: valores negativos sobem, positivos descem */
+  left: -88px; /* Ajuste horizontal: valores negativos vão à esquerda, positivos à direita */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 10;
+}
+.cardigan {
+  /* Health label */
+}
+.cardigan .health-bar-label {
+  position: absolute;
+  top: -54%; /* Mesma posição da barra */
+  left: -29%; /* Mesma posição da barra */
+  right: 15%; /* Mesma posição da barra */
+  bottom: 102%; /* Mesma posição da barra */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 16px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.6);
+  color: #fff;
+  z-index: 20;
+  pointer-events: none; /* Label não bloqueia cliques */
+}
+.cardigan {
+  /* Health value styles */
+}
+.cardigan .health-value {
+  font-weight: 800;
+  font-size: 16px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+.cardigan {
+  /* Input editável para vida atual */
+}
+.cardigan .health-current {
+  background: transparent;
+  border: none;
+  outline: none;
+  text-align: center;
+  height: 18px;
+  width: 28px;
+  padding: 0;
+  cursor: text;
+  pointer-events: auto; /* Input recebe cliques */
+}
+.cardigan .health-current:focus {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  padding: 2px 4px;
+}
+.cardigan .health-current {
+  /* Remove spinner arrows */
+}
+.cardigan .health-current::-webkit-outer-spin-button, .cardigan .health-current::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cardigan .health-current {
+  /* Firefox */
+}
+.cardigan .health-current[type=number] {
+  -moz-appearance: textfield;
+}
+.cardigan {
+  /* Input readonly para vida máxima (igual Features) */
+}
+.cardigan .health-max {
+  background: transparent;
+  border: none;
+  outline: none;
+  text-align: center;
+  height: 18px;
+  width: 28px;
+  padding: 0;
+  cursor: default;
+  pointer-events: none;
+  /* Remove spinner arrows */
+}
+.cardigan .health-max::-webkit-outer-spin-button, .cardigan .health-max::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cardigan .health-max {
+  /* Firefox */
+}
+.cardigan .health-max[type=number] {
+  -moz-appearance: textfield;
+}
+.cardigan .health-divider {
+  width: 10px;
+  height: 21px;
+  opacity: 0.9;
+  flex-shrink: 0;
+  pointer-events: none; /* Divider não bloqueia cliques */
+}
+.cardigan {
+  /* Animation trigger */
+}
+.cardigan .health-bar-container[data-anim="1"] .health-bar-fill::after {
+  transform: translateX(120%);
+}
+.cardigan {
+  /* Responsive adjustments */
+}
+@media (max-width: 900px) {
+  .cardigan .health-bar-container {
+    max-width: 90vw;
+  }
+  .cardigan .health-bar-label {
+    font-size: 16px;
+  }
+}
+.cardigan {
+  /* Accessibility: Reduce motion */
+}
+@media (prefers-reduced-motion: reduce) {
+  .cardigan .health-bar-fill,
+  .cardigan .health-bar-fill::after {
+    transition: none;
+  }
 }
 .cardigan .hand-selection-dialog .dialog-header {
   text-align: center;

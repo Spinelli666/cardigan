@@ -4,6 +4,17 @@
   data-group='primary'
   data-tab='biography'
 >
+  {{! Character Name Input }}
+  <div class='biography-name-field'>
+    <label>Nome do Personagem:</label>
+    <input
+      name='name'
+      type='text'
+      value='{{actor.name}}'
+      placeholder='Name'
+    />
+  </div>
+  
   {{#unless (eq actor.type "npc")}}
   <div class='rest-buttons flexrow flex-center'>
     <button type='button' class='rest-button trade-button' data-action='initiateTrade' title='Negociar Items com outros jogadores'>

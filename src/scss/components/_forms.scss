@@ -106,7 +106,6 @@
   .header-right {
     width: 155.54px;
     height: 182.55px;
-    border: 2px solid green;
     flex-shrink: 0;
     display: flex;
     align-items: center !important;
@@ -133,23 +132,26 @@
     // border: 2px solid orange;
     flex: 1; // Ocupará o espaço restante do header
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 4px;
+    gap: 6px;
 
     input[name='name'] {
-      width: 100%;
-      font-size: 16px;
+      width: 280px;
+      font-size: 13px;
       text-align: center;
       border: 1px solid rgba(0, 0, 0, 0.3);
       background: rgba(255, 255, 255, 0.1);
-      padding: 4px;
+      padding: 3px 6px;
     }
   }
 }
 
 .sheet-tabs {
   flex: 0 0 auto;
+  z-index: 200;
 }
 
 // Each tab section should scroll independently

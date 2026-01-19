@@ -355,6 +355,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para campos dinâmicos de valores atuais
     this.#addValueFieldsListeners();
     
+    // Inicializar barra de vida animada
+    this.#initHealthBar();
+    
     // Clean up any existing tooltips before setting up new ones
     this.#cleanupTooltips();
     
@@ -7430,6 +7433,44 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     });
     
     console.log(`[${valueType.toUpperCase()} VALUE BLUR] Value: ${finalValue}${finalValue !== userInput ? ` (capped from ${userInput})` : ''}`);
+  }
+
+  /**
+   * Initialize and setup health bar animation inside frame
+   * @private
+   */
+  #initHealthBar() {
+    const healthContainer = this.element.querySelector('.health-bar-container');
+    if (!healthContainer) return;
+    
+    const health = this.actor.system.health;
+    const currentValue = Number(health.value) || 0;
+    const maxValue = Math.max(1, Number(health.max) || 1);
+    const percentage = Math.max(0, Math.min(100, (currentValue / maxValue) * 100));
+    
+    // Update fill width (wrapper controls visibility via overflow)
+    const fillElement = healthContainer.querySelector('.health-bar-fill');
+    if (fillElement) {
+      // Base width is 26%, scale by percentage
+      const fillWidth = (26 * percentage) / 100;
+      fillElement.style.width = `${fillWidth.toFixed(2)}%`;
+    }
+    
+    // Toggle animation trigger for shine effect
+    const currentAnim = healthContainer.dataset.anim || '0';
+    healthContainer.dataset.anim = currentAnim === '0' ? '1' : '0';
+    
+    // Update label values
+    const healthCurrentInput = healthContainer.querySelector('.health-current');
+    const healthMaxInput = healthContainer.querySelector('.health-max');
+    if (healthCurrentInput) {
+      healthCurrentInput.value = currentValue;
+    }
+    if (healthMaxInput) {
+      healthMaxInput.value = maxValue;
+    }
+    
+    console.log(`[HEALTH BAR] Initialized: ${currentValue}/${maxValue} (${percentage.toFixed(1)}%)`);
   }
 
   /**

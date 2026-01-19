@@ -481,13 +481,39 @@
     </aside>
   </div>
 
-  {{! Bottom Section - Character Name }}
+  {{! Bottom Section - Character Name with Health Bar }}
   <section class='header-bottom-section'>
-    <input
-      name='name'
-      type='text'
-      value='{{actor.name}}'
-      placeholder='Name'
-    />
+    <div class='health-bar-container'>
+      {{! Background fill (empty state) }}
+      <div class='health-bar-background'></div>
+      
+      {{! Animated progress fill }}
+      <div class='health-bar-fill'></div>
+      
+      {{! Frame overlay (moldura por cima) }}
+      <img src='systems/cardigan/assets/images/decorative/frame-status.webp' class='frame-status' alt='Status Frame' />
+      
+      {{! Health values label }}
+      <div class='health-bar-label'>
+        <input
+          type='number'
+          name='system.health.value'
+          value='{{system.health.value}}'
+          data-dtype='Number'
+          min='0'
+          class='health-value health-current'
+        />
+        <img src='systems/cardigan/assets/images/decorative/field-divider.svg' alt='/' class='health-divider' />
+        <input
+          type='number'
+          name='system.health.max'
+          value='{{system.health.max}}'
+          data-dtype='Number'
+          min='0'
+          class='health-value health-max'
+          readonly
+        />
+      </div>
+    </div>
   </section>
 </header>
