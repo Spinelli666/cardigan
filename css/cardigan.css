@@ -540,6 +540,7 @@
   justify-content: center;
   padding: 4px;
   gap: 6px;
+  position: relative;
 }
 .cardigan .sheet-header .header-bottom-section input[name=name] {
   width: 280px;
@@ -3496,7 +3497,7 @@
   justify-content: center;
 }
 .cardigan .death-life-group {
-  margin-left: 20px;
+  margin-left: 26px;
   position: absolute;
   left: 0;
   top: 50%;
@@ -3547,10 +3548,10 @@
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   position: relative;
-  width: 15px !important;
-  height: 15px !important;
-  min-width: 15px !important;
-  min-height: 15px !important;
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
   border-radius: 50% !important;
@@ -3583,7 +3584,7 @@
   height: 13px !important;
   min-width: 13px !important;
   min-height: 13px !important;
-  margin: 1px !important;
+  margin: 0 !important;
   background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
   border: none !important;
   border-color: transparent !important;
@@ -3607,7 +3608,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-right: 33px;
   gap: 4px;
 }
 .cardigan .death-sentence-field .icon-arrow-wrapper {
@@ -3646,10 +3646,10 @@
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   position: relative;
-  width: 15px !important;
-  height: 15px !important;
-  min-width: 15px !important;
-  min-height: 15px !important;
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
   border-radius: 50% !important;
@@ -3682,7 +3682,7 @@
   height: 13px !important;
   min-width: 13px !important;
   min-height: 13px !important;
-  margin: 1px !important;
+  margin: 0 !important;
   background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
   border: none !important;
   border-color: transparent !important;
@@ -3711,7 +3711,7 @@
   flex-direction: row;
   align-items: center;
   gap: 4px;
-  margin-right: 32.8px;
+  margin-right: 29px;
 }
 .cardigan .death-die-field .death-die-icon {
   width: 15.5px;
@@ -3740,7 +3740,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin: 10px 0px 3px 0px;
+  margin: 16px 0px 3px 0px;
 }
 .cardigan .fracture-field .icon-arrow-wrapper {
   position: absolute;
@@ -4221,6 +4221,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 5px;
+  margin-left: 37px;
 }
 .cardigan .rest-button-container .rest-btn {
   background: rgba(105, 76, 39, 0.5);
@@ -4651,27 +4652,27 @@
 .cardigan .health-bar-label {
   position: absolute;
   top: -54%; /* Mesma posição da barra */
-  left: -29%; /* Mesma posição da barra */
-  right: 15%; /* Mesma posição da barra */
+  left: -29.5%; /* Mesma posição da barra */
+  right: 14.6%; /* Mesma posição da barra */
   bottom: 102%; /* Mesma posição da barra */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
   font-size: 16px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.6);
   color: #fff;
-  z-index: 20;
+  z-index: 200;
   pointer-events: none; /* Label não bloqueia cliques */
 }
 .cardigan {
   /* Health value styles */
 }
 .cardigan .health-value {
-  font-weight: 800;
   font-size: 16px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.6);
   color: #fff;
+  /* Smaller font for 4+ digits */
+}
+.cardigan .health-value.four-digits {
+  font-size: 13.5px;
 }
 .cardigan {
   /* Input editável para vida atual */
@@ -4682,15 +4683,17 @@
   outline: none;
   text-align: center;
   height: 18px;
-  width: 28px;
+  width: 34px;
   padding: 0;
-  cursor: text;
-  pointer-events: auto; /* Input recebe cliques */
+  pointer-events: auto; /* Necessário porque o pai tem pointer-events: none */
+  text-shadow: 0px 0px 3px rgb(0, 0, 0);
+  margin-right: -3px;
 }
 .cardigan .health-current:focus {
   background: rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
-  padding: 2px 4px;
+}
+.cardigan .health-current:focus.four-digits {
+  font-size: 13.5px;
 }
 .cardigan .health-current {
   /* Remove spinner arrows */
@@ -4714,10 +4717,17 @@
   outline: none;
   text-align: center;
   height: 18px;
-  width: 28px;
+  width: 34px;
   padding: 0;
   cursor: default;
   pointer-events: none;
+  text-shadow: 0px 0px 3px rgb(0, 0, 0);
+  margin-left: -3px;
+}
+.cardigan .health-max.four-digits {
+  font-size: 13.5px;
+}
+.cardigan .health-max {
   /* Remove spinner arrows */
 }
 .cardigan .health-max::-webkit-outer-spin-button, .cardigan .health-max::-webkit-inner-spin-button {
@@ -4732,7 +4742,7 @@
 }
 .cardigan .health-divider {
   width: 10px;
-  height: 21px;
+  height: 24px;
   opacity: 0.9;
   flex-shrink: 0;
   pointer-events: none; /* Divider não bloqueia cliques */
@@ -4742,6 +4752,67 @@
 }
 .cardigan .health-bar-container[data-anim="1"] .health-bar-fill::after {
   transform: translateX(120%);
+}
+.cardigan {
+  /* Health Bonus Field - Positioned inside header-bottom-section */
+}
+.cardigan .health-bonus-field {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 5;
+  top: 10%;
+  right: 334.2px;
+  transform: translateY(-50%);
+}
+.cardigan .health-bonus-field .health-bonus-square {
+  position: absolute;
+  width: 40px;
+  height: 19px;
+  background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
+  clip-path: polygon(5% 0%, 95% 0%, 70% 100%, 30% 100%);
+  top: 55%;
+  left: -8px;
+  transform: translateY(-50%);
+  z-index: 5;
+}
+.cardigan .health-bonus-field label {
+  font-size: 12px;
+  font-weight: normal;
+  color: #fff;
+}
+.cardigan .health-bonus-field .health-bonus-input {
+  width: 24px;
+  height: 13px;
+  text-align: center;
+  font-size: 10px;
+  background: transparent;
+  border: transparent;
+  color: #fff;
+  padding: 0px;
+  border-radius: 3px;
+  position: relative;
+  z-index: 10;
+  text-shadow: 0px 0px 3px rgb(0, 0, 0);
+}
+.cardigan .health-bonus-field .health-bonus-input:focus {
+  background: transparent;
+  border-color: transparent;
+  outline: none;
+}
+.cardigan .health-bonus-field .health-bonus-input {
+  /* Remove spinner arrows */
+}
+.cardigan .health-bonus-field .health-bonus-input::-webkit-outer-spin-button, .cardigan .health-bonus-field .health-bonus-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cardigan .health-bonus-field .health-bonus-input {
+  /* Firefox */
+}
+.cardigan .health-bonus-field .health-bonus-input[type=number] {
+  -moz-appearance: textfield;
 }
 .cardigan {
   /* Responsive adjustments */

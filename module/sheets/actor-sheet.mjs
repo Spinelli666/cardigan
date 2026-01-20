@@ -7465,9 +7465,21 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const healthMaxInput = healthContainer.querySelector('.health-max');
     if (healthCurrentInput) {
       healthCurrentInput.value = currentValue;
+      // Add class for 4+ digits
+      if (currentValue >= 1000) {
+        healthCurrentInput.classList.add('four-digits');
+      } else {
+        healthCurrentInput.classList.remove('four-digits');
+      }
     }
     if (healthMaxInput) {
       healthMaxInput.value = maxValue;
+      // Add class for 4+ digits
+      if (maxValue >= 1000) {
+        healthMaxInput.classList.add('four-digits');
+      } else {
+        healthMaxInput.classList.remove('four-digits');
+      }
     }
     
     console.log(`[HEALTH BAR] Initialized: ${currentValue}/${maxValue} (${percentage.toFixed(1)}%)`);

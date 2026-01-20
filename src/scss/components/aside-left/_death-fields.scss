@@ -21,7 +21,7 @@
 
 // Death-Life Group (left side)
 .death-life-group {
-  margin-left: 20px;
+  margin-left: 26px;
   position: absolute; // Trava o grupo à esquerda
   left: 0;
   top: 50%;
@@ -77,10 +77,10 @@
         -webkit-appearance: none !important;
         -moz-appearance: none !important;
         position: relative;
-        width: 15px !important;
-        height: 15px !important;
-        min-width: 15px !important;
-        min-height: 15px !important;
+        width: 13px !important;
+        height: 13px !important;
+        min-width: 13px !important;
+        min-height: 13px !important;
         margin: 0 !important;
         padding: 0 !important;
         border-radius: 50% !important;
@@ -117,7 +117,7 @@
           height: 13px !important;
           min-width: 13px !important;
           min-height: 13px !important;
-          margin: 1px !important;
+          margin: 0 !important;
           background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
           border: none !important;
           border-color: transparent !important;
@@ -150,7 +150,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-right: 33px;
   gap: 4px;
 
 
@@ -193,10 +192,10 @@
         -webkit-appearance: none !important;
         -moz-appearance: none !important;
         position: relative;
-        width: 15px !important;
-        height: 15px !important;
-        min-width: 15px !important;
-        min-height: 15px !important;
+        width: 13px !important;
+        height: 13px !important;
+        min-width: 13px !important;
+        min-height: 13px !important;
         margin: 0 !important;
         padding: 0 !important;
         border-radius: 50% !important;
@@ -233,7 +232,7 @@
           height: 13px !important;
           min-width: 13px !important;
           min-height: 13px !important;
-          margin: 1px !important;
+          margin: 0 !important;
           background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
           border: none !important;
           border-color: transparent !important;
@@ -271,7 +270,7 @@
   flex-direction: row;
   align-items: center;
   gap: 4px;
-  margin-right: 32.8px;
+  margin-right: 29px;
 
   .death-die-icon {
     width: 15.5px;

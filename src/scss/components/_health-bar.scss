@@ -103,30 +103,27 @@
 .health-bar-label {
   position: absolute;
   top: -54%;     /* Mesma posição da barra */
-  left: -29%;     /* Mesma posição da barra */
-  right: 15%;    /* Mesma posição da barra */
+  left: -29.5%;     /* Mesma posição da barra */
+  right: 14.6%;    /* Mesma posição da barra */
   bottom: 102%;  /* Mesma posição da barra */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
   font-size: 16px;
-  text-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.8),
-    0 0 8px rgba(0, 0, 0, 0.6);
   color: #fff;
-  z-index: 20;
+  z-index: 200;
   pointer-events: none; /* Label não bloqueia cliques */
 }
 
 /* Health value styles */
 .health-value {
-  font-weight: 800;
   font-size: 16px;
-  text-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.8),
-    0 0 8px rgba(0, 0, 0, 0.6);
   color: #fff;
+  
+  /* Smaller font for 4+ digits */
+  &.four-digits {
+    font-size: 13.5px;
+  }
 }
 
 /* Input editável para vida atual */
@@ -136,15 +133,18 @@
   outline: none;
   text-align: center;
   height: 18px;
-  width: 28px;
+  width: 34px;
   padding: 0;
-  cursor: text;
-  pointer-events: auto; /* Input recebe cliques */
+  pointer-events: auto; /* Necessário porque o pai tem pointer-events: none */
+  text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.5);
+  margin-right: -3px;
   
   &:focus {
     background: rgba(0, 0, 0, 0.3);
-    border-radius: 3px;
-    padding: 2px 4px;
+
+    &.four-digits {
+      font-size: 13.5px;
+    }
   }
   
   /* Remove spinner arrows */
@@ -167,10 +167,16 @@
   outline: none;
   text-align: center;
   height: 18px;
-  width: 28px;
+  width: 34px;
   padding: 0;
   cursor: default;
   pointer-events: none;
+  text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.5);
+  margin-left: -3px;
+
+  &.four-digits {
+    font-size: 13.5px;
+  }
   
   /* Remove spinner arrows */
   &::-webkit-outer-spin-button,
@@ -187,7 +193,7 @@
 
 .health-divider {
   width: 10px;
-  height: 21px;
+  height: 24px;
   opacity: 0.9;
   flex-shrink: 0;
   pointer-events: none; /* Divider não bloqueia cliques */
@@ -196,6 +202,71 @@
 /* Animation trigger */
 .health-bar-container[data-anim="1"] .health-bar-fill::after {
   transform: translateX(120%);
+}
+
+/* Health Bonus Field - Positioned inside header-bottom-section */
+.health-bonus-field {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 5;
+  // Posição inicial - pode ser ajustada
+  top: 10%;
+  right: 334.2px;
+  transform: translateY(-50%);
+
+  .health-bonus-square {
+    position: absolute;
+    width: 40px;
+    height: 19px;
+    background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
+    clip-path: polygon(5% 0%, 95% 0%, 70% 100%, 30% 100%);
+    // Posição inicial do quadrado - pode ser ajustada livremente
+    top: 55%;
+    left: -8px;
+    transform: translateY(-50%);
+    z-index: 5;
+  }
+
+  label {
+    font-size: 12px;
+    font-weight: normal;
+    color: #fff;
+  }
+
+  .health-bonus-input {
+    width: 24px;
+    height: 13px;
+    text-align: center;
+    font-size: 10px;
+    background: transparent;
+    border: transparent;
+    color: #fff;
+    padding: 0px;
+    border-radius: 3px;
+    position: relative;
+    z-index: 10;
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.5);
+
+    &:focus {
+      background: transparent;
+      border-color: transparent;
+      outline: none;
+    }
+
+    /* Remove spinner arrows */
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    &[type=number] {
+      -moz-appearance: textfield;
+    }
+  }
 }
 
 /* Responsive adjustments */
