@@ -493,6 +493,9 @@
       {{! Frame overlay (moldura por cima) }}
       <img src='systems/cardigan/assets/images/decorative/frame-status.webp' class='frame-status' alt='Status Frame' />
       
+      {{! Health Icon - Above frame }}
+      <img src='systems/cardigan/assets/images/decorative/icons/icon-health.svg' class='health-icon' alt='Health' data-tooltip="Vida" />
+      
       {{! Health values label }}
       <div class='health-bar-label'>
         <input
@@ -514,19 +517,19 @@
           readonly
         />
       </div>
-    </div>
 
-    {{! Health Bonus Field }}
-    <div class='health-bonus-field'>
-      <div class='health-bonus-square'></div>
-      <input
-        type='number'
-        name='system.status.healthBonus'
-        value='{{system.status.healthBonus}}'
-        data-dtype='Number'
-        class='health-bonus-input'
-        title='Health Bonus'
-      />
+      {{! Health Bonus Field - DENTRO do container }}
+      <div class='health-bonus-field'>
+        <div class='health-bonus-square'></div>
+        <input
+          type='number'
+          name='system.status.healthBonus'
+          value='{{system.status.healthBonus}}'
+          data-dtype='Number'
+          class='health-bonus-input'
+          data-tooltip="Bônus de Vida"
+        />
+      </div>
     </div>
   </section>
 </header>
