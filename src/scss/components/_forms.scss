@@ -87,8 +87,8 @@
 
   // Center Div - Profile Image (temporary blue border)
   .header-center {
-    width: 201.42px;
-    height: 176.37px;
+    width: 201px;
+    height: 176px;
     border: 2px solid blue;
     flex-shrink: 0;
     display: flex;
@@ -96,8 +96,8 @@
     justify-content: center;
 
     .profile-img {
-      width: 176.51px;
-      height: 176.37px;
+      width: 176px;
+      height: 176px;
       border-radius: 4px;
     }
   }
@@ -130,22 +130,139 @@
   // Bottom Section - Character Name
   .header-bottom-section {
     height: 67px;
-    top: -10%;
-    // border: 2px solid orange;
-    flex: 1;
+    top: -22px;
     display: flex;
+    flex:  0 0 67px;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     position: relative; // Permite posicionamento absoluto dos filhos
 
     input[name='name'] {
-      width: 280px;
-      font-size: 13px;
+      position: absolute;
+      top: 30px;
+      left: 257px;
+      transform: translate(-50%, -50%);
+      width: 95px;
+      padding: 0;
+      font-size: var(--name-font-size, 15px);
+      font-weight: normal;
       text-align: center;
-      border: 1px solid rgba(0, 0, 0, 0.3);
-      background: rgba(255, 255, 255, 0.1);
-      padding: 3px 6px;
+      text-transform: uppercase;
+      border: none;
+      background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+
+      &:focus {
+        outline: none;
+        border: none;
+        background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+      }
+    }
+
+    .border-bottom-name {
+      position: absolute;
+      top: 41px;
+      left: 257px;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: auto;
+      pointer-events: none;
+      z-index: 9;
+    }
+
+    .race-drop-zone {
+      position: absolute;
+      top: 54px;
+      left: 257px;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      min-height: 20px;
+      z-index: 10;
+
+      .race-item-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        background: none;
+        border: none;
+        cursor: grab;
+
+        &:active {
+          cursor: grabbing;
+        }
+
+        .race-item-image {
+          display: none;
+        }
+
+        .race-item-name {
+          font-size: 11px;
+          font-weight: normal;
+          color: #FFB75C;
+          text-align: center;
+          text-transform: uppercase;
+        }
+
+        .race-item-delete {
+          display: none;
+          color: #ff4444;
+          font-size: 12px;
+          cursor: pointer;
+          transition: color 0.2s;
+          margin-left: 3px;
+
+          &:hover {
+            color: #ff6666;
+          }
+        }
+
+        &:hover .race-item-delete {
+          display: block;
+        }
+      }
+
+      .race-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+
+        i {
+          font-size: 16px;
+          color: rgba(255, 183, 92, 0.5);
+          margin-bottom: 4px;
+        }
+
+        span {
+          color: #CF954C;
+          text-align: center;
+          text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+          font-size: 11px;
+          font-weight: normal;
+          line-height: normal;
+          transition: all 0.2s;
+        }
+
+        &:hover span {
+          background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+        }
+      }
     }
   }
 }

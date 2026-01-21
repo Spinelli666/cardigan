@@ -34,31 +34,6 @@
               min='0'
             />
           </div>
-          
-          {{! Raça - Drag & Drop Slot }}
-          <div class='detail-field race-slot-container'>
-            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.race.label"}}:</label>
-            <div class='race-drop-zone' data-item-type='race'>
-              {{#if raceItem}}
-                {{! Race item exists - show it }}
-                <div class='race-item-display' data-item-id='{{raceItem._id}}' data-drag='true' data-document-class='Item'>
-                  <img src='{{raceItem.img}}' alt='{{raceItem.name}}' class='race-item-image' />
-                  <span class='race-item-name'>{{raceItem.name}}</span>
-                  {{#if @root.editable}}
-                    <a class='race-item-delete' data-action='deleteDoc' data-document-class='Item' data-id='{{raceItem._id}}' title='Remove Race'>
-                      <i class='fas fa-times'></i>
-                    </a>
-                  {{/if}}
-                </div>
-              {{else}}
-                {{! No race item - show drop placeholder }}
-                <div class='race-placeholder'>
-                  <i class='fas fa-user'></i>
-                  <span>Arraste uma raça aqui</span>
-                </div>
-              {{/if}}
-            </div>
-          </div>
         </div>
       </div>
 

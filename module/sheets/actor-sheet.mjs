@@ -361,6 +361,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Inicializar barra de energia animada
     this.#initEnergyBar();
     
+    // Ajustar font-size do input name baseado no número de caracteres
+    this.#adjustNameInputFontSize();
+    
     // Prevenir submit do formulário ao pressionar Enter em inputs
     this.#preventEnterSubmit();
     
@@ -7463,6 +7466,94 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Native <progress> element handles animation automatically
     // No manual width manipulation needed!
     console.log('[ENERGY BAR] Using native progress element - auto-animated');
+  }
+
+  /**
+   * Adjust font-size of name input based on actual text width
+   * Features: debounce, caching, ResizeObserver, adaptive steps
+   * @private
+   */
+  #adjustNameInputFontSize() {
+    const nameInput = this.element.querySelector('.character-name-input') || 
+                     this.element.querySelector('input[name="name"]');
+    
+    if (!nameInput) {
+      console.warn('[NAME INPUT] Name input not found in DOM');
+      return;
+    }
+
+    // Cache for performance optimization
+    let lastValue = nameInput.value;
+    let lastFontSize = 15;
+    let debounceTimer = null;
+
+    const adjustFontSize = () => {
+      const currentValue = nameInput.value;
+      
+      // Skip if value unchanged (cache optimization)
+      if (currentValue === lastValue && lastFontSize) {
+        return;
+      }
+      
+      const maxWidth = 95;     // Maximum width in pixels
+      const minFontSize = 10;  // Minimum font-size
+      const maxFontSize = 15;  // Maximum font-size
+      let fontSize = maxFontSize;
+      
+      // Set initial max font-size
+      nameInput.style.setProperty('--name-font-size', `${fontSize}px`);
+      
+      // Adaptive step sizing for faster convergence
+      while (nameInput.scrollWidth > maxWidth && fontSize > minFontSize) {
+        const overflow = nameInput.scrollWidth - maxWidth;
+        
+        // Use larger steps when far from target, smaller when close
+        const step = overflow > 10 ? 1 : 0.5;
+        fontSize -= step;
+        
+        if (fontSize < minFontSize) fontSize = minFontSize;
+        nameInput.style.setProperty('--name-font-size', `${fontSize}px`);
+      }
+      
+      // Update cache
+      lastValue = currentValue;
+      lastFontSize = fontSize;
+      
+      console.log('[NAME INPUT] Width:', nameInput.scrollWidth + 'px', '| Font-size:', fontSize + 'px', '| Cached');
+    };
+
+    // Debounced version for input event (50ms delay)
+    const debouncedAdjust = () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        adjustFontSize();
+      }, 50);
+    };
+
+    // Initial adjustment
+    adjustFontSize();
+
+    // Use debounced version for typing (performance)
+    nameInput.addEventListener('input', debouncedAdjust);
+    
+    // Immediate adjustment on commit
+    nameInput.addEventListener('change', adjustFontSize);
+
+    // ResizeObserver for zoom/window resize responsiveness
+    if (typeof ResizeObserver !== 'undefined') {
+      const resizeObserver = new ResizeObserver(() => {
+        // Reset cache on resize to force recalculation
+        lastValue = null;
+        adjustFontSize();
+      });
+      
+      resizeObserver.observe(nameInput);
+      
+      // Store observer for cleanup
+      if (!this._nameInputObserver) this._nameInputObserver = resizeObserver;
+    }
+
+    console.log('[NAME INPUT] Enhanced width-based adjustment enabled (debounce + cache + ResizeObserver)');
   }
 
   /**

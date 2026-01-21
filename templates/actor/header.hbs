@@ -533,6 +533,43 @@
       </div>
     </div>
 
+    {{! Character Name Input }}
+    <input
+      type='text'
+      name='name'
+      value='{{actor.name}}'
+      placeholder='Nome'
+      class='character-name-input'
+    />
+
+    {{! Border Bottom Name - Decorative SVG }}
+    <img
+      src='systems/cardigan/assets/images/decorative/border-bottom-name.svg'
+      class='border-bottom-name'
+      alt='Border'
+    />
+
+    {{! Race - Drag & Drop Slot }}
+    <div class='race-drop-zone' data-item-type='race'>
+      {{#if raceItem}}
+        {{! Race item exists - show it }}
+        <div class='race-item-display' data-item-id='{{raceItem._id}}' data-drag='true' data-document-class='Item'>
+          <img src='{{raceItem.img}}' alt='{{raceItem.name}}' class='race-item-image' />
+          <span class='race-item-name'>{{raceItem.name}}</span>
+          {{#if @root.editable}}
+            <a class='race-item-delete' data-action='deleteDoc' data-document-class='Item' data-id='{{raceItem._id}}' title='Remove Race'>
+              <i class='fas fa-times'></i>
+            </a>
+          {{/if}}
+        </div>
+      {{else}}
+        {{! No race item - show drop placeholder }}
+        <div class='race-placeholder'>
+          <span data-tooltip='Arraste a Raça'>RAÇA</span>
+        </div>
+      {{/if}}
+    </div>
+
     {{! Energy Bar Container - Ao lado do Health Bar }}
     <div class='energy-bar-container'>
       {{! Native HTML5 Progress Bar - Animates automatically! }}
