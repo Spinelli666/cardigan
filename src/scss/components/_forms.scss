@@ -45,7 +45,8 @@
   }
   
   // Crescimento controlado: 227px base, até máximo 280px (+23%)
-  height: clamp(227px, 25vh, 280px);
+  // height: clamp(227px, 25vh, 280px);´
+  height: 227px;
   gap: 0;
 
   // Top Container - Holds left, center, right in horizontal layout
@@ -98,7 +99,6 @@
       width: 176.51px;
       height: 176.37px;
       border-radius: 4px;
-      object-fit: cover;
     }
   }
 
@@ -129,14 +129,14 @@
 
   // Bottom Section - Character Name
   .header-bottom-section {
+    height: 67px;
+    top: -10%;
     // border: 2px solid orange;
-    flex: 1; // Ocupará o espaço restante do header
+    flex: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 4px;
-    gap: 6px;
     position: relative; // Permite posicionamento absoluto dos filhos
 
     input[name='name'] {

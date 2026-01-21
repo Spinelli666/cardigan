@@ -44,7 +44,7 @@
           </div>
           
           {{! XP Input }}
-          <div class='xp-container'>
+          <div class='xp-container' data-tooltip="XP">
             <input
               type='number'
               name='system.experience.current'
@@ -484,11 +484,12 @@
   {{! Bottom Section - Character Name with Health Bar }}
   <section class='header-bottom-section'>
     <div class='health-bar-container'>
-      {{! Background fill (empty state) }}
-      <div class='health-bar-background'></div>
-      
-      {{! Animated progress fill }}
-      <div class='health-bar-fill'></div>
+      {{! Native HTML5 Progress Bar - Animates automatically! }}
+      <progress 
+        class='health-progress-bar'
+        max='{{system.health.max}}'
+        value='{{system.health.value}}'
+      ></progress>
       
       {{! Frame overlay (moldura por cima) }}
       <img src='systems/cardigan/assets/images/decorative/frame-status.webp' class='frame-status' alt='Status Frame' />
@@ -527,7 +528,58 @@
           value='{{system.status.healthBonus}}'
           data-dtype='Number'
           class='health-bonus-input'
-          data-tooltip="Bônus de Vida"
+          data-tooltip="Vida Temporária"
+        />
+      </div>
+    </div>
+
+    {{! Energy Bar Container - Ao lado do Health Bar }}
+    <div class='energy-bar-container'>
+      {{! Native HTML5 Progress Bar - Animates automatically! }}
+      <progress 
+        class='energy-progress-bar'
+        max='{{system.power.max}}'
+        value='{{system.power.value}}'
+      ></progress>
+      
+      {{! Frame overlay (moldura por cima) }}
+      <img src='systems/cardigan/assets/images/decorative/frame-status.webp' class='energy-frame-status' alt='Energy Frame' />
+      
+      {{! Energy Icon - Above frame }}
+      <img src='systems/cardigan/assets/images/decorative/icons/icon-energy.svg' class='energy-icon' alt='Energy' data-tooltip="Energia" />
+      
+      {{! Energy values label }}
+      <div class='energy-bar-label'>
+        <input
+          type='number'
+          name='system.power.value'
+          value='{{system.power.value}}'
+          data-dtype='Number'
+          min='0'
+          class='energy-value energy-current'
+        />
+        <img src='systems/cardigan/assets/images/decorative/field-divider.svg' alt='/' class='energy-divider' />
+        <input
+          type='number'
+          name='system.power.max'
+          value='{{system.power.max}}'
+          data-dtype='Number'
+          min='0'
+          class='energy-value energy-max'
+          readonly
+        />
+      </div>
+
+      {{! Energy Bonus Field }}
+      <div class='energy-bonus-field'>
+        <div class='energy-bonus-square'></div>
+        <input
+          type='number'
+          name='system.status.energyBonus'
+          value='{{system.status.energyBonus}}'
+          data-dtype='Number'
+          class='energy-bonus-input'
+          data-tooltip="Energia Temporária"
         />
       </div>
     </div>

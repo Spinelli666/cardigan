@@ -36,7 +36,7 @@
     min-height: 20px;
     object-fit: contain;
     flex-shrink: 0;
-    filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
+    filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.60));
   }
 
   .armor-value-container {
@@ -52,7 +52,7 @@
     background: rgba(105, 76, 39, 0.6);
     flex-shrink: 1;
     min-width: 0;
-    filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
+    filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.60));
 
     &:focus-within {
       border-color: rgba(207, 149, 76, 0.90);
@@ -99,7 +99,7 @@
     font-size: 14px;
     color: white;
     outline: none;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.60));
 
     &:focus {
       border-color: rgba(207, 149, 76, 0.90);

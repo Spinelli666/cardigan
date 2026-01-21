@@ -463,7 +463,7 @@
   pointer-events: none;
 }
 .cardigan .sheet-header {
-  height: clamp(227px, 25vh, 280px);
+  height: 227px;
   gap: 0;
 }
 .cardigan .sheet-header .header-top-container {
@@ -509,7 +509,6 @@
   width: 176.51px;
   height: 176.37px;
   border-radius: 4px;
-  object-fit: cover;
 }
 .cardigan .sheet-header .header-right {
   width: 155.54px;
@@ -533,13 +532,13 @@
   transform: scaleY(1.9);
 }
 .cardigan .sheet-header .header-bottom-section {
+  height: 67px;
+  top: -10%;
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 4px;
-  gap: 6px;
   position: relative;
 }
 .cardigan .sheet-header .header-bottom-section input[name=name] {
@@ -3209,7 +3208,7 @@
   object-fit: contain;
   transition: all 0.2s ease;
   flex-shrink: 0;
-  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.6));
 }
 .cardigan .xp-level-container .wizard-icon.pulsing {
   cursor: pointer;
@@ -3242,7 +3241,7 @@
   font-size: 14px;
   color: white;
   outline: none;
-  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.6));
 }
 .cardigan .xp-level-container .level-container .level-input:focus {
   border-color: rgba(207, 149, 76, 0.9);
@@ -3261,7 +3260,7 @@
   background: rgba(105, 76, 39, 0.6);
   flex-shrink: 1;
   min-width: 0;
-  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.6));
 }
 .cardigan .xp-level-container .xp-container:focus-within {
   border-color: rgba(207, 149, 76, 0.9);
@@ -3357,7 +3356,7 @@
   min-height: 25px;
   object-fit: contain;
   flex-shrink: 0;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
 }
 .cardigan .movement-crit-container .movement-input,
 .cardigan .movement-crit-container .crit-input {
@@ -3374,7 +3373,7 @@
   font-size: 14px;
   color: white;
   outline: none;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
 }
 .cardigan .movement-crit-container .movement-input:focus,
 .cardigan .movement-crit-container .crit-input:focus {
@@ -3417,7 +3416,7 @@
   min-height: 20px;
   object-fit: contain;
   flex-shrink: 0;
-  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.6));
 }
 .cardigan .armor-container .armor-value-container {
   display: flex;
@@ -3432,7 +3431,7 @@
   background: rgba(105, 76, 39, 0.6);
   flex-shrink: 1;
   min-width: 0;
-  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.6));
 }
 .cardigan .armor-container .armor-value-container:focus-within {
   border-color: rgba(207, 149, 76, 0.9);
@@ -3475,7 +3474,7 @@
   font-size: 14px;
   color: white;
   outline: none;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
 }
 .cardigan .armor-container .armor-bonus:focus {
   border-color: rgba(207, 149, 76, 0.9);
@@ -3497,7 +3496,7 @@
   justify-content: center;
 }
 .cardigan .death-life-group {
-  margin-left: 26px;
+  margin-left: 36px;
   position: absolute;
   left: 0;
   top: 50%;
@@ -3530,7 +3529,7 @@
   height: 15px;
   min-width: 15px;
   min-height: 15px;
-  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.6));
 }
 .cardigan .gift-field .sequential-group {
   display: flex;
@@ -3628,7 +3627,7 @@
   height: 15px;
   min-width: 15px;
   min-height: 15px;
-  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.6));
 }
 .cardigan .death-sentence-field .sequential-group {
   display: flex;
@@ -3711,14 +3710,14 @@
   flex-direction: row;
   align-items: center;
   gap: 4px;
-  margin-right: 29px;
+  margin-right: 22px;
 }
 .cardigan .death-die-field .death-die-icon {
   width: 15.5px;
   height: 15.5px;
   min-width: 15.5px;
   min-height: 15.5px;
-  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.6));
   cursor: pointer;
   transition: transform 0.2s ease, filter 0.2s ease;
 }
@@ -3764,7 +3763,7 @@
   width: 21px;
   height: 16px;
   margin-bottom: 5px;
-  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.6));
 }
 .cardigan .fracture-field .sequential-group {
   display: flex;
@@ -3861,7 +3860,7 @@
   width: 19px;
   height: 19px;
   margin-bottom: 2px;
-  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.6));
 }
 .cardigan .toxicity-field .sequential-group {
   display: flex;
@@ -3958,7 +3957,7 @@
   width: 18px;
   height: 18px;
   margin-bottom: 1px;
-  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.6));
 }
 .cardigan .sanity-field .sequential-group {
   display: flex;
@@ -4058,7 +4057,7 @@
 .cardigan .hunger-field .hunger-icon {
   width: 16px;
   height: 16px;
-  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.6));
 }
 .cardigan .hunger-field .radio-group {
   display: flex;
@@ -4151,7 +4150,7 @@
 .cardigan .thirst-field .thirst-icon {
   width: 16px;
   height: 16px;
-  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.6));
 }
 .cardigan .thirst-field .radio-group {
   display: flex;
@@ -4235,6 +4234,7 @@
   align-items: center;
   justify-content: center;
   transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.6));
 }
 .cardigan .rest-button-container .rest-btn:hover {
   transform: scale(1.1);
@@ -4568,81 +4568,85 @@
 }
 .cardigan {
   /* =========================
-     HEALTH BAR - Inside Frame Overlay
+     HEALTH BAR - Inside Frame Overlay (Daggerheart Style)
      ========================= */
 }
 .cardigan .health-bar-container {
   position: relative;
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  aspect-ratio: 16/3; /* Ajuste conforme proporção da moldura */
-  margin: 0 auto 10px;
+  width: 258px; /* Largura fixa - não muda com zoom */
+  height: 67px;
 }
 .cardigan {
-  /* Background (empty state - vermelho escuro) */
+  /* Native HTML5 Progress Element */
 }
-.cardigan .health-bar-background {
+.cardigan .health-progress-bar {
   position: absolute;
-  top: -54%;
-  left: 15%;
-  bottom: 102%;
-  width: 26%; /* Mesma largura máxima do fill */
+  top: -8px; /* Pixels fixos */
+  left: 118px; /* Pixels fixos */
+  bottom: 22px; /* Pixels fixos */
+  width: 100px; /* Pixels fixos - 39% de 400px */
+  height: 35px; /* Pixels fixos */
+  appearance: none;
+  border: none;
+  background: linear-gradient(90deg, #2a0a0c, #3b0c10); /* Background vazio */
+  clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
+  z-index: 2;
+  transition: opacity 520ms ease; /* Transição suave */
+  will-change: opacity;
+  /* Webkit (Chrome, Safari, Edge) */
+}
+.cardigan .health-progress-bar::-webkit-progress-bar {
   background: linear-gradient(90deg, #2a0a0c, #3b0c10);
-  clip-path: polygon(2% 50%, 26% 10%, 76% 10%, 98% 50%, 76% 90%, 26% 90%);
-  z-index: 1;
+  clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
 }
-.cardigan {
-  /* Fill wrapper (controla visibilidade via overflow) */
-}
-.cardigan .health-bar-fill {
-  position: absolute;
-  top: -54%;
-  left: 15%;
-  bottom: 103%;
-  width: 0%; /* Largura controlada por JS (0-26%) */
-  overflow: hidden;
+.cardigan .health-progress-bar::-webkit-progress-value {
+  background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
+  clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
   transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: width;
-  z-index: 2;
-}
-.cardigan {
-  /* Fill interno fixo com largura sempre 26% do container pai */
-}
-.cardigan .health-bar-fill::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 104px; /* 26% de 400px (max-width do container) */
-  background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
-  clip-path: polygon(1px 50%, 27.04px 10%, 79.04px 10%, 101.92px 50%, 79.04px 90%, 27.04px 90%);
-}
-.cardigan {
+  position: relative;
   /* Shine effect */
 }
-.cardigan .health-bar-fill::after {
+.cardigan .health-progress-bar::-webkit-progress-value::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.3) 45%, transparent 70%);
-  transform: translateX(-100%);
-  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
   mix-blend-mode: screen;
   pointer-events: none;
-  clip-path: polygon(2% 50%, 26% 10%, 76% 10%, 98% 50%, 76% 90%, 26% 90%);
+  animation: shine 2s ease-in-out infinite;
+}
+.cardigan .health-progress-bar {
+  /* Firefox */
+}
+.cardigan .health-progress-bar::-moz-progress-bar {
+  background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
+  clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
+  transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: width;
+}
+.cardigan {
+  /* Shine animation */
+}
+@keyframes shine {
+  0%, 100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(100%);
+    opacity: 1;
+  }
 }
 .cardigan {
   /* Frame overlay (por cima de tudo) */
 }
 .cardigan .frame-status {
   position: absolute;
-  top: -54px; /* Ajuste vertical: valores negativos sobem, positivos descem */
-  left: -88px; /* Ajuste horizontal: valores negativos vão à esquerda, positivos à direita */
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  top: -22px; /* Ajuste vertical: valores negativos sobem, positivos descem */
+  left: 110px; /* Ajuste horizontal: valores negativos vão à esquerda, positivos à direita */
+  height: 72px; /* Altura fixa em pixels */
+  object-fit: fill; /* Preenche as dimensões exatas sem manter aspect ratio */
   pointer-events: none;
   z-index: 10;
 }
@@ -4651,23 +4655,21 @@
 }
 .cardigan .health-icon {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  top: -65.5%;
-  left: 26.4%;
-  z-index: 15;
+  width: 12px; /* Fixo - escala com zoom do navegador */
+  height: 12px; /* Fixo - escala com zoom do navegador */
+  top: -17.5px; /* Fixo - escala com zoom do navegador */
+  left: 162.8px; /* Fixo - ajustado para centralizar no frame */
+  z-index: 15; /* Acima do frame-status (z-index 10) */
   pointer-events: auto;
-  cursor: help;
 }
 .cardigan {
   /* Health label */
 }
 .cardigan .health-bar-label {
   position: absolute;
-  top: -54%; /* Mesma posição da barra */
-  left: -29.5%; /* Mesma posição da barra */
-  right: 14.6%; /* Mesma posição da barra */
-  bottom: 102%; /* Mesma posição da barra */
+  top: -6px; /* Pixels fixos */
+  left: 133px; /* Pixels fixos */
+  bottom: 42px; /* Pixels fixos */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4756,7 +4758,6 @@
 .cardigan .health-divider {
   width: 10px;
   height: 24px;
-  opacity: 0.9;
   flex-shrink: 0;
   pointer-events: none; /* Divider não bloqueia cliques */
 }
@@ -4773,10 +4774,9 @@
   position: absolute;
   display: flex;
   align-items: center;
-  gap: 6px;
   z-index: 5;
-  top: 3%;
-  left: 25%;
+  top: 32px; /* Pixels fixos */
+  left: 157px; /* Pixels fixos */
   transform: translateY(-50%);
 }
 .cardigan .health-bonus-field .health-bonus-square {
@@ -4784,8 +4784,8 @@
   width: 40px;
   height: 19px;
   background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
-  clip-path: polygon(5% 0%, 95% 0%, 70% 100%, 30% 100%);
-  top: 64%;
+  clip-path: polygon(7% 0%, 93% 0%, 70% 100%, 30% 100%);
+  top: 8px; /* Pixels fixos */
   left: -8px;
   transform: translateY(-50%);
   z-index: 5;
@@ -4845,6 +4845,269 @@
 @media (prefers-reduced-motion: reduce) {
   .cardigan .health-bar-fill,
   .cardigan .health-bar-fill::after {
+    transition: none;
+  }
+}
+.cardigan {
+  /* =========================
+     ENERGY BAR - Same structure as Health Bar (Daggerheart Style)
+     ========================= */
+}
+.cardigan .energy-bar-container {
+  position: relative;
+  width: 258px; /* Largura fixa - não muda com zoom */
+  height: 67px;
+}
+.cardigan {
+  /* Native HTML5 Progress Element */
+}
+.cardigan .energy-progress-bar {
+  position: absolute;
+  top: -8px; /* Pixels fixos */
+  left: 39px; /* Pixels fixos */
+  bottom: 22px; /* Pixels fixos */
+  width: 100px; /* Pixels fixos - 39% de 400px */
+  height: 35px; /* Pixels fixos */
+  appearance: none;
+  border: none;
+  background: linear-gradient(90deg, #0a0c2a, #0c103b); /* Background vazio */
+  clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
+  z-index: 2;
+  transition: opacity 520ms ease;
+  will-change: opacity;
+  /* Webkit (Chrome, Safari, Edge) */
+}
+.cardigan .energy-progress-bar::-webkit-progress-bar {
+  background: linear-gradient(90deg, #0a0c2a, #0c103b);
+  clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
+}
+.cardigan .energy-progress-bar::-webkit-progress-value {
+  background: linear-gradient(200deg, #00D0FF 16%, #1188CC 65%, #004C5D 84%, #001A20 98%);
+  clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
+  transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: width;
+  position: relative;
+  /* Shine effect */
+}
+.cardigan .energy-progress-bar::-webkit-progress-value::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.3) 45%, transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: shine 2s ease-in-out infinite;
+}
+.cardigan .energy-progress-bar {
+  /* Firefox */
+}
+.cardigan .energy-progress-bar::-moz-progress-bar {
+  background: linear-gradient(200deg, #00D0FF 16%, #1188CC 65%, #004C5D 84%, #001A20 98%);
+  clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
+  transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: width;
+}
+.cardigan {
+  /* Shine animation */
+}
+@keyframes shine {
+  0%, 100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(100%);
+    opacity: 1;
+  }
+}
+.cardigan {
+  /* Frame overlay */
+}
+.cardigan .energy-frame-status {
+  position: absolute;
+  top: -22px;
+  left: 31px;
+  height: 72px; /* Altura fixa em pixels */
+  object-fit: fill; /* Preenche as dimensões exatas sem manter aspect ratio */
+  pointer-events: none;
+  z-index: 10;
+}
+.cardigan {
+  /* Energy Icon - Above frame, movable */
+}
+.cardigan .energy-icon {
+  position: absolute;
+  width: 14px; /* Fixo - escala com zoom do navegador */
+  height: 14px; /* Fixo - escala com zoom do navegador */
+  top: -19.2px; /* Fixo - escala com zoom do navegador */
+  left: 82.5px; /* Fixo - ajustado para centralizar no frame */
+  z-index: 15;
+  pointer-events: auto;
+}
+.cardigan {
+  /* Energy label */
+}
+.cardigan .energy-bar-label {
+  position: absolute;
+  top: -6px; /* Pixels fixos */
+  left: 54px; /* Pixels fixos */
+  bottom: 42px; /* Pixels fixos */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #fff;
+  z-index: 200;
+  pointer-events: none;
+}
+.cardigan {
+  /* Energy value styles */
+}
+.cardigan .energy-value {
+  font-size: 16px;
+  color: #fff;
+}
+.cardigan .energy-value.four-digits {
+  font-size: 13.5px;
+}
+.cardigan {
+  /* Input editável para energia atual */
+}
+.cardigan .energy-current {
+  background: transparent;
+  border: none;
+  outline: none;
+  text-align: center;
+  height: 18px;
+  width: 34px;
+  padding: 0;
+  pointer-events: auto;
+  text-shadow: 0px 0px 3px rgb(0, 0, 0);
+  margin-right: -3px;
+}
+.cardigan .energy-current:focus {
+  background: rgba(0, 0, 0, 0.3);
+}
+.cardigan .energy-current:focus.four-digits {
+  font-size: 13.5px;
+}
+.cardigan .energy-current::-webkit-outer-spin-button, .cardigan .energy-current::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cardigan .energy-current[type=number] {
+  -moz-appearance: textfield;
+}
+.cardigan {
+  /* Input readonly para energia máxima */
+}
+.cardigan .energy-max {
+  background: transparent;
+  border: none;
+  outline: none;
+  text-align: center;
+  height: 18px;
+  width: 34px;
+  padding: 0;
+  cursor: default;
+  pointer-events: none;
+  text-shadow: 0px 0px 3px rgb(0, 0, 0);
+  margin-left: -3px;
+}
+.cardigan .energy-max.four-digits {
+  font-size: 13.5px;
+}
+.cardigan .energy-max::-webkit-outer-spin-button, .cardigan .energy-max::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cardigan .energy-max[type=number] {
+  -moz-appearance: textfield;
+}
+.cardigan .energy-divider {
+  width: 10px;
+  height: 24px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+.cardigan {
+  /* Animation trigger */
+}
+.cardigan .energy-bar-container[data-anim="1"] .energy-bar-fill::after {
+  transform: translateX(120%);
+}
+.cardigan {
+  /* Energy Bonus Field */
+}
+.cardigan .energy-bonus-field {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  z-index: 5;
+  top: 32px; /* Pixels fixos */
+  left: 78px; /* Pixels fixos */
+  transform: translateY(-50%);
+}
+.cardigan .energy-bonus-field .energy-bonus-square {
+  position: absolute;
+  width: 40px;
+  height: 19px;
+  background: linear-gradient(200deg, #00D0FF 16%, #1188CC 65%, #004C5D 84%, #001A20 98%);
+  clip-path: polygon(7% 0%, 93% 0%, 70% 100%, 30% 100%);
+  top: 8px; /* Pixels fixos */
+  left: -8px;
+  transform: translateY(-50%);
+  z-index: 5;
+}
+.cardigan .energy-bonus-field label {
+  font-size: 12px;
+  font-weight: normal;
+  color: #fff;
+}
+.cardigan .energy-bonus-field .energy-bonus-input {
+  width: 24px;
+  height: 13px;
+  text-align: center;
+  font-size: 10px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 0;
+  border-radius: 3px;
+  position: relative;
+  z-index: 10;
+  text-shadow: 0 0 3px rgb(0, 0, 0);
+}
+.cardigan .energy-bonus-field .energy-bonus-input:focus {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+.cardigan .energy-bonus-field .energy-bonus-input::-webkit-outer-spin-button, .cardigan .energy-bonus-field .energy-bonus-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cardigan .energy-bonus-field .energy-bonus-input[type=number] {
+  -moz-appearance: textfield;
+}
+.cardigan {
+  /* Responsive adjustments para energy bar */
+}
+@media (max-width: 900px) {
+  .cardigan .energy-bar-container {
+    max-width: 90vw;
+  }
+  .cardigan .energy-bar-label {
+    font-size: 16px;
+  }
+}
+.cardigan {
+  /* Accessibility: Reduce motion para energy bar */
+}
+@media (prefers-reduced-motion: reduce) {
+  .cardigan .energy-bar-fill,
+  .cardigan .energy-bar-fill::after {
     transition: none;
   }
 }

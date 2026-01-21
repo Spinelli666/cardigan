@@ -358,6 +358,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Inicializar barra de vida animada
     this.#initHealthBar();
     
+    // Inicializar barra de energia animada
+    this.#initEnergyBar();
+    
+    // Prevenir submit do formulário ao pressionar Enter em inputs
+    this.#preventEnterSubmit();
+    
     // Clean up any existing tooltips before setting up new ones
     this.#cleanupTooltips();
     
@@ -7437,52 +7443,47 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
   /**
    * Initialize and setup health bar animation inside frame
+   * NO LONGER NEEDED - Progress element updates automatically!
+   * Keeping method stub for compatibility
    * @private
    */
   #initHealthBar() {
-    const healthContainer = this.element.querySelector('.health-bar-container');
-    if (!healthContainer) return;
-    
-    const health = this.actor.system.health;
-    const currentValue = Number(health.value) || 0;
-    const maxValue = Math.max(1, Number(health.max) || 1);
-    const percentage = Math.max(0, Math.min(100, (currentValue / maxValue) * 100));
-    
-    // Update fill width (wrapper controls visibility via overflow)
-    const fillElement = healthContainer.querySelector('.health-bar-fill');
-    if (fillElement) {
-      // Base width is 26%, scale by percentage
-      const fillWidth = (26 * percentage) / 100;
-      fillElement.style.width = `${fillWidth.toFixed(2)}%`;
-    }
-    
-    // Toggle animation trigger for shine effect
-    const currentAnim = healthContainer.dataset.anim || '0';
-    healthContainer.dataset.anim = currentAnim === '0' ? '1' : '0';
-    
-    // Update label values
-    const healthCurrentInput = healthContainer.querySelector('.health-current');
-    const healthMaxInput = healthContainer.querySelector('.health-max');
-    if (healthCurrentInput) {
-      healthCurrentInput.value = currentValue;
-      // Add class for 4+ digits
-      if (currentValue >= 1000) {
-        healthCurrentInput.classList.add('four-digits');
-      } else {
-        healthCurrentInput.classList.remove('four-digits');
+    // Native <progress> element handles animation automatically
+    // No manual width manipulation needed!
+    console.log('[HEALTH BAR] Using native progress element - auto-animated');
+  }
+
+  /**
+   * Initialize and setup energy bar animation inside frame
+   * NO LONGER NEEDED - Progress element updates automatically!
+   * Keeping method stub for compatibility
+   * @private
+   */
+  #initEnergyBar() {
+    // Native <progress> element handles animation automatically
+    // No manual width manipulation needed!
+    console.log('[ENERGY BAR] Using native progress element - auto-animated');
+  }
+
+  /**
+   * Prevent form submission when Enter is pressed on input fields
+   * @private
+   */
+  #preventEnterSubmit() {
+    const form = this.element.querySelector('form');
+    if (!form) return;
+
+    // Add event listener to prevent Enter key from submitting the form
+    form.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' && event.target.tagName === 'INPUT') {
+        event.preventDefault();
+        event.stopPropagation();
+        // Blur the input to trigger any change handlers
+        event.target.blur();
       }
-    }
-    if (healthMaxInput) {
-      healthMaxInput.value = maxValue;
-      // Add class for 4+ digits
-      if (maxValue >= 1000) {
-        healthMaxInput.classList.add('four-digits');
-      } else {
-        healthMaxInput.classList.remove('four-digits');
-      }
-    }
-    
-    console.log(`[HEALTH BAR] Initialized: ${currentValue}/${maxValue} (${percentage.toFixed(1)}%)`);
+    });
+
+    console.log('[CARDIGAN] Form Enter key prevention enabled');
   }
 
   /**
