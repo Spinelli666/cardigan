@@ -46,14 +46,7 @@
 
   &::-webkit-progress-value {
     background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
-    clip-path: polygon(
-      2% 50%,
-      26% 10%,
-      78% 10%,
-      100% 50%,
-      78% 90%,
-      26% 90%
-    );
+    /* Removido clip-path para manter lado direito reto quando não está cheio */
     transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
     will-change: width;
     position: relative;

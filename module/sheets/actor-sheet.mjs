@@ -119,22 +119,25 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     equipamentos: {
       template: 'systems/cardigan/templates/actor/equipamentos.hbs',
     },
+    profissoes: {
+      template: 'systems/cardigan/templates/actor/profissoes.hbs',
+    },
   };
 
   /** @override */
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['header', 'tabs', 'biography']; // ✅ Header restaurado
+    options.parts = ['header', 'tabs', 'features']; // Perícias como padrão
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'character':
-        options.parts.push('features', 'skills', 'equipamentos');
+        options.parts.push('equipamentos', 'skills', 'profissoes', 'biography');
         break;
       case 'npc':
-        options.parts.push('skills', 'equipamentos');
+        options.parts.push('equipamentos', 'skills', 'biography');
         break;
     }
   }
@@ -258,7 +261,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // If you have sub-tabs this is necessary to change
     const tabGroup = 'primary';
     // Default tab for first time it's rendered this session
-    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'biography';
+    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'features';
     return parts.reduce((tabs, partId) => {
       const tab = {
         cssClass: '',
@@ -274,21 +277,25 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         case 'header':
         case 'tabs':
           return tabs;
-        case 'biography':
-          tab.id = 'biography';
-          tab.label += 'Biography';
-          break;
         case 'features':
           tab.id = 'features';
           tab.label += 'Features';
+          break;
+        case 'equipamentos':
+          tab.id = 'equipamentos';
+          tab.label += 'Equipamentos';
           break;
         case 'skills':
           tab.id = 'skills';
           tab.label += 'Skills';
           break;
-        case 'equipamentos':
-          tab.id = 'equipamentos';
-          tab.label += 'Equipamentos';
+        case 'profissoes':
+          tab.id = 'profissoes';
+          tab.label += 'Profissoes';
+          break;
+        case 'biography':
+          tab.id = 'biography';
+          tab.label += 'Biography';
           break;
         default:
           // Unknown part, skip it

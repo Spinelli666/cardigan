@@ -10,10 +10,10 @@
   justify-content: flex-end;
   // border: 1px solid red;
   position: absolute;
-  right: -3px !important;
-  top: 0px !important;
-  left: -361.54px;
-  margin-top: -4px !important;
+  right: 1px !important;
+  top: 1px !important;
+  left: -360px;
+  margin-top: 0px !important;
   // padding-top: 4px !important;
   cursor: grab;
   
@@ -26,13 +26,27 @@
     height: 11px;
     min-height: 0;
     padding: 0;
+    padding-top: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    background: none;
+    border: none;
+    transition: all 0.3s ease;
     
     i {
       font-size: 8px;
+      color: #CF954C;
+      transition: all 0.3s ease;
+    }
+    
+    &:hover i {
+      background: linear-gradient(135deg, #CF954C 0%, #FFB870 50%, #CF954C 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: brightness(1.2);
     }
   }
 }

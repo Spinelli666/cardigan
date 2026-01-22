@@ -187,11 +187,12 @@
         }
       },
       "Tabs": {
-        "Biography": "Biography",
-        "Features": "Features",
-        "Skills": "Skills",
-        "Backpack": "Skills",
-        "Equipamentos": "Equipment"
+        "Biography": "Biografia",
+        "Features": "Perícias",
+        "Skills": "Habilidades",
+        "Backpack": "Habilidades",
+        "Equipamentos": "Equipamentos",
+        "Profissoes": "Profissões"
       },
       "Character": {
         "FIELDS": {

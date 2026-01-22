@@ -499,7 +499,6 @@
 .cardigan .sheet-header .header-center {
   width: 201px;
   height: 176px;
-  border: 2px solid blue;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -653,9 +652,74 @@
   -webkit-text-fill-color: transparent;
   text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
 }
+.cardigan .tox .tox-editor-container {
+  background: var(--cardigan-c-white);
+}
+.cardigan .tox .tox-edit-area {
+  padding: 0 8px;
+}
 .cardigan .sheet-tabs {
   flex: 0 0 auto;
   z-index: 200;
+  position: relative;
+  border-top: none !important;
+  border-bottom: none !important;
+  font-family: "Alatsi", sans-serif !important;
+  gap: 0 !important;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+}
+.cardigan .sheet-tabs a.item,
+.cardigan .sheet-tabs [data-tab],
+.cardigan .sheet-tabs .item[data-tab] {
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cardigan .sheet-tabs a.item.active,
+.cardigan .sheet-tabs [data-tab].active,
+.cardigan .sheet-tabs .item[data-tab].active {
+  position: relative;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(180deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cardigan .sheet-tabs::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -35px;
+  right: -35px;
+  width: calc(100% + 70px);
+  height: 8px;
+  background-image: url("/systems/cardigan/assets/images/decorative/border-navigation.webp");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
+}
+.cardigan .sheet-tabs::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: -35px;
+  right: -35px;
+  width: calc(100% + 70px);
+  height: 8px;
+  background-image: url("/systems/cardigan/assets/images/decorative/border-navigation.webp");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
 }
 .cardigan .tab {
   overflow-y: auto;
@@ -668,12 +732,6 @@
 .cardigan .tab.biography .editor {
   flex: 1;
   height: 100%;
-}
-.cardigan .tox .tox-editor-container {
-  background: var(--cardigan-c-white);
-}
-.cardigan .tox .tox-edit-area {
-  padding: 0 8px;
 }
 .cardigan .resource-label {
   font-weight: bold;
@@ -3843,9 +3901,10 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin: 16px 0px 3px 0px;
+  margin: 19px 0px 6px 0px;
 }
 .cardigan .fracture-field .icon-arrow-wrapper {
+  margin-top: 1px;
   position: absolute;
   left: 22px;
   top: 50%;
@@ -3940,7 +3999,7 @@
   justify-content: center;
   gap: 5px;
   width: 100%;
-  margin: 5px 0px 5px 0px;
+  margin: 6.5px 0px 6px 0px;
 }
 .cardigan .toxicity-field .icon-arrow-wrapper {
   position: absolute;
@@ -4037,7 +4096,7 @@
   justify-content: center;
   gap: 5px;
   width: 100%;
-  margin: 5px 0px 5px 0px;
+  margin: 6.5px 0px 6px 0px;
 }
 .cardigan .sanity-field .icon-arrow-wrapper {
   position: absolute;
@@ -4129,9 +4188,9 @@
 .cardigan .hunger-thirst-group {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5.5px;
   padding-bottom: 3px;
-  margin: 5px 0px 0px 0px;
+  margin: 6.5px 7px 0px 0px;
 }
 .cardigan .hunger-field {
   position: relative;
@@ -4327,16 +4386,29 @@
   margin-left: 37px;
 }
 .cardigan .rest-button-container .rest-btn {
-  background: rgba(105, 76, 39, 0.5);
-  border: 3px solid rgba(207, 149, 76, 0.5);
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   padding: 0;
+  margin: 0;
+  border: 3px solid rgba(207, 149, 76, 0.5);
   border-radius: 50%;
+  /* remove aparência nativa que pode "ovalizar" */
+  appearance: none;
+  -webkit-appearance: none;
+  /* evita variação de box-model */
+  box-sizing: border-box;
+  /* garante que nada "vaze" e deforme visualmente */
+  overflow: hidden;
+  /* centralização */
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  /* zera influência de tipografia */
+  font-size: 0;
+  line-height: 0;
+  background: rgba(105, 76, 39, 0.5);
+  cursor: pointer;
   transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.6));
 }
@@ -4349,8 +4421,9 @@
   transform: scale(0.95);
 }
 .cardigan .rest-button-container .rest-btn .rest-icon {
-  width: 21px;
-  height: 21px;
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
 }
 .cardigan .window-controls-custom {
@@ -4360,10 +4433,10 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   position: absolute;
-  right: -3px !important;
-  top: 0px !important;
-  left: -361.54px;
-  margin-top: -4px !important;
+  right: 1px !important;
+  top: 1px !important;
+  left: -360px;
+  margin-top: 0px !important;
   cursor: grab;
 }
 .cardigan .window-controls-custom.dragging {
@@ -4374,13 +4447,26 @@
   height: 11px;
   min-height: 0;
   padding: 0;
+  padding-top: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  background: none;
+  border: none;
+  transition: all 0.3s ease;
 }
 .cardigan .window-controls-custom .control-btn i {
   font-size: 8px;
+  color: #CF954C;
+  transition: all 0.3s ease;
+}
+.cardigan .window-controls-custom .control-btn:hover i {
+  background: linear-gradient(135deg, #CF954C 0%, #FFB870 50%, #CF954C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: brightness(1.2);
 }
 .cardigan {
   /* Mochila/Backpack Container Styles */
@@ -4705,7 +4791,7 @@
 }
 .cardigan .health-progress-bar::-webkit-progress-value {
   background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
-  clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
+  /* Removido clip-path para manter lado direito reto quando não está cheio */
   transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: width;
   position: relative;

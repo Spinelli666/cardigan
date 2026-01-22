@@ -7,19 +7,40 @@
   justify-content: center;
   align-items: center;
   margin-top: 5px;
-      margin-left: 37px;
+  margin-left: 37px;
 
   .rest-btn {
-    background: rgba(105, 76, 39, 0.5);
-    border: 3px solid rgba(207, 149, 76, 0.5);
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
+
     padding: 0;
+    margin: 0;
+
+    border: 3px solid rgba(207, 149, 76, 0.5);
     border-radius: 50%;
+
+    /* remove aparência nativa que pode "ovalizar" */
+    appearance: none;
+    -webkit-appearance: none;
+
+    /* evita variação de box-model */
+    box-sizing: border-box;
+
+    /* garante que nada "vaze" e deforme visualmente */
+    overflow: hidden;
+
+    /* centralização */
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+
+    /* zera influência de tipografia */
+    font-size: 0;
+    line-height: 0;
+
+    background: rgba(105, 76, 39, 0.5);
+    cursor: pointer;
     transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
     filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.60));
 
@@ -34,8 +55,9 @@
     }
 
     .rest-icon {
-      width: 21px;
-      height: 21px;
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
       filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
     }
   }
