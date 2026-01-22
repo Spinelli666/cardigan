@@ -15,7 +15,7 @@
   margin-bottom: 10px;
 }
 
-/* Features Tab Layout Styles */
+/* proficiencies Tab Layout Styles */
 // Utilitários e grids compartilhados
 .horizontal-field {
   display: flex;
@@ -29,44 +29,44 @@
   text-align: left;
 }
 
-.features-tab-main {
+.proficiencies-tab-main {
   padding: 10px;
 }
 
-.features-main-grid {
+.proficiencies-main-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-bottom: 20px;
 }
 
-.features-left-column {
+.proficiencies-left-column {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.features-secondary-grid {
+.proficiencies-secondary-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-bottom: 20px;
 }
 
-.features-tertiary-grid {
+.proficiencies-tertiary-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
 }
 
-.features-quaternary-grid {
+.proficiencies-quaternary-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-bottom: 20px;
 }
 
-.features-container {
+.proficiencies-container {
   h3 {
     margin: 0 0 10px 0;
     font-size: 16px;
@@ -146,7 +146,7 @@
   }
 }
 
-/* Effects Container in Features Tab */
+/* Effects Container in proficiencies Tab */
 .effects-container {
   h3 {
     margin: 0 0 10px 0;

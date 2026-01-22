@@ -107,8 +107,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       // Foundry-provided generic template
       template: 'templates/generic/tab-navigation.hbs',
     },
-    features: {
-      template: 'systems/cardigan/templates/actor/features.hbs',
+    proficiencies: {
+      template: 'systems/cardigan/templates/actor/proficiencies.hbs',
     },
     biography: {
       template: 'systems/cardigan/templates/actor/biography.hbs',
@@ -116,11 +116,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     skills: {
       template: 'systems/cardigan/templates/actor/skills.hbs',
     },
-    equipamentos: {
-      template: 'systems/cardigan/templates/actor/equipamentos.hbs',
+    equipment: {
+      template: 'systems/cardigan/templates/actor/equipment.hbs',
     },
-    profissoes: {
-      template: 'systems/cardigan/templates/actor/profissoes.hbs',
+    professions: {
+      template: 'systems/cardigan/templates/actor/professions.hbs',
     },
   };
 
@@ -128,16 +128,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   _configureRenderOptions(options) {
     super._configureRenderOptions(options);
     // Not all parts always render
-    options.parts = ['header', 'tabs', 'features']; // Perícias como padrão
+    options.parts = ['header', 'tabs', 'proficiencies']; // Perícias como padrão
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
     // Control which parts show based on document subtype
     switch (this.document.type) {
       case 'character':
-        options.parts.push('equipamentos', 'skills', 'profissoes', 'biography');
+        options.parts.push('equipment', 'skills', 'professions', 'biography');
         break;
       case 'npc':
-        options.parts.push('equipamentos', 'skills', 'biography');
+        options.parts.push('equipment', 'skills', 'biography');
         break;
     }
   }
@@ -224,11 +224,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   /** @override */
   async _preparePartContext(partId, context) {
     switch (partId) {
-      case 'features':
+      case 'proficiencies':
         context.tab = context.tabs[partId];
         break;
       case 'skills':
-      case 'equipamentos':
+      case 'equipment':
+      case 'professions':
         context.tab = context.tabs[partId];
         break;
       case 'biography':
@@ -261,7 +262,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // If you have sub-tabs this is necessary to change
     const tabGroup = 'primary';
     // Default tab for first time it's rendered this session
-    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'features';
+    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'proficiencies';
     return parts.reduce((tabs, partId) => {
       const tab = {
         cssClass: '',
@@ -277,20 +278,20 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         case 'header':
         case 'tabs':
           return tabs;
-        case 'features':
-          tab.id = 'features';
+        case 'proficiencies':
+          tab.id = 'proficiencies';
           tab.label += 'Features';
           break;
-        case 'equipamentos':
-          tab.id = 'equipamentos';
+        case 'equipment':
+          tab.id = 'equipment';
           tab.label += 'Equipamentos';
           break;
         case 'skills':
           tab.id = 'skills';
           tab.label += 'Skills';
           break;
-        case 'profissoes':
-          tab.id = 'profissoes';
+        case 'professions':
+          tab.id = 'professions';
           tab.label += 'Profissoes';
           break;
         case 'biography':
@@ -353,8 +354,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para campos dinâmicos de bonus
     this.#addBonusFieldsListeners();
     
-    // Adicionar event listeners para checkboxes das tabelas de profissão
-    this.#addProfessionTableListeners();
+    // NOTE: Profession table toggles are handled automatically by Foundry's form system
+    // The checkboxes update system.details.show*Table which triggers a re-render
+    // No manual event listeners needed
     
     // Adicionar event listeners para checkboxes de aprimoramentos de skills
     this.#addEnhancementCheckboxListeners();
@@ -408,7 +410,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   _prepareItems(context) {
     // Initialize containers.
     const backpack = [];
-    const features = [];
+    const proficiencies = [];
     const efeitos = [];
     const armas = [];
     const armaduras = [];
@@ -545,7 +547,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }
     
     context.backpack = sortedBackpack;
-    context.features = features.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.proficiencies = proficiencies.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.efeitos = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.recipes = recipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     
@@ -5902,7 +5904,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   #setupArmorTooltips() {
     // Select all armor name elements (.armor-name-hover) in the armor section
-    const armorSection = this.element.querySelector('.equipamentos');
+    const armorSection = this.element.querySelector('.equipment');
     if (!armorSection) return;
     
     const armorNameElements = armorSection.querySelectorAll('.armor-name-hover');
@@ -6086,7 +6088,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   #setupEffectTooltips() {
-    // Select all effect items in the features section
+    // Select all effect items in the proficiencies section
     const effectItems = this.element.querySelectorAll('.effect-item[data-item-uuid]');
     
     effectItems.forEach(element => {

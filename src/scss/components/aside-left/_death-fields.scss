@@ -83,13 +83,14 @@
         min-height: 13px !important;
         margin: 0 !important;
         padding: 0 !important;
-        border-radius: 50% !important;
-        border: 2px solid rgba(105, 76, 39, 0.6) !important;
+        border-radius: 4px !important;
+        border: 1.7px solid rgba(105, 76, 39, 0.86) !important;
         background: none !important;
         cursor: pointer;
         transition: all 0.15s ease;
         box-shadow: none !important;
         vertical-align: middle;
+        transform: rotate(45deg);
 
         // Remover pseudo-elementos do Foundry VTT
         &::before {
@@ -198,13 +199,14 @@
         min-height: 13px !important;
         margin: 0 !important;
         padding: 0 !important;
-        border-radius: 50% !important;
-        border: 2px solid rgba(105, 76, 39, 0.6) !important;
+        border-radius: 4px !important;
+        border: 1.7px solid rgba(105, 76, 39, 0.86) !important;
         background: none !important;
         cursor: pointer;
         transition: all 0.15s ease;
         box-shadow: none !important;
         vertical-align: middle;
+        transform: rotate(45deg);
 
         // Remover pseudo-elementos do Foundry VTT
         &::before {

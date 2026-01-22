@@ -46,6 +46,7 @@
   .tab {
     flex: 1;
     min-height: 0;
+    background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 31.35%, rgba(118, 212, 255, 0.19) 99.96%);
   }
 }
 
@@ -65,8 +66,8 @@
   @import 'components/resource';
   @import 'components/items';
   @import 'components/effects';
-  @import 'components/features-tab';
-  @import 'components/equipamentos';
+  @import 'components/proficiencies-tab';
+  @import 'components/equipment';
   @import 'components/character-details';
   @import 'components/aside-left/xp-level';
   @import 'components/aside-left/movement-crit';

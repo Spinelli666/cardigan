@@ -1,104 +1,19 @@
-{{! Features Tab }}
+{{! proficiencies Tab }}
 <section
-  class='tab features {{tab.cssClass}}'
+  class='tab proficiencies {{tab.cssClass}}'
   data-group='primary'
-  data-tab='features'
+  data-tab='proficiencies'
 >
-  <section class='main features-tab-main'>
-    {{! Grid principal com duas colunas para Character Details/Features e Container Teste }}
-    <div class='features-main-grid'>
-      {{! Coluna esquerda - Apenas Character Details }}
-      <div class='features-left-column'>
-        {{! Character Details Container }}
-        <div class='character-details-container'>
-          <h3>Character Details</h3>
-          
-          {{! Nome }}
-          <div class='detail-field'>
-            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.name.label"}}:</label>
-            <input
-              type='text'
-              name='system.details.name'
-              value='{{system.details.name}}'
-            />
-          </div>
-          
-          {{! Idade }}
-          <div class='detail-field'>
-            <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.age.label"}}:</label>
-            <input
-              type='number'
-              name='system.details.age'
-              value='{{system.details.age}}'
-              data-dtype='Number'
-              min='0'
-            />
-          </div>
-        </div>
-      </div>
-
-      {{! Container Classes - Coluna direita }}
-      <div class='container-teste'>
-        <h3>Classes</h3>
-        
-        {{! Classes Row }}
-        <div class='classes-row'>
-          <div class='class-field'>
-            <label>ANDARILHO</label>
-            <input
-              type='number'
-              name='system.classes.andarilho'
-              value='{{system.classes.andarilho}}'
-              data-dtype='Number'
-              min='0'
-            />
-          </div>
-          <div class='class-field'>
-            <label>GUERREIRO</label>
-            <input
-              type='number'
-              name='system.classes.guerreiro'
-              value='{{system.classes.guerreiro}}'
-              data-dtype='Number'
-              min='0'
-            />
-          </div>
-          <div class='class-field'>
-            <label>LADINO</label>
-            <input
-              type='number'
-              name='system.classes.ladino'
-              value='{{system.classes.ladino}}'
-              data-dtype='Number'
-              min='0'
-            />
-          </div>
-          <div class='class-field'>
-            <label>FEITICEIRO</label>
-            <input
-              type='number'
-              name='system.classes.feiticeiro'
-              value='{{system.classes.feiticeiro}}'
-              data-dtype='Number'
-              min='0'
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+  <section class='main proficiencies-tab-main'>
 
     {{! Grid secundário para Status e Abilities lado a lado }}
-    <div class='features-secondary-grid'>
+    <div class='proficiencies-secondary-grid'>
       {{! Status Container - Lado esquerdo }}
       <div class='status-container'>
-        <h3>Status</h3>
         <div class='status-content'>
           
           <!-- Other Status Fields -->
           <div class='status-container'>
-        <div class='abilities-header'>
-          <h3>Abilities</h3>
-        </div>
         <div class='abilities-list'>
           {{#each system.abilities as |ability key|}}
             <div class='ability-row horizontal-field'>
@@ -145,36 +60,7 @@
       </div>
     </div>
 
-    {{! Grid quaternário para Additional Notes e Effects lado a lado }}
-    <div class='features-quaternary-grid'>
-      {{! Additional Notes Container - Lado esquerdo }}
-      <div class='additional-notes-container'>
-        <div class="additional-notes-header">
-          <h3>Additional Notes</h3>
-          <div class="additional-notes-toggle">
-            <label>
-              <input
-                type="checkbox"
-                name="system.details.showAdditionalNotes"
-                {{#if system.details.showAdditionalNotes}}checked{{/if}}
-                data-dtype="Boolean"
-              />
-              Show Additional Notes
-            </label>
-          </div>
-        </div>
-        {{#if system.details.showAdditionalNotes}}
-          <section class='additional-notes-editor'>
-            <textarea
-              name="system.details.additionalNotes"
-              rows="6"
-              placeholder="Digite suas notas adicionais aqui..."
-            >{{system.details.additionalNotes}}</textarea>
-          </section>
-        {{/if}}
-      </div>
-
-      {{! Effects Container - Lado direito }}
+    {{! Effects Container }}
       <div class='effects-container'>
         <div class="effects-header">
           <h3>{{localize "CARDIGAN.Effect.Effects"}}</h3>
@@ -278,63 +164,13 @@
           </ol>
         {{/if}}
       </div>
-    </div>    
+    </div>
 
-    {{! Grid terciário para Features List }}
-    <div class='features-tertiary-grid'>
-      {{! Features Container - Largura completa }}
-      <div class='features-container'>
+    {{! Grid terciário para proficiencies List }}
+    <div class='proficiencies-tertiary-grid'>
+      {{! proficiencies Container - Largura completa }}
+      <div class='proficiencies-container'>
       </div>
     </div>
   </section>
-
-  {{! Abilities Edit Modal }}
-  <div id='abilities-edit-modal' class='abilities-modal' style='display: none;'>
-    <div class='modal-content'>
-      <div class='modal-header'>
-        <h3>Edit Abilities</h3>
-        <button type='button' class='close-modal' data-action='closeAbilitiesModal'>
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class='modal-body'>
-        {{#each system.abilities as |ability key|}}
-          <div class='ability-edit-row'>
-            <label>{{localize (lookup @root.config.abilities key)}}</label>
-            <div class='ability-edit-fields'>
-              <div class='field-group'>
-                <label class='field-label'>Base Value</label>
-                <input
-                  type='number'
-                  value='{{ability.value}}'
-                  data-dtype='Number'
-                  class='ability-value-edit'
-                  data-ability='{{key}}'
-                />
-              </div>
-              <div class='field-group'>
-                <label class='field-label'>Bonus</label>
-                <input
-                  type='number'
-                  value='{{ability.bonus}}'
-                  data-dtype='Number'
-                  class='ability-bonus-edit'
-                  data-ability='{{key}}'
-                />
-              </div>
-              <div class='field-group'>
-                <label class='field-label'>Total</label>
-                <span class='ability-total'>{{ability.total}}</span>
-              </div>
-            </div>
-          </div>
-        {{/each}}
-      </div>
-      <div class='modal-footer'>
-        <button type='button' class='close-modal' data-action='closeAbilitiesModal'>
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
 </section>

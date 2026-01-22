@@ -229,7 +229,7 @@
   display: flex;
   align-items: center;
   z-index: 5;
-  top: 32px;       /* Pixels fixos */
+  top: 34px;       /* Pixels fixos */
   left: 78px;     /* Pixels fixos */
   transform: translateY(-50%);
 
@@ -239,7 +239,7 @@
     height: 19px;
     background: linear-gradient(200deg, #00D0FF 16%, #1188CC 65%, #004C5D 84%, #001A20 98%);
     clip-path: polygon(7% 0%, 93% 0%, 70% 100%, 30% 100%);
-    top: 8px;       /* Pixels fixos */
+    top: 6px;       /* Pixels fixos */
     left: -8px;
     transform: translateY(-50%);
     z-index: 5;

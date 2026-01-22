@@ -417,6 +417,7 @@
 .cardigan.actor .tab {
   flex: 1;
   min-height: 0;
+  background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 31.35%, rgba(118, 212, 255, 0.19) 99.96%);
 }
 
 /* Styles limited to cardigan sheets */
@@ -1127,7 +1128,7 @@
   margin-bottom: 10px;
 }
 .cardigan {
-  /* Features Tab Layout Styles */
+  /* proficiencies Tab Layout Styles */
 }
 .cardigan .horizontal-field {
   display: flex;
@@ -1139,38 +1140,38 @@
   min-width: 50px;
   text-align: left;
 }
-.cardigan .features-tab-main {
+.cardigan .proficiencies-tab-main {
   padding: 10px;
 }
-.cardigan .features-main-grid {
+.cardigan .proficiencies-main-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-bottom: 20px;
 }
-.cardigan .features-left-column {
+.cardigan .proficiencies-left-column {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
-.cardigan .features-secondary-grid {
+.cardigan .proficiencies-secondary-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-bottom: 20px;
 }
-.cardigan .features-tertiary-grid {
+.cardigan .proficiencies-tertiary-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
 }
-.cardigan .features-quaternary-grid {
+.cardigan .proficiencies-quaternary-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-bottom: 20px;
 }
-.cardigan .features-container h3 {
+.cardigan .proficiencies-container h3 {
   margin: 0 0 10px 0;
   font-size: 16px;
   font-weight: bold;
@@ -1235,7 +1236,7 @@
   padding: 8px;
 }
 .cardigan {
-  /* Effects Container in Features Tab */
+  /* Effects Container in proficiencies Tab */
 }
 .cardigan .effects-container h3 {
   margin: 0 0 10px 0;
@@ -1394,34 +1395,34 @@
 .cardigan .recipe-description-below i {
   font-style: italic;
 }
-.cardigan .tab.equipamentos .item-formula {
+.cardigan .tab.equipment .item-formula {
   text-align: center;
 }
-.cardigan .tab.equipamentos .item-formula:last-of-type {
+.cardigan .tab.equipment .item-formula:last-of-type {
   text-align: center;
 }
-.cardigan .tab.equipamentos .weapon-image-click {
+.cardigan .tab.equipment .weapon-image-click {
   display: inline-block;
   transition: opacity 0.2s ease;
   cursor: pointer;
   border-radius: 3px;
 }
-.cardigan .tab.equipamentos .weapon-image-click:hover {
+.cardigan .tab.equipment .weapon-image-click:hover {
   opacity: 0.8;
 }
-.cardigan .tab.equipamentos .weapon-image-click:hover img {
+.cardigan .tab.equipment .weapon-image-click:hover img {
   transform: scale(1.05);
 }
-.cardigan .tab.equipamentos .weapon-image-click img {
+.cardigan .tab.equipment .weapon-image-click img {
   transition: transform 0.2s ease;
   border-radius: 3px;
 }
-.cardigan .tab.equipamentos .item-ammunition {
+.cardigan .tab.equipment .item-ammunition {
   text-align: center;
   min-width: 80px;
   font-size: 12px;
 }
-.cardigan .tab.equipamentos .item-ammunition input[type=number] {
+.cardigan .tab.equipment .item-ammunition input[type=number] {
   border: 1px solid #ccc;
   border-radius: 3px;
   padding: 2px 4px;
@@ -1429,31 +1430,31 @@
   background: transparent;
   color: #fff;
 }
-.cardigan .tab.equipamentos .item-ammunition input[type=number]:focus {
+.cardigan .tab.equipment .item-ammunition input[type=number]:focus {
   outline: none;
   border-color: #888;
   box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
 }
-.cardigan .tab.equipamentos .item-quantity {
+.cardigan .tab.equipment .item-quantity {
   text-align: center;
   min-width: 60px;
   color: #c9c7b8;
 }
-.cardigan .tab.equipamentos .item-weight {
+.cardigan .tab.equipment .item-weight {
   text-align: center;
   min-width: 60px;
   color: #c9c7b8;
   font-weight: 600;
 }
-.cardigan .tab.equipamentos .backpack-full {
+.cardigan .tab.equipment .backpack-full {
   border: 2px solid #ff6b6b !important;
   background: rgba(255, 107, 107, 0.1) !important;
 }
-.cardigan .tab.equipamentos .backpack-full-text {
+.cardigan .tab.equipment .backpack-full-text {
   color: #ff6b6b !important;
   font-weight: 600;
 }
-.cardigan .tab.equipamentos .backpack-warning {
+.cardigan .tab.equipment .backpack-warning {
   margin-top: 8px;
   padding: 6px 12px;
   background: rgba(255, 107, 107, 0.2);
@@ -1463,72 +1464,72 @@
   font-size: 12px;
   text-align: center;
 }
-.cardigan .tab.equipamentos .backpack-warning .fas {
+.cardigan .tab.equipment .backpack-warning .fas {
   margin-right: 6px;
 }
-.cardigan .tab.equipamentos .item-reload {
+.cardigan .tab.equipment .item-reload {
   text-align: center;
   min-width: 40px;
 }
-.cardigan .tab.equipamentos .item-reload .reload-ammunition {
+.cardigan .tab.equipment .item-reload .reload-ammunition {
   display: inline-block;
   padding: 4px 6px;
   border-radius: 3px;
   transition: all 0.2s ease;
   cursor: pointer;
 }
-.cardigan .tab.equipamentos .item-reload .reload-ammunition:hover {
+.cardigan .tab.equipment .item-reload .reload-ammunition:hover {
   background: rgba(76, 175, 80, 0.2);
   transform: scale(1.1);
 }
-.cardigan .tab.equipamentos .item-reload .reload-ammunition:active {
+.cardigan .tab.equipment .item-reload .reload-ammunition:active {
   transform: scale(0.95);
 }
-.cardigan .tab.equipamentos .item-reload .reload-ammunition i {
+.cardigan .tab.equipment .item-reload .reload-ammunition i {
   font-size: 14px;
 }
-.cardigan .tab.equipamentos .item-attack {
+.cardigan .tab.equipment .item-attack {
   text-align: center;
   min-width: 40px;
 }
-.cardigan .tab.equipamentos .item-attack .attack-weapon {
+.cardigan .tab.equipment .item-attack .attack-weapon {
   display: inline-block;
   padding: 4px 6px;
   border-radius: 3px;
   transition: all 0.2s ease;
   cursor: pointer;
 }
-.cardigan .tab.equipamentos .item-attack .attack-weapon:hover:not(.disabled) {
+.cardigan .tab.equipment .item-attack .attack-weapon:hover:not(.disabled) {
   background: rgba(211, 47, 47, 0.2);
   transform: scale(1.1);
 }
-.cardigan .tab.equipamentos .item-attack .attack-weapon:active:not(.disabled) {
+.cardigan .tab.equipment .item-attack .attack-weapon:active:not(.disabled) {
   transform: scale(0.95);
 }
-.cardigan .tab.equipamentos .item-attack .attack-weapon.disabled {
+.cardigan .tab.equipment .item-attack .attack-weapon.disabled {
   opacity: 0.5;
   cursor: not-allowed !important;
   pointer-events: none;
 }
-.cardigan .tab.equipamentos .item-attack .attack-weapon.disabled:hover {
+.cardigan .tab.equipment .item-attack .attack-weapon.disabled:hover {
   transform: none;
   background: none;
 }
-.cardigan .tab.equipamentos .item-attack .attack-weapon i {
+.cardigan .tab.equipment .item-attack .attack-weapon i {
   font-size: 14px;
 }
-.cardigan .tab.equipamentos .item-durability {
+.cardigan .tab.equipment .item-durability {
   text-align: center;
   font-size: 12px;
   font-weight: bold;
   min-width: 60px;
 }
-.cardigan .tab.equipamentos .item-durability span {
+.cardigan .tab.equipment .item-durability span {
   padding: 2px 6px;
   border-radius: 3px;
   background: rgba(0, 0, 0, 0.1);
 }
-.cardigan .tab.equipamentos .item-durability input[type=number] {
+.cardigan .tab.equipment .item-durability input[type=number] {
   border: 1px solid #ccc;
   border-radius: 3px;
   padding: 2px 4px;
@@ -1539,26 +1540,26 @@
   text-align: center;
   width: 50px;
 }
-.cardigan .tab.equipamentos .item-durability input[type=number]:focus {
+.cardigan .tab.equipment .item-durability input[type=number]:focus {
   outline: none;
   border-color: #888;
   box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
 }
-.cardigan .tab.equipamentos .item-durability input[type=number]:hover {
+.cardigan .tab.equipment .item-durability input[type=number]:hover {
   background: rgba(255, 255, 255, 0.1);
 }
-.cardigan .tab.equipamentos .item-ammunition {
+.cardigan .tab.equipment .item-ammunition {
   text-align: center;
   font-size: 12px;
   font-weight: bold;
   min-width: 60px;
 }
-.cardigan .tab.equipamentos .item-ammunition span {
+.cardigan .tab.equipment .item-ammunition span {
   padding: 2px 6px;
   border-radius: 3px;
   background: rgba(0, 0, 0, 0.1);
 }
-.cardigan .tab.equipamentos .item-ammunition input[type=number] {
+.cardigan .tab.equipment .item-ammunition input[type=number] {
   border: 1px solid #ccc;
   border-radius: 3px;
   padding: 2px 4px;
@@ -1567,82 +1568,82 @@
   background: transparent;
   color: #fff;
 }
-.cardigan .tab.equipamentos .item-ammunition input[type=number]:focus {
+.cardigan .tab.equipment .item-ammunition input[type=number]:focus {
   outline: none;
   border-color: #888;
   box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
 }
-.cardigan .tab.equipamentos .item-ammunition input[type=number]:hover {
+.cardigan .tab.equipment .item-ammunition input[type=number]:hover {
   background: rgba(255, 255, 255, 0.1);
 }
-.cardigan .tab.equipamentos .item-unequip {
+.cardigan .tab.equipment .item-unequip {
   text-align: center;
   min-width: 50px;
 }
-.cardigan .tab.equipamentos .item-unequip .unequip-weapon {
+.cardigan .tab.equipment .item-unequip .unequip-weapon {
   display: inline-block;
   padding: 4px 6px;
   border-radius: 3px;
   transition: all 0.2s ease;
   cursor: pointer;
 }
-.cardigan .tab.equipamentos .item-unequip .unequip-weapon:hover {
+.cardigan .tab.equipment .item-unequip .unequip-weapon:hover {
   background: rgba(255, 87, 34, 0.2);
   transform: scale(1.1);
 }
-.cardigan .tab.equipamentos .item-unequip .unequip-weapon:active {
+.cardigan .tab.equipment .item-unequip .unequip-weapon:active {
   transform: scale(0.95);
 }
-.cardigan .tab.equipamentos .item-unequip .unequip-weapon i {
+.cardigan .tab.equipment .item-unequip .unequip-weapon i {
   font-size: 14px;
 }
-.cardigan .tab.equipamentos .item-equip {
+.cardigan .tab.equipment .item-equip {
   text-align: center;
   min-width: 50px;
 }
-.cardigan .tab.equipamentos .item-equip .equip-weapon {
+.cardigan .tab.equipment .item-equip .equip-weapon {
   display: inline-block;
   padding: 4px 6px;
   border-radius: 3px;
   transition: all 0.2s ease;
   cursor: pointer;
 }
-.cardigan .tab.equipamentos .item-equip .equip-weapon:hover {
+.cardigan .tab.equipment .item-equip .equip-weapon:hover {
   background: rgba(76, 175, 80, 0.2);
   transform: scale(1.1);
 }
-.cardigan .tab.equipamentos .item-equip .equip-weapon:active {
+.cardigan .tab.equipment .item-equip .equip-weapon:active {
   transform: scale(0.95);
 }
-.cardigan .tab.equipamentos .item-equip .equip-weapon i {
+.cardigan .tab.equipment .item-equip .equip-weapon i {
   font-size: 14px;
 }
-.cardigan .tab.equipamentos .item-name-broken {
+.cardigan .tab.equipment .item-name-broken {
   color: #ff4444 !important;
 }
-.cardigan .tab.equipamentos .item-name-broken div {
+.cardigan .tab.equipment .item-name-broken div {
   color: #ff4444 !important;
 }
-.cardigan .tab.equipamentos .fa-check-circle {
+.cardigan .tab.equipment .fa-check-circle {
   color: #4caf50 !important;
 }
-.cardigan .tab.equipamentos .fa-circle {
+.cardigan .tab.equipment .fa-circle {
   color: #666 !important;
   opacity: 0.5;
 }
-.cardigan .tab.equipamentos .item-prop {
+.cardigan .tab.equipment .item-prop {
   font-size: 12px;
   text-transform: capitalize;
 }
-.cardigan .tab.equipamentos .weapon-name-hover {
+.cardigan .tab.equipment .weapon-name-hover {
   cursor: pointer;
   transition: color 0.2s ease;
 }
-.cardigan .tab.equipamentos .weapon-name-hover:hover {
+.cardigan .tab.equipment .weapon-name-hover:hover {
   color: #d4d2c8;
   text-decoration: none;
 }
-.cardigan .tab.equipamentos .item-control[data-context-menu] {
+.cardigan .tab.equipment .item-control[data-context-menu] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1656,152 +1657,152 @@
   border-radius: 3px;
   transition: all 0.15s ease;
 }
-.cardigan .tab.equipamentos .item-control[data-context-menu]:hover {
+.cardigan .tab.equipment .item-control[data-context-menu]:hover {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   transform: scale(1.1);
 }
-.cardigan .tab.equipamentos .item-control[data-context-menu]:active {
+.cardigan .tab.equipment .item-control[data-context-menu]:active {
   transform: scale(0.95);
   background: rgba(255, 255, 255, 0.2);
 }
-.cardigan .tab.equipamentos .item-control[data-context-menu] i {
+.cardigan .tab.equipment .item-control[data-context-menu] i {
   font-size: 12px;
   pointer-events: none;
 }
-.cardigan .tab.equipamentos .items-list .item.collapsible {
+.cardigan .tab.equipment .items-list .item.collapsible {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
-.cardigan .tab.equipamentos .items-list .item.collapsible .item-row {
+.cardigan .tab.equipment .items-list .item.collapsible .item-row {
   display: flex;
   width: 100%;
   align-items: center;
 }
-.cardigan .tab.equipamentos .items-list .item.collapsible .item-row.flexrow {
+.cardigan .tab.equipment .items-list .item.collapsible .item-row.flexrow {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-.cardigan .tab.equipamentos .items-list .item.collapsible .item-description {
+.cardigan .tab.equipment .items-list .item.collapsible .item-description {
   width: 100%;
   display: block;
   transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
   overflow: hidden;
 }
-.cardigan .tab.equipamentos .items-list .item.collapsible .item-description .wrapper {
+.cardigan .tab.equipment .items-list .item.collapsible .item-description .wrapper {
   padding: 0;
   width: 100%;
 }
-.cardigan .tab.equipamentos .items-list .item.collapsible.collapsed .item-description {
+.cardigan .tab.equipment .items-list .item.collapsible.collapsed .item-description {
   max-height: 0;
   opacity: 0;
   padding: 0;
   margin: 0;
 }
-.cardigan .tab.equipamentos .items-list .item.collapsible.collapsed .item-description .wrapper {
+.cardigan .tab.equipment .items-list .item.collapsible.collapsed .item-description .wrapper {
   padding: 0;
 }
-.cardigan .tab.equipamentos .items-list .item.collapsible:not(.collapsed) .item-description {
+.cardigan .tab.equipment .items-list .item.collapsible:not(.collapsed) .item-description {
   max-height: 1000px;
   opacity: 1;
   padding: 0;
   margin: 0;
 }
-.cardigan .tab.equipamentos .items-list .item.collapsible:not(.collapsed) .item-description .wrapper {
+.cardigan .tab.equipment .items-list .item.collapsible:not(.collapsed) .item-description .wrapper {
   padding: 12px 8px;
   margin-top: 10px;
 }
-.cardigan .tab.equipamentos .weapon-summary {
+.cardigan .tab.equipment .weapon-summary {
   padding: 12px;
 }
-.cardigan .tab.equipamentos .weapon-summary .summary-content {
+.cardigan .tab.equipment .weapon-summary .summary-content {
   color: var(--cardigan-c-black);
   font-size: 13px;
   line-height: 1.4;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right {
+.cardigan .tab.equipment .weapon-summary .weapon-properties-top-right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   color: var(--cardigan-c-black);
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right i {
+.cardigan .tab.equipment .weapon-summary .weapon-properties-top-right i {
   color: var(--cardigan-c-beige);
   margin-right: 2px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right i.fa-fist-raised {
+.cardigan .tab.equipment .weapon-summary .weapon-properties-top-right i.fa-fist-raised {
   color: #ff6b6b;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right i.fa-bullseye {
+.cardigan .tab.equipment .weapon-summary .weapon-properties-top-right i.fa-bullseye {
   color: #4ecdc4;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right .separator {
+.cardigan .tab.equipment .weapon-summary .weapon-properties-top-right .separator {
   margin: 0 2px;
   color: var(--cardigan-c-black);
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right .property-separator {
+.cardigan .tab.equipment .weapon-summary .weapon-properties-top-right .property-separator {
   margin: 0 4px;
   color: var(--cardigan-c-black);
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-properties-top-right .weight-text {
+.cardigan .tab.equipment .weapon-summary .weapon-properties-top-right .weight-text {
   margin-left: 2px;
   color: var(--cardigan-c-black);
   font-size: 11px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 6px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-image-center {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-image-center {
   margin-bottom: 4px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-image-center img {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-image-center img {
   width: 48px;
   height: 48px;
   border-radius: 4px;
   border: 2px solid var(--cardigan-c-black);
   background: rgba(0, 0, 0, 0.3);
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-name-center h4 {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-name-center h4 {
   color: var(--cardigan-c-black);
   font-size: 16px;
   font-weight: bold;
   margin: 0;
   text-align: center;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-type-center em {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-type-center em {
   color: var(--cardigan-c-black);
   font-style: italic;
   font-size: 13px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-stats-row {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 16px;
   margin: 4px 0;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-damage,
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-protection,
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-ammunition {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-damage,
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-protection,
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-ammunition {
   display: flex;
   align-items: center;
   gap: 4px;
   color: var(--cardigan-c-black);
   font-size: 13px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-damage i,
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-protection i,
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-ammunition i {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-damage i,
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-protection i,
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-stats-row .weapon-ammunition i {
   color: var(--cardigan-c-black);
   width: 14px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-durability-center {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-durability-center {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1809,11 +1810,11 @@
   color: var(--cardigan-c-black);
   font-size: 13px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-durability-center i {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-durability-center i {
   color: var(--cardigan-c-black);
   width: 14px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-artifact-center {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-artifact-center {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1822,27 +1823,27 @@
   font-size: 13px;
   margin: 2px 0;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-artifact-center i {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-artifact-center i {
   color: #ffd700;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-artifact-center strong {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-artifact-center strong {
   color: #ffd700;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-properties-center {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-properties-center {
   text-align: center;
   color: var(--cardigan-c-black);
   font-size: 12px;
   margin: 2px 0;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-properties-center i {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-properties-center i {
   color: var(--cardigan-c-black);
   margin-right: 4px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-properties-center strong {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-properties-center strong {
   color: var(--cardigan-c-black);
   margin-right: 4px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-properties-center .property-tag {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-properties-center .property-tag {
   background: rgba(255, 255, 255, 0.1);
   padding: 2px 6px;
   border-radius: 3px;
@@ -1850,20 +1851,20 @@
   margin: 0 2px;
   font-size: 11px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-description-center {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-description-center {
   text-align: center;
   color: var(--cardigan-c-black);
   font-size: 12px;
   margin: 6px 0;
   line-height: 1.5;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-description-center p {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-description-center p {
   margin-bottom: 4px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-description-center p:last-child {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-description-center p:last-child {
   margin-bottom: 0;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-damage-formula-center {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-damage-formula-center {
   text-align: center;
   color: var(--cardigan-c-black);
   font-size: 11px;
@@ -1871,24 +1872,24 @@
   font-weight: bold;
   font-family: monospace;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-damage-formula-center .damage-formula-text {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-damage-formula-center .damage-formula-text {
   background: rgba(0, 0, 0, 0.2);
   padding: 2px 6px;
   border-radius: 3px;
   border: 1px solid rgba(201, 199, 184, 0.3);
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-properties-bonuses-center {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-properties-bonuses-center {
   text-align: center;
   margin: 8px 0;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-properties-bonuses-center .properties-title {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-properties-bonuses-center .properties-title {
   color: var(--cardigan-c-black);
   font-size: 12px;
   font-weight: bold;
   margin-bottom: 4px;
   letter-spacing: 0.5px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-vertical-layout .weapon-properties-bonuses-center .properties-bonuses {
+.cardigan .tab.equipment .weapon-summary .weapon-vertical-layout .weapon-properties-bonuses-center .properties-bonuses {
   color: var(--cardigan-c-black);
   font-size: 11px;
   font-weight: bold;
@@ -1899,27 +1900,27 @@
   border: 1px solid rgba(201, 199, 184, 0.2);
   display: inline-block;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-description {
+.cardigan .tab.equipment .weapon-summary .weapon-description {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 8px;
   margin-top: 8px;
   text-align: left;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-description .description-content {
+.cardigan .tab.equipment .weapon-summary .weapon-description .description-content {
   color: var(--cardigan-c-black);
   line-height: 1.5;
   font-size: 12px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-description .description-content p {
+.cardigan .tab.equipment .weapon-summary .weapon-description .description-content p {
   margin-bottom: 8px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-description .description-content p:last-child {
+.cardigan .tab.equipment .weapon-summary .weapon-description .description-content p:last-child {
   margin-bottom: 0;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-detailed-properties {
+.cardigan .tab.equipment .weapon-summary .weapon-detailed-properties {
   margin-top: 8px;
 }
-.cardigan .tab.equipamentos .weapon-summary .weapon-detailed-properties .property-detail-line {
+.cardigan .tab.equipment .weapon-summary .weapon-detailed-properties .property-detail-line {
   color: var(--cardigan-c-black);
   font-size: 18px;
   line-height: 1.5;
@@ -1928,120 +1929,120 @@
   padding: 2px 0;
   font-weight: normal;
 }
-.cardigan .tab.equipamentos .armor-summary {
+.cardigan .tab.equipment .armor-summary {
   margin: 8px 0;
   padding: 12px;
   position: relative;
 }
-.cardigan .tab.equipamentos .armor-summary .summary-content {
+.cardigan .tab.equipment .armor-summary .summary-content {
   color: var(--cardigan-c-black);
   font-size: 13px;
   line-height: 1.4;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-properties-top-right {
+.cardigan .tab.equipment .armor-summary .armor-properties-top-right {
   display: flex;
   justify-content: flex-end;
   color: var(--cardigan-c-black);
   font-size: 12px;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-properties-top-right i {
+.cardigan .tab.equipment .armor-summary .armor-properties-top-right i {
   color: var(--cardigan-c-black);
   margin-right: 2px;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-properties-top-right i.fa-backpack {
+.cardigan .tab.equipment .armor-summary .armor-properties-top-right i.fa-backpack {
   color: var(--cardigan-c-black);
   margin-left: 6px;
   margin-right: 3px;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-properties-top-right .weight-text {
+.cardigan .tab.equipment .armor-summary .armor-properties-top-right .weight-text {
   color: var(--cardigan-c-black);
   font-size: 11px;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
   padding-right: 20px;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-image-center {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-image-center {
   display: flex;
   justify-content: center;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-image-center img {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-image-center img {
   width: 48px;
   height: 48px;
   border-radius: 4px;
   border: 2px solid var(--cardigan-c-black);
   background: rgba(0, 0, 0, 0.3);
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-name-center {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-name-center {
   text-align: center;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-name-center h4 {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-name-center h4 {
   color: var(--cardigan-c-black);
   margin: 0;
   font-size: 16px;
   font-weight: bold;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-type-center {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-type-center {
   text-align: center;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-type-center em {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-type-center em {
   color: var(--cardigan-c-faint);
   font-style: italic;
   font-size: 13px;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-stats-row {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-stats-row {
   display: flex;
   justify-content: center;
   gap: 16px;
   margin: 4px 0;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-stats-row .armor-protection {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-stats-row .armor-protection {
   display: flex;
   align-items: center;
   gap: 4px;
   color: var(--cardigan-c-black);
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-stats-row .armor-protection i {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-stats-row .armor-protection i {
   color: var(--cardigan-c-black);
   width: 14px;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-durability-center {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-durability-center {
   display: flex;
   align-items: center;
   gap: 4px;
   color: var(--cardigan-c-black);
   justify-content: center;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-durability-center i {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-durability-center i {
   color: var(--cardigan-c-black);
   width: 14px;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-description-center {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-description-center {
   text-align: center;
   color: var(--cardigan-c-black);
   line-height: 1.5;
   margin: 8px 0;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-description-center p {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-description-center p {
   margin-bottom: 8px;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-description-center p:last-child {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-description-center p:last-child {
   margin-bottom: 0;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-properties-bonuses-center {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-properties-bonuses-center {
   text-align: center;
   margin: 8px 0;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-properties-bonuses-center .properties-title {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-properties-bonuses-center .properties-title {
   color: var(--cardigan-c-black);
   font-weight: bold;
   font-size: 12px;
   margin-bottom: 4px;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-properties-bonuses-center .properties-bonuses {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-properties-bonuses-center .properties-bonuses {
   color: var(--cardigan-c-black);
   font-size: 11px;
   font-weight: bold;
@@ -2052,17 +2053,17 @@
   border: 1px solid rgba(201, 199, 184, 0.2);
   display: inline-block;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-detailed-properties {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-detailed-properties {
   width: 100%;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-detailed-properties .property-detail-line {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-detailed-properties .property-detail-line {
   color: var(--cardigan-c-black);
   font-size: 12px;
   line-height: 1.4;
   margin-bottom: 4px;
   text-align: left;
 }
-.cardigan .tab.equipamentos .armor-summary .armor-vertical-layout .armor-detailed-properties .property-detail-line:last-child {
+.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-detailed-properties .property-detail-line:last-child {
   margin-bottom: 0;
 }
 .cardigan .recipe-summary {
@@ -3715,13 +3716,14 @@
   min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-radius: 50% !important;
-  border: 2px solid rgba(105, 76, 39, 0.6) !important;
+  border-radius: 4px !important;
+  border: 1.7px solid rgba(105, 76, 39, 0.86) !important;
   background: none !important;
   cursor: pointer;
   transition: all 0.15s ease;
   box-shadow: none !important;
   vertical-align: middle;
+  transform: rotate(45deg);
 }
 .cardigan .gift-field .sequential-group .sequential-option input[type=checkbox]::before {
   content: none !important;
@@ -3813,13 +3815,14 @@
   min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-radius: 50% !important;
-  border: 2px solid rgba(105, 76, 39, 0.6) !important;
+  border-radius: 4px !important;
+  border: 1.7px solid rgba(105, 76, 39, 0.86) !important;
   background: none !important;
   cursor: pointer;
   transition: all 0.15s ease;
   box-shadow: none !important;
   vertical-align: middle;
+  transform: rotate(45deg);
 }
 .cardigan .death-sentence-field .sequential-group .sequential-option input[type=checkbox]::before {
   content: none !important;
@@ -3950,13 +3953,14 @@
   min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-radius: 50% !important;
-  border: 2px solid rgba(105, 76, 39, 0.6) !important;
+  border-radius: 4px !important;
+  border: 1.7px solid rgba(105, 76, 39, 0.86) !important;
   background: none !important;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.15s ease;
   box-shadow: none !important;
   vertical-align: middle;
+  transform: rotate(45deg);
 }
 .cardigan .fracture-field .sequential-group .sequential-option input[type=checkbox]::before {
   content: none !important;
@@ -4047,13 +4051,14 @@
   min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-radius: 50% !important;
-  border: 2px solid rgba(105, 76, 39, 0.6) !important;
+  border-radius: 4px !important;
+  border: 1.7px solid rgba(105, 76, 39, 0.86) !important;
   background: none !important;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.15s ease;
   box-shadow: none !important;
   vertical-align: middle;
+  transform: rotate(45deg);
 }
 .cardigan .toxicity-field .sequential-group .sequential-option input[type=checkbox]::before {
   content: none !important;
@@ -4144,13 +4149,14 @@
   min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-radius: 50% !important;
-  border: 2px solid rgba(105, 76, 39, 0.6) !important;
+  border-radius: 4px !important;
+  border: 1.7px solid rgba(105, 76, 39, 0.86) !important;
   background: none !important;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.15s ease;
   box-shadow: none !important;
   vertical-align: middle;
+  transform: rotate(45deg);
 }
 .cardigan .sanity-field .sequential-group .sequential-option input[type=checkbox]::before {
   content: none !important;
@@ -4244,13 +4250,14 @@
   min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-radius: 50% !important;
-  border: 2px solid rgba(105, 76, 39, 0.6) !important;
+  border-radius: 4px !important;
+  border: 1.7px solid rgba(105, 76, 39, 0.86) !important;
   background: none !important;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: none !important;
   vertical-align: middle;
+  transform: rotate(45deg);
 }
 .cardigan .hunger-field .radio-group .radio-option input[type=checkbox]::before {
   content: none !important;
@@ -4337,13 +4344,14 @@
   min-height: 13px !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-radius: 50% !important;
-  border: 2px solid rgba(105, 76, 39, 0.6) !important;
+  border-radius: 4px !important;
+  border: 1.7px solid rgba(105, 76, 39, 0.86) !important;
   background: none !important;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: none !important;
   vertical-align: middle;
+  transform: rotate(45deg);
 }
 .cardigan .thirst-field .radio-group .radio-option input[type=checkbox]::before {
   content: none !important;
@@ -4382,8 +4390,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 5px;
-  margin-left: 37px;
+  margin-top: 3px;
+  margin-left: 14px;
 }
 .cardigan .rest-button-container .rest-btn {
   width: 25px;
@@ -4765,6 +4773,10 @@
   position: relative;
   width: 258px; /* Largura fixa - não muda com zoom */
   height: 67px;
+  /* Variável CSS para ajustar posição horizontal - ajustável pelo console */
+  --health-bar-offset-x: 0px;
+  transform: translateX(var(--health-bar-offset-x));
+  transition: transform 0.3s ease;
 }
 .cardigan {
   /* Native HTML5 Progress Element */
@@ -4772,7 +4784,7 @@
 .cardigan .health-progress-bar {
   position: absolute;
   top: -8px; /* Pixels fixos */
-  left: 118px; /* Pixels fixos */
+  left: 116px; /* Pixels fixos */
   bottom: 22px; /* Pixels fixos */
   width: 100px; /* Pixels fixos - 39% de 400px */
   height: 35px; /* Pixels fixos */
@@ -4834,7 +4846,7 @@
 .cardigan .frame-status {
   position: absolute;
   top: -22px; /* Ajuste vertical: valores negativos sobem, positivos descem */
-  left: 110px; /* Ajuste horizontal: valores negativos vão à esquerda, positivos à direita */
+  left: 108px; /* Ajuste horizontal: valores negativos vão à esquerda, positivos à direita */
   height: 72px; /* Altura fixa em pixels */
   object-fit: fill; /* Preenche as dimensões exatas sem manter aspect ratio */
   pointer-events: none;
@@ -4848,7 +4860,7 @@
   width: 12px; /* Fixo - escala com zoom do navegador */
   height: 12px; /* Fixo - escala com zoom do navegador */
   top: -17.5px; /* Fixo - escala com zoom do navegador */
-  left: 162.8px; /* Fixo - ajustado para centralizar no frame */
+  left: 160.8px; /* Fixo - ajustado para centralizar no frame */
   z-index: 15; /* Acima do frame-status (z-index 10) */
   pointer-events: auto;
 }
@@ -4858,7 +4870,7 @@
 .cardigan .health-bar-label {
   position: absolute;
   top: -6px; /* Pixels fixos */
-  left: 133px; /* Pixels fixos */
+  left: 131px; /* Pixels fixos */
   bottom: 42px; /* Pixels fixos */
   display: flex;
   align-items: center;
@@ -4965,8 +4977,8 @@
   display: flex;
   align-items: center;
   z-index: 5;
-  top: 32px; /* Pixels fixos */
-  left: 157px; /* Pixels fixos */
+  top: 34px; /* Pixels fixos */
+  left: 155px; /* Pixels fixos */
   transform: translateY(-50%);
 }
 .cardigan .health-bonus-field .health-bonus-square {
@@ -4975,7 +4987,7 @@
   height: 19px;
   background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
   clip-path: polygon(7% 0%, 93% 0%, 70% 100%, 30% 100%);
-  top: 8px; /* Pixels fixos */
+  top: 6px; /* Pixels fixos */
   left: -8px;
   transform: translateY(-50%);
   z-index: 5;
@@ -5234,7 +5246,7 @@
   display: flex;
   align-items: center;
   z-index: 5;
-  top: 32px; /* Pixels fixos */
+  top: 34px; /* Pixels fixos */
   left: 78px; /* Pixels fixos */
   transform: translateY(-50%);
 }
@@ -5244,7 +5256,7 @@
   height: 19px;
   background: linear-gradient(200deg, #00D0FF 16%, #1188CC 65%, #004C5D 84%, #001A20 98%);
   clip-path: polygon(7% 0%, 93% 0%, 70% 100%, 30% 100%);
-  top: 8px; /* Pixels fixos */
+  top: 6px; /* Pixels fixos */
   left: -8px;
   transform: translateY(-50%);
   z-index: 5;
