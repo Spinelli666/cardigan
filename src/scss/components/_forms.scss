@@ -135,11 +135,12 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    position: relative; // Permite posicionamento absoluto dos filhos
+    position: relative; 
+    z-index: 160;
 
     input[name='name'] {
       position: absolute;
-      top: 30px;
+      top: 28px;
       left: 257px;
       transform: translate(-50%, -50%);
       width: 95px;
@@ -149,6 +150,7 @@
       text-align: center;
       text-transform: uppercase;
       border: none;
+      outline: none;
       background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
       background-clip: text;
       -webkit-background-clip: text;
@@ -158,19 +160,26 @@
       z-index: 10;
 
       &:focus {
-        outline: none;
+        outline: none !important;
         border: none;
+        box-shadow: none;
         background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
       }
+
+      &:focus-visible {
+        outline: none !important;
+        border: none;
+        box-shadow: none;
+      }
     }
 
     .border-bottom-name {
       position: absolute;
-      top: 41px;
+      top: 39px;
       left: 257px;
       transform: translate(-50%, -50%);
       width: 120px;
@@ -181,7 +190,7 @@
 
     .race-drop-zone {
       position: absolute;
-      top: 54px;
+      top: 52px;
       left: 257px;
       transform: translate(-50%, -50%);
       width: 120px;

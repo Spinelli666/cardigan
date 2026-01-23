@@ -18,7 +18,7 @@
   height: 35px;    /* Pixels fixos */
   appearance: none;
   border: none;
-  background: linear-gradient(90deg, #0a0c2a, #0c103b); /* Background vazio */
+  background: linear-gradient(90deg, #0a0c2a, #0c103b);
   clip-path: polygon(
     2% 50%,
     26% 10%,
@@ -45,7 +45,8 @@
   }
 
   &::-webkit-progress-value {
-    background: linear-gradient(200deg, #00D0FF 16%, #1188CC 65%, #004C5D 84%, #001A20 98%);
+    background: linear-gradient(200deg, #00D0FF 28.75%, #18C 43.25%, #004C5D 65.32%, #001A20 80.61%);
+
     clip-path: polygon(
       2% 50%,
       26% 10%,
@@ -77,7 +78,7 @@
 
   /* Firefox */
   &::-moz-progress-bar {
-    background: linear-gradient(200deg, #00D0FF 16%, #1188CC 65%, #004C5D 84%, #001A20 98%);
+    background: linear-gradient(200deg, #00D0FF 28.75%, #18C 43.25%, #004C5D 65.32%, #001A20 80.61%);
     clip-path: polygon(
       2% 50%,
       26% 10%,
@@ -160,7 +161,7 @@
   width: 34px;
   padding: 0;
   pointer-events: auto;
-  text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.5);
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 1.5);
   margin-right: -3px;
   
   &:focus {
@@ -193,7 +194,7 @@
   padding: 0;
   cursor: default;
   pointer-events: none;
-  text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.5);
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 1.5);
   margin-left: -3px;
 
   &.four-digits {
@@ -229,7 +230,7 @@
   display: flex;
   align-items: center;
   z-index: 5;
-  top: 34px;       /* Pixels fixos */
+  top: 33px;       /* Pixels fixos */
   left: 78px;     /* Pixels fixos */
   transform: translateY(-50%);
 
@@ -237,9 +238,9 @@
     position: absolute;
     width: 40px;
     height: 19px;
-    background: linear-gradient(200deg, #00D0FF 16%, #1188CC 65%, #004C5D 84%, #001A20 98%);
+    background: linear-gradient(200deg, #00D0FF 28.75%, #18C 43.25%, #004C5D 65.32%, #001A20 80.61%);
     clip-path: polygon(7% 0%, 93% 0%, 70% 100%, 30% 100%);
-    top: 6px;       /* Pixels fixos */
+    top: 7px;       /* Pixels fixos */
     left: -8px;
     transform: translateY(-50%);
     z-index: 5;
@@ -264,7 +265,7 @@
     border-radius: 3px;
     position: relative;
     z-index: 10;
-    text-shadow: 0 0 3px rgba(0, 0, 0, 1.5);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 1.5);
 
     &:focus {
       background: transparent;

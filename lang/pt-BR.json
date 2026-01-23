@@ -69,7 +69,7 @@
     },
     "Ability": {
       "Accuracy": {
-        "long": "Accuracy",
+        "long": "PRE",
         "abbr": "acc"
       },
       "Evasion": {

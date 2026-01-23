@@ -1,0 +1,138 @@
+// Estilos específicos para Proficiencies (Accuracy e outros)
+
+.accuracy-proficiency {
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  // Campo de valor é clicável para rolar
+  .status-display {
+    position: relative;
+    width: 38px;
+    height: 45px;
+    
+    // Borda do hexágono com gradiente
+    &::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      width: calc(100% + 8px);
+      height: calc(100% + 8px);
+      background: linear-gradient(180deg, #FFB75C, #996E37);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      z-index: 0;
+    }
+
+    // Ícone d20 (invisível por padrão)
+    .d20-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      opacity: 0;
+      transition: opacity 300ms ease-in;
+      pointer-events: none;
+      z-index: 2;
+      
+      // Aplicar gradiente dourado ao SVG
+      filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+      
+      // Usar múltiplos filtros para criar o efeito de gradiente dourado
+      // Primeiro remove cores e depois aplica um tom dourado
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, #FFB75C, #694C27);
+        -webkit-mask: url('systems/cardigan/assets/images/decorative/icons/icon-d20.svg') center/contain no-repeat;
+        mask: url('systems/cardigan/assets/images/decorative/icons/icon-d20.svg') center/contain no-repeat;
+      }
+    }
+  }
+
+  .ability-value {
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 300ms ease-in;
+    text-align: center;
+    padding: 0 !important;
+    width: 38px !important;
+    height: 45px !important;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    border: none !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, #8C063E, #E17F00) !important;
+    font-size: 28px;
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+
+    // Remover outline quando focado
+    &:focus {
+      outline: none !important;
+      outline-offset: 0 !important;
+    }
+
+    &:hover:not(:focus) {
+      box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+      background: linear-gradient(180deg, #5a0427, #995000) !important; // Background mais escuro
+      color: transparent; // Esconde apenas o número
+      text-shadow: none;
+    }
+
+    &:active:not(:focus) {
+      transform: scale(0.98);
+    }
+  }
+
+  // Mostrar d20 no hover do container
+  .status-display:hover .d20-icon {
+    opacity: 1;
+  }
+
+  // Forçar estado normal quando em modo de edição (botão direito clicado)
+  .status-display.force-normal {
+    .d20-icon {
+      opacity: 0 !important; // Esconde o d20
+      transition: none !important; // Remove animação para transição instantânea
+    }
+    
+    .ability-value {
+      background: linear-gradient(180deg, #8C063E, #E17F00) !important; // Background normal
+      color: #FFFFFF !important; // Mostra o número
+      text-shadow: 0px 0px 3px rgba(0, 0, 0, 1) !important;
+      box-shadow: none !important;
+      transition: none !important; // Remove animação para transição instantânea
+    }
+    
+    // Desabilitar hover quando em modo de edição
+    &:hover .d20-icon {
+      opacity: 0 !important;
+    }
+    
+    .ability-value:hover:not(:focus) {
+      background: linear-gradient(180deg, #8C063E, #E17F00) !important;
+      color: #FFFFFF !important;
+      text-shadow: 0px 0px 3px rgba(0, 0, 0, 1) !important;
+      box-shadow: none !important;
+    }
+  }
+
+  // Label com gradiente
+  label {
+    background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  }
+}

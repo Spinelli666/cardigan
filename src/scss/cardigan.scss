@@ -46,7 +46,9 @@
   .tab {
     flex: 1;
     min-height: 0;
-    background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 31.35%, rgba(118, 212, 255, 0.19) 99.96%);
+    // background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 31.35%, rgba(118, 212, 255, 0.19) 99.96%);
+    background: linear-gradient(180deg, rgba(118, 212, 255, 0.19) 43.81%, rgba(9, 21, 29, 0.19) 99.96%);
+    font-family: 'Alatsi', sans-serif !important;
   }
 }
 
@@ -66,7 +68,7 @@
   @import 'components/resource';
   @import 'components/items';
   @import 'components/effects';
-  @import 'components/proficiencies-tab';
+  @import 'components/proficiencies/index';
   @import 'components/equipment';
   @import 'components/character-details';
   @import 'components/aside-left/xp-level';

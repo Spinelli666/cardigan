@@ -22,7 +22,8 @@
   height: 35px;    /* Pixels fixos */
   appearance: none;
   border: none;
-  background: linear-gradient(90deg, #2a0a0c, #3b0c10); /* Background vazio */
+  background: linear-gradient(90deg, #2a0a0c, #3b0c10);
+stroke: #FFB75C;
   clip-path: polygon(
     2% 50%,
     26% 10%,
@@ -49,7 +50,9 @@
   }
 
   &::-webkit-progress-value {
-    background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
+    background: linear-gradient(200deg, #FF001E 29.08%, #87000E 50.98%, #470006 69.06%, #2D0001 81.91%);;
+    stroke-width: 2px;
+    stroke: #FFB75C;
     /* Removido clip-path para manter lado direito reto quando não está cheio */
     transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
     will-change: width;
@@ -74,7 +77,7 @@
 
   /* Firefox */
   &::-moz-progress-bar {
-    background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
+    background: linear-gradient(200deg, #FF001E 29.08%, #87000E 50.98%, #470006 69.06%, #2D0001 81.91%);;
     clip-path: polygon(
       2% 50%,
       26% 10%,
@@ -158,7 +161,7 @@
   width: 34px;
   padding: 0;
   pointer-events: auto; /* Necessário porque o pai tem pointer-events: none */
-  text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.5);
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 1.5);
   margin-right: -3px;
   
   &:focus {
@@ -193,7 +196,7 @@
   padding: 0;
   cursor: default;
   pointer-events: none;
-  text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.5);
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 1.5);
   margin-left: -3px;
 
   &.four-digits {
@@ -231,7 +234,7 @@
   display: flex;
   align-items: center;
   z-index: 5;
-  top: 34px;       /* Pixels fixos */
+  top: 33px;       /* Pixels fixos */
   left: 155px;     /* Pixels fixos */
   transform: translateY(-50%);
 
@@ -239,9 +242,9 @@
     position: absolute;
     width: 40px;
     height: 19px;
-    background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
+    background: linear-gradient(200deg, #FF001E 29.08%, #87000E 50.98%, #470006 69.06%, #2D0001 81.91%);
     clip-path: polygon(7% 0%, 93% 0%, 70% 100%, 30% 100%);
-    top: 6px;       /* Pixels fixos */
+    top: 7px;       /* Pixels fixos */
     left: -8px;
     transform: translateY(-50%);
     z-index: 5;
@@ -266,7 +269,7 @@
     border-radius: 3px; // Voltando para px fixo
     position: relative;
     z-index: 10;
-    text-shadow: 0 0 3px rgba(0, 0, 0, 1.5); // Voltando para px fixo
+    text-shadow: 0 0 5px rgba(0, 0, 0, 1.5); // Voltando para px fixo
 
     &:focus {
       background: transparent;

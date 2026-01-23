@@ -417,7 +417,8 @@
 .cardigan.actor .tab {
   flex: 1;
   min-height: 0;
-  background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 31.35%, rgba(118, 212, 255, 0.19) 99.96%);
+  background: linear-gradient(180deg, rgba(118, 212, 255, 0.19) 43.81%, rgba(9, 21, 29, 0.19) 99.96%);
+  font-family: "Alatsi", sans-serif !important;
 }
 
 /* Styles limited to cardigan sheets */
@@ -540,10 +541,11 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  z-index: 160;
 }
 .cardigan .sheet-header .header-bottom-section input[name=name] {
   position: absolute;
-  top: 30px;
+  top: 28px;
   left: 257px;
   transform: translate(-50%, -50%);
   width: 95px;
@@ -553,6 +555,7 @@
   text-align: center;
   text-transform: uppercase;
   border: none;
+  outline: none;
   background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -562,17 +565,23 @@
   z-index: 10;
 }
 .cardigan .sheet-header .header-bottom-section input[name=name]:focus {
-  outline: none;
+  outline: none !important;
   border: none;
+  box-shadow: none;
   background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
 }
+.cardigan .sheet-header .header-bottom-section input[name=name]:focus-visible {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
 .cardigan .sheet-header .header-bottom-section .border-bottom-name {
   position: absolute;
-  top: 41px;
+  top: 39px;
   left: 257px;
   transform: translate(-50%, -50%);
   width: 120px;
@@ -582,7 +591,7 @@
 }
 .cardigan .sheet-header .header-bottom-section .race-drop-zone {
   position: absolute;
-  top: 54px;
+  top: 52px;
   left: 257px;
   transform: translate(-50%, -50%);
   width: 120px;
@@ -667,7 +676,7 @@
   border-bottom: none !important;
   font-family: "Alatsi", sans-serif !important;
   gap: 0 !important;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  background: linear-gradient(90deg, rgba(67, 170, 218, 0.19) 0%, rgba(255, 183, 92, 0.19) 50%, rgba(67, 170, 218, 0.19) 100%);
 }
 .cardigan .sheet-tabs a.item,
 .cardigan .sheet-tabs [data-tab],
@@ -677,16 +686,23 @@
   font-weight: 400;
   text-transform: uppercase;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  transform: translateX(var(--tabs-offset-x, -4.5px));
   background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.cardigan .sheet-tabs a.item:hover,
+.cardigan .sheet-tabs [data-tab]:hover,
+.cardigan .sheet-tabs .item[data-tab]:hover {
+  text-shadow: 0 0 12px rgba(255, 183, 92, 0.9), 0 0 20px rgba(255, 215, 130, 0.6), 0 4px 4px rgba(0, 0, 0, 0.3);
+}
 .cardigan .sheet-tabs a.item.active,
 .cardigan .sheet-tabs [data-tab].active,
 .cardigan .sheet-tabs .item[data-tab].active {
   position: relative;
-  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 0 4px rgba(255, 183, 92, 0.3), 0 0 8px rgba(255, 215, 130, 0.2), 0 4px 4px rgba(0, 0, 0, 0.4);
   background: linear-gradient(180deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -695,7 +711,7 @@
 .cardigan .sheet-tabs::before {
   content: "";
   position: absolute;
-  top: -1px;
+  top: 0px;
   left: -35px;
   right: -35px;
   width: calc(100% + 70px);
@@ -1120,26 +1136,6 @@
   min-width: 50px;
   text-align: left;
 }
-.cardigan {
-  /* Containers de Vida e Energia no Status */
-}
-.cardigan .vida-container,
-.cardigan .energia-container {
-  margin-bottom: 10px;
-}
-.cardigan {
-  /* proficiencies Tab Layout Styles */
-}
-.cardigan .horizontal-field {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.cardigan .label-left {
-  margin: 0;
-  min-width: 50px;
-  text-align: left;
-}
 .cardigan .proficiencies-tab-main {
   padding: 10px;
 }
@@ -1160,11 +1156,6 @@
   gap: 20px;
   margin-bottom: 20px;
 }
-.cardigan .proficiencies-tertiary-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-}
 .cardigan .proficiencies-quaternary-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1178,65 +1169,113 @@
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
 }
-.cardigan {
-  /* Additional Notes Section Styles */
-}
-.cardigan .additional-notes-container h3 {
-  margin: 0 0 10px 0;
-  font-size: 16px;
-  font-weight: bold;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 5px;
-}
-.cardigan .additional-notes-header {
-  display: flex;
-  justify-content: space-between;
+.cardigan .accuracy-proficiency {
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 10px;
+  gap: 8px;
 }
-.cardigan .additional-notes-header h3 {
-  margin: 0;
-  border-bottom: none;
-  padding-bottom: 0;
+.cardigan .accuracy-proficiency .status-display {
+  position: relative;
+  width: 38px;
+  height: 45px;
 }
-.cardigan .additional-notes-toggle label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  cursor: pointer;
+.cardigan .accuracy-proficiency .status-display::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  background: linear-gradient(180deg, #FFB75C, #996E37);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  z-index: 0;
 }
-.cardigan .additional-notes-toggle label input[type=checkbox] {
-  margin: 0;
+.cardigan .accuracy-proficiency .status-display .d20-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+  pointer-events: none;
+  z-index: 2;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
 }
-.cardigan .additional-notes-editor textarea {
+.cardigan .accuracy-proficiency .status-display .d20-icon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  min-height: 120px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-family: inherit;
-  font-size: 13px;
-  resize: vertical;
-  box-sizing: border-box;
+  height: 100%;
+  background: linear-gradient(180deg, #FFB75C, #694C27);
+  -webkit-mask: url("systems/cardigan/assets/images/decorative/icons/icon-d20.svg") center/contain no-repeat;
+  mask: url("systems/cardigan/assets/images/decorative/icons/icon-d20.svg") center/contain no-repeat;
 }
-.cardigan .additional-notes-editor .editor-content {
-  min-height: 100px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.cardigan .accuracy-proficiency .ability-value {
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 300ms ease-in;
+  text-align: center;
+  padding: 0 !important;
+  width: 38px !important;
+  height: 45px !important;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  border: none !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, #8C063E, #E17F00) !important;
+  font-size: 28px;
+  text-shadow: 0px 0px 3px rgb(0, 0, 0);
 }
-.cardigan .additional-notes-editor prose-mirror {
-  min-height: 190px;
+.cardigan .accuracy-proficiency .ability-value:focus {
+  outline: none !important;
+  outline-offset: 0 !important;
 }
-.cardigan .additional-notes-editor prose-mirror .editor {
-  min-height: 190px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 8px;
+.cardigan .accuracy-proficiency .ability-value:hover:not(:focus) {
+  box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+  background: linear-gradient(180deg, #5a0427, #995000) !important;
+  color: transparent;
+  text-shadow: none;
 }
-.cardigan {
-  /* Effects Container in proficiencies Tab */
+.cardigan .accuracy-proficiency .ability-value:active:not(:focus) {
+  transform: scale(0.98);
+}
+.cardigan .accuracy-proficiency .status-display:hover .d20-icon {
+  opacity: 1;
+}
+.cardigan .accuracy-proficiency .status-display.force-normal .d20-icon {
+  opacity: 0 !important;
+  transition: none !important;
+}
+.cardigan .accuracy-proficiency .status-display.force-normal .ability-value {
+  background: linear-gradient(180deg, #8C063E, #E17F00) !important;
+  color: #FFFFFF !important;
+  text-shadow: 0px 0px 3px rgb(0, 0, 0) !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+.cardigan .accuracy-proficiency .status-display.force-normal:hover .d20-icon {
+  opacity: 0 !important;
+}
+.cardigan .accuracy-proficiency .status-display.force-normal .ability-value:hover:not(:focus) {
+  background: linear-gradient(180deg, #8C063E, #E17F00) !important;
+  color: #FFFFFF !important;
+  text-shadow: 0px 0px 3px rgb(0, 0, 0) !important;
+  box-shadow: none !important;
+}
+.cardigan .accuracy-proficiency label {
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
 }
 .cardigan .effects-container h3 {
   margin: 0 0 10px 0;
@@ -3685,7 +3724,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-left: 5.5px;
+  margin-left: 4px;
 }
 .cardigan .gift-field .gift-icon {
   width: 15px;
@@ -3698,7 +3737,7 @@
   display: flex;
   gap: 3px;
   align-items: center;
-  margin-left: 0.5px;
+  margin-left: 2px;
 }
 .cardigan .gift-field .sequential-group .sequential-option {
   display: flex;
@@ -3784,7 +3823,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-left: 5.5px;
+  margin-left: 4px;
 }
 .cardigan .death-sentence-field .death-sentence-icon {
   width: 15px;
@@ -3797,7 +3836,7 @@
   display: flex;
   gap: 3px;
   align-items: center;
-  margin-left: 0.5px;
+  margin-left: 2px;
 }
 .cardigan .death-sentence-field .sequential-group .sequential-option {
   display: flex;
@@ -3928,7 +3967,7 @@
 .cardigan .fracture-field .fracture-icon {
   width: 21px;
   height: 16px;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.6));
 }
 .cardigan .fracture-field .sequential-group {
@@ -4022,6 +4061,7 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-left: 1px;
+  margin-top: 1px;
 }
 .cardigan .toxicity-field .toxicity-icon {
   width: 19px;
@@ -4120,6 +4160,7 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-left: 1.8px;
+  margin-top: 1px;
 }
 .cardigan .sanity-field .sanity-icon {
   width: 18px;
@@ -4196,7 +4237,7 @@
   flex-direction: column;
   gap: 5.5px;
   padding-bottom: 3px;
-  margin: 6.5px 7px 0px 0px;
+  margin: 8.5px 5px 0px 0px;
 }
 .cardigan .hunger-field {
   position: relative;
@@ -4221,7 +4262,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-left: 0px;
+  margin-left: 1px;
 }
 .cardigan .hunger-field .hunger-icon {
   width: 16px;
@@ -4232,7 +4273,7 @@
   display: flex;
   gap: 3px;
   align-items: center;
-  margin-left: 37px;
+  margin-left: 41px;
 }
 .cardigan .hunger-field .radio-group .radio-option {
   display: flex;
@@ -4315,7 +4356,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-left: 0px;
+  margin-left: 1px;
 }
 .cardigan .thirst-field .thirst-icon {
   width: 16px;
@@ -4326,7 +4367,7 @@
   display: flex;
   gap: 3px;
   align-items: center;
-  margin-left: 37px;
+  margin-left: 41px;
 }
 .cardigan .thirst-field .radio-group .radio-option {
   display: flex;
@@ -4391,7 +4432,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 3px;
-  margin-left: 14px;
+  margin-left: 18px;
 }
 .cardigan .rest-button-container .rest-btn {
   width: 25px;
@@ -4455,7 +4496,7 @@
   height: 11px;
   min-height: 0;
   padding: 0;
-  padding-top: 3px;
+  padding-top: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4790,7 +4831,8 @@
   height: 35px; /* Pixels fixos */
   appearance: none;
   border: none;
-  background: linear-gradient(90deg, #2a0a0c, #3b0c10); /* Background vazio */
+  background: linear-gradient(90deg, #2a0a0c, #3b0c10);
+  stroke: #FFB75C;
   clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
   z-index: 2;
   transition: opacity 520ms ease; /* Transição suave */
@@ -4802,7 +4844,9 @@
   clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
 }
 .cardigan .health-progress-bar::-webkit-progress-value {
-  background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
+  background: linear-gradient(200deg, #FF001E 29.08%, #87000E 50.98%, #470006 69.06%, #2D0001 81.91%);
+  stroke-width: 2px;
+  stroke: #FFB75C;
   /* Removido clip-path para manter lado direito reto quando não está cheio */
   transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: width;
@@ -4822,7 +4866,7 @@
   /* Firefox */
 }
 .cardigan .health-progress-bar::-moz-progress-bar {
-  background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
+  background: linear-gradient(200deg, #FF001E 29.08%, #87000E 50.98%, #470006 69.06%, #2D0001 81.91%);
   clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
   transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: width;
@@ -4903,7 +4947,7 @@
   width: 34px;
   padding: 0;
   pointer-events: auto; /* Necessário porque o pai tem pointer-events: none */
-  text-shadow: 0px 0px 3px rgb(0, 0, 0);
+  text-shadow: 0px 0px 5px rgb(0, 0, 0);
   margin-right: -3px;
 }
 .cardigan .health-current:focus {
@@ -4938,7 +4982,7 @@
   padding: 0;
   cursor: default;
   pointer-events: none;
-  text-shadow: 0px 0px 3px rgb(0, 0, 0);
+  text-shadow: 0px 0px 5px rgb(0, 0, 0);
   margin-left: -3px;
 }
 .cardigan .health-max.four-digits {
@@ -4977,7 +5021,7 @@
   display: flex;
   align-items: center;
   z-index: 5;
-  top: 34px; /* Pixels fixos */
+  top: 33px; /* Pixels fixos */
   left: 155px; /* Pixels fixos */
   transform: translateY(-50%);
 }
@@ -4985,9 +5029,9 @@
   position: absolute;
   width: 40px;
   height: 19px;
-  background: linear-gradient(200deg, #FF001E 16%, #87000E 65%, #470006 84%, #1B0000 98%);
+  background: linear-gradient(200deg, #FF001E 29.08%, #87000E 50.98%, #470006 69.06%, #2D0001 81.91%);
   clip-path: polygon(7% 0%, 93% 0%, 70% 100%, 30% 100%);
-  top: 6px; /* Pixels fixos */
+  top: 7px; /* Pixels fixos */
   left: -8px;
   transform: translateY(-50%);
   z-index: 5;
@@ -5010,7 +5054,7 @@
   border-radius: 3px;
   position: relative;
   z-index: 10;
-  text-shadow: 0 0 3px rgb(0, 0, 0);
+  text-shadow: 0 0 5px rgb(0, 0, 0);
 }
 .cardigan .health-bonus-field .health-bonus-input:focus {
   background: transparent;
@@ -5072,7 +5116,7 @@
   height: 35px; /* Pixels fixos */
   appearance: none;
   border: none;
-  background: linear-gradient(90deg, #0a0c2a, #0c103b); /* Background vazio */
+  background: linear-gradient(90deg, #0a0c2a, #0c103b);
   clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
   z-index: 2;
   transition: opacity 520ms ease;
@@ -5084,7 +5128,7 @@
   clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
 }
 .cardigan .energy-progress-bar::-webkit-progress-value {
-  background: linear-gradient(200deg, #00D0FF 16%, #1188CC 65%, #004C5D 84%, #001A20 98%);
+  background: linear-gradient(200deg, #00D0FF 28.75%, #18C 43.25%, #004C5D 65.32%, #001A20 80.61%);
   clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
   transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: width;
@@ -5104,7 +5148,7 @@
   /* Firefox */
 }
 .cardigan .energy-progress-bar::-moz-progress-bar {
-  background: linear-gradient(200deg, #00D0FF 16%, #1188CC 65%, #004C5D 84%, #001A20 98%);
+  background: linear-gradient(200deg, #00D0FF 28.75%, #18C 43.25%, #004C5D 65.32%, #001A20 80.61%);
   clip-path: polygon(2% 50%, 26% 10%, 78% 10%, 100% 50%, 78% 90%, 26% 90%);
   transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: width;
@@ -5184,7 +5228,7 @@
   width: 34px;
   padding: 0;
   pointer-events: auto;
-  text-shadow: 0px 0px 3px rgb(0, 0, 0);
+  text-shadow: 0px 0px 5px rgb(0, 0, 0);
   margin-right: -3px;
 }
 .cardigan .energy-current:focus {
@@ -5213,7 +5257,7 @@
   padding: 0;
   cursor: default;
   pointer-events: none;
-  text-shadow: 0px 0px 3px rgb(0, 0, 0);
+  text-shadow: 0px 0px 5px rgb(0, 0, 0);
   margin-left: -3px;
 }
 .cardigan .energy-max.four-digits {
@@ -5246,7 +5290,7 @@
   display: flex;
   align-items: center;
   z-index: 5;
-  top: 34px; /* Pixels fixos */
+  top: 33px; /* Pixels fixos */
   left: 78px; /* Pixels fixos */
   transform: translateY(-50%);
 }
@@ -5254,9 +5298,9 @@
   position: absolute;
   width: 40px;
   height: 19px;
-  background: linear-gradient(200deg, #00D0FF 16%, #1188CC 65%, #004C5D 84%, #001A20 98%);
+  background: linear-gradient(200deg, #00D0FF 28.75%, #18C 43.25%, #004C5D 65.32%, #001A20 80.61%);
   clip-path: polygon(7% 0%, 93% 0%, 70% 100%, 30% 100%);
-  top: 6px; /* Pixels fixos */
+  top: 7px; /* Pixels fixos */
   left: -8px;
   transform: translateY(-50%);
   z-index: 5;
@@ -5279,7 +5323,7 @@
   border-radius: 3px;
   position: relative;
   z-index: 10;
-  text-shadow: 0 0 3px rgb(0, 0, 0);
+  text-shadow: 0 0 5px rgb(0, 0, 0);
 }
 .cardigan .energy-bonus-field .energy-bonus-input:focus {
   background: transparent;
