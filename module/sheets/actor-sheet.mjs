@@ -6987,40 +6987,58 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   #addTooltipPinListener() {
-    const wrappers = this.element.querySelectorAll('.proficiency-label-wrapper');
+    const labels = this.element.querySelectorAll('.proficiency-clickable-label');
     
-    wrappers.forEach(wrapper => {
-      const label = wrapper.querySelector('label');
-      if (!label) return;
-      
-      // Clique na label para fixar/desafixar tooltip
+    labels.forEach(label => {
+      // Click para fixar tooltip expandido
       label.addEventListener('click', (event) => {
+        event.preventDefault();
         event.stopPropagation();
         
-        // Toggle da classe 'pinned'
-        const isPinned = wrapper.classList.contains('pinned');
+        // Pegar o título e descrição do tooltip
+        const tooltipTitle = label.dataset.tooltipTitle;
+        const tooltipDescription = label.dataset.tooltipDescription;
         
-        // Remover 'pinned' de todos os outros tooltips
-        this.element.querySelectorAll('.proficiency-label-wrapper.pinned').forEach(other => {
-          if (other !== wrapper) {
-            other.classList.remove('pinned');
-          }
+        if (!tooltipTitle || !tooltipDescription) {
+          console.warn('[CARDIGAN] No tooltip title or description found for label');
+          return;
+        }
+        
+        // Criar elemento DOM para o tooltip expandido
+        const contentElement = document.createElement('div');
+        contentElement.className = 'proficiency-tooltip-content';
+        
+        const titleElement = document.createElement('h3');
+        titleElement.textContent = tooltipTitle;
+        
+        const descElement = document.createElement('p');
+        descElement.textContent = tooltipDescription;
+        
+        contentElement.appendChild(titleElement);
+        contentElement.appendChild(descElement);
+        
+        // Se já existe um tooltip locked, fechar todos
+        game.tooltip.dismissLockedTooltips();
+        
+        // Ativar e fixar (lock) o tooltip expandido com elemento DOM
+        game.tooltip.activate(label, {
+          html: contentElement,
+          direction: label.dataset.tooltipDirection || 'DOWN',
+          cssClass: label.dataset.tooltipClass || '',
+          locked: true
         });
         
-        // Toggle no wrapper atual
-        wrapper.classList.toggle('pinned');
-        
-        console.log(`[CARDIGAN] Tooltip ${isPinned ? 'unpinned' : 'pinned'}`);
+        console.log('[CARDIGAN] Expanded tooltip locked');
       });
     });
     
-    // Clique fora fecha todos os tooltips fixados
+    // Adicionar listener global para fechar tooltip ao clicar fora
     document.addEventListener('click', (event) => {
-      const clickedInsideTooltip = event.target.closest('.proficiency-label-wrapper');
-      if (!clickedInsideTooltip) {
-        this.element.querySelectorAll('.proficiency-label-wrapper.pinned').forEach(wrapper => {
-          wrapper.classList.remove('pinned');
-        });
+      // Se clicar fora de qualquer tooltip ou label de proficiência
+      if (!event.target.closest('.proficiency-clickable-label') && 
+          !event.target.closest('#tooltip') &&
+          !event.target.closest('.locked-tooltip')) {
+        game.tooltip.dismissLockedTooltips();
       }
     });
     
