@@ -348,6 +348,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listener para clique no campo de Accuracy (roll com botão esquerdo)
     this.#addAccuracyRollListener();
     
+    // Adicionar event listener para tooltip fixável
+    this.#addTooltipPinListener();
+    
     // Adicionar event listeners para campo dinâmico de critical hit
     this.#addCriticalHitListeners();
     
@@ -6890,7 +6893,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   #addAccuracyRollListener() {
-    const accuracyField = this.element.querySelector('.accuracy-proficiency .ability-value[data-ability="accuracy"]');
+    const accuracyField = this.element.querySelector('.proficiency-item .ability-value[data-ability="accuracy"]');
     
     if (!accuracyField) {
       console.warn('[CARDIGAN] Accuracy field not found for roll listener');
@@ -6972,6 +6975,51 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     accuracyField.style.cursor = 'pointer';
     
     console.log('[CARDIGAN] Accuracy roll listener added');
+  }
+
+  /**
+   * Adicionar event listener para fixar/desafixar tooltips ao clicar
+   * @private
+   */
+  #addTooltipPinListener() {
+    const wrappers = this.element.querySelectorAll('.proficiency-label-wrapper');
+    
+    wrappers.forEach(wrapper => {
+      const label = wrapper.querySelector('label');
+      if (!label) return;
+      
+      // Clique na label para fixar/desafixar tooltip
+      label.addEventListener('click', (event) => {
+        event.stopPropagation();
+        
+        // Toggle da classe 'pinned'
+        const isPinned = wrapper.classList.contains('pinned');
+        
+        // Remover 'pinned' de todos os outros tooltips
+        this.element.querySelectorAll('.proficiency-label-wrapper.pinned').forEach(other => {
+          if (other !== wrapper) {
+            other.classList.remove('pinned');
+          }
+        });
+        
+        // Toggle no wrapper atual
+        wrapper.classList.toggle('pinned');
+        
+        console.log(`[CARDIGAN] Tooltip ${isPinned ? 'unpinned' : 'pinned'}`);
+      });
+    });
+    
+    // Clique fora fecha todos os tooltips fixados
+    document.addEventListener('click', (event) => {
+      const clickedInsideTooltip = event.target.closest('.proficiency-label-wrapper');
+      if (!clickedInsideTooltip) {
+        this.element.querySelectorAll('.proficiency-label-wrapper.pinned').forEach(wrapper => {
+          wrapper.classList.remove('pinned');
+        });
+      }
+    });
+    
+    console.log('[CARDIGAN] Tooltip pin listener added');
   }
 
   /**

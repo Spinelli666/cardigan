@@ -1,28 +1,204 @@
-// Estilos específicos para Proficiencies (Accuracy e outros)
+// Proficiency List - Estilos para lista de perícias
+// Este arquivo contém estilos reutilizáveis para todas as perícias
 
-.accuracy-proficiency {
+// Animação de pulsação para o d20
+@keyframes pulse-d20 {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+.proficiencies-list {
+  display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
 
-  // Campo de valor é clicável para rolar
-  .status-display {
+  .proficiency-label-wrapper {
     position: relative;
+    margin-top: 2px;
+
+    label {
+      text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+      background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    // Tooltip customizado
+    .proficiency-tooltip {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      color: #FFB75C;
+      padding: 8px 12px;
+      border: 3px solid #b07b36 !important;
+      border-radius: 14px;
+      font-size: 11px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 10000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      font-weight: 500;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+      
+      // Borda com gradiente + background
+      background: linear-gradient(180deg, rgba(71, 155, 181, 0.60) 8.69%, rgba(35, 85, 102, 0.60) 51.12%, rgba(25, 53, 66, 0.60) 86.06%);
+
+      // Palavra destacada com gradiente
+      .tooltip-highlight {
+        background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: inline-block;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
+        text-shadow: none;
+      }
+
+      // Preview (mostrado no hover)
+      .tooltip-preview {
+        display: block;
+      }
+
+      // Expanded (mostrado quando fixado)
+      .tooltip-expanded {
+        display: none;
+      }
+
+      // Divider left image
+      .divider-left {
+        position: absolute;
+        left: -5px;
+        top: -5px;
+        bottom: 0;
+        height: 35%;
+        width: auto;
+        border-radius: 6px 0 0 6px;
+        pointer-events: none;
+        transform: rotate(224deg);
+        opacity: 0.8;
+      }
+
+      .divider-right {
+        position: absolute;
+        right: -5px;
+        top: -5px;
+        bottom: 0;
+        height: 35%;
+        width: auto;
+        border-radius: 0 6px 6px 0;
+        pointer-events: none;
+        transform: rotate(135deg) scaleX(-1);
+        opacity: 0.8;
+      }
+
+      .tooltip-title {
+        margin-bottom: 8px;
+        text-align: center;
+      }
+    }
+
+    // Mostrar tooltip no hover
+    &:hover .proficiency-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(4px);
+    }
+
+    // Tooltip fixado (ao clicar)
+    &.pinned .proficiency-tooltip {
+      opacity: 1 !important;
+      transform: translateX(-50%) translateY(4px) !important;
+      pointer-events: auto;
+      white-space: normal;
+      padding: 0px;
+      width: 250px;
+      min-height: 150px;
+
+      .tooltip-preview {
+        display: none;
+      }
+
+      .tooltip-expanded {
+        display: block;
+      }
+
+      .tooltip-highlight {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+.proficiency-item {
+  width: 50px;
+  height: 82px;
+  background-image: url('../assets/images/decorative/background-proficiencies.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.6));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  // Campo de bônus
+  .bonus-container {
+    position: absolute;
+    top: 9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .bonus-input {
+    width: 20px !important;
+    height: 15px !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    border: none !important;
+    background: transparent !important;
+    color: #FFFFFF !important;
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+    outline: none !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none !important;
+      background: transparent !important;
+    }
+
+    &:hover {
+      box-shadow: 0 0 3px rgba(255, 215, 0, 0.2);
+    }
+  }
+
+  // Campo de valor base com d20 hover
+  .status-display {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 38px;
     height: 45px;
-    
-    // Borda do hexágono com gradiente
-    &::before {
-      content: '';
-      position: absolute;
-      top: -4px;
-      left: -4px;
-      width: calc(100% + 8px);
-      height: calc(100% + 8px);
-      background: linear-gradient(180deg, #FFB75C, #996E37);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      z-index: 0;
-    }
+    z-index: 1;
 
     // Ícone d20 (invisível por padrão)
     .d20-icon {
@@ -32,17 +208,12 @@
       transform: translate(-50%, -50%);
       width: 32px;
       height: 32px;
-      object-fit: contain;
       opacity: 0;
       transition: opacity 300ms ease-in;
       pointer-events: none;
       z-index: 2;
+      animation: pulse-d20 1.5s ease-in-out infinite;
       
-      // Aplicar gradiente dourado ao SVG
-      filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
-      
-      // Usar múltiplos filtros para criar o efeito de gradiente dourado
-      // Primeiro remove cores e depois aplica um tom dourado
       &::before {
         content: '';
         position: absolute;
@@ -51,8 +222,8 @@
         width: 100%;
         height: 100%;
         background: linear-gradient(180deg, #FFB75C, #694C27);
-        -webkit-mask: url('systems/cardigan/assets/images/decorative/icons/icon-d20.svg') center/contain no-repeat;
-        mask: url('systems/cardigan/assets/images/decorative/icons/icon-d20.svg') center/contain no-repeat;
+        -webkit-mask: url('../../assets/images/decorative/icons/icon-d20.svg') center/contain no-repeat;
+        mask: url('../../assets/images/decorative/icons/icon-d20.svg') center/contain no-repeat;
       }
     }
   }
@@ -71,11 +242,10 @@
     top: 0;
     left: 0;
     z-index: 1;
-    background: linear-gradient(180deg, #8C063E, #E17F00) !important;
+    background: transparent !important;
     font-size: 28px;
     text-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
 
-    // Remover outline quando focado
     &:focus {
       outline: none !important;
       outline-offset: 0 !important;
@@ -83,8 +253,8 @@
 
     &:hover:not(:focus) {
       box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
-      background: linear-gradient(180deg, #5a0427, #995000) !important; // Background mais escuro
-      color: transparent; // Esconde apenas o número
+      background: linear-gradient(180deg, #5a0427, #995000) !important;
+      color: transparent;
       text-shadow: none;
     }
 
@@ -93,46 +263,34 @@
     }
   }
 
-  // Mostrar d20 no hover do container
+  // Mostrar d20 no hover
   .status-display:hover .d20-icon {
     opacity: 1;
   }
 
-  // Forçar estado normal quando em modo de edição (botão direito clicado)
+  // Modo de edição (botão direito)
   .status-display.force-normal {
     .d20-icon {
-      opacity: 0 !important; // Esconde o d20
-      transition: none !important; // Remove animação para transição instantânea
+      opacity: 0 !important;
+      transition: none !important;
     }
     
     .ability-value {
-      background: linear-gradient(180deg, #8C063E, #E17F00) !important; // Background normal
-      color: #FFFFFF !important; // Mostra o número
+      color: #FFFFFF !important;
       text-shadow: 0px 0px 3px rgba(0, 0, 0, 1) !important;
       box-shadow: none !important;
-      transition: none !important; // Remove animação para transição instantânea
+      transition: none !important;
     }
     
-    // Desabilitar hover quando em modo de edição
     &:hover .d20-icon {
       opacity: 0 !important;
     }
     
     .ability-value:hover:not(:focus) {
-      background: linear-gradient(180deg, #8C063E, #E17F00) !important;
       color: #FFFFFF !important;
       text-shadow: 0px 0px 3px rgba(0, 0, 0, 1) !important;
       box-shadow: none !important;
     }
   }
-
-  // Label com gradiente
-  label {
-    background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-align: center;
-    text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
-  }
 }
+

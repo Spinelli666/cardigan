@@ -4,13 +4,13 @@
 
 .application.cardigan.actor,
 .cardigan.actor.sheet {
+  border: 5px solid #b07b36 !important;
+  border-radius: 14px;
   background: transparent !important;
-  border: 5px solid transparent;
-  border-image: linear-gradient(180deg, #C0863B 38%, #7E5827 100%) 1;
   
-  // Habilitar container queries para detectar resize
-  container-type: size;
-  container-name: actor-sheet;
+  // REMOVIDO: container-type cria novo stacking context que isola z-index do tooltip
+  // container-type: size;
+  // container-name: actor-sheet;
 
   // Moldura decorativa - fora do window-content, acima de tudo
   .moldura-esquerda-overlay {
@@ -68,8 +68,7 @@
   // Mostrar o window-header completo quando minimizado
   &.minimized {
     background: rgba(14, 41, 56, 0.9) !important;
-    border: 3px solid transparent;
-    border-image: linear-gradient(180deg, #C0863B 38%, #7E5827 100%) 1;
+    border: 5px solid #b07b36 !important;
     transition: all 0.2s ease;
     
     .window-header {

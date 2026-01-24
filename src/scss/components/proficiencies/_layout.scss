@@ -14,6 +14,36 @@
 
 .proficiencies-tab-main {
   padding: 10px;
+  position: relative;
+}
+
+.proficiencies-background-image {
+  position: absolute;
+  width: 50px !important;
+  height: 82px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none; // Não interfere com cliques nos elementos
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.6)); // Sombra embaixo da imagem
+}
+
+// Garantir que a imagem dentro do proficiency-field mantenha 50px
+.proficiency-field .proficiencies-background-image {
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+}
+
+.combat-proficiencies-container {
+  display: flex;
+  justify-content: center;
+}
+
+.attribute-proficiencies-container {
+  display: flex;
+  justify-content: center;
 }
 
 .proficiencies-main-grid {

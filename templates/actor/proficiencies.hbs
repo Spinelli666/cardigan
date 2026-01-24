@@ -5,40 +5,53 @@
   data-tab='proficiencies'
 >
   <section class='main proficiencies-tab-main'>
-
     {{! Proficiencies }}
     <div class='proficiencies'>
-      {{! proficiencies Container - Largura completa }}
-      <div class='proficiencies-container'>
-        {{! Accuracy Field }}
-        <div class='ability-row horizontal-field accuracy-proficiency'>
-          <div class='bonus-container'>
-            <input
-              type='number'
-              name='system.abilities.accuracy.totalBonus'
-              value='{{system.abilities.accuracy.totalBonus}}'
-              data-dtype='Number'
-              class='bonus-input dynamic-field'
-              data-ability='accuracy'
-              data-field='totalBonus'
-              title='Total Bonus (Focus: manual | Blur: calculated + manual)'
-            />
+      {{! Combat Proficiencies - Accuracy & Evasion }}
+      <div class='combat-proficiencies-container'>
+        <div class='proficiencies-list'>
+          <div class='proficiency-item'>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.abilities.accuracy.totalBonus'
+                value='{{system.abilities.accuracy.totalBonus}}'
+                data-dtype='Number'
+                class='bonus-input dynamic-field'
+                data-ability='accuracy'
+                data-field='totalBonus'
+              />
+            </div>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.abilities.accuracy.value'
+                value='{{system.abilities.accuracy.value}}'
+                data-dtype='Number'
+                class='ability-value dynamic-field'
+                data-ability='accuracy'
+                data-field='value'
+              />
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' class='d20-icon' alt='d20' />
+            </div>
           </div>
-          <div class='status-display'>
-            <input
-              type='number'
-              name='system.abilities.accuracy.value'
-              value='{{system.abilities.accuracy.value}}'
-              data-dtype='Number'
-              class='ability-value dynamic-field'
-              data-ability='accuracy'
-              data-field='value'
-              title='Rolar | Editar'
-            />
-            <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' class='d20-icon' alt='d20' />
+          <div class='proficiency-label-wrapper'>
+            <label>{{localize "CARDIGAN.Ability.Accuracy.long"}}</label>
+            <div class='proficiency-tooltip'>
+              <div class='tooltip-preview'><span class='tooltip-highlight'>PRECISÃO</span></div>
+              <div class='tooltip-expanded'>
+                <img src='systems/cardigan/assets/images/decorative/divider.webp' class='divider-left' alt='' />
+                <img src='systems/cardigan/assets/images/decorative/divider.webp' class='divider-right' alt='' />
+                <div class='tooltip-title'><span class='tooltip-highlight'>PRECISÃO</span></div>
+              </div>
+            </div>
           </div>
-          <label data-tooltip="Precisão">{{localize "CARDIGAN.Ability.Accuracy.long"}}</label>
         </div>
+      </div>
+
+      {{! Attribute Proficiencies - Strength, Dexterity, Stamina, etc }}
+      <div class='attribute-proficiencies-container'>
+        {{! Future attribute proficiencies will go here }}
       </div>
     </div>
   </section>

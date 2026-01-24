@@ -13,18 +13,18 @@
                  alt='Criar Personagem' 
                  class='wizard-icon pulsing' 
                  data-action='openCharacterWizard' 
-                 data-tooltip='Criar Personagem' />
+                 data-cardigan-tooltip='Criar Personagem' />
             {{else if (gte system.experience.current system.experience.nextLevel)}}
             <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
                  alt='Level Up!' 
                  class='wizard-icon pulsing' 
                  data-action='openLevelUpWizard' 
-                 data-tooltip='Subir de Nível' />
+                 data-cardigan-tooltip='Subir de Nível' />
             {{else}}
             <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
                  alt='Level & XP' 
                  class='wizard-icon'
-                 data-tooltip='Nível' />
+                 data-cardigan-tooltip='Nível' />
             {{/if}}
             
             {{! Triangle Arrow Icon }}
@@ -44,7 +44,7 @@
           </div>
           
           {{! XP Input }}
-          <div class='xp-container' data-tooltip="XP">
+          <div class='xp-container' data-cardigan-tooltip="XP">
             <input
               type='number'
               name='system.experience.current'
@@ -73,7 +73,7 @@
           {{! Movement Input }}
           <div class='movement-field'>
             <div class='icon-arrow-wrapper'>
-              <img src='systems/cardigan/assets/images/decorative/icons/icon-movement.svg' alt='Movement' class='movement-icon' data-tooltip="Deslocamento"/>
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-movement.svg' alt='Movement' class='movement-icon' data-cardigan-tooltip="Deslocamento"/>
               <i class="fa-solid fa-caret-right triangle-arrow"></i>
             </div>
             <input
@@ -89,7 +89,7 @@
           {{! Critical Hit Input }}
           <div class='crit-field'>
             <div class='icon-arrow-wrapper'>
-              <img src='systems/cardigan/assets/images/decorative/icons/icon-critical.svg' alt='Critical Hit' class='crit-icon' data-tooltip="Acerto Crítico"/>
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-critical.svg' alt='Critical Hit' class='crit-icon' data-cardigan-tooltip="Acerto Crítico"/>
               <i class="fa-solid fa-caret-right triangle-arrow"></i>
             </div>
             <input
@@ -107,7 +107,7 @@
         {{! Armor Container }}
         <div class='armor-container'>
           <div class='icon-arrow-wrapper'>
-            <img src='systems/cardigan/assets/images/decorative/icons/icon-armor.svg' alt='Armor' class='armor-icon' data-tooltip="Armadura"/>
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-armor.svg' alt='Armor' class='armor-icon' data-cardigan-tooltip="Armadura"/>
             <i class="fa-solid fa-caret-right triangle-arrow"></i>
           </div>
           
@@ -140,7 +140,7 @@
             value='{{system.status.armorBonus}}'
             data-dtype='Number'
             class='armor-bonus'
-            data-tooltip="Armadura Temporária"
+            data-cardigan-tooltip="Armadura Temporária"
           />
         </div>
         <div class='border-divider'>
@@ -153,7 +153,7 @@
             {{! Death Sentence }}
             <div class='death-sentence-field'>
               <div class='icon-arrow-wrapper'>
-                <img src='systems/cardigan/assets/images/decorative/icons/icon-death-sentence.svg' alt='Death Sentence' class='death-sentence-icon' data-tooltip="Sentença de Morte"/>
+                <img src='systems/cardigan/assets/images/decorative/icons/icon-death-sentence.svg' alt='Death Sentence' class='death-sentence-icon' data-cardigan-tooltip="Sentença de Morte"/>
                 <i class="fa-solid fa-caret-right triangle-arrow"></i>
               </div>
               <div class='sequential-group' data-field='deathSentence'>
@@ -185,7 +185,7 @@
             {{! Gift of Life }}
             <div class='gift-field'>
               <div class='icon-arrow-wrapper'>
-                <img src='systems/cardigan/assets/images/decorative/icons/icon-gift-life.svg' alt='Gift of Life' class='gift-icon' data-tooltip="Dádiva da Vida"/>
+                <img src='systems/cardigan/assets/images/decorative/icons/icon-gift-life.svg' alt='Gift of Life' class='gift-icon' data-cardigan-tooltip="Dádiva da Vida"/>
                 <i class="fa-solid fa-caret-right triangle-arrow"></i>
               </div>
               <div class='sequential-group' data-field='giftOfLife'>
@@ -222,7 +222,7 @@
               src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' 
               alt='Death Die' 
               class='death-die-icon'
-              data-tooltip="Teste do Destino"
+              data-cardigan-tooltip="Teste do Destino"
               data-action='rollDeathDie'
             />
           </div>
@@ -246,7 +246,7 @@
       {{! Fracture Field }}
       <div class='fracture-field'>
         <div class='icon-arrow-wrapper'>
-          <img src='systems/cardigan/assets/images/decorative/icons/icon-fracture.svg' alt='Fracture' class='fracture-icon' data-tooltip="Fratura"/>
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-fracture.svg' alt='Fracture' class='fracture-icon' data-cardigan-tooltip="Fratura"/>
           <i class="fa-solid fa-caret-right triangle-arrow"></i>
         </div>
         <div class='sequential-group' data-field='fracture'>
@@ -294,7 +294,7 @@
       {{! Toxicity Field }}
       <div class='toxicity-field'>
         <div class='icon-arrow-wrapper'>
-          <img src='systems/cardigan/assets/images/decorative/icons/icon-toxic.svg' alt='Toxicity' class='toxicity-icon' data-tooltip="Toxicidade"/>
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-toxic.svg' alt='Toxicity' class='toxicity-icon' data-cardigan-tooltip="Toxicidade"/>
           <i class="fa-solid fa-caret-right triangle-arrow"></i>
         </div>
         <div class='sequential-group' data-field='toxicity'>
@@ -342,7 +342,7 @@
       {{! Sanity Field }}
       <div class='sanity-field'>
         <div class='icon-arrow-wrapper'>
-          <img src='systems/cardigan/assets/images/decorative/icons/icon-sanity.svg' alt='Sanity' class='sanity-icon' data-tooltip="Sanidade"/>
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-sanity.svg' alt='Sanity' class='sanity-icon' data-cardigan-tooltip="Sanidade"/>
           <i class="fa-solid fa-caret-right triangle-arrow"></i>
         </div>
         <div class='sequential-group' data-field='sanity'>
@@ -392,7 +392,7 @@
         {{! Hunger }}
         <div class='hunger-field'>
           <div class='icon-arrow-wrapper'>
-            <img src='systems/cardigan/assets/images/decorative/icons/icon-hunger.svg' alt='Hunger' class='hunger-icon' data-tooltip="Fome"/>
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-hunger.svg' alt='Hunger' class='hunger-icon' data-cardigan-tooltip="Fome"/>
             <i class="fa-solid fa-caret-right triangle-arrow"></i>
           </div>
           <div class='radio-group' data-field='hunger'>
@@ -427,7 +427,7 @@
         {{! Thirst }}
         <div class='thirst-field'>
           <div class='icon-arrow-wrapper'>
-            <img src='systems/cardigan/assets/images/decorative/icons/icon-thirst.svg' alt='Thirst' class='thirst-icon' data-tooltip="Sede"/>
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-thirst.svg' alt='Thirst' class='thirst-icon' data-cardigan-tooltip="Sede"/>
             <i class="fa-solid fa-caret-right triangle-arrow"></i>
           </div>
           <div class='radio-group' data-field='thirst'>
@@ -461,7 +461,7 @@
       </div>
       {{! Rest Button }}
       <div class='rest-button-container'>
-        <button type='button' class='rest-btn' aria-label='Descanso' data-action='rest' data-tooltip='Descanso'>
+        <button type='button' class='rest-btn' aria-label='Descanso' data-action='rest' data-cardigan-tooltip='Descanso'>
           <img src='systems/cardigan/assets/images/decorative/icons/icon-rest.svg' alt='Rest' class='rest-icon'/>
         </button>
       </div>
@@ -495,7 +495,7 @@
       <img src='systems/cardigan/assets/images/decorative/frame-status.webp' class='frame-status' alt='Status Frame' />
       
       {{! Health Icon - Above frame }}
-      <img src='systems/cardigan/assets/images/decorative/icons/icon-health.svg' class='health-icon' alt='Health' data-tooltip="Vida" />
+      <img src='systems/cardigan/assets/images/decorative/icons/icon-health.svg' class='health-icon' alt='Health' data-cardigan-tooltip="Vida" />
       
       {{! Health values label }}
       <div class='health-bar-label'>
@@ -528,7 +528,7 @@
           value='{{system.status.healthBonus}}'
           data-dtype='Number'
           class='health-bonus-input'
-          data-tooltip="Vida Temporária"
+          data-cardigan-tooltip="Vida Temporária"
         />
       </div>
     </div>
@@ -565,7 +565,7 @@
       {{else}}
         {{! No race item - show drop placeholder }}
         <div class='race-placeholder'>
-          <span data-tooltip='Arraste a Raça'>RAÇA</span>
+          <span data-cardigan-tooltip='Arraste a Raça'>RAÇA</span>
         </div>
       {{/if}}
     </div>
@@ -583,7 +583,7 @@
       <img src='systems/cardigan/assets/images/decorative/frame-status.webp' class='energy-frame-status' alt='Energy Frame' />
       
       {{! Energy Icon - Above frame }}
-      <img src='systems/cardigan/assets/images/decorative/icons/icon-energy.svg' class='energy-icon' alt='Energy' data-tooltip="Energia" />
+      <img src='systems/cardigan/assets/images/decorative/icons/icon-energy.svg' class='energy-icon' alt='Energy' data-cardigan-tooltip="Energia" />
       
       {{! Energy values label }}
       <div class='energy-bar-label'>
@@ -616,7 +616,7 @@
           value='{{system.status.energyBonus}}'
           data-dtype='Number'
           class='energy-bonus-input'
-          data-tooltip="Energia Temporária"
+          data-cardigan-tooltip="Energia Temporária"
         />
       </div>
     </div>

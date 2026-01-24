@@ -21,14 +21,32 @@
   --cardigan-c-groove: #11121f;
 }
 
+[data-cardigan-tooltip] {
+  cursor: pointer;
+}
+
+#tooltip.cardigan-custom-tooltip {
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.6) 8.69%, rgba(35, 85, 102, 0.6) 51.12%, rgba(25, 53, 66, 0.6) 86.06%) !important;
+  border: 2px solid #b07b36 !important;
+  border-radius: 14px !important;
+  color: #FFB75C !important;
+  padding: 2px 10px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+  white-space: nowrap !important;
+}
+#tooltip.cardigan-custom-tooltip * {
+  color: #FFB75C !important;
+}
+
 /* Global styles */
 .application.cardigan.actor,
 .cardigan.actor.sheet {
+  border: 5px solid #b07b36 !important;
+  border-radius: 14px;
   background: transparent !important;
-  border: 5px solid transparent;
-  border-image: linear-gradient(180deg, #C0863B 38%, #7E5827 100%) 1;
-  container-type: size;
-  container-name: actor-sheet;
 }
 .application.cardigan.actor .moldura-esquerda-overlay,
 .cardigan.actor.sheet .moldura-esquerda-overlay {
@@ -81,8 +99,7 @@
 .application.cardigan.actor.minimized,
 .cardigan.actor.sheet.minimized {
   background: rgba(14, 41, 56, 0.9) !important;
-  border: 3px solid transparent;
-  border-image: linear-gradient(180deg, #C0863B 38%, #7E5827 100%) 1;
+  border: 5px solid #b07b36 !important;
   transition: all 0.2s ease;
 }
 .application.cardigan.actor.minimized .window-header,
@@ -1138,6 +1155,31 @@
 }
 .cardigan .proficiencies-tab-main {
   padding: 10px;
+  position: relative;
+}
+.cardigan .proficiencies-background-image {
+  position: absolute;
+  width: 50px !important;
+  height: 82px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.6));
+}
+.cardigan .proficiency-field .proficiencies-background-image {
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+}
+.cardigan .combat-proficiencies-container {
+  display: flex;
+  justify-content: center;
+}
+.cardigan .attribute-proficiencies-container {
+  display: flex;
+  justify-content: center;
 }
 .cardigan .proficiencies-main-grid {
   display: grid;
@@ -1169,42 +1211,187 @@
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
 }
-.cardigan .accuracy-proficiency {
+@keyframes pulse-d20 {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+.cardigan .proficiencies-list {
+  display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
 }
-.cardigan .accuracy-proficiency .status-display {
+.cardigan .proficiencies-list .proficiency-label-wrapper {
   position: relative;
+  margin-top: 2px;
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper label {
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+  cursor: pointer;
+  user-select: none;
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper .proficiency-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  color: #FFB75C;
+  padding: 8px 12px;
+  border: 3px solid #b07b36 !important;
+  border-radius: 14px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 10000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.6) 8.69%, rgba(35, 85, 102, 0.6) 51.12%, rgba(25, 53, 66, 0.6) 86.06%);
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper .proficiency-tooltip .tooltip-highlight {
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
+  text-shadow: none;
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper .proficiency-tooltip .tooltip-preview {
+  display: block;
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper .proficiency-tooltip .tooltip-expanded {
+  display: none;
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper .proficiency-tooltip .divider-left {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  bottom: 0;
+  height: 35%;
+  width: auto;
+  border-radius: 6px 0 0 6px;
+  pointer-events: none;
+  transform: rotate(224deg);
+  opacity: 0.8;
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper .proficiency-tooltip .divider-right {
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  bottom: 0;
+  height: 35%;
+  width: auto;
+  border-radius: 0 6px 6px 0;
+  pointer-events: none;
+  transform: rotate(135deg) scaleX(-1);
+  opacity: 0.8;
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper .proficiency-tooltip .tooltip-title {
+  margin-bottom: 8px;
+  text-align: center;
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper:hover .proficiency-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(4px);
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper.pinned .proficiency-tooltip {
+  opacity: 1 !important;
+  transform: translateX(-50%) translateY(4px) !important;
+  pointer-events: auto;
+  white-space: normal;
+  padding: 0px;
+  width: 250px;
+  min-height: 150px;
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper.pinned .proficiency-tooltip .tooltip-preview {
+  display: none;
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper.pinned .proficiency-tooltip .tooltip-expanded {
+  display: block;
+}
+.cardigan .proficiencies-list .proficiency-label-wrapper.pinned .proficiency-tooltip .tooltip-highlight {
+  font-size: 13px;
+}
+.cardigan .proficiency-item {
+  width: 50px;
+  height: 82px;
+  background-image: url("../assets/images/decorative/background-proficiencies.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.6));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cardigan .proficiency-item .bonus-container {
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.cardigan .proficiency-item .bonus-input {
+  width: 20px !important;
+  height: 15px !important;
+  padding: 0 !important;
+  font-size: 14px !important;
+  text-align: center !important;
+  border: none !important;
+  background: transparent !important;
+  color: #FFFFFF !important;
+  text-shadow: 0px 0px 3px rgb(0, 0, 0);
+  outline: none !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s ease;
+}
+.cardigan .proficiency-item .bonus-input:focus {
+  outline: none !important;
+  background: transparent !important;
+}
+.cardigan .proficiency-item .bonus-input:hover {
+  box-shadow: 0 0 3px rgba(255, 215, 0, 0.2);
+}
+.cardigan .proficiency-item .status-display {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 38px;
   height: 45px;
+  z-index: 1;
 }
-.cardigan .accuracy-proficiency .status-display::before {
-  content: "";
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  width: calc(100% + 8px);
-  height: calc(100% + 8px);
-  background: linear-gradient(180deg, #FFB75C, #996E37);
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  z-index: 0;
-}
-.cardigan .accuracy-proficiency .status-display .d20-icon {
+.cardigan .proficiency-item .status-display .d20-icon {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 32px;
   height: 32px;
-  object-fit: contain;
   opacity: 0;
   transition: opacity 300ms ease-in;
   pointer-events: none;
   z-index: 2;
-  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+  animation: pulse-d20 1.5s ease-in-out infinite;
 }
-.cardigan .accuracy-proficiency .status-display .d20-icon::before {
+.cardigan .proficiency-item .status-display .d20-icon::before {
   content: "";
   position: absolute;
   top: 0;
@@ -1212,10 +1399,10 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(180deg, #FFB75C, #694C27);
-  -webkit-mask: url("systems/cardigan/assets/images/decorative/icons/icon-d20.svg") center/contain no-repeat;
-  mask: url("systems/cardigan/assets/images/decorative/icons/icon-d20.svg") center/contain no-repeat;
+  -webkit-mask: url("../../assets/images/decorative/icons/icon-d20.svg") center/contain no-repeat;
+  mask: url("../../assets/images/decorative/icons/icon-d20.svg") center/contain no-repeat;
 }
-.cardigan .accuracy-proficiency .ability-value {
+.cardigan .proficiency-item .ability-value {
   color: #FFFFFF;
   cursor: pointer;
   transition: all 300ms ease-in;
@@ -1229,53 +1416,43 @@
   top: 0;
   left: 0;
   z-index: 1;
-  background: linear-gradient(180deg, #8C063E, #E17F00) !important;
+  background: transparent !important;
   font-size: 28px;
   text-shadow: 0px 0px 3px rgb(0, 0, 0);
 }
-.cardigan .accuracy-proficiency .ability-value:focus {
+.cardigan .proficiency-item .ability-value:focus {
   outline: none !important;
   outline-offset: 0 !important;
 }
-.cardigan .accuracy-proficiency .ability-value:hover:not(:focus) {
+.cardigan .proficiency-item .ability-value:hover:not(:focus) {
   box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
   background: linear-gradient(180deg, #5a0427, #995000) !important;
   color: transparent;
   text-shadow: none;
 }
-.cardigan .accuracy-proficiency .ability-value:active:not(:focus) {
+.cardigan .proficiency-item .ability-value:active:not(:focus) {
   transform: scale(0.98);
 }
-.cardigan .accuracy-proficiency .status-display:hover .d20-icon {
+.cardigan .proficiency-item .status-display:hover .d20-icon {
   opacity: 1;
 }
-.cardigan .accuracy-proficiency .status-display.force-normal .d20-icon {
+.cardigan .proficiency-item .status-display.force-normal .d20-icon {
   opacity: 0 !important;
   transition: none !important;
 }
-.cardigan .accuracy-proficiency .status-display.force-normal .ability-value {
-  background: linear-gradient(180deg, #8C063E, #E17F00) !important;
+.cardigan .proficiency-item .status-display.force-normal .ability-value {
   color: #FFFFFF !important;
   text-shadow: 0px 0px 3px rgb(0, 0, 0) !important;
   box-shadow: none !important;
   transition: none !important;
 }
-.cardigan .accuracy-proficiency .status-display.force-normal:hover .d20-icon {
+.cardigan .proficiency-item .status-display.force-normal:hover .d20-icon {
   opacity: 0 !important;
 }
-.cardigan .accuracy-proficiency .status-display.force-normal .ability-value:hover:not(:focus) {
-  background: linear-gradient(180deg, #8C063E, #E17F00) !important;
+.cardigan .proficiency-item .status-display.force-normal .ability-value:hover:not(:focus) {
   color: #FFFFFF !important;
   text-shadow: 0px 0px 3px rgb(0, 0, 0) !important;
   box-shadow: none !important;
-}
-.cardigan .accuracy-proficiency label {
-  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: center;
-  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
 }
 .cardigan .effects-container h3 {
   margin: 0 0 10px 0;
@@ -4735,42 +4912,6 @@
   color: #666;
   margin: 0 2px;
   user-select: none;
-}
-.cardigan {
-  /* Bonus Container Styles */
-}
-.cardigan .bonus-container {
-  margin-left: 8px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-.cardigan .bonus-label {
-  font-size: 12px;
-  color: #aaa;
-  white-space: nowrap;
-}
-.cardigan .bonus-input {
-  width: 38px !important;
-  min-width: 38px !important;
-  max-width: 38px !important;
-  height: 24px !important;
-  padding: 2px 4px !important;
-  font-size: 12px !important;
-  text-align: center !important;
-  border: 1px solid #666 !important;
-  border-radius: 3px !important;
-  background: rgba(0, 0, 0, 0.3) !important;
-  color: #fff !important;
-  outline: none !important;
-  box-sizing: border-box !important;
-}
-.cardigan .bonus-input:focus {
-  border-color: #3498db !important;
-  background: rgba(0, 0, 0, 0.5) !important;
-}
-.cardigan .bonus-input:hover {
-  border-color: #888 !important;
 }
 .cardigan {
   /* Reset Button Styles */

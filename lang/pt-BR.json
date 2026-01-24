@@ -73,35 +73,35 @@
         "abbr": "acc"
       },
       "Evasion": {
-        "long": "Evasion", 
+        "long": "EVA", 
         "abbr": "eva"
       },
       "Strength": {
-        "long": "Strength",
+        "long": "FOR",
         "abbr": "str"
       },
       "Dexterity": {
-        "long": "Dexterity",
+        "long": "DES",
         "abbr": "dex"
       },
       "Stamina": {
-        "long": "Stamina",
+        "long": "VIG",
         "abbr": "sta"
       },
       "Stealth": {
-        "long": "Stealth",
+        "long": "FUR",
         "abbr": "ste"
       },
       "Persuasion": {
-        "long": "Persuasion",
+        "long": "PER",
         "abbr": "per"
       },
       "Intelligence": {
-        "long": "Intelligence",
+        "long": "INT",
         "abbr": "int"
       },
       "Psionics": {
-        "long": "Psionics",
+        "long": "PSI",
         "abbr": "psi"
       }
     },

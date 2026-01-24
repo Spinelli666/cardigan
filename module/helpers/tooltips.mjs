@@ -28,6 +28,50 @@ export default class CardiganTooltips {
   #tooltip;
 
   /* -------------------------------------------- */
+  /*  Custom Tooltip Methods (data-cardigan-tooltip) */
+  /* -------------------------------------------- */
+
+  /**
+   * Activate listeners for custom cardigan tooltips.
+   */
+  activateCustomTooltips() {
+    document.addEventListener('mouseover', this._onMouseOverCustomTooltip.bind(this));
+    document.addEventListener('mouseout', this._onMouseOutCustomTooltip.bind(this));
+  }
+
+  /**
+   * Handle mouse over event for elements with data-cardigan-tooltip attribute.
+   * @param {MouseEvent} event
+   * @private
+   */
+  _onMouseOverCustomTooltip(event) {
+    const element = event.target.closest('[data-cardigan-tooltip]');
+    if (!element) return;
+
+    const text = element.dataset.cardiganTooltip;
+    if (!text) return;
+
+    // Usar o sistema nativo de tooltip do Foundry que anexa ao body
+    game.tooltip.activate(element, {
+      text: text,
+      direction: 'DOWN',
+      cssClass: 'cardigan-custom-tooltip'
+    });
+  }
+
+  /**
+   * Handle mouse out event for custom tooltips.
+   * @param {MouseEvent} event
+   * @private
+   */
+  _onMouseOutCustomTooltip(event) {
+    const element = event.target.closest('[data-cardigan-tooltip]');
+    if (!element) return;
+
+    game.tooltip.deactivate();
+  }
+
+  /* -------------------------------------------- */
   /*  Methods                                     */
   /* -------------------------------------------- */
 
@@ -42,6 +86,9 @@ export default class CardiganTooltips {
     this.#observer?.disconnect();
     this.#observer = new MutationObserver(this._onMutation.bind(this));
     this.#observer.observe(this.tooltip, { attributeFilter: ["class"], attributeOldValue: true });
+    
+    // Ativar tooltips customizados
+    this.activateCustomTooltips();
   }
 
   /* -------------------------------------------- */
