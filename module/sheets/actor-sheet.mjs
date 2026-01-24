@@ -345,8 +345,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para campos dinâmicos de abilities
     this.#addAbilitiesListeners();
     
-    // Adicionar event listener para clique no campo de Accuracy (roll com botão esquerdo)
-    this.#addAccuracyRollListener();
+    // Adicionar event listeners para rolagem nas perícias (Accuracy, Evasion, etc.)
+    this.#addProficiencyRollListeners();
     
     // Adicionar event listener para tooltip fixável
     this.#addTooltipPinListener();
@@ -6887,94 +6887,99 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Add click listener to Accuracy value field for rolling
+   * Add click listeners to all proficiency value fields for rolling
    * Left-click: Show roll dialog
    * Right-click (contextmenu): Allow normal editing
    * @private
    */
-  #addAccuracyRollListener() {
-    const accuracyField = this.element.querySelector('.proficiency-item .ability-value[data-ability="accuracy"]');
+  #addProficiencyRollListeners() {
+    const proficiencyFields = this.element.querySelectorAll('.proficiency-item .ability-value[data-ability]');
     
-    if (!accuracyField) {
-      console.warn('[CARDIGAN] Accuracy field not found for roll listener');
+    if (proficiencyFields.length === 0) {
+      console.warn('[CARDIGAN] No proficiency fields found for roll listeners');
       return;
     }
     
-    // Variável para rastrear se estamos em modo de edição
-    let isEditMode = false;
-    
-    // Mousedown: Prevenir foco no clique esquerdo
-    accuracyField.addEventListener('mousedown', (event) => {
-      // Botão esquerdo (button 0) - prevenir foco
-      if (event.button === 0 && !isEditMode) {
+    proficiencyFields.forEach(field => {
+      const abilityKey = field.dataset.ability;
+      const abilityLabel = abilityKey.charAt(0).toUpperCase() + abilityKey.slice(1);
+      
+      // Variável para rastrear se estamos em modo de edição (por campo)
+      let isEditMode = false;
+      
+      // Mousedown: Prevenir foco no clique esquerdo
+      field.addEventListener('mousedown', (event) => {
+        // Botão esquerdo (button 0) - prevenir foco
+        if (event.button === 0 && !isEditMode) {
+          event.preventDefault();
+        }
+        // Botão direito (button 2) - ativar modo de edição
+        if (event.button === 2) {
+          isEditMode = true;
+        }
+      });
+      
+      // Click: Trigger roll dialog (apenas se não estiver em modo de edição)
+      field.addEventListener('click', async (event) => {
+        if (isEditMode) {
+          return; // Permitir edição normal
+        }
+        
         event.preventDefault();
-      }
-      // Botão direito (button 2) - ativar modo de edição
-      if (event.button === 2) {
+        event.stopPropagation();
+        
+        // Simular o comportamento do botão de roll
+        const rollData = {
+          roll: `1d20+@${abilityKey}.total`,
+          label: abilityLabel,
+          key: abilityKey
+        };
+        
+        // Criar um evento simulado com os dataset necessários
+        const simulatedTarget = {
+          dataset: rollData
+        };
+        
+        // Chamar o método _onRoll com o contexto correto (bind this)
+        await this.constructor._onRoll.call(this, event, simulatedTarget);
+        
+        console.log(`[CARDIGAN] ${abilityLabel} roll triggered from value field`);
+      });
+      
+      // Right-click: Ativar modo de edição e forçar estado normal (sem hover)
+      field.addEventListener('contextmenu', (event) => {
+        event.preventDefault();
         isEditMode = true;
-      }
+        
+        // Adicionar classe para forçar estado normal (esconde o d20, mostra o número)
+        const statusDisplay = field.closest('.status-display');
+        if (statusDisplay) {
+          statusDisplay.classList.add('force-normal');
+        }
+        
+        // Focar o campo para permitir edição
+        field.focus();
+        field.select();
+        
+        console.log(`[CARDIGAN] ${abilityLabel} field opened for editing`);
+      });
+      
+      // Blur: Desativar modo de edição quando sair do campo
+      field.addEventListener('blur', () => {
+        isEditMode = false;
+        
+        // Remover classe que força estado normal
+        const statusDisplay = field.closest('.status-display');
+        if (statusDisplay) {
+          statusDisplay.classList.remove('force-normal');
+        }
+      });
+      
+      // Adicionar cursor pointer para indicar que é clicável
+      field.style.cursor = 'pointer';
     });
     
-    // Click: Trigger roll dialog (apenas se não estiver em modo de edição)
-    accuracyField.addEventListener('click', async (event) => {
-      if (isEditMode) {
-        return; // Permitir edição normal
-      }
-      
-      event.preventDefault();
-      event.stopPropagation();
-      
-      // Simular o comportamento do botão de roll
-      const rollData = {
-        roll: '1d20+@accuracy.total',
-        label: 'Accuracy',
-        key: 'accuracy'
-      };
-      
-      // Criar um evento simulado com os dataset necessários
-      const simulatedTarget = {
-        dataset: rollData
-      };
-      
-      // Chamar o método _onRoll com o contexto correto (bind this)
-      await this.constructor._onRoll.call(this, event, simulatedTarget);
-      
-      console.log('[CARDIGAN] Accuracy roll triggered from value field');
-    });
-    
-    // Right-click: Ativar modo de edição e forçar estado normal (sem hover)
-    accuracyField.addEventListener('contextmenu', (event) => {
-      event.preventDefault();
-      isEditMode = true;
-      
-      // Adicionar classe para forçar estado normal (esconde o d20, mostra o número)
-      const statusDisplay = accuracyField.closest('.status-display');
-      if (statusDisplay) {
-        statusDisplay.classList.add('force-normal');
-      }
-      
-      // Focar o campo para permitir edição
-      accuracyField.focus();
-      accuracyField.select();
-      
-      console.log('[CARDIGAN] Accuracy field opened for editing');
-    });
-    
-    // Blur: Desativar modo de edição quando sair do campo
-    accuracyField.addEventListener('blur', () => {
-      isEditMode = false;
-      
-      // Remover classe que força estado normal
-      const statusDisplay = accuracyField.closest('.status-display');
-      if (statusDisplay) {
-        statusDisplay.classList.remove('force-normal');
-      }
-    });
-    
-    // Adicionar cursor pointer para indicar que é clicável
-    accuracyField.style.cursor = 'pointer';
-    
-    console.log('[CARDIGAN] Accuracy roll listener added');
+    console.log(`[CARDIGAN] Proficiency roll listeners added to ${proficiencyFields.length} fields`);
   }
 
   /**

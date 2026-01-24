@@ -11,10 +11,32 @@
   }
 }
 
+.combat-proficiencies-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.accuracy-attack-image,
+.evasion-defense-image {
+  height: 40px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+}
+
+.evasion-defense-image {
+  margin-left: 3px;
+}
+
 .proficiencies-list {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  // Espaçamento entre listas de perícias (não afeta imagens)
+  & + .proficiencies-list {
+    margin-left: 17px;
+  }
 
   .proficiency-label-wrapper {
     position: relative;

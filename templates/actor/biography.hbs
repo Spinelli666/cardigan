@@ -12,58 +12,8 @@
   </div>
   {{/unless}}
   
-  {{! Abilities and Effects Grid }}
+  {{! Effects Grid }}
   <div class='biography-secondary-grid'>
-    {{! Abilities Container }}
-    <div class='abilities-container'>
-      <h3>Abilities</h3>
-      <div class='abilities-list'>
-        {{#each system.abilities as |ability key|}}
-          {{#unless (eq key "accuracy")}}
-          <div class='ability-row horizontal-field'>
-            <label>{{localize (lookup @root.config.abilities key)}}</label>
-            <div class='status-display'>
-              <input
-                type='number'
-                name='system.abilities.{{key}}.value'
-                value='{{ability.value}}'
-                data-dtype='Number'
-                class='ability-value dynamic-field'
-                data-ability='{{key}}'
-                data-field='value'
-                title='Base Value (Focus: manual | Blur: total)'
-              />
-            </div>
-            <div class='bonus-container'>
-              <input
-                type='number'
-                name='system.abilities.{{key}}.totalBonus'
-                value='{{ability.totalBonus}}'
-                data-dtype='Number'
-                class='bonus-input dynamic-field'
-                data-ability='{{key}}'
-                data-field='totalBonus'
-                title='Total Bonus (Focus: manual | Blur: calculated + manual)'
-              />
-            </div>
-            <div class='roll-button-container'>
-              <button 
-                type='button' 
-                class='ability-roll-button'
-                data-action='roll'
-                data-roll='1d20+@{{key}}.total'
-                data-label='{{localize (lookup @root.config.abilities key)}} ({{ability.value}}+{{ability.totalBonus}}={{add ability.value ability.totalBonus}})'
-                data-key='{{key}}'
-              >
-                Roll 1d20
-              </button>
-            </div>
-          </div>
-          {{/unless}}
-        {{/each}}
-      </div>
-    </div>
-
     {{! Effects Container }}
     <div class='effects-container'>
       <div class="effects-header">

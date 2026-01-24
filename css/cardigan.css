@@ -733,7 +733,7 @@
   right: -35px;
   width: calc(100% + 70px);
   height: 8px;
-  background-image: url("/systems/cardigan/assets/images/decorative/border-navigation.webp");
+  background-image: url("/systems/cardigan/assets/images/decorative/border.webp");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
@@ -748,7 +748,7 @@
   right: -35px;
   width: calc(100% + 70px);
   height: 8px;
-  background-image: url("/systems/cardigan/assets/images/decorative/border-navigation.webp");
+  background-image: url("/systems/cardigan/assets/images/decorative/border.webp");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
@@ -1154,8 +1154,23 @@
   text-align: left;
 }
 .cardigan .proficiencies-tab-main {
-  padding: 10px;
+  padding: 15px 10px 10px 10px;
   position: relative;
+}
+.cardigan .proficiencies-tab-main::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: -8px;
+  right: -8px;
+  width: calc(100% + 16px);
+  height: 8px;
+  background-image: url("/systems/cardigan/assets/images/decorative/border.webp");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
 }
 .cardigan .proficiencies-background-image {
   position: absolute;
@@ -1178,6 +1193,7 @@
   justify-content: center;
 }
 .cardigan .attribute-proficiencies-container {
+  margin-top: 15px;
   display: flex;
   justify-content: center;
 }
@@ -1219,10 +1235,27 @@
     transform: translate(-50%, -50%) scale(1.1);
   }
 }
+.cardigan .combat-proficiencies-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cardigan .accuracy-attack-image,
+.cardigan .evasion-defense-image {
+  height: 40px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+}
+.cardigan .evasion-defense-image {
+  margin-left: 3px;
+}
 .cardigan .proficiencies-list {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.cardigan .proficiencies-list + .proficiencies-list {
+  margin-left: 17px;
 }
 .cardigan .proficiencies-list .proficiency-label-wrapper {
   position: relative;
