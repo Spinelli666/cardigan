@@ -6991,7 +6991,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     labels.forEach(label => {
       // Click para fixar tooltip expandido
-      label.addEventListener('click', (event) => {
+      label.addEventListener('click', async (event) => {
         event.preventDefault();
         event.stopPropagation();
         
@@ -7011,11 +7011,20 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         const titleElement = document.createElement('h3');
         titleElement.textContent = tooltipTitle;
         
-        const descElement = document.createElement('p');
-        descElement.textContent = tooltipDescription;
+        // Container da descrição
+        const descContainer = document.createElement('div');
+        descContainer.className = 'tooltip-description';
+        
+        // Processar com enrichHTML para ativar os enrichers (::path:: para imagens, etc)
+        const enrichedHTML = await foundry.applications.ux.TextEditor.enrichHTML(tooltipDescription, { 
+          async: true,
+          secrets: false,
+          relativeTo: this.actor
+        });
+        descContainer.innerHTML = enrichedHTML;
         
         contentElement.appendChild(titleElement);
-        contentElement.appendChild(descElement);
+        contentElement.appendChild(descContainer);
         
         // Se já existe um tooltip locked, fechar todos
         game.tooltip.dismissLockedTooltips();
