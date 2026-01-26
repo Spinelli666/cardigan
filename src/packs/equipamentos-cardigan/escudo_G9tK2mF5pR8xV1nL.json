@@ -1,0 +1,54 @@
+{
+  "_id": "G9tK2mF5pR8xV1nL",
+  "_key": "!items!G9tK2mF5pR8xV1nL",
+  "name": "Escudo",
+  "type": "arma",
+  "img": "systems/cardigan/assets/images/weapons/shield-weapon.webp",
+  "folder": "P5kR8vM2zS0xN4tB",
+  "system": {
+    "description": "",
+    "weaponType": "Escudo",
+    "melee": true,
+    "ranged": false,
+    "isFirearm": false,
+    "magazine": 0,
+    "loadedAmmo": 0,
+    "loadedAmmoTypes": {},
+    "damage": {
+      "value": "3",
+      "useStrength": false,
+      "useDexterity": false,
+      "total": "3"
+    },
+    "properties": [],
+    "rightHand": false,
+    "leftHand": false,
+    "weight": "leve",
+    "price": 40,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "skillBonuses": [],
+    "equipped": false,
+    "magicalArtifact": false,
+    "protection": {
+      "enabled": true,
+      "value": 3
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}
+

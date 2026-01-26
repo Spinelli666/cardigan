@@ -1,0 +1,259 @@
+/* Race Item Details Styles */
+.race-details-container {
+  padding: 15px;
+  
+  h3 {
+    margin: 0 0 15px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c1810;
+    border-bottom: 2px solid #d4af37;
+    padding-bottom: 8px;
+  }
+  
+  h4 {
+    margin: 15px 0 10px 0;
+    font-size: 15px;
+    font-weight: bold;
+    color: #4a3c2a;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    
+    label {
+      display: block;
+      font-weight: bold;
+      color: #2c1810;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    
+    .hint {
+      font-size: 12px;
+      color: #666;
+      font-style: italic;
+      margin: 5px 0 10px 0;
+      line-height: 1.4;
+    }
+    
+    .info-message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: rgba(52, 152, 219, 0.1);
+      border: 1px solid rgba(52, 152, 219, 0.3);
+      border-radius: 4px;
+      color: #2c3e50;
+      font-size: 13px;
+      margin-top: 10px;
+      
+      i {
+        color: #3498db;
+        font-size: 16px;
+      }
+    }
+    
+    input[type="number"] {
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      
+      &:focus {
+        outline: none;
+        border-color: #d4af37;
+        box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+      }
+    }
+  }
+  
+  // Ability Modifiers Grid
+  .ability-modifiers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+    
+    .modifier-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      
+      label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #4a3c2a;
+        margin: 0;
+      }
+      
+      input[type="number"] {
+        width: 100%;
+        padding: 5px 8px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-size: 14px;
+        font-weight: bold;
+        
+        &:focus {
+          outline: none;
+          border-color: #d4af37;
+          box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+        }
+        
+        // Positive numbers in green, negative in red
+        &[value^="-"] {
+          color: #c0392b;
+        }
+        
+        &:not([value="0"]):not([value^="-"]) {
+          color: #27ae60;
+        }
+      }
+    }
+  }
+  
+  // Racial Skills Section
+  .racial-skills-section {
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 10px;
+      
+      h4 {
+        margin: 0;
+        flex: 1;
+      }
+      
+      .select-racial-skills-btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 12px;
+        background: #d4af37;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        
+        &:hover {
+          background: #c29d2f;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        &:active {
+          transform: translateY(0);
+        }
+        
+        i {
+          font-size: 11px;
+        }
+      }
+    }
+    
+    .selected-racial-skills {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+      
+      .racial-skill-item {
+        display: grid;
+        grid-template-columns: 40px 1fr auto;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        background: linear-gradient(135deg, rgba(42, 42, 42, 0.6) 0%, rgba(28, 28, 28, 0.8) 100%);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: linear-gradient(135deg, rgba(42, 42, 42, 0.8) 0%, rgba(28, 28, 28, 1) 100%);
+          border-color: #d4af37;
+          transform: translateX(3px);
+          box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+        }
+        
+        .skill-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 4px;
+          object-fit: cover;
+          border: 1px solid rgba(212, 175, 55, 0.4);
+          background: rgba(0, 0, 0, 0.3);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+        
+        .skill-name {
+          font-size: 14px;
+          font-weight: 600;
+          color: #f4f1e8;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .remove-skill-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          padding: 0;
+          background: rgba(220, 53, 69, 0.8);
+          color: white;
+          border: 1px solid rgba(220, 53, 69, 0.6);
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          
+          &:hover {
+            background: #dc3545;
+            border-color: #dc3545;
+            transform: scale(1.15);
+            box-shadow: 0 2px 6px rgba(220, 53, 69, 0.5);
+          }
+          
+          i {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+    
+    .no-skills-selected {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      background: rgba(42, 42, 42, 0.4);
+      border: 1px dashed rgba(212, 175, 55, 0.3);
+      border-radius: 6px;
+      color: #999;
+      font-size: 13px;
+      margin-top: 10px;
+      
+      i {
+        color: rgba(212, 175, 55, 0.6);
+        font-size: 16px;
+      }
+      
+      p {
+        margin: 0;
+        color: #aaa;
+      }
+    }
+  }
+}

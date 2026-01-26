@@ -1,0 +1,246 @@
+<div class="merchant-trade-dialog-wrapper">
+  <form class="merchant-trade-dialog-content">
+    <div class="trade-header">
+      <h2>
+        <i class="fas fa-store"></i>
+        Comércio: {{customer.actor.name}} ⇄ {{merchant.actor.name}} (Comerciante)
+      </h2>
+    </div>
+
+    <div class="trade-container three-columns">
+      <!-- Column 1: Customer OFFERS (items to give to merchant) -->
+      <div class="trade-column customer-offer-column">
+        <div class="column-header">
+          <img src="{{customer.actor.img}}" alt="{{customer.actor.name}}" class="actor-avatar" />
+          <h3>{{customer.actor.name}}</h3>
+          <span class="column-label offer-label"><i class="fas fa-hand-holding-usd"></i> OFERECE</span>
+        </div>
+
+        <div class="trade-drop-zone customer-offer-zone {{#unless customer.canEdit}}disabled{{/unless}}">
+          {{#if customer.canEdit}}
+            <p class="drop-instruction">
+              <i class="fas fa-backpack"></i>
+              Arraste items da sua mochila
+            </p>
+          {{/if}}
+
+          <div class="trade-items-list">
+            {{#each customer.offeredItems}}
+              <div class="trade-item">
+                <img src="{{this.img}}" alt="{{this.name}}" class="item-icon" />
+                <div class="item-details">
+                  <span class="item-name">{{this.name}}</span>
+                  <span class="item-quantity">Qty: {{this.quantity}} / {{this.maxQuantity}}</span>
+                </div>
+                {{#if ../customer.canEdit}}
+                  <div class="item-actions">
+                    <button 
+                      type="button" 
+                      class="edit-qty-btn" 
+                      data-action="editQuantity"
+                      data-item-id="{{this.id}}"
+                      data-side="customer-offer"
+                      title="Editar quantidade"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button 
+                      type="button" 
+                      class="remove-item-btn" 
+                      data-action="removeItem"
+                      data-item-id="{{this.id}}"
+                      data-side="customer-offer"
+                      title="Remover item"
+                    >
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                {{/if}}
+              </div>
+            {{/each}}
+          </div>
+        </div>
+
+        <div class="trade-gold">
+          <label for="customer-gold">
+            <i class="fas fa-coins"></i> Ouro Oferecido:
+          </label>
+          <input 
+            type="number" 
+            id="customer-gold" 
+            name="customer-gold" 
+            value="{{customer.offeredGold}}" 
+            min="0" 
+            {{#unless customer.canEdit}}disabled{{/unless}}
+            placeholder="0"
+          />
+        </div>
+      </div>
+
+      <!-- Column 2: Customer REQUESTS (items to take from merchant) -->
+      <div class="trade-column customer-request-column">
+        <div class="column-header">
+          <img src="{{customer.actor.img}}" alt="{{customer.actor.name}}" class="actor-avatar" />
+          <h3>{{customer.actor.name}}</h3>
+          <span class="column-label request-label"><i class="fas fa-shopping-bag"></i> DESEJA COMPRAR</span>
+          {{#if customer.confirmed}}
+            <span class="confirmed-badge"><i class="fas fa-check-circle"></i> Confirmado</span>
+          {{/if}}
+        </div>
+
+        <div class="trade-drop-zone customer-request-zone {{#unless customer.canEdit}}disabled{{/unless}}">
+          {{#if customer.canEdit}}
+            <p class="drop-instruction">
+              <i class="fas fa-shopping-cart"></i>
+              Arraste ou clique direito nos items da loja
+            </p>
+          {{/if}}
+
+          <div class="trade-items-list">
+            {{#each customer.requestedItems}}
+              <div class="trade-item">
+                <img src="{{this.img}}" alt="{{this.name}}" class="item-icon" />
+                <div class="item-details">
+                  <span class="item-name">{{this.name}}</span>
+                  <span class="item-quantity">Qty: {{this.quantity}} / {{this.maxQuantity}}</span>
+                </div>
+                {{#if ../customer.canEdit}}
+                  <div class="item-actions">
+                    <button 
+                      type="button" 
+                      class="edit-qty-btn" 
+                      data-action="editQuantity"
+                      data-item-id="{{this.id}}"
+                      data-side="customer-request"
+                      title="Editar quantidade"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button 
+                      type="button" 
+                      class="remove-item-btn" 
+                      data-action="removeItem"
+                      data-item-id="{{this.id}}"
+                      data-side="customer-request"
+                      title="Remover item"
+                    >
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                {{/if}}
+              </div>
+            {{/each}}
+          </div>
+        </div>
+
+        {{#if customer.isCurrentPlayer}}
+          {{#if customer.confirmed}}
+            <button 
+              type="button" 
+              class="undo-offer-btn" 
+              data-action="undoOffer"
+              data-side="customer"
+            >
+              <i class="fas fa-undo"></i> Desfazer Compra
+            </button>
+          {{else}}
+            <button 
+              type="button" 
+              class="confirm-offer-btn" 
+              data-action="confirmOffer"
+            >
+              <i class="fas fa-check"></i> Confirmar Compra
+            </button>
+          {{/if}}
+        {{/if}}
+      </div>
+
+      <!-- Column 3: Merchant Inventory -->
+      <div class="trade-column merchant-column {{#if merchant.confirmed}}confirmed{{/if}}">
+        <div class="column-header">
+          <img src="{{merchant.actor.img}}" alt="{{merchant.actor.name}}" class="actor-avatar" />
+          <h3>{{merchant.actor.name}}</h3>
+          <span class="column-label merchant-label"><i class="fas fa-store"></i> INVENTÁRIO</span>
+          {{#if merchant.confirmed}}
+            <span class="confirmed-badge"><i class="fas fa-check-circle"></i> Confirmado</span>
+          {{/if}}
+        </div>
+
+        <div class="merchant-inventory">
+          <p class="inventory-instruction">
+            <i class="fas fa-box-open"></i>
+            Items disponíveis na loja
+          </p>
+
+          <div class="merchant-items-list">
+            {{#each merchant.allItems}}
+              <div class="merchant-item" 
+                   data-item-id="{{this.id}}"
+                   data-item-uuid="{{this.uuid}}"
+                   draggable="{{#if ../customer.canEdit}}true{{else}}false{{/if}}">
+                <img src="{{this.img}}" alt="{{this.name}}" class="item-icon" />
+                <div class="item-details">
+                  <span class="item-name">{{this.name}}</span>
+                  <span class="item-quantity">
+                    {{#if this.equipped}}
+                      <i class="fas fa-shield-alt" title="Equipado"></i>
+                    {{else}}
+                      Disponível: {{this.quantity}}
+                    {{/if}}
+                  </span>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+
+        <div class="trade-gold">
+          <label for="merchant-gold">
+            <i class="fas fa-coins"></i> Ouro Oferecido:
+          </label>
+          <input 
+            type="number" 
+            id="merchant-gold" 
+            name="merchant-gold" 
+            value="{{merchant.gold}}" 
+            min="0" 
+            {{#unless merchant.canEdit}}disabled{{/unless}}
+            placeholder="0"
+          />
+        </div>
+
+        {{#if merchant.isCurrentPlayer}}
+          {{#if merchant.confirmed}}
+            <button 
+              type="button" 
+              class="undo-offer-btn" 
+              data-action="undoOffer"
+              data-side="merchant"
+            >
+              <i class="fas fa-undo"></i> Desfazer Venda
+            </button>
+          {{else}}
+            <button 
+              type="button" 
+              class="confirm-offer-btn" 
+              data-action="confirmOffer"
+            >
+              <i class="fas fa-check"></i> Confirmar Venda
+            </button>
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+
+    <!-- Cancel Button -->
+    <div class="trade-actions">
+      <button 
+        type="button" 
+        class="cancel-trade-btn" 
+        data-action="cancelTrade"
+      >
+        <i class="fas fa-times"></i> Cancelar Negociação
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,103 @@
+// ========================================
+// NAVIGATION TABS
+// ========================================
+
+.sheet-tabs {
+  flex: 0 0 auto;
+  z-index: 200;
+  position: relative;
+  border-top: none !important;
+  border-bottom: none !important;
+  font-family: 'Alatsi', sans-serif !important;
+  gap: 0 !important;
+  
+  // Background transparente com opacidade já aplicada no rgba
+  background: linear-gradient(90deg, rgba(67, 170, 218, 0.19) 0%, rgba(255, 183, 92, 0.19) 50%, rgba(67, 170, 218, 0.19) 100%);
+  
+  // Estilização dos links das tabs
+  a.item,
+  [data-tab],
+  .item[data-tab] {
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+    transform: translateX(var(--tabs-offset-x, -1px));
+    
+    background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    &:hover {
+      text-shadow: 0 0 12px rgba(255, 183, 92, 0.9),
+                   0 0 20px rgba(255, 215, 130, 0.6),
+                   0 4px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    &.active {
+      position: relative;
+      text-shadow: 0 0 4px rgba(255, 183, 92, 0.3),
+                   0 0 8px rgba(255, 215, 130, 0.2),
+                   0 4px 4px rgba(0, 0, 0, 0.4);
+      
+      // Gradiente de texto mais intenso
+      background: linear-gradient(180deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+  
+  // Borda superior decorativa
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: -35px;
+    right: -35px;
+    width: calc(100% + 70px);
+    height: 8px;
+    background-image: url('/systems/cardigan/assets/images/decorative/border.webp');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  // Borda inferior decorativa
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: -35px;
+    right: -35px;
+    width: calc(100% + 70px);
+    height: 8px;
+    background-image: url('/systems/cardigan/assets/images/decorative/border.webp');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+// Each tab section should scroll independently
+.tab {
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  &.biography {
+    display: flex;
+    flex-direction: column;
+
+    .editor {
+      flex: 1;
+      height: 100%;
+    }
+  }
+}

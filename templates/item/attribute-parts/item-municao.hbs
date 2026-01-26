@@ -1,0 +1,53 @@
+{{! Item Munição Attributes Tab }}
+<section
+  class='tab attributes {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='attributes'
+>
+  <div class="item-municao-header">
+    <p class="item-subtitle">{{localize "CARDIGAN.ItemMunicao.Subtitle"}}</p>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.Common.Quantity"}}</label>
+      <div class="form-fields">
+        <input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="0"/>
+        <span class="unit">{{localize "CARDIGAN.ItemMunicao.Units"}}</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.Weight"}}</label>
+      <select name="system.weight">
+        <option value="leve" {{selected system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
+        <option value="medio" {{selected system.weight "medio"}}>{{localize "CARDIGAN.WeightMedium"}}</option>
+        <option value="pesado" {{selected system.weight "pesado"}}>{{localize "CARDIGAN.WeightHeavy"}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.Common.Price"}}</label>
+      <div class="form-fields">
+        <input type="number" name="system.price" value="{{system.price}}" data-dtype="Number" min="0" step="0.1"/>
+        <span class="unit">{{localize "CARDIGAN.Currency.Gold"}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group">
+      <label class="checkbox">
+        <input type="checkbox" name="system.isFirearmAmmo" {{checked system.isFirearmAmmo}} data-dtype="Boolean"/>
+        {{localize "CARDIGAN.ItemMunicao.IsFirearmAmmo"}}
+      </label>
+    </div>
+    
+    <div class="form-group">
+      <label class="checkbox">
+        <input type="checkbox" name="system.isSpecialAmmo" {{checked system.isSpecialAmmo}} data-dtype="Boolean"/>
+        {{localize "CARDIGAN.ItemMunicao.IsSpecialAmmo"}}
+      </label>
+    </div>
+  </div>
+</section>

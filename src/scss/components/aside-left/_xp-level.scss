@@ -1,0 +1,143 @@
+/* XP, Level & Classes Container Styles */
+
+// Keyframes para animação de glow suave pulsando
+@keyframes pulse-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(255, 183, 92, 0.8));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(255, 183, 92, 1)) 
+            drop-shadow(0 0 15px rgba(255, 215, 130, 1));
+  }
+}
+
+// Bloco 1 - Purple border com XP e Level
+.xp-level-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  z-index: 200;
+  margin: 11px 0px 2.7px 0px;
+
+  .icon-arrow-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    align-items: center;
+    
+    .triangle-arrow {
+      font-size: 9px;
+      background: linear-gradient(143deg, #FFB75C 2.94%, #694C27 97.06%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      flex-shrink: 0;
+      margin-left: -2px;
+      padding-top: 2px;
+    }
+  }
+
+  .wizard-icon {
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    min-height: 25px;
+    object-fit: contain;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.60));
+    
+    &.pulsing {
+      cursor: pointer;
+      animation: pulse-glow 2s ease-in-out infinite;
+
+      &:hover {
+        transform: scale(1.1);
+        animation: none;
+        filter: drop-shadow(0 0 20px rgba(255, 183, 92, 1))
+                drop-shadow(0 0 15px rgba(255, 215, 130, 1));
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+
+  .level-container {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    
+    .level-input {
+      display: flex;
+      width: 23px;
+      height: 23px;
+      padding: 0.25px 0px 0px 0px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 6px;
+      border: 1.7px solid rgba(207, 149, 76, 0.60);
+      background: rgba(105, 76, 39, 0.60);
+      text-align: center;
+      font-size: 14px;
+      color: white;
+      outline: none;
+      filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.60));
+
+      &:focus {
+        border-color: rgba(207, 149, 76, 0.90);
+        background: rgba(105, 76, 39, 0.85);
+      }
+    }
+  }
+
+  .xp-container {
+    display: flex;
+    align-items: center;
+    gap: 4.5px;
+    width: 57px;
+    height: 23px;
+    padding: 0.25px 0px 0px 0px;
+    justify-content: center;
+    border-radius: 6px;
+    border: 1.7px solid rgba(207, 149, 76, 0.6);
+    background: rgba(105, 76, 39, 0.6);
+    flex-shrink: 1;
+    min-width: 0;
+    filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.60));
+
+    &:focus-within {
+      border-color: rgba(207, 149, 76, 0.90);
+      background: rgba(105, 76, 39, 0.85);
+    }
+
+    .status-current,
+    .status-next {
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-size: 14px;
+      padding: 0;
+      width: 23px;
+      height: 23px;
+      color: white;
+      outline: none;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+
+    .status-separator {
+      margin: 0px -6px;
+      width: 8px;
+      height: 16px;
+      min-width: 8px;
+      min-height: 16px;
+      flex-shrink: 0;
+      object-fit: contain;
+    }
+  }
+}

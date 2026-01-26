@@ -1,0 +1,155 @@
+// Rest Selection Dialog Styles
+
+.rest-selection-dialog {
+  .dialog-header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+
+    h2 {
+      margin: 0 0 10px 0;
+      font-size: 20px;
+      color: #CF954C;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      color: #ccc;
+    }
+  }
+
+  .dialog-content {
+    padding: 20px;
+  }
+
+  .rest-options {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .rest-option {
+    flex: 1;
+    max-width: 180px;
+    padding: 20px;
+    border: 2px solid rgba(105, 76, 39, 0.6);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+
+    .rest-icon {
+      font-size: 48px;
+      color: #CF954C;
+      transition: all 0.3s ease;
+    }
+
+    .rest-label {
+      font-weight: bold;
+      font-size: 16px;
+      color: #CF954C;
+      text-align: center;
+    }
+
+    .rest-description {
+      font-size: 12px;
+      color: #ccc;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    &:hover,
+    &.hovered {
+      border-color: #CF954C;
+      background: rgba(207, 149, 76, 0.1);
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(207, 149, 76, 0.3);
+
+      .rest-icon {
+        transform: scale(1.1);
+        color: #FFB366;
+      }
+    }
+
+    &:active {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(207, 149, 76, 0.2);
+    }
+
+    &[data-rest-type="short"] {
+      .rest-icon {
+        color: #4caf50;
+      }
+
+      &:hover,
+      &.hovered {
+        border-color: #4caf50;
+        background: rgba(76, 175, 80, 0.1);
+
+        .rest-icon {
+          color: #66bb6a;
+        }
+      }
+    }
+
+    &[data-rest-type="long"] {
+      .rest-icon {
+        color: #2196f3;
+      }
+
+      &:hover,
+      &.hovered {
+        border-color: #2196f3;
+        background: rgba(33, 150, 243, 0.1);
+
+        .rest-icon {
+          color: #42a5f5;
+        }
+      }
+    }
+  }
+
+  .dialog-footer {
+    padding: 15px 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+
+    .dialog-button {
+      padding: 8px 16px;
+      border: 1px solid rgba(105, 76, 39, 0.6);
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.2);
+      color: #ccc;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+
+      i {
+        font-size: 14px;
+      }
+
+      &:hover {
+        border-color: #CF954C;
+        background: rgba(207, 149, 76, 0.1);
+        color: #fff;
+      }
+
+      &.cancel {
+        border-color: #f44336;
+
+        &:hover {
+          border-color: #ef5350;
+          background: rgba(244, 67, 54, 0.1);
+        }
+      }
+    }
+  }
+}

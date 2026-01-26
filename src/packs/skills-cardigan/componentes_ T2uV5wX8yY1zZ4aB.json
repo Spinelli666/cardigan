@@ -1,0 +1,67 @@
+{
+  "_id": "T2uV5wX8yY1zZ4aB",
+  "_key": "!items!T2uV5wX8yY1zZ4aB",
+  "name": "Componentes",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/wanderer.webp",
+  "system": {
+    "skillActionTypes": [
+      "passiva"
+    ],
+    "skillClass": "andarilho",
+    "spellCategories": [],
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você sabe reaproveitar tudo o que encontra no caminho.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao comprar qualquer habilidade do <strong>::systems/cardigan/assets/images/paths/wanderer.webp::Andarilho</strong> você recebe passivamente a chance de saquear recursos de sobrevivência e criação generalizadamente chamados <strong><code>⚙️Componentes</code></strong> quando revistar um cenário, corpo, contêiner e etc.</p><p style=\"text-align: justify;\">Estes Componentes podem ser usados na criação de itens com as habilidades técnicas desta classe. É possível converter <strong>Ingredientes de Profissões</strong> em <strong>Componentes</strong>, e muitos <em>objetos mundanos</em> podem ser usados como Componentes a critério do narrador, quando se realiza o seguinte teste:</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/types-actions/simple-action.webp:: ⬩ <strong><code>IMPROVISO</code> ‣</strong> Você tem uma chance de saquear <strong><code>1d6⚙️Componentes</code></strong> ao realizar o teste de determinar a qualidade de saque com <strong>Furtividade</strong>, ou com testes investigativos de percepção com a perícia <strong>Inteligência</strong>.</p>"
+  },
+  "effects": [],
+  "folder": "Sk1AndarilhoXy7Z",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

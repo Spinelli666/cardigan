@@ -1,0 +1,66 @@
+<div class="recipe-crafting-dialog">
+  <div class="dialog-header">
+    <i class="fas fa-hammer header-icon"></i>
+    <h3 class="dialog-title">{{recipe.name}}</h3>
+  </div>
+  
+  {{#if hasResultItems}}
+    {{!-- NEW SYSTEM: Show predefined result items --}}
+    <div class="result-item-selection">
+      <p class="section-title">Selecione o item:</p>
+      <div class="result-items-grid">
+        {{#each resultItems as |result index|}}
+          <div class="result-item-card {{#if result.isDefault}}is-default{{/if}}" 
+               data-item-index="{{index}}">
+            <img src="{{result.img}}" alt="{{result.name}}" class="item-image" />
+            <div class="item-info">
+              <h5 class="item-name">{{result.name}}</h5>
+              <span class="item-quantity">{{result.quantity}}x</span>
+              {{#if result.requiredIngredients.length}}
+                <div class="required-ingredients-preview">
+                  <small><i class="fas fa-leaf"></i> Requer:</small>
+                  {{#each result.requiredIngredients as |ingredient|}}
+                    <span class="ingredient-tag">{{ingredient.name}} x{{ingredient.quantity}}</span>
+                  {{/each}}
+                </div>
+              {{/if}}
+            </div>
+            {{#if result.isDefault}}
+              <i class="fas fa-star default-star"></i>
+            {{/if}}
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  {{else}}
+    {{!-- OLD SYSTEM: Show item type selection --}}
+    <div class="item-type-selection">
+      <h4>{{localize "CARDIGAN.Crafting.SelectItemType"}}</h4>
+      {{#if recipe.system.resultItem}}
+        <p><em>{{localize "CARDIGAN.Crafting.SuggestedItem"}}: {{recipe.system.resultItem}}</em></p>
+      {{/if}}
+      <div class="item-types-grid">
+        {{#each itemTypes}}
+          <div class="item-type-option" data-action="selectItemType" data-item-type="{{type}}">
+            <div class="item-type-icon">
+              <i class="{{icon}}"></i>
+            </div>
+            <div class="item-type-info">
+              <h5>{{localize name}}</h5>
+              <p>{{localize description}}</p>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  {{/if}}
+  
+  <div class="dialog-buttons">
+    <button type="button" data-action="cancel" class="button cancel">
+      <i class="fas fa-times"></i> Cancelar
+    </button>
+    <button type="button" data-action="craft" class="button craft" disabled>
+      <i class="fas fa-hammer"></i> Craftar
+    </button>
+  </div>
+</div>

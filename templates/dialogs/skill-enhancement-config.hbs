@@ -1,0 +1,98 @@
+<div class="enhancement-config-dialog">
+  <form>
+    <div class="form-group description-group">
+      <label for="enhancement-description">{{localize "CARDIGAN.Common.Description"}}</label>
+      <prose-mirror
+        name="description"
+        data-document-u-u-i-d="{{document.uuid}}"
+        value="{{enhancement.description}}"
+        collaborate="true"
+        toggled="true"
+      >{{{enrichedDescription}}}</prose-mirror>
+    </div>
+
+    <div class="form-group energy-group">
+      <label class="checkbox">
+        <input type="checkbox" name="hasEnergy" {{#if enhancement.hasEnergy}}checked{{/if}} />
+        <span>{{localize "CARDIGAN.Item.Skill.EnhancementConfig.ModifyEnergyCost"}}</span>
+      </label>
+      
+      <div class="energy-cost-input" style="display: {{#if enhancement.hasEnergy}}block{{else}}none{{/if}};">
+        <label for="energyCost">{{localize "CARDIGAN.Item.Skill.EnhancementConfig.NewEnergyCost"}}</label>
+        <input 
+          type="number" 
+          name="energyCost" 
+          id="energyCost" 
+          value="{{enhancement.energyCost}}" 
+          min="0" 
+          placeholder="Ex: 5"
+        />
+        <p class="hint">{{localize "CARDIGAN.Item.Skill.EnhancementConfig.EnergyCostHint"}}</p>
+      </div>
+    </div>
+
+    <div class="form-group effects-group">
+      <label class="checkbox">
+        <input type="checkbox" name="hasEffects" {{#if enhancement.hasEffects}}checked{{/if}} />
+        <span>{{localize "CARDIGAN.Item.Skill.EnhancementConfig.ApplyEffects"}}</span>
+      </label>
+      
+      <div class="effects-config" style="display: {{#if enhancement.hasEffects}}block{{else}}none{{/if}};">
+        <button type="button" class="configure-effects-btn" data-action="configureEnhancementEffects">
+          <i class="fas fa-cog"></i> {{localize "CARDIGAN.Item.Skill.ConfigureEffects"}}
+        </button>
+        
+        {{#if enhancement.customEffects.length}}
+        <div class="selected-effects">
+          <h4>{{localize "CARDIGAN.Item.Skill.SelectedEffects"}}</h4>
+          <div class="effects-list">
+            {{#each enhancement.customEffects}}
+            <div class="effect-item">
+              <img src="{{img}}" alt="{{name}}" width="24" height="24">
+              <span>{{name}}</span>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+        {{else}}
+        <div class="no-effects">
+          <em>{{localize "CARDIGAN.Item.Skill.NoEffectsSelected"}}</em>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="form-group linked-skills-group">
+      <label class="checkbox">
+        <input type="checkbox" name="hasLinkedSkills" {{#if enhancement.hasLinkedSkills}}checked{{/if}} />
+        <span>{{localize "CARDIGAN.Item.Skill.AddLinkedSkills"}}</span>
+      </label>
+      
+      <div class="linked-skills-config" style="display: {{#if enhancement.hasLinkedSkills}}block{{else}}none{{/if}};">
+        <button type="button" class="configure-linked-skills-btn" data-action="configureEnhancementLinkedSkills">
+          <i class="fas fa-link"></i> {{localize "CARDIGAN.Item.Skill.ConfigureLinkedSkills"}}
+        </button>
+        
+        {{#if enhancement.linkedSkills.length}}
+        <div class="selected-skills">
+          <h4>{{localize "CARDIGAN.Item.Skill.LinkedSkills"}}</h4>
+          <div class="skills-list">
+            {{#each enhancement.linkedSkills}}
+            <div class="skill-item">
+              {{#if img}}
+              <img src="{{img}}" alt="{{name}}" width="24" height="24">
+              {{/if}}
+              <span>{{name}}</span>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+        {{else}}
+        <div class="no-skills">
+          <em>{{localize "CARDIGAN.Item.Skill.NoSkillsSelected"}}</em>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,20 @@
+<div class="player-selection-dialog">
+  <p class="instruction">Selecione com qual jogador você deseja negociar:</p>
+  
+  <div class="player-list">
+    {{#each players}}
+      <div class="player-option" data-actor-id="{{this.id}}">
+        <img src="{{this.img}}" alt="{{this.name}}" class="player-avatar" />
+        <div class="player-info">
+          <span class="player-name">{{this.name}}</span>
+          {{#if this.playerName}}
+            <span class="player-owner">({{this.playerName}})</span>
+          {{/if}}
+        </div>
+        <button type="button" class="select-player-btn" data-actor-id="{{this.id}}">
+          <i class="fas fa-handshake"></i> Negociar
+        </button>
+      </div>
+    {{/each}}
+  </div>
+</div>

@@ -1,0 +1,49 @@
+{
+  "_id": "L1uV2aS3iN4vE5rN",
+  "_key": "!items!L1uV2aS3iN4vE5rN",
+  "name": "Luvas de Inverno",
+  "type": "armadura",
+  "img": "systems/cardigan/assets/images/armor/arms.webp",
+  "folder": "B1rA2cO3sD4eF5gH",
+  "system": {
+    "description": "",
+    "armorType": "bracos",
+    "protecao": 0,
+    "armorClass": "Luvas de Inverno",
+    "equipped": false,
+    "skillBonuses": [],
+    "magicalArtifact": false,
+    "resistenciaFrio": true,
+    "stylish": false,
+    "bonusVida": 0,
+    "bonusEnergia": 0,
+    "bonusDeslocamento": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "bonusEspacoMochila": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "weight": "leve",
+    "price": 15,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "quantity": 1
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

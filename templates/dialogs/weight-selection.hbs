@@ -1,0 +1,56 @@
+{{!-- Weight Selection Dialog Template --}}
+<form class="weight-selection-dialog">
+  <header class="dialog-header">
+    <h2><i class="fas fa-balance-scale"></i> {{localize "CARDIGAN.SelectWeight"}}</h2>
+    <p class="dialog-subtitle">
+      {{#if isBackpackItem}}
+        {{localize "CARDIGAN.SelectWeightBackpack" name=itemName}}
+      {{else}}
+        {{localize "CARDIGAN.SelectWeightEquipment" name=itemName}}
+      {{/if}}
+    </p>
+  </header>
+
+  <div class="weight-options">
+    {{#each weightOptions}}
+      <button type="button" class="weight-option" data-weight="{{value}}" title="{{localize description}}">
+        <div class="weight-icon">
+          {{#if (eq value "leve")}}
+            <i class="fas fa-feather"></i>
+          {{else if (eq value "leve")}}
+            <i class="fas fa-cube"></i>
+          {{else if (eq value "medio")}}
+            <i class="fas fa-box"></i>
+          {{else if (eq value "pesado")}}
+            <i class="fas fa-dumbbell"></i>
+          {{else if (eq value "muito-pesado")}}
+            <i class="fas fa-anchor"></i>
+          {{/if}}
+        </div>
+        <div class="weight-info">
+          <div class="weight-name">{{localize label}}</div>
+          <div class="weight-description">{{localize description}}</div>
+        </div>
+        <div class="weight-spaces">
+          {{#if (eq value "leve")}}
+            <span class="spaces-info">+1 espaço / 10 itens</span>
+          {{else if (eq value "leve")}}
+            <span class="spaces-info">1 espaço / 11 itens</span>
+          {{else if (eq value "medio")}}
+            <span class="spaces-info">1 espaço / item</span>
+          {{else if (eq value "pesado")}}
+            <span class="spaces-info">2 espaços / item</span>
+          {{else if (eq value "muito-pesado")}}
+            <span class="spaces-info">4 espaços / item</span>
+          {{/if}}
+        </div>
+      </button>
+    {{/each}}
+  </div>
+
+  <footer class="dialog-footer">
+    <button type="button" data-action="cancel" class="cancel-btn">
+      <i class="fas fa-times"></i> {{localize "Cancel"}}
+    </button>
+  </footer>
+</form>

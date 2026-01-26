@@ -4,35 +4,29 @@
  * @return {object}                   Data for rendering
  */
 export function prepareActiveEffectCategories(effects) {
-  // Define effect header categories
+  // Define single effect category - simplified approach
   const categories = {
-    temporary: {
-      type: 'temporary',
-      label: game.i18n.localize('CARDIGAN.Effect.Temporary'),
-      effects: [],
-    },
-    passive: {
-      type: 'passive',
-      label: game.i18n.localize('CARDIGAN.Effect.Passive'),
-      effects: [],
-    },
-    inactive: {
-      type: 'inactive',
-      label: game.i18n.localize('CARDIGAN.Effect.Inactive'),
+    effects: {
+      type: 'effects',
+      label: game.i18n.localize('CARDIGAN.Effect.Effects'),
       effects: [],
     },
   };
 
-  // Iterate over active effects, classifying them into categories
+  // Add all effects to the single category, sorted by active/inactive
   for (const e of effects) {
-    if (e.disabled) categories.inactive.effects.push(e);
-    else if (e.isTemporary) categories.temporary.effects.push(e);
-    else categories.passive.effects.push(e);
+    categories.effects.effects.push(e);
   }
 
-  // Sort each category
-  for (const c of Object.values(categories)) {
-    c.effects.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-  }
+  // Sort effects - active effects first, then by name
+  categories.effects.effects.sort((a, b) => {
+    // First sort by disabled status (active effects first)
+    if (a.disabled !== b.disabled) {
+      return a.disabled ? 1 : -1;
+    }
+    // Then sort by name
+    return (a.name || '').localeCompare(b.name || '');
+  });
+
   return categories;
 }

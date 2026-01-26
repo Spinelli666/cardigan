@@ -23,6 +23,19 @@ export default class CardiganSystemActorBase extends foundry.abstract
       value: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
       max: new fields.NumberField({ ...requiredInteger, initial: 0 }),
     });
+    schema.backpack = new fields.SchemaField({
+      current: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+      max: new fields.NumberField({ ...requiredInteger, initial: 15 }),
+    });
+    
+    // Money field
+    schema.money = new fields.NumberField({
+      required: true,
+      nullable: false,
+      integer: true,
+      initial: 0,
+      min: 0
+    });
     
     // Character details
     schema.details = new fields.SchemaField({
@@ -30,7 +43,15 @@ export default class CardiganSystemActorBase extends foundry.abstract
       age: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
       race: new fields.StringField({ initial: "" }),
       movement: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
-      criticalHit: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+      movementManual: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+      criticalHit: new fields.NumberField({ ...requiredInteger, initial: 20, min: 1 }),
+      criticalHitManual: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+    });
+    
+    // Sanity field
+    schema.sanity = new fields.SchemaField({
+      value: new fields.NumberField({ ...requiredInteger, initial: 50, min: 0 }),
+      max: new fields.NumberField({ ...requiredInteger, initial: 50, min: 0 }),
     });
     
     // Character classes

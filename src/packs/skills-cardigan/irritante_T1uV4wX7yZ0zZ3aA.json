@@ -1,0 +1,73 @@
+{
+  "_id": "T1uV4wX7yZ0zZ3aA",
+  "_key": "!items!T1uV4wX7yZ0zZ3aA",
+  "name": "Irritante",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "short-action"
+    ],
+    "skillClass": "ladino",
+    "spellCategories": [],
+    "hasEnergyCost": true,
+    "energyCost": 4,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Aumenta o bônus de <strong>Destreza</strong> para <strong><code>+2</code></strong> por inimigo.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Inimigos provocados recebem <strong><code>💢@UUID[Compendium.cardigan.efeitos-cardigan.Item.R6sT7uV8wX9yZ0aB]{Irado}</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+          {
+            "id": "R6sT7uV8wX9yZ0aB",
+            "name": "Irado",
+            "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
+          }
+        ],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Para cada inimigo provocado você também recebe <strong><code>+1</code> Evasão</strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Vocẽ é bom em despertar o pior nas pessoas. Parabéns.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao ativar esta habilidade você deve realizar um teste de <strong>Persuasão</strong> contra cada inimigo que possa ouvir seu personagem. Com sucesso, você os provoca a atacar apenas seu personagem por <strong>duas Rodadas</strong>.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Para cada inimigo provocado você recebe <strong><code>+1</code></strong> de <strong>Destreza</strong> temporária.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::O bônus temporário é removido ao encerrar o efeito de provocação, e você não pode utilizar essa habilidade novamente por <strong>duas Rodadas</strong>.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

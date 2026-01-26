@@ -1,0 +1,53 @@
+{
+  "_id": "L2qW5yH8cX1vF3mG",
+  "_key": "!items!L2qW5yH8cX1vF3mG",
+  "name": "Mosquete",
+  "type": "arma",
+  "img": "systems/cardigan/assets/images/weapons/musket.webp",
+  "folder": "C6vB0nK4zX1rT7sP",
+  "system": {
+    "description": "",
+    "weaponType": "Mosquete",
+    "melee": false,
+    "ranged": true,
+    "isFirearm": true,
+    "magazine": 0,
+    "loadedAmmo": 0,
+    "loadedAmmoTypes": {},
+    "damage": {
+      "value": "20",
+      "useStrength": false,
+      "useDexterity": true,
+      "total": "20"
+    },
+    "properties": ["perfurar", "pente", "recarga", "ferir", "impacto"],
+    "rightHand": false,
+    "leftHand": false,
+    "weight": "pesado",
+    "price": 200,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "skillBonuses": [],
+    "equipped": false,
+    "magicalArtifact": false,
+    "protection": {
+      "enabled": false,
+      "value": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

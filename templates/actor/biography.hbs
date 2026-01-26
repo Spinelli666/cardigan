@@ -4,6 +4,68 @@
   data-group='primary'
   data-tab='biography'
 >
+  {{#unless (eq actor.type "npc")}}
+  <div class='rest-buttons flexrow flex-center'>
+    <button type='button' class='rest-button trade-button' data-action='initiateTrade' title='Negociar Items com outros jogadores'>
+      <i class='fas fa-handshake'></i> Negociar
+    </button>
+  </div>
+  {{/unless}}
+  
+  {{! Character Details Container }}
+  <div class='character-details-container'>
+    <h3>Character Details</h3>
+    
+    {{! Nome }}
+    <div class='detail-field'>
+      <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.name.label"}}:</label>
+      <input
+        type='text'
+        name='system.details.name'
+        value='{{system.details.name}}'
+      />
+    </div>
+    
+    {{! Idade }}
+    <div class='detail-field'>
+      <label>{{localize "CARDIGAN.Actor.base.FIELDS.details.age.label"}}:</label>
+      <input
+        type='number'
+        name='system.details.age'
+        value='{{system.details.age}}'
+        data-dtype='Number'
+        min='0'
+      />
+    </div>
+  </div>
+
+  {{! Additional Notes Container }}
+  <div class='additional-notes-container'>
+    <div class="additional-notes-header">
+      <h3>Additional Notes</h3>
+      <div class="additional-notes-toggle">
+        <label>
+          <input
+            type="checkbox"
+            name="system.details.showAdditionalNotes"
+            {{#if system.details.showAdditionalNotes}}checked{{/if}}
+            data-dtype="Boolean"
+          />
+          Show Additional Notes
+        </label>
+      </div>
+    </div>
+    {{#if system.details.showAdditionalNotes}}
+      <section class='additional-notes-editor'>
+        <textarea
+          name="system.details.additionalNotes"
+          rows="6"
+          placeholder="Digite suas notas adicionais aqui..."
+        >{{system.details.additionalNotes}}</textarea>
+      </section>
+    {{/if}}
+  </div>
+  
   {{! Editors must receive enriched text data from getData to properly handle rolls, UUID links, etc. }}
   {{#if editable}} 
     <prose-mirror name="system.biography" data-document-u-u-i-d="{{actor.uuid}}" value="{{system.biography}}" collaborate="true" toggled="true">

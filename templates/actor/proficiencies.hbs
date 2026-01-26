@@ -1,0 +1,501 @@
+{{! proficiencies Tab }}
+<section
+  class='tab proficiencies {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='proficiencies'
+>
+  <img src='systems/cardigan/assets/images/decorative/divider.webp' class='proficiencies-divider-top' alt='Divider' />
+  <section class='main proficiencies-tab-main'>
+    {{! Proficiencies }}
+    <div class='proficiencies'>
+      {{! Combat Proficiencies - Accuracy & Evasion }}
+      <div class='combat-proficiencies-container'>
+        <img src='systems/cardigan/assets/images/decorative/accuracy-attack.webp' class='accuracy-attack-image' alt='Accuracy Attack' />
+        <div class='proficiencies-list'>
+          <div class='proficiency-item'>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.abilities.accuracy.totalBonus'
+                value='{{system.abilities.accuracy.totalBonus}}'
+                data-dtype='Number'
+                class='bonus-input dynamic-field'
+                data-ability='accuracy'
+                data-field='totalBonus'
+              />
+            </div>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.abilities.accuracy.value'
+                value='{{system.abilities.accuracy.value}}'
+                data-dtype='Number'
+                class='ability-value dynamic-field'
+                data-ability='accuracy'
+                data-field='value'
+              />
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' class='d20-icon' alt='d20' />
+            </div>
+          </div>
+          <div class='proficiency-label-wrapper'>
+            <label 
+              class='proficiency-clickable-label' 
+              data-tooltip='PRECISÃO'
+              data-tooltip-class='cardigan-proficiency-tooltip'
+              data-tooltip-direction='DOWN'
+              data-tooltip-title='PRECISÃO'
+              data-tooltip-description='<p style="text-align: justify">Sempre que realizar testes de <em>Precisão, Evasão, Força e Destreza</em>, você recebe <strong><code>5🩸</code></strong> de Dano Físico. Fora de Combate este efeito ocorre a cada <strong>10</strong> minutos. Pode ser removido com <strong>Bandagem Curativa</strong> e <strong>Conjunto Cirúrgico</strong>.</p>'>
+              {{localize "CARDIGAN.Ability.Accuracy.long"}}
+            </label>
+          </div>
+        </div>
+        <div class='proficiencies-list'>
+          <div class='proficiency-item'>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.abilities.evasion.totalBonus'
+                value='{{system.abilities.evasion.totalBonus}}'
+                data-dtype='Number'
+                class='bonus-input dynamic-field'
+                data-ability='evasion'
+                data-field='totalBonus'
+              />
+            </div>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.abilities.evasion.value'
+                value='{{system.abilities.evasion.value}}'
+                data-dtype='Number'
+                class='ability-value dynamic-field'
+                data-ability='evasion'
+                data-field='value'
+              />
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' class='d20-icon' alt='d20' />
+            </div>
+          </div>
+          <div class='proficiency-label-wrapper'>
+            <label
+              class='proficiency-clickable-label'
+              data-tooltip='EVASÃO'
+              data-tooltip-class='cardigan-proficiency-tooltip'
+              data-tooltip-direction='DOWN'
+              data-tooltip-title='EVASÃO'
+              data-tooltip-description='Usado para esquivar de ataques, reduzir dano e testes de agilidade'>
+              {{localize "CARDIGAN.Ability.Evasion.long"}}
+            </label>
+          </div>
+        </div>
+        <img src='systems/cardigan/assets/images/decorative/evasion-defense.webp' class='evasion-defense-image' alt='Evasion Defense' />
+      </div>
+
+      {{! Attribute Proficiencies - Strength, Dexterity, Stamina, etc }}
+      <div class='attribute-proficiencies-container'>
+        {{! Strength }}
+        <div class='proficiencies-list'>
+          <div class='proficiency-item'>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.abilities.strength.totalBonus'
+                value='{{system.abilities.strength.totalBonus}}'
+                data-dtype='Number'
+                class='bonus-input dynamic-field'
+                data-ability='strength'
+                data-field='totalBonus'
+              />
+            </div>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.abilities.strength.value'
+                value='{{system.abilities.strength.value}}'
+                data-dtype='Number'
+                class='ability-value dynamic-field'
+                data-ability='strength'
+                data-field='value'
+              />
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' class='d20-icon' alt='d20' />
+            </div>
+          </div>
+          <div class='proficiency-label-wrapper'>
+            <label 
+              class='proficiency-clickable-label' 
+              data-tooltip='FORÇA'
+              data-tooltip-class='cardigan-proficiency-tooltip'
+              data-tooltip-direction='DOWN'
+              data-tooltip-title='FORÇA'
+              data-tooltip-description='<p style="text-align: justify">Sempre que realizar testes de <em>Precisão, Evasão, Força e Destreza</em>, você recebe <strong><code>5🩸</code></strong> de Dano Físico. Fora de Combate este efeito ocorre a cada <strong>10</strong> minutos. Pode ser removido com ::systems/cardigan/assets/images/alchemy/bandage.webp:: <strong>Bandagem Curativa</strong> e ::systems/cardigan/assets/images/alchemy/surgical-kit.webp:: <strong>Conjunto Cirúrgico</strong>.</p>'>
+              {{localize "CARDIGAN.Ability.Strength.long"}}
+            </label>
+          </div>
+        </div>
+
+        {{! Dexterity }}
+        <div class='proficiencies-list'>
+          <div class='proficiency-item'>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.abilities.dexterity.totalBonus'
+                value='{{system.abilities.dexterity.totalBonus}}'
+                data-dtype='Number'
+                class='bonus-input dynamic-field'
+                data-ability='dexterity'
+                data-field='totalBonus'
+              />
+            </div>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.abilities.dexterity.value'
+                value='{{system.abilities.dexterity.value}}'
+                data-dtype='Number'
+                class='ability-value dynamic-field'
+                data-ability='dexterity'
+                data-field='value'
+              />
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' class='d20-icon' alt='d20' />
+            </div>
+          </div>
+          <div class='proficiency-label-wrapper'>
+            <label
+              class='proficiency-clickable-label'
+              data-tooltip='DESTREZA'
+              data-tooltip-class='cardigan-proficiency-tooltip'
+              data-tooltip-direction='DOWN'
+              data-tooltip-title='DESTREZA'
+              data-tooltip-description='Usado para ações que exigem precisão manual, reflexos e coordenação motora'>
+              {{localize "CARDIGAN.Ability.Dexterity.long"}}
+            </label>
+          </div>
+        </div>
+
+        {{! Stamina }}
+        <div class='proficiencies-list'>
+          <div class='proficiency-item'>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.abilities.stamina.totalBonus'
+                value='{{system.abilities.stamina.totalBonus}}'
+                data-dtype='Number'
+                class='bonus-input dynamic-field'
+                data-ability='stamina'
+                data-field='totalBonus'
+              />
+            </div>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.abilities.stamina.value'
+                value='{{system.abilities.stamina.value}}'
+                data-dtype='Number'
+                class='ability-value dynamic-field'
+                data-ability='stamina'
+                data-field='value'
+              />
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' class='d20-icon' alt='d20' />
+            </div>
+          </div>
+          <div class='proficiency-label-wrapper'>
+            <label
+              class='proficiency-clickable-label'
+              data-tooltip='VIGOR'
+              data-tooltip-class='cardigan-proficiency-tooltip'
+              data-tooltip-direction='DOWN'
+              data-tooltip-title='VIGOR'
+              data-tooltip-description='Usado para resistir a fadiga, venenos, doenças e efeitos de resistência física'>
+              {{localize "CARDIGAN.Ability.Stamina.long"}}
+            </label>
+          </div>
+        </div>
+
+        {{! Stealth }}
+        <div class='proficiencies-list'>
+          <div class='proficiency-item'>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.abilities.stealth.totalBonus'
+                value='{{system.abilities.stealth.totalBonus}}'
+                data-dtype='Number'
+                class='bonus-input dynamic-field'
+                data-ability='stealth'
+                data-field='totalBonus'
+              />
+            </div>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.abilities.stealth.value'
+                value='{{system.abilities.stealth.value}}'
+                data-dtype='Number'
+                class='ability-value dynamic-field'
+                data-ability='stealth'
+                data-field='value'
+              />
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' class='d20-icon' alt='d20' />
+            </div>
+          </div>
+          <div class='proficiency-label-wrapper'>
+            <label
+              class='proficiency-clickable-label'
+              data-tooltip='FURTIVIDADE'
+              data-tooltip-class='cardigan-proficiency-tooltip'
+              data-tooltip-direction='DOWN'
+              data-tooltip-title='FURTIVIDADE'
+              data-tooltip-description='Usado para mover-se silenciosamente, esconder-se e agir sem ser detectado'>
+              {{localize "CARDIGAN.Ability.Stealth.long"}}
+            </label>
+          </div>
+        </div>
+
+        {{! Persuasion }}
+        <div class='proficiencies-list'>
+          <div class='proficiency-item'>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.abilities.persuasion.totalBonus'
+                value='{{system.abilities.persuasion.totalBonus}}'
+                data-dtype='Number'
+                class='bonus-input dynamic-field'
+                data-ability='persuasion'
+                data-field='totalBonus'
+              />
+            </div>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.abilities.persuasion.value'
+                value='{{system.abilities.persuasion.value}}'
+                data-dtype='Number'
+                class='ability-value dynamic-field'
+                data-ability='persuasion'
+                data-field='value'
+              />
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' class='d20-icon' alt='d20' />
+            </div>
+          </div>
+          <div class='proficiency-label-wrapper'>
+            <label
+              class='proficiency-clickable-label'
+              data-tooltip='PERSUASÃO'
+              data-tooltip-class='cardigan-proficiency-tooltip'
+              data-tooltip-direction='DOWN'
+              data-tooltip-title='PERSUASÃO'
+              data-tooltip-description='Usado para influenciar pessoas, negociar, enganar e interações sociais'>
+              {{localize "CARDIGAN.Ability.Persuasion.long"}}
+            </label>
+          </div>
+        </div>
+
+        {{! Intelligence }}
+        <div class='proficiencies-list'>
+          <div class='proficiency-item'>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.abilities.intelligence.totalBonus'
+                value='{{system.abilities.intelligence.totalBonus}}'
+                data-dtype='Number'
+                class='bonus-input dynamic-field'
+                data-ability='intelligence'
+                data-field='totalBonus'
+              />
+            </div>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.abilities.intelligence.value'
+                value='{{system.abilities.intelligence.value}}'
+                data-dtype='Number'
+                class='ability-value dynamic-field'
+                data-ability='intelligence'
+                data-field='value'
+              />
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' class='d20-icon' alt='d20' />
+            </div>
+          </div>
+          <div class='proficiency-label-wrapper'>
+            <label
+              class='proficiency-clickable-label'
+              data-tooltip='INTELIGÊNCIA'
+              data-tooltip-class='cardigan-proficiency-tooltip'
+              data-tooltip-direction='DOWN'
+              data-tooltip-title='INTELIGÊNCIA'
+              data-tooltip-description='Usado para raciocínio lógico, conhecimento, investigação e resolução de problemas'>
+              {{localize "CARDIGAN.Ability.Intelligence.long"}}
+            </label>
+          </div>
+        </div>
+
+        {{! Psionics }}
+        <div class='proficiencies-list'>
+          <div class='proficiency-item'>
+            <div class='bonus-container'>
+              <input
+                type='number'
+                name='system.abilities.psionics.totalBonus'
+                value='{{system.abilities.psionics.totalBonus}}'
+                data-dtype='Number'
+                class='bonus-input dynamic-field'
+                data-ability='psionics'
+                data-field='totalBonus'
+              />
+            </div>
+            <div class='status-display'>
+              <input
+                type='number'
+                name='system.abilities.psionics.value'
+                value='{{system.abilities.psionics.value}}'
+                data-dtype='Number'
+                class='ability-value dynamic-field'
+                data-ability='psionics'
+                data-field='value'
+              />
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' class='d20-icon' alt='d20' />
+            </div>
+          </div>
+          <div class='proficiency-label-wrapper'>
+            <label
+              class='proficiency-clickable-label'
+              data-tooltip='PSIONISMO'
+              data-tooltip-class='cardigan-proficiency-tooltip'
+              data-tooltip-direction='DOWN'
+              data-tooltip-title='PSIONISMO'
+              data-tooltip-description='Usado para habilidades psíquicas, telepatia, telecinese e poderes mentais'>
+              {{localize "CARDIGAN.Ability.Psionics.long"}}
+            </label>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  {{! Effects Grid }}
+  <div class='proficiencies-effects-grid'>
+    {{! Effects Container }}
+    <div class='proficiencies-effects-container'>
+      <div class="effects-header">
+        <div class="effects-toggle" data-cardigan-tooltip="Efeitos">
+          <input
+            type="checkbox"
+            name="system.details.showEffectsTab"
+            {{#if system.details.showEffectsTab}}checked{{/if}}
+            data-dtype="Boolean"
+            style="display: none;"
+          />
+          <img 
+            src="systems/cardigan/assets/images/effects/effects.webp" 
+            alt="Toggle Effects" 
+            class="effects-toggle-icon"
+            data-action="toggleEffectsSection"
+          />
+        </div>
+        {{#if system.details.showEffectsTab}}
+          <div class='effect-controls'>
+          </div>
+        {{/if}}
+      </div>
+      
+      {{#if system.details.showEffectsTab}}
+        <div class="effects-content-wrapper">
+          <div class="add-effect-button-container">
+            <img 
+              src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg" 
+              alt="Add Effect" 
+              class="add-effect-icon"
+              data-cardigan-tooltip="Adicionar Efeito"
+              data-action="createDoc"
+              data-document-class="Item"
+              data-type="efeito"
+            />
+          </div>
+          {{! Unified Effects List - ActiveEffects and Items together }}
+          {{! ActiveEffects are filtered to hide duplicates of Item efeitos }}
+          <ol class='effects-list'>
+          {{#each filteredEffects as |effect|}}
+            <li
+              class='effect flexrow'
+              data-effect-id='{{effect.id}}'
+              data-document-class='ActiveEffect'
+            >
+              <div class='effect-image'>
+                <img src='{{effect.img}}' alt='{{effect.name}}' width='24' height='24' />
+              </div>
+              
+              <div class='effect-name'>
+                <h4 
+                  data-tooltip="{{effect.name}}{{#if effect.flags.cardigan.descriptionPlainText}}<br><em>{{effect.flags.cardigan.descriptionPlainText}}</em>{{/if}}"
+                  data-tooltip-direction="UP"
+                  data-tooltip-class="cardigan-tooltip"
+                  data-action="showEffectInChat"
+                  data-effect-name="{{effect.name}}"
+                  data-effect-description="{{effect.flags.cardigan.description}}"
+                  class="clickable-effect"
+                >
+                  {{effect.name}}
+                  {{#if effect.disabled}}<em> (Disabled)</em>{{/if}}
+                </h4>
+              </div>
+
+              <div class='effect-controls flexrow'>
+                {{#if @root.editable}}
+                <a class='effect-control' data-action='deleteDoc' title='Delete Effect'>
+                  <img src='systems/cardigan/assets/images/decorative/icons/icon-delete.svg' alt='Delete' class='delete-icon' width='12' height='12' />
+                </a>
+                {{/if}}
+              </div>
+            </li>
+          {{/each}}
+
+          {{#each efeitos as |efeito|}}
+            <li
+              class='effect flexrow'
+              data-item-id='{{efeito.id}}'
+              data-document-class='Item'
+              data-drag="true"
+            >
+              <div class='effect-image'>
+                <img src='{{efeito.img}}' alt='{{efeito.name}}' width='24' height='24' />
+              </div>
+              
+              <div class='effect-name'>
+                <h4 
+                  data-tooltip-class="cardigan-tooltip effect-tooltip"
+                  data-action="showEffectInChat"
+                  data-effect-name="{{efeito.name}}"
+                  data-effect-description="{{efeito.system.description}}"
+                  class="clickable-effect effect-item"
+                  data-item-uuid="{{efeito.uuid}}"
+                >
+                  {{efeito.name}}
+                </h4>
+              </div>
+
+              <div class='effect-controls flexrow'>
+                {{#if @root.editable}}
+                <a class='effect-control' data-action='deleteDoc' title='Delete Efeito'>
+                  <img src='systems/cardigan/assets/images/decorative/icons/icon-delete.svg' alt='Delete' class='delete-icon' width='12' height='12' />
+                </a>
+                {{/if}}
+              </div>
+            </li>
+          {{/each}}
+
+          {{#unless filteredEffects.length}}
+            {{#unless efeitos}}
+            <li class="no-effects">
+              <span>Nenhum efeito aplicado</span>
+            </li>
+            {{/unless}}
+          {{/unless}}
+        </ol>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+  <img src='systems/cardigan/assets/images/decorative/divider.webp' class='proficiencies-divider-bottom' alt='Divider' />
+</section>

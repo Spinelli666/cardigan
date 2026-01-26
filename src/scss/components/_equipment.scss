@@ -1,0 +1,2289 @@
+// -----------------------------------------
+// Equipment Tab Specific Styles - Using Backpack Table Style
+// -----------------------------------------
+
+// Global control for images in all descriptions (except spell category, skill images, recipe images, and ingredient images)
+.item-description,
+.weapon-description,
+.armor-description,
+.recipe-description,
+.weapon-description-center,
+.armor-description-center,
+.recipe-description-below {
+  img:not(.spell-category-image):not(.skill-image):not(.recipe-image):not(.ingredient-image) {
+    max-width: 100%;
+    height: 1em !important;
+    width: auto !important;
+    vertical-align: middle !important;
+    display: inline !important;
+    margin: 0 0.2em;
+    object-fit: contain;
+  }
+  
+  // Removed display: inline from paragraphs to allow proper line breaks
+  // Keep images inline within paragraphs
+  p {
+    img:not(.recipe-image):not(.ingredient-image) {
+      display: inline !important;
+    }
+  }
+  
+  // Ensure proper formatting for bold, italic, and other text styles
+  strong, b {
+    font-weight: bold;
+  }
+  
+  em, i {
+    font-style: italic;
+  }
+}
+
+.tab.equipment {
+  // Inherits existing styles from items lists
+  // Additional specific styling if needed
+  
+  .item-formula {
+    text-align: center;
+    
+    &:last-of-type {
+      text-align: center;
+    }
+  }
+
+  // Style for weapon image click
+  .weapon-image-click {
+    display: inline-block;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+    border-radius: 3px;
+    
+    &:hover {
+      opacity: 0.8;
+      
+      img {
+        transform: scale(1.05);
+      }
+    }
+    
+    img {
+      transition: transform 0.2s ease;
+      border-radius: 3px;
+    }
+  }
+  
+  // Style for ammunition column
+  .item-ammunition {
+    text-align: center;
+    min-width: 80px;
+    font-size: 12px;
+    
+    input[type="number"] {
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 2px 4px;
+      font-size: 12px;
+      background: transparent;
+      color: #fff;
+      
+      &:focus {
+        outline: none;
+        border-color: #888;
+        box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
+      }
+    }
+  }
+  
+  // -----------------------------------------
+  // Backpack Table Styles
+  // -----------------------------------------
+  
+  // Style for quantity column in backpack table
+  .item-quantity {
+    text-align: center;
+    min-width: 60px;
+    color: #c9c7b8;
+  }
+
+  // Style for weight column in backpack table
+  .item-weight {
+    text-align: center;
+    min-width: 60px;
+    color: #c9c7b8;
+    font-weight: 600;
+  }
+
+  // Backpack full warning styles
+  .backpack-full {
+    border: 2px solid #ff6b6b !important;
+    background: rgba(255, 107, 107, 0.1) !important;
+  }
+
+  .backpack-full-text {
+    color: #ff6b6b !important;
+    font-weight: 600;
+  }
+
+  .backpack-warning {
+    margin-top: 8px;
+    padding: 6px 12px;
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid #ff6b6b;
+    border-radius: 4px;
+    color: #ff6b6b;
+    font-size: 12px;
+    text-align: center;
+    
+    .fas {
+      margin-right: 6px;
+    }
+  }
+  
+  // Style for reload button column
+  .item-reload {
+    text-align: center;
+    min-width: 40px;
+    
+    .reload-ammunition {
+      display: inline-block;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      
+      &:hover {
+        background: rgba(76, 175, 80, 0.2);
+        transform: scale(1.1);
+      }
+      
+      &:active {
+        transform: scale(0.95);
+      }
+      
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  // Style for attack button column
+  .item-attack {
+    text-align: center;
+    min-width: 40px;
+    
+    .attack-weapon {
+      display: inline-block;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      
+      &:hover:not(.disabled) {
+        background: rgba(211, 47, 47, 0.2);
+        transform: scale(1.1);
+      }
+      
+      &:active:not(.disabled) {
+        transform: scale(0.95);
+      }
+      
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed !important;
+        pointer-events: none;
+        
+        &:hover {
+          transform: none;
+          background: none;
+        }
+      }
+      
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  // Style for durability display
+  .item-durability {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 60px;
+    
+    span {
+      padding: 2px 6px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    // Style for durability input fields
+    input[type="number"] {
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 2px 4px;
+      font-size: 12px;
+      font-weight: bold;
+      background: transparent;
+      color: #fff;
+      text-align: center;
+      width: 50px;
+      
+      &:focus {
+        outline: none;
+        border-color: #888;
+        box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
+      }
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+  
+  // Style for ammunition display
+  .item-ammunition {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 60px;
+    
+    span {
+      padding: 2px 6px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    // Style for ammunition input fields
+    input[type="number"] {
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 2px 4px;
+      font-size: 12px;
+      font-weight: bold;
+      background: transparent;
+      color: #fff;
+      
+      &:focus {
+        outline: none;
+        border-color: #888;
+        box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
+      }
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+  
+  // Style for unequip weapon column
+  .item-unequip {
+    text-align: center;
+    min-width: 50px;
+    
+    .unequip-weapon {
+      display: inline-block;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      
+      &:hover {
+        background: rgba(255, 87, 34, 0.2);
+        transform: scale(1.1);
+      }
+      
+      &:active {
+        transform: scale(0.95);
+      }
+      
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  // Style for equip weapon column in backpack
+  .item-equip {
+    text-align: center;
+    min-width: 50px;
+    
+    .equip-weapon {
+      display: inline-block;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      
+      &:hover {
+        background: rgba(76, 175, 80, 0.2);
+        transform: scale(1.1);
+      }
+      
+      &:active {
+        transform: scale(0.95);
+      }
+      
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  // Style for broken weapons (durability = 0)
+  .item-name-broken {
+    color: #ff4444 !important;
+    
+    div {
+      color: #ff4444 !important;
+    }
+  }
+  
+  // Style for equipped status icons
+  .fa-check-circle {
+    color: #4caf50 !important;
+  }
+  
+  .fa-circle {
+    color: #666 !important;
+    opacity: 0.5;
+  }
+  
+  // Style for damage display
+  .item-prop {
+    font-size: 12px;
+    text-transform: capitalize;
+  }
+  
+  // -----------------------------------------
+  // Weapon name hover styles - clickable for expand/collapse + tooltip
+  .weapon-name-hover {
+    cursor: pointer;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: #d4d2c8; // Slightly lighter version of $c-beige for better visibility
+      // Explicitly no underline - this is the key difference from effects
+      text-decoration: none;
+    }
+  }
+  
+  // -----------------------------------------
+  // Context Menu Button Styles (Three Dots)
+  // -----------------------------------------
+  .item-control[data-context-menu] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: #999;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s ease;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      transform: scale(1.1);
+    }
+    
+    &:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    // Icon styling
+    i {
+      font-size: 12px;
+      pointer-events: none;
+    }
+  }
+
+  // -----------------------------------------
+  // Expand/Collapse System for Equipment Tab (Based on D&D5e)
+  // -----------------------------------------
+  
+  .items-list {
+    .item.collapsible {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      
+      .item-row {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        
+        // Ensure flexrow behavior for the row content
+        &.flexrow {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+      
+      .item-description {
+        width: 100%;
+        display: block;
+        transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+        overflow: hidden;
+        
+        .wrapper {
+          padding: 0;
+          width: 100%;
+        }
+      }
+      
+      // Collapsed state - hide the description
+      &.collapsed .item-description {
+        max-height: 0;
+        opacity: 0;
+        padding: 0;
+        margin: 0;
+        
+        .wrapper {
+          padding: 0;
+        }
+      }
+      
+      // Expanded state - show the description
+      &:not(.collapsed) .item-description {
+        max-height: 1000px; // Increase max height for more content
+        opacity: 1;
+        padding: 0; // Remove padding from container
+        margin: 0;
+        
+        .wrapper {
+          padding: 12px 8px; // Add padding to wrapper instead
+          margin-top: 10px; // Add spacing from the weapon row
+        }
+      }
+    }
+  }
+
+  // -----------------------------------------
+  // Weapon Summary Styles for Equipment Tab - VERTICAL CENTERED LAYOUT
+  // -----------------------------------------
+  
+  .weapon-summary {
+    padding: 12px;
+    
+    .summary-content {
+      color: $c-black;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    
+    .weapon-properties-top-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      color: $c-black;
+      
+      i {
+        color: var(--cardigan-c-beige);
+        margin-right: 2px;
+        
+        &.fa-fist-raised {
+          color: #ff6b6b; // Red for melee
+        }
+        
+        &.fa-bullseye {
+          color: #4ecdc4; // Cyan for ranged
+        }
+      }
+      
+      .separator {
+        margin: 0 2px;
+        color: $c-black;
+      }
+      
+      .property-separator {
+        margin: 0 4px;
+        color: $c-black;
+      }
+      
+      .weight-text {
+        margin-left: 2px;
+        color: $c-black;
+        font-size: 11px;
+      }
+    }
+
+    // -----------------------------------------
+    // VERTICAL CENTERED LAYOUT
+    // -----------------------------------------
+    
+    .weapon-vertical-layout {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+      
+      // Weapon Image (Centered at top)
+      .weapon-image-center {
+        margin-bottom: 4px;
+        
+        img {
+          width: 48px;
+          height: 48px;
+          border-radius: 4px;
+          border: 2px solid $c-black;
+          background: rgba(0, 0, 0, 0.3);
+        }
+      }
+      
+      // Weapon Name (Centered below image)
+      .weapon-name-center {
+        h4 {
+          color: $c-black;
+          font-size: 16px;
+          font-weight: bold;
+          margin: 0;
+          text-align: center;
+        }
+      }
+      
+      // Weapon Type (Centered below name)
+      .weapon-type-center {
+        em {
+          color: $c-black;
+          font-style: italic;
+          font-size: 13px;
+        }
+      }
+      
+      // Statistics Row: Dano, Proteção e Munição na mesma linha
+      .weapon-stats-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin: 4px 0;
+        
+        .weapon-damage,
+        .weapon-protection,
+        .weapon-ammunition {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          color: $c-black;
+          font-size: 13px;
+          
+          i {
+            color: $c-black;
+            width: 14px;
+          }
+        }
+      }
+      
+      // Durability (Centered below stats row)
+      .weapon-durability-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        color: $c-black;
+        font-size: 13px;
+        
+        i {
+          color: $c-black;
+          width: 14px;
+        }
+      }
+      
+      // Magical Artifact (Centered)
+      .weapon-artifact-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        color: #ffd700;
+        font-size: 13px;
+        margin: 2px 0;
+        
+        i {
+          color: #ffd700;
+        }
+        
+        strong {
+          color: #ffd700;
+        }
+      }
+      
+      // Weapon Properties (Centered)
+      .weapon-properties-center {
+        text-align: center;
+        color: $c-black;
+        font-size: 12px;
+        margin: 2px 0;
+        
+        i {
+          color: $c-black;
+          margin-right: 4px;
+        }
+        
+        strong {
+          color: $c-black;
+          margin-right: 4px;
+        }
+        
+        .property-tag {
+          background: rgba(255, 255, 255, 0.1);
+          padding: 2px 6px;
+          border-radius: 3px;
+          color: $c-black;
+          margin: 0 2px;
+          font-size: 11px;
+        }
+      }
+      
+      // Description (Centered below durability)
+      .weapon-description-center {
+        text-align: center;
+        color: $c-black;
+        font-size: 12px;
+        margin: 6px 0;
+        line-height: 1.5;
+        
+        p {
+          margin-bottom: 4px;
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      // Damage Formula Detail (Centered below description)
+      .weapon-damage-formula-center {
+        text-align: center;
+        color: $c-black;
+        font-size: 11px;
+        margin: 8px 0 6px 0;
+        font-weight: bold;
+        font-family: monospace;
+        
+        .damage-formula-text {
+          background: rgba(0, 0, 0, 0.2);
+          padding: 2px 6px;
+          border-radius: 3px;
+          border: 1px solid rgba(201, 199, 184, 0.3);
+        }
+      }
+
+      // Weapon Properties Bonuses (Centered below damage formula)
+      .weapon-properties-bonuses-center {
+        text-align: center;
+        margin: 8px 0;
+        
+        .properties-title {
+          color: $c-black;
+          font-size: 12px;
+          font-weight: bold;
+          margin-bottom: 4px;
+          letter-spacing: 0.5px;
+        }
+        
+        .properties-bonuses {
+          color: $c-black;
+          font-size: 11px;
+          font-weight: bold;
+          font-family: monospace;
+          background: rgba(0, 0, 0, 0.1);
+          padding: 3px 8px;
+          border-radius: 3px;
+          border: 1px solid rgba(201, 199, 184, 0.2);
+          display: inline-block;
+        }
+      }
+    }
+
+    // Keep description at the bottom
+    .weapon-description {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 8px;
+      margin-top: 8px;
+      text-align: left; // Description should remain left-aligned
+      
+      .description-content {
+        color: $c-black;
+        line-height: 1.5;
+        font-size: 12px;
+        
+        p {
+          margin-bottom: 8px;
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+    
+    // Weapon Detailed Properties (New Format with Descriptions)
+    .weapon-detailed-properties {
+      margin-top: 8px;
+      
+      .property-detail-line {
+        color: $c-black;
+        font-size: 18px;
+        line-height: 1.5;
+        margin: 4px 0;
+        text-align: left;
+        padding: 2px 0;
+        
+        // Remove any bold styling for a cleaner look matching the image
+        font-weight: normal;
+      }
+    }
+  }
+
+  // -----------------------------------------
+  // Armor Summary Styles for Equipment Tab - Based on Weapon Summary
+  // -----------------------------------------
+  
+  .armor-summary {
+    margin: 8px 0;
+    padding: 12px;
+    position: relative;
+    
+    .summary-content {
+      color: $c-black;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    
+    // Top-right armor properties (weight)
+    .armor-properties-top-right {
+      display: flex;
+      justify-content: flex-end;
+      color: $c-black;
+      font-size: 12px;
+      
+      i {
+        color: $c-black;
+        margin-right: 2px;
+        
+        &.fa-backpack {
+          color: $c-black;
+          margin-left: 6px;
+          margin-right: 3px;
+        }
+      }
+      
+      .weight-text {
+        color: $c-black;
+        font-size: 11px;
+      }
+    }
+    
+    // Vertical centered layout for armor
+    .armor-vertical-layout {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding-right: 20px;
+      
+      .armor-image-center {
+        display: flex;
+        justify-content: center;
+        
+        img {
+          width: 48px;
+          height: 48px;
+          border-radius: 4px;
+          border: 2px solid $c-black;
+          background: rgba(0, 0, 0, 0.3);
+        }
+      }
+      
+      .armor-name-center {
+        text-align: center;
+        
+        h4 {
+          color: $c-black;
+          margin: 0;
+          font-size: 16px;
+          font-weight: bold;
+        }
+      }
+      
+      .armor-type-center {
+        text-align: center;
+        
+        em {
+          color: $c-faint;
+          font-style: italic;
+          font-size: 13px;
+        }
+      }
+      
+      .armor-stats-row {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin: 4px 0;
+        
+        .armor-protection {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          color: $c-black;
+          
+          i {
+            color: $c-black;
+            width: 14px;
+          }
+        }
+      }
+      
+      .armor-durability-center {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: $c-black;
+        justify-content: center;
+        
+        i {
+          color: $c-black;
+          width: 14px;
+        }
+      }
+      
+      .armor-description-center {
+        text-align: center;
+        color: $c-black;
+        line-height: 1.5;
+        margin: 8px 0;
+        
+        p {
+          margin-bottom: 8px;
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+      
+      .armor-properties-bonuses-center {
+        text-align: center;
+        margin: 8px 0;
+        
+        .properties-title {
+          color: $c-black;
+          font-weight: bold;
+          font-size: 12px;
+          margin-bottom: 4px;
+        }
+        
+        .properties-bonuses {
+          color: $c-black;
+          font-size: 11px;
+          font-weight: bold;
+          font-family: monospace;
+          background: rgba(0, 0, 0, 0.1);
+          padding: 3px 8px;
+          border-radius: 3px;
+          border: 1px solid rgba(201, 199, 184, 0.2);
+          display: inline-block;
+        }
+      }
+      
+      .armor-detailed-properties {
+        width: 100%;
+        
+        .property-detail-line {
+          color: $c-black;
+          font-size: 12px;
+          line-height: 1.4;
+          margin-bottom: 4px;
+          text-align: left;
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+// -----------------------------------------
+// Recipe Summary Styles 
+// -----------------------------------------
+
+.recipe-summary {
+  padding: 12px;
+  position: relative;
+  
+  .summary-content {
+    color: $c-black;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  // -----------------------------------------
+  // RECIPE LAYOUT
+  // -----------------------------------------
+  
+  .recipe-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 6px 0;
+    margin-top: 4px;
+    
+    // Top section: Image and Name side by side
+    .recipe-top-section {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      
+      // Left: Image only
+      .recipe-left-section {
+        flex-shrink: 0;
+        
+        .recipe-image {
+          width: 48px;
+          height: 48px;
+          
+          img {
+            width: 48px !important;
+            height: 48px !important;
+            border-radius: 4px;
+            border: 2px solid $c-black;
+            background: rgba(0, 0, 0, 0.3);
+            object-fit: cover;
+          }
+        }
+      }
+      
+      // Right: Name only
+      .recipe-right-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        
+        .recipe-name {
+          h4 {
+            color: $c-black;
+            font-size: 25px;
+            font-weight: bold;
+            margin: 0;
+            text-align: left;
+          }
+        }
+      }
+    }
+    
+    // Ingredients section: Below top section
+    .recipe-ingredients-section {
+      width: 100%;
+      margin: 8px 0;
+      
+      .ingredients-list {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        align-items: center;
+        overflow-x: auto;
+        
+        .ingredient-item {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          padding: 4px 6px;
+          background: rgba(0, 0, 0, 0.1);
+          border-radius: 4px;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          margin: 0px;
+          
+          .ingredient-image {
+            flex-shrink: 0;
+            width: 30px !important;
+            height: 30px !important;
+            max-width: 30px !important;
+            max-height: 30px !important;
+            overflow: hidden;
+              
+            img {
+              width: 30px !important;
+              height: 30px !important;
+              border-radius: 2px;
+              border: 1px solid $c-black;
+              background: rgba(0, 0, 0, 0.3);
+              object-fit: cover;
+            }
+          }
+          
+          .ingredient-quantity {
+            color: $c-black;
+            font-size: 16px;
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
+            
+            &.insufficient {
+              color: #dc3545 !important; // Bootstrap red color for insufficient ingredients
+            }
+          }
+        }
+      }
+    }
+    
+    // Multiple items section: List of items with their ingredients
+    .recipe-multiple-items-section {
+      width: 100%;
+      margin: 12px 0;
+      
+      .result-item-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        margin-bottom: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+        
+        .result-item-name {
+          color: $c-black;
+          font-size: 14px;
+          font-weight: bold;
+          min-width: 80px;
+          flex-shrink: 0;
+          white-space: nowrap;
+        }
+        
+        .result-item-ingredients {
+          display: flex;
+          flex-wrap: nowrap;
+          gap: 6px;
+          align-items: center;
+          overflow-x: auto;
+          flex: 1;
+          
+          .ingredient-item {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            padding: 3px 5px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+            
+            .ingredient-image {
+              flex-shrink: 0;
+              width: 30px !important;
+              height: 30px !important;
+              max-width: 30px !important;
+              max-height: 30px !important;
+              overflow: hidden;
+                
+              img {
+                width: 30px !important;
+                height: 30px !important;
+                border-radius: 2px;
+                border: 1px solid $c-black;
+                background: rgba(0, 0, 0, 0.3);
+                object-fit: cover;
+              }
+            }
+            
+            .ingredient-quantity {
+              color: $c-black;
+              font-size: 14px;
+              font-weight: bold;
+              min-width: 18px;
+              text-align: center;
+              
+              &.insufficient {
+                color: #dc3545 !important;
+              }
+            }
+          }
+          
+          .no-ingredients {
+            color: rgba(0, 0, 0, 0.4);
+            font-size: 12px;
+            font-style: italic;
+          }
+        }
+      }
+    }
+    
+    // Bottom section: Description full width with rich formatting support
+    .recipe-description-below {
+      width: 100%; // Full width description
+      color: $c-black;
+      font-size: 12px;
+      text-align: left;
+      line-height: 1.6;
+      margin-top: 4px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      
+      // Paragraphs with proper spacing
+      p {
+        margin: 0 0 10px 0;
+        display: block;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+      
+      // Support for lists
+      ul, ol {
+        margin: 10px 0;
+        padding-left: 25px;
+        display: block;
+        
+        li {
+          margin: 5px 0;
+          display: list-item;
+        }
+      }
+      
+      ul {
+        list-style-type: disc;
+      }
+      
+      ol {
+        list-style-type: decimal;
+      }
+      
+      // Line breaks
+      br {
+        display: block;
+        content: "";
+        margin: 5px 0;
+      }
+      
+      // Horizontal rules
+      hr {
+        border: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.2);
+        margin: 15px 0;
+        display: block;
+      }
+      
+      // Headings within description
+      h1, h2, h3, h4, h5, h6 {
+        color: #2c1810;
+        margin: 15px 0 10px 0;
+        display: block;
+        font-weight: bold;
+      }
+      
+      h1 { font-size: 16px; }
+      h2 { font-size: 15px; }
+      h3 { font-size: 14px; }
+      h4 { font-size: 13px; }
+      h5 { font-size: 12px; }
+      h6 { font-size: 11px; }
+      
+      // Style for content links (UUID links)
+      .content-link {
+        color: #1976d2;
+        text-decoration: underline;
+        cursor: pointer;
+        transition: color 0.2s ease;
+        
+        &:hover {
+          color: #2196f3;
+        }
+        
+        i {
+          margin-right: 4px;
+        }
+      }
+      
+      // Style for formatted text
+      strong, b {
+        font-weight: bold;
+        color: #1a0f0a;
+      }
+      
+      em, i {
+        font-style: italic;
+      }
+      
+      // Code blocks
+      code {
+        background: rgba(0, 0, 0, 0.15);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: 'Courier New', monospace;
+        font-size: 11px;
+        color: #d32f2f;
+        display: inline-block;
+      }
+      
+      pre {
+        background: rgba(0, 0, 0, 0.15);
+        padding: 10px;
+        border-radius: 4px;
+        overflow-x: auto;
+        display: block;
+        margin: 10px 0;
+        
+        code {
+          background: none;
+          padding: 0;
+          display: block;
+        }
+      }
+      
+      // Blockquotes
+      blockquote {
+        margin: 10px 0;
+        padding: 10px 15px;
+        border-left: 3px solid #8b4513;
+        background: rgba(139, 69, 19, 0.1);
+        font-style: italic;
+        display: block;
+      }
+      
+      // Tables
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+        display: table;
+        
+        th, td {
+          padding: 6px 8px;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          text-align: left;
+        }
+        
+        th {
+          background: rgba(0, 0, 0, 0.1);
+          font-weight: bold;
+        }
+      }
+      
+      // Images within recipe descriptions (exclude recipe-image and ingredient-image)
+      img:not(.spell-category-image):not(.skill-image):not(.recipe-image):not(.ingredient-image) {
+        max-width: 100%;
+        height: auto !important;
+        width: auto !important;
+        display: block;
+        margin: 10px auto;
+        border-radius: 4px;
+        
+        // Inline images (small icons)
+        &[height="1em"],
+        &[style*="height: 1em"] {
+          display: inline !important;
+          height: 1em !important;
+          width: auto !important;
+          vertical-align: middle;
+          margin: 0 0.2em;
+        }
+      }
+    }
+  }
+}
+
+// -----------------------------------------
+// Weapon Properties Styles
+// -----------------------------------------
+
+.weapon-properties {
+  .properties-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    
+    label {
+      margin: 0;
+    }
+    
+    .add-property-btn {
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      
+      &:hover {
+        background: #45a049;
+      }
+    }
+  }
+  
+  .properties-list {
+    .property-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      
+      select {
+        flex: 1;
+        min-width: 0;
+      }
+      
+      .remove-property-btn {
+        background: #f44336;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 16px;
+        flex-shrink: 0;
+        
+        &:hover {
+          background: #da190b;
+        }
+      }
+    }
+  }
+
+  // -----------------------------------------
+  // Legacy hover effect for weapon names with tooltip (matching effects style)
+  .item-name[data-weapon-tooltip] {
+    transition: color 0.2s ease;
+    
+    &:hover {
+      div {
+        color: $c-beige;
+        transition: color 0.2s ease;
+      }
+    }
+  }
+  
+  // Legacy - Remove help cursor from tooltip triggers
+  .weapon-tooltip-trigger {
+    cursor: pointer !important;
+    
+    &:hover {
+      cursor: pointer !important;
+    }
+  }
+}
+
+// Weapon Tooltip Styles - Using native FoundryVTT tooltip system and custom fallback
+// Keep tooltip styles consistent with effects
+.tooltip.cardigan-tooltip,
+.cardigan-custom-tooltip {
+  // Ensure consistent styling with effects tooltips
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid $c-beige;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 1.3;
+  max-width: 300px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  
+  .tooltip-content {
+    color: $c-white;
+    text-align: left;
+  }
+  
+  // Weapon tooltip specific styling for rich tooltips - D&D5e inspired horizontal layout
+  .weapon-tooltip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 200px;
+    
+    // NOVA ABORDAGEM: Propriedades em linha única (como D&D5e)
+    .weapon-properties-horizontal {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end; // Alinhamento à direita
+      gap: 6px; // Gap menor para elementos inline
+      margin-bottom: 6px;
+      order: 1;
+      font-size: 14px;
+      
+      // Ícones de tipo de arma
+      .fas {
+        color: $c-beige;
+        font-size: 16px;
+      }
+      
+      // Separador entre tipo e peso
+      .separator {
+        color: $c-faint;
+        margin: 0 2px;
+        font-weight: bold;
+        font-size: 14px;
+      }
+      
+      // Separador bullet entre propriedades
+      .property-separator {
+        color: $c-faint;
+        font-size: 12px;
+        opacity: 0.7;
+        margin: 0 4px;
+        font-weight: bold;
+      }
+      
+      // Ícone de peso
+      .fa-backpack {
+        color: $c-tan;
+        font-size: 14px;
+        margin-left: 2px;
+      }
+      
+      // Texto do peso
+      .weight-text {
+        font-style: italic;
+        font-size: 14px;
+        color: $c-faint;
+        margin-left: 2px;
+      }
+    }
+    
+    // Nome da arma centralizado
+    .weapon-name-line {
+      text-align: center;
+      margin-bottom: 4px;
+      order: 3; // TERCEIRO na ordem visual (após imagem)
+      
+      strong {
+        color: $c-white;
+        font-size: 16px;
+        font-weight: bold;
+        display: block;
+      }
+    }
+    
+    // Imagem da arma após propriedades (REDUZIDA DE 48PX PARA 32PX)
+    .weapon-image {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 4px;
+      order: 2; // SEGUNDO na ordem visual (após propriedades)
+      
+      img {
+        width: 32px;
+        height: 32px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 2px solid $c-beige;
+        background: rgba(0, 0, 0, 0.3);
+      }
+    }
+    
+    // Descrição centralizada
+    .weapon-description {
+      text-align: center;
+      max-width: 180px;
+      margin-top: 4px;
+      order: 4; // Último na ordem visual
+      
+      em {
+        color: $c-faint;
+        font-style: italic;
+        opacity: 0.9;
+        font-size: 12px;
+        line-height: 1.3;
+        display: block;
+      }
+    }
+  }
+  
+  // -----------------------------------------
+  // Expand/Collapse System (Based on D&D5e)
+  // -----------------------------------------
+  
+  .items-list {
+    .item.collapsible {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      
+      .item-row {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        
+        // Ensure flexrow behavior for the row content
+        &.flexrow {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+      
+      .item-description {
+        width: 100%;
+        display: block;
+        transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+        overflow: hidden;
+        
+        .wrapper {
+          padding: 0;
+          width: 100%;
+        }
+      }
+      
+      // Collapsed state - hide the description
+      &.collapsed .item-description {
+        max-height: 0;
+        opacity: 0;
+        padding: 0;
+        margin: 0;
+        
+        .wrapper {
+          padding: 0;
+        }
+      }
+      
+      // Expanded state - show the description
+      &:not(.collapsed) .item-description {
+        max-height: 1000px; // Increase max height for more content
+        opacity: 1;
+        padding: 0; // Remove padding from container
+        margin: 0;
+        
+        .wrapper {
+          padding: 12px 8px; // Add padding to wrapper instead
+          margin-top: 10px; // Add spacing from the weapon row
+        }
+      }
+    }
+  }
+  
+  // -----------------------------------------
+  // Weapon Summary Styles
+  // -----------------------------------------
+  
+  .weapon-summary {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    margin: 8px 0;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative; // For positioning the top-right properties
+    
+    .summary-content {
+      color: $c-faint;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    
+    // Top-right weapon properties (like tooltip)
+    .weapon-properties-top-right {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      display: flex;
+      align-items: center;
+      color: $c-faint;
+      font-size: 12px;
+      z-index: 10;
+      
+      i {
+        color: $c-beige;
+        margin-right: 2px;
+        
+        &.fa-fist-raised {
+          color: #ff6b6b; // Red for melee
+        }
+        
+        &.fa-bullseye {
+          color: #4ecdc4; // Cyan for ranged
+        }
+        
+        &.fa-backpack {
+          color: $c-beige;
+          margin-left: 6px;
+          margin-right: 3px;
+        }
+      }
+      
+      .separator {
+        color: $c-faint;
+        margin: 0 2px;
+      }
+      
+      .property-separator {
+        display: inline-block;
+        width: 4px;
+      }
+      
+      .weight-text {
+        color: $c-faint;
+        font-size: 11px;
+      }
+    }
+    
+    .weapon-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+      
+      .weapon-image img {
+        width: 48px;
+        height: 48px;
+        border-radius: 4px;
+        border: 2px solid $c-beige;
+        background: rgba(0, 0, 0, 0.3);
+      }
+      
+      .weapon-basic-info {
+        flex: 1;
+        
+        .weapon-name {
+          color: $c-beige;
+          margin: 0 0 4px 0;
+          font-size: 16px;
+          font-weight: bold;
+        }
+        
+        .weapon-type {
+          color: $c-faint;
+          font-style: italic;
+          margin-bottom: 8px;
+        }
+        
+        .weapon-stats {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-bottom: 6px;
+          
+          > div {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: $c-faint;
+            
+            i {
+              color: $c-beige;
+              width: 14px;
+            }
+            
+            strong {
+              color: $c-faint;
+              font-weight: 600;
+            }
+          }
+        }
+        
+        .weapon-artifact {
+          color: #ffd700;
+          margin: 4px 0;
+          
+          i {
+            color: #ffd700;
+            margin-right: 6px;
+          }
+        }
+        
+        .weapon-properties, .weapon-skill-bonuses {
+          margin: 4px 0;
+          
+          i {
+            color: $c-beige;
+            margin-right: 6px;
+          }
+          
+          strong {
+            color: $c-faint;
+            margin-right: 6px;
+          }
+          
+          .property-tag, .skill-bonus {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            color: $c-beige;
+            margin-right: 4px;
+          }
+        }
+      }
+    }
+    
+    .weapon-description {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 8px;
+      
+      .description-content {
+        color: $c-faint;
+        line-height: 1.5;
+        
+        p {
+          margin-bottom: 8px;
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+// -----------------------------------------
+// Item Type Selection Modal Styles
+// -----------------------------------------
+.item-selection-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal-content {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+    border: 2px solid $c-beige;
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 400px;
+    max-width: 500px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #444;
+      padding-bottom: 15px;
+
+      h3 {
+        margin: 0;
+        color: $c-beige;
+        font-size: 18px;
+        text-align: center;
+        flex: 1;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        color: $c-beige;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+
+    .modal-body {
+      p {
+        color: $c-beige;
+        margin-bottom: 20px;
+        text-align: center;
+        opacity: 0.9;
+      }
+
+      .item-type-options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+
+        .item-type-option {
+          background: linear-gradient(135deg, #333 0%, #222 100%);
+          border: 1px solid #555;
+          border-radius: 6px;
+          padding: 15px 12px;
+          color: $c-beige;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.2s ease;
+          min-height: 80px;
+          justify-content: center;
+
+          &:hover {
+            background: linear-gradient(135deg, #444 0%, #333 100%);
+            border-color: $c-beige;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+          }
+
+          &:active {
+            transform: translateY(0);
+          }
+
+          i {
+            font-size: 24px;
+            margin-bottom: 4px;
+            opacity: 0.8;
+          }
+
+          span {
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+          }
+
+          // Icon colors for different item types
+          &[data-type="arma"] i {
+            color: #ff6b6b;
+          }
+          
+          &[data-type="efeito"] i {
+            color: #a29bfe;
+          }
+          
+          &[data-type="backpack"] i {
+            color: #4ecdc4;
+          }
+        }
+      }
+    }
+  }
+
+  // Armor table specific styles
+  .item-armor-type {
+    text-align: center;
+    min-width: 100px;
+    font-size: 0.9rem;
+    color: #c9c7b8;
+  }
+
+  .item-protection {
+    text-align: center;
+    min-width: 80px;
+    font-weight: bold;
+    color: #4caf50;
+  }
+
+  // Equip/Unequip buttons for armor
+  .equip-armor {
+    color: #2196f3 !important;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      color: #1976d2 !important;
+      transform: scale(1.1);
+    }
+  }
+
+  .unequip-armor-btn {
+    background: none;
+    border: none;
+    color: #f44336;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 4px;
+    
+    &:hover {
+      color: #d32f2f;
+      transform: scale(1.1);
+    }
+  }
+
+  // Low durability warning for armor
+  .low-durability {
+    color: #ff9800 !important;
+    font-weight: bold;
+    
+    &.critical {
+      color: #f44336 !important;
+      animation: pulse 2s infinite;
+    }
+  }
+
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
+
+  // Consumable item icon styles
+  .consume-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: rgba(255, 152, 0, 0.1);
+      transform: scale(1.1);
+      color: #ffb74d;
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+
+}
+
+// -----------------------------------------
+// Effects System Styles (Global for Item Sheets)
+// -----------------------------------------
+.effects-system {
+  .effects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    
+    label {
+      font-weight: bold;
+      margin: 0;
+      color: #c9c7b8;
+    }
+    
+    .add-effect-btn {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background: #45a049;
+      }
+    }
+  }
+  
+  .effects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .effect-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px;
+    
+    select[data-effect-select] {
+      flex: 1;
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      background: #fff;
+      color: #000;
+    }
+    
+    .effect-checkboxes {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 140px;
+      
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        color: #c9c7b8;
+        white-space: nowrap;
+        cursor: pointer;
+        
+        input[type="checkbox"] {
+          margin: 0;
+          cursor: pointer;
+        }
+      }
+    }
+    
+    .remove-effect-btn {
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+      flex-shrink: 0;
+      
+      &:hover {
+        background: #d32f2f;
+      }
+    }
+  }
+  
+  .no-effects-message {
+    text-align: center;
+    color: #888;
+    padding: 1rem;
+    font-style: italic;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;  
+    border: 1px dashed #666;
+    margin-bottom: 8px;
+  }
+
+  // -----------------------------------------
+  // Hand Status Colors
+  // -----------------------------------------
+  .hand-both {
+    color: #4caf50;
+    font-weight: bold;
+  }
+
+  .hand-primary {
+    color: #2196f3;
+    font-weight: bold;
+  }
+
+  .hand-secondary {
+    color: #ff9800;
+    font-weight: bold;
+  }
+
+  .hand-none {
+    color: #666;
+  }
+
+  // -----------------------------------------
+  // Weapon Name Hover
+  // -----------------------------------------
+  .weapon-name-hover {
+    cursor: pointer;
+  }
+
+  .armor-name-hover {
+    cursor: pointer;
+  }
+
+  // -----------------------------------------
+  // Attack Controls
+  // -----------------------------------------
+  .attack-weapon {
+    font-size: 16px;
+    margin-right: 5px;
+
+    &.disabled {
+      color: #888 !important;
+      cursor: not-allowed !important;
+    }
+
+    &:not(.disabled) {
+      color: #d32f2f;
+    }
+  }
+
+  .manage-ammunition {
+    color: #ff9800;
+    font-size: 14px;
+
+    &.in-attack-column {
+      color: #ff9800;
+      font-size: 16px;
+    }
+
+    &.in-ammunition-column {
+      color: #ff9800;
+      font-size: 12px;
+      margin-right: 4px;
+    }
+  }
+
+  .reload-icon-readonly {
+    color: #999;
+    font-size: 14px;
+  }
+
+  // -----------------------------------------
+  // Ammunition Display
+  // -----------------------------------------
+  .ammunition-firearm {
+    color: #2196f3;
+    font-weight: bold;
+  }
+
+  .ammunition-ranged {
+    color: #4caf50;
+    font-weight: bold;
+  }
+
+  .ammunition-none {
+    color: #666;
+  }
+
+  // -----------------------------------------
+  // Durability Input
+  // -----------------------------------------
+  .durability-input {
+    width: 50px;
+    text-align: center !important;
+  }
+
+  // Ensure durability input is centered in all contexts
+  input.durability-input,
+  .item-durability input[type="number"] {
+    width: 50px;
+    text-align: center !important;
+  }
+
+  // -----------------------------------------
+  // Unequip Button
+  // -----------------------------------------
+  .unequip-button {
+    color: #ff5722;
+    font-size: 16px;
+  }
+
+  // -----------------------------------------
+  // Section Dividers
+  // -----------------------------------------
+  .section-divider {
+    margin: 20px 0;
+    border-bottom: 1px solid #444;
+  }
+
+  // -----------------------------------------
+  // Section Headers
+  // -----------------------------------------
+  .items-section-header {
+    margin-bottom: 10px;
+    color: #c9c7b8;
+    text-align: center;
+
+    i {
+      margin-right: 8px;
+    }
+  }
+}
+
+// -----------------------------------------
+// Backpack Container with Profession Filters
+// -----------------------------------------
+.backpack-container {
+  display: flex;
+  flex-direction: row-reverse; // Filtros à direita
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+// -----------------------------------------
+// Profession Filters Sidebar
+// -----------------------------------------
+.profession-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 50px;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  .filter-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      z-index: 1;
+
+      &:checked + .filter-emoji {
+        background: rgba(76, 175, 80, 0.3);
+        border-color: #4caf50;
+        box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+        transform: scale(1.1);
+      }
+
+      &:hover + .filter-emoji {
+        background: rgba(255, 255, 255, 0.1);
+        transform: scale(1.05);
+      }
+    }
+
+    .filter-emoji {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+      pointer-events: none; // Let radio button handle clicks
+    }
+  }
+}
+
+// -----------------------------------------
+// Backpack Table
+// -----------------------------------------
+.backpack-table {
+  flex: 1;
+  min-width: 0; // Allow table to shrink
+}

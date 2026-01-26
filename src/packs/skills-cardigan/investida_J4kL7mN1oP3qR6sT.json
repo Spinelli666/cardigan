@@ -1,0 +1,73 @@
+{
+  "_id": "J4kL7mN1oP3qR6sT",
+  "_key": "!items!J4kL7mN1oP3qR6sT",
+  "name": "Investida",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "long-action"
+    ],
+    "skillClass": "guerreiro",
+    "spellCategories": [],
+    "hasEnergyCost": true,
+    "energyCost": 3,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Recebe <em>Vantagem</em> nos dados de dano dessa habilidade,</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">O último inimigo atingido recebe <strong><code>🏃‍♂️@UUID[Compendium.cardigan.efeitos-cardigan.Item.mN2nO3oP4pQ5qR6r]{Caído}¹</code></strong> automaticamente.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+          {
+            "id": "mN2nO3oP4pQ5qR6r",
+            "name": "Caído",
+            "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
+          }
+        ],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dano por metro percorrido para <strong><code>+2</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Para cima deles!\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você corre em linha reta até um destino a sua escolha podendo atravessar e derrubar qualquer criatura em seu caminho. Pode usar até <strong>duas</strong> Ações de <strong>::systems/cardigan/assets/images/types-actions/movement-action.webp::Deslocamento</strong> para determinar a distância possível da Investida.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Para <strong>cada metro</strong> percorrido até <strong>cada inimigo</strong> você causa <strong><code>+1</code></strong> de ::systems/cardigan/assets/images/damage/sword-damage.webp::<strong>Dano Extra</strong>.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você pode realizar a técnica <strong>::systems/cardigan/assets/images/types-actions/simple-action.webp::<code>Arremessar</code></strong> no último inimigo atingido.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

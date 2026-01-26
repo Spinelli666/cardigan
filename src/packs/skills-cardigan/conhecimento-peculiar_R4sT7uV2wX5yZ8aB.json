@@ -1,0 +1,67 @@
+{
+  "_id": "R4sT7uV2wX5yZ8aB",
+  "_key": "!items!R4sT7uV2wX5yZ8aB",
+  "name": "Conhecimento Peculiar",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/wanderer.webp",
+  "system": {
+    "skillActionTypes": [
+      "passiva"
+    ],
+    "skillClass": "andarilho",
+    "spellCategories": [],
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Escolha uma nova Família de criaturas do Bestiário e uma nova Técnica de Sobrevivência que você ainda não possua.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Escolha uma nova Família de criaturas do Bestiário e uma nova Técnica de Sobrevivência que você ainda não possua.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Escolha uma nova Família de criaturas do Bestiário e uma nova Técnica de Sobrevivência que você ainda não possua.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você viajou por cantos distantes do continente e aprendeu a sobreviver.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao adquirir esta habilidade escolha <strong>uma</strong> das <strong>Famílias do Bestiário</strong> a seguir:</p><ul><li><p style=\"text-align: justify;\">::systems/cardigan/assets/images/bestiary/feral.webp:: Seres Ferais.</p></li><li><p style=\"text-align: justify;\">::systems/cardigan/assets/images/bestiary/fae-creatures.webp:: Seres Feéricos.</p></li><li><p style=\"text-align: justify;\">::systems/cardigan/assets/images/bestiary/necromancy.webp:: Seres Mortos-vivos.</p></li><li><p style=\"text-align: justify;\">::systems/cardigan/assets/images/bestiary/indivisible-chaos.webp:: Dæmons do Caos.</p></li></ul><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você possui <strong><code>+1</code></strong> em todos teste de <strong>Precisão</strong>, <strong>Evasão</strong> e <strong>Psionismo</strong> contra criaturas que possuam pelo menos uma características da família escolhida. Com essa habilidade você pode descobrir as características e habilidades de uma criatura com um teste de <strong>Inteligência</strong>. Além disso, você também recebe uma <strong>Técnica de Sobreviência</strong> a escolha:</p><ul><li><p style=\"text-align: justify;\">Você recebe <strong><code>+1d4💔PV</code></strong> sempre que receber uma cura.</p></li><li><p style=\"text-align: justify;\">Você pode enxergar no escuro.</p></li><li><p style=\"text-align: justify;\">Você pode realizar um <em>Descanso Longo</em> em apenas <strong>6</strong> horas.</p></li><li><p style=\"text-align: justify;\">Você é imune a efeitos aplicados pelo Combate Aquático.</p></li><li><p style=\"text-align: justify;\">Você é imune a Terreno Difícil.</p></li><li><p style=\"text-align: justify;\">Você recebe <strong><code>+1</code></strong> ponto de <strong>Vigor</strong> permanente.</p></li><li><p style=\"text-align: justify;\">Você recebe <strong><code>+1</code></strong> Ponto de Profissão.</p></li></ul>"
+  },
+  "effects": [],
+  "folder": "Sk1AndarilhoXy7Z",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

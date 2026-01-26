@@ -1,0 +1,67 @@
+{
+  "_id": "F7gH0iI3jK6kL9lM",
+  "_key": "!items!F7gH0iI3jK6kL9lM",
+  "name": "Puro Veneno",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "passiva"
+    ],
+    "skillClass": "ladino",
+    "spellCategories": [],
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Permite banhar uma mesma arma com dois venenos diferentes.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Estende a duração de todos os venenos em mais uma rodada.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dano básico de <strong><code>🐍@UUID[Compendium.cardigan.efeitos-cardigan.Item.Uu7vV8wW9xX0yY1z]{Envenenado}</code></strong> para <strong><code>🐍10</code></strong> po Rodada.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Então você não liga de jogar sujo?\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Inimigos não podem testar <em>Vigor</em> para resistir aos efeitos de seus venenos.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::::systems/cardigan/assets/images/alchemy/alchemical-tonic.webp::<strong>Veneno Ardente</strong> agora causa <strong><code>15🐍</code></strong> de dano Venenoso instantaneamente.</strong></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao usar a habilidade <strong>Desaparecer</strong>, pode gastar uma dose de qualquer tipo de Veneno que possua para criar uma nuvem venenosa que aplicará o efeito em área.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

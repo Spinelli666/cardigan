@@ -1,0 +1,50 @@
+{
+  "_id": "G1rE2vA3sA4cO5mN",
+  "_key": "!items!G1rE2vA3sA4cO5mN",
+  "name": "Grevas de Aço",
+  "type": "armadura",
+  "img": "systems/cardigan/assets/images/armor/leggings.webp",
+  "folder": "P1eR2nA3sD4eF5gH",
+  "system": {
+    "description": "",
+    "armorType": "pernas",
+    "protecao": 2,
+    "armorClass": "Grevas de Aço",
+    "equipped": false,
+    "skillBonuses": [],
+    "magicalArtifact": false,
+    "resistenciaFrio": false,
+    "stylish": false,
+    "bonusVida": 0,
+    "bonusEnergia": 0,
+    "bonusDeslocamento": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "bonusEspacoMochila": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "weight": "pesado",
+    "price": 80,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "quantity": 1
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}
+

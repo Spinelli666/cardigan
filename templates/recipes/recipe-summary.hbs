@@ -1,0 +1,84 @@
+{{!-- Recipe Summary Template --}}
+{{!-- Based on weapon-summary and armor-summary structure with Recipe-specific Layout --}}
+<div class="recipe-summary">
+  <div class="summary-content">
+    
+    {{!-- Recipe Layout: Image+Info on top, Description below --}}
+    <div class="recipe-layout">
+      
+      {{!-- Top section: Image and Info side by side --}}
+      <div class="recipe-top-section">
+        
+        {{!-- Left: Image only --}}
+        <div class="recipe-left-section">
+          <div class="recipe-image">
+            <img src="{{item.img}}" alt="{{item.name}}" class="recipe-image" width="48" height="48">
+          </div>
+        </div>
+        
+        {{!-- Right: Name only --}}
+        <div class="recipe-right-section">
+          <div class="recipe-name">
+            <h4>{{item.name}}</h4>
+          </div>
+        </div>
+        
+      </div>
+      
+      {{!-- Ingredients section: Below image and info --}}
+      {{!-- SINGLE ITEM: Show ingredients directly --}}
+      {{#if (eq system.resultItems.length 1)}}
+        {{#with (lookup system.resultItems 0)}}
+          {{#if requiredIngredients.length}}
+          <div class="recipe-ingredients-section">
+            <div class="ingredients-list">
+              {{#each requiredIngredients}}
+              <div class="ingredient-item" title="{{name}}">
+                <div class="ingredient-image" title="{{name}}">
+                  <img src="{{img}}" alt="{{name}}" class="ingredient-image" width="35" height="35" title="{{name}}">
+                </div>
+                <div class="ingredient-quantity {{#unless (hasEnoughIngredient name quantity)}}insufficient{{/unless}}" title="{{name}} ({{quantity}} necessário)">{{quantity}}</div>
+              </div>
+              {{/each}}
+            </div>
+          </div>
+          {{/if}}
+        {{/with}}
+      {{!-- MULTIPLE ITEMS: Show list of items with their ingredients --}}
+      {{else if (gte system.resultItems.length 2)}}
+        <div class="recipe-multiple-items-section">
+          {{#each system.resultItems}}
+          <div class="result-item-row">
+            <div class="result-item-name">
+              {{name}} ‣
+            </div>
+            <div class="result-item-ingredients">
+              {{#if requiredIngredients.length}}
+                {{#each requiredIngredients}}
+                <div class="ingredient-item" title="{{name}}">
+                  <div class="ingredient-image" title="{{name}}">
+                    <img src="{{img}}" alt="{{name}}" class="ingredient-image" width="30" height="30" title="{{name}}">
+                  </div>
+                  <div class="ingredient-quantity {{#unless (hasEnoughIngredient name quantity)}}insufficient{{/unless}}" title="{{name}} ({{quantity}} necessário)">{{quantity}}</div>
+                </div>
+                {{/each}}
+              {{else}}
+                <span class="no-ingredients">Sem ingredientes</span>
+              {{/if}}
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      {{/if}}
+      
+      {{!-- Bottom section: Description full width --}}
+      {{#if enrichedDescription}}
+      <div class="recipe-description-below">
+        {{{enrichedDescription}}}
+      </div>
+      {{/if}}
+      
+    </div>
+    
+  </div>
+</div>

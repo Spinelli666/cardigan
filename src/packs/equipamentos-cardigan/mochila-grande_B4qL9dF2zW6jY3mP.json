@@ -1,0 +1,49 @@
+{
+  "_id": "B4qL9dF2zW6jY3mP",
+  "_key": "!items!B4qL9dF2zW6jY3mP",
+  "name": "Mochila Grande",
+  "type": "armadura",
+  "img": "systems/cardigan/assets/images/others/backpack.webp",
+  "folder": "T1oR2sO3t4U5vW6x",
+  "system": {
+    "description": "",
+    "armorType": "torso",
+    "protecao": 0,
+    "armorClass": "Mochila Grande",
+    "equipped": false,
+    "skillBonuses": [],
+    "magicalArtifact": false,
+    "resistenciaFrio": true,
+    "stylish": false,
+    "bonusVida": 0,
+    "bonusEnergia": 0,
+    "bonusDeslocamento": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "bonusEspacoMochila": {
+      "enabled": true,
+      "bonus": 20
+    },
+    "weight": "leve",
+    "price": 100,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "quantity": 1
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

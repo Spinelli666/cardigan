@@ -1,0 +1,29 @@
+{
+  "_id": "K4qW9yH2cX5vF8mG",
+  "_key": "!items!K4qW9yH2cX5vF8mG",
+  "name": "Virote de Prata",
+  "type": "item-municao",
+  "img": "systems/cardigan/assets/images/weapons/special-ammunition.webp",
+  "folder": "Q3pB7zL1rY4nX0mG",
+  "system": {
+    "description": "",
+    "quantity": 1,
+    "weight": "leve",
+    "price": 18,
+    "isFirearmAmmo": false,
+    "isSpecialAmmo": true
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

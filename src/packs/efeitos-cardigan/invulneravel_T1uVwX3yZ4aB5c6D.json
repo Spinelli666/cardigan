@@ -1,0 +1,22 @@
+{
+  "_id": "T1uVwX3yZ4aB5c6D",
+  "_key": "!items!T1uVwX3yZ4aB5c6D",
+  "name": "Invulnerável",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/invulneravel.webp",
+  "system": {
+    "description": "<p style=\"text-align: justify;\">Você não pode sofrer dano de criaturas ou objetos.</p>",
+    "efeitoType": "positivo"
+  },
+  "effects": [],
+  "folder": "FszDz3GuPvOHfi8w",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

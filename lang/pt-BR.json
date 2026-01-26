@@ -1,0 +1,1104 @@
+{
+  "DOCUMENT": {
+    "DeleteWarning": "Tem certeza que quer excluir?",
+    "New": {
+      "arma": "New Weapon",
+      "armadura": "New Armor",
+      "item-municao": "New Ammunition",
+      "item-comum": "New Item",
+      "item-consumivel": "New Consumable",
+      "item-ingredient": "New Ingredient",
+      "item-recipe": "New Recipe",
+      "skill": "New Skill",
+      "efeito": "New Effect",
+      "race": "New Race"
+    }
+  },
+  "CARDIGAN": {
+    "Common": {
+      "Save": "Save",
+      "Cancel": "Cancel",
+      "Delete": "Delete",
+      "Edit": "Edit",
+      "Configure": "Configure",
+      "Apply": "Apply",
+      "Create": "Create",
+      "Add": "Add",
+      "Remove": "Remove",
+      "Close": "Close",
+      "Confirm": "Confirm",
+      "Yes": "Yes",
+      "No": "No",
+      "Description": "Description",
+      "Name": "Name",
+      "Cost": "Cost",
+      "Type": "Type",
+      "Level": "Level",
+      "Value": "Value",
+      "Quantity": "Quantity",
+      "Weight": "Weight",
+      "Price": "Price",
+      "Details": "Details",
+      "Effects": "Effects",
+      "Properties": "Properties",
+      "Requirements": "Requirements",
+      "Actions": "Actions",
+      "None": "None",
+      "Unknown": "Unknown",
+      "Search": "Search",
+      "Filter": "Filter",
+      "Sort": "Sort",
+      "Select": "Select",
+      "Selected": "Selected",
+      "Available": "Available",
+      "Equipped": "Equipped",
+      "Unequipped": "Unequipped",
+      "Active": "Active",
+      "Inactive": "Inactive",
+      "Enabled": "Enabled",
+      "Disabled": "Disabled",
+      "Normal": "Normal",
+      "Advantage": "Advantage",
+      "Disadvantage": "Disadvantage",
+      "ApplyEffects": "Apply Effects",
+      "SelectEffects": "Select Effects"
+    },
+    "Compendium": {
+      "EfeitosCardigan": "Cardigan Effects",
+      "EfeitosPositivos": "Positive Effects",
+      "EfeitosNegativos": "Negative Effects"
+    },
+    "Ability": {
+      "Accuracy": {
+        "long": "PRE",
+        "abbr": "acc"
+      },
+      "Evasion": {
+        "long": "EVA", 
+        "abbr": "eva"
+      },
+      "Strength": {
+        "long": "FOR",
+        "abbr": "str"
+      },
+      "Dexterity": {
+        "long": "DES",
+        "abbr": "dex"
+      },
+      "Stamina": {
+        "long": "VIG",
+        "abbr": "sta"
+      },
+      "Stealth": {
+        "long": "FUR",
+        "abbr": "ste"
+      },
+      "Persuasion": {
+        "long": "PER",
+        "abbr": "per"
+      },
+      "Intelligence": {
+        "long": "INT",
+        "abbr": "int"
+      },
+      "Psionics": {
+        "long": "PSI",
+        "abbr": "psi"
+      }
+    },
+    "SheetLabels": {
+      "Actor": "CardiganSystem Actor Sheet",
+      "Item": "CardiganSystem Item Sheet"
+    },
+    "Optional": "Optional",
+    "base": {
+      "FIELDS": {
+        "biography": {
+          "label": "Biography"
+        },
+        "health": {
+          "value": {
+            "label": "Health"
+          },
+          "max": {
+            "label": "Maximum Health"
+          }
+        },
+        "power": {
+          "value": {
+            "label": "Energy"
+          },
+          "max": {
+            "label": "Maximum Energy"
+          }
+        },
+        "sanity": {
+          "value": {
+            "label": "Sanity"
+          },
+          "max": {
+            "label": "Maximum Sanity"
+          }
+        },
+        "details": {
+          "name": {
+            "label": "Name"
+          },
+          "age": {
+            "label": "Age"
+          },
+          "race": {
+            "label": "Race"
+          },
+          "movement": {
+            "label": "Movement"
+          },
+          "criticalHit": {
+            "label": "Critical Hit"
+          },
+          "additionalNotes": {
+            "label": "Additional Notes"
+          }
+        }
+      }
+    },
+    "Actor": {
+      "base": {
+        "FIELDS": {
+          "details": {
+            "name": {
+              "label": "Name"
+            },
+            "age": {
+              "label": "Age"
+            },
+            "race": {
+              "label": "Race"
+            },
+            "movement": {
+              "label": "Movement"
+            },
+            "criticalHit": {
+              "label": "Critical Hit"
+            },
+            "additionalNotes": {
+              "label": "Additional Notes"
+            }
+          }
+        }
+      },
+      "Tabs": {
+        "Biography": "Biografia",
+        "Features": "Perícias",
+        "Skills": "Habilidades",
+        "Backpack": "Habilidades",
+        "Equipamentos": "Equipamentos",
+        "Profissoes": "Profissões"
+      },
+      "Character": {
+        "FIELDS": {
+          "attributes.level.value": {
+            "label": "Level"
+          }
+        }
+      },
+      "NPC": {
+        "FIELDS": {
+          "cr": {
+            "label": "CR"
+          }
+        },
+        "xp": {
+          "label": "XP"
+        }
+      }
+    },
+    "ItemCreate": {
+      "Title": "Create New Item",
+      "NameLabel": "Item Name",
+      "NamePlaceholder": "Enter item name...",
+      "Create": "Create Item",
+      "NoTypeSelected": "Please select an item type",
+      "Categories": {
+        "Equipment": "Equipment",
+        "Items": "Items & Consumables",
+        "Crafting": "Crafting",
+        "Character": "Character Features",
+        "Effects": "Effects"
+      }
+    },
+    "Item": {
+      "Tabs": {
+        "Description": "Description",
+        "Attributes": "Details",
+        "Details": "Details",
+        "Effects": "Effects",
+        "Modifiers": "Modifiers",
+        "Ingredients": "Ingredients",
+        "Enhancements": "Enhancements",
+        "Enhancement": "Enhancement"
+      },
+      "Backpack": {
+        "FIELDS": {
+          "rollFormula": {
+            "label": "Roll Formula"
+          },
+          "numDice": {
+            "label": "Number of Dice"
+          },
+          "dieSize": {
+            "label": "Die Size"
+          },
+          "rollMod": {
+            "label": "Roll Modifier"
+          },
+          "quantity": {
+            "label": "Quantity"
+          },
+          "weight": {
+            "label": "Weight"
+          }
+        }
+      },
+      "Skill": {
+        "Effect": "Effect",
+        "Requirements": "Requirements",
+        "Type": "Skill Action Type",
+        "ActionTypes": "Skill Action Types",
+        "SkillDescription": "Skill Description",
+        "SkillEffect": "Skill Effect",
+        "Prerequisites": "Prerequisites",
+        "DescriptionPlaceholder": "Describe what this skill represents and its general purpose...",
+        "EffectPlaceholder": "Describe the mechanical effects and benefits of this skill...",
+        "PrerequisitesPlaceholder": "List any prerequisites or requirements for learning this skill...",
+        "Types": {
+          "LongAction": "Long Action",
+          "Foco": "FOCO",
+          "Passiva": "Passiva",
+          "ShortAction": "Short Action",
+          "Reacao": "Reação"
+        },
+        "Class": "Skill Class",
+        "Classes": {
+          "Andarilho": "Andarilho",
+          "Guerreiro": "Guerreiro",
+          "Ladino": "Ladino",
+          "Feiticeiro": "Feiticeiro",
+          "Raciais": "Raciais",
+          "Unicas": "Únicas"
+        },
+        "SpellCategories": "Categorias de Feitiços",
+        "SpellCategory": {
+          "Neutro": "Neutro",
+          "Feerico": "Feérico",
+          "Caos": "Caos",
+          "Necromancia": "Necromancia"
+        },
+        "HasEnergyCost": "Gasta Energia?",
+        "EnergyCost": "Custo de Energia",
+        "EnergySpent": "Energia Gasta",
+        "HasCustomEffects": "Adicionar Efeitos",
+        "CustomEffects": "Efeitos Selecionados",
+        "ConfigureEffects": "Configurar Efeitos",
+        "SelectEffects": "Selecionar Efeitos",
+        "SelectedEffects": "Efeitos Selecionados",
+        "NoEffectsSelected": "Nenhum efeito selecionado",
+        "AddLinkedSkills": "Adicionar Skills Vinculadas",
+        "HasLinkedSkills": "Adicionar Skills Vinculadas",
+        "LinkedSkills": "Skills Vinculadas",
+        "ConfigureLinkedSkills": "Configurar Skills Vinculadas",
+        "SelectLinkedSkills": "Selecionar Skills Vinculadas",
+        "SelectedSkills": "Skills Selecionadas",
+        "NoSkillsSelected": "Nenhuma skill selecionada",
+        "Enhancement1": "Aprimoramento 1",
+        "Enhancement2": "Aprimoramento 2",
+        "Enhancement3": "Aprimoramento 3",
+        "ConfigureEnhancement1": "Configurar Aprimoramento 1",
+        "ConfigureEnhancement2": "Configurar Aprimoramento 2",
+        "ConfigureEnhancement3": "Configurar Aprimoramento 3",
+        "NoEnhancementConfigured": "Nenhum aprimoramento configurado",
+        "EnhancementDescription": "Descrição do Aprimoramento",
+        "Enhancement1Description": "Descrição do Aprimoramento 1",
+        "Enhancement2Description": "Descrição do Aprimoramento 2",
+        "Enhancement3Description": "Descrição do Aprimoramento 3",
+        "EnhancementDescriptionPlaceholder": "Descreva os efeitos e benefícios deste aprimoramento...",
+        "EnergySettings": "Configurações de Energia",
+        "EnhancementConfig": {
+          "ModifyEnergyCost": "Modificar Custo de Energia",
+          "NewEnergyCost": "Novo Custo de Energia",
+          "EnergyCostHint": "Este valor substituirá o custo de energia padrão da skill quando este aprimoramento estiver ativo.",
+          "ApplyEffects": "Aplicar Efeitos"
+        },
+        "Enhancements": {
+          "Label": "Skill Enhancements",
+          "Hint": "Configure advanced skill enhancements and upgrades.",
+          "Description": "Enhancement Description",
+          "Requirements": "Requirements",
+          "Level": "Enhancement Level",
+          "Cost": "Enhancement Cost",
+          "DescriptionPlaceholder": "Describe the enhancement effects and benefits...",
+          "RequirementsPlaceholder": "List any requirements or conditions for this enhancement..."
+        }
+      },
+      "Race": {
+        "Details": "Detalhes da Raça",
+        "SelectRacialSkills": "Selecionar Skills Raciais",
+        "SelectSkills": "Selecionar Skills",
+        "RacialSkillsHint": "Selecione as skills que os personagens desta raça recebem automaticamente",
+        "NoSkillsSelected": "Nenhuma skill racial selecionada",
+        "NoRacialSkillsFound": "Nenhuma skill racial encontrada",
+        "NoRacialSkillsHint": "Crie skills com a classe 'raciais' no compendium ou na mesa para poder selecioná-las",
+        "FIELDS": {
+          "movementBonus": {
+            "label": "Bônus de Deslocamento",
+            "hint": "Bônus adicional de deslocamento concedido por esta raça (em metros)"
+          },
+          "healthBonus": {
+            "label": "Bônus de Vida",
+            "hint": "Bônus adicional de vida máxima concedido por esta raça"
+          },
+          "powerBonus": {
+            "label": "Bônus de Energia",
+            "hint": "Bônus adicional de energia máxima concedido por esta raça"
+          },
+          "abilityModifiers": {
+            "label": "Modificadores de Habilidade",
+            "hint": "Bônus ou penalidades nas habilidades básicas concedidos por esta raça"
+          },
+          "racialSkills": {
+            "label": "Skills Raciais",
+            "hint": "Skills automáticas que os personagens desta raça recebem"
+          }
+        }
+      },
+      "Efeito": {
+        "Types": {
+          "Positivo": "Positive",
+          "Negativo": "Negative"
+        },
+        "FIELDS": {
+          "efeitoType": {
+            "label": "Effect Type"
+          }
+        }
+      },
+      "EnhancementConfig": {
+        "Title": "Configure Enhancement {enhancement}",
+        "Name": "Enhancement Name",
+        "NamePlaceholder": "Enter enhancement name..."
+      },
+      "ItemRecipe": {
+        "recipeType": {
+          "label": "Recipe Type",
+          "hint": "Select the profession type for this recipe",
+          "culinary": "Culinary",
+          "tailoring": "Tailoring",
+          "tecnomagic": "Tecnomagic",
+          "blacksmithing": "Blacksmithing",
+          "alchemy": "Alchemy",
+          "carpentry": "Carpentry"
+        },
+        "ingredients": {
+          "label": "Ingredients",
+          "hint": "List the ingredients needed for this recipe"
+        },
+        "difficulty": {
+          "label": "Difficulty",
+          "hint": "How difficult is this recipe to cook?",
+          "easy": "Easy",
+          "medium": "Medium", 
+          "hard": "Hard",
+          "master": "Master"
+        },
+        "cookingTime": {
+          "label": "Cooking Time (min)",
+          "hint": "Time in minutes to cook this recipe"
+        },
+        "servings": {
+          "label": "Servings",
+          "hint": "How many servings does this recipe create?"
+        },
+        "consumableType": {
+          "label": "Type",
+          "hint": "What type of consumable does this recipe create?",
+          "food": "Food",
+          "drink": "Drink",
+          "potion": "Potion",
+          "other": "Other"
+        },
+        "preview": "Recipe Preview",
+        "IngredientsTab": "Ingredients",
+        "IngredientsHint": "Manage the ingredients required for this recipe",
+        "AddIngredient": "Add Ingredient",
+        "IngredientName": "Ingredient Name",
+        "IngredientQuantity": "Quantity",
+        "IngredientImage": "Image",
+        "ChangeImage": "Change Image",
+        "RemoveIngredient": "Remove Ingredient",
+        "NoIngredients": "No ingredients added yet",
+        "NoIngredientsHint": "Click 'Add Ingredient' to start building your recipe",
+        "RequiredIngredients": "Required Ingredients",
+        "RequiredIngredientsHint": "List of ingredients that must be consumed when crafting this recipe",
+        "IngredientNamePlaceholder": "Enter ingredient name...",
+        "ResultItems": "Result Items",
+        "ResultItemsHint": "Drag and drop items here to define possible crafting results",
+        "ResultItemUUID": "Item UUID",
+        "ResultItemUUIDHint": "Universal unique identifier for the base item template",
+        "ResultItemName": "Result Item Name",
+        "ResultItemImage": "Result Item Image",
+        "ResultItemQuantity": "Quantity Created",
+        "ResultItemDefault": "Default Option",
+        "ResultItemDefaultHint": "This result will be pre-selected in the crafting dialog",
+        "CustomProperties": "Custom Properties",
+        "CustomPropertiesHint": "Override or extend properties from the base item",
+        "AddResultItem": "Add Result Item",
+        "RemoveResultItem": "Remove Result Item",
+        "ConfigureProperties": "Configure Properties",
+        "NoResultItems": "No result items defined",
+        "NoResultItemsHint": "Drag items from compendium, sidebar, or inventory to add possible results",
+        "DropZoneHint": "Drag & Drop items here",
+        "DropZoneSubHint": "From Compendium, Sidebar, or Actor Inventory",
+        "basic": {
+          "title": "Basic Information"
+        },
+        "process": {
+          "title": "Crafting Process"
+        },
+        "properties": {
+          "title": "Item Properties"
+        },
+        "effects": {
+          "title": "Effects & Notes",
+          "label": "Effects",
+          "hint": "What effects does the cooked item provide?"
+        }
+      }
+    },
+    "Effect": {
+      "Source": "Source",
+      "Toggle": "Toggle Effect",
+      "Effects": "Effects"
+    },
+    "Tabs": {
+      "ShowEffects": "Show Effects",
+      "ShowEquipment": "Show Equipment"
+    },
+    "Hunger": {
+      "label": "Hunger",
+      "messages": {
+        "normal": "The character is not hungry.",
+        "low": "The character is getting hungry.",
+        "critical": "The character is starving!"
+      }
+    },
+    "Thirst": {
+      "label": "Thirst",
+      "messages": {
+        "normal": "The character is not thirsty.",
+        "low": "The character is getting thirsty.",
+        "critical": "The character is dehydrated!"
+      }
+    },
+    "Fracture": {
+      "label": "Fracture",
+      "description": "Each point of Fracture reduces maximum health and energy by 5."
+    },
+    "GiftOfLife": {
+      "label": "Gift of Life",
+      "description": "Gift of Life radio buttons (0-3).",
+      "reset": "Reset Gift of Life"
+    },
+    "DeathSentence": {
+      "label": "Death Sentence", 
+      "description": "Death Sentence radio buttons (0-3).",
+      "reset": "Reset Death Sentence"
+    },
+    "DeathDie": {
+      "label": "Death Die",
+      "button": "Roll 1d12",
+      "description": "Roll a 1d12 death die.",
+      "deathSentence": "Death Sentence! (1-6)",
+      "giftOfLife": "Gift of Life! (7-12)",
+      "autoMarked": "automatically marked"
+    },
+    "Sanity": {
+      "label": "Sanity",
+      "description": "Sanity radio buttons (0-5).",
+      "reset": "Reset Sanity",
+      "messages": {
+        "level1": "Ansioso, você está estressado, tenso e desconfiado.",
+        "level2": "Paranoico, você está desesperado, neurótico e pessimista.",
+        "level3": "Violento, você inconsequente, você está hostil e insensível.",
+        "level4": "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.",
+        "level5": "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição."
+      }
+    },
+    "Toxicity": {
+      "label": "Toxicity",
+      "description": "Toxicity radio buttons (0-5).",
+      "reset": "Reset Toxicity",
+      "messages": {
+        "level1": "Levemente intoxicado, você sente náusea e tontura.",
+        "level2": "Intoxicação moderada, você está enjoado e com visão turva.",
+        "level3": "Severamente intoxicado, você está vomitando e com dores intensas.",
+        "level4": "Intoxicação crítica, você está delirando e perdendo consciência.",
+        "level5": "Envenenamento fatal, você está à beira da morte por toxinas."
+      }
+    },
+    "AddWeapon": "Add Weapon",
+    "EditItem": "Edit Item", 
+    "DeleteItem": "Delete Item",
+    "ShowInChat": "Show in Chat",
+    "Equipped": "Equipped",
+    "Damage": "Damage",
+    "DamageType": "Damage Type",
+    "DamageBlunt": "Blunt",
+    "DamageSlashing": "Slashing",
+    "DamagePiercing": "Piercing",
+    "DamageFire": "Fire",
+    "DamageIce": "Ice",
+    "DamageElectric": "Electric",
+    "DamageAcid": "Acid",
+    "DamagePsychic": "Psychic",
+    "WeaponType": "Weapon Type",
+    "ArmorClass": "Armor Type",
+    "WeaponMelee": "Melee",
+    "WeaponRanged": "Ranged",
+    "WeaponThrown": "Thrown",
+    "Range": "Range",
+    "Ammunition": "Ammunition",
+    "ReloadAmmunition": "Reload Ammunition",
+    "ReloadPrompt": "How much ammunition do you want to reload?",
+    "CurrentAmmunition": "Current Ammunition",
+    "ReloadButton": "Reload",
+    "AttackWith": "Attack with",
+    "AttackRoll": "Attack Roll",
+    "DamageTotal": "Total Damage",
+    "CriticalHitDamageDoubled": "CRITICAL HIT! Damage doubled!",
+    "CriticalFailureDurabilityLoss": "CRITICAL FAILURE! Weapon durability reduced!",
+    "DurabilityReduced": "Durability",
+    "AmmunitionConsumed": "Ammunition consumed",
+    "WeaponNotEquipped": "This weapon is not equipped.",
+    "WeaponBroken": "This weapon is broken and cannot be used to attack!",
+    "NoAmmunition": "No ammunition loaded!",
+    "AmmunitionUsed": "Ammunition Used",
+    "SpecialAmmunitionUsed": "Special Ammunition Used",
+    "RemainingAmmo": "Remaining",
+    "AmmunitionRemaining": "remaining",
+    "IsFirearm": "Is Firearm?",
+
+    "Weight": "Weight",
+    "WeightLight": "Light",
+    "WeightMedium": "Medium", 
+    "WeightHeavy": "Heavy",
+    "WeightVeryHeavy": "Very Heavy",
+    "Light": "Light",
+    "Heavy": "Heavy",
+    "Price": "Price",
+    "Durability": "Durability",
+    "ItemName": "Item Name",
+    "ShowWeapons": "Show Weapons",
+    "UnequipWeapon": "Unequip Weapon",
+    "EquipWeapon": "Equip Weapon",
+    "Unequip": "Unequip",
+    "Equip": "Equip",
+    "UseConsumable": "Use Consumable",
+    "Consumable": "Consumable",
+    "Effects": "Effects",
+    "AddEffect": "Add Effect",
+    "RemoveEffect": "Remove Effect",
+    "SelectEffect": "Select Effect",
+    "Apply": "Apply",
+    "Remove": "Remove",
+    "NoEffectsAdded": "No effects added yet. Click + to add an effect.",
+    "NoEffectsSelected": "No effects selected. Click Configure to select effects.",
+    "ShowBackpack": "Show Backpack",
+    "BackpackTable": "Backpack Table",
+    "Backpack": "Backpack",
+    "BackpackCapacity": "Backpack Capacity",
+    "BackpackFull": "Backpack is full! Cannot add more items.",
+    "BackpackType": "Backpack Type",
+    "AddBackpack": "Add Item",
+    "RecipesTable": "Culinary Table",
+    "Recipes": "Culinary Recipes",
+    "AddRecipe": "Add Culinary Recipe",
+    "RecipeName": "Recipe Name",
+    "RecipeIngredients": "Ingredients",
+    "RecipeResult": "Result",
+    "RecipeDifficulty": "Difficulty",
+    "CookRecipe": "Cook Recipe",
+    "ShowCulinaryTable": "",
+    "CulinaryTable": "Culinary Table",
+    "AddCulinaryRecipe": "Add Culinary Recipe",
+    "ShowTailoringTable": "",
+    "ShowTecnomagicTable": "",
+    "ShowBlacksmithingTable": "",
+    "ShowAlchemyTable": "",
+    "ShowCarpentryTable": "",
+    "ShowSkillsAndarilhoTable": "",
+    "ShowSkillsGuerreiroTable": "",
+    "ShowSkillsLadinoTable": "",
+    "ShowSkillsFeiticeiroTable": "",
+    "ShowSkillsRaciaisTable": "",
+    "ShowSkillsUnicasTable": "",
+    "TailoringTable": "Tailoring Table",
+    "TecnomagicTable": "Tecnomagic Table",
+    "BlacksmithingTable": "Blacksmithing Table",
+    "AlchemyTable": "Alchemy Table",
+    "CarpentryTable": "Carpentry Table",
+    "AndarilhoSkillsTable": "Andarilho Skills",
+    "GuerreiroSkillsTable": "Guerreiro Skills",
+    "LadinoSkillsTable": "Ladino Skills",
+    "FeiticeiroSkillsTable": "Feiticeiro Skills",
+    "RaciaisSkillsTable": "Raciais Skills",
+    "UnicasSkillsTable": "Únicas Skills",
+    "AddTailoringRecipe": "Add Tailoring Recipe",
+    "AddTecnomagicRecipe": "Add Tecnomagic Recipe",
+    "AddBlacksmithingRecipe": "Add Blacksmithing Recipe",
+    "AddAlchemyRecipe": "Add Alchemy Recipe",
+    "AddCarpentryRecipe": "Add Carpentry Recipe",
+    "CraftItem": "Craft Item",
+    "CraftFromRecipe": "Craft from Recipe",
+    "SelectItemType": "Select Item Type",
+    "SelectItemTypeDescription": "Choose the type of item you want to create:",
+    "SelectWeight": "Select Weight",
+    "SelectWeightBackpack": "Select the weight for {{name}}:",
+    "SelectWeightEquipment": "Select the weight for {{name}}:",
+    "WeightDescription": {
+      "VeryLight": "Items that barely weigh anything",
+      "Light": "Lightweight items",
+      "Medium": "Average weight items",
+      "Heavy": "Heavy items", 
+      "VeryHeavy": "Extremely heavy items"
+    },
+    "GeneralItems": "General Items",
+    "SelectGeneralItemType": "Select General Item Type", 
+    "SelectGeneralItemTypeDescription": "Choose the specific type of general item you want to create:",
+    "Back": "Back",
+    "Spaces": "Spaces",
+    "RightHand": "Primary Hand",
+    "LeftHand": "Secondary Hand",
+    "Hand": "Hand",
+    "WeaponsTable": "Weapons Table",
+    "WeaponProperties": "Weapon Properties",
+    "MagicalArtifact": "Magical Artifact",
+    "AddProperty": "Add Property",
+    "RemoveProperty": "Remove Property",
+    "SelectProperty": "Select Property",
+    "AddActionType": "Add Action Type",
+    "RemoveActionType": "Remove Action Type",
+    "SelectActionType": "Select Action Type",
+    "AddSpellCategory": "Adicionar Categoria",
+    "RemoveSpellCategory": "Remover Categoria",
+    "SelectSpellCategory": "Selecione a Categoria",
+    "SkillBonuses": "Skill Bonuses",
+    "AddSkillBonus": "Add Skill Bonus",
+    "RemoveSkillBonus": "Remove Skill Bonus",
+    "SelectSkill": "Select Skill",
+    "SelectHandsTitle": "Select Hand(s)",
+    "SelectHandsDescription": "Choose which hand(s) to equip",
+    "BothHands": "Both Hands",
+    "PrimaryHandDescription": "Main weapon hand",
+    "SecondaryHandDescription": "Off-hand or shield hand",
+    "BothHandsDescription": "Two-handed weapon",
+    "ConfirmUnequipWeapon": "Are you sure you want to unequip this weapon?",
+    "ConfirmUnequipDescription": "The weapon will be moved to the backpack.",
+    "WeaponProperty": {
+      "Bomba": "Bomba",
+      "Certeiro": "Certeiro",
+      "Colateral": "Colateral",
+      "Contundente": "Contundente",
+      "Discreto": "Discreto",
+      "Duelar": "Duelar",
+      "Eletrecutar": "Eletrecutar",
+      "Extensao": "Extensão",
+      "Ferir": "Ferir",
+      "Impacto": "Impacto",
+      "Incendiar": "Incendiar",
+      "Pente": "Pente",
+      "Perfurar": "Perfurar",
+      "QueimaRoupa": "Queima-Roupa",
+      "Rajada": "Rajada",
+      "Recarga": "Recarga",
+      "SaqueRapido": "Saque Rápido",
+      "Traspassar": "Traspassar",
+      "Unico": "Único",
+      "Vorpal": "Vorpal"
+    },
+    "ArmorType": {
+      "Cabeca": "Head",
+      "Acessorios": "Accessories",
+      "Torso": "Torso",
+      "Bracos": "Arms",
+      "Pernas": "Legs",
+      "Pes": "Feet"
+    },
+    "ArmorTable": "Equipped Armor",
+    "ArmorProtection": "Protection",
+    "ArmorTypeLabel": "Armor Type",
+    "ArmorBasicInfo": "Basic Information",
+    "WeaponBasicInfo": "Basic Information",
+    "WeaponEquipment": "Hand & Equipment",
+    "CombatStats": "Combat Statistics",
+    "SpecialProperties": "Special Properties",
+    "EquipArmor": "Equip Armor",
+    "UnequipArmor": "Unequip Armor",
+    "Protection": "Protection",
+    "WeaponProtection": "Protection",
+    "ProtectionValue": "Protection Value",
+    "ColdResistance": "Cold Resistance",
+    "Stylish": "Stylish",
+    "AttributeBonuses": "Attribute Bonuses",
+    "Life": "Life",
+    "Energy": "Energy", 
+    "MovementBonus": "Movement Bonus",
+    "Meters": "meters",
+    "BackpackSpaceBonus": "Increases Backpack Space",
+    "Slots": "slots",
+    "SelectArmorTypeTitle": "Select Armor Type",
+    "SelectArmorTypeDescription": "Choose which type of armor you want to create:",
+    "ConfirmUnequipArmor": "Confirm Unequip Armor",
+    "ConfirmUnequipArmorDescription": "This will move the armor to your backpack.",
+    "BackpackTypeSelection": {
+      "Title": "Select Backpack Item Type",
+      "Description": "Choose the type of backpack item you want to create:"
+    },
+    "BackpackTypes": {
+      "Common": "Common Item",
+      "CommonDesc": "General equipment and miscellaneous items",
+      "Ammunition": "Ammunition",
+      "AmmunitionDesc": "Arrows, bullets, bolts and other projectiles",
+      "Consumable": "Consumable",
+      "ConsumableDesc": "Potions, food, temporary use items"
+    },
+    "ItemComum": {
+      "Title": "Common Item",
+      "Subtitle": "General equipment and miscellaneous items",
+      "Category": "Category",
+      "Usage": "Usage Instructions",
+      "UsagePlaceholder": "Describe how this item is used...",
+      "Categories": {
+        "Equipment": "Equipment",
+        "Tool": "Tool",
+        "Misc": "Miscellaneous",
+        "Valuable": "Valuable"
+      }
+    },
+    "ItemMunicao": {
+      "Title": "Ammunition",
+      "Subtitle": "Arrows, bullets, bolts and other projectiles",
+      "Units": "units",
+      "IsFirearmAmmo": "Firearm Ammunition?",
+      "IsSpecialAmmo": "Special Ammunition?"
+    },
+    "ItemConsumivel": {
+      "Title": "Consumable",
+      "Subtitle": "Potions, food, temporary use items",
+      "Type": "Consumable Type",
+      "Units": "units",
+      "UseTime": "Use Time",
+      "Duration": "Duration",
+      "Effect": "Effect",
+      "EffectPlaceholder": "Describe the item's effect when used...",
+      "RequiresCheck": "Requires Skill Check",
+      "RequiresCheckHelp": "Check this if using the item requires a skill check",
+      "CheckDifficulty": "Check Difficulty",
+      "Types": {
+        "Potion": "Potion",
+        "Food": "Food",
+        "Scroll": "Scroll",
+        "Medicine": "Medicine",
+        "Bomb": "Bomb",
+        "Other": "Other"
+      },
+      "UseTimes": {
+        "Action": "Action",
+        "BonusAction": "Bonus Action",
+        "Reaction": "Reaction",
+        "Minute": "1 Minute"
+      },
+      "HasSkillCheck": "Skill Check?",
+      "SkillCheckAbility": "Which Skill?",
+      "SkillCheckAdvantage": "Advantage?",
+      "HasCriticalFailureEffects": "Critical Failure applies some Effect?",
+      "CriticalFailureEffects": "Critical Failure Effects",
+      "AddCriticalFailureEffect": "Add Effect",
+      "RemoveCriticalFailureEffect": "Remove Effect",
+      "ConfigureEffects": "Configure Effects",
+      "SelectedEffects": "Selected Effects",
+      "HasCriticalFailureSkillLoss": "Critical Failure applies Skill Loss?",
+      "CriticalFailureSkillLoss": "Critical Failure Skill Loss",
+      "AddCriticalFailureSkillLoss": "Add Skill Loss",
+      "RemoveCriticalFailureSkillLoss": "Remove Skill Loss",
+      "CriticalFailureSkillLossAbility": "Ability",
+      "CriticalFailureSkillLossValue": "Loss Value",
+      "HasCriticalHitEffects": "Critical Hit applies some Effect?",
+      "CriticalHitEffects": "Critical Hit Effects",
+      "AddCriticalHitEffect": "Add Effect",
+      "RemoveCriticalHitEffect": "Remove Effect",
+      "HasCriticalHitSkillBonus": "Critical Hit applies Skill Bonus?",
+      "CriticalHitSkillBonus": "Critical Hit Skill Bonus",
+      "AddCriticalHitSkillBonus": "Add Skill Bonus",
+      "RemoveCriticalHitSkillBonus": "Remove Skill Bonus",
+      "CriticalHitSkillBonusAbility": "Ability",
+      "CriticalHitSkillBonusValue": "Bonus Value",
+      "HasTemporarySkillBonus": "Temporary Skill Bonus?",
+      "TemporarySkillBonus": "Temporary Skill Bonus",
+      "AddTemporarySkillBonus": "Add Skill Bonus",
+      "RemoveTemporarySkillBonus": "Remove Skill Bonus",
+      "TemporarySkillBonusAbility": "Ability",
+      "TemporarySkillBonusValue": "Bonus Value",
+      "HasHealthModifier": "Buff/Debuff Health?",
+      "HealthAdd": "Add",
+      "HealthSubtract": "Subtract",
+      "HealthModifierType": "Type",
+      "HealthModifierDice": "Choose Dice",
+      "HealthModifierQuantity": "Quantity of Dice",
+      "HealthModifierAddSkill": "Add some Skill?",
+      "HealthModifierSkill": "Choose Skill",
+      "HealthModifierDoubleSkill": "Double?",
+      "HealthModifierIsTemporary": "Is Temporary Health Point?",
+      "HealthModifierAdditionalBonus": "Additional Bonus Choice",
+      "HasEnergyModifier": "Buff/Debuff Energy?",
+      "EnergyAdd": "Add",
+      "EnergySubtract": "Subtract",
+      "EnergyModifierType": "Type",
+      "EnergyModifierTypeAdd": "Add",
+      "EnergyModifierTypeSubtract": "Subtract",
+      "EnergyModifierDice": "Choose Dice",
+      "EnergyModifierQuantity": "Quantity of Dice",
+      "EnergyModifierAddSkill": "Add some Skill?",
+      "EnergyModifierSkill": "Choose Skill",
+      "EnergyModifierDoubleSkill": "Double?",
+      "EnergyModifierIsTemporary": "Is Temporary Energy Point?",
+      "EnergyModifierAdditionalBonus": "Additional Bonus Choice",
+      "HasArmorBonus": "Temporary Armor Bonus?",
+      "ArmorBonusAmount": "How Much?",
+      "HasStatusAilments": "Status Ailments?",
+      "HasSanityModifier": "Administer Sanity?",
+      "SanityIncrease": "Up",
+      "SanityDecrease": "Down",
+      "SanityModifierAmount": "Amount",
+      "SanityModifierType": "Sanity Modifier Type",
+      "HasToxicityModifier": "Administer Toxicity?",
+      "ToxicityIncrease": "Up",
+      "ToxicityDecrease": "Down",
+      "ToxicityModifierAmount": "Amount",
+      "ToxicityModifierType": "Toxicity Modifier Type",
+      "HasFractureModifier": "Administer Fracture?",
+      "FractureIncrease": "Up",
+      "FractureDecrease": "Down",
+      "FractureModifierAmount": "Amount",
+      "FractureModifierType": "Fracture Modifier Type",
+      "ModifierIncrease": "Increase",
+      "ModifierDecrease": "Decrease",
+      "HasFoodAndWater": "Food and Water?",
+      "HasFoodModifier": "Administer Food?",
+      "FoodIncrease": "Up",
+      "FoodDecrease": "Down",
+      "FoodModifierAmount": "Amount",
+      "FoodModifierType": "Food Modifier Type",
+      "HasWaterModifier": "Administer Water?",
+      "WaterIncrease": "Up",
+      "WaterDecrease": "Down",
+      "WaterModifierAmount": "Amount",
+      "WaterModifierType": "Water Modifier Type",
+      "HasMovementBoost": "Increases Movement?",
+      "MovementBoostAmount": "Movement Amount",
+      "HasCriticalHitBoost": "Improves Critical Hit?",
+      "CriticalHitBoostAmount": "Critical Hit Improvement",
+      "HasEffects": "Does it grant any Effect?"
+    },
+    "NoSkillLossAdded": "No skill loss configured",
+    "NoSkillBonusAdded": "No skill bonus configured",
+    "Modifiers": {
+      "Title": "Modifiers",
+      "Subtitle": "Effects and modifiers applied when using this item",
+      "StatusEffects": "Status Effects",
+      "StatusEffectsHelp": "Positive values add, negative values remove",
+      "SkillEffects": "Skill Effects", 
+      "AddSkillEffect": "Add Skill Effect",
+      "RemoveSkillEffect": "Remove Effect",
+      "RollSystem": "Roll System",
+      "EnableRollSystem": "Enable Roll System", 
+      "DiceFormula": "Dice Formula",
+      "SkillModifier": "Skill Modifier",
+      "Multiplier": "Multiplier",
+      "RollDescription": "Roll Description",
+      "SystemEffects": "System Effects",
+      "AddSystemEffect": "Add System Effect",
+      "UsageSettings": "Usage Settings",
+      "ConsumeOnUse": "Consume on Use",
+      "UsesPerDay": "Uses per Day",
+      "ZeroForUnlimited": "0 for unlimited",
+      "CurrentUses": "Current Uses",
+      "UseItem": "Use Item",
+      "Add": "Add (+)",
+      "Subtract": "Subtract (-)",
+      "Multiply": "Multiply (×)",
+      "Permanent": "Permanent",
+      "Temporary": "Temporary", 
+      "Scene": "Scene",
+      "Combat": "Combat",
+      "Apply": "Apply",
+      "Remove": "Remove",
+      "None": "None",
+      "Fome": "Hunger",
+      "Sede": "Thirst", 
+      "Fratura": "Fracture",
+      "Sanidade": "Sanity",
+      "Toxidade": "Toxicity"
+    },
+    "Currency": {
+      "Gold": "gold"
+    },
+    "Difficulty": {
+      "Easy": "Easy",
+      "Normal": "Normal",
+      "Hard": "Hard",
+      "VeryHard": "Very Hard"
+    },
+    "Arma": {
+      "Title": "Weapon",
+      "Subtitle": "Melee and ranged weapons for combat"
+    },
+    "Armadura": {
+      "Title": "Armor",
+      "Subtitle": "Protective gear and clothing"
+    },
+    "Crafting": {
+      "CraftFromRecipe": "Craft from Recipe",
+      "CraftingFromRecipe": "Crafting from Recipe",
+      "SelectItemType": "Select what type of item to create:",
+      "SelectResultItem": "Select which item to craft:",
+      "SuggestedItem": "Suggested item",
+      "CraftingSuccess": "Successfully crafted {itemName} from {recipeName}!",
+      "CraftingError": "Failed to craft item from recipe",
+      "CannotCraft": "Cannot craft: Missing or insufficient ingredients!",
+      "MissingIngredients": "Missing ingredients",
+      "ResultItemDetails": "Item Details",
+      "Damage": "Damage",
+      "Protection": "Protection",
+      "Quality": "Quality",
+      "Properties": "Properties",
+      "CreateItem": "Create Item",
+      "Cancel": "Cancel",
+      "InsufficientIngredients": "Insufficient ingredients",
+      "IngredientsConsumed": "Ingredients consumed during crafting",
+      "FilterByProfession": "Filter by Profession",
+      "ShowAll": "Show All",
+      "Required": "Required",
+      "Have": "Have",
+      "Need": "Need",
+      "Missing": "Missing",
+      "Summary": "Summary",
+      "ItemsNeeded": "items still needed",
+      "Tip": "Check your inventory for ingredients with similar names, or acquire the missing materials before crafting."
+    },
+    "ItemIngredient": {
+      "Subtitle": "Crafting materials, herbs, and components",
+      "Type": "Ingredient Type",
+      "Freshness": "Freshness",
+      "Origin": "Origin", 
+      "CraftingProperties": "Crafting Properties",
+      "Types": {
+        "Herb": "Herb",
+        "Mineral": "Mineral",
+        "Animal": "Animal Part",
+        "Magical": "Magical Component",
+        "Chemical": "Chemical",
+        "Other": "Other"
+      },
+      "Rarity": "Rarity",
+      "RarityLevels": {
+        "Common": "Common",
+        "Uncommon": "Uncommon",
+        "Rare": "Rare",
+        "VeryRare": "Very Rare",
+        "Legendary": "Legendary"
+      },
+      "Profession": "Profession",
+      "Professions": {
+        "General": "General Use",
+        "Alchemy": "Alchemy",
+        "Blacksmithing": "Blacksmithing",
+        "Carpentry": "Carpentry",
+        "Culinary": "Culinary Arts",
+        "Tailoring": "Tailoring",
+        "Tecnomagic": "Tecnomagic",
+        "Enchanting": "Enchanting",
+        "Herbalism": "Herbalism"
+      }
+    },
+    "Skill": {
+      "BasicInfo": "Basic Information",
+      "Description": "Skill Description",
+      "Effect": "Skill Effect",
+      "Prerequisites": "Prerequisites",
+      "DescriptionPlaceholder": "Describe what this skill does...",
+      "EffectPlaceholder": "Describe the effects of using this skill...",
+      "PrerequisitesPlaceholder": "List any prerequisites for this skill..."
+    },
+    "Rest": {
+      "ShortRest": "Short Rest",
+      "LongRest": "Long Rest",
+      "ShortRestTitle": "Short Rest (1d20 + 2×Vigor)",
+      "LongRestTitle": "Long Rest (2d20 + 3×Vigor)",
+      "SelectRestType": "Select Rest Type",
+      "SelectRestDescription": "Choose the type of rest you want to take:",
+      "ShortRestDescription": "Recover some health and energy (1d20 + 2×Vigor)",
+      "LongRestDescription": "Recover more health and energy, remove effects (2d20 + 3×Vigor)",
+      "RestDialog": {
+        "Title": "Rest Results",
+        "HealthRecovered": "Vida Recuperada: {amount}",
+        "PowerRecovered": "Energia Recuperada: {amount}",
+        "EffectsRemoved": "Effects Removed",
+        "ArmorTooHeavy": "Cannot remove exhaustion while wearing heavy armor",
+        "ExhaustionRemoved": "Exhaustion removed",
+        "RestCompleted": "Rest completed successfully",
+        "HealthRecovery": "Health Recovery",
+        "PowerRecovery": "Energy Recovery",
+        "Fracture": "Fracture",
+        "Sanity": "Sanity",
+        "Toxicity": "Toxicity"
+      },
+      "Confirmation": {
+        "ShortRest": "Take a short rest? This will restore some health and power based on your vigor.",
+        "LongRest": "Take a long rest? This will restore more health and power, remove certain effects, and potentially remove exhaustion."
+      }
+    },
+    "SkillsTable": "Skills",
+    "SkillName": "Skill Name",
+    "SkillType": "Type", 
+    "SkillLevel": "Level",
+    "AssociatedAbility": "Ability",
+    "Modifier": "Modifier",
+    "AddSkill": "Add Skill",
+    "RollSkill": "Roll Skill",
+    "PassiveSkill": "Passive Skill",
+    "Dialogs": {
+      "SkillEffectsSelection": {
+        "Title": "Selecionar Efeitos para Skill",
+        "Description": "Selecione os efeitos que esta skill poderá aplicar quando usada:"
+      }
+    }
+  },
+  "TYPES": {
+    "Actor": {
+      "character": "Character",
+      "npc": "NPC"
+    },
+    "Item": {
+      "item-comum": "Common Item",
+      "item-municao": "Ammunition",
+      "item-consumivel": "Consumable",
+      "item-ingredient": "Ingredient",
+      "item-recipe": "Recipe",
+      "race": "Raça",
+      "efeito": "Efeito",
+      "arma": "Weapon",
+      "armadura": "Armor",
+      "skill": "Skill"
+    }
+  }
+}

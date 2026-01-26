@@ -1,0 +1,37 @@
+{{! Item Type Selection Dialog Template }}
+<form class="item-type-selection-form">
+  <div class="modal-header">
+    <h2>{{localize "CARDIGAN.SelectItemType"}}</h2>
+  </div>
+  
+  <div class="modal-body">
+    <p class="description">{{localize "CARDIGAN.SelectItemTypeDescription"}}</p>
+    
+    <div class="item-type-grid">
+      <button type="button" class="item-type-option" data-type="arma" data-name="Nova Arma">
+        <i class="fas fa-sword item-icon weapon-icon"></i>
+        <span class="item-label">{{localize "TYPES.Item.arma"}}</span>
+        <small class="item-description">Armas de combate</small>
+      </button>
+      
+      <button type="button" class="item-type-option" data-type="armadura" data-name="Nova Armadura">
+        <i class="fas fa-shield item-icon armor-icon"></i>
+        <span class="item-label">{{localize "TYPES.Item.armadura"}}</span>
+        <small class="item-description">Armaduras e proteções</small>
+      </button>
+      
+      <button type="button" class="item-type-option general-items-button" data-action="openGeneralItems">
+        <i class="fas fa-boxes item-icon general-icon"></i>
+        <span class="item-label">{{localize "CARDIGAN.GeneralItems"}}</span>
+        <small class="item-description">Itens comuns, munições e consumíveis</small>
+      </button>
+    </div>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="cancel-button" data-action="cancel">
+      <i class="fas fa-times"></i>
+      {{localize "Cancel"}}
+    </button>
+  </div>
+</form>

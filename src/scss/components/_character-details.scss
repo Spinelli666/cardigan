@@ -44,4 +44,95 @@
       font-size: 14px;
     }
   }
+  
+  // Race slot specific styles
+  .race-slot-container {
+    .race-drop-zone {
+      flex: 1;
+      min-height: 40px;
+      border: 2px dashed #999;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+      
+      &:hover {
+        border-color: #666;
+        background: rgba(0, 0, 0, 0.08);
+      }
+      
+      // Race item display (when race is selected)
+      .race-item-display {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        background: rgba(212, 175, 55, 0.1);
+        border: 1px solid #d4af37;
+        border-radius: 4px;
+        cursor: grab;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: rgba(212, 175, 55, 0.2);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .race-item-image {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          border: 2px solid #d4af37;
+          object-fit: cover;
+          flex-shrink: 0;
+        }
+        
+        .race-item-name {
+          flex: 1;
+          font-weight: bold;
+          color: #2c1810;
+          font-size: 14px;
+        }
+        
+        .race-item-delete {
+          color: #c0392b;
+          cursor: pointer;
+          padding: 4px;
+          border-radius: 3px;
+          transition: all 0.2s ease;
+          
+          &:hover {
+            background: rgba(192, 57, 43, 0.1);
+            color: #e74c3c;
+          }
+          
+          i {
+            font-size: 14px;
+          }
+        }
+      }
+      
+      // Placeholder (when no race selected)
+      .race-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px;
+        color: #999;
+        font-style: italic;
+        font-size: 13px;
+        text-align: center;
+        
+        i {
+          font-size: 20px;
+          opacity: 0.5;
+        }
+        
+        span {
+          font-size: 12px;
+        }
+      }
+    }
+  }
 }

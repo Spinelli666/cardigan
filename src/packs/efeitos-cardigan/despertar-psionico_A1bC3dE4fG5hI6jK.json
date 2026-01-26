@@ -1,0 +1,22 @@
+{
+  "_id": "A1bC3dE4fG5hI6jK",
+  "_key": "!items!A1bC3dE4fG5hI6jK",
+  "name": "Despertar Psiônico",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/despertar-psionico.webp",
+  "system": {
+    "description": "<p style=\"text-align: justify;\">Você se torna capaz de enxergar através do Véu da Realidade, percebendo rastros de energia paranormal e fendas dimensionais, criaturas e objetos ocultos, além de auras de poder e de humor. Nesse estado, com devido treinamento, o despertado é capaz de dobrar a realidade ao seu favor e realizar milagres à custo de sua própria sanidade e energia vital.</p>",
+    "efeitoType": "positivo"
+  },
+  "effects": [],
+  "folder": "FszDz3GuPvOHfi8w",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

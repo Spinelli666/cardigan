@@ -1,0 +1,68 @@
+{
+  "_id": "W1xY4zZ7aA0bB3cC",
+  "_key": "!items!W1xY4zZ7aA0bB3cC",
+  "name": "Levantar a Guarda",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "long-action",
+      "foco"
+    ],
+    "skillClass": "guerreiro",
+    "spellCategories": [],
+    "hasEnergyCost": true,
+    "energyCost": 3,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Adicione <strong>Vantagem</strong> à <strong>Evasão</strong> de ataques duplos ou múltiplos.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Evadir criticamente recupera a <strong><code>⚡️Energia</code></strong> gasta nesta habilidade.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Reduz o custo para <strong><code>2</code></strong> <strong><code>⚡️PE</code></strong>.</p>",
+        "hasEnergy": true,
+        "energyCost": 2,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Toma uma postura defensiva e se prepara para o pior.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Recebe <strong>Vantagem</strong> no próximo teste de <strong>Evasão</strong>.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Reduza pela <strong>metade</strong> o próximo ::systems/cardigan/assets/images/damage/sword-damage.webp::<strong>Dano</strong> recebido.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

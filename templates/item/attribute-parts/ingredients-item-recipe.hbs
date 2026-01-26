@@ -1,0 +1,102 @@
+{{!-- Ingredients Tab for Recipe Items --}}
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="ingredients">
+  
+  <h2>Ingredientes da Receita</h2>
+  
+  <div class="ingredients-header">
+    <h3>Ingredientes por Item</h3>
+    <p class="hint">Configure ingredientes específicos para cada item que pode ser criado</p>
+  </div>
+
+  {{!-- Show ingredients for each result item --}}
+  {{#if system.resultItems.length}}
+    <div class="result-items-ingredients">
+      {{#each system.resultItems as |result|}}
+        <div class="result-item-ingredient-section" data-result-index="{{@index}}">
+          <div class="result-item-header">
+            <img src="{{result.img}}" alt="{{#if result.name}}{{result.name}}{{else}}Item Resultado{{/if}}" width="32" height="32" />
+            <h4>{{#if result.name}}{{result.name}}{{else}}Item Resultado {{add @index 1}}{{/if}}</h4>
+            {{#if result.isDefault}}
+              <span class="default-badge"><i class="fas fa-star"></i> Padrão</span>
+            {{/if}}
+          </div>
+
+          {{#if @root.editable}}
+            <div class="ingredients-controls">
+              <button type="button" class="add-ingredient-to-result" data-action="addIngredientToResult" data-result-index="{{@index}}">
+                <i class="fas fa-plus"></i>
+                Adicionar Ingrediente
+              </button>
+            </div>
+          {{/if}}
+
+          <div class="ingredients-list">
+            {{#if result.requiredIngredients.length}}
+              {{#each result.requiredIngredients as |ingredient|}}
+                <div class="ingredient-item" data-ingredient-index="{{@index}}">
+                  <div class="ingredient-image">
+                    <img src="{{ingredient.img}}" alt="{{ingredient.name}}" width="40" height="40" />
+                  </div>
+                  
+                  <div class="ingredient-details">
+                    <div class="ingredient-name">
+                      {{#if @root.editable}}
+                        <label>Nome:</label>
+                        <input 
+                          type="text" 
+                          name="system.resultItems.{{@../index}}.requiredIngredients.{{@index}}.name" 
+                          value="{{ingredient.name}}" 
+                          placeholder="Nome do ingrediente"
+                        />
+                      {{else}}
+                        <span class="ingredient-name-display">{{ingredient.name}}</span>
+                      {{/if}}
+                    </div>
+                    
+                    <div class="ingredient-quantity">
+                      {{#if @root.editable}}
+                        <label>Quantidade:</label>
+                        <input 
+                          type="number" 
+                          name="system.resultItems.{{@../index}}.requiredIngredients.{{@index}}.quantity" 
+                          value="{{ingredient.quantity}}" 
+                          min="1"
+                          data-dtype="Number"
+                        />
+                      {{else}}
+                        <span class="quantity-display">Qtd: {{ingredient.quantity}}</span>
+                      {{/if}}
+                    </div>
+                  </div>
+                  
+                  {{#if @root.editable}}
+                    <div class="ingredient-controls">
+                      <button type="button" class="remove-ingredient" data-action="removeResultIngredient" data-result-index="{{@../index}}" data-ingredient-index="{{@index}}" title="Remover Ingrediente">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  {{/if}}
+                </div>
+              {{/each}}
+            {{else}}
+              <div class="no-ingredients">
+                <i class="fas fa-leaf"></i>
+                <p>Nenhum ingrediente configurado</p>
+                {{#if @root.editable}}
+                  <p class="hint">Clique em "Adicionar Ingrediente" acima</p>
+                {{/if}}
+              </div>
+            {{/if}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <div class="no-result-items-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>Nenhum item resultado configurado!</p>
+      <p class="hint">Vá para a aba "Details" e arraste itens para a zona de drop primeiro.</p>
+    </div>
+  {{/if}}
+
+</section>

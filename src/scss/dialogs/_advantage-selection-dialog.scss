@@ -1,0 +1,124 @@
+// Advantage Selection Dialog Styles
+
+.advantage-selection-dialog {
+  .advantage-selection-content {
+    padding: 20px;
+  }
+
+  .attack-type-fieldset {
+    border: 1px solid #999;
+    padding: 16px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+
+    legend {
+      padding: 0 8px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .attack-type-options {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-top: 8px;
+
+      .attack-type-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-size: 15px;
+
+        input[type="checkbox"] {
+          cursor: pointer;
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+
+  .roll-options-horizontal {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+
+  .roll-option-button {
+    padding: 16px 10px;
+    border: 1px solid #7a7971;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    min-height: 80px;
+
+    i {
+      font-size: 24px;
+    }
+
+    .roll-info {
+      text-align: center;
+      flex: 1;
+      display: flex;
+      align-items: center;
+
+      .roll-name {
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 1.2;
+
+        &.enhanced {
+          font-size: 12px;
+        }
+      }
+    }
+
+    &.normal {
+      i {
+        color: #999;
+      }
+    }
+
+    &.advantage {
+      i {
+        color: #4caf50;
+      }
+    }
+
+    &.disadvantage {
+      i {
+        color: #f44336;
+      }
+    }
+
+    &.enhanced-advantage {
+      i {
+        color: #66bb6a;
+      }
+    }
+
+    &.enhanced-disadvantage {
+      i {
+        color: #ef5350;
+      }
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px rgba(255, 100, 0, 0.5);
+      background: rgba(0, 0, 0, 0.2);
+      border-color: #ff6400;
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 0 5px rgba(255, 100, 0, 0.3);
+    }
+  }
+}

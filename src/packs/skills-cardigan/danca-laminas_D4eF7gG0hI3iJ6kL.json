@@ -1,0 +1,73 @@
+{
+  "_id": "D4eF7gG0hI3iJ6kL",
+  "_key": "!items!D4eF7gG0hI3iJ6kL",
+  "name": "Dança das Lâminas",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "long-action"
+    ],
+    "skillClass": "ladino",
+    "spellCategories": [],
+    "hasEnergyCost": true,
+    "energyCost": 3,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Pode arremessar até <strong>quatro Adagas</strong> em um mesmo alvo.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Pode recuperar <strong>duas</strong> Adagas de um alvo vivo com uma mesma ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Ação Curta</strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Suas Adagas possuem a <em>Propriedade</em> <strong><code>Ferir</code></strong>, aplicando <strong><code>🩸@UUID[Compendium.cardigan.efeitos-cardigan.Item.Z2aA3bB4cCd5eE6F]{Sangramento}</code></strong> em um <em>Acerto Crítico</em>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": true,
+        "customEffects": [
+          {
+            "id": "Z2aA3bB4cCd5eE6F",
+            "name": "Sangramento",
+            "img": "systems/cardigan/assets/images/effects/effects-negative.webp"
+          }
+        ],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você gira lançando um leque de facas para todos os lados.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Com uma única ação você arremessa todas as <strong>Adagas</strong> que tenha acumulado em seu inventário ao mesmo tempo, realizando um ataque de <strong>Arremesso</strong> em cada inimigo no alcance.</p><p>::systems/cardigan/assets/images/decorative/golden-star.webp::Você pode selecionar múltiplos alvos e arremessar até <strong>três Adagas</strong> em cada um.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Pode recuperar todas as Adagas de um cadáver com uma ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Ação Curta</strong>, ou apenas uma Adaga por vez caso o alvo ainda esteja vivo.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

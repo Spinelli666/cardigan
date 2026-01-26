@@ -1,0 +1,228 @@
+// Proficiency List - Estilos para lista de perícias
+// Este arquivo contém estilos reutilizáveis para todas as perícias
+
+// Animação de pulsação para o d20
+@keyframes pulse-d20 {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+.combat-proficiencies-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.accuracy-attack-image,
+.evasion-defense-image {
+  height: 40px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+}
+
+.evasion-defense-image {
+  margin-left: 3px;
+}
+
+.proficiencies-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  // Espaçamento entre listas de perícias (não afeta imagens)
+  & + .proficiencies-list {
+    margin-left: 10px;
+  }
+
+  .proficiency-label-wrapper {
+    position: relative;
+    margin-top: 2px;
+
+    label {
+      text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+      background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+}
+
+.proficiency-item {
+  width: 50px;
+  height: 82px;
+  background-image: url('../assets/images/decorative/background-proficiencies.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.6));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  // Campo de bônus
+  .bonus-container {
+    position: absolute;
+    top: 9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .bonus-input {
+    width: 20px !important;
+    height: 15px !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    border: none !important;
+    background: transparent !important;
+    color: #FFFFFF !important;
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+    outline: none !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none !important;
+      background: transparent !important;
+    }
+
+    &:hover {
+      box-shadow: 0 0 3px rgba(255, 215, 0, 0.2);
+    }
+  }
+
+  // Campo de valor base com d20 hover
+  .status-display {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 38px;
+    height: 45px;
+    z-index: 1;
+
+    // Ícone d20 (invisível por padrão)
+    .d20-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 32px;
+      opacity: 0;
+      transition: opacity 300ms ease-in;
+      pointer-events: none;
+      z-index: 2;
+      animation: pulse-d20 1.5s ease-in-out infinite;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, #FFB75C, #694C27);
+        -webkit-mask: url('../assets/images/decorative/icons/icon-d20.svg') center/contain no-repeat;
+        mask: url('../assets/images/decorative/icons/icon-d20.svg') center/contain no-repeat;
+      }
+    }
+  }
+
+  .ability-value {
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 300ms ease-in;
+    text-align: center;
+    padding: 0 !important;
+    width: 38px !important;
+    height: 45px !important;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    border: none !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background: transparent !important;
+    font-size: 28px;
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+
+    &:focus {
+      outline: none !important;
+      outline-offset: 0 !important;
+    }
+
+    &:hover:not(:focus) {
+      box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+      background: linear-gradient(180deg, #5a0427, #995000) !important;
+      color: transparent;
+      text-shadow: none;
+    }
+
+    &:active:not(:focus) {
+      transform: scale(0.98);
+    }
+  }
+
+  // Mostrar d20 no hover
+  .status-display:hover .d20-icon {
+    opacity: 1;
+  }
+
+  // Modo de edição (botão direito)
+  .status-display.force-normal {
+    .d20-icon {
+      opacity: 0 !important;
+      transition: none !important;
+    }
+    
+    .ability-value {
+      color: #FFFFFF !important;
+      text-shadow: 0px 0px 3px rgba(0, 0, 0, 1) !important;
+      box-shadow: none !important;
+      transition: none !important;
+    }
+    
+    &:hover .d20-icon {
+      opacity: 0 !important;
+    }
+    
+    .ability-value:hover:not(:focus) {
+      color: #FFFFFF !important;
+      text-shadow: 0px 0px 3px rgba(0, 0, 0, 1) !important;
+      box-shadow: none !important;
+    }
+  }
+}
+
+.proficiencies-divider-top {
+  position: absolute;
+  top: 271px;
+  left: -15px;
+  width: 110px;
+  opacity: 0.8;
+}
+
+.proficiencies-divider-bottom {
+  position: absolute;
+  bottom: 288px;
+  right: -15px;
+  width: 110px;
+  opacity: 0.8;
+  transform: scale(-1);
+}

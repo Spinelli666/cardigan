@@ -1,0 +1,22 @@
+{
+  "_id": "k8JmN5PrQwX7VzBt",
+  "_key": "!items!k8JmN5PrQwX7VzBt",
+  "name": "Inspirado",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/inspirado.webp",
+  "system": {
+    "description": "<p style=\"text-align: justify;\">Recebe bônus de alguma Perícia de acordo com a situação que deixar seu personagem inspirado, a critério do Narrador.</p>",
+    "efeitoType": "positivo"
+  },
+  "effects": [],
+  "folder": "FszDz3GuPvOHfi8w",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "_id": "V5wX8yY1zZ4aB7cC",
+  "_key": "!items!V5wX8yY1zZ4aB7cC",
+  "name": "Golpe Perfeito",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "long-action",
+      "foco"
+    ],
+    "skillClass": "guerreiro",
+    "spellCategories": [],
+    "hasEnergyCost": true,
+    "energyCost": 3,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Reduz o custo desta habilidade para <strong><code>2⚡️</code></strong>.</p>",
+        "hasEnergy": true,
+        "energyCost": 2,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Não realizar ações até terminar o <strong>Foco</strong> rende um <strong>Acerto Crítico</strong> garantido.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">O dano total sob efeito desta habilidade ignora toda <strong>::systems/cardigan/assets/images/weapons/shield.webp::Armadura</strong> do alvo.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você planeja onde, quando e como acertar seu inimigo com todo talento e atenção.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você começa a preparar o golpe perfeito, e assim entra o efeito de <strong>Foco</strong>. Você leva <strong>uma Rodada</strong> para canalizar esta habilidade e <strong>causar</strong> ou <strong>receber</strong> qualquer tipo de ::systems/cardigan/assets/images/damage/sword-damage.webp::<strong>Dano</strong> ou ::systems/cardigan/assets/images/effects/effects.webp::<strong>Efeito Negativo</strong> cancela sua canalização.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Em sua próxima rodada de ataque você terá <strong><code>+1</code> Precisão</strong> e causará o <strong>dobro</strong> da sua <strong>Força</strong> como ::systems/cardigan/assets/images/damage/sword-damage.webp::Dano Extra.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

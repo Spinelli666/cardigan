@@ -1,0 +1,18 @@
+{
+  "_id": "J4kS9vR2mT7nZ5xB",
+  "_key": "!folders!J4kS9vR2mT7nZ5xB",
+  "name": "Armas à Distância",
+  "type": "Item",
+  "color": "#d32f2f",
+  "sorting": "a",
+  "folder": "A1rM2aS3wE4aP5oN",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

@@ -8,6 +8,40 @@
     padding-bottom: 2px;
   }
 
+  .abilities-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    
+    h3 {
+      margin: 0 0 6px 0;
+      font-size: 20px;
+      font-weight: bold;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 2px;
+    }
+  }
+
+  .abilities-edit-button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background: #45a049;
+    }
+    
+    i {
+      margin-right: 4px;
+    }
+  }
+
   .abilities-list {
     display: flex;
     flex-direction: column;
@@ -55,7 +89,29 @@
     border-color: #888;
     outline: none;
   }
+
+  // Style for readonly fields
+  .ability-row input[readonly] {
+    background: rgba(128, 128, 128, 0.1);
+    color: #ccc;
+    cursor: default;
+    border-color: #666;
+    
+    &:focus {
+      border-color: #666;
+      outline: none;
+    }
+  }
 }
+
+/* Roll Button Styles */
+.roll-button-container {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+/* Botão usa estilos padrão do FoundryVTT - sem customização */
 /* Abilities Toggle Styles */
 .abilities-toggle-view {
   transition: all 0.2s ease;
@@ -116,4 +172,169 @@
     width: 50px !important;
     text-align: center !important;
   }
+}
+
+/* Abilities Edit Modal Styles */
+.abilities-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #2a2a2a;
+  border: 2px solid #444;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #444;
+  padding-bottom: 10px;
+  
+  h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 20px;
+  }
+}
+
+.close-modal {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background: #b71c1c;
+  }
+  
+  i {
+    font-size: 12px;
+  }
+}
+
+.modal-body {
+  margin-bottom: 20px;
+}
+
+.ability-edit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  border: 1px solid #555;
+  
+  > label {
+    font-weight: bold;
+    color: #fff;
+    min-width: 120px;
+    font-size: 15px;
+  }
+}
+
+.ability-edit-fields {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  
+  .field-label {
+    font-size: 12px;
+    color: #ccc;
+    margin: 0;
+  }
+  
+  input {
+    width: 60px;
+    padding: 8px;
+    border: 1px solid #666;
+    border-radius: 4px;
+    background: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    pointer-events: auto;
+    
+    &:focus {
+      border-color: #4CAF50;
+      outline: none;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    }
+  }
+  
+  .ability-total {
+    width: 60px;
+    padding: 8px;
+    background: #333;
+    border: 1px solid #555;
+    border-radius: 4px;
+    color: #4CAF50;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+  }
+}
+
+.modal-footer {
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+}
+
+/* Weapon Bonus Indicator Styles */
+.weapon-bonus-indicator {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 2px 4px;
+  background: rgba(255, 215, 0, 0.15);
+  color: #FFD700;
+  border: 1px solid #FFD700;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: bold;
+  vertical-align: middle;
+  cursor: help;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba(255, 215, 0, 0.25);
+    transform: scale(1.05);
+  }
+}
+
+.bonus-container {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }

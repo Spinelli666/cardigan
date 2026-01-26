@@ -1,0 +1,53 @@
+{
+  "_id": "X5bN1qG4jH7mD0fS",
+  "_key": "!items!X5bN1qG4jH7mD0fS",
+  "name": "Machado Pesado",
+  "type": "arma",
+  "img": "systems/cardigan/assets/images/weapons/heavy-axe.webp",
+  "folder": "N4vL7rM0kX3pS6zT",
+  "system": {
+    "description": "",
+    "weaponType": "Machado Pesado",
+    "melee": true,
+    "ranged": false,
+    "isFirearm": false,
+    "magazine": 0,
+    "loadedAmmo": 0,
+    "loadedAmmoTypes": {},
+    "damage": {
+      "value": "14",
+      "useStrength": true,
+      "useDexterity": false,
+      "total": "14"
+    },
+    "properties": ["ferir", "traspassar"],
+    "rightHand": false,
+    "leftHand": false,
+    "weight": "pesado",
+    "price": 60,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "skillBonuses": [],
+    "equipped": false,
+    "magicalArtifact": false,
+    "protection": {
+      "enabled": false,
+      "value": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

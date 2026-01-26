@@ -1,0 +1,191 @@
+// Estilos para o container de Effects na aba Perícias
+
+.proficiencies-effects-grid {
+  margin-top: 20px;
+}
+
+.proficiencies-effects-container {
+  .effects-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    border: none !important;
+    background: none !important;
+
+    .effects-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      .effects-toggle-icon {
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+        
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    .effect-controls {
+      display: flex;
+      align-items: center;
+
+      .effect-control {
+        padding: 4px 8px;
+        font-size: 11px;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        text-decoration: none;
+        cursor: pointer;
+
+        i {
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+
+  .effects-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .add-effect-button-container {
+      width: 44px;
+      height: 20px;
+      background: url('/systems/cardigan/assets/images/decorative/background-button-effects.webp') center / cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    .add-effect-icon {
+      width: 10px;
+      height: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+
+      &:hover {
+        transform: scale(1.15);
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+      }
+    }
+  }
+
+  .effects-list {
+    list-style: none;
+    padding: 8px;
+    margin: 0px 20px;
+    width: calc(100% - 110px);
+    max-height: 120px;
+    overflow-y: auto;
+    overflow-x: visible;
+    border: 1px solid #FFB75C;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .effect {
+      display: flex;
+      align-items: center;
+      padding: 2px 5px;
+      border: 1px solid #FFB75C;
+      border-radius: 15px;
+      background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+    }
+
+    .effect-image {
+      margin-left: 4px;
+      margin-right: 4px;
+      display: flex;
+      flex: 0 0 20px;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 19px;
+        height: 19px;
+        border-radius: 3px;
+      }
+    }
+
+    .effect-name {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+      background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+
+      h4 {
+        margin: 0;
+        font-size: 11px;
+        font-family: 'Alatsi', sans-serif;
+        text-transform: uppercase;
+        line-height: 1.4;
+        cursor: pointer;
+        scrollbar-width: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+        em {
+          color: #666;
+          font-style: italic;
+        }
+      }
+    }
+
+    .effect-controls {
+      display: flex;
+      flex: 0 0 26px;
+      gap: 3px;
+
+      .effect-control {
+        color: #dc3545;
+        cursor: pointer;
+        padding: 1px;
+        font-size: 10px;
+
+        &:hover {
+          color: #a71e2a;
+        }
+      }
+
+      .delete-icon {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        transition: transform 0.2s ease;
+
+        &:hover {
+          filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.6));
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    .no-effects {
+      padding: 12px;
+      text-align: center;
+      text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+      background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-style: italic;
+      font-size: 12px;
+    }
+  }
+}

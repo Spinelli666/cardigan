@@ -1,0 +1,22 @@
+{
+  "_id": "H7iJkL6mN8oP9qRs",
+  "_key": "!items!H7iJkL6mN8oP9qRs",
+  "name": "Persistência",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/persistencia.webp",
+  "system": {
+    "description": "<p style=\"text-align: justify;\">Ao ter seus <code>💔PV</code> reduzidos a <code>0</code> ou menos, imediatamente retorna a ter <code>1💔PV</code>.</p>",
+    "efeitoType": "positivo"
+  },
+  "effects": [],
+  "folder": "FszDz3GuPvOHfi8w",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

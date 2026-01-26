@@ -1,0 +1,53 @@
+{
+  "_id": "H5bN8mQ1kX4vP7sJ",
+  "_key": "!items!H5bN8mQ1kX4vP7sJ",
+  "name": "Lança",
+  "type": "arma",
+  "img": "systems/cardigan/assets/images/weapons/spear.webp",
+  "folder": "P5kR8vM2zS0xN4tB",
+  "system": {
+    "description": "",
+    "weaponType": "Lança",
+    "melee": true,
+    "ranged": false,
+    "isFirearm": false,
+    "magazine": 0,
+    "loadedAmmo": 0,
+    "loadedAmmoTypes": {},
+    "damage": {
+      "value": "6",
+      "useStrength": false,
+      "useDexterity": false,
+      "total": "6"
+    },
+    "properties": ["perfurar", "vorpal"],
+    "rightHand": false,
+    "leftHand": false,
+    "weight": "leve",
+    "price": 20,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "skillBonuses": [],
+    "equipped": false,
+    "magicalArtifact": false,
+    "protection": {
+      "enabled": false,
+      "value": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

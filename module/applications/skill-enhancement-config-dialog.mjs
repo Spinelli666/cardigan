@@ -1,0 +1,383 @@
+/**
+ * Dialog for configuring skill enhancements with rich text description
+ */
+export default class SkillEnhancementConfigDialog extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.api.ApplicationV2
+) {
+  constructor(options = {}) {
+    super(options);
+    this.skill = options.skill;
+    this.enhancementIndex = options.enhancementIndex;
+    this.enhancementData = options.enhancementData || { name: '', description: '' };
+  }
+
+  static DEFAULT_OPTIONS = {
+    id: 'skill-enhancement-config',
+    tag: 'dialog',
+    window: {
+      title: 'Configure Enhancement',
+      icon: 'fas fa-magic',
+      resizable: true,
+    },
+    position: {
+      width: 600,
+      height: 500,
+    },
+    actions: {
+      save: SkillEnhancementConfigDialog.#onSave,
+      configureEnhancementEffects: SkillEnhancementConfigDialog.#onConfigureEffects,
+      configureEnhancementLinkedSkills: SkillEnhancementConfigDialog.#onConfigureLinkedSkills,
+    },
+  };
+
+  static PARTS = {
+    form: {
+      template: 'systems/cardigan/templates/dialogs/skill-enhancement-config.hbs',
+    },
+    footer: {
+      template: 'templates/generic/form-footer.hbs',
+    },
+  };
+
+  get title() {
+    const enhancementNumber = this.enhancementIndex + 1;
+    return game.i18n.format('CARDIGAN.EnhancementConfig.Title', {
+      enhancement: enhancementNumber,
+    });
+  }
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+
+    // Pass the document for template access
+    context.document = this.skill;
+
+    // Prepare the enhancement data
+    context.enhancement = {
+      description: this.enhancementData.description || '',
+      hasEnergy: this.enhancementData.hasEnergy || false,
+      energyCost: this.enhancementData.energyCost || 0,
+      hasEffects: this.enhancementData.hasEffects || false,
+      customEffects: this.enhancementData.customEffects || [],
+      hasLinkedSkills: this.enhancementData.hasLinkedSkills || false,
+      linkedSkills: this.enhancementData.linkedSkills || [],
+    };
+
+    // Enrich the description for display (like biography system)
+    context.enrichedDescription = await foundry.applications.ux.TextEditor.enrichHTML(
+      this.enhancementData.description || '',
+      {
+        secrets: this.skill.isOwner,
+        rollData: this.skill.getRollData?.() || {},
+        relativeTo: this.skill,
+      }
+    );
+
+    // Footer buttons
+    context.buttons = [
+      {
+        type: 'button',
+        action: 'cancel',
+        label: 'CARDIGAN.Common.Cancel',
+        icon: 'fas fa-times',
+        class: 'default'
+      },
+      {
+        type: 'submit',
+        action: 'save',
+        label: 'CARDIGAN.Common.Save',
+        icon: 'fas fa-check',
+        class: 'primary'
+      },
+    ];
+
+    return context;
+  }
+
+  _onRender(context, options) {
+    super._onRender(context, options);
+
+    // Add event listener to toggle energy cost input visibility
+    const energyCheckbox = this.element.querySelector('input[name="hasEnergy"]');
+    const energyInput = this.element.querySelector('.energy-cost-input');
+    
+    if (energyCheckbox && energyInput) {
+      // Set initial visibility
+      energyInput.style.display = energyCheckbox.checked ? 'block' : 'none';
+      
+      // Toggle on change
+      energyCheckbox.addEventListener('change', (e) => {
+        energyInput.style.display = e.target.checked ? 'block' : 'none';
+      });
+    }
+
+    // Add event listener to toggle effects config visibility
+    const effectsCheckbox = this.element.querySelector('input[name="hasEffects"]');
+    const effectsConfig = this.element.querySelector('.effects-config');
+    
+    if (effectsCheckbox && effectsConfig) {
+      // Set initial visibility
+      effectsConfig.style.display = effectsCheckbox.checked ? 'block' : 'none';
+      
+      // Toggle on change
+      effectsCheckbox.addEventListener('change', (e) => {
+        effectsConfig.style.display = e.target.checked ? 'block' : 'none';
+      });
+    }
+
+    // Add event listener to toggle linked skills config visibility
+    const linkedSkillsCheckbox = this.element.querySelector('input[name="hasLinkedSkills"]');
+    const linkedSkillsConfig = this.element.querySelector('.linked-skills-config');
+    
+    if (linkedSkillsCheckbox && linkedSkillsConfig) {
+      // Set initial visibility
+      linkedSkillsConfig.style.display = linkedSkillsCheckbox.checked ? 'block' : 'none';
+      
+      // Toggle on change
+      linkedSkillsCheckbox.addEventListener('change', (e) => {
+        linkedSkillsConfig.style.display = e.target.checked ? 'block' : 'none';
+      });
+    }
+
+    // Handle image paste to force small size
+    const proseMirror = this.element.querySelector('prose-mirror');
+    if (proseMirror) {
+      const editor = proseMirror.querySelector('.ProseMirror');
+      if (editor) {
+        // Observer to resize images when they're added
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+              if (node.nodeName === 'IMG') {
+                node.style.height = '5em';
+                node.style.width = 'auto';
+                node.style.maxWidth = '100%';
+                node.style.display = 'inline';
+                node.style.verticalAlign = 'middle';
+                node.style.margin = '0 0.2em';
+                node.style.objectFit = 'contain';
+              }
+              // Check children for images
+              if (node.querySelectorAll) {
+                const images = node.querySelectorAll('img');
+                images.forEach((img) => {
+                  img.style.height = '5em';
+                  img.style.width = 'auto';
+                  img.style.maxWidth = '100%';
+                  img.style.display = 'inline';
+                  img.style.verticalAlign = 'middle';
+                  img.style.margin = '0 0.2em';
+                  img.style.objectFit = 'contain';
+                });
+              }
+              // Se o nó é um parágrafo, garantir que seja inline
+              if (node.nodeName === 'P') {
+                node.style.display = 'inline';
+              }
+            });
+          });
+        });
+
+        observer.observe(editor, {
+          childList: true,
+          subtree: true,
+        });
+
+        // Store observer to disconnect later
+        this._imageObserver = observer;
+
+        // Also handle existing images
+        const existingImages = editor.querySelectorAll('img');
+        existingImages.forEach((img) => {
+          img.style.height = '5em';
+          img.style.width = 'auto';
+          img.style.maxWidth = '100%';
+          img.style.display = 'inline';
+          img.style.verticalAlign = 'middle';
+          img.style.margin = '0 0.2em';
+          img.style.objectFit = 'contain';
+        });
+        
+        // Garantir que parágrafos sejam inline
+        const paragraphs = editor.querySelectorAll('p');
+        paragraphs.forEach((p) => {
+          p.style.display = 'inline';
+        });
+      }
+    }
+  }
+
+  _onClose(options) {
+    // Cleanup observer
+    if (this._imageObserver) {
+      this._imageObserver.disconnect();
+      this._imageObserver = null;
+    }
+    return super._onClose(options);
+  }
+
+  /**
+   * Handle configuring custom effects for this enhancement
+   */
+  static async #onConfigureEffects(event, target) {
+    event.preventDefault();
+
+    try {
+      // Import the effects selection dialog
+      const { SkillEffectsSelectionDialog } = await import('./skill-effects-selection-dialog.mjs');
+      
+      // Open the effects selection dialog with current enhancement effects
+      const dialog = new SkillEffectsSelectionDialog({
+        item: this.skill,
+        selectedEffects: this.enhancementData.customEffects || [],
+        enhancementIndex: this.enhancementIndex,
+        parentDialog: this, // Pass reference to parent dialog
+      });
+      
+      dialog.render(true);
+    } catch (error) {
+      console.error('[CARDIGAN ERROR] Error opening effects dialog:', error);
+      ui.notifications.error(`Erro ao abrir dialog de efeitos: ${error.message}`);
+    }
+  }
+
+  /**
+   * Handle configuring linked skills for this enhancement
+   */
+  static async #onConfigureLinkedSkills(event, target) {
+    event.preventDefault();
+
+    try {
+      // Import the linked skills dialog
+      const { SkillLinkedSkillsDialog } = await import('./skill-linked-skills-dialog.mjs');
+      
+      // Open the linked skills selection dialog
+      const dialog = new SkillLinkedSkillsDialog({
+        item: this.skill,
+        selectedSkills: this.enhancementData.linkedSkills || [],
+        onConfirm: async (selectedSkills) => {
+          // Update the enhancement data with selected skills
+          this.enhancementData.linkedSkills = selectedSkills;
+          
+          // Update the display without full re-render
+          this._updateLinkedSkillsDisplay(selectedSkills);
+          
+          ui.notifications.info(`${selectedSkills.length} skill(s) vinculada(s) selecionada(s)`);
+        }
+      });
+      
+      dialog.render(true);
+    } catch (error) {
+      console.error('[CARDIGAN ERROR] Error opening linked skills dialog:', error);
+      ui.notifications.error(`Erro ao abrir dialog de skills vinculadas: ${error.message}`);
+    }
+  }
+
+  /**
+   * Update the linked skills display without full re-render
+   * @param {Array} selectedSkills - The newly selected skills
+   * @private
+   */
+  _updateLinkedSkillsDisplay(selectedSkills) {
+    const container = this.element.querySelector('.linked-skills-config');
+    if (!container) return;
+
+    // Remove old display sections
+    const oldSelected = container.querySelector('.selected-skills');
+    const oldNoSkills = container.querySelector('.no-skills');
+    if (oldSelected) oldSelected.remove();
+    if (oldNoSkills) oldNoSkills.remove();
+
+    // Create new display
+    if (selectedSkills && selectedSkills.length > 0) {
+      const selectedDiv = document.createElement('div');
+      selectedDiv.className = 'selected-skills';
+      
+      const title = document.createElement('h4');
+      title.textContent = game.i18n.localize('CARDIGAN.Item.Skill.LinkedSkills');
+      selectedDiv.appendChild(title);
+      
+      const skillsList = document.createElement('div');
+      skillsList.className = 'skills-list';
+      
+      selectedSkills.forEach(skill => {
+        const skillItem = document.createElement('div');
+        skillItem.className = 'skill-item';
+        
+        if (skill.img) {
+          const img = document.createElement('img');
+          img.src = skill.img;
+          img.alt = skill.name;
+          img.width = 24;
+          img.height = 24;
+          skillItem.appendChild(img);
+        }
+        
+        const span = document.createElement('span');
+        span.textContent = skill.name;
+        skillItem.appendChild(span);
+        
+        skillsList.appendChild(skillItem);
+      });
+      
+      selectedDiv.appendChild(skillsList);
+      container.appendChild(selectedDiv);
+    } else {
+      const noSkillsDiv = document.createElement('div');
+      noSkillsDiv.className = 'no-skills';
+      
+      const em = document.createElement('em');
+      em.textContent = game.i18n.localize('CARDIGAN.Item.Skill.NoSkillsSelected');
+      noSkillsDiv.appendChild(em);
+      
+      container.appendChild(noSkillsDiv);
+    }
+  }
+
+  /**
+   * Handle applying the changes (save and close)
+   */
+  static async #onSave(event, target) {
+    // Get form data from the prose-mirror editor
+    const form = this.element.querySelector('form');
+    const formData = new foundry.applications.ux.FormDataExtended(form);
+    const data = formData.object;
+
+    // Get current enhancements array
+    const currentEnhancements = foundry.utils.deepClone(
+      this.skill.system.enhancements || []
+    );
+
+    // Ensure we have enough slots
+    while (currentEnhancements.length <= this.enhancementIndex) {
+      currentEnhancements.push({ name: '', description: '', hasEnergy: false, energyCost: 0 });
+    }
+
+    // Fixed names for each enhancement
+    const enhancementNames = [
+      'Aprimoramento 1',
+      'Aprimoramento 2', 
+      'Aprimoramento 3'
+    ];
+
+    // Update the specific enhancement
+    currentEnhancements[this.enhancementIndex] = {
+      name: enhancementNames[this.enhancementIndex] || `Aprimoramento ${this.enhancementIndex + 1}`,
+      description: data.description || '',
+      hasEnergy: data.hasEnergy || false,
+      energyCost: data.hasEnergy ? (parseInt(data.energyCost) || 0) : 0,
+      hasEffects: data.hasEffects || false,
+      customEffects: this.enhancementData.customEffects || [],
+      hasLinkedSkills: data.hasLinkedSkills || false,
+      linkedSkills: this.enhancementData.linkedSkills || [],
+    };
+
+    // Update the skill item
+    await this.skill.update({
+      'system.enhancements': currentEnhancements,
+    });
+
+    // Close the dialog after saving
+    this.close();
+  }
+}

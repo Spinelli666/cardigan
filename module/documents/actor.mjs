@@ -3,6 +3,26 @@
  * @extends {Actor}
  */
 export class CardiganSystemActor extends Actor {
+  /**
+   * Perform preliminary operations before an Actor document is created.
+   * @param {object} data    - The initial data object provided to the document creation request
+   * @param {object} options - Additional options which modify the creation request
+   * @param {User} user      - The User requesting the document creation
+   * @returns {Promise<boolean|void>}
+   * @override
+   */
+  async _preCreate(data, options, user) {
+    await super._preCreate(data, options, user);
+    
+    // For character actors, ensure tokens are linked by default
+    // This prevents issues where editing synthetic token actors doesn't save
+    if (this.type === 'character') {
+      this.updateSource({
+        'prototypeToken.actorLink': true
+      });
+    }
+  }
+  
   /** @override */
   prepareData() {
     // Prepare data for the actor. Calling the super version of this executes
@@ -10,12 +30,63 @@ export class CardiganSystemActor extends Actor {
     // prepareBaseData(), prepareEmbeddedDocuments() (including active effects),
     // prepareDerivedData().
     super.prepareData();
+    
+    // After all data is prepared, check if Persistência should enforce minimum HP
+    this._enforcePersistenciaMinHP();
+  }
+
+  /**
+   * Enforce Persistência minimum HP if the effect is active
+   * This runs after all data preparation to ensure HP doesn't stay below 1
+   * @private
+   */
+  async _enforcePersistenciaMinHP() {
+    // Only for characters
+    if (this.type !== 'character') return;
+    
+    // Check if actor has Persistência effect
+    const hasPersistencia = this.items.some(item => 
+      item.type === 'efeito' && item.name === 'Persistência'
+    );
+    
+    if (!hasPersistencia) return;
+    
+    // Check current HP - use this.system.health.value (not status.health)
+    const currentHP = this.system.health?.value ?? 0;
+    
+    // If HP is below 1, update it to 1 (persist to database)
+    if (currentHP < 1) {
+      console.log(`[Persistência] Enforcing minimum HP for ${this.name}: ${currentHP} → 1`);
+      
+      // Use update to persist the change
+      // Use a flag to prevent infinite loops
+      if (!this._enforcingPersistencia) {
+        this._enforcingPersistencia = true;
+        await this.update({
+          'system.health.value': 1
+        }, { render: false }); // Don't re-render to avoid flicker
+        this._enforcingPersistencia = false;
+        
+        ui.notifications.info(`${this.name} tem Persistência ativa! HP restaurado para 1.`);
+      }
+    }
   }
 
   /** @override */
   prepareBaseData() {
     // Data modifications in this step occur before processing embedded
     // documents or derived data.
+    
+    // Para personagens, calcular valores base que ActiveEffects podem modificar
+    if (this.type === 'character') {
+      // Note: weapon skill bonuses are calculated in prepareDerivedData(),
+      // so we'll calculate movement there as well to ensure totalBonus is available
+      
+      // Calcular armadura máxima base: valor base + bônus de status
+      // ActiveEffects podem adicionar bônus adicionais a este valor
+      const armorBonus = this.system.status?.armorBonus ?? 0;
+      this.system.armor.max = Math.max(0, 0 + armorBonus);
+    }
   }
 
   /**
@@ -40,5 +111,83 @@ export class CardiganSystemActor extends Actor {
    */
   getRollData() {
     return { ...super.getRollData(), ...(this.system.getRollData?.() ?? null) };
+  }
+
+  /**
+   * Perform preliminary operations before an Actor document is updated.
+   * @param {object} changed - The differential data that is changed relative to the documents prior values
+   * @param {object} options - Additional options which modify the update request
+   * @param {User} user      - The User requesting the document update
+   * @returns {boolean|void} - Explicitly return false to prevent the update
+   * @override
+   */
+  async _preUpdate(changed, options, user) {
+    await super._preUpdate(changed, options, user);
+    
+    // Check if HP is being updated - use system.health.value (not status.health)
+    if (changed.system?.health?.value !== undefined) {
+      const newHP = changed.system.health.value;
+      
+      // Apply Persistência protection if active
+      const { PersistenciaEffect } = await import('../effects/index.mjs');
+      const protectedHP = PersistenciaEffect.protectHP(this, newHP);
+      
+      // If HP was protected, update the changed data
+      if (protectedHP !== newHP) {
+        changed.system.health.value = protectedHP;
+      }
+    }
+  }
+
+  /**
+   * Perform follow-up operations after an Actor document is updated.
+   * @param {object} changed - The differential data that was changed relative to the documents prior values
+   * @param {object} options - Additional options which modify the update request
+   * @param {string} userId  - The id of the User requesting the document update
+   * @override
+   */
+  async _onUpdate(changed, options, userId) {
+    await super._onUpdate(changed, options, userId);
+    
+    // Sync status-based effects
+    const { FraturaEffect, ExaustaoEffect, ToxicidadeEffect } = await import('../effects/index.mjs');
+    await FraturaEffect.onActorUpdate(this, changed, userId);
+    await ExaustaoEffect.onActorUpdate(this, changed, userId);
+    await ToxicidadeEffect.onActorUpdate(this, changed, userId);
+  }
+
+  /**
+   * Perform follow-up operations after embedded documents are deleted from the Actor.
+   * @param {string} embeddedName - The name of the embedded Document type
+   * @param {Document[]} documents - An array of deleted Documents
+   * @param {object} result - The result of the deletion operation
+   * @param {object} options - Additional options which modify the deletion request
+   * @param {string} userId - The id of the User requesting the deletion
+   * @override
+   */
+  async _onDeleteEmbeddedDocuments(embeddedName, documents, result, options, userId) {
+    await super._onDeleteEmbeddedDocuments(embeddedName, documents, result, options, userId);
+    
+    // Check if a race item was deleted
+    if (embeddedName === 'Item') {
+      const deletedRace = documents.find(doc => doc.type === 'race');
+      
+      if (deletedRace) {
+        console.log('[Cardigan] Race deleted, resetting ability points');
+        
+        // Reset all ability baseValues to 0 (remove wizard points)
+        const abilityKeys = ['accuracy', 'evasion', 'strength', 'dexterity', 'stamina', 'stealth', 'persuasion', 'intelligence', 'psionics'];
+        const updates = {};
+        
+        for (const abilityKey of abilityKeys) {
+          updates[`system.abilities.${abilityKey}.baseValue`] = 0;
+        }
+        
+        console.log('[Cardigan] Updating abilities:', updates);
+        await this.update(updates);
+        
+        ui.notifications.info(`Raça removida! Pontos de atributos do wizard foram zerados.`);
+      }
+    }
   }
 }

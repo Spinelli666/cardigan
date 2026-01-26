@@ -1,0 +1,81 @@
+// -----------------------------------------
+// Consumable Roll Chat Card Styles
+// -----------------------------------------
+.consumable-roll-card {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
+  border: 2px solid rgba(76, 175, 80, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 4px 0;
+  
+  .card-header {
+    text-align: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(76, 175, 80, 0.2);
+    
+    h3 {
+      color: #4CAF50;
+      font-size: 1.1em;
+      margin: 0 0 4px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      
+      i {
+        font-size: 1em;
+      }
+    }
+    
+    p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.85em;
+      margin: 0;
+      font-style: italic;
+    }
+  }
+  
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+    .roll-formula {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9em;
+      
+      strong {
+        color: rgba(255, 255, 255, 0.9);
+      }
+      
+      code {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        color: #4CAF50;
+        font-size: 0.85em;
+      }
+    }
+    
+    .roll-result {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9em;
+      
+      strong {
+        color: rgba(255, 255, 255, 0.9);
+      }
+      
+      .roll-total {
+        background: #4CAF50;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 1.1em;
+        margin-left: 4px;
+      }
+    }
+  }
+}

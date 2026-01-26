@@ -1,0 +1,12 @@
+/* ---------------------------------- */
+/*  Chat Messages                     */
+/* ---------------------------------- */
+
+// Hide document type icons in chat messages
+.chat-message {
+  .message-content {
+    .content-link i {
+      display: none !important;
+    }
+  }
+}

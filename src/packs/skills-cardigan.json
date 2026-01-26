@@ -1,0 +1,21 @@
+{
+  "package": "cardigan.skills-cardigan",
+  "metadata": {
+    "name": "skills-cardigan",
+    "label": "Skills",
+    "path": "systems/cardigan/packs/skills-cardigan",
+    "type": "Item",
+    "system": "cardigan",
+    "ownership": {
+      "PLAYER": "OBSERVER",
+      "ASSISTANT": "OWNER"
+    },
+    "flags": {},
+    "packageType": "system",
+    "packageName": "cardigan",
+    "id": "cardigan.skills-cardigan"
+  },
+  "type": "Item",
+  "folders": [],
+  "items": []
+}

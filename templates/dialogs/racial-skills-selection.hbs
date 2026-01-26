@@ -1,0 +1,50 @@
+{{! Racial Skills Selection Dialog }}
+<div class="racial-skills-selection-dialog">
+  <div class="dialog-content">
+    <p class="hint">
+      <i class="fas fa-info-circle"></i>
+      {{localize "CARDIGAN.Item.Race.RacialSkillsHint"}}
+    </p>
+    
+    {{#if racialSkills.length}}
+      <div class="skills-list">
+        {{#each racialSkills}}
+          <div class="skill-option" data-skill-id="{{this.id}}" data-skill-uuid="{{this.uuid}}">
+            <input 
+              type="checkbox" 
+              name="skill-{{this.id}}"
+              id="skill-{{this.id}}"
+              {{#if this.selected}}checked{{/if}}
+            />
+            <label for="skill-{{this.id}}">
+              <img src="{{this.img}}" alt="{{this.name}}" class="skill-icon" />
+              <span class="skill-name">{{this.name}}</span>
+              <span class="skill-source {{this.source}}">
+                {{#if (eq this.source "compendium")}}
+                  <i class="fas fa-book"></i> Compendium
+                {{else}}
+                  <i class="fas fa-globe"></i> World
+                {{/if}}
+              </span>
+            </label>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="no-skills-message">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>{{localize "CARDIGAN.Item.Race.NoRacialSkillsFound"}}</p>
+        <p class="hint">{{localize "CARDIGAN.Item.Race.NoRacialSkillsHint"}}</p>
+      </div>
+    {{/if}}
+  </div>
+  
+  <footer class="dialog-buttons">
+    <button type="button" class="confirm-btn" data-action="confirm">
+      <i class="fas fa-check"></i> {{localize "CARDIGAN.Common.Confirm"}}
+    </button>
+    <button type="button" class="cancel-btn" data-action="cancel">
+      <i class="fas fa-times"></i> {{localize "CARDIGAN.Common.Cancel"}}
+    </button>
+  </footer>
+</div>

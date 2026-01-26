@@ -1,0 +1,54 @@
+{{! Armor Type Selection Dialog Template }}
+<form class="armor-type-selection-form">
+  <div class="modal-header">
+    <h2>{{localize "CARDIGAN.SelectArmorTypeTitle"}}</h2>
+  </div>
+  
+  <div class="modal-body">
+    <p class="description">{{localize "CARDIGAN.SelectArmorTypeDescription"}}</p>
+    
+    <div class="armor-type-grid">
+      <button type="button" class="armor-type-option" data-action="selectType" data-type="cabeca" data-name="Nova Armadura de Cabeça">
+        <i class="fas fa-helmet-safety item-icon armor-icon"></i>
+        <span class="item-label">{{localize "CARDIGAN.ArmorType.Cabeca"}}</span>
+        <small class="item-description">Capacetes, elmos e proteções de cabeça</small>
+      </button>
+      
+      <button type="button" class="armor-type-option" data-action="selectType" data-type="acessorios" data-name="Novo Acessório">
+        <i class="fas fa-ring item-icon armor-icon"></i>
+        <span class="item-label">{{localize "CARDIGAN.ArmorType.Acessorios"}}</span>
+        <small class="item-description">Anéis, amuletos e acessórios mágicos</small>
+      </button>
+      
+      <button type="button" class="armor-type-option" data-action="selectType" data-type="torso" data-name="Nova Armadura de Torso">
+        <i class="fas fa-vest item-icon armor-icon"></i>
+        <span class="item-label">{{localize "CARDIGAN.ArmorType.Torso"}}</span>
+        <small class="item-description">Armaduras de peito, cotas e proteções do torso</small>
+      </button>
+      
+      <button type="button" class="armor-type-option" data-action="selectType" data-type="bracos" data-name="Nova Armadura de Braços">
+        <i class="fas fa-mitten item-icon armor-icon"></i>
+        <span class="item-label">{{localize "CARDIGAN.ArmorType.Bracos"}}</span>
+        <small class="item-description">Luvas, braçadeiras e proteções de braço</small>
+      </button>
+      
+      <button type="button" class="armor-type-option" data-action="selectType" data-type="pernas" data-name="Nova Armadura de Pernas">
+        <i class="fas fa-socks item-icon armor-icon"></i>
+        <span class="item-label">{{localize "CARDIGAN.ArmorType.Pernas"}}</span>
+        <small class="item-description">Proteções de coxa, joelho e perna</small>
+      </button>
+      
+      <button type="button" class="armor-type-option" data-action="selectType" data-type="pes" data-name="Nova Armadura de Pés">
+        <i class="fas fa-hiking-boot item-icon armor-icon"></i>
+        <span class="item-label">{{localize "CARDIGAN.ArmorType.Pes"}}</span>
+        <small class="item-description">Botas, sapatilhas e proteções de pé</small>
+      </button>
+    </div>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="cancel-button" data-action="cancel">
+      <i class="fas fa-times"></i> {{localize "Cancel"}}
+    </button>
+  </div>
+</form>

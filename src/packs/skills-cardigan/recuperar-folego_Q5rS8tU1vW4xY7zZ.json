@@ -1,0 +1,68 @@
+{
+  "_id": "Q5rS8tU1vW4xY7zZ",
+  "_key": "!items!Q5rS8tU1vW4xY7zZ",
+  "name": "Recuperar o Fôlego",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "long-action",
+      "foco"
+    ],
+    "skillClass": "guerreiro",
+    "spellCategories": [],
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Pode usar duas vezes a cada <em>Descanso</em>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dado de recuperação para <strong><code>2d20</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Agora regenera tanto <code>💔PV</code> quanto <code>⚡️PE</code> ao mesmo tempo.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você se ausenta da batalha por um tempo para respirar.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Se afasta da batalha <strong>uma rodada</strong> para se recuperar:</p><blockquote><p style=\"text-align: justify;\">Recupera <strong><code>1d20 + 2xVIGOR</code></strong> em <code>💔PV</code> <strong>ou</strong> <code>⚡️PE</code>.</p></blockquote><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você não pode realizar qualquer <em>Ação</em> enquanto se recupera, e receber <em>dano</em> ou <em>Efeitos Negativos</em> interrompe a canalização.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Esta habilidade só pode ser utilizada novamente depois de um <em>Descanso</em>.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

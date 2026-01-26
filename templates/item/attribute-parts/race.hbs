@@ -1,0 +1,238 @@
+{{! Race Details Tab }}
+<section
+  class='tab attributes {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='attributes'
+>
+  <div class='race-details-container'>
+    <h3>{{localize "CARDIGAN.Item.Race.Details"}}</h3>
+    
+    {{! Movement Bonus }}
+    <div class='form-group'>
+      <label for='system.movementBonus'>
+        {{localize "CARDIGAN.Item.Race.FIELDS.movementBonus.label"}}
+      </label>
+      <div class='form-fields'>
+        <input
+          type='number'
+          name='system.movementBonus'
+          value='{{system.movementBonus}}'
+          data-dtype='Number'
+          min='0'
+          step='1'
+        />
+      </div>
+      <p class='hint'>{{localize "CARDIGAN.Item.Race.FIELDS.movementBonus.hint"}}</p>
+    </div>
+    
+    {{! Health Bonus }}
+    <div class='form-group'>
+      <label for='system.healthBonus'>
+        {{localize "CARDIGAN.Item.Race.FIELDS.healthBonus.label"}}
+      </label>
+      <div class='form-fields'>
+        <input
+          type='number'
+          name='system.healthBonus'
+          value='{{system.healthBonus}}'
+          data-dtype='Number'
+          step='1'
+        />
+      </div>
+      <p class='hint'>{{localize "CARDIGAN.Item.Race.FIELDS.healthBonus.hint"}}</p>
+    </div>
+    
+    {{! Power Bonus }}
+    <div class='form-group'>
+      <label for='system.powerBonus'>
+        {{localize "CARDIGAN.Item.Race.FIELDS.powerBonus.label"}}
+      </label>
+      <div class='form-fields'>
+        <input
+          type='number'
+          name='system.powerBonus'
+          value='{{system.powerBonus}}'
+          data-dtype='Number'
+          step='1'
+        />
+      </div>
+      <p class='hint'>{{localize "CARDIGAN.Item.Race.FIELDS.powerBonus.hint"}}</p>
+    </div>
+    
+    {{! Ability Modifiers Section }}
+    <div class='form-group'>
+      <h4>{{localize "CARDIGAN.Item.Race.FIELDS.abilityModifiers.label"}}</h4>
+      <p class='hint'>{{localize "CARDIGAN.Item.Race.FIELDS.abilityModifiers.hint"}}</p>
+      
+      <div class='ability-modifiers-grid'>
+        {{! Accuracy }}
+        <div class='modifier-field'>
+          <label for='system.abilityModifiers.accuracy'>
+            {{localize "CARDIGAN.Ability.Accuracy.long"}}
+          </label>
+          <input
+            type='number'
+            name='system.abilityModifiers.accuracy'
+            value='{{system.abilityModifiers.accuracy}}'
+            data-dtype='Number'
+            step='1'
+          />
+        </div>
+        
+        {{! Evasion }}
+        <div class='modifier-field'>
+          <label for='system.abilityModifiers.evasion'>
+            {{localize "CARDIGAN.Ability.Evasion.long"}}
+          </label>
+          <input
+            type='number'
+            name='system.abilityModifiers.evasion'
+            value='{{system.abilityModifiers.evasion}}'
+            data-dtype='Number'
+            step='1'
+          />
+        </div>
+        
+        {{! Strength }}
+        <div class='modifier-field'>
+          <label for='system.abilityModifiers.strength'>
+            {{localize "CARDIGAN.Ability.Strength.long"}}
+          </label>
+          <input
+            type='number'
+            name='system.abilityModifiers.strength'
+            value='{{system.abilityModifiers.strength}}'
+            data-dtype='Number'
+            step='1'
+          />
+        </div>
+        
+        {{! Dexterity }}
+        <div class='modifier-field'>
+          <label for='system.abilityModifiers.dexterity'>
+            {{localize "CARDIGAN.Ability.Dexterity.long"}}
+          </label>
+          <input
+            type='number'
+            name='system.abilityModifiers.dexterity'
+            value='{{system.abilityModifiers.dexterity}}'
+            data-dtype='Number'
+            step='1'
+          />
+        </div>
+        
+        {{! Stamina }}
+        <div class='modifier-field'>
+          <label for='system.abilityModifiers.stamina'>
+            {{localize "CARDIGAN.Ability.Stamina.long"}}
+          </label>
+          <input
+            type='number'
+            name='system.abilityModifiers.stamina'
+            value='{{system.abilityModifiers.stamina}}'
+            data-dtype='Number'
+            step='1'
+          />
+        </div>
+        
+        {{! Stealth }}
+        <div class='modifier-field'>
+          <label for='system.abilityModifiers.stealth'>
+            {{localize "CARDIGAN.Ability.Stealth.long"}}
+          </label>
+          <input
+            type='number'
+            name='system.abilityModifiers.stealth'
+            value='{{system.abilityModifiers.stealth}}'
+            data-dtype='Number'
+            step='1'
+          />
+        </div>
+        
+        {{! Persuasion }}
+        <div class='modifier-field'>
+          <label for='system.abilityModifiers.persuasion'>
+            {{localize "CARDIGAN.Ability.Persuasion.long"}}
+          </label>
+          <input
+            type='number'
+            name='system.abilityModifiers.persuasion'
+            value='{{system.abilityModifiers.persuasion}}'
+            data-dtype='Number'
+            step='1'
+          />
+        </div>
+        
+        {{! Intelligence }}
+        <div class='modifier-field'>
+          <label for='system.abilityModifiers.intelligence'>
+            {{localize "CARDIGAN.Ability.Intelligence.long"}}
+          </label>
+          <input
+            type='number'
+            name='system.abilityModifiers.intelligence'
+            value='{{system.abilityModifiers.intelligence}}'
+            data-dtype='Number'
+            step='1'
+          />
+        </div>
+        
+        {{! Psionics }}
+        <div class='modifier-field'>
+          <label for='system.abilityModifiers.psionics'>
+            {{localize "CARDIGAN.Ability.Psionics.long"}}
+          </label>
+          <input
+            type='number'
+            name='system.abilityModifiers.psionics'
+            value='{{system.abilityModifiers.psionics}}'
+            data-dtype='Number'
+            step='1'
+          />
+        </div>
+      </div>
+    </div>
+    
+    {{! Racial Skills Section }}
+    <div class='form-group racial-skills-section'>
+      <div class='section-header'>
+        <h4>{{localize "CARDIGAN.Item.Race.FIELDS.racialSkills.label"}}</h4>
+        <button 
+          type='button' 
+          class='select-racial-skills-btn' 
+          data-action='selectRacialSkills'
+          title='{{localize "CARDIGAN.Item.Race.SelectRacialSkills"}}'
+        >
+          <i class='fas fa-plus'></i>
+          {{localize "CARDIGAN.Item.Race.SelectSkills"}}
+        </button>
+      </div>
+      <p class='hint'>{{localize "CARDIGAN.Item.Race.FIELDS.racialSkills.hint"}}</p>
+      
+      {{#if system.racialSkills.length}}
+        <div class='selected-racial-skills'>
+          {{#each system.racialSkills}}
+            <div class='racial-skill-item'>
+              <img src='{{this.img}}' alt='{{this.name}}' class='skill-icon' />
+              <span class='skill-name'>{{this.name}}</span>
+              <button 
+                type='button' 
+                class='remove-skill-btn' 
+                data-skill-id='{{this.id}}'
+                data-action='removeRacialSkill'
+                title='{{localize "CARDIGAN.Common.Remove"}}'
+              >
+                <i class='fas fa-times'></i>
+              </button>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <div class='no-skills-selected'>
+          <i class='fas fa-info-circle'></i>
+          <p>{{localize "CARDIGAN.Item.Race.NoSkillsSelected"}}</p>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</section>

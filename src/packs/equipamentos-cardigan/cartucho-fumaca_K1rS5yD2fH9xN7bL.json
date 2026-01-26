@@ -1,0 +1,29 @@
+{
+  "_id": "K1rS5yD2fH9xN7bL",
+  "_key": "!items!K1rS5yD2fH9xN7bL",
+  "name": "Cartucho de Fumaça",
+  "type": "item-municao",
+  "img": "systems/cardigan/assets/images/weapons/special-ammunition.webp",
+  "folder": "Q3pB7zL1rY4nX0mG",
+  "system": {
+    "description": "",
+    "quantity": 1,
+    "weight": "leve",
+    "price": 21,
+    "isFirearmAmmo": true,
+    "isSpecialAmmo": true
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

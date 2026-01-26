@@ -1,0 +1,67 @@
+{
+  "_id": "M6nO9pP2qR5sT8uV",
+  "_key": "!items!M6nO9pP2qR5sT8uV",
+  "name": "Retribuição",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "short-action"
+    ],
+    "skillClass": "guerreiro",
+    "spellCategories": [],
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Recebe <strong><code>2</code></strong> pontos de <strong>Retribuição</strong> de uma vez.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Aumenta o limite para <strong><code>8</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Você recebe <strong>Retribuição</strong> ao <strong>Evadir</strong> de um ataque.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você tem a companhia de forças divinas contando com a sua vitória.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/arcane-star-blue.webp::Após gastar o custo de <em>Pontos de Ação</em> dessa habilidade ela permanece ativa passivamente até o fim do combate.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Sempre que você ou qualquer aliado à vista receber qualquer tipo de dano, você recebe <strong><code>1</code></strong> ponto de <strong>Retribuição</strong>, com limite de <strong><code>6</code></strong>. Após você causar dano à um alvo pode remover todos pontos de <strong>Retribuição</strong> acumulados. Para cada ponto removido você causa <strong><code>+2</code></strong>::systems/cardigan/assets/images/damage/sword-damage.webp::<strong>Dano Extra</strong>.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Caso não utilizados, todos os pontos de Retribuição são removidos ao final de um combate.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

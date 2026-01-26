@@ -1,0 +1,67 @@
+{
+  "_id": "D1eR0gF2hJ3kL4mN",
+  "_key": "!items!D1eR0gF2hJ3kL4mN",
+  "name": "Interceptar",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/wanderer.webp",
+  "system": {
+    "skillActionTypes": [
+      "reacao"
+    ],
+    "skillClass": "andarilho",
+    "spellCategories": [],
+    "hasEnergyCost": true,
+    "energyCost": 1,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Se o inimigo realizar ataques consecutivos, esta habilidade intercepta todos eles.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Remove o custo de munição desta habilidade.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Permite interceptar ataques realizados com <em>Armas Marciais Leves</em>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você dispara em um projétil inimigo em pleno ar que cruza a batalha.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Com sua <em>Reação</em> você pode rolar um Teste de <strong>Precisão</strong> para acertar um <strong>projétil</strong> de Arma à Distância que acertaria você ou um aliado em seu campo de visão, impedindo o ataque inimigo.</p>"
+  },
+  "effects": [],
+  "folder": "Sk1AndarilhoXy7Z",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "_id": "W9xY2zZ5aA8bB0cC",
+  "_key": "!items!W9xY2zZ5aA8bB0cC",
+  "name": "Golpe Relâmpago",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/rogue.webp",
+  "system": {
+    "skillActionTypes": [
+      "long-action"
+    ],
+    "skillClass": "ladino",
+    "spellCategories": [],
+    "hasEnergyCost": true,
+    "energyCost": 3,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\"><em>Acertos Críticos</em> fazem do seu próximo ataque um acerto automático.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Você recebe o <strong>dobro</strong> do seu ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> após um acerto.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Caso um inimigo defenda seu ataque, mas você acerte outro inimigo consecutivo pode retornar com mais uma tentativa de ataque contra o anterior.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você voa pela batalha dilacerando todos os inimigos.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Se equipado com <em>Armas Marciais Leves</em> ou <em>Desarmado</em> você pode desferir um ataque simples em todos inimigos na batalha que tenha visão e alcance em um único turno.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Cada alvo atacado com ou sem sucesso reinicia sua ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong>.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::<em>Acertos Críticos</em> aplicam seu total de <strong>Destreza</strong> como dano adicional.</p>"
+  },
+  "effects": [],
+  "folder": "Sk3LadinoQwE4RtY",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

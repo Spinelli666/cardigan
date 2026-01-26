@@ -1,0 +1,67 @@
+{
+  "_id": "R3sT6uV9wX2yZ5aB",
+  "_key": "!items!R3sT6uV9wX2yZ5aB",
+  "name": "Regenerar",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/wizard.webp",
+  "system": {
+    "skillActionTypes": [
+      "short-action"
+    ],
+    "skillClass": "feiticeiro",
+    "spellCategories": ["necromancia"],
+    "hasEnergyCost": true,
+    "energyCost": 4,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Agora remove todas as <strong><code>1</code></strong> <strong><code>⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fraturas}</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dado de cura por rodada para <strong><code>+1d6</code></strong> <strong><code>💔PV</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dado de cura instantânea para <strong><code>3d20+PSI</code></strong> <strong><code>💔PV</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Seja por pacto, mutação ou necromancia, você desenvolveu habilidades vampíricas capazes de acelerar seu fator de cura exponencialmente.\"</em><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao consumir uma quantidade moderada de sangue de outra criatura pode regenerar membros e fechar feridas rapidamente, curando <strong><code>2d20+PSI</code></strong> <strong><code>💔PV</code></strong> instantaneamente na ativação da habilidade, e <strong><code>+1d4</code></strong> <strong><code>💔PV</code></strong> a <strong>cada Rodada</strong> até terminar o combate, ou a cada <em>cinco minutos</em> fora de combate. Este efeito se encerra ao encher sua barra de vida.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Você pode entregar seu sangue anômalo para que outra criatura beba seu Vitae, sacrificando <strong><code>-15</code></strong> <strong><code>💔PV</code></strong> para que ela receba o efeito desta habilidade.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/arcane-star-blue.webp::Ao gastar <strong><code>1</code></strong>::systems/cardigan/assets/images/others/anima.webp::<strong>Carga de Ânima</strong> para canalizar esta habilidade você não precisará consumir o sangue de outra criatura para regenerar a si mesmo ou à um aliado no alcance de conjuração.</p>"
+  },
+  "effects": [],
+  "folder": "Sk4FeiticeiroU5I",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

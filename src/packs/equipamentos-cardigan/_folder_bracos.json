@@ -1,0 +1,19 @@
+{
+  "_id": "B1rA2cO3sD4eF5gH",
+  "_key": "!folders!B1rA2cO3sD4eF5gH",
+  "name": "Braços",
+  "type": "Item",
+  "color": "#2196f3",
+  "sorting": "a",
+  "folder": "A1rM2aD3uR4aN5tO",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}
+

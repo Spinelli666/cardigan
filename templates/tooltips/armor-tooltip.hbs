@@ -1,0 +1,31 @@
+{{! Armor Tooltip Template - Simple layout inspired by weapon tooltip }}
+<div class="armor-tooltip">
+
+  {{! Propriedades da armadura em linha horizontal - PRIMEIRO }}
+  <div class="armor-properties-horizontal">
+    <span class="property-separator">&nbsp;</span>
+    <i class="fas fa-backpack"></i>
+    <span class="weight-text">{{#if (eq armor.system.weight "leve")}}Leve{{else}}Pesado{{/if}}</span>
+    {{#if (or armor.system.resistenciaFrio armor.system.stylish)}}
+      <span class="property-separator">・</span>
+      {{#if armor.system.resistenciaFrio}}☀️{{/if}}{{#if armor.system.stylish}}✨{{/if}}
+    {{/if}}
+  </div>
+
+  {{! Imagem da armadura - SEGUNDO (32x32px) }}
+  <div class="armor-image">
+    <img src="{{armor.img}}" alt="{{armor.name}}" />
+  </div>
+  
+  {{! Nome da armadura - TERCEIRO }}
+  <div class="armor-name-line">
+    <strong>{{armor.name}}</strong>
+  </div>
+  
+  {{! Descrição da armadura - QUARTO }}
+  {{#if armor.system.description}}
+    <div class="armor-description">
+      <em>{{armor.system.description}}</em>
+    </div>
+  {{/if}}
+</div>

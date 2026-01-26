@@ -1,0 +1,8 @@
+2026/01/25-19:59:38.523 3ea4 Recovering log #831
+2026/01/25-19:59:38.615 3ea4 Delete type=0 #831
+2026/01/25-19:59:38.615 3ea4 Delete type=3 #830
+2026/01/25-23:02:22.090 10f8 Level-0 table #835: started
+2026/01/25-23:02:22.091 10f8 Level-0 table #835: 0 bytes OK
+2026/01/25-23:02:22.112 10f8 Delete type=0 #833
+2026/01/25-23:02:22.131 10f8 Manual compaction at level-0 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items!xY2yZ3zA4bB5cC6D' @ 0 : 0; will stop at (end)
+2026/01/25-23:02:22.132 10f8 Manual compaction at level-1 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items!xY2yZ3zA4bB5cC6D' @ 0 : 0; will stop at (end)

@@ -1,0 +1,328 @@
+// Evasion Result Dialog Styles
+.evasion-result-dialog {
+  font-family: "Signika", sans-serif;
+  
+  .evasion-result-container {
+    border-radius: 8px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    
+    &.success {
+      border: 2px solid #27ae60;
+    }
+    
+    &.failure {
+      border: 2px solid #e74c3c;
+    }
+  }
+  
+  .result-body {
+    background: #f8f9fa;
+    padding: 24px;
+  }
+  
+  .player-info {
+    background: white;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    
+    .info-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      font-size: 15px;
+      
+      &:not(:last-child) {
+        border-bottom: 1px solid #e9ecef;
+      }
+      
+      strong {
+        color: #495057;
+        margin-right: 8px;
+        min-width: 140px;
+      }
+      
+      .player-name,
+      .character-name {
+        color: #212529;
+        font-weight: 600;
+        flex: 1;
+      }
+    }
+  }
+  
+  .combat-values {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    
+    .value-row {
+      background: white;
+      border: 2px solid #dee2e6;
+      border-radius: 6px;
+      padding: 16px 24px;
+      text-align: center;
+      flex: 1;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      }
+      
+      font-size: 14px;
+      color: #6c757d;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      
+      .evasion-value,
+      .attack-value {
+        display: block;
+        font-size: 32px;
+        font-weight: bold;
+        margin-top: 8px;
+        color: #212529;
+      }
+    }
+    
+    .vs-separator {
+      font-size: 18px;
+      font-weight: bold;
+      color: #adb5bd;
+      padding: 0 4px;
+    }
+  }
+  
+  .damage-input-container,
+  .ignore-armor-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .damage-taken-input,
+  .ignore-armor-input {
+    width: 80px;
+    padding: 6px 10px;
+    background: white;
+    border: 2px solid #dee2e6;
+    border-radius: 4px;
+    color: #212529;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s;
+    font-family: "Signika", sans-serif;
+
+    &:focus {
+      outline: none;
+      border-color: #4a9eff;
+      background: rgba(74, 158, 255, 0.05);
+      box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+    }
+
+    &:hover {
+      border-color: #adb5bd;
+    }
+  }
+  
+  .ignore-armor-input {
+    border-color: #ffc107;
+    
+    &:focus {
+      border-color: #ff9800;
+      background: rgba(255, 152, 0, 0.05);
+      box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.1);
+    }
+    
+    &:hover {
+      border-color: #ff9800;
+    }
+  }
+
+  .half-damage-btn {
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+    min-width: 36px;
+    
+    &:hover {
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(102, 126, 234, 0.3);
+    }
+  }
+  
+  .roll-ignore-armor-btn {
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(255, 193, 7, 0.3);
+    min-width: 36px;
+    
+    &:hover {
+      background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+      box-shadow: 0 4px 8px rgba(255, 193, 7, 0.4);
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(255, 193, 7, 0.3);
+    }
+  }
+
+  .hp-info {
+    background: white;
+    border-radius: 6px;
+    padding: 16px;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    
+    .hp-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      font-size: 15px;
+      
+      &:not(:last-child) {
+        border-bottom: 1px solid #e9ecef;
+      }
+      
+      strong {
+        color: #495057;
+        margin-right: 8px;
+      }
+      
+      .hp-current {
+        color: #212529;
+        font-weight: 600;
+        font-size: 16px;
+      }
+      
+      .damage-value {
+        font-weight: 700;
+        font-size: 18px;
+        
+        &.no-damage {
+          color: #27ae60;
+        }
+        
+        &.damage {
+          color: #e74c3c;
+        }
+      }
+      
+      .hp-remaining {
+        font-weight: 700;
+        font-size: 18px;
+        
+        &.success {
+          color: #27ae60;
+        }
+        
+        &.warning {
+          color: #f39c12;
+        }
+        
+        &.danger {
+          color: #e74c3c;
+        }
+      }
+      
+      &.hp-after {
+        padding-top: 12px;
+        margin-top: 4px;
+        border-top: 2px solid #dee2e6 !important;
+        border-bottom: none !important;
+      }
+    }
+  }
+}
+
+// Bounce animation
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.1);
+  }
+}
+
+// Icon-only button styles (for reroll button)
+.cardigan-evasion-dialog {
+  button.icon-only-button {
+    min-width: 40px !important;
+    width: 40px !important;
+    max-width: 40px !important;
+    height: 40px !important;
+    padding: 8px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    position: relative;
+    flex: 0 0 40px !important; // Prevent flex growth
+    
+    i {
+      margin: 0 !important;
+    }
+  }
+}
+
+// External tooltip (rendered outside dialog to avoid clipping)
+.cardigan-external-tooltip {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  
+  &.visible {
+    opacity: 1;
+  }
+  
+  // Arrow pointing down
+  &::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.9);
+  }
+}

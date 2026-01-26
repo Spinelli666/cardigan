@@ -3,40 +3,275 @@
 }
 
 .sheet-header {
-  flex: 0 auto;
-  overflow: hidden;
+  font-family: 'Alatsi', sans-serif !important;
+  flex: 0 0 auto;
+  overflow: visible;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 10px;
+  flex-direction: column; // Mudou para column para empilhar top-container e bottom-section
+  position: relative;
+  
+  // Aplicar Alatsi apenas em elementos de texto, NÃO em ícones
+  span, label, p, div:not([class*="fa-"]):not([class*="icon"]) {
+    font-family: 'Alatsi', sans-serif !important;
+  }
+  
+  // Garantir que ícones Font Awesome mantenham sua fonte
+  i[class*="fa-"], 
+  i[class*="fas"], 
+  i[class*="far"], 
+  i[class*="fab"] {
+    font-family: "Font Awesome 6 Free" !important;
+    font-family: "Font Awesome 6 Pro" !important;
+  }
+  
+  z-index: 100; // Aumentado para ficar acima do window-header
+  
+  // REMOVIDO opacity: 0.7 do elemento principal
+  // Agora usamos ::before para aplicar opacidade APENAS no background
+  // Isso permite que filhos (como .profile-img) fiquem com 100% de opacidade
+  
+  // Background transparente em camada separada usando pseudo-elemento
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.7; // Opacidade aplicada APENAS no background
+    background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 28.78%, rgba(118, 212, 255, 0.19) 100%);
+    z-index: -1; // Fica atrás de todos os elementos filhos
+    pointer-events: none; // Não interfere com cliques
+  }
+  
+  // Crescimento controlado: 227px base, até máximo 280px (+23%)
+  // height: clamp(227px, 25vh, 280px);´
+  height: 227px;
+  gap: 0;
 
-  .profile-img {
-    flex: 0 0 100px;
-    height: 100px;
-    margin-right: 10px;
+  // Top Container - Holds left, center, right in horizontal layout
+  .header-top-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    gap: 0;
   }
 
-  .header-fields {
-    flex: 1;
+  // Left Aside - Four blocks with different border colors
+  .header-left {
+    width: 155.54px;
+    height: 182.55px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center !important;
+    flex-direction: column;
+    position: relative;
+    padding-right: 6px;
+    z-index: 150; // Fica acima do window-header (z-index: 100)
+    transform: translateZ(0);
+
+    .border-divider {
+      padding: 0px 18px;
+
+      img {
+        width: 120px;
+        height: 2px;
+        min-width: 120px;
+        min-height: 2px;
+        display: block;
+        transform: scaleY(1.9);
+      }
+    }
   }
-}
 
-.sheet-tabs {
-  flex: 0;
-}
+  // Center Div - Profile Image (temporary blue border)
+  .header-center {
+    width: 201px;
+    height: 176px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-.sheet-body,
-.sheet-body .tab,
-.sheet-body .tab .editor {
-  height: 100%;
-}
+    .profile-img {
+      width: 176px;
+      height: 176px;
+      border-radius: 4px;
+    }
+  }
 
-.tab.biography {
-  flex: 1;
+  // Right Aside (temporary green border)
+  .header-right {
+    width: 155.54px;
+    height: 182.55px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center !important;
+    flex-direction: column;
+    position: relative;
+    z-index: 200; // Fica acima de tudo
 
-  .editor {
-    height: 100%;
+    .border-divider {
+      padding: 0px 18px;
+
+      img {
+        width: 120px;
+        height: 2px;
+        min-width: 120px;
+        min-height: 2px;
+        display: block;
+        transform: scaleY(1.9);
+      }
+    }
+  }
+
+  // Bottom Section - Character Name
+  .header-bottom-section {
+    height: 67px;
+    top: -22px;
+    display: flex;
+    flex:  0 0 67px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative; 
+    z-index: 160;
+
+    input[name='name'] {
+      position: absolute;
+      top: 28px;
+      left: 257px;
+      transform: translate(-50%, -50%);
+      width: 95px;
+      padding: 0;
+      font-size: var(--name-font-size, 15px);
+      font-weight: normal;
+      text-align: center;
+      text-transform: uppercase;
+      border: none;
+      outline: none;
+      background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+
+      &:focus {
+        outline: none !important;
+        border: none;
+        box-shadow: none;
+        background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+      }
+
+      &:focus-visible {
+        outline: none !important;
+        border: none;
+        box-shadow: none;
+      }
+    }
+
+    .border-bottom-name {
+      position: absolute;
+      top: 39px;
+      left: 257px;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: auto;
+      pointer-events: none;
+      z-index: 9;
+    }
+
+    .race-drop-zone {
+      position: absolute;
+      top: 52px;
+      left: 257px;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      min-height: 20px;
+      z-index: 10;
+
+      .race-item-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        background: none;
+        border: none;
+        cursor: grab;
+
+        &:active {
+          cursor: grabbing;
+        }
+
+        .race-item-image {
+          display: none;
+        }
+
+        .race-item-name {
+          font-size: 11px;
+          font-weight: normal;
+          color: #FFB75C;
+          text-align: center;
+          text-transform: uppercase;
+        }
+
+        .race-item-delete {
+          display: none;
+          color: #ff4444;
+          font-size: 12px;
+          cursor: pointer;
+          transition: color 0.2s;
+          margin-left: 3px;
+
+          &:hover {
+            color: #ff6666;
+          }
+        }
+
+        &:hover .race-item-delete {
+          display: block;
+        }
+      }
+
+      .race-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+
+        i {
+          font-size: 16px;
+          color: rgba(255, 183, 92, 0.5);
+          margin-bottom: 4px;
+        }
+
+        span {
+          color: #CF954C;
+          text-align: center;
+          text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+          font-size: 11px;
+          font-weight: normal;
+          line-height: normal;
+          transition: all 0.2s;
+        }
+
+        &:hover span {
+          background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+        }
+      }
+    }
   }
 }
 

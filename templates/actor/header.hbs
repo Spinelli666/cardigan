@@ -1,78 +1,624 @@
 {{! Sheet Header }}
 <header class='sheet-header'>
-  <img
-    class='profile-img'
-    src='{{actor.img}}'
-    data-edit='img'
-    data-action='onEditImage'
-    title='{{actor.name}}'
-    height='100'
-    width='100'
-  />
-  <div class='header-fields'>
-    <div class='document-name'>
-      <input
-        name='name'
-        type='text'
-        value='{{actor.name}}'
-        placeholder='Name'
+  {{! Top Container - Holds left, center, right }}
+  <div class='header-top-container'>
+    {{! Left Aside - Four blocks }}
+    <aside class='header-left'>
+        {{! XP e Level Container }}
+        <div class='xp-level-container'>
+          <div class='icon-arrow-wrapper'>
+            {{! Wizard/Level Up Icon - Always visible }}
+            {{#if (lte system.attributes.level.value 0)}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
+                 alt='Criar Personagem' 
+                 class='wizard-icon pulsing' 
+                 data-action='openCharacterWizard' 
+                 data-cardigan-tooltip='Criar Personagem' />
+            {{else if (gte system.experience.current system.experience.nextLevel)}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
+                 alt='Level Up!' 
+                 class='wizard-icon pulsing' 
+                 data-action='openLevelUpWizard' 
+                 data-cardigan-tooltip='Subir de Nível' />
+            {{else}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
+                 alt='Level & XP' 
+                 class='wizard-icon'
+                 data-cardigan-tooltip='Nível' />
+            {{/if}}
+            
+            {{! Triangle Arrow Icon }}
+            <i class="fa-solid fa-caret-right triangle-arrow"></i>
+          </div>
+          
+          {{! Level Input }}
+          <div class='level-container'>
+            <input
+              type='number'
+              name='system.attributes.level.value'
+              value='{{system.attributes.level.value}}'
+              data-dtype='Number'
+              min='0'
+              class='level-input'
+            />
+          </div>
+          
+          {{! XP Input }}
+          <div class='xp-container' data-cardigan-tooltip="XP">
+            <input
+              type='number'
+              name='system.experience.current'
+              value='{{system.experience.current}}'
+              data-dtype='Number'
+              min='0'
+              class='status-current'
+            />
+            <img src='systems/cardigan/assets/images/decorative/field-divider.svg' alt='/' class='status-separator' />
+            <input
+              type='number'
+              name='system.experience.nextLevel'
+              value='{{system.experience.nextLevel}}'
+              data-dtype='Number'
+              min='0'
+              class='status-next'
+              readonly
+            />
+          </div>
+        </div>
+        <div class='border-divider'>
+          <img src='systems/cardigan/assets/images/decorative/border-bottom.svg' alt='' />
+        </div>
+        {{! Movement e Critical Hit Container }}
+        <div class='movement-crit-container'>
+          {{! Movement Input }}
+          <div class='movement-field'>
+            <div class='icon-arrow-wrapper'>
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-movement.svg' alt='Movement' class='movement-icon' data-cardigan-tooltip="Deslocamento"/>
+              <i class="fa-solid fa-caret-right triangle-arrow"></i>
+            </div>
+            <input
+              type='number'
+              name='system.details.movement'
+              value='{{system.details.movement}}'
+              data-dtype='Number'
+              min='0'
+              class='movement-input'
+            />
+          </div>
+          
+          {{! Critical Hit Input }}
+          <div class='crit-field'>
+            <div class='icon-arrow-wrapper'>
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-critical.svg' alt='Critical Hit' class='crit-icon' data-cardigan-tooltip="Acerto Crítico"/>
+              <i class="fa-solid fa-caret-right triangle-arrow"></i>
+            </div>
+            <input
+              type='number'
+              name='system.details.criticalHit'
+              value='{{system.details.criticalHit}}'
+              data-dtype='Number'
+              class='crit-input'
+            />
+          </div>
+        </div>
+        <div class='border-divider'>
+          <img src='systems/cardigan/assets/images/decorative/border-bottom.svg' alt='' />
+        </div>
+        {{! Armor Container }}
+        <div class='armor-container'>
+          <div class='icon-arrow-wrapper'>
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-armor.svg' alt='Armor' class='armor-icon' data-cardigan-tooltip="Armadura"/>
+            <i class="fa-solid fa-caret-right triangle-arrow"></i>
+          </div>
+          
+          {{! Armor Value / Max }}
+          <div class='armor-value-container'>
+            <input
+              type='number'
+              name='system.armor.value'
+              value='{{system.armor.value}}'
+              data-dtype='Number'
+              min='0'
+              class='armor-current'
+            />
+            <img src='systems/cardigan/assets/images/decorative/field-divider.svg' alt='/' class='armor-separator' />
+            <input
+              type='number'
+              name='system.armor.max'
+              value='{{system.armor.max}}'
+              data-dtype='Number'
+              min='0'
+              class='armor-max'
+              readonly
+            />
+          </div>
+          
+          {{! Armor Bonus }}
+          <input
+            type='number'
+            name='system.status.armorBonus'
+            value='{{system.status.armorBonus}}'
+            data-dtype='Number'
+            class='armor-bonus'
+            data-cardigan-tooltip="Armadura Temporária"
+          />
+        </div>
+        <div class='border-divider'>
+          <img src='systems/cardigan/assets/images/decorative/border-bottom.svg' alt='' />
+        </div>
+        {{! Death Fields Container }}
+        <div class='death-fields-container {{#if (gt system.health.value 0)}}no-death-die{{/if}}'>
+          {{! Death Sentence and Gift of Life Group }}
+          <div class='death-life-group'>
+            {{! Death Sentence }}
+            <div class='death-sentence-field'>
+              <div class='icon-arrow-wrapper'>
+                <img src='systems/cardigan/assets/images/decorative/icons/icon-death-sentence.svg' alt='Death Sentence' class='death-sentence-icon' data-cardigan-tooltip="Sentença de Morte"/>
+                <i class="fa-solid fa-caret-right triangle-arrow"></i>
+              </div>
+              <div class='sequential-group' data-field='deathSentence'>
+                <input type='hidden' name='system.status.deathSentence' value='{{system.status.deathSentence}}' data-dtype='Number' />
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='1'
+                    {{#if (gte system.status.deathSentence 1)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='2'
+                    {{#if (gte system.status.deathSentence 2)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='3'
+                    {{#if (gte system.status.deathSentence 3)}}checked{{/if}}
+                  />
+                </label>
+              </div>
+            </div>
+
+            {{! Gift of Life }}
+            <div class='gift-field'>
+              <div class='icon-arrow-wrapper'>
+                <img src='systems/cardigan/assets/images/decorative/icons/icon-gift-life.svg' alt='Gift of Life' class='gift-icon' data-cardigan-tooltip="Dádiva da Vida"/>
+                <i class="fa-solid fa-caret-right triangle-arrow"></i>
+              </div>
+              <div class='sequential-group' data-field='giftOfLife'>
+                <input type='hidden' name='system.status.giftOfLife' value='{{system.status.giftOfLife}}' data-dtype='Number' />
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='1'
+                    {{#if (gte system.status.giftOfLife 1)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='2'
+                    {{#if (gte system.status.giftOfLife 2)}}checked{{/if}}
+                  />
+                </label>
+                <label class='sequential-option'>
+                  <input
+                    type='checkbox'
+                    data-level='3'
+                    {{#if (gte system.status.giftOfLife 3)}}checked{{/if}}
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {{! Death Die }}
+          {{#if (lte system.health.value 0)}}
+          <div class='death-die-field'>
+            <img 
+              src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' 
+              alt='Death Die' 
+              class='death-die-icon'
+              data-cardigan-tooltip="Teste do Destino"
+              data-action='rollDeathDie'
+            />
+          </div>
+          {{/if}}
+        </div>
+    </aside>
+
+    {{! Center Div - Profile Image }}
+    <div class='header-center'>
+      <img
+        class='profile-img'
+        src='{{actor.img}}'
+        data-edit='img'
+        data-action='onEditImage'
+        title='{{actor.name}}'
       />
     </div>
-    {{! The grid classes are defined in scss/global/_grid.scss. To use,
-      use both the "grid" and "grid-Ncol" class where "N" can be any number
-      from 1 to 12 and will create that number of columns.  }}
-    <div class='resources grid {{#if (eq actor.type "npc")}}grid-3col{{else}}grid-2col{{/if}}'>
 
-      {{! "flex-group-center" is also defined in the _grid.scss file
-        and it will add a small amount of padding, a border, and will
-        center all of its child elements content and text. }}
-      {{#if (eq actor.type 'npc')}}
-        <div class='resource flex-group-center'>
-          <label class='resource-label'>
-            {{localize 'CARDIGAN.Actor.NPC.FIELDS.cr.label'}} / {{localize 'CARDIGAN.Actor.NPC.xp.label'}}
+    {{! Right Aside }}
+    <aside class='header-right'>
+      {{! Fracture Field }}
+      <div class='fracture-field'>
+        <div class='icon-arrow-wrapper'>
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-fracture.svg' alt='Fracture' class='fracture-icon' data-cardigan-tooltip="Fratura"/>
+          <i class="fa-solid fa-caret-right triangle-arrow"></i>
+        </div>
+        <div class='sequential-group' data-field='fracture'>
+          <input type='hidden' name='system.status.fracture' value='{{system.status.fracture}}' data-dtype='Number' />
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='1'
+              {{#if (gte system.status.fracture 1)}}checked{{/if}}
+            />
           </label>
-          <div class='resource-content flexrow flex-center flex-between'>
+          <label class='sequential-option'>
             <input
-              type='text'
-              name='system.cr'
-              value='{{system.cr}}'
-              data-dtype='Number'
+              type='checkbox'
+              data-level='2'
+              {{#if (gte system.status.fracture 2)}}checked{{/if}}
             />
-            <span>/</span>
+          </label>
+          <label class='sequential-option'>
             <input
-              type='text'
-              disabled='true'
-              name='system.xp'
-              value='{{system.xp}}'
-              data-dtype='Number'
+              type='checkbox'
+              data-level='3'
+              {{#if (gte system.status.fracture 3)}}checked{{/if}}
             />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='4'
+              {{#if (gte system.status.fracture 4)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='5'
+              {{#if (gte system.status.fracture 5)}}checked{{/if}}
+            />
+          </label>
+        </div>
+      </div>
+      <div class='border-divider'>
+        <img src='systems/cardigan/assets/images/decorative/border-bottom.svg' alt='' />
+      </div>
+      {{! Toxicity Field }}
+      <div class='toxicity-field'>
+        <div class='icon-arrow-wrapper'>
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-toxic.svg' alt='Toxicity' class='toxicity-icon' data-cardigan-tooltip="Toxicidade"/>
+          <i class="fa-solid fa-caret-right triangle-arrow"></i>
+        </div>
+        <div class='sequential-group' data-field='toxicity'>
+          <input type='hidden' name='system.status.toxicity' value='{{system.status.toxicity}}' data-dtype='Number' />
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='1'
+              {{#if (gte system.status.toxicity 1)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='2'
+              {{#if (gte system.status.toxicity 2)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='3'
+              {{#if (gte system.status.toxicity 3)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='4'
+              {{#if (gte system.status.toxicity 4)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='5'
+              {{#if (gte system.status.toxicity 5)}}checked{{/if}}
+            />
+          </label>
+        </div>
+      </div>
+      <div class='border-divider'>
+        <img src='systems/cardigan/assets/images/decorative/border-bottom.svg' alt='' />
+      </div>
+      {{! Sanity Field }}
+      <div class='sanity-field'>
+        <div class='icon-arrow-wrapper'>
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-sanity.svg' alt='Sanity' class='sanity-icon' data-cardigan-tooltip="Sanidade"/>
+          <i class="fa-solid fa-caret-right triangle-arrow"></i>
+        </div>
+        <div class='sequential-group' data-field='sanity'>
+          <input type='hidden' name='system.status.sanity' value='{{system.status.sanity}}' data-dtype='Number' />
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='1'
+              {{#if (gte system.status.sanity 1)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='2'
+              {{#if (gte system.status.sanity 2)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='3'
+              {{#if (gte system.status.sanity 3)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='4'
+              {{#if (gte system.status.sanity 4)}}checked{{/if}}
+            />
+          </label>
+          <label class='sequential-option'>
+            <input
+              type='checkbox'
+              data-level='5'
+              {{#if (gte system.status.sanity 5)}}checked{{/if}}
+            />
+          </label>
+        </div>
+      </div>
+      <div class='border-divider border-divider-sanity'>
+        <img src='systems/cardigan/assets/images/decorative/border-bottom.svg' alt='' />
+      </div>
+      {{! Hunger-Thirst Group }}
+      <div class='hunger-thirst-group'>
+        {{! Hunger }}
+        <div class='hunger-field'>
+          <div class='icon-arrow-wrapper'>
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-hunger.svg' alt='Hunger' class='hunger-icon' data-cardigan-tooltip="Fome"/>
+            <i class="fa-solid fa-caret-right triangle-arrow"></i>
+          </div>
+          <div class='radio-group' data-field='hunger'>
+            <input type='hidden' name='system.status.hunger' value='{{system.status.hunger}}' data-dtype='Number' />
+            <label class='radio-option'>
+              <input
+                type='checkbox'
+                name='hunger-1'
+                data-level='1'
+                {{#if (gte system.status.hunger 1)}}checked{{/if}}
+              />
+            </label>
+            <label class='radio-option'>
+              <input
+                type='checkbox'
+                name='hunger-2'
+                data-level='2'
+                {{#if (gte system.status.hunger 2)}}checked{{/if}}
+              />
+            </label>
+            <label class='radio-option'>
+              <input
+                type='checkbox'
+                name='hunger-3'
+                data-level='3'
+                {{#if (gte system.status.hunger 3)}}checked{{/if}}
+              />
+            </label>
           </div>
         </div>
-      {{/if}}
 
-      {{#if (eq actor.type 'npc')}}
-        <div class='resource flex-group-center'>
-          <label class='resource-label'>
-            {{localize 'CARDIGAN.Actor.NPC.FIELDS.cr.label'}} / {{localize 'CARDIGAN.Actor.NPC.xp.label'}}
-          </label>
-          <div class='resource-content flexrow flex-center flex-between'>
-            <input
-              type='text'
-              name='system.cr'
-              value='{{system.cr}}'
-              data-dtype='Number'
-            />
-            <span>/</span>
-            <input
-              type='text'
-              disabled='true'
-              name='system.xp'
-              value='{{system.xp}}'
-              data-dtype='Number'
-            />
+        {{! Thirst }}
+        <div class='thirst-field'>
+          <div class='icon-arrow-wrapper'>
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-thirst.svg' alt='Thirst' class='thirst-icon' data-cardigan-tooltip="Sede"/>
+            <i class="fa-solid fa-caret-right triangle-arrow"></i>
           </div>
+          <div class='radio-group' data-field='thirst'>
+            <input type='hidden' name='system.status.thirst' value='{{system.status.thirst}}' data-dtype='Number' />
+            <label class='radio-option'>
+              <input
+                type='checkbox'
+                name='thirst-1'
+                data-level='1'
+                {{#if (gte system.status.thirst 1)}}checked{{/if}}
+              />
+            </label>
+            <label class='radio-option'>
+              <input
+                type='checkbox'
+                name='thirst-2'
+                data-level='2'
+                {{#if (gte system.status.thirst 2)}}checked{{/if}}
+              />
+            </label>
+            <label class='radio-option'>
+              <input
+                type='checkbox'
+                name='thirst-3'
+                data-level='3'
+                {{#if (gte system.status.thirst 3)}}checked{{/if}}
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+      {{! Rest Button }}
+      <div class='rest-button-container'>
+        <button type='button' class='rest-btn' aria-label='Descanso' data-action='rest' data-cardigan-tooltip='Descanso'>
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-rest.svg' alt='Rest' class='rest-icon'/>
+        </button>
+      </div>
+
+      {{! Window control buttons - replicando os botões do window-header }}
+      <div class='window-controls-custom'>
+        {{! Botão de alternar controles (se existir) }}
+        <button type='button' class='control-btn toggle-controls-btn' data-action='toggleControls' title='Alternar Controles'>
+          <i class='fas fa-ellipsis-vertical'></i>
+        </button>
+        
+        {{! Botão de fechar }}
+        <button type='button' class='control-btn close-btn' data-action='close' title='Fechar'>
+          <i class='fas fa-xmark'></i>
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  {{! Bottom Section - Character Name with Health Bar }}
+  <section class='header-bottom-section'>
+    <div class='health-bar-container'>
+      {{! Native HTML5 Progress Bar - Animates automatically! }}
+      <progress 
+        class='health-progress-bar'
+        max='{{system.health.max}}'
+        value='{{system.health.value}}'
+      ></progress>
+      
+      {{! Frame overlay (moldura por cima) }}
+      <img src='systems/cardigan/assets/images/decorative/frame-status.webp' class='frame-status' alt='Status Frame' />
+      
+      {{! Health Icon - Above frame }}
+      <img src='systems/cardigan/assets/images/decorative/icons/icon-health.svg' class='health-icon' alt='Health' data-cardigan-tooltip="Vida" />
+      
+      {{! Health values label }}
+      <div class='health-bar-label'>
+        <input
+          type='number'
+          name='system.health.value'
+          value='{{system.health.value}}'
+          data-dtype='Number'
+          min='0'
+          class='health-value health-current'
+        />
+        <img src='systems/cardigan/assets/images/decorative/field-divider.svg' alt='/' class='health-divider' />
+        <input
+          type='number'
+          name='system.health.max'
+          value='{{system.health.max}}'
+          data-dtype='Number'
+          min='0'
+          class='health-value health-max'
+          readonly
+        />
+      </div>
+
+      {{! Health Bonus Field - DENTRO do container }}
+      <div class='health-bonus-field'>
+        <div class='health-bonus-square'></div>
+        <input
+          type='number'
+          name='system.status.healthBonus'
+          value='{{system.status.healthBonus}}'
+          data-dtype='Number'
+          class='health-bonus-input'
+          data-cardigan-tooltip="Vida Temporária"
+        />
+      </div>
+    </div>
+
+    {{! Character Name Input }}
+    <input
+      type='text'
+      name='name'
+      value='{{actor.name}}'
+      placeholder='Nome'
+      class='character-name-input'
+    />
+
+    {{! Border Bottom Name - Decorative SVG }}
+    <img
+      src='systems/cardigan/assets/images/decorative/border-bottom-name.svg'
+      class='border-bottom-name'
+      alt='Border'
+    />
+
+    {{! Race - Drag & Drop Slot }}
+    <div class='race-drop-zone' data-item-type='race'>
+      {{#if raceItem}}
+        {{! Race item exists - show it }}
+        <div class='race-item-display' data-item-id='{{raceItem._id}}' data-drag='true' data-document-class='Item'>
+          <img src='{{raceItem.img}}' alt='{{raceItem.name}}' class='race-item-image' />
+          <span class='race-item-name'>{{raceItem.name}}</span>
+          {{#if @root.editable}}
+            <a class='race-item-delete' data-action='deleteDoc' data-document-class='Item' data-id='{{raceItem._id}}' title='Remove Race'>
+              <i class='fas fa-times'></i>
+            </a>
+          {{/if}}
+        </div>
+      {{else}}
+        {{! No race item - show drop placeholder }}
+        <div class='race-placeholder'>
+          <span data-cardigan-tooltip='Arraste a Raça'>RAÇA</span>
         </div>
       {{/if}}
     </div>
-  </div>
+
+    {{! Energy Bar Container - Ao lado do Health Bar }}
+    <div class='energy-bar-container'>
+      {{! Native HTML5 Progress Bar - Animates automatically! }}
+      <progress 
+        class='energy-progress-bar'
+        max='{{system.power.max}}'
+        value='{{system.power.value}}'
+      ></progress>
+      
+      {{! Frame overlay (moldura por cima) }}
+      <img src='systems/cardigan/assets/images/decorative/frame-status.webp' class='energy-frame-status' alt='Energy Frame' />
+      
+      {{! Energy Icon - Above frame }}
+      <img src='systems/cardigan/assets/images/decorative/icons/icon-energy.svg' class='energy-icon' alt='Energy' data-cardigan-tooltip="Energia" />
+      
+      {{! Energy values label }}
+      <div class='energy-bar-label'>
+        <input
+          type='number'
+          name='system.power.value'
+          value='{{system.power.value}}'
+          data-dtype='Number'
+          min='0'
+          class='energy-value energy-current'
+        />
+        <img src='systems/cardigan/assets/images/decorative/field-divider.svg' alt='/' class='energy-divider' />
+        <input
+          type='number'
+          name='system.power.max'
+          value='{{system.power.max}}'
+          data-dtype='Number'
+          min='0'
+          class='energy-value energy-max'
+          readonly
+        />
+      </div>
+
+      {{! Energy Bonus Field }}
+      <div class='energy-bonus-field'>
+        <div class='energy-bonus-square'></div>
+        <input
+          type='number'
+          name='system.status.energyBonus'
+          value='{{system.status.energyBonus}}'
+          data-dtype='Number'
+          class='energy-bonus-input'
+          data-cardigan-tooltip="Energia Temporária"
+        />
+      </div>
+    </div>
+  </section>
 </header>

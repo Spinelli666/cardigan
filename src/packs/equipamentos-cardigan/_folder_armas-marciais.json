@@ -1,0 +1,18 @@
+{
+  "_id": "M1aR2cI3aL4wE5aP",
+  "_key": "!folders!M1aR2cI3aL4wE5aP",
+  "name": "Armas Marciais",
+  "type": "Item",
+  "color": "#d32f2f",
+  "sorting": "a",
+  "folder": "A1rM2aS3wE4aP5oN",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

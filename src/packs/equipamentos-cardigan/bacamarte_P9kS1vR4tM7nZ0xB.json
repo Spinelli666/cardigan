@@ -1,0 +1,53 @@
+{
+  "_id": "P9kS1vR4tM7nZ0xB",
+  "_key": "!items!P9kS1vR4tM7nZ0xB",
+  "name": "Bacamarte",
+  "type": "arma",
+  "img": "systems/cardigan/assets/images/weapons/musket.webp",
+  "folder": "C6vB0nK4zX1rT7sP",
+  "system": {
+    "description": "",
+    "weaponType": "Bacamarte",
+    "melee": false,
+    "ranged": true,
+    "isFirearm": true,
+    "magazine": 0,
+    "loadedAmmo": 0,
+    "loadedAmmoTypes": {},
+    "damage": {
+      "value": "18",
+      "useStrength": false,
+      "useDexterity": true,
+      "total": "18"
+    },
+    "properties": ["queima-roupa", "colateral", "pente", "recarga", "ferir", "impacto"],
+    "rightHand": false,
+    "leftHand": false,
+    "weight": "pesado",
+    "price": 200,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "skillBonuses": [],
+    "equipped": false,
+    "magicalArtifact": false,
+    "protection": {
+      "enabled": false,
+      "value": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

@@ -1,0 +1,547 @@
+/* ===================================== */
+/*  MERCHANT TRADE DIALOG STYLES (3-COL) */
+/* ===================================== */
+
+.merchant-trade-dialog {
+  .window-content {
+    padding: 0;
+    overflow: hidden;
+  }
+}
+
+.merchant-trade-dialog-wrapper {
+  min-width: 1000px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.merchant-trade-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+}
+
+.trade-header {
+  text-align: center;
+  padding: 12px 16px;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+  
+  h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #e8e6e0;
+    font-weight: 600;
+    
+    i {
+      color: #d4af37;
+      margin-right: 8px;
+    }
+  }
+}
+
+.trade-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  padding: 0 16px;
+}
+
+.trade-column {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  min-height: 0;
+  
+  &.merchant-column.confirmed {
+    border-color: rgba(76, 175, 80, 0.5);
+    background: rgba(76, 175, 80, 0.05);
+  }
+}
+
+.column-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  
+  .actor-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #d4af37;
+    object-fit: cover;
+  }
+  
+  h3 {
+    margin: 0;
+    font-size: 14px;
+    color: #e8e6e0;
+    text-align: center;
+  }
+  
+  .column-label {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    
+    &.offer-label {
+      background: rgba(33, 150, 243, 0.2);
+      color: #64b5f6;
+      border: 1px solid rgba(33, 150, 243, 0.4);
+    }
+    
+    &.request-label {
+      background: rgba(76, 175, 80, 0.2);
+      color: #81c784;
+      border: 1px solid rgba(76, 175, 80, 0.4);
+    }
+    
+    &.merchant-label {
+      background: rgba(212, 175, 55, 0.2);
+      color: #d4af37;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+  }
+  
+  .confirmed-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(76, 175, 80, 0.2);
+    color: #81c784;
+    border: 1px solid rgba(76, 175, 80, 0.4);
+    
+    i {
+      margin-right: 4px;
+    }
+  }
+}
+
+/* Customer Drop Zones */
+.trade-drop-zone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  min-height: 0;
+  
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  .drop-instruction {
+    margin: 0 0 10px 0;
+    padding: 6px 10px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px dashed rgba(212, 175, 55, 0.3);
+    border-radius: 4px;
+    color: #d4af37;
+    font-size: 12px;
+    text-align: center;
+    flex-shrink: 0;
+    
+    i {
+      margin-right: 6px;
+    }
+  }
+  
+  &.drag-over {
+    background: rgba(76, 175, 80, 0.1);
+    border-color: #4CAF50;
+  }
+}
+
+/* Specific drop zone colors */
+.customer-offer-zone {
+  .drop-instruction {
+    background: rgba(33, 150, 243, 0.1);
+    border-color: rgba(33, 150, 243, 0.3);
+    color: #64b5f6;
+  }
+}
+
+.customer-request-zone {
+  .drop-instruction {
+    background: rgba(76, 175, 80, 0.1);
+    border-color: rgba(76, 175, 80, 0.3);
+    color: #81c784;
+  }
+}
+
+/* Trade Items List (with scroll) */
+.trade-items-list {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+  min-height: 0; // Important
+  
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.4);
+    border-radius: 3px;
+    
+    &:hover {
+      background: rgba(212, 175, 55, 0.6);
+    }
+  }
+}
+
+.trade-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(212, 175, 55, 0.3);
+  }
+  
+  .item-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  
+  .item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  
+  .item-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #e8e6e0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .item-quantity {
+    font-size: 11px;
+    color: #999;
+  }
+  
+  .item-equipped {
+    font-size: 11px;
+    color: #64b5f6;
+    
+    i {
+      margin-right: 4px;
+    }
+  }
+  
+  .item-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  
+  .edit-qty-btn {
+    padding: 4px 8px;
+    background: rgba(33, 150, 243, 0.2);
+    border: 1px solid rgba(33, 150, 243, 0.4);
+    border-radius: 4px;
+    color: #64b5f6;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    
+    &:hover {
+      background: rgba(33, 150, 243, 0.3);
+      border-color: rgba(33, 150, 243, 0.6);
+    }
+  }
+  
+  .remove-item-btn {
+    padding: 4px 8px;
+    background: rgba(244, 67, 54, 0.2);
+    border: 1px solid rgba(244, 67, 54, 0.4);
+    border-radius: 4px;
+    color: #ef5350;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    
+    &:hover {
+      background: rgba(244, 67, 54, 0.3);
+      border-color: rgba(244, 67, 54, 0.6);
+    }
+  }
+}
+
+/* Merchant Inventory */
+.merchant-inventory {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  min-height: 0; // Important
+  
+  .inventory-instruction {
+    margin: 0 0 12px 0;
+    padding: 8px 12px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px dashed rgba(212, 175, 55, 0.3);
+    border-radius: 4px;
+    color: #d4af37;
+    font-size: 13px;
+    text-align: center;
+    flex-shrink: 0;
+    
+    i {
+      margin-right: 6px;
+    }
+  }
+}
+
+/* Merchant Items List (with scroll) */
+.merchant-items-list {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 4px;
+  min-height: 0; // Important
+  
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.4);
+    border-radius: 3px;
+    
+    &:hover {
+      background: rgba(212, 175, 55, 0.6);
+    }
+  }
+}
+
+.merchant-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  
+  &:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.3);
+    transform: translateX(-2px);
+  }
+  
+  &[draggable="true"] {
+    cursor: grab;
+    
+    &:active {
+      cursor: grabbing;
+      opacity: 0.7;
+    }
+  }
+  
+  .item-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  
+  .item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  
+  .item-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #e8e6e0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .item-quantity {
+    font-size: 11px;
+    color: #d4af37;
+    
+    i {
+      margin-right: 4px;
+    }
+  }
+}
+
+/* Arrow Separator */
+.trade-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  i {
+    font-size: 32px;
+    color: rgba(212, 175, 55, 0.4);
+  }
+}
+
+/* Gold Input */
+.trade-gold {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(255, 193, 7, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  
+  label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #ffc107;
+    white-space: nowrap;
+    
+    i {
+      margin-right: 4px;
+    }
+  }
+  
+  input {
+    flex: 1;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 4px;
+    color: #ffc107;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    
+    &:focus {
+      outline: none;
+      border-color: #ffc107;
+      background: rgba(0, 0, 0, 0.4);
+    }
+    
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* Confirm Button */
+.confirm-offer-btn {
+  margin: 12px 16px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  
+  i {
+    margin-right: 6px;
+  }
+  
+  &:hover {
+    background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* Trade Actions */
+.trade-actions {
+  display: flex;
+  justify-content: center;
+  padding: 12px 16px;
+  border-top: 2px solid rgba(212, 175, 55, 0.3);
+  flex-shrink: 0;
+}
+
+.cancel-trade-btn {
+  padding: 10px 24px;
+  background: rgba(244, 67, 54, 0.2);
+  border: 1px solid rgba(244, 67, 54, 0.4);
+  border-radius: 6px;
+  color: #ef5350;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  i {
+    margin-right: 6px;
+  }
+  
+  &:hover {
+    background: rgba(244, 67, 54, 0.3);
+    border-color: rgba(244, 67, 54, 0.6);
+  }
+}

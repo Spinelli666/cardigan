@@ -1,0 +1,67 @@
+{
+  "_id": "F0gH3iI6jJ9kK2lM",
+  "_key": "!items!F0gH3iI6jJ9kK2lM",
+  "name": "Adrenalina",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "passiva"
+    ],
+    "skillClass": "guerreiro",
+    "spellCategories": [],
+    "hasEnergyCost": false,
+    "energyCost": 0,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Recebe <strong><code>+2</code></strong> <strong><code>〔🔶🔶〕Ponto de Ação</code></strong> ao derrotar um inimigo.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Aumenta para <strong><code>+3</code></strong> <strong><code>💔PVT</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Aumenta para <strong><code>+2</code></strong> <strong><code>⚡️PET</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Quando você começa a lutar é difícil de controlar a sede de sangue.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::A cada <strong>Rodada</strong> sem tomar dano você recebe <strong><code>+2</code></strong> <strong><code>💔PV⬩Temporário</code></strong>, mas este bônus não pode passar de <strong><code>15</code></strong> <strong><code>💔PVT</code></strong>, embora ainda seja cumulativo com bônus de <strong><code>💔PVT</code></strong> recebido de outras fontes.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Uma vez por rodada, quando derrotar um inimigo você recebe:</p><ul><li><p style=\"text-align: justify;\"><strong><code>+1</code></strong> <strong><code>⚡️PE⬩Temporário</code></strong>.</p></li><li><p style=\"text-align: justify;\"><strong><code>+1</code></strong> <strong><code>〔🔶〕Ponto de Ação</code></strong>.</p></li></ul>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

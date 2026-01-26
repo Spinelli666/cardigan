@@ -1,0 +1,106 @@
+/* Movement & Critical Hit Container Styles */
+
+// Bloco 2 - Movement e Critical Hit
+.movement-crit-container {
+  position: relative; // Contexto de posicionamento
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  margin: 0.5px 0px 0.5px 0px;
+  height: 30px; // Altura fixa para controle
+  width: 100%; // Largura total disponível
+
+  .movement-field,
+  .crit-field {
+    position: absolute; // Trava o campo em posição específica
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    top: 50%;
+    transform: translateY(-50%); // Centraliza verticalmente
+
+    .icon-arrow-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .triangle-arrow {
+        font-size: 9px;
+        background: linear-gradient(143deg, #FFB75C 2.94%, #694C27 97.06%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        flex-shrink: 0;
+        padding-top: 2px;
+      }
+    }
+  }
+
+  // Movement fica à esquerda
+  .movement-field {
+    margin-left: 15px !important;
+    left: 0;
+
+    .icon-arrow-wrapper {
+      .triangle-arrow {
+        margin-left: 0.5px;
+      }
+    }
+
+    .movement-input {
+      margin-left: 5px;
+    }
+  }
+
+  // Crit fica à direita
+  .crit-field {
+    margin-right: 14.5px;
+    right: 0;
+
+    .crit-icon {
+      margin-right: 1.5px;
+    }
+
+    .icon-arrow-wrapper {
+      .triangle-arrow {
+        margin-right: 3.5px;
+      }
+    }
+  }
+
+  .movement-icon,
+  .crit-icon {
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    min-height: 25px;
+    object-fit: contain;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.60));
+  }
+
+  .movement-input,
+  .crit-input {
+    display: flex;
+    width: 23px;
+    height: 23px;
+    padding: 0px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    border: 1.7px solid rgba(207, 149, 76, 0.60);
+    background: rgba(105, 76, 39, 0.60);
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    outline: none;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.60));
+
+    &:focus {
+      border-color: rgba(207, 149, 76, 0.90);
+      background: rgba(105, 76, 39, 0.85);
+    }
+  }
+}

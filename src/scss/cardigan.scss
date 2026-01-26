@@ -1,26 +1,122 @@
 // Add custom fonts by visiting and search https://fonts.google.com
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alatsi&display=swap');
 
 // Import utilities.
 @import 'utils/typography';
 @import 'utils/colors';
 @import 'utils/mixins';
 @import 'utils/variables';
+@import 'utils/tooltips';
+
+// Tooltip components
+@import 'components/tooltips/proficiency-tooltips';
 
 /* Global styles */
 @import 'global/window';
 @import 'global/grid';
 @import 'global/flex';
+@import 'global/tooltips';
+@import 'global/chat';
+@import 'global/token-hud';
+
+/* ProseMirror - Comportamento padrão do Foundry VTT */
+/* Sem customizações - deixando o editor funcionar naturalmente */
+
+/* Actor sheet specific flexbox layout - MUST be outside .cardigan scope */
+.cardigan.actor {
+  .window-content {
+    overflow: hidden;
+    padding: 5px;
+    
+    form {
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  
+  // Sheet body wraps header, tabs, and tab content
+  .sheet-body {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  
+  // Individual tabs scroll from navbar down
+  .tab {
+    flex: 1;
+    min-height: 0;
+    // background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 31.35%, rgba(118, 212, 255, 0.19) 99.96%);
+    background: linear-gradient(180deg, rgba(118, 212, 255, 0.19) 43.81%, rgba(9, 21, 29, 0.19) 99.96%);
+    font-family: 'Alatsi', sans-serif !important;
+  }
+}
 
 /* Styles limited to cardigan sheets */
 .cardigan {
+  // Tab visibility control for item sheets
+  .tab:not(.active) {
+    display: none !important;
+  }
+  
+  .tab.active {
+    display: block !important;
+  }
+
   @import 'components/forms';
+  @import 'components/navigation/tabs';
   @import 'components/resource';
   @import 'components/items';
   @import 'components/effects';
-  @import 'components/features-tab';
+  @import 'components/proficiencies/index';
+  @import 'components/equipment';
   @import 'components/character-details';
-  @import 'components/xp-level';
+  @import 'components/aside-left/xp-level';
+  @import 'components/aside-left/movement-crit';
+  @import 'components/aside-left/armor';
+  @import 'components/aside-left/death-fields';
+  @import 'components/aside-right/fracture';
+  @import 'components/aside-right/toxicity';
+  @import 'components/aside-right/sanity';
+  @import 'components/aside-right/hunger-thirst';
+  @import 'components/aside-right/rest';
+  @import 'components/aside-right/window-controls';
   @import 'components/status';
+  @import 'components/health-bar';
+  @import 'components/energy-bar';
+  @import 'components/dialogs';
   @import 'components/abilities';
+  @import 'components/consumivel-modifiers';
+  @import 'components/recipes';
+  @import 'components/skills';
+  @import 'components/skill-enhancements';
+  @import 'components/race';
+  @import 'components/rest';
 }
+
+/* Dialog styles outside of .cardigan scope */
+@import 'dialogs/item-create-dialog';
+@import 'dialogs/skill-effects-dialog';
+@import 'dialogs/enhancement-config-dialog';
+@import 'dialogs/skill-linked-skills-dialog';
+@import 'dialogs/racial-skills-dialog';
+@import 'dialogs/advantage-selection-dialog';
+@import 'dialogs/rest-selection-dialog';
+@import 'dialogs/evasion-result-dialog';
+@import 'dialogs/attack-result-dialog';
+@import 'dialogs/armor-durability-selection';
+@import 'dialogs/trade-dialogs';
+@import 'dialogs/trade-mode-selection';
+@import 'dialogs/merchant-trade-dialog';
+@import 'dialogs/character-creation-wizard';
+@import 'dialogs/level-up-wizard';
+
+/* Enhancement tooltip styles (global) */
+@import 'components/enhancement-tooltips';
+
+/* Attack button tooltip styles (global) */
+@import 'components/attack-tooltips';

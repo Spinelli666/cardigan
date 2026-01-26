@@ -1,0 +1,44 @@
+{{!-- Ammunition Management Dialog Template --}}
+<div class="ammunition-management-dialog">
+  <div class="dialog-header">
+    <h1 class="dialog-title">AMMUNITION</h1>
+    <h2 class="dialog-subtitle">{{#if weapon.system.isFirearm}}WEAPON MAGAZINE{{else}}WEAPON QUIVER{{/if}}</h2>
+  </div>
+  
+  {{#if weapon.system.isFirearm}}
+  <div class="magazine-capacity-section" style="display: flex; justify-content: space-between; align-items: center; padding: 12px; margin-bottom: 16px; background: rgba(0, 0, 0, 0.3); border: 1px solid #555; border-radius: 8px;">
+    <span class="capacity-label" style="color: var(--cardigan-c-beige, #f4f1e8); font-weight: bold; font-size: 1em;">Magazine Capacity:</span>
+    <span class="capacity-value" style="color: #2196F3; font-weight: bold; font-size: 1.1em;">{{weapon.system.magazine}}</span>
+  </div>
+  {{/if}}
+  
+  <div class="ammunition-list">
+    {{#if ammunitionItems}}
+      {{#each ammunitionItems}}
+        <div class="ammunition-item" data-item-id="{{_id}}" style="display: flex !important; flex-direction: row !important; align-items: center !important; gap: 12px; padding: 8px 12px; margin-bottom: 8px; background: rgba(0, 0, 0, 0.2); border: 1px solid #444; border-radius: 6px;">
+          <div class="ammunition-image" style="flex-shrink: 0 !important; width: 32px !important; height: 32px !important;">
+            <img src="{{img}}" alt="{{name}}" style="width: 32px !important; height: 32px !important; max-width: 32px !important; max-height: 32px !important; object-fit: cover !important; display: block !important; border-radius: 4px; border: 1px solid #666;" />
+          </div>
+          <div class="ammunition-details" style="flex: 1 !important; display: flex !important; flex-direction: row !important; align-items: center !important; gap: 10px;">
+            <span class="ammunition-name" style="color: var(--cardigan-c-beige, #f4f1e8); font-weight: bold; flex: 1;">{{name}}</span>
+            <div class="ammunition-controls" style="display: flex; align-items: center; gap: 8px;">
+              <button type="button" class="ammunition-attack-btn" data-item-id="{{_id}}" data-weapon-id="{{@root.weapon._id}}" title="Attack with this ammunition" style="width: 24px; height: 24px; padding: 0; border: 1px solid #666; border-radius: 4px; background: rgba(200, 50, 50, 0.3); color: var(--cardigan-c-beige, #f4f1e8); font-size: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s;">
+                <i class="fas fa-sword"></i>
+              </button>
+              <input type="number" class="ammunition-load-input" data-item-id="{{_id}}" min="0" {{#if @root.weapon.system.isFirearm}}max="{{@root.weapon.system.magazine}}"{{/if}} value="{{lookup @root.weapon.system.loadedAmmoTypes _id}}" placeholder="0" style="width: 50px; padding: 4px 6px; border: 1px solid #666; border-radius: 4px; background: rgba(0, 0, 0, 0.3); color: var(--cardigan-c-beige, #f4f1e8); font-size: 0.9em; text-align: center;">
+              <button type="button" class="ammunition-auto-load-btn" data-item-id="{{_id}}" data-quantity="{{system.quantity}}" title="Auto-load ammunition" style="width: 24px; height: 24px; padding: 0; border: 1px solid #666; border-radius: 4px; background: rgba(0, 100, 200, 0.3); color: var(--cardigan-c-beige, #f4f1e8); font-size: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s;">
+                <i class="fas fa-arrow-right"></i>
+              </button>
+              <span class="ammunition-quantity" data-quantity="{{system.quantity}}" style="color: var(--cardigan-c-beige, #f4f1e8); font-weight: bold; min-width: 20px; text-align: center;">{{system.quantity}}</span>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    {{else}}
+      <div class="no-ammunition">
+        <p>No ammunition found in inventory.</p>
+      </div>
+    {{/if}}
+  </div>
+  
+</div>

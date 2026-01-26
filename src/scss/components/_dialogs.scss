@@ -1,0 +1,2098 @@
+// -----------------------------------------
+// Hand Selection Dialog Styles
+// -----------------------------------------
+.hand-selection-dialog {
+  .dialog-header {
+    text-align: center;
+    margin-bottom: 20px;
+    
+    h2 {
+      color: $c-beige;
+      font-size: 1.2em;
+      margin-bottom: 8px;
+    }
+    
+    p {
+      color: $c-beige;
+      font-size: 0.95em;
+      line-height: 1.4;
+    }
+  }
+  
+  .dialog-content {
+    .hand-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .hand-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 2px solid #444;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover, &.hovered {
+        border-color: $c-beige;
+        background: rgba($c-beige, 0.1);
+        transform: translateY(-2px);
+      }
+      
+      .hand-icon {
+        font-size: 1.5em;
+        color: $c-beige;
+        width: 40px;
+        text-align: center;
+      }
+      
+      .hand-label {
+        font-weight: bold;
+        color: $c-beige;
+        font-size: 1em;
+        min-width: 100px;
+      }
+      
+      .hand-description {
+        color: rgba($c-beige, 0.8);
+        font-size: 0.9em;
+        flex: 1;
+      }
+    }
+  }
+  
+  .dialog-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    
+    .dialog-button {
+      padding: 8px 16px;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.5);
+      color: $c-beige;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        border-color: $c-beige;
+        background: rgba($c-beige, 0.1);
+      }
+      
+      i {
+        margin-right: 6px;
+      }
+    }
+  }
+}
+
+// -----------------------------------------
+// Item Type Selection Dialog Styles
+// -----------------------------------------
+
+.item-type-selection {
+  .window-content {
+    padding: 0;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+    border-radius: 8px;
+  }
+
+  .item-type-selection-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .modal-header {
+      background: linear-gradient(135deg, #333 0%, #222 100%);
+      border-bottom: 2px solid $c-beige;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+
+      h2 {
+        margin: 0;
+        color: $c-beige;
+        font-size: 20px;
+        font-weight: 600;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    .modal-body {
+      flex: 1;
+      padding: 25px;
+
+      .description {
+        color: $c-beige;
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 14px;
+        opacity: 0.9;
+        line-height: 1.4;
+      }
+
+      .item-type-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        max-width: 100%;
+
+        .item-type-option {
+          background: linear-gradient(135deg, #333 0%, #222 100%);
+          border: 2px solid #555;
+          border-radius: 8px;
+          padding: 20px 15px;
+          color: $c-beige;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.3s ease;
+          min-height: 100px;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+
+          &:hover {
+            background: linear-gradient(135deg, #444 0%, #333 100%);
+            border-color: $c-beige;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+          }
+
+          &:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+          }
+
+          &:focus {
+            outline: none;
+            border-color: $c-beige;
+            box-shadow: 0 0 0 3px rgba(201, 199, 184, 0.3);
+          }
+
+          .item-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+          }
+
+          .item-label {
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 4px;
+          }
+
+          .item-description {
+            font-size: 11px;
+            opacity: 0.7;
+            text-align: center;
+            line-height: 1.2;
+            font-style: italic;
+          }
+
+          // Icon colors for different item types
+          &[data-type="arma"] {
+            .item-icon {
+              color: #ff6b6b;
+            }
+            &:hover .item-icon {
+              color: #ff5252;
+              text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+            }
+          }
+          
+          &[data-type="efeito"] {
+            .item-icon {
+              color: #a29bfe;
+            }
+            &:hover .item-icon {
+              color: #8b82fb;
+              text-shadow: 0 0 10px rgba(162, 155, 254, 0.5);
+            }
+          }
+          
+          &[data-type="backpack"] {
+            .item-icon {
+              color: #4ecdc4;
+            }
+            &:hover .item-icon {
+              color: #26d0ce;
+              text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+            }
+          }
+
+          // Hover glow effect
+          &:hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(201, 199, 184, 0.1) 0%, transparent 100%);
+            border-radius: 6px;
+            pointer-events: none;
+          }
+        }
+      }
+    }
+
+    .modal-footer {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+      border-top: 1px solid #444;
+      padding: 15px 25px;
+      text-align: center;
+      border-radius: 0 0 8px 8px;
+
+      .cancel-button {
+        background: linear-gradient(135deg, #555 0%, #444 100%);
+        border: 1px solid #666;
+        color: $c-beige;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        &:hover {
+          background: linear-gradient(135deg, #666 0%, #555 100%);
+          border-color: #777;
+        }
+
+        &:active {
+          transform: translateY(1px);
+        }
+
+        i {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  // Override default dialog styles
+  &.dialog {
+    .window-header {
+      background: linear-gradient(135deg, #333 0%, #222 100%);
+      border-bottom: 2px solid $c-beige;
+      
+      .window-title {
+        color: $c-beige;
+        font-weight: 600;
+      }
+
+      .header-button {
+        color: $c-beige;
+        
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 600px) {
+  .item-type-selection {
+    .modal-body .item-type-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      
+      .item-type-option {
+        min-height: 80px;
+        padding: 15px;
+      }
+    }
+  }
+}
+
+// -----------------------------------------
+// Armor Type Selection Dialog Styles
+// -----------------------------------------
+.armor-type-selection {
+  padding: 1rem;
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    color: $c-beige;
+    text-align: center;
+  }
+
+  .dialog-description {
+    margin: 0 0 1rem 0;
+    color: $c-beige;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  .armor-types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .armor-type-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border: 2px solid #444;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 80px;
+    justify-content: center;
+
+    &:hover,
+    &.hovered {
+      border-color: $c-beige;
+      background: rgba($c-beige, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .armor-type-icon {
+    font-size: 1.5rem;
+    color: $c-beige;
+    margin-bottom: 0.5rem;
+  }
+
+  .armor-type-label {
+    font-size: 0.85rem;
+    color: $c-beige;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .dialog-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .cancel-button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.3);
+    color: $c-beige;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba($c-beige, 0.1);
+      border-color: $c-beige;
+    }
+  }
+}
+
+// -----------------------------------------
+// Backpack Type Selection Dialog Styles
+// -----------------------------------------
+.backpack-type-selection {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.95));
+  border: 2px solid $c-beige;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  
+  .dialog-header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba($c-beige, 0.15), rgba($c-beige, 0.05));
+    border-radius: 10px 10px 0 0;
+    border-bottom: 2px solid rgba($c-beige, 0.3);
+    
+    h2 {
+      color: $c-beige;
+      font-size: 1.5em;
+      margin-bottom: 8px;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      letter-spacing: 0.5px;
+    }
+    
+    p {
+      color: rgba($c-beige, 0.85);
+      font-size: 1rem;
+      line-height: 1.4;
+      margin: 0;
+      font-style: italic;
+    }
+  }
+  
+  .dialog-content {
+    padding: 20px;
+    
+    .backpack-type-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 25px;
+    }
+    
+    .backpack-type-option {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+      border: 2px solid rgba($c-beige, 0.3);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(10, 10, 20, 0.4));
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba($c-beige, 0.1), transparent);
+        transition: left 0.5s ease;
+      }
+      
+      &:hover {
+        border-color: $c-beige;
+        background: linear-gradient(135deg, rgba($c-beige, 0.2), rgba($c-beige, 0.1));
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 8px 25px rgba($c-beige, 0.3);
+        
+        &::before {
+          left: 100%;
+        }
+        
+        .type-icon {
+          transform: scale(1.15) rotate(5deg);
+          background: linear-gradient(135deg, rgba($c-beige, 0.4), rgba($c-beige, 0.2));
+          box-shadow: 0 0 20px rgba($c-beige, 0.4);
+        }
+        
+        .type-name {
+          color: $c-beige;
+          text-shadow: 0 0 10px rgba($c-beige, 0.5);
+          filter: brightness(1.15);
+        }
+        
+        .type-description {
+          color: rgba($c-beige, 0.9);
+        }
+      }
+      
+      &:active {
+        transform: translateY(-1px) scale(1.01);
+        box-shadow: 0 4px 15px rgba($c-beige, 0.4);
+      }
+      
+      .type-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba($c-beige, 0.25), rgba($c-beige, 0.15));
+        border: 3px solid rgba($c-beige, 0.4);
+        font-size: 1.8rem;
+        color: $c-beige;
+        flex-shrink: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: inset 0 2px 4px rgba($c-beige, 0.1);
+        position: relative;
+        
+        &::after {
+          content: '';
+          position: absolute;
+          top: 10%;
+          left: 10%;
+          width: 80%;
+          height: 80%;
+          border-radius: 50%;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+          pointer-events: none;
+        }
+      }
+      
+      .type-details {
+        flex: 1;
+        
+        .type-name {
+          font-size: 1.3rem;
+          font-weight: bold;
+          color: $c-beige;
+          margin: 0 0 8px 0;
+          transition: all 0.3s ease;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+          letter-spacing: 0.3px;
+        }
+        
+        .type-description {
+          font-size: 1rem;
+          color: rgba($c-beige, 0.75);
+          line-height: 1.4;
+          margin: 0;
+          transition: all 0.3s ease;
+        }
+      }
+    }
+  }
+  
+  .dialog-footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 2px solid rgba($c-beige, 0.2);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(10, 10, 20, 0.2));
+    border-radius: 0 0 10px 10px;
+    
+    .cancel-button {
+      padding: 12px 24px;
+      border: 2px solid rgba($c-beige, 0.4);
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(20, 20, 30, 0.4));
+      color: $c-beige;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      font-weight: 500;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+      
+      i {
+        margin-right: 8px;
+        font-size: 0.9rem;
+      }
+
+      &:hover {
+        background: linear-gradient(135deg, rgba($c-beige, 0.15), rgba($c-beige, 0.05));
+        border-color: $c-beige;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba($c-beige, 0.2);
+      }
+      
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba($c-beige, 0.3);
+      }
+    }
+  }
+}
+
+// -----------------------------------------
+// Backpack Templates Styles  
+// -----------------------------------------
+.backpack-type-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(#444, 0.5);
+}
+
+.backpack-common-header,
+.backpack-ammunition-header,
+.backpack-consumable-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  
+  h3 {
+    color: $c-beige;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    
+    i {
+      font-size: 1.1rem;
+    }
+  }
+  
+  .item-subtitle {
+    color: rgba($c-beige, 0.7);
+    font-size: 0.9rem;
+    margin: 0;
+    font-style: italic;
+  }
+}
+
+.backpack-form-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  border: 1px solid rgba(#444, 0.3);
+  
+  .form-group {
+    flex: 1;
+    min-width: 200px;
+    
+    &.full-width {
+      flex: 100%;
+    }
+    
+    label {
+      display: block;
+      color: $c-beige;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+    }
+    
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: normal;
+      cursor: pointer;
+      
+      input[type="checkbox"] {
+        margin: 0;
+      }
+    }
+    
+    .form-fields {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      
+      input, select, textarea {
+        flex: 1;
+        padding: 0.375rem 0.75rem;
+        border: 1px solid #555;
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.4);
+        color: $c-beige;
+        font-size: 0.9rem;
+        
+        &:focus {
+          border-color: $c-beige;
+          outline: none;
+          box-shadow: 0 0 0 2px rgba($c-beige, 0.2);
+        }
+        
+        &::placeholder {
+          color: rgba($c-beige, 0.5);
+        }
+      }
+      
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+        line-height: 1.4;
+      }
+      
+      .unit {
+        color: rgba($c-beige, 0.7);
+        font-size: 0.85rem;
+        white-space: nowrap;
+      }
+      
+      .help-text {
+        color: rgba($c-beige, 0.6);
+        font-size: 0.8rem;
+        font-style: italic;
+        flex: 100%;
+        margin-top: 0.25rem;
+      }
+    }
+  }
+}
+
+.backpack-roll-section {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 2px solid rgba(#444, 0.5);
+  
+  .resource {
+    margin-bottom: 1rem;
+  }
+}
+
+// -----------------------------------------
+// General Items Selection Dialog Styles
+// -----------------------------------------
+.general-items-selection {
+  .window-content {
+    padding: 0;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+    border-radius: 8px;
+  }
+
+  .item-type-selection-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .modal-header {
+      background: linear-gradient(135deg, #333 0%, #222 100%);
+      border-bottom: 2px solid $c-beige;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+      position: relative;
+
+      .back-button {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: $c-beige;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: rgba($c-beige, 0.1);
+          color: #fff;
+        }
+      }
+
+      h2 {
+        margin: 0;
+        color: $c-beige;
+        font-size: 18px;
+        font-weight: 600;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    .modal-body {
+      flex: 1;
+      padding: 25px;
+
+      .description {
+        color: $c-beige;
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 14px;
+        opacity: 0.9;
+        line-height: 1.4;
+      }
+
+      .item-type-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        max-width: 100%;
+
+        .item-type-option {
+          background: linear-gradient(135deg, #333 0%, #222 100%);
+          border: 2px solid #555;
+          border-radius: 8px;
+          padding: 20px 15px;
+          color: $c-beige;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.3s ease;
+          min-height: 120px;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+
+          &:hover {
+            background: linear-gradient(135deg, #444 0%, #333 100%);
+            border-color: $c-beige;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+          }
+
+          .item-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+          }
+
+          .item-label {
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 4px;
+          }
+
+          .item-description {
+            font-size: 11px;
+            opacity: 0.7;
+            text-align: center;
+            line-height: 1.2;
+            font-style: italic;
+          }
+
+          // Icon colors for general item types
+          &[data-type="item-comum"] {
+            .item-icon {
+              color: #4ecdc4;
+            }
+            &:hover .item-icon {
+              color: #26d0ce;
+              text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+            }
+          }
+          
+          &[data-type="item-municao"] {
+            .item-icon {
+              color: #ff7675;
+            }
+            &:hover .item-icon {
+              color: #e84e4e;
+              text-shadow: 0 0 10px rgba(255, 118, 117, 0.5);
+            }
+          }
+          
+          &[data-type="item-consumivel"] {
+            .item-icon {
+              color: #00b894;
+            }
+            &:hover .item-icon {
+              color: #00a085;
+              text-shadow: 0 0 10px rgba(0, 184, 148, 0.5);
+            }
+          }
+          
+          &[data-type="item-ingredient"] {
+            .item-icon {
+              color: #55a3ff;
+            }
+            &:hover .item-icon {
+              color: #4c96ff;
+              text-shadow: 0 0 10px rgba(85, 163, 255, 0.5);
+            }
+          }
+        }
+      }
+    }
+
+    .modal-footer {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+      border-top: 1px solid #444;
+      padding: 15px 25px;
+      text-align: center;
+      border-radius: 0 0 8px 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+
+      .back-button, .cancel-button {
+        background: linear-gradient(135deg, #555 0%, #444 100%);
+        border: 1px solid #666;
+        color: $c-beige;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        &:hover {
+          background: linear-gradient(135deg, #666 0%, #555 100%);
+          border-color: #777;
+        }
+
+        i {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+// Additional styles for general items button in main dialog
+.item-type-selection {
+  .item-type-grid {
+    .item-type-option {
+      // General items button styling
+      &.general-items-button {
+        .item-icon {
+          color: #74b9ff;
+        }
+        &:hover .item-icon {
+          color: #0984e3;
+          text-shadow: 0 0 10px rgba(116, 185, 255, 0.5);
+        }
+      }
+      
+      // Armadura icon styling
+      &[data-type="armadura"] {
+        .item-icon {
+          color: #00b894;
+        }
+        &:hover .item-icon {
+          color: #00a085;
+          text-shadow: 0 0 10px rgba(0, 184, 148, 0.5);
+        }
+      }
+    }
+  }
+}
+
+// -----------------------------------------
+// Weight Selection Dialog Styles
+// -----------------------------------------
+.weight-selection-dialog {
+  .dialog-header {
+    text-align: center;
+    margin-bottom: 24px;
+    
+    h2 {
+      color: $c-beige;
+      font-size: 1.3em;
+      margin-bottom: 8px;
+      
+      i {
+        color: $c-tan;
+        margin-right: 8px;
+      }
+    }
+    
+    .dialog-subtitle {
+      color: $c-beige;
+      font-size: 0.9em;
+      line-height: 1.4;
+      opacity: 0.85;
+    }
+  }
+  
+  .weight-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+    max-height: 400px;
+    overflow-y: auto;
+    
+    .weight-option {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border: 2px solid #555;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+      width: 100%;
+      
+      &:hover {
+        border-color: $c-beige;
+        background: rgba($c-beige, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      
+      .weight-icon {
+        font-size: 2em;
+        width: 50px;
+        text-align: center;
+        color: $c-tan;
+        transition: color 0.3s ease;
+      }
+      
+      .weight-info {
+        flex: 1;
+        
+        .weight-name {
+          font-size: 1.1em;
+          font-weight: bold;
+          color: $c-beige;
+          margin-bottom: 4px;
+        }
+        
+        .weight-description {
+          font-size: 0.85em;
+          color: $c-beige;
+          opacity: 0.8;
+        }
+      }
+      
+      .weight-spaces {
+        text-align: right;
+        
+        .spaces-info {
+          font-size: 0.8em;
+          color: $c-tan;
+          font-weight: 500;
+          background: rgba($c-tan, 0.1);
+          padding: 4px 8px;
+          border-radius: 12px;
+          border: 1px solid rgba($c-tan, 0.3);
+        }
+      }
+      
+      // Color coding for different weights
+      &[data-weight="leve"] .weight-icon { color: #74b9ff; }
+      &[data-weight="leve"] .weight-icon { color: #00b894; }
+      &[data-weight="medio"] .weight-icon { color: #fdcb6e; }
+      &[data-weight="pesado"] .weight-icon { color: #e17055; }
+      &[data-weight="muito-pesado"] .weight-icon { color: #d63031; }
+      
+      &:hover {
+        &[data-weight="leve"] .weight-icon { color: #0984e3; }
+        &[data-weight="leve"] .weight-icon { color: #00a085; }
+        &[data-weight="medio"] .weight-icon { color: #e84393; }
+        &[data-weight="pesado"] .weight-icon { color: #e84393; }
+        &[data-weight="muito-pesado"] .weight-icon { color: #fd79a8; }
+      }
+    }
+  }
+  
+  .dialog-footer {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    
+    .cancel-btn {
+      padding: 10px 20px;
+      border: 2px solid #666;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      color: $c-beige;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        border-color: #999;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      
+      i {
+        margin-right: 6px;
+      }
+    }
+  }
+}
+
+// -----------------------------------------
+// Quantity Consumption Dialog Styles
+// -----------------------------------------
+.cardigan-dialog {
+  .form-group {
+    margin-bottom: 16px;
+    
+    label {
+      display: block;
+      color: $c-beige;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    
+    input[type="number"] {
+      width: 100%;
+      padding: 8px 12px;
+      border: 2px solid #444;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      color: $c-beige;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      
+      &:focus {
+        outline: none;
+        border-color: $c-beige;
+        background: rgba($c-beige, 0.05);
+      }
+      
+      &:hover {
+        border-color: #666;
+      }
+    }
+    
+    small {
+      color: rgba($c-beige, 0.7);
+      font-size: 0.85rem;
+      margin-top: 4px;
+      display: block;
+    }
+  }
+}
+
+// -----------------------------------------
+// Recipe Crafting Dialog Styles
+// -----------------------------------------
+.recipe-crafting-dialog {
+  padding: 0;
+  font-family: $font-primary;
+  background: linear-gradient(135deg, rgba(43, 24, 16, 0.95) 0%, rgba(23, 14, 8, 0.98) 100%);
+  color: $c-beige;
+
+  .dialog-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(212, 175, 55, 0.1);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+
+    .header-icon {
+      font-size: 1.5em;
+      color: #d4af37;
+    }
+
+    .dialog-title {
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #d4af37;
+      margin: 0;
+      flex: 1;
+    }
+  }
+
+  .section-title {
+    color: rgba($c-beige, 0.8);
+    font-size: 0.9em;
+    margin: 12px 16px 8px 16px;
+    text-align: center;
+  }
+
+  .result-item-selection {
+    .result-items-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 0 16px 12px 16px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .result-item-card {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(139, 69, 19, 0.4);
+      border-radius: 6px;
+      padding: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: rgba(212, 175, 55, 0.6);
+        background: rgba(212, 175, 55, 0.1);
+        transform: translateX(4px);
+      }
+
+      &.selected {
+        border-color: #d4af37;
+        background: rgba(212, 175, 55, 0.2);
+        box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+      }
+
+      &.is-default {
+        border-color: rgba(212, 175, 55, 0.5);
+      }
+
+      .item-image {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        flex-shrink: 0;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      }
+
+      .item-info {
+        flex: 1;
+        min-width: 0;
+
+        .item-name {
+          font-size: 1em;
+          font-weight: bold;
+          color: $c-beige;
+          margin: 0 0 2px 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .item-quantity {
+          font-size: 0.85em;
+          color: rgba(212, 175, 55, 0.9);
+          font-weight: 600;
+          display: block;
+          margin-bottom: 4px;
+        }
+
+        .required-ingredients-preview {
+          margin-top: 4px;
+          padding-top: 4px;
+          border-top: 1px solid rgba(139, 69, 19, 0.3);
+
+          small {
+            display: block;
+            color: rgba($c-beige, 0.7);
+            font-size: 0.75em;
+            margin-bottom: 2px;
+
+            i {
+              color: #51cf66;
+            }
+          }
+
+          .ingredient-tag {
+            display: inline-block;
+            background: rgba(81, 207, 102, 0.15);
+            color: #51cf66;
+            border: 1px solid rgba(81, 207, 102, 0.3);
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-size: 0.75em;
+            margin: 1px 2px 1px 0;
+            white-space: nowrap;
+          }
+        }
+      }
+
+      .default-star {
+        color: #d4af37;
+        font-size: 1.1em;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .item-type-selection {
+    padding: 0 20px 20px 20px;
+
+    .item-types-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .item-type-option {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background: rgba($c-dark, 0.3);
+      border: 2px solid rgba(139, 69, 19, 0.5);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba($c-dark, 0.5);
+        border-color: #d4af37;
+        transform: translateX(4px);
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+      }
+
+      .item-type-icon {
+        margin-right: 15px;
+        font-size: 1.8em;
+        width: 48px;
+        text-align: center;
+        transition: transform 0.2s ease;
+      }
+
+      &:hover .item-type-icon {
+        transform: scale(1.15);
+      }
+
+      .item-type-info {
+        flex: 1;
+
+        h5 {
+          margin: 0 0 4px 0;
+          color: $c-beige;
+          font-weight: bold;
+          font-size: 1.05em;
+        }
+
+        p {
+          margin: 0;
+          color: $c-tan;
+          font-size: 0.9em;
+          line-height: 1.3;
+        }
+      }
+
+      &[data-item-type="item-consumivel"] .item-type-icon {
+        color: #51cf66;
+      }
+
+      &[data-item-type="item-comum"] .item-type-icon {
+        color: #74c0fc;
+      }
+
+      &[data-item-type="item-municao"] .item-type-icon {
+        color: #ffd43b;
+      }
+
+      &[data-item-type="arma"] .item-type-icon {
+        color: #ff6b6b;
+      }
+
+      &[data-item-type="armadura"] .item-type-icon {
+        color: #9775fa;
+      }
+    }
+  }
+
+  .dialog-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 12px 16px;
+    border-top: 1px solid rgba(139, 69, 19, 0.3);
+
+    .button {
+      flex: 1;
+      padding: 8px 16px;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+
+      i {
+        font-size: 1em;
+      }
+
+      &.cancel {
+        background: rgba(108, 117, 125, 0.3);
+        color: rgba($c-beige, 0.8);
+        border-color: rgba(108, 117, 125, 0.4);
+
+        &:hover:not(:disabled) {
+          background: rgba(108, 117, 125, 0.5);
+          border-color: #6c757d;
+        }
+      }
+
+      &.craft {
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%);
+        color: #d4af37;
+        border-color: rgba(212, 175, 55, 0.5);
+
+        &:hover:not(:disabled) {
+          background: linear-gradient(135deg, rgba(212, 175, 55, 0.5) 0%, rgba(212, 175, 55, 0.4) 100%);
+          border-color: #d4af37;
+          box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+        }
+
+        &:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+// -----------------------------------------
+// Ammunition Management Dialog Styles
+// -----------------------------------------
+.ammunition-dialog {
+  .ammunition-management-dialog {
+    .dialog-header {
+      text-align: center;
+      margin-bottom: 25px;
+      
+      .dialog-title {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: $c-beige;
+        margin-bottom: 5px;
+        letter-spacing: 2px;
+      }
+      
+      .dialog-subtitle {
+        font-size: 1.1em;
+        color: #999;
+        font-weight: normal;
+        margin: 0;
+      }
+    }
+    
+    .magazine-capacity-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      margin-bottom: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid #555;
+      border-radius: 8px;
+
+      .capacity-label {
+        color: var(--cardigan-c-beige, #f4f1e8);
+        font-weight: bold;
+        font-size: 1em;
+      }
+
+      .capacity-value {
+        color: #2196F3;
+        font-weight: bold;
+        font-size: 1.1em;
+      }
+    }
+
+    .ammunition-item {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 12px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid #444;
+      border-radius: 6px;
+
+      .ammunition-image {
+        flex-shrink: 0 !important;
+        width: 32px !important;
+        height: 32px !important;
+
+        img {
+          width: 32px !important;
+          height: 32px !important;
+          max-width: 32px !important;
+          max-height: 32px !important;
+          object-fit: cover !important;
+          display: block !important;
+          border-radius: 4px;
+          border: 1px solid #666;
+        }
+      }
+
+      .ammunition-details {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 10px;
+
+        .ammunition-name {
+          color: var(--cardigan-c-beige, #f4f1e8);
+          font-weight: bold;
+          flex: 1;
+        }
+
+        .ammunition-controls {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          .ammunition-attack-btn {
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            border: 1px solid #666;
+            border-radius: 4px;
+            background: rgba(200, 50, 50, 0.3);
+            color: var(--cardigan-c-beige, #f4f1e8);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+              background: rgba(255, 80, 80, 0.5);
+              border-color: #ff5050;
+              transform: scale(1.05);
+            }
+
+            &:active {
+              transform: scale(0.95);
+            }
+
+            &:disabled {
+              background: rgba(100, 100, 100, 0.3);
+              border-color: #555;
+              cursor: not-allowed;
+              opacity: 0.5;
+            }
+
+            i {
+              pointer-events: none;
+            }
+          }
+
+          .ammunition-load-input {
+            width: 50px;
+            padding: 4px 6px;
+            border: 1px solid #666;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--cardigan-c-beige, #f4f1e8);
+            font-size: 0.9em;
+            text-align: center;
+          }
+
+          .ammunition-auto-load-btn {
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            border: 1px solid #666;
+            border-radius: 4px;
+            background: rgba(0, 100, 200, 0.3);
+            color: var(--cardigan-c-beige, #f4f1e8);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+              background: rgba(0, 150, 255, 0.5);
+              border-color: #2196F3;
+              transform: scale(1.05);
+            }
+
+            &:active {
+              transform: scale(0.95);
+            }
+
+            i {
+              pointer-events: none;
+            }
+          }
+
+          .ammunition-quantity {
+            color: var(--cardigan-c-beige, #f4f1e8);
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
+          }
+        }
+      }
+    }
+
+    .weapon-info {
+      margin-bottom: 20px;
+      
+      .weapon-display {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        border: 1px solid #444;
+        
+        .weapon-image {
+          width: 48px;
+          height: 48px;
+          border-radius: 4px;
+          border: 1px solid #666;
+        }
+        
+        .weapon-details {
+          .weapon-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: $c-beige;
+            margin-bottom: 4px;
+          }
+          
+          .weapon-type {
+            font-size: 0.9em;
+            color: #999;
+          }
+        }
+      }
+    }
+    
+    .ammunition-list {
+      .ammunition-item {
+        display: flex !important;
+        align-items: center !important;
+        gap: 15px;
+        padding: 12px;
+        margin-bottom: 10px;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid #444;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: rgba(0, 0, 0, 0.4);
+          border-color: $c-beige;
+        }
+        
+        .ammunition-image {
+          flex-shrink: 0;
+          width: 32px;
+          height: 32px;
+          
+          img {
+            width: 32px !important;
+            height: 32px !important;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #666;
+            display: block;
+          }
+        }
+        
+        .ammunition-details {
+          flex: 1 !important;
+          display: flex !important;
+          align-items: center !important;
+          gap: 10px;
+          min-width: 0;
+          
+          .ammunition-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            
+            .ammunition-load-input {
+              width: 50px;
+              height: 28px;
+              padding: 4px 6px;
+              border: 1px solid #666;
+              border-radius: 4px;
+              background: rgba(0, 0, 0, 0.3);
+              color: $c-beige;
+              font-size: 0.9em;
+              text-align: center;
+              
+              &:focus {
+                outline: none;
+                border-color: $c-beige;
+                background: rgba(0, 0, 0, 0.5);
+              }
+              
+              &::placeholder {
+                color: #666;
+              }
+            }
+            
+            .ammunition-quantity {
+              color: #999;
+              font-size: 0.9em;
+              font-weight: normal;
+              white-space: nowrap;
+              padding: 4px 8px;
+              border: 1px solid #666;
+              border-radius: 4px;
+              background: rgba(0, 0, 0, 0.2);
+            }
+          }
+          
+          .ammunition-name {
+            color: $c-beige;
+            font-weight: bold;
+            font-size: 1em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+          }
+        }
+      }
+      
+      .no-ammunition {
+        text-align: center;
+        padding: 40px 20px;
+        color: #999;
+        font-style: italic;
+        
+        p {
+          margin: 0;
+          font-size: 1em;
+        }
+      }
+    }
+
+    .magazine-capacity-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid #555;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background: rgba(0, 0, 0, 0.4);
+        border-color: #666;
+      }
+      
+      .capacity-label {
+        color: $c-beige;
+        font-weight: bold;
+        font-size: 1em;
+        letter-spacing: 0.5px;
+      }
+      
+      .capacity-value {
+        color: #2196F3;
+        font-weight: bold;
+        font-size: 1.2em;
+        text-shadow: 0 0 4px rgba(33, 150, 243, 0.3);
+        min-width: 40px;
+        text-align: center;
+      }
+    }
+
+    .ammunition-content {
+      .firearm-info {
+        .magazine-capacity {
+          background: #2a2a2a;
+          border: 1px solid #555;
+          border-radius: 8px;
+          padding: 20px;
+          text-align: center;
+          margin-bottom: 20px;
+          
+          .capacity-label {
+            font-weight: bold;
+            color: $c-beige;
+            margin-bottom: 10px;
+            font-size: 1em;
+          }
+          
+          .capacity-value {
+            font-size: 2em;
+            color: #2196F3;
+            font-weight: bold;
+          }
+        }
+        
+        .ammunition-controls {
+          .form-group {
+            margin-bottom: 15px;
+            
+            label {
+              display: block;
+              color: $c-beige;
+              margin-bottom: 5px;
+              font-weight: bold;
+            }
+            
+            .ammo-input {
+              width: 100%;
+              padding: 8px;
+              background: #333;
+              border: 1px solid #555;
+              border-radius: 4px;
+              color: $c-beige;
+              text-align: center;
+              font-size: 1.2em;
+              
+              &:focus {
+                border-color: $c-beige;
+                outline: none;
+              }
+            }
+          }
+          
+          .ammunition-actions {
+            display: flex;
+            gap: 10px;
+            
+            button {
+              flex: 1;
+              padding: 10px;
+              border: none;
+              border-radius: 4px;
+              font-weight: bold;
+              cursor: pointer;
+              transition: all 0.2s ease;
+              
+              &.reload-button {
+                background: #4CAF50;
+                color: white;
+                
+                &:hover {
+                  background: #45a049;
+                }
+              }
+              
+              &.empty-button {
+                background: #f44336;
+                color: white;
+                
+                &:hover {
+                  background: #da190b;
+                }
+              }
+              
+              i {
+                margin-right: 5px;
+              }
+            }
+          }
+        }
+      }
+      
+      .traditional-weapon-info {
+        text-align: center;
+        
+        .traditional-title {
+          font-size: 1.3em;
+          font-weight: bold;
+          color: $c-beige;
+          margin-bottom: 10px;
+        }
+        
+        .traditional-description {
+          color: #999;
+          margin-bottom: 20px;
+          line-height: 1.5;
+        }
+        
+        .ammunition-types {
+          display: flex;
+          justify-content: center;
+          gap: 20px;
+          
+          .ammo-type {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid #444;
+            
+            i {
+              font-size: 1.5em;
+              color: $c-beige;
+            }
+            
+            span {
+              color: #999;
+              font-size: 0.9em;
+            }
+          }
+        }
+      }
+    }
+    
+    .dialog-footer {
+      margin-top: 25px;
+      padding-top: 15px;
+      border-top: 1px solid #444;
+      
+      .weapon-stats {
+        display: flex;
+        justify-content: space-around;
+        
+        .stat {
+          text-align: center;
+          
+          .stat-label {
+            display: block;
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+          }
+          
+          .stat-value {
+            color: $c-beige;
+            font-weight: bold;
+            font-size: 1.1em;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Force ammunition dialog layout - high specificity override
+.cardigan .application.ammunition-dialog,
+.ammunition-dialog,
+dialog.ammunition-dialog,
+.cardigan-ammunition,
+dialog.cardigan-ammunition {
+  .ammunition-management-dialog {
+    .ammunition-list {
+      .ammunition-item {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 12px !important;
+        padding: 8px 12px !important;
+        margin-bottom: 8px !important;
+        
+        .ammunition-image {
+          flex-shrink: 0 !important;
+          width: 32px !important;
+          height: 32px !important;
+          
+          img {
+            width: 32px !important;
+            height: 32px !important;
+            max-width: 32px !important;
+            max-height: 32px !important;
+            object-fit: cover !important;
+            display: block !important;
+          }
+        }
+        
+        .ammunition-details {
+          flex: 1 !important;
+          display: flex !important;
+          flex-direction: row !important;
+          justify-content: space-between !important;
+          align-items: center !important;
+          
+          .ammunition-name {
+            flex: 1 !important;
+            margin-right: 10px !important;
+          }
+          
+          .ammunition-quantity {
+            flex-shrink: 0 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// -----------------------------------------
+// Direct Ammunition Dialog Styles (fallback)
+// -----------------------------------------
+.ammunition-dialog {
+  .magazine-capacity-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #555;
+    border-radius: 8px;
+
+    .capacity-label {
+      color: var(--cardigan-c-beige, #f4f1e8);
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .capacity-value {
+      color: #2196F3;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+  }
+
+  .ammunition-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 12px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid #444;
+    border-radius: 6px;
+
+    .ammunition-image {
+      flex-shrink: 0 !important;
+      width: 32px !important;
+      height: 32px !important;
+
+      img {
+        width: 32px !important;
+        height: 32px !important;
+        max-width: 32px !important;
+        max-height: 32px !important;
+        object-fit: cover !important;
+        display: block !important;
+        border-radius: 4px;
+        border: 1px solid #666;
+      }
+    }
+
+    .ammunition-details {
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 10px;
+
+      .ammunition-name {
+        color: var(--cardigan-c-beige, #f4f1e8);
+        font-weight: bold;
+        flex: 1;
+      }
+
+      .ammunition-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .ammunition-load-input {
+          width: 50px;
+          padding: 4px 6px;
+          border: 1px solid #666;
+          border-radius: 4px;
+          background: rgba(0, 0, 0, 0.3);
+          color: var(--cardigan-c-beige, #f4f1e8);
+          font-size: 0.9em;
+          text-align: center;
+
+          &:focus {
+            outline: none;
+            border-color: #2196F3;
+          }
+        }
+
+        .ammunition-quantity {
+          color: var(--cardigan-c-beige, #f4f1e8);
+          font-weight: bold;
+          min-width: 20px;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .no-ammunition {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+    font-style: italic;
+  }
+}

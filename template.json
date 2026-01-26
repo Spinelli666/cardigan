@@ -31,33 +31,76 @@
       },
       "abilities": {
         "accuracy": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "evasion": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "strength": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "dexterity": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "stamina": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "stealth": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "persuasion": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "intelligence": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         },
         "psionics": {
-          "value": 0
+          "value": 0,
+          "bonus": 0
         }
-      }
+      },
+      "status": {
+        "hunger": 0,
+        "thirst": 0,
+        "fracture": 0,
+        "giftOfLife": null,
+        "deathSentence": null,
+        "sanity": null,
+        "toxicity": null,
+        "healthBonus": 0,
+        "energyBonus": 0,
+        "armorBonus": 0
+      },
+      "classes": {
+        "andarilho": 0,
+        "guerreiro": 0,
+        "ladino": 0,
+        "feiticeiro": 0
+      },
+      "details": {
+        "name": "",
+        "age": 0,
+        "race": "",
+        "movement": 0,
+        "criticalHit": 20,
+        "additionalNotes": "",
+        "showAdditionalNotes": true,
+        "showEffectsTab": true,
+        "showWeaponsTable": true
+      },
+      "experience": {
+        "current": 0,
+        "nextLevel": 100
+      },
+      "money": 0
     },
     "npc": {
       "templates": ["base"],
@@ -65,25 +108,146 @@
     }
   },
   "Item": {
-    "types": ["gear", "feature", "spell"],
+    "types": ["item-comum", "item-municao", "item-consumivel", "item-ingredient", "item-recipe", "race", "efeito", "arma", "armadura", "skill"],
     "htmlFields": ["description"],
     "templates": {
       "base": {
         "description": ""
       }
     },
-    "gear": {
+    "item-comum": {
       "templates": ["base"],
       "quantity": 1,
-      "weight": 0,
-      "formula": "d20 + @strength.value + ceil(@lvl / 2)"
+      "weight": "leve",
+      "price": 0,
+      "category": "misc",
+      "usage": ""
     },
-    "feature": {
-      "templates": ["base"]
-    },
-    "spell": {
+    "item-municao": {
       "templates": ["base"],
-      "spellLevel": 1
+      "quantity": 1,
+      "weight": "leve",
+      "price": 0,
+      "ammunitionType": "arrow",
+      "damageBonus": "",
+      "rangeModifier": 0,
+      "properties": ""
+    },
+    "item-consumivel": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": "leve",
+      "price": 0,
+      "consumableType": "potion",
+      "useTime": "action",
+      "duration": "",
+      "effect": "",
+      "requiresCheck": false,
+      "checkDifficulty": 15
+    },
+    "item-ingredient": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": "leve",
+      "price": 0,
+      "ingredientType": "common",
+      "rarity": "common"
+    },
+    "item-recipe": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": "leve",
+      "price": 0,
+      "recipeType": "culinary",
+      "difficulty": "easy",
+      "requiredIngredients": [],
+      "resultItem": "",
+      "resultQuantity": 1
+    },
+    "race": {
+      "templates": ["base"],
+      "movementBonus": 0,
+      "healthBonus": 0,
+      "powerBonus": 0,
+      "racialSkills": [],
+      "abilityModifiers": {
+        "accuracy": 0,
+        "evasion": 0,
+        "strength": 0,
+        "dexterity": 0,
+        "stamina": 0,
+        "stealth": 0,
+        "persuasion": 0,
+        "intelligence": 0,
+        "psionics": 0
+      }
+    },
+    "efeito": {
+      "templates": ["base"],
+      "efeitoType": "",
+      "duration": 0,
+      "active": false
+    },
+    "arma": {
+      "templates": ["base"],
+      "weaponType": "",
+      "melee": false,
+      "ranged": false,
+      "isFirearm": false,
+      "ammunition": {
+        "current": 0,
+        "max": 0
+      },
+      "damage": {
+        "value": "0",
+        "useStrength": false,
+        "useDexterity": false,
+        "total": "0"
+      },
+      "properties": [],
+      "rightHand": false,
+      "leftHand": false,
+      "weight": "leve",
+      "price": 0,
+      "durability": {
+        "current": 3,
+        "max": 3
+      },
+      "skillBonuses": [],
+      "equipped": false,
+      "magicalArtifact": false
+    },
+    "armadura": {
+      "templates": ["base"],
+      "armorType": "torso",
+      "protecao": 0,
+      "armorClass": "",
+      "equipped": false,
+      "properties": [],
+      "skillBonuses": [],
+      "magicalArtifact": false,
+      "resistenciaFrio": false,
+      "bonusVida": 0,
+      "bonusEnergia": 0,
+      "bonusDeslocamento": {
+        "enabled": false,
+        "bonus": 0
+      },
+      "weight": "leve",
+      "price": 0,
+      "durability": {
+        "current": 3,
+        "max": 3
+      }
+    },
+    "skill": {
+      "templates": ["base"],
+      "skillType": "passiva",
+      "skillClass": "general",
+      "hasEnergyCost": false,
+      "energyCost": 0,
+      "hasCustomEffects": false,
+      "customEffects": []
     }
   }
 }

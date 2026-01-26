@@ -1,0 +1,53 @@
+{
+  "_id": "P9kS3vR6tM2nZ5xB",
+  "_key": "!items!P9kS3vR6tM2nZ5xB",
+  "name": "Bomba Gélida",
+  "type": "arma",
+  "img": "systems/cardigan/assets/images/weapons/bomb.webp",
+  "folder": "Q8fG1hL5pW3dY9mN",
+  "system": {
+    "description": "",
+    "weaponType": "Bomba",
+    "melee": false,
+    "ranged": true,
+    "isFirearm": false,
+    "magazine": 0,
+    "loadedAmmo": 0,
+    "loadedAmmoTypes": {},
+    "damage": {
+      "value": "40",
+      "useStrength": false,
+      "useDexterity": true,
+      "total": "40"
+    },
+    "properties": ["bomba", "unico"],
+    "rightHand": false,
+    "leftHand": false,
+    "weight": "leve",
+    "price": 65,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "skillBonuses": [],
+    "equipped": false,
+    "magicalArtifact": false,
+    "protection": {
+      "enabled": false,
+      "value": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

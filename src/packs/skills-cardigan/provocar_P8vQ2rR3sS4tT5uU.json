@@ -1,0 +1,67 @@
+{
+  "_id": "P8vQ2rR3sS4tT5uU",
+  "_key": "!items!P8vQ2rR3sS4tT5uU",
+  "name": "Provocar",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "short-action"
+    ],
+    "skillClass": "guerreiro",
+    "spellCategories": [],
+    "hasEnergyCost": true,
+    "energyCost": 1,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dado de bônus para <strong><code>1d8</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">Estende a duração do efeito por mais uma rodada.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Para cada inimigo provocado você também recebe <strong><code>1d4</code></strong> <strong><code>⚡️PE⬩Temporário</code></strong>.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você estufa o peito e os chama pra briga!\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao ativar esta habilidade você deve realizar um teste de <strong>Persuasão</strong> contra cada inimigo que tenha visão do seu personagem. Com sucesso, você os provoca a atacar apenas seu personagem por <strong>duas Rodadas</strong>.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Para cada inimigo provocado você recebe <strong><code>1d4</code></strong><strong> <code>💔PV⬩Temporário</code></strong>.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Os <strong><code>💔PVT</strong></code> são removidos ao encerrar o efeito de provocação, e você não pode utilizar essa habilidade novamente por duas rodadas.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "_id": "T1rP4mN7bV0cX3zQ",
+  "_key": "!items!T1rP4mN7bV0cX3zQ",
+  "name": "Esporas",
+  "type": "armadura",
+  "img": "systems/cardigan/assets/images/armor/boots.webp",
+  "folder": "P1eS2dE3fG4hI5jK",
+  "system": {
+    "description": "",
+    "armorType": "pes",
+    "protecao": 0,
+    "armorClass": "Esporas",
+    "equipped": false,
+    "skillBonuses": [],
+    "magicalArtifact": false,
+    "resistenciaFrio": false,
+    "stylish": true,
+    "bonusVida": 0,
+    "bonusEnergia": 0,
+    "bonusDeslocamento": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "bonusEspacoMochila": {
+      "enabled": false,
+      "bonus": 0
+    },
+    "weight": "pesado",
+    "price": 30,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "quantity": 1
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

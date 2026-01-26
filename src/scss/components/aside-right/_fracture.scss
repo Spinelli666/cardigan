@@ -1,0 +1,116 @@
+// ========================================
+// FRACTURE FIELD - Header Right
+// ========================================
+
+.fracture-field {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 19px 0px 6px 0px;
+
+  .icon-arrow-wrapper {
+    margin-top: 1px;
+    position: absolute;
+    left: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+
+    .triangle-arrow {
+      font-size: 9px;
+      color: #CF954C;
+      background: linear-gradient(143deg, #CF954C 0%, #694C27 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-left: 0px;
+    }
+  }
+
+  .fracture-icon {
+    width: 21px;
+    height: 16px;
+    margin-bottom: 6px;
+    filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.60));
+  }
+
+  .sequential-group {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+    margin-left: 37px;
+
+    .sequential-option {
+      display: flex;
+      align-items: center;
+      margin: 0;
+
+      input[type='checkbox'] {
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        position: relative;
+        width: 13px !important;
+        height: 13px !important;
+        min-width: 13px !important;
+        min-height: 13px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 4px !important;
+        border: 1.7px solid rgba(105, 76, 39, 0.86) !important;
+        background: none !important;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        box-shadow: none !important;
+        vertical-align: middle;
+        transform: rotate(45deg);
+
+        // Remover pseudo-elementos do Foundry VTT
+        &::before {
+          content: none !important;
+          display: none !important;
+        }
+
+        // Ícone de check customizado
+        &::after {
+          content: '' !important;
+          position: absolute;
+          display: none;
+          left: 50%;
+          top: 50%;
+          width: 4px;
+          height: 8px;
+          border: solid #FFD700;
+          border-width: 0 2px 2px 0 !important;
+          transform: translate(-50%, -60%) rotate(45deg);
+          background: none !important;
+        }
+
+        &:checked {
+          background: linear-gradient(94deg, #CF954C 47.22%, #694C27 97.56%) !important;
+          border: none !important;
+          border-color: transparent !important;
+          box-shadow: none !important;
+          transform: rotate(45deg);
+          border-radius: 4px !important;
+          flex-shrink: 0;
+          aspect-ratio: 1;
+
+          &::after {
+            display: none !important;
+          }
+        }
+
+        &:hover {
+          border-color: #CF954C !important;
+        }
+      }
+    }
+  }
+}

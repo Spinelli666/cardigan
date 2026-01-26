@@ -1,0 +1,307 @@
+// Attack Result Dialog Styles
+.attack-result-dialog {
+  font-family: "Signika", sans-serif;
+  
+  .attack-result-container {
+    border-radius: 8px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    
+    &.success {
+      border: 3px solid #27ae60;
+    }
+    
+    &.failure {
+      border: 3px solid #e74c3c;
+    }
+  }
+  
+  .result-body {
+    background: #2b2b2b;
+    padding: 24px;
+  }
+  
+  .player-info {
+    background: #1a1a1a;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid #3a3a3a;
+    
+    .info-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      font-size: 15px;
+      
+      &:not(:last-child) {
+        border-bottom: 1px solid #3a3a3a;
+      }
+      
+      strong {
+        color: #b8b8b8;
+        margin-right: 8px;
+        min-width: 120px;
+      }
+      
+      .attacker-name,
+      .defender-name {
+        color: #ffffff;
+        font-weight: 600;
+        flex: 1;
+      }
+    }
+  }
+  
+  .combat-values {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    
+    .value-row {
+      background: #1a1a1a;
+      border: 2px solid #3a3a3a;
+      border-radius: 6px;
+      padding: 16px 24px;
+      text-align: center;
+      flex: 1;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
+      
+      font-size: 14px;
+      color: #b8b8b8;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      
+      .evasion-value,
+      .attack-value {
+        display: block;
+        font-size: 32px;
+        font-weight: bold;
+        margin-top: 8px;
+        color: #ffffff;
+      }
+    }
+    
+    .vs-separator {
+      font-size: 18px;
+      font-weight: bold;
+      color: #6c757d;
+      padding: 0 4px;
+    }
+  }
+  
+  .result-message {
+    background: #1a1a1a;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid #3a3a3a;
+    
+    .success-message {
+      color: #27ae60;
+      font-size: 18px;
+      
+      i {
+        font-size: 24px;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+      
+      strong {
+        font-size: 20px;
+      }
+    }
+    
+    .failure-message {
+      color: #e74c3c;
+      font-size: 18px;
+      
+      i {
+        font-size: 24px;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+      
+      strong {
+        font-size: 20px;
+      }
+    }
+  }
+  
+  .damage-management {
+    background: #1a1a1a;
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid #3a3a3a;
+    
+    h3 {
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 16px 0;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #3a3a3a;
+    }
+    
+    .damage-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+      
+      .field-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        background: #252525;
+        border-radius: 4px;
+        border: 1px solid #3a3a3a;
+        
+        label {
+          color: #d0d0d0;
+          font-weight: 500;
+          font-size: 14px;
+          min-width: 140px;
+        }
+        
+        input[type="number"] {
+          background: #1a1a1a;
+          border: 1px solid #4a4a4a;
+          border-radius: 4px;
+          padding: 6px 12px;
+          color: #ffffff;
+          font-size: 16px;
+          font-weight: 600;
+          text-align: center;
+          width: 80px;
+          transition: all 0.2s ease;
+          
+          &:focus {
+            outline: none;
+            border-color: #27ae60;
+            box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+          }
+          
+          &:hover {
+            border-color: #5a5a5a;
+          }
+        }
+        
+        .armor-display,
+        .damage-display {
+          color: #ffffff;
+          font-weight: 600;
+          font-size: 16px;
+          padding: 6px 12px;
+          background: #1a1a1a;
+          border-radius: 4px;
+          border: 1px solid #4a4a4a;
+          min-width: 80px;
+          text-align: center;
+        }
+        
+        .ignore-armor-controls {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+          
+          input[type="number"] {
+            width: 60px;
+          }
+          
+          .roll-ignore-armor-btn {
+            background: #3498db;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            
+            &:hover {
+              background: #2980b9;
+              transform: scale(1.05);
+            }
+            
+            &:active {
+              transform: scale(0.95);
+            }
+            
+            i {
+              font-size: 14px;
+            }
+          }
+        }
+        
+        &.half-damage-group {
+          justify-content: center;
+          padding: 8px;
+          background: transparent;
+          border: none;
+          
+          .half-damage-btn {
+            background: #9b59b6;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            width: 100%;
+            
+            &:hover {
+              background: #8e44ad;
+              transform: translateY(-2px);
+              box-shadow: 0 4px 8px rgba(155, 89, 182, 0.3);
+            }
+            
+            &:active {
+              transform: translateY(0);
+            }
+            
+            i {
+              margin-right: 8px;
+            }
+          }
+        }
+        
+        &.final-damage-group {
+          background: #252525;
+          border: 2px solid #e74c3c;
+          
+          label {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 15px;
+          }
+          
+          input {
+            border-color: #e74c3c;
+            color: #e74c3c;
+            font-weight: 700;
+            font-size: 18px;
+            width: 100px;
+          }
+        }
+      }
+    }
+  }
+}

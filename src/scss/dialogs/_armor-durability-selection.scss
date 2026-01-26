@@ -1,0 +1,137 @@
+.armor-durability-dialog {
+  padding: 8px;
+
+  .dialog-description {
+    margin-bottom: 16px;
+
+    p {
+      margin: 0;
+      font-size: 0.95em;
+      color: #555;
+      line-height: 1.5;
+
+      strong {
+        color: #d32f2f;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .armor-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 4px;
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+
+      &:hover {
+        background: #555;
+      }
+    }
+  }
+
+  .armor-selection-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin: 6px 0;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    background: #f9f9f9;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      background: #f0f0f0;
+      border-color: #4CAF50;
+      transform: translateX(2px);
+    }
+
+    &:has(.armor-checkbox:checked) {
+      background: #e8f5e9;
+      border-color: #4CAF50;
+      box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+    }
+
+    .armor-checkbox {
+      margin: 0 12px 0 0;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #4CAF50;
+      flex-shrink: 0;
+    }
+
+    .armor-label {
+      flex: 1;
+      cursor: pointer;
+      margin: 0;
+      display: block;
+    }
+
+    .armor-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .armor-name {
+      font-weight: 600;
+      font-size: 1em;
+      color: #333;
+    }
+
+    .armor-details {
+      display: flex;
+      gap: 12px;
+      font-size: 0.9em;
+      color: #666;
+
+      .armor-type,
+      .armor-durability {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+    }
+  }
+
+  .no-armors-message {
+    text-align: center;
+    padding: 32px 16px;
+    color: #999;
+    font-size: 0.95em;
+
+    i {
+      font-size: 2em;
+      display: block;
+      margin-bottom: 12px;
+      color: #bbb;
+    }
+  }
+}
+
+// Dialog specific styles
+.dialog.armor-durability-selection-dialog {
+  .window-content {
+    padding: 16px;
+  }
+
+  .dialog-buttons {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #ddd;
+  }
+}

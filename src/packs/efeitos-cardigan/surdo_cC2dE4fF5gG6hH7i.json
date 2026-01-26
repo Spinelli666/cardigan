@@ -1,0 +1,22 @@
+{
+  "_id": "cC2dE4fF5gG6hH7i",
+  "_key": "!items!cC2dE4fF5gG6hH7i",
+  "name": "Surdo",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/surdo.webp",
+  "system": {
+    "description": "<p style=\"text-align: justify\">Não pode ouvir e recebe <em>Desvantagem Aprimorada</em> em qualquer teste que requeira sua audição.</p>",
+    "efeitoType": "negativo"
+  },
+  "effects": [],
+  "folder": "Kx8mN2QwRtY5UvBp",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

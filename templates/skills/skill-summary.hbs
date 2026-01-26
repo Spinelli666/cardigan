@@ -1,0 +1,79 @@
+{{! Skill Summary - Expanded view when clicking on skill name }}
+<div class="skill-summary">
+  <div class="skill-header">
+    {{! Skill Image }}
+    <div class="skill-image-container">
+      <img src="{{item.img}}" alt="{{item.name}}" class="skill-image" />
+    </div>
+    
+    {{! Skill Name }}
+    <h3 class="skill-name">{{item.name}}</h3>
+    
+    {{! Skill Action Types }}
+    {{#if system.skillActionTypes}}
+      <div class="skill-type">
+        <span class="skill-type-badge">
+          {{formatSkillActionTypes system.skillActionTypes}}
+        </span>
+      </div>
+    {{/if}}
+    
+    {{! Energy Cost }}
+    {{#if system.hasEnergyCost}}
+      <div class="skill-energy">
+        <i class="fas fa-bolt" style="color: #ffc107;"></i>
+        <span class="energy-label">Energia Gastada:</span>
+        <span class="energy-value">{{system.energyCost}}</span>
+      </div>
+    {{/if}}
+    
+    {{! Spell Categories - Only for Feiticeiro skills with categories }}
+    {{#if (eq system.skillClass "feiticeiro")}}
+      {{#if system.spellCategories}}
+        {{#if system.spellCategories.length}}
+          <div class="spell-categories-display">
+            {{#each system.spellCategories as |category index|}}
+              {{#if (eq category "neutro")}}
+                <img src="systems/cardigan/assets/images/others/neutral-spell.webp" alt="Neutro" class="spell-category-image" />
+              {{else if (eq category "feerico")}}
+                <img src="systems/cardigan/assets/images/bestiary/fae-creatures.webp" alt="Feérico" class="spell-category-image" />
+              {{else if (eq category "caos")}}
+                <img src="systems/cardigan/assets/images/bestiary/indivisible-chaos.webp" alt="Caos" class="spell-category-image" />
+              {{else if (eq category "necromancia")}}
+                <img src="systems/cardigan/assets/images/bestiary/necromancy.webp" alt="Necromancia" class="spell-category-image" />
+              {{/if}}
+              {{#unless @last}}
+                <span class="spell-category-separator">⬩</span>
+              {{/unless}}
+            {{/each}}
+          </div>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  </div>
+  
+  {{! Skill Description }}
+  {{#if enrichedDescription}}
+    <div class="skill-description">
+      {{{enrichedDescription}}}
+    </div>
+  {{/if}}
+  
+  {{! Enhancements Section }}
+  {{#if enhancements}}
+    <div class="skill-enhancements-display">
+      <h4 class="enhancements-title">{{localize "CARDIGAN.Item.Tabs.Enhancements"}}</h4>
+      <div class="enhancements-list-display">
+        {{#each enhancements}}
+          {{#if this.description}}
+            <div class="enhancement-item-display {{#unless this.acquired}}not-acquired{{/unless}}">
+              <span class="enhancement-number">{{localize "CARDIGAN.Item.Tabs.Enhancement"}} {{this.number}}</span>
+              <span class="enhancement-bullet">‣</span>
+              <div class="enhancement-description">{{{this.enrichedDescription}}}</div>
+            </div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+  {{/if}}
+</div>

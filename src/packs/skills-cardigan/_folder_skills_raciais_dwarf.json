@@ -1,0 +1,18 @@
+{
+  "_id": "QcRacDwarf3GzTk1",
+  "_key": "!folders!QcRacDwarf3GzTk1",
+  "name": "Dwarf",
+  "type": "Item",
+  "color": "#ff9800",
+  "sorting": "a",
+  "folder": "Sk5RaciaisOp6AsD",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

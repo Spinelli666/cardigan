@@ -1,0 +1,67 @@
+{
+  "_id": "U0vW3xY6zZ9aA2bB",
+  "_key": "!items!U0vW3xY6zZ9aA2bB",
+  "name": "Ciclone de Aço",
+  "type": "skill",
+  "img": "systems/cardigan/assets/images/paths/warrior.webp",
+  "system": {
+    "skillActionTypes": [
+      "long-action"
+    ],
+    "skillClass": "guerreiro",
+    "spellCategories": [],
+    "hasEnergyCost": true,
+    "energyCost": 2,
+    "hasCustomEffects": false,
+    "customEffects": [],
+    "enhancements": [
+      {
+        "name": "Aprimoramento 1",
+        "description": "<p style=\"text-align: justify;\"><em>Acerto Crítico</em> instantaneamente acerta um um outro inimigo adjacente.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 2",
+        "description": "<p style=\"text-align: justify;\">O segundo ataque agora pode ser usado ao acertar apenas <strong>um</strong> inimigo.</p>",
+        "hasEnergy": false,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      },
+      {
+        "name": "Aprimoramento 3",
+        "description": "<p style=\"text-align: justify;\">Remove o custo de <strong><code>⚡️Energia</code></strong> desta habilidade.</p>",
+        "hasEnergy": true,
+        "energyCost": 0,
+        "hasEffects": false,
+        "customEffects": [],
+        "hasLinkedSkills": false,
+        "linkedSkills": []
+      }
+    ],
+    "acquiredEnhancements": [
+      false,
+      false,
+      false
+    ],
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você desfere um golpe giratório com sua arma.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Com uma Arma Marcial você tenta acertar todos os alvos ao redor do seu personagem, testando <strong>Precisão</strong> contra cada inimigo no alcance da sua arma.</p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Se acertar <strong>três</strong> ou mais inimigos com esta habilidade você pode repetir esta habilidade sem custo com uma segunda Ação de ::systems/cardigan/assets/images/types-actions/double-action.webp::<strong><code>Atacar</code></strong>.</p>"
+  },
+  "effects": [],
+  "folder": "Sk2GuerreiroA9Bz",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

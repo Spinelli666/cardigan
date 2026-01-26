@@ -1,0 +1,29 @@
+{
+  "_id": "S4sD9jH2zN5mB8qW",
+  "_key": "!items!S4sD9jH2zN5mB8qW",
+  "name": "Cartucho de Pólvora",
+  "type": "item-municao",
+  "img": "systems/cardigan/assets/images/weapons/ammunition.webp",
+  "folder": "J6mF2tW9nS5vK8xR",
+  "system": {
+    "description": "",
+    "quantity": 1,
+    "weight": "leve",
+    "price": 6,
+    "isFirearmAmmo": true,
+    "isSpecialAmmo": false
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

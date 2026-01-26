@@ -1,0 +1,96 @@
+<div class="evasion-result-dialog">
+  <div class="evasion-result-container {{#if success}}success{{else}}failure{{/if}}">
+    <div class="result-body">
+      <div class="player-info">
+        <div class="info-row">
+          <strong>👤 Jogador:</strong> 
+          <span class="player-name">{{playerName}}</span>
+        </div>
+        <div class="info-row">
+          <strong>🎭 Personagem:</strong> 
+          <span class="character-name">{{characterName}}</span>
+        </div>
+      </div>
+      
+      <div class="combat-values">
+        <div class="value-row">
+          ⚔️ Ataque
+          <span class="attack-value">{{attackTotal}}</span>
+        </div>
+        <div class="vs-separator">VS</div>
+        <div class="value-row">
+          🛡️ Evasão
+          <span class="evasion-value">{{evasionTotal}}</span>
+        </div>
+      </div>
+      
+      <div class="hp-info">
+        <div class="hp-row">
+          <strong>❤️ HP Atual:</strong>
+          <span class="hp-current">{{currentHP}} / {{maxHP}}</span>
+        </div>
+        <div class="hp-row">
+          <strong>🛡️ Armor:</strong>
+          <span class="armor-value">{{armor}}</span>
+        </div>
+        <div class="hp-row ignore-armor-row">
+          <strong>🚫 Ignore Armor:</strong>
+          <div class="ignore-armor-container">
+            <input type="number" 
+                   class="ignore-armor-input" 
+                   value="0" 
+                   min="0" 
+                   max="{{armor}}" 
+                   data-armor="{{armor}}" />
+            <button type="button" class="roll-ignore-armor-btn" title="Rolar dado para ignorar armadura">
+              🎲
+            </button>
+          </div>
+        </div>
+        <div class="hp-row">
+          <label style="display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" class="ignore-all-armor-checkbox" />
+            <span>🛡️ Ignore All Armor</span>
+          </label>
+        </div>
+        <div class="hp-row">
+          <strong>💥 Dano {{#if hasCritical}}(Crítico){{else}}do Ataque{{/if}}:</strong>
+          <span class="damage-value">{{attackDamage}}</span>
+        </div>
+        <div class="hp-row damage-input-row">
+          <strong>💔 Dano Recebido:</strong>
+          <div class="damage-input-container">
+            <input type="number" 
+                   class="damage-taken-input" 
+                   value="{{#if success}}0{{else}}{{damageTaken}}{{/if}}" 
+                   min="0" 
+                   max="{{attackDamage}}" 
+                   data-current-hp="{{currentHP}}" 
+                   data-max-hp="{{maxHP}}" />
+            <button type="button" class="half-damage-btn" title="Reduzir dano pela metade">
+              ½
+            </button>
+          </div>
+        </div>
+        <div class="hp-row armor-durability-row">
+          <strong>🛡️ Durabilidade Armadura:</strong>
+          <div class="armor-durability-container">
+            <button type="button" 
+                    class="select-armor-durability-btn" 
+                    data-defender-id="{{defenderId}}"
+                    title="Selecionar armaduras para danificar">
+              Selecionar Armaduras
+            </button>
+            <span class="selected-armors-display"></span>
+          </div>
+        </div>
+        <div class="hp-row hp-after">
+          <strong>❤️ HP Resultante:</strong>
+          <span class="hp-remaining remaining-hp {{#if success}}success{{else}}{{#if (gt remainingHP 0)}}warning{{else}}danger{{/if}}{{/if}}">
+            {{remainingHP}} / {{maxHP}}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

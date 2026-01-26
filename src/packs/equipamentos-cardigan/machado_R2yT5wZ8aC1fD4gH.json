@@ -1,0 +1,53 @@
+{
+  "_id": "R2yT5wZ8aC1fD4gH",
+  "_key": "!items!R2yT5wZ8aC1fD4gH",
+  "name": "Machado",
+  "type": "arma",
+  "img": "systems/cardigan/assets/images/weapons/axe.webp",
+  "folder": "P5kR8vM2zS0xN4tB",
+  "system": {
+    "description": "",
+    "weaponType": "Machado",
+    "melee": true,
+    "ranged": false,
+    "isFirearm": false,
+    "magazine": 0,
+    "loadedAmmo": 0,
+    "loadedAmmoTypes": {},
+    "damage": {
+      "value": "7",
+      "useStrength": false,
+      "useDexterity": false,
+      "total": "7"
+    },
+    "properties": ["ferir", "vorpal"],
+    "rightHand": false,
+    "leftHand": false,
+    "weight": "leve",
+    "price": 35,
+    "durability": {
+      "current": 3,
+      "max": 3
+    },
+    "skillBonuses": [],
+    "equipped": false,
+    "magicalArtifact": false,
+    "protection": {
+      "enabled": false,
+      "value": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "1.3.7",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

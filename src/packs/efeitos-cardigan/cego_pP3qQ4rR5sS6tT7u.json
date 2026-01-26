@@ -1,0 +1,22 @@
+{
+  "_id": "pP3qQ4rR5sS6tT7u",
+  "_key": "!items!pP3qQ4rR5sS6tT7u",
+  "name": "Cego",
+  "type": "efeito",
+  "img": "systems/cardigan/assets/images/effects/cego.webp",
+  "system": {
+    "description": "<p style=\"text-align: justify\">Não pode enxergar e recebe <em>Desvantagem Aprimorada</em> em qualquer teste que requeira sua visão.</p>",
+    "efeitoType": "negativo"
+  },
+  "effects": [],
+  "folder": "Kx8mN2QwRtY5UvBp",
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}

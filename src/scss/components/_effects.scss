@@ -41,24 +41,56 @@
 
   // Item Name
   .effect-name {
-    flex: 2;
+    flex: 1;
     margin: 0;
     overflow: hidden;
     font-size: 13px;
     text-align: left;
-    align-items: center;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
     h3, h4 {
-      margin: 0;
+      margin: 0 0 2px 0;
       white-space: nowrap;
       overflow-x: hidden;
+      font-weight: bold;
+    }
+    
+    .effect-description {
+      margin: 0;
+      font-size: 11px;
+      color: $c-tan;
+      font-style: italic;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      
+      // Controlar tamanho de imagens inline
+      img {
+        max-width: 100%;
+        height: 1em !important;
+        width: auto !important;
+        vertical-align: middle !important;
+        display: inline !important;
+        margin: 0 0.2em;
+        object-fit: contain;
+      }
+      
+      p {
+        display: inline;
+        
+        img {
+          display: inline !important;
+        }
+      }
     }
   }
 
   // Control Buttons
   .effect-controls {
     display: flex;
-    flex: 0 0 100px;
+    flex: 0 0 50px;
     justify-content: flex-end;
     a {
       font-size: 12px;
@@ -69,18 +101,26 @@
 
   // Individual Item
   .effect {
-    align-items: center;
-    padding: 0 2px; // to align with the header border
+    align-items: flex-start;
+    padding: 8px 2px;
     border-bottom: 1px solid $c-faint;
+    min-height: 40px;
+    
     &:last-child { border-bottom: none; }
+    
     .effect-name {
       color: $c-dark;
-      .effect-image {
-        flex: 0 0 30px;
-        height: 30px;
+    }
+    
+    .effect-image {
+      flex: 0 0 30px;
+      height: 30px;
+      margin-right: 8px;
+      
+      img {
         background-size: 30px;
         border: none;
-        margin-right: 5px;
+        border-radius: 3px;
       }
     }
   }
@@ -131,5 +171,70 @@
 
   .effect-controls {
     border: none;
+  }
+}
+
+// Custom Tooltip Styles for Effects
+.tooltip.cardigan-tooltip {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid $c-beige;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 1.3;
+  max-width: 300px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+
+  .tooltip-content {
+    color: $c-white;
+    text-align: left;
+  }
+
+  em {
+    color: $c-faint;
+    font-style: italic;
+    opacity: 0.9;
+  }
+}
+
+// Effect name hover styling
+.effect-name h4:hover {
+  color: $c-beige;
+  transition: color 0.2s ease;
+}
+
+// Active Effects Section Styling
+.active-effects-section {
+  margin-bottom: 10px;
+  
+  .section-header {
+    font-size: 14px;
+    font-weight: bold;
+    color: $c-beige;
+    margin-bottom: 5px;
+    padding: 2px 5px;
+    background: rgba(0, 0, 0, 0.1);
+    border-left: 3px solid $c-beige;
+  }
+}
+
+// Active Effects vs Item Effects distinction
+.active-effect {
+  background: rgba(255, 215, 0, 0.1); // Slight gold background for active effects
+  border-left: 2px solid $c-beige;
+  
+  .effect-name h4 {
+    color: $c-beige;
+    font-weight: bold;
+  }
+}
+
+.item-effect {
+  background: rgba(255, 255, 255, 0.05); // Slight white background for item effects
+  border-left: 2px solid $c-tan;
+  
+  .effect-name h4 {
+    color: $c-tan;
   }
 }

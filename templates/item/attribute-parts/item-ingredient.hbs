@@ -1,0 +1,60 @@
+{{! Item Ingredient Attributes Tab }}
+<section
+  class='tab attributes {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='attributes'
+>
+  <div class="item-ingredient-header">
+    <p class="item-subtitle">{{localize "CARDIGAN.ItemIngredient.Subtitle"}}</p>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.Common.Quantity"}}</label>
+      <div class="form-fields">
+        <input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="1"/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.Weight"}}</label>
+      <select name="system.weight">
+        <option value="leve" {{selected system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
+        <option value="medio" {{selected system.weight "medio"}}>{{localize "CARDIGAN.WeightMedium"}}</option>
+        <option value="pesado" {{selected system.weight "pesado"}}>{{localize "CARDIGAN.WeightHeavy"}}</option>
+        <option value="muito-pesado" {{selected system.weight "muito-pesado"}}>{{localize "CARDIGAN.WeightVeryHeavy"}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="backpack-form-section">
+    <div class="form-group">
+      <label>{{localize "CARDIGAN.ItemIngredient.Profession"}}</label>
+      <div class="form-fields">
+        <select name="system.profession" data-dtype="String">
+          <option value="general" {{#if (eq system.profession "general")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.General"}}
+          </option>
+          <option value="alchemy" {{#if (eq system.profession "alchemy")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Alchemy"}}
+          </option>
+          <option value="blacksmithing" {{#if (eq system.profession "blacksmithing")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Blacksmithing"}}
+          </option>
+          <option value="carpentry" {{#if (eq system.profession "carpentry")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Carpentry"}}
+          </option>
+          <option value="culinary" {{#if (eq system.profession "culinary")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Culinary"}}
+          </option>
+          <option value="tailoring" {{#if (eq system.profession "tailoring")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Tailoring"}}
+          </option>
+          <option value="tecnomagic" {{#if (eq system.profession "tecnomagic")}}selected{{/if}}>
+            {{localize "CARDIGAN.ItemIngredient.Professions.Tecnomagic"}}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,61 @@
+{{!-- Recipe Item Template --}}
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="attributes">
+  
+  <div class="recipe-details-form">
+    
+    {{!-- Basic Information --}}
+    <fieldset class="recipe-section">
+      <legend>{{localize "CARDIGAN.Item.ItemRecipe.basic.title"}}</legend>
+      
+      <div class="form-group">
+        <label for="system.recipeType">{{localize "CARDIGAN.Item.ItemRecipe.recipeType.label"}}</label>
+        <select name="system.recipeType">
+          <option value="culinary" {{#if (eq system.recipeType "culinary")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.culinary"}}</option>
+          <option value="tailoring" {{#if (eq system.recipeType "tailoring")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.tailoring"}}</option>
+          <option value="tecnomagic" {{#if (eq system.recipeType "tecnomagic")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.tecnomagic"}}</option>
+          <option value="blacksmithing" {{#if (eq system.recipeType "blacksmithing")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.blacksmithing"}}</option>
+          <option value="alchemy" {{#if (eq system.recipeType "alchemy")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.alchemy"}}</option>
+          <option value="carpentry" {{#if (eq system.recipeType "carpentry")}}selected{{/if}}>{{localize "CARDIGAN.Item.ItemRecipe.recipeType.carpentry"}}</option>
+        </select>
+      </div>
+    </fieldset>
+
+    {{!-- Result Items Section --}}
+    <fieldset class="recipe-section result-items-section">
+      <legend>🎁 {{localize "CARDIGAN.Item.ItemRecipe.ResultItems"}}</legend>
+      
+      {{#if system.resultItems.length}}
+        <div class="result-items-list">
+          <h5>
+            <i class="fas fa-box-open"></i> Itens Criados ({{system.resultItems.length}})
+          </h5>
+          {{#each system.resultItems as |result index|}}
+            <div class="result-item" data-result-index="{{index}}">
+              <img src="{{result.img}}" alt="{{result.name}}" />
+              <div>
+                <h4>{{result.name}}</h4>
+              </div>
+              <button type="button" data-action="removeResultItem" data-index="{{index}}" title="Remover item">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <div class="no-results-message">
+          <p><i class="fas fa-exclamation-triangle"></i> {{localize "CARDIGAN.Item.ItemRecipe.NoResultItems"}}</p>
+          <p class="hint">{{localize "CARDIGAN.Item.ItemRecipe.NoResultItemsHint"}}</p>
+        </div>
+      {{/if}}
+      
+      {{!-- Drop Zone - Clean and Simple --}}
+      <div class="result-items-drop-zone" data-drop-zone="resultItems">
+        <p>
+          <i class="fas fa-plus-circle"></i> Arraste itens da sidebar para adicionar
+        </p>
+      </div>
+    </fieldset>
+
+  </div>
+
+</section>

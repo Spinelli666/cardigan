@@ -1,0 +1,18 @@
+{
+  "_id": "Kx8mN2QwRtY5UvBp",
+  "_key": "!folders!Kx8mN2QwRtY5UvBp",
+  "name": "Efeitos Negativos",
+  "type": "Item",
+  "color": "#DC143C",
+  "sorting": "a",
+  "folder": null,
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.328",
+    "systemId": "cardigan",
+    "systemVersion": "3.0.0",
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  }
+}
