@@ -320,7 +320,7 @@ export class BaseSkill {
           const filterStyle = isAcquired ? '' : 'filter: grayscale(100%); opacity: 0.4;';
           const emoji = enhancementEmojis[i] || '⭐';
           
-          // Get the enhancement name and description for tooltip
+          // Get the enhancement name and description
           const enhancementName = enhancement.name || `Enhancement ${i + 1}`;
           const statusText = isAcquired ? '✓ Acquired' : '✗ Not Acquired';
           

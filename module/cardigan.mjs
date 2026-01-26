@@ -6,7 +6,6 @@ import { CardiganSystemActorSheet } from './sheets/actor-sheet.mjs';
 import { CardiganSystemItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
 import { CARDIGAN, registerHandlebarsHelpers, buildRollFormula } from './helpers/config.mjs';
-import CardiganTooltips from './helpers/tooltips.mjs';
 // Import DataModel classes
 import * as models from './data/_module.mjs';
 // Import Skills System
@@ -244,9 +243,6 @@ Hooks.once('init', function () {
   Handlebars.registerHelper('selected', function (value, expectedValue) {
     return value === expectedValue ? 'selected' : '';
   });
-
-  // Configure tooltips
-  game.cardigan.tooltips = new CardiganTooltips();
 
   // Initialize Skills System
   initializeSkillsSystem().catch(error => {
@@ -2896,9 +2892,6 @@ globalThis.handleExecuteMerchantTradeTransfer = handleExecuteMerchantTradeTransf
 Hooks.once('ready', function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => createDocMacro(data, slot));
-  
-  // Initialize tooltips observer
-  game.cardigan.tooltips.observe();
   
   // Register trade system socket listeners
   game.socket.on('system.cardigan', async (data) => {

@@ -7,16 +7,16 @@
 @import 'utils/colors';
 @import 'utils/mixins';
 @import 'utils/variables';
-@import 'utils/tooltips';
+
 
 // Tooltip components
-@import 'components/tooltips/proficiency-tooltips';
+
 
 /* Global styles */
 @import 'global/window';
 @import 'global/grid';
 @import 'global/flex';
-@import 'global/tooltips';
+
 @import 'global/chat';
 @import 'global/token-hud';
 
@@ -115,8 +115,4 @@
 @import 'dialogs/character-creation-wizard';
 @import 'dialogs/level-up-wizard';
 
-/* Enhancement tooltip styles (global) */
-@import 'components/enhancement-tooltips';
 
-/* Attack button tooltip styles (global) */
-@import 'components/attack-tooltips';

@@ -349,9 +349,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para rolagem nas perícias (Accuracy, Evasion, etc.)
     this.#addProficiencyRollListeners();
     
-    // Adicionar event listener para tooltip fixável
-    this.#addTooltipPinListener();
-    
     // Adicionar event listeners para campo dinâmico de critical hit
     this.#addCriticalHitListeners();
     
@@ -383,20 +380,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Prevenir submit do formulário ao pressionar Enter em inputs
     this.#preventEnterSubmit();
     
-    // Clean up any existing tooltips before setting up new ones
-    this.#cleanupTooltips();
-    
-    // Setup weapon tooltips with debug logging
-    this.#setupWeaponTooltips();
-    
-    // Setup armor tooltips with debug logging
-    this.#setupArmorTooltips();
-    
-    // Setup effect tooltips with enriched HTML
-    this.#setupEffectTooltips();
-    
     // Setup context menu for weapons
-    this.#setupContextMenus();
+    this.#setupContextMenu();
     
     // Setup custom window controls (includes drag functionality)
     this.#setupCustomControls();
@@ -5619,7 +5604,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Update CSS classes
     row.classList.toggle("collapsed", expanded);
     
-    // Update icon and tooltip only if we have an icon (from button, not from weapon name click)
+    // Update icon only if we have an icon (from button, not from weapon name click)
     if (icon) {
       icon.classList.toggle("fa-compress", !expanded);
       icon.classList.toggle("fa-expand", expanded);
@@ -5641,523 +5626,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Clean up any existing custom tooltips
+   * Setup context menu for items
    * @private
    */
-  #cleanupTooltips() {
-    // Remove all custom tooltips
-    const existingTooltips = document.querySelectorAll('.cardigan-custom-tooltip');
-    existingTooltips.forEach(tooltip => tooltip.remove());
-    
-    // Try to deactivate any active native tooltips
-    try {
-      if (game.tooltip && typeof game.tooltip.deactivate === 'function') {
-        game.tooltip.deactivate();
-      }
-    } catch (error) {
-      // Silent fail
-    }
-  }
-
-  /**
-   * Setup weapon name hover tooltips using native FoundryVTT system
-   * @private
-   */
-  #setupWeaponTooltips() {
-    const weaponNameElements = this.element.querySelectorAll('.weapon-name-hover');
-    
-    weaponNameElements.forEach(nameElement => {
-      const weaponElement = nameElement.closest('[data-item-id]');
-      if (!weaponElement) return;
-      
-      const itemId = weaponElement.dataset.itemId;
-      const item = this.actor.items.get(itemId);
-      if (!item || item.type !== 'arma') return;
-      
-      // Remove any existing title attribute to prevent browser tooltip interference
-      nameElement.removeAttribute('title');
-      
-      // Setup hover event handlers
-      nameElement.addEventListener('mouseenter', (event) => {
-        const tooltipHTML = this.#generateWeaponTooltipHTML(item);
-        
-        // Use native FoundryVTT tooltip system
-        try {
-          if (game.tooltip && typeof game.tooltip.activate === 'function') {
-            game.tooltip.activate(nameElement, {
-              html: tooltipHTML,
-              cssClass: 'tooltip cardigan-tooltip'
-            });
-          }
-        } catch (error) {
-          console.warn('Failed to show weapon tooltip:', error);
-        }
-      });
-      
-      nameElement.addEventListener('mouseleave', (event) => {
-        // Deactivate native tooltip
-        try {
-          if (game.tooltip && typeof game.tooltip.deactivate === 'function') {
-            game.tooltip.deactivate();
-          }
-        } catch (error) {
-          // Silent fail
-        }
-      });
-    });
-
-    // Setup weapon image click handlers
-    const weaponImageElements = this.element.querySelectorAll('.weapon-image-click');
-    
-    weaponImageElements.forEach(imageElement => {
-      const itemId = imageElement.dataset.itemId;
-      const item = this.actor.items.get(itemId);
-      if (!item || item.type !== 'arma') return;
-      
-      imageElement.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        
-        // Show weapon information in chat
-        this._showWeaponInChat(item);
-      });
-    });
-  }
-
-  /**
-   * Generate weapon tooltip HTML content
-   * @param {Object} weapon - Weapon item object
-   * @returns {string} - HTML string for weapon tooltip
-   * @private
-   */
-  #generateWeaponTooltipHTML(weapon) {
-    // Generate weapon type icons
-    let typeIcons = '';
-    if (weapon.system.melee && weapon.system.ranged) {
-      typeIcons = '<i class="fas fa-fist-raised"></i><span class="separator">/</span><i class="fas fa-bullseye"></i>';
-    } else if (weapon.system.melee) {
-      typeIcons = '<i class="fas fa-fist-raised"></i>';
-    } else if (weapon.system.ranged) {
-      typeIcons = '<i class="fas fa-bullseye"></i>';
-    } else {
-      typeIcons = '<i class="fas fa-question" style="opacity: 0.5;"></i>';
-    }
-    
-    // Generate weight info
-    const weightText = weapon.system.weight === 'leve' ? 'Leve' : 'Pesado';
-    
-    // Build complete tooltip HTML - Simplified approach with inline styles
-    let html = '<div class="weapon-tooltip" style="display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 200px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-radius: 8px; color: #f0f0e0;">';
-    
-    // PRIMEIRO: Propriedades à direita usando inline styles para garantir funcionamento
-    html += '<div class="weapon-properties-horizontal" style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 6px; font-size: 14px; width: 100%;">';
-    html += `${typeIcons}`;
-    html += '<span class="property-separator">&nbsp;</span>'; // Espaço em branco ao invés do bullet
-    html += '<i class="fas fa-backpack" style="color: #c9c7b8; font-size: 14px;"></i>';
-    html += `<span class="weight-text" style="font-style: italic; font-size: 14px; color: #c9c7b8;">${weightText}</span>`;
-    html += '</div>';
-    
-    // SEGUNDO: Imagem da arma centralizada
-    html += `<div class="weapon-image" style="display: flex; justify-content: center; margin-bottom: 4px;"><img src="${weapon.img}" alt="${weapon.name}" style="width: 32px; height: 32px; object-fit: cover; border-radius: 4px; border: 2px solid #f0f0e0;" /></div>`;
-    
-    // TERCEIRO: Nome da arma centralizado
-    html += `<div class="weapon-name-line" style="text-align: center; margin-bottom: 4px;"><strong style="color: #f0f0e0; font-size: 16px;">${weapon.name}</strong></div>`;
-
-    // QUARTO: Tipo da arma centralizado (se houver)
-    if (weapon.system.weaponType && weapon.system.weaponType.trim() !== '') {
-      html += `<div class="weapon-type-line" style="text-align: center; margin-bottom: 4px;"><em style="color: #c9c7b8; font-style: italic; font-size: 14px;">${weapon.system.weaponType}</em></div>`;
-    }
-
-    // QUINTO: Estatísticas na mesma linha - Dano, Proteção e Munição
-    const baseDamage = weapon.system.damage.value || '0';
-    const totalDamage = weapon.system.damage.total || baseDamage;
-    const currentAmmo = weapon.system.ammunition?.current || 0;
-    const maxAmmo = weapon.system.ammunition?.max || 0;
-    const isRanged = weapon.system.ranged;
-    const isFirearm = weapon.system.isFirearm;
-
-    // Sempre mostra dano (todas as armas têm dano)
-    let damageAmmoHtml = '<div class="weapon-damage-ammo" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; font-size: 14px;">';
-    
-    // Ícone de espada + dano base + [dano calculado]
-    damageAmmoHtml += '<i class="fas fa-sword" style="color: #c9c7b8; font-size: 14px;"></i>';
-    damageAmmoHtml += `<span style="color: #f0f0e0;">${baseDamage}</span>`;
-    damageAmmoHtml += `<span style="color: #c9c7b8;">[${totalDamage}]</span>`;
-    
-    // Proteção (se habilitada) - adiciona na mesma linha
-    if (weapon.system.protection?.enabled && weapon.system.protection?.value > 0) {
-      // Dois espaços de separação
-      damageAmmoHtml += '<span>&nbsp;&nbsp;</span>';
-      
-      // Ícone de escudo
-      damageAmmoHtml += '<i class="fas fa-shield-alt" style="color: #c9c7b8; font-size: 14px;"></i>';
-      
-      // Valor de proteção
-      damageAmmoHtml += `<span style="color: #f0f0e0;">${weapon.system.protection.value}</span>`;
-    }
-    
-    // Munição (apenas para armas ranged)
-    if (isRanged && currentAmmo > 0) {
-      // Dois espaços de separação
-      damageAmmoHtml += '<span>&nbsp;&nbsp;</span>';
-      
-      // Ícone de munição
-      damageAmmoHtml += '<i class="fas fa-circle" style="color: #c9c7b8; font-size: 14px;"></i>';
-      
-      // Formato da munição baseado se é firearm ou não
-      if (isFirearm && maxAmmo > 0) {
-        // Firearms mostram atual/máximo
-        damageAmmoHtml += `<span style="color: #f0f0e0;">${currentAmmo}/${maxAmmo}</span>`;
-      } else {
-        // Ranged não-firearms mostram apenas atual
-        damageAmmoHtml += `<span style="color: #f0f0e0;">${currentAmmo}</span>`;
-      }
-    }
-    
-    damageAmmoHtml += '</div>';
-    html += damageAmmoHtml;
-
-    // SÉTIMO: Durabilidade (se houver)
-    const currentDurability = weapon.system.durability?.current;
-    const maxDurability = weapon.system.durability?.max;
-    
-    if (currentDurability !== undefined && maxDurability !== undefined && maxDurability > 0) {
-      let durabilityHtml = '<div class="weapon-durability" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; font-size: 14px;">';
-      
-      // Ícone de forja/martelo
-      durabilityHtml += '<i class="fas fa-hammer" style="color: #c9c7b8; font-size: 14px;"></i>';
-      
-      // Durabilidade atual/máxima
-      durabilityHtml += `<span style="color: #f0f0e0;">${currentDurability}/${maxDurability}</span>`;
-      
-      durabilityHtml += '</div>';
-      html += durabilityHtml;
-    }
-
-    // OITAVO: Descrição centralizada (se houver)
-    if (weapon.system.description) {
-      html += `<div class="weapon-description" style="text-align: center; max-width: 180px; margin-top: 4px;"><em style="color: #c9c7b8; font-style: italic; font-size: 12px;">${weapon.system.description}</em></div>`;
-    }
-
-    // OITAVO: Artefato Mágico alinhado à esquerda (se for artefato)
-    if (weapon.system.magicalArtifact) {
-      html += `<div class="weapon-artifact" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  🌀Artefato</div>`;
-    }
-
-    // NONO: Propriedades das armas alinhadas à esquerda (se houver propriedades)
-    if (weapon.system.properties && weapon.system.properties.length > 0) {
-      // Filtra propriedades vazias e capitaliza primeira letra de cada palavra
-      const validProperties = weapon.system.properties
-        .filter(prop => prop && prop.trim() !== '')
-        .map(prop => {
-          let cleanProp = prop.trim();
-          
-          // Corrige propriedades conhecidas que estão sem espaços
-          const propertyFixes = {
-            'disparodividido': 'disparo dividido',
-            'dosedupla': 'dose dupla', 
-            'queimaroupa': 'queima-roupa',
-            'saquerapido': 'saque rapido'
-          };
-          
-          const lowerProp = cleanProp.toLowerCase();
-          if (propertyFixes[lowerProp]) {
-            cleanProp = propertyFixes[lowerProp];
-          }
-          
-          // Divide em palavras, capitaliza cada uma e junta novamente
-          return cleanProp
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-            .join(' ');
-        });
-      
-      if (validProperties.length > 0) {
-        const propertiesText = validProperties.join(' ・ ');
-        html += `<div class="weapon-properties-list" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  ${propertiesText}</div>`;
-      }
-    }
-
-    // DÉCIMO PRIMEIRO: Bônus de Perícia das armas alinhados à esquerda (se houver bônus)
-    if (weapon.system.skillBonuses && weapon.system.skillBonuses.length > 0) {
-      // Mapeamento das habilidades para seus nomes completos
-      const abilityNames = {
-        'accuracy': 'Accuracy',
-        'evasion': 'Evasion', 
-        'strength': 'Strength',
-        'dexterity': 'Dexterity',
-        'stamina': 'Stamina',
-        'stealth': 'Stealth',
-        'persuasion': 'Persuasion',
-        'intelligence': 'Intelligence',
-        'psionics': 'Psionics'
-      };
-
-      // Filtra e formata os bônus de perícia válidos
-      const validBonuses = weapon.system.skillBonuses
-        .filter(bonus => bonus && bonus.skill && bonus.bonus != null && bonus.bonus !== 0)
-        .map(bonus => {
-          // Usa o nome completo da habilidade ou capitaliza se não encontrado
-          const skillName = abilityNames[bonus.skill.toLowerCase()] || 
-                            bonus.skill.charAt(0).toUpperCase() + bonus.skill.slice(1).toLowerCase();
-          const bonusValue = bonus.bonus > 0 ? `+${bonus.bonus}` : bonus.bonus.toString();
-          return `${skillName} [${bonusValue}]`;
-        });
-      
-      if (validBonuses.length > 0) {
-        const bonusesText = validBonuses.join(' ・ ');
-        html += `<div class="weapon-skill-bonuses" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  ${bonusesText}</div>`;
-      }
-    }
-    
-    html += '</div>';
-    
-    return html;
-  }
-
-  /* -------------------------------------------- */
-  /*  Context Menu Implementation                 */
-  /* -------------------------------------------- */
-
-  /**
-   * Setup tooltips for armors
-   * @private
-   */
-  #setupArmorTooltips() {
-    // Select all armor name elements (.armor-name-hover) in the armor section
-    const armorSection = this.element.querySelector('.equipment');
-    if (!armorSection) return;
-    
-    const armorNameElements = armorSection.querySelectorAll('.armor-name-hover');
-    
-    armorNameElements.forEach(nameElement => {
-      const itemRow = nameElement.closest('.item[data-item-id]');
-      const itemId = itemRow.dataset.itemId;
-      const item = this.document.items.get(itemId);
-      
-      if (item && item.type === 'armadura') {
-        // Remove any existing tooltip event listeners
-        nameElement.removeEventListener('mouseenter', this._onArmorMouseEnter);
-        nameElement.removeEventListener('mouseleave', this._onArmorMouseLeave);
-        
-        // Add new event listeners
-        nameElement.addEventListener('mouseenter', (event) => this._onArmorMouseEnter(event, item));
-        nameElement.addEventListener('mouseleave', this._onArmorMouseLeave.bind(this));
-      }
-    });
-  }
-
-  /**
-   * Handle mouse enter for armor tooltip
-   * @private
-   */
-  _onArmorMouseEnter(event, armor) {
-    const tooltipHTML = this.#generateArmorTooltipHTML(armor);
-    
-    game.tooltip.activate(event.currentTarget, {
-      html: tooltipHTML,
-      cssClass: "tooltip cardigan-tooltip"
-    });
-  }
-
-  /**
-   * Handle mouse leave for armor tooltip
-   * @private
-   */
-  _onArmorMouseLeave(event) {
-    game.tooltip.deactivate();
-  }
-
-  /**
-   * Generate HTML for armor tooltip
-   * @private
-   */
-  #generateArmorTooltipHTML(armor) {
-    // Generate weight info
-    const weightText = armor.system.weight === 'leve' ? 'Leve' : 'Pesado';
-    
-    // Build complete tooltip HTML - Simplified approach with inline styles
-    let html = '<div class="armor-tooltip" style="display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 200px; padding: 10px; background: rgba(0, 0, 0, 0.9); border-radius: 8px; color: #f0f0e0;">';
-    
-    // PRIMEIRO: Propriedades à direita usando inline styles para garantir funcionamento
-    html += '<div class="armor-properties-horizontal" style="display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 6px; font-size: 14px; width: 100%;">';
-    
-    html += '<i class="fas fa-backpack" style="color: #c9c7b8; font-size: 14px;"></i>';
-    html += `<span class="weight-text" style="font-style: italic; font-size: 14px; color: #c9c7b8;">${weightText}</span>`;
-    
-    // Mostrar ícones das propriedades especiais
-    if (armor.system.resistenciaFrio || armor.system.stylish) {
-      html += '<span class="property-separator" style="color: #c9c7b8;">&nbsp;・&nbsp;</span>';
-      if (armor.system.resistenciaFrio) html += '☀️';
-      if (armor.system.stylish) html += '✨';
-    }
-    
-    html += '</div>';
-    
-    // SEGUNDO: Imagem da armadura centralizada
-    html += `<div class="armor-image" style="display: flex; justify-content: center; margin-bottom: 4px;"><img src="${armor.img}" alt="${armor.name}" style="width: 32px; height: 32px; object-fit: cover; border-radius: 4px; border: 2px solid #f0f0e0;" /></div>`;
-    
-    // TERCEIRO: Nome da armadura centralizado
-    html += `<div class="armor-name-line" style="text-align: center; margin-bottom: 4px;"><strong style="color: #f0f0e0; font-size: 16px;">${armor.name}</strong></div>`;
-
-    // QUARTO: Tipo da armadura centralizado (se houver)
-    if (armor.system.armorClass && armor.system.armorClass.trim() !== '') {
-      html += `<div class="armor-type-line" style="text-align: center; margin-bottom: 4px;"><em style="color: #c9c7b8; font-style: italic; font-size: 14px;">${armor.system.armorClass}</em></div>`;
-    }
-
-    // QUINTO: Proteção
-    const baseProtection = armor.system.protecao || 0;
-    // As armaduras não têm proteção total calculada como as armas têm damage.total
-    // então usamos apenas o valor base
-    const totalProtection = baseProtection;
-
-    let protectionHtml = '<div class="armor-protection" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; font-size: 14px;">';
-    
-    // Ícone de escudo + proteção base
-    protectionHtml += '<i class="fas fa-shield-alt" style="color: #c9c7b8; font-size: 14px;"></i>';
-    protectionHtml += `<span style="color: #f0f0e0;">${baseProtection}</span>`;
-    protectionHtml += '</div>';
-    html += protectionHtml;
-
-    // SEXTO: Durabilidade (se houver)
-    const currentDurability = armor.system.durability?.current;
-    const maxDurability = armor.system.durability?.max;
-    
-    if (currentDurability !== undefined && maxDurability !== undefined && maxDurability > 0) {
-      let durabilityHtml = '<div class="armor-durability" style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; font-size: 14px;">';
-      
-      // Ícone de forja/martelo
-      durabilityHtml += '<i class="fas fa-hammer" style="color: #c9c7b8; font-size: 14px;"></i>';
-      
-      // Durabilidade atual/máxima
-      durabilityHtml += `<span style="color: #f0f0e0;">${currentDurability}/${maxDurability}</span>`;
-      
-      durabilityHtml += '</div>';
-      html += durabilityHtml;
-    }
-
-    // SÉTIMO: Descrição centralizada (se houver)
-    if (armor.system.description) {
-      html += `<div class="armor-description" style="text-align: center; max-width: 180px; margin-top: 4px;"><em style="color: #c9c7b8; font-style: italic; font-size: 12px;">${armor.system.description}</em></div>`;
-    }
-
-    // OITAVO: Artefato Mágico alinhado à esquerda (se for artefato)
-    if (armor.system.magicalArtifact) {
-      html += `<div class="armor-artifact" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  🌀Artefato</div>`;
-    }
-
-    // NONO: Bônus de Atributos (Vida, Energia, Deslocamento) alinhados à esquerda (se houver)
-    const bonusVida = armor.system.bonusVida || 0;
-    const bonusEnergia = armor.system.bonusEnergia || 0;
-    const bonusDeslocamento = armor.system.bonusDeslocamento?.enabled ? (armor.system.bonusDeslocamento.bonus || 0) : 0;
-    
-    // Cada bônus em linha separada com ícone próprio
-    if (bonusVida !== 0) {
-      const vidaText = bonusVida > 0 ? `+${bonusVida}` : bonusVida.toString();
-      html += `<div class="armor-vida-bonus" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆ ❤️Vida [${vidaText}]</div>`;
-    }
-    
-    if (bonusEnergia !== 0) {
-      const energiaText = bonusEnergia > 0 ? `+${bonusEnergia}` : bonusEnergia.toString();
-      html += `<div class="armor-energia-bonus" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆ ⚡️Energia [${energiaText}]</div>`;
-    }
-    
-    if (bonusDeslocamento !== 0) {
-      const deslocamentoText = bonusDeslocamento > 0 ? `+${bonusDeslocamento}` : bonusDeslocamento.toString();
-      html += `<div class="armor-deslocamento-bonus" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆ 👣Deslocamento [${deslocamentoText}]</div>`;
-    }
-
-    // DÉCIMO: Bônus de Perícia das armaduras alinhados à esquerda (se houver bônus)
-    if (armor.system.skillBonuses && armor.system.skillBonuses.length > 0) {
-      // Mapeamento das habilidades para seus nomes completos
-      const abilityNames = {
-        'accuracy': 'Accuracy',
-        'evasion': 'Evasion', 
-        'strength': 'Strength',
-        'dexterity': 'Dexterity',
-        'stamina': 'Stamina',
-        'stealth': 'Stealth',
-        'persuasion': 'Persuasion',
-        'intelligence': 'Intelligence',
-        'psionics': 'Psionics'
-      };
-
-      // Filtra e formata os bônus de perícia válidos
-      const validBonuses = armor.system.skillBonuses
-        .filter(bonus => bonus && bonus.skill && bonus.bonus != null && bonus.bonus !== 0)
-        .map(bonus => {
-          // Usa o nome completo da habilidade ou capitaliza se não encontrado
-          const skillName = abilityNames[bonus.skill.toLowerCase()] || 
-                            bonus.skill.charAt(0).toUpperCase() + bonus.skill.slice(1).toLowerCase();
-          const bonusValue = bonus.bonus > 0 ? `+${bonus.bonus}` : bonus.bonus.toString();
-          return `${skillName} [${bonusValue}]`;
-        });
-      
-      if (validBonuses.length > 0) {
-        const bonusesText = validBonuses.join(' ・ ');
-        html += `<div class="armor-skill-bonuses" style="text-align: left; margin-top: 4px; color: #c9c7b8;">◆  ${bonusesText}</div>`;
-      }
-    }
-    
-    html += '</div>';
-    
-    return html;
-  }
-
-  /**
-   * Setup effect tooltips with enriched HTML descriptions
-   * @private
-   */
-  #setupEffectTooltips() {
-    // Select all effect items in the proficiencies section
-    const effectItems = this.element.querySelectorAll('.effect-item[data-item-uuid]');
-    
-    effectItems.forEach(element => {
-      const uuid = element.dataset.itemUuid;
-      
-      // Add mouse enter/leave listeners
-      element.addEventListener('mouseenter', async (event) => {
-        const item = await fromUuid(uuid);
-        if (!item) return;
-        
-        // Enrich the description HTML
-        let enrichedDescription = '';
-        if (item.system?.description) {
-          // Use modern Foundry v13 API for TextEditor
-          const TextEditor = foundry.applications.ux.TextEditor.implementation;
-          enrichedDescription = await TextEditor.enrichHTML(item.system.description, {
-            secrets: item.isOwner,
-            relativeTo: item
-          });
-        }
-        
-        // Create tooltip HTML
-        const tooltipHTML = `
-          <div class="effect-tooltip" style="max-width: 300px; padding: 8px;">
-            <div style="margin-bottom: 6px;">
-              <strong>${item.name}</strong>
-            </div>
-            ${enrichedDescription ? `<div style="font-size: 12px;">${enrichedDescription}</div>` : ''}
-          </div>
-        `;
-        
-        game.tooltip.activate(event.currentTarget, {
-          html: tooltipHTML,
-          cssClass: "tooltip cardigan-tooltip effect-tooltip"
-        });
-      });
-      
-      element.addEventListener('mouseleave', () => {
-        game.tooltip.deactivate();
-      });
-    });
-  }
-
-  /**
-   * Setup context menus for weapons
-   * @private
-   */
-  #setupContextMenus() {
+  #setupContextMenu() {
     // Clear any existing context menu event listeners to prevent duplicates
     for (const control of this.element.querySelectorAll("[data-context-menu]")) {
       // Remove existing listener if any
@@ -6371,8 +5843,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   async _showWeaponInChat(weapon) {
-    // Reuse the existing tooltip HTML generation function
-    const weaponHtml = this.#generateWeaponTooltipHTML(weapon);
+    // Create simplified weapon display for chat
+    const weaponData = weapon.system;
+    const weaponHtml = `
+      <div style="padding: 8px;">
+        <p><strong>Tipo:</strong> ${weaponData.weaponType || 'N/A'}</p>
+        <p><strong>Dano:</strong> ${weaponData.damage || 'N/A'}</p>
+        <p><strong>Alcance:</strong> ${weaponData.range || 'N/A'}</p>
+        ${weaponData.description ? `<p><strong>Descrição:</strong> ${weaponData.description}</p>` : ''}
+      </div>
+    `;
     
     // Create chat message with weapon information
     const messageData = {
@@ -6400,8 +5880,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   async _showArmorInChat(armor) {
-    // Reuse the existing tooltip HTML generation function
-    const armorHtml = this.#generateArmorTooltipHTML(armor);
+    // Create simplified armor display for chat
+    const armorData = armor.system;
+    const armorHtml = `
+      <div style="padding: 8px;">
+        <p><strong>Tipo:</strong> ${armorData.armorType || 'N/A'}</p>
+        <p><strong>Defesa:</strong> ${armorData.armor || 'N/A'}</p>
+        <p><strong>Durabilidade:</strong> ${armorData.currentDurability || 0}/${armorData.maxDurability || 0}</p>
+        ${armorData.description ? `<p><strong>Descrição:</strong> ${armorData.description}</p>` : ''}
+      </div>
+    `;
     
     // Create chat message with armor information
     const messageData = {
@@ -6998,79 +6486,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Adicionar event listener para fixar/desafixar tooltips ao clicar
-   * @private
-   */
-  #addTooltipPinListener() {
-    const labels = this.element.querySelectorAll('.proficiency-clickable-label');
-    
-    labels.forEach(label => {
-      // Click para fixar tooltip expandido
-      label.addEventListener('click', async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        
-        // Pegar o título e descrição do tooltip
-        const tooltipTitle = label.dataset.tooltipTitle;
-        const tooltipDescription = label.dataset.tooltipDescription;
-        
-        if (!tooltipTitle || !tooltipDescription) {
-          console.warn('[CARDIGAN] No tooltip title or description found for label');
-          return;
-        }
-        
-        // Criar elemento DOM para o tooltip expandido
-        const contentElement = document.createElement('div');
-        contentElement.className = 'proficiency-tooltip-content';
-        
-        const titleElement = document.createElement('h3');
-        titleElement.textContent = tooltipTitle;
-        
-        // Container da descrição
-        const descContainer = document.createElement('div');
-        descContainer.className = 'tooltip-description';
-        
-        // Processar com enrichHTML para ativar os enrichers (::path:: para imagens, etc)
-        const enrichedHTML = await foundry.applications.ux.TextEditor.enrichHTML(tooltipDescription, { 
-          async: true,
-          secrets: false,
-          relativeTo: this.actor
-        });
-        descContainer.innerHTML = enrichedHTML;
-        
-        contentElement.appendChild(titleElement);
-        contentElement.appendChild(descContainer);
-        
-        // Se já existe um tooltip locked, fechar todos
-        game.tooltip.dismissLockedTooltips();
-        
-        // Ativar e fixar (lock) o tooltip expandido com elemento DOM
-        game.tooltip.activate(label, {
-          html: contentElement,
-          direction: label.dataset.tooltipDirection || 'DOWN',
-          cssClass: label.dataset.tooltipClass || '',
-          locked: true
-        });
-        
-        console.log('[CARDIGAN] Expanded tooltip locked');
-      });
-    });
-    
-    // Adicionar listener global para fechar tooltip ao clicar fora
-    document.addEventListener('click', (event) => {
-      // Se clicar fora de qualquer tooltip ou label de proficiência
-      if (!event.target.closest('.proficiency-clickable-label') && 
-          !event.target.closest('#tooltip') &&
-          !event.target.closest('.locked-tooltip')) {
-        game.tooltip.dismissLockedTooltips();
-      }
-    });
-    
-    console.log('[CARDIGAN] Tooltip pin listener added');
-  }
-
-  /**
-   * Handler para quando o usuário clica em um campo de ability (focus)
+   * Handler para quando o usuário foca em um campo de ability (focus)
+   * Mostra o valor manual inserido (sem modificadores)
    * @private
    */
   #handleAbilityFieldFocus(event, ability, fieldType) {

@@ -107,7 +107,7 @@ export function registerHandlebarsHelpers() {
     
     let content = '';
     
-    // Add weapon type icons (using Unicode symbols for plain text tooltips)
+    // Add weapon type icons
     let typeIcons = '';
     if (weapon.system.melee && weapon.system.ranged) {
       typeIcons = '⚔️/🏹'; // Melee and ranged
@@ -123,7 +123,7 @@ export function registerHandlebarsHelpers() {
     const weightIcon = '🎒'; // Backpack icon
     const weightText = weapon.system.weight === 'leve' ? 'Leve' : 'Pesado';
     
-    // Build the complete tooltip content with icons above the name
+    // Build the complete content with icons above the name
     content = `${typeIcons} ${weightIcon} ${weightText}\n${weapon.name}`;
     
     // Add description if available
@@ -158,7 +158,7 @@ export function registerHandlebarsHelpers() {
     const weightText = weapon.system.weight === 'leve' ? 'Leve' : 'Pesado';
     const weightHTML = '<i class="fas fa-backpack"></i><span>' + weightText + '</span>';
     
-    // Build complete tooltip HTML
+    // Build complete HTML
     let html = '<div class="weapon-tooltip">';
     html += '<div class="weapon-image"><img src="' + weapon.img + '" alt="' + weapon.name + '" /></div>';
     html += '<div class="weapon-name-line"><strong>' + weapon.name + '</strong></div>';
@@ -215,7 +215,7 @@ export function registerHandlebarsHelpers() {
       if (armor.system.stylish) specialPropertiesHTML += '✨';
     }
     
-    // Build complete tooltip HTML
+    // Build complete HTML
     let html = '<div class="armor-tooltip">';
     html += '<div class="armor-image"><img src="' + armor.img + '" alt="' + armor.name + '" /></div>';
     html += '<div class="armor-name-line"><strong>' + armor.name + '</strong></div>';

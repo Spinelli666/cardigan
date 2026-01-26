@@ -355,7 +355,7 @@
   }
   
   // -----------------------------------------
-  // Weapon name hover styles - clickable for expand/collapse + tooltip
+  // Weapon name hover styles - clickable for expand/collapse
   .weapon-name-hover {
     cursor: pointer;
     transition: color 0.2s ease;
@@ -1368,35 +1368,13 @@
       }
     }
   }
-
-  // -----------------------------------------
-  // Legacy hover effect for weapon names with tooltip (matching effects style)
-  .item-name[data-weapon-tooltip] {
-    transition: color 0.2s ease;
-    
-    &:hover {
-      div {
-        color: $c-beige;
-        transition: color 0.2s ease;
-      }
-    }
-  }
-  
-  // Legacy - Remove help cursor from tooltip triggers
-  .weapon-tooltip-trigger {
-    cursor: pointer !important;
-    
-    &:hover {
-      cursor: pointer !important;
-    }
-  }
 }
 
-// Weapon Tooltip Styles - Using native FoundryVTT tooltip system and custom fallback
-// Keep tooltip styles consistent with effects
+// Weapon Styles - Using native FoundryVTT system and custom fallback
+// Keep styles consistent with effects
 .tooltip.cardigan-tooltip,
 .cardigan-custom-tooltip {
-  // Ensure consistent styling with effects tooltips
+  // Ensure consistent styling with effects
   background: rgba(0, 0, 0, 0.9);
   border: 1px solid $c-beige;
   border-radius: 4px;
@@ -1412,7 +1390,7 @@
     text-align: left;
   }
   
-  // Weapon tooltip specific styling for rich tooltips - D&D5e inspired horizontal layout
+  // Weapon specific styling for rich content - D&D5e inspired horizontal layout
   .weapon-tooltip {
     display: flex;
     flex-direction: column;
@@ -1598,7 +1576,7 @@
       line-height: 1.4;
     }
     
-    // Top-right weapon properties (like tooltip)
+    // Top-right weapon properties
     .weapon-properties-top-right {
       position: absolute;
       top: 8px;

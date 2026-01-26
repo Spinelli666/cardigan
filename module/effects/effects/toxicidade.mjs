@@ -180,7 +180,7 @@ export class ToxicidadeEffect extends BaseEffect {
   static _generateEffectDescriptionPlainText(originalItem, effectType) {
     const originalDescription = originalItem.system.description || "";
     
-    // Remove HTML tags for tooltip
+    // Remove HTML tags
     const plainText = originalDescription.replace(/<[^>]*>/g, '').trim();
     
     if (plainText) {

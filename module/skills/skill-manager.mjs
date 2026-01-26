@@ -137,213 +137,6 @@ export class SkillManager {
 
 
   /**
-   * Setup dynamic tooltip handlers for buttons that need real-time updates (HTML version)
-   * @param {string} skillName - Name of the skill
-   * @param {BaseSkill} skillClass - The skill class
-   * @param {HTMLElement} html - The chat HTML element
-   * @private
-   */
-  static #setupDynamicTooltipsHTML(skillName, skillClass, html) {
-    const tooltipButtons = html.querySelectorAll('.cardigan-dynamic-tooltip');
-
-    tooltipButtons.forEach(button => {
-      // Remove any existing tooltip
-      button.removeAttribute('title');
-      button.removeAttribute('data-tooltip');
-      
-      // Remove existing listeners to avoid duplicates
-      button.removeEventListener('mouseenter', button._tooltipEnterHandler);
-      button.removeEventListener('mouseleave', button._tooltipLeaveHandler);
-      
-      let customTooltip = null;
-      
-      // Add hover event listeners for custom HTML tooltips
-      button._tooltipEnterHandler = async (event) => {
-        const actorId = event.target.getAttribute('data-actor-id');
-        const buttonSkillName = event.target.getAttribute('data-skill');
-        
-        if (actorId && buttonSkillName === skillName) {
-          try {
-            let tooltipHTML;
-            
-            // Check if this is a secondary attack button
-            if (event.target.classList.contains('cardigan-skill-attack-secondary-btn')) {
-              if (typeof skillClass._generateSecondaryWeaponTooltipHTML === 'function') {
-                tooltipHTML = await skillClass._generateSecondaryWeaponTooltipHTML(actorId);
-              } else if (typeof skillClass._generateSecondaryWeaponTooltip === 'function') {
-                // Fallback to text tooltip
-                const tooltipText = await skillClass._generateSecondaryWeaponTooltip(actorId);
-                event.target.setAttribute('title', tooltipText);
-                return;
-              } else {
-                return;
-              }
-            } else if (typeof skillClass._generateWeaponTooltipHTML === 'function') {
-              tooltipHTML = await skillClass._generateWeaponTooltipHTML(actorId);
-            } else if (typeof skillClass._generateWeaponTooltip === 'function') {
-              // Fallback to text tooltip
-              const tooltipText = await skillClass._generateWeaponTooltip(actorId);
-              event.target.setAttribute('title', tooltipText);
-              return;
-            } else {
-              return;
-            }
-            
-            // Create custom tooltip element
-            customTooltip = document.createElement('div');
-            customTooltip.className = 'cardigan-custom-tooltip';
-            customTooltip.innerHTML = tooltipHTML;
-            customTooltip.style.position = 'fixed';
-            customTooltip.style.zIndex = '10000';
-            customTooltip.style.pointerEvents = 'none';
-            
-            document.body.appendChild(customTooltip);
-            
-            // Position tooltip above button
-            const rect = event.target.getBoundingClientRect();
-            const tooltipRect = customTooltip.getBoundingClientRect();
-            
-            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
-            let top = rect.top - tooltipRect.height - 10;
-            
-            // Keep tooltip within viewport
-            if (left < 5) left = 5;
-            if (left + tooltipRect.width > window.innerWidth - 5) {
-              left = window.innerWidth - tooltipRect.width - 5;
-            }
-            if (top < 5) {
-              top = rect.bottom + 10; // Show below if no space above
-            }
-            
-            customTooltip.style.left = `${left}px`;
-            customTooltip.style.top = `${top}px`;
-            
-            // Store tooltip reference for cleanup
-            button._customTooltip = customTooltip;
-            
-          } catch (error) {
-            console.error('Error generating dynamic tooltip:', error);
-            event.target.setAttribute('title', 'Erro ao carregar tooltip');
-          }
-        }
-      };
-
-      button._tooltipLeaveHandler = (event) => {
-        // Remove custom tooltip
-        if (button._customTooltip) {
-          button._customTooltip.remove();
-          button._customTooltip = null;
-        }
-      };
-      
-      button.addEventListener('mouseenter', button._tooltipEnterHandler);
-      button.addEventListener('mouseleave', button._tooltipLeaveHandler);
-    });
-  }
-
-  /**
-   * Setup dynamic tooltip handlers for buttons that need real-time updates
-   * @param {HTMLElement} html - The chat HTML element
-   * @private
-   */
-  static #setupDynamicTooltips(html) {
-    const tooltipButtons = html.querySelectorAll('.cardigan-dynamic-tooltip');
-
-    tooltipButtons.forEach(button => {
-      // Remove any existing tooltip
-      button.removeAttribute('title');
-      button.removeAttribute('data-tooltip');
-      
-      let customTooltip = null;
-      
-      // Add hover event listeners
-      button.addEventListener('mouseenter', async (event) => {
-        const actorId = event.target.getAttribute('data-actor-id');
-        const skillName = event.target.getAttribute('data-skill');
-        
-        if (actorId && skillName) {
-          const skillClass = this.getSkill(skillName) || BaseSkill;
-          
-          try {
-            let tooltipHTML;
-            
-            // Check if this is a secondary attack button
-            if (event.target.classList.contains('cardigan-skill-attack-secondary-btn')) {
-              if (typeof skillClass._generateSecondaryWeaponTooltipHTML === 'function') {
-                tooltipHTML = await skillClass._generateSecondaryWeaponTooltipHTML(actorId);
-              } else if (typeof skillClass._generateSecondaryWeaponTooltip === 'function') {
-                // Fallback to text tooltip
-                const tooltipText = await skillClass._generateSecondaryWeaponTooltip(actorId);
-                event.target.setAttribute('title', tooltipText);
-                return;
-              } else {
-                return;
-              }
-            } else if (typeof skillClass._generateWeaponTooltipHTML === 'function') {
-              tooltipHTML = await skillClass._generateWeaponTooltipHTML(actorId);
-            } else if (typeof skillClass._generateWeaponTooltip === 'function') {
-              // Fallback to text tooltip
-              const tooltipText = await skillClass._generateWeaponTooltip(actorId);
-              event.target.setAttribute('title', tooltipText);
-              return;
-            } else {
-              return;
-            }
-            
-            // Create custom tooltip element
-            customTooltip = document.createElement('div');
-            customTooltip.className = 'cardigan-custom-tooltip';
-            customTooltip.innerHTML = tooltipHTML;
-            customTooltip.style.position = 'fixed';
-            customTooltip.style.zIndex = '10000';
-            customTooltip.style.pointerEvents = 'none';
-            
-            document.body.appendChild(customTooltip);
-            
-            // Position tooltip above button
-            const rect = event.target.getBoundingClientRect();
-            const tooltipRect = customTooltip.getBoundingClientRect();
-            
-            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
-            let top = rect.top - tooltipRect.height - 10;
-            
-            // Keep tooltip within viewport
-            if (left < 5) left = 5;
-            if (left + tooltipRect.width > window.innerWidth - 5) {
-              left = window.innerWidth - tooltipRect.width - 5;
-            }
-            if (top < 5) {
-              top = rect.bottom + 10; // Show below if no space above
-            }
-            
-            customTooltip.style.left = `${left}px`;
-            customTooltip.style.top = `${top}px`;
-            
-            // Store tooltip reference for cleanup
-            button._customTooltip = customTooltip;
-            
-          } catch (error) {
-            console.error('Error generating dynamic tooltip:', error);
-            event.target.setAttribute('title', 'Erro ao carregar tooltip');
-          }
-        }
-      });
-
-      // Clear tooltip on mouse leave
-      button.addEventListener('mouseleave', (event) => {
-        // Remove custom tooltip
-        if (button._customTooltip) {
-          button._customTooltip.remove();
-          button._customTooltip = null;
-        }
-      });
-    });
-  }
-
-
-
-  /**
-   * Handle chat message rendering to set up event listeners for skill buttons
    * @param {ChatMessage} message - The chat message being rendered
    * @param {HTMLElement} html - The HTML content of the message
    * @private
@@ -389,11 +182,7 @@ export class SkillManager {
             };
             
             button.addEventListener('click', button._skillManagerHandler);
-            
-            // Set up dynamic tooltips for attack buttons
-            if (buttonType === 'attack' || buttonType === 'attack-secondary') {
-              this.#setupDynamicTooltipsHTML(skillName, skillClass || BaseSkill, html);
-            }
+
           } else {
             // Skill not registered - use default handlers
             button.removeEventListener('click', button._defaultSkillHandler);
@@ -410,9 +199,7 @@ export class SkillManager {
             
             button.addEventListener('click', button._defaultSkillHandler);
             
-            // Set up default tooltips for attack buttons
             if (buttonType === 'attack' || buttonType === 'attack-simple') {
-              // Setup dynamic tooltips with mouseenter events
               this.#setupDefaultDynamicTooltips(button, actorId, buttonType);
             }
           }
@@ -420,7 +207,7 @@ export class SkillManager {
       });
     }
     
-    // Set up enhancement emoji tooltips
+    // Set up enhancement emoji display
     this.#setupEnhancementTooltips(html);
   }
 
@@ -446,7 +233,7 @@ export class SkillManager {
           }
         );
         
-        // Create the tooltip content
+        // Create the content
         const tooltipContent = `
           <div class="enhancement-tooltip">
             <div class="enhancement-header">
@@ -459,7 +246,7 @@ export class SkillManager {
           </div>
         `;
         
-        // Set the tooltip using Foundry's tooltip system
+        // Set the display using Foundry's system
         emoji.dataset.tooltip = tooltipContent;
         emoji.dataset.tooltipClass = 'cardigan-enhancement-tooltip';
         emoji.dataset.tooltipDirection = 'UP';
@@ -654,7 +441,7 @@ export class SkillManager {
           const enhancementName = enhancement.name || `Aprimoramento ${i + 1}`;
           const statusText = isAcquired ? '✓ Adquirido' : '✗ Não Adquirido';
           
-          // Create enhancement data for tooltip (same as BaseSkill)
+          // Create enhancement data (same as BaseSkill)
           const enhancementData = {
             name: enhancementName,
             description: enhancement.description,
@@ -2113,7 +1900,7 @@ export class SkillManager {
         damageBreakdown = baseDamage;
       }
       
-      // Format tooltip based on weapon type
+      // Format display based on weapon type
       if (weapon.system.isFirearm && weapon.system.ranged) {
         // Firearm: Nome - [current/max]
         const currentAmmo = weapon.system.loadedAmmo || 0;
@@ -2162,7 +1949,6 @@ export class SkillManager {
    * @private
    */
   static #setupDefaultDynamicTooltips(button, actorId, buttonType) {
-    // Remove any existing tooltip
     button.removeAttribute('title');
     button.removeAttribute('data-tooltip');
     
@@ -2172,25 +1958,24 @@ export class SkillManager {
     
     let customTooltip = null;
     
-    // Add hover event listeners for HTML tooltips
     button._defaultTooltipEnterHandler = async (event) => {
       try {
         const isSecondary = buttonType === 'attack-simple';
         let tooltipHTML;
         
-        // Use BaseSkill methods for HTML tooltips
+        // Use BaseSkill methods for HTML display
         if (isSecondary && typeof BaseSkill._generateSecondaryWeaponTooltipHTML === 'function') {
           tooltipHTML = await BaseSkill._generateSecondaryWeaponTooltipHTML(actorId);
         } else if (typeof BaseSkill._generateWeaponTooltipHTML === 'function') {
           tooltipHTML = await BaseSkill._generateWeaponTooltipHTML(actorId);
         } else {
-          // Fallback to text tooltip
+          // Fallback to text display
           const tooltipText = this.#setupDefaultWeaponTooltip(button, actorId, isSecondary);
           event.target.setAttribute('title', tooltipText);
           return;
         }
         
-        // Create custom tooltip element
+        // Create custom element
         customTooltip = document.createElement('div');
         customTooltip.className = 'cardigan-custom-tooltip';
         customTooltip.innerHTML = tooltipHTML;
@@ -2200,14 +1985,14 @@ export class SkillManager {
         
         document.body.appendChild(customTooltip);
         
-        // Position tooltip above button
+        // Position display above button
         const rect = event.target.getBoundingClientRect();
         const tooltipRect = customTooltip.getBoundingClientRect();
         
         let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
         let top = rect.top - tooltipRect.height - 10;
         
-        // Keep tooltip within viewport
+        // Keep display within viewport
         if (left < 5) left = 5;
         if (left + tooltipRect.width > window.innerWidth - 5) {
           left = window.innerWidth - tooltipRect.width - 5;
@@ -2219,7 +2004,7 @@ export class SkillManager {
         customTooltip.style.left = `${left}px`;
         customTooltip.style.top = `${top}px`;
         
-        // Store tooltip reference for cleanup
+        // Store reference for cleanup
         button._customTooltip = customTooltip;
         
       } catch (error) {
@@ -2230,7 +2015,7 @@ export class SkillManager {
     };
 
     button._defaultTooltipLeaveHandler = (event) => {
-      // Remove custom tooltip
+      // Remove custom display
       if (button._customTooltip) {
         button._customTooltip.remove();
         button._customTooltip = null;

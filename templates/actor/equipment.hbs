@@ -83,8 +83,8 @@
           </div>
           <div 
             class="weapon-name-hover"
-            data-tooltip-direction="UP"
-            data-tooltip-class="cardigan-tooltip"
+            
+            
             data-item-id="{{item._id}}"
             data-action="toggleExpand"
           >
@@ -175,7 +175,7 @@
             {{#if @root.editable}}
               {{!-- Context Menu Button (Three Dots) --}}
               <button type="button" class="unbutton item-control always-interactive" data-context-menu
-                      data-tooltip="Opções Adicionais" data-tooltip-direction="UP">
+                       >
                 <i class="fa-solid fa-ellipsis-vertical" inert></i>
               </button>
             {{/if}}
@@ -232,8 +232,8 @@
           </div>
           <div 
             class="armor-name-hover"
-            data-tooltip-direction="UP"
-            data-tooltip-class="cardigan-tooltip"
+            
+            
             data-item-id="{{item._id}}"
             data-action="toggleExpand"
           >
@@ -362,31 +362,31 @@
   <div class="backpack-container">
     {{! Profession Filter Sidebar }}
     <div class="profession-filters">
-      <div class="filter-option" data-tooltip="All Items" data-tooltip-direction="RIGHT">
+      <div class="filter-option"  >
         <input type="radio" name="profession-filter" value="all" id="filter-all" {{#if (eq professionFilter "all")}}checked{{/if}} data-action="filterProfession">
         <label for="filter-all" class="filter-emoji">📦</label>
       </div>
-      <div class="filter-option" data-tooltip="Alchemy" data-tooltip-direction="RIGHT">
+      <div class="filter-option"  >
         <input type="radio" name="profession-filter" value="alchemy" id="filter-alchemy" {{#if (eq professionFilter "alchemy")}}checked{{/if}} data-action="filterProfession">
         <label for="filter-alchemy" class="filter-emoji">⚗️</label>
       </div>
-      <div class="filter-option" data-tooltip="Blacksmithing" data-tooltip-direction="RIGHT">
+      <div class="filter-option"  >
         <input type="radio" name="profession-filter" value="blacksmithing" id="filter-blacksmithing" {{#if (eq professionFilter "blacksmithing")}}checked{{/if}} data-action="filterProfession">
         <label for="filter-blacksmithing" class="filter-emoji">🔨</label>
       </div>
-      <div class="filter-option" data-tooltip="Carpentry" data-tooltip-direction="RIGHT">
+      <div class="filter-option"  >
         <input type="radio" name="profession-filter" value="carpentry" id="filter-carpentry" {{#if (eq professionFilter "carpentry")}}checked{{/if}} data-action="filterProfession">
         <label for="filter-carpentry" class="filter-emoji">🪚</label>
       </div>
-      <div class="filter-option" data-tooltip="Culinary" data-tooltip-direction="RIGHT">
+      <div class="filter-option"  >
         <input type="radio" name="profession-filter" value="culinary" id="filter-culinary" {{#if (eq professionFilter "culinary")}}checked{{/if}} data-action="filterProfession">
         <label for="filter-culinary" class="filter-emoji">🍳</label>
       </div>
-      <div class="filter-option" data-tooltip="Tailoring" data-tooltip-direction="RIGHT">
+      <div class="filter-option"  >
         <input type="radio" name="profession-filter" value="tailoring" id="filter-tailoring" {{#if (eq professionFilter "tailoring")}}checked{{/if}} data-action="filterProfession">
         <label for="filter-tailoring" class="filter-emoji">🧵</label>
       </div>
-      <div class="filter-option" data-tooltip="Tecnomagic" data-tooltip-direction="RIGHT">
+      <div class="filter-option"  >
         <input type="radio" name="profession-filter" value="tecnomagic" id="filter-tecnomagic" {{#if (eq professionFilter "tecnomagic")}}checked{{/if}} data-action="filterProfession">
         <label for="filter-tecnomagic" class="filter-emoji">⚡️</label>
       </div>
@@ -517,7 +517,7 @@
           {{#if @root.editable}}
             {{!-- Context Menu Button (Three Dots) for Backpack Table --}}
             <button type="button" class="unbutton item-control always-interactive" data-context-menu
-                    data-tooltip="Opções Adicionais" data-tooltip-direction="UP" data-item-id="{{item._id}}">
+                      data-item-id="{{item._id}}">
               <i class="fa-solid fa-ellipsis-vertical" inert></i>
             </button>
           {{/if}}
