@@ -1,5 +1,6 @@
 {
   "DOCUMENT": {
+    "DeleteWarning": "Tem certeza que quer excluir?",
     "New": {
       "arma": "New Weapon",
       "armadura": "New Armor",

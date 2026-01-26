@@ -89,6 +89,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       initiateTrade: this._onInitiateTrade,
       openCharacterWizard: this._onOpenCharacterWizard,
       openLevelUpWizard: this._onOpenLevelUpWizard,
+      toggleEffectsSection: this._toggleEffectsSection,
       // Removemos as ações do modal para implementar via event listeners diretos
     },
     // Custom property that's merged into `this.options`
@@ -1207,6 +1208,20 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     if (item) {
       item.sheet.render(true);
     }
+  }
+
+  /**
+   * Toggle the effects section visibility
+   *
+   * @this CardiganSystemActorSheet
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _toggleEffectsSection(event, target) {
+    const checkbox = target.closest('.effects-toggle').querySelector('input[name="system.details.showEffectsTab"]');
+    const currentValue = checkbox.checked;
+    await this.actor.update({ 'system.details.showEffectsTab': !currentValue });
   }
 
   /**

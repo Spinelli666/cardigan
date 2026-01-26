@@ -35,7 +35,7 @@
 
   // Espaçamento entre listas de perícias (não afeta imagens)
   & + .proficiencies-list {
-    margin-left: 17px;
+    margin-left: 10px;
   }
 
   .proficiency-label-wrapper {
@@ -210,3 +210,19 @@
   }
 }
 
+.proficiencies-divider-top {
+  position: absolute;
+  top: 271px;
+  left: -15px;
+  width: 110px;
+  opacity: 0.8;
+}
+
+.proficiencies-divider-bottom {
+  position: absolute;
+  bottom: 288px;
+  right: -15px;
+  width: 110px;
+  opacity: 0.8;
+  transform: scale(-1);
+}

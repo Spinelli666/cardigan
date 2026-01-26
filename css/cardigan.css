@@ -91,7 +91,9 @@
 .locked-tooltip.cardigan-proficiency-tooltip .proficiency-tooltip-content .tooltip-description p img {
   display: inline-block;
   vertical-align: middle;
-  margin: 0 2px;
+  margin: 0 1px !important;
+  width: 14px !important;
+  height: 14px !important;
 }
 #tooltip.cardigan-proficiency-tooltip .proficiency-tooltip-content .tooltip-description p strong,
 .locked-tooltip.cardigan-proficiency-tooltip .proficiency-tooltip-content .tooltip-description p strong {
@@ -786,7 +788,7 @@
   text-transform: uppercase;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
-  transform: translateX(var(--tabs-offset-x, -4.5px));
+  transform: translateX(var(--tabs-offset-x, -1px));
   background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -1337,7 +1339,7 @@
   align-items: center;
 }
 .cardigan .proficiencies-list + .proficiencies-list {
-  margin-left: 17px;
+  margin-left: 10px;
 }
 .cardigan .proficiencies-list .proficiency-label-wrapper {
   position: relative;
@@ -1484,36 +1486,52 @@
   text-shadow: 0px 0px 3px rgb(0, 0, 0) !important;
   box-shadow: none !important;
 }
-.cardigan .effects-container h3 {
-  margin: 0 0 10px 0;
-  font-size: 16px;
-  font-weight: bold;
-  padding-bottom: 5px;
+.cardigan .proficiencies-divider-top {
+  position: absolute;
+  top: 271px;
+  left: -15px;
+  width: 110px;
+  opacity: 0.8;
 }
-.cardigan .effects-container .effects-header {
+.cardigan .proficiencies-divider-bottom {
+  position: absolute;
+  bottom: 288px;
+  right: -15px;
+  width: 110px;
+  opacity: 0.8;
+  transform: scale(-1);
+}
+.cardigan .proficiencies-effects-grid {
+  margin-top: 20px;
+}
+.cardigan .proficiencies-effects-container .effects-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 10px;
   border: none !important;
+  background: none !important;
 }
-.cardigan .effects-container .effects-header .effects-toggle {
+.cardigan .proficiencies-effects-container .effects-header .effects-toggle {
   display: flex;
   align-items: center;
-  margin-right: 10px;
+  justify-content: center;
 }
-.cardigan .effects-container .effects-header .effects-toggle label {
+.cardigan .proficiencies-effects-container .effects-header .effects-toggle .effects-toggle-icon {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+.cardigan .proficiencies-effects-container .effects-header .effects-toggle .effects-toggle-icon:hover {
+  transform: scale(1.1);
+}
+.cardigan .proficiencies-effects-container .effects-header .effect-controls {
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  margin: 0;
 }
-.cardigan .effects-container .effects-header .effect-controls {
-  display: flex;
-  align-items: center;
-}
-.cardigan .effects-container .effects-header .effect-controls .effect-control {
+.cardigan .proficiencies-effects-container .effects-header .effect-controls .effect-control {
   padding: 4px 8px;
   font-size: 11px;
   color: white;
@@ -1522,70 +1540,128 @@
   text-decoration: none;
   cursor: pointer;
 }
-.cardigan .effects-container .effects-header .effect-controls .effect-control i {
+.cardigan .proficiencies-effects-container .effects-header .effect-controls .effect-control i {
   margin-right: 4px;
 }
-.cardigan .effects-container .effects-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.cardigan .proficiencies-effects-container .effects-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.cardigan .effects-container .effects-list .effect {
+.cardigan .proficiencies-effects-container .add-effect-button-container {
+  width: 44px;
+  height: 20px;
+  background: url("/systems/cardigan/assets/images/decorative/background-button-effects.webp") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cardigan .proficiencies-effects-container .add-effect-button-container .add-effect-icon {
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+.cardigan .proficiencies-effects-container .add-effect-button-container .add-effect-icon:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+.cardigan .proficiencies-effects-container .effects-list {
+  list-style: none;
+  padding: 8px;
+  margin: 0px 20px;
+  width: calc(100% - 110px);
+  max-height: 120px;
+  overflow-y: auto;
+  overflow-x: visible;
+  border: 1px solid #FFB75C;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cardigan .proficiencies-effects-container .effects-list .effect {
   display: flex;
   align-items: center;
-  padding: 8px;
-  border-bottom: 1px solid #eee;
+  padding: 2px 5px;
+  border: 1px solid #FFB75C;
+  border-radius: 15px;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
 }
-.cardigan .effects-container .effects-list .effect:last-child {
-  border-bottom: none;
+.cardigan .proficiencies-effects-container .effects-list .effect-image {
+  margin-left: 4px;
+  margin-right: 4px;
+  display: flex;
+  flex: 0 0 20px;
+  align-items: center;
+  justify-content: center;
 }
-.cardigan .effects-container .effects-list .effect-image {
-  margin-right: 8px;
-}
-.cardigan .effects-container .effects-list .effect-image img {
-  width: 24px;
-  height: 24px;
+.cardigan .proficiencies-effects-container .effects-list .effect-image img {
+  width: 19px;
+  height: 19px;
   border-radius: 3px;
 }
-.cardigan .effects-container .effects-list .effect-name {
+.cardigan .proficiencies-effects-container .effects-list .effect-name {
   flex: 1;
+  display: flex;
+  align-items: flex-start;
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-.cardigan .effects-container .effects-list .effect-name h4 {
+.cardigan .proficiencies-effects-container .effects-list .effect-name h4 {
   margin: 0;
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 11px;
+  font-family: "Alatsi", sans-serif;
+  text-transform: uppercase;
+  line-height: 1.4;
   cursor: pointer;
   scrollbar-width: none;
 }
-.cardigan .effects-container .effects-list .effect-name h4:hover {
+.cardigan .proficiencies-effects-container .effects-list .effect-name h4:hover {
   text-decoration: underline;
 }
-.cardigan .effects-container .effects-list .effect-name h4 em {
+.cardigan .proficiencies-effects-container .effects-list .effect-name h4 em {
   color: #666;
   font-style: italic;
 }
-.cardigan .effects-container .effects-list .effect-controls {
+.cardigan .proficiencies-effects-container .effects-list .effect-controls {
   display: flex;
-  gap: 4px;
+  flex: 0 0 26px;
+  gap: 3px;
 }
-.cardigan .effects-container .effects-list .effect-controls .effect-control {
+.cardigan .proficiencies-effects-container .effects-list .effect-controls .effect-control {
   color: #dc3545;
   cursor: pointer;
-  padding: 2px;
-  font-size: 12px;
+  padding: 1px;
+  font-size: 10px;
 }
-.cardigan .effects-container .effects-list .effect-controls .effect-control:hover {
+.cardigan .proficiencies-effects-container .effects-list .effect-controls .effect-control:hover {
   color: #a71e2a;
 }
-.cardigan .effects-container .effects-list .no-effects {
-  padding: 20px;
+.cardigan .proficiencies-effects-container .effects-list .effect-controls .delete-icon {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  transition: transform 0.2s ease;
+}
+.cardigan .proficiencies-effects-container .effects-list .effect-controls .delete-icon:hover {
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.6));
+  transform: scale(1.1);
+}
+.cardigan .proficiencies-effects-container .effects-list .no-effects {
+  padding: 12px;
   text-align: center;
-  color: #666;
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-style: italic;
+  font-size: 12px;
 }
 .cardigan .item-description img:not(.spell-category-image):not(.skill-image):not(.recipe-image):not(.ingredient-image),
 .cardigan .weapon-description img:not(.spell-category-image):not(.skill-image):not(.recipe-image):not(.ingredient-image),

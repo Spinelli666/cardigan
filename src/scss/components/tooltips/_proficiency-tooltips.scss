@@ -48,7 +48,9 @@
         img {
           display: inline-block;
           vertical-align: middle;
-          margin: 0 2px;
+          margin: 0 1px !important;
+          width: 14px !important;
+          height: 14px !important;
         }
         
         // Garantir que strong fique inline

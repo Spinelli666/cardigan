@@ -4,6 +4,7 @@
   data-group='primary'
   data-tab='proficiencies'
 >
+  <img src='systems/cardigan/assets/images/decorative/divider.webp' class='proficiencies-divider-top' alt='Divider' />
   <section class='main proficiencies-tab-main'>
     {{! Proficiencies }}
     <div class='proficiencies'>
@@ -372,4 +373,129 @@
         </div>
       </div>
   </section>
+
+  {{! Effects Grid }}
+  <div class='proficiencies-effects-grid'>
+    {{! Effects Container }}
+    <div class='proficiencies-effects-container'>
+      <div class="effects-header">
+        <div class="effects-toggle" data-cardigan-tooltip="Efeitos">
+          <input
+            type="checkbox"
+            name="system.details.showEffectsTab"
+            {{#if system.details.showEffectsTab}}checked{{/if}}
+            data-dtype="Boolean"
+            style="display: none;"
+          />
+          <img 
+            src="systems/cardigan/assets/images/effects/effects.webp" 
+            alt="Toggle Effects" 
+            class="effects-toggle-icon"
+            data-action="toggleEffectsSection"
+          />
+        </div>
+        {{#if system.details.showEffectsTab}}
+          <div class='effect-controls'>
+          </div>
+        {{/if}}
+      </div>
+      
+      {{#if system.details.showEffectsTab}}
+        <div class="effects-content-wrapper">
+          <div class="add-effect-button-container">
+            <img 
+              src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg" 
+              alt="Add Effect" 
+              class="add-effect-icon"
+              data-cardigan-tooltip="Adicionar Efeito"
+              data-action="createDoc"
+              data-document-class="Item"
+              data-type="efeito"
+            />
+          </div>
+          {{! Unified Effects List - ActiveEffects and Items together }}
+          {{! ActiveEffects are filtered to hide duplicates of Item efeitos }}
+          <ol class='effects-list'>
+          {{#each filteredEffects as |effect|}}
+            <li
+              class='effect flexrow'
+              data-effect-id='{{effect.id}}'
+              data-document-class='ActiveEffect'
+            >
+              <div class='effect-image'>
+                <img src='{{effect.img}}' alt='{{effect.name}}' width='24' height='24' />
+              </div>
+              
+              <div class='effect-name'>
+                <h4 
+                  data-tooltip="{{effect.name}}{{#if effect.flags.cardigan.descriptionPlainText}}<br><em>{{effect.flags.cardigan.descriptionPlainText}}</em>{{/if}}"
+                  data-tooltip-direction="UP"
+                  data-tooltip-class="cardigan-tooltip"
+                  data-action="showEffectInChat"
+                  data-effect-name="{{effect.name}}"
+                  data-effect-description="{{effect.flags.cardigan.description}}"
+                  class="clickable-effect"
+                >
+                  {{effect.name}}
+                  {{#if effect.disabled}}<em> (Disabled)</em>{{/if}}
+                </h4>
+              </div>
+
+              <div class='effect-controls flexrow'>
+                {{#if @root.editable}}
+                <a class='effect-control' data-action='deleteDoc' title='Delete Effect'>
+                  <img src='systems/cardigan/assets/images/decorative/icons/icon-delete.svg' alt='Delete' class='delete-icon' width='12' height='12' />
+                </a>
+                {{/if}}
+              </div>
+            </li>
+          {{/each}}
+
+          {{#each efeitos as |efeito|}}
+            <li
+              class='effect flexrow'
+              data-item-id='{{efeito.id}}'
+              data-document-class='Item'
+              data-drag="true"
+            >
+              <div class='effect-image'>
+                <img src='{{efeito.img}}' alt='{{efeito.name}}' width='24' height='24' />
+              </div>
+              
+              <div class='effect-name'>
+                <h4 
+                  data-tooltip-class="cardigan-tooltip effect-tooltip"
+                  data-action="showEffectInChat"
+                  data-effect-name="{{efeito.name}}"
+                  data-effect-description="{{efeito.system.description}}"
+                  class="clickable-effect effect-item"
+                  data-item-uuid="{{efeito.uuid}}"
+                >
+                  {{efeito.name}}
+                </h4>
+              </div>
+
+              <div class='effect-controls flexrow'>
+                {{#if @root.editable}}
+                <a class='effect-control' data-action='deleteDoc' title='Delete Efeito'>
+                  <img src='systems/cardigan/assets/images/decorative/icons/icon-delete.svg' alt='Delete' class='delete-icon' width='12' height='12' />
+                </a>
+                {{/if}}
+              </div>
+            </li>
+          {{/each}}
+
+          {{#unless filteredEffects.length}}
+            {{#unless efeitos}}
+            <li class="no-effects">
+              <span>Nenhum efeito aplicado</span>
+            </li>
+            {{/unless}}
+          {{/unless}}
+        </ol>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+  <img src='systems/cardigan/assets/images/decorative/divider.webp' class='proficiencies-divider-bottom' alt='Divider' />
 </section>
