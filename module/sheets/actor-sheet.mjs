@@ -11,6 +11,7 @@ import { HeaderActions } from './actions/header-actions.mjs';
 import { HeaderStatusActions } from './actions/header-status-actions.mjs';
 import { HeaderContext } from './parts/header-context.mjs';
 import { HeaderListeners } from './listeners/header-listeners.mjs';
+import { ProficienciesActions } from './actions/proficiencies-actions.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -285,11 +286,11 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           return tabs;
         case 'proficiencies':
           tab.id = 'proficiencies';
-          tab.label += 'Features';
+          tab.label += 'Proficiencies';
           break;
         case 'equipment':
           tab.id = 'equipment';
-          tab.label += 'Equipamentos';
+          tab.label += 'Equipment';
           break;
         case 'skills':
           tab.id = 'skills';
@@ -297,7 +298,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           break;
         case 'professions':
           tab.id = 'professions';
-          tab.label += 'Profissoes';
+          tab.label += 'Professions';
           break;
         case 'biography':
           tab.id = 'biography';
@@ -1275,84 +1276,17 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Handle showing effect information in chat
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
+   * Handle showing effect information in chat - delegates to ProficienciesActions
    */
   static async _onShowEffectInChat(event, target) {
-    event.preventDefault();
-    
-    try {
-      const effectName = target.dataset.effectName;
-      const effectDescription = target.dataset.effectDescription || "";
-      const actorName = this.document.name;
-      
-      // Criar o conteúdo da mensagem
-      let content = `<div class="cardigan-effect-message">
-        <h3 style="margin: 0 0 8px 0; color: #b5b3a4; border-bottom: 1px solid #c9c7b8; padding-bottom: 4px;">
-          <i class="fas fa-magic" style="margin-right: 6px;"></i>Efeito Ativo
-        </h3>
-        <p style="margin: 4px 0; font-weight: bold;">
-          <strong>${actorName}</strong> está sob o efeito: <em style="color: #b5b3a4;">${effectName}</em>
-        </p>`;
-      
-      if (effectDescription && effectDescription.trim() !== "") {
-        content += `<div style="margin-top: 8px; padding: 6px; background: rgba(0,0,0,0.1); border-left: 3px solid #b5b3a4; border-radius: 3px;">
-          <div style="margin: 0; font-style: italic; color: #666;">${effectDescription}</div>
-        </div>`;
-      }
-      
-      content += `</div>`;
-      
-      // Enviar mensagem para o chat
-      await ChatMessage.create({
-        content: content,
-        speaker: ChatMessage.getSpeaker({ actor: this.document }),
-        style: CONST.CHAT_MESSAGE_STYLES.OTHER
-      });
-      
-    } catch (error) {
-      console.error("Error showing effect in chat:", error);
-      ui.notifications.error(`Erro ao mostrar efeito no chat: ${error.message}`);
-    }
+    return ProficienciesActions.onShowEffectInChat(event, target, this);
   }
 
   /**
-   * Show skill description in chat
-   * @param {Event} event   The triggering event
-   * @param {HTMLElement} target  The targeted element
-   * @protected
+   * Show skill description in chat - delegates to ProficienciesActions
    */
   static async _onSkillToChat(event, target) {
-    event.preventDefault();
-    
-    try {
-      const itemId = target.dataset.itemId;
-      const skill = this.document.items.get(itemId);
-      
-      if (!skill) {
-        ui.notifications.error("Skill não encontrada");
-        return;
-      }
-      
-      const skillName = skill.name;
-      const actorId = this.document.id;
-      
-      // Use the SkillManager to handle skill-to-chat
-      try {
-        const { getSkillManager } = await import('../skills/index.mjs');
-        const skillManager = await getSkillManager();
-        await skillManager.handleSkillToChat(skillName, actorId);
-      } catch (error) {
-        console.error(`Error showing skill ${skillName} in chat:`, error);
-        ui.notifications.error(`Erro ao mostrar skill no chat: ${error.message}`);
-      }
-      
-    } catch (error) {
-      console.error("Error showing skill in chat:", error);
-      ui.notifications.error(`Erro ao mostrar skill no chat: ${error.message}`);
-    }
+    return ProficienciesActions.onSkillToChat(event, target, this);
   }
 
   /**
