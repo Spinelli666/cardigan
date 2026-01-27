@@ -7,6 +7,8 @@ import { RecipeCraftingDialog } from '../applications/recipe-crafting-dialog.mjs
 import { buildRollFormula } from '../helpers/config.mjs';
 import { AdvantageSelectionDialog } from '../applications/advantage-selection-dialog.mjs';
 import { CharacterCreationWizard } from '../applications/character-creation-wizard.mjs';
+import { HeaderActions } from './actions/header-actions.mjs';
+import { HeaderContext } from './parts/header-context.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -9099,532 +9101,50 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }
   }
 
+  // ========================================
+  // HEADER ACTIONS (delegated to HeaderActions module)
+  // ========================================
+
   /**
-   * Handle rest button click - shows dialog to select rest type
-   * @param {Event} event - The click event
-   * @param {HTMLElement} target - The clicked element
+   * Handle rest button click - delegates to HeaderActions
    */
   static async _onRest(event, target) {
-    event.preventDefault();
-    const actor = this.document;
-    
-    // Show rest selection dialog
-    const restType = await RestSelectionDialog.show(actor);
-    
-    // If user cancelled, do nothing
-    if (!restType) return;
-    
-    // Perform the selected rest type
-    await CardiganSystemActorSheet._performRest(actor, restType);
+    return HeaderActions.onRest(event, target, this);
   }
 
   /**
-   * Handle short rest action
-   * @param {Event} event - The click event
-   * @param {HTMLElement} target - The clicked element
+   * Handle short rest action - delegates to HeaderActions
    */
   static async _onShortRest(event, target) {
-    event.preventDefault();
-    const actor = this.document;
-    
-    // Confirm rest action using DialogV2
-    const confirmed = await foundry.applications.api.DialogV2.confirm({
-      window: { title: game.i18n.localize("CARDIGAN.Rest.ShortRest") || "Short Rest" },
-      content: `<p>${game.i18n.localize("CARDIGAN.Rest.Confirmation.ShortRest") || "Take a short rest? This will restore some health and power based on your vigor."}</p>`
-    });
-    
-    if (!confirmed) return;
-    
-    await CardiganSystemActorSheet._performRest(actor, "short");
+    return HeaderActions.onShortRest(event, target, this);
   }
 
   /**
-   * Handle long rest action
-   * @param {Event} event - The click event
-   * @param {HTMLElement} target - The clicked element
+   * Handle long rest action - delegates to HeaderActions
    */
   static async _onLongRest(event, target) {
-    event.preventDefault();
-    const actor = this.document;
-    
-    // Confirm rest action using DialogV2
-    const confirmed = await foundry.applications.api.DialogV2.confirm({
-      window: { title: game.i18n.localize("CARDIGAN.Rest.LongRest") || "Long Rest" },
-      content: `<p>${game.i18n.localize("CARDIGAN.Rest.Confirmation.LongRest") || "Take a long rest? This will restore more health and power, remove certain effects, and potentially remove exhaustion."}</p>`
-    });
-    
-    if (!confirmed) return;
-    
-    await CardiganSystemActorSheet._performRest(actor, "long");
+    return HeaderActions.onLongRest(event, target, this);
   }
 
   /**
-   * Perform the rest mechanics
-   * @param {Actor} actor - The actor taking the rest
-   * @param {string} restType - "short" or "long"
-   */
-  static async _performRest(actor, restType) {
-    try {
-      const actorData = actor.system;
-      
-      // Calculate total stamina (value + bonus) like in the character data model
-      const staminaValue = actorData.abilities?.stamina?.value || 0;
-      const staminaBonus = actorData.abilities?.stamina?.totalBonus || 0;
-      const vigor = staminaValue + staminaBonus;
-      
-      let recoveryRoll;
-      let results = [];
-      
-      if (restType === "short") {
-        // Short rest: 1d20 + 2×vigor
-        recoveryRoll = new Roll("1d20 + @vigor", { vigor: vigor * 2 });
-      } else {
-        // Long rest: 2d20 + 3×vigor
-        recoveryRoll = new Roll("2d20 + @vigor", { vigor: vigor * 3 });
-      }
-      
-      // Roll for recovery (same value for health and energy)
-      await recoveryRoll.evaluate();
-      
-      const recoveredAmount = recoveryRoll.total;
-      
-      // Update health and energy
-      const currentHealth = actorData.health?.value || 0;
-      const maxHealth = actorData.health?.max || 0;
-      const currentPower = actorData.power?.value || 0;
-      const maxPower = actorData.power?.max || 0;
-      
-      const newHealth = Math.min(currentHealth + recoveredAmount, maxHealth);
-      const newPower = Math.min(currentPower + recoveredAmount, maxPower);
-      
-      const updateData = {
-        "system.health.value": newHealth,
-        "system.power.value": newPower
-      };
-      
-      results.push(`Vida Recuperada: ${recoveredAmount}`);
-      results.push(`Energia Recuperada: ${recoveredAmount}`);
-      
-      // Long rest specific effects
-      if (restType === "long") {
-        // Remove certain effects (fracture, sanity, toxicity)
-        const statusUpdates = {};
-        let effectsRemoved = [];
-        
-        if (actorData.status?.fracture > 0) {
-          statusUpdates["system.status.fracture"] = 0;
-          effectsRemoved.push("Fratura");
-        }
-        
-        if (actorData.status?.sanity !== null && actorData.status?.sanity > 0) {
-          statusUpdates["system.status.sanity"] = 0;
-          effectsRemoved.push("Sanidade");
-        }
-        
-        if (actorData.status?.toxicity !== null && actorData.status?.toxicity > 0) {
-          statusUpdates["system.status.toxicity"] = 0;
-          effectsRemoved.push("Toxicidade");
-        }
-        
-        Object.assign(updateData, statusUpdates);
-        
-        if (effectsRemoved.length > 0) {
-          results.push("Efeitos Removidos: " + effectsRemoved.join(", "));
-        }
-      }
-      
-      // Check for exhaustion removal for both short and long rest (only if not wearing heavy armor)
-      const isWearingHeavyArmor = await CardiganSystemActorSheet._checkHeavyArmor(actor);
-      
-      // Find exhaustion effect in actor items (Cardigan uses items for effects, not Active Effects)
-      const exhaustionEffect = actor.items.find(item => {
-        const name = item.name?.toLowerCase() || "";
-        const type = item.type?.toLowerCase() || "";
-        const isExhaustion = (type === "efeito") && 
-                           (name.includes("exaustão") || 
-                            name.includes("exhaustion") ||
-                            name.includes("exaust"));
-        
-        console.log(`[REST] Checking item "${item.name}" (type: ${item.type}): isExhaustion = ${isExhaustion}`);
-        return isExhaustion;
-      });
-      
-      console.log(`[REST] Exhaustion effect found:`, exhaustionEffect ? exhaustionEffect.name : "None");
-      console.log(`[REST] Available effect items:`, actor.items.filter(i => i.type === "efeito").map(e => e.name));
-      
-      if (exhaustionEffect) {
-        if (isWearingHeavyArmor) {
-          results.push("Não é possível remover exaustão enquanto usa armadura pesada");
-        } else {
-          console.log(`[REST] Removing exhaustion effect: ${exhaustionEffect.name}`);
-          await exhaustionEffect.delete();
-          results.push("Exaustão removida");
-        }
-      } else {
-        console.log(`[REST] No exhaustion effect found in items.`);
-      }
-      
-      // Apply all updates
-      await actor.update(updateData);
-      
-      // Show results in chat
-      await CardiganSystemActorSheet._showRestResults(actor, restType, recoveryRoll, results);
-      
-      ui.notifications.info("Descanso realizado com sucesso");
-      
-    } catch (error) {
-      console.error("[REST] Error performing rest:", error);
-      ui.notifications.error("Error performing rest: " + error.message);
-    }
-  }
-
-  /**
-   * Check if actor is wearing heavy armor
-   * @param {Actor} actor - The actor to check
-   * @returns {boolean} - True if wearing heavy armor
-   */
-  static async _checkHeavyArmor(actor) {
-    const equippedArmor = actor.items.filter(item => 
-      item.type === "armadura" && item.system.equipped
-    );
-    
-    return equippedArmor.some(armor => armor.system.weight === "pesado");
-  }
-
-  /**
-   * Show rest results in chat
-   * @param {Actor} actor - The actor who rested
-   * @param {string} restType - "short" or "long"
-   * @param {Roll} recoveryRoll - The recovery roll
-   * @param {Array} results - Array of result messages
-   */
-  static async _showRestResults(actor, restType, recoveryRoll, results) {
-    const restLabel = restType === "short" 
-      ? (game.i18n.localize("CARDIGAN.Rest.ShortRest") || "Descanso Curto")
-      : (game.i18n.localize("CARDIGAN.Rest.LongRest") || "Descanso Longo");
-    
-    // Create flavor text with additional effects
-    let flavor = `<h3>${restLabel}</h3>`;
-    if (results.length > 0) {
-      flavor += `<div class="rest-effects">`;
-      flavor += results.map(result => `<div>• ${result}</div>`).join("");
-      flavor += `</div>`;
-    }
-    
-    // Send roll to chat like skill tests
-    await recoveryRoll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor }),
-      flavor: flavor,
-      rollMode: game.settings.get('core', 'rollMode')
-    });
-  }
-
-  /**
-   * Handle initiating trade with another player
-   * @param {Event} event - Click event
-   * @param {HTMLElement} target - Clicked element
-   * @private
+   * Handle initiating trade - delegates to HeaderActions
    */
   static async _onInitiateTrade(event, target) {
-    const actor = this.actor;
-    
-    // Validate targeting: must have exactly 1 target
-    if (game.user.targets.size === 0) {
-      ui.notifications.error("Selecione um alvo antes de negociar!");
-      return;
-    }
-    
-    if (game.user.targets.size > 1) {
-      ui.notifications.warn("Você só pode negociar com um alvo por vez!");
-      return;
-    }
-    
-    // Get the single target
-    const targetToken = game.user.targets.first();
-    
-    if (!targetToken || !targetToken.actor) {
-      ui.notifications.error("Alvo inválido!");
-      return;
-    }
-    
-    const targetActor = targetToken.actor;
-    
-    // Prevent trading with self
-    if (targetActor.id === actor.id) {
-      ui.notifications.warn("Você não pode negociar consigo mesmo!");
-      return;
-    }
-    
-    // Generate unique trade ID
-    const tradeId = foundry.utils.randomID();
-    
-    // If GM, show trade mode selection dialog
-    if (game.user.isGM) {
-      const mode = await CardiganSystemActorSheet._showTradeModeSelection();
-      
-      if (!mode) return; // User cancelled
-      
-      if (mode === 'merchant') {
-        // Initiate merchant trade
-        game.socket.emit('system.cardigan', {
-          action: 'merchantTradeRequest',
-          data: {
-            tradeId: tradeId,
-            merchantId: actor.id,
-            customerId: targetActor.id,
-            merchantOwnerId: game.user.id
-          }
-        });
-        
-        ui.notifications.info(`Solicitação de comércio enviada para ${targetActor.name}! Aguardando resposta...`);
-        return;
-      }
-      // else: fall through to normal trade
-    }
-    
-    // Normal trade (non-GM or GM selected normal mode)
-    game.socket.emit('system.cardigan', {
-      action: 'tradeRequest',
-      data: {
-        tradeId: tradeId,
-        initiatorId: actor.id,
-        targetId: targetActor.id
-      }
-    });
-    
-    ui.notifications.info(`Solicitação de negociação enviada para ${targetActor.name}! Aguardando resposta...`);
+    return HeaderActions.onInitiateTrade(event, target, this);
   }
 
   /**
-   * Show trade mode selection dialog (GM only)
-   * @returns {Promise<string|null>} Selected mode ('normal' or 'merchant') or null if cancelled
-   * @private
-   */
-  static async _showTradeModeSelection() {
-    // Render template
-    const content = await foundry.applications.handlebars.getTemplate(
-      'systems/cardigan/templates/dialogs/trade-mode-selection.hbs'
-    );
-    const html = await content({});
-    
-    return new Promise((resolve) => {
-      const dialog = new foundry.applications.api.DialogV2({
-        window: {
-          title: "Modo de Negociação",
-          icon: "fa-solid fa-handshake"
-        },
-        content: html,
-        buttons: [
-          {
-            action: "cancel",
-            label: "Cancelar",
-            icon: "fa-solid fa-times",
-            callback: () => resolve(null)
-          }
-        ],
-        position: { width: 450 }
-      });
-      
-      // Add click handlers to mode options
-      dialog.addEventListener('render', () => {
-        const options = dialog.element.querySelectorAll('.mode-option');
-        options.forEach(option => {
-          option.addEventListener('click', () => {
-            const mode = option.dataset.mode;
-            dialog.close();
-            resolve(mode);
-          });
-        });
-      });
-      
-      dialog.render(true);
-    });
-  }
-
-  /**
-   * Show player selection dialog
-   * @param {Array} players - Available players data
-   * @returns {Promise<string|null>} Selected actor ID or null
-   * @private
-   */
-  static async _showPlayerSelectionDialog(players) {
-    return new Promise((resolve) => {
-      const dialog = new foundry.applications.api.DialogV2({
-        window: {
-          title: "Selecionar Jogador",
-          icon: "fa-solid fa-users"
-        },
-        content: `
-          <div class="player-selection-dialog">
-            <p class="instruction">Selecione com qual jogador você deseja negociar:</p>
-            
-            <div class="player-list">
-              ${players.map(p => `
-                <div class="player-option" data-actor-id="${p.id}">
-                  <img src="${p.img}" alt="${p.name}" class="player-avatar" />
-                  <div class="player-info">
-                    <span class="player-name">${p.name}</span>
-                    ${p.playerName ? `<span class="player-owner">(${p.playerName})</span>` : ''}
-                  </div>
-                  <button type="button" class="select-player-btn" data-actor-id="${p.id}">
-                    <i class="fas fa-handshake"></i> Negociar
-                  </button>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-
-          <style>
-            .player-selection-dialog .instruction {
-              margin-bottom: 16px;
-              font-size: 14px;
-              color: #666;
-            }
-            
-            .player-selection-dialog .player-list {
-              display: flex;
-              flex-direction: column;
-              gap: 12px;
-              max-height: 400px;
-              overflow-y: auto;
-            }
-            
-            .player-selection-dialog .player-option {
-              display: flex;
-              align-items: center;
-              gap: 12px;
-              padding: 12px;
-              border: 2px solid #ccc;
-              border-radius: 4px;
-              background: #f9f9f9;
-              transition: all 0.2s;
-            }
-            
-            .player-selection-dialog .player-option:hover {
-              border-color: #4CAF50;
-              background: #f1f8f4;
-              transform: translateX(4px);
-            }
-            
-            .player-selection-dialog .player-avatar {
-              width: 48px;
-              height: 48px;
-              border-radius: 50%;
-              border: 2px solid #999;
-              object-fit: cover;
-            }
-            
-            .player-selection-dialog .player-info {
-              flex: 1;
-              display: flex;
-              flex-direction: column;
-            }
-            
-            .player-selection-dialog .player-name {
-              font-weight: bold;
-              font-size: 16px;
-            }
-            
-            .player-selection-dialog .player-owner {
-              font-size: 12px;
-              color: #666;
-            }
-            
-            .player-selection-dialog .select-player-btn {
-              padding: 8px 16px;
-              background: #4CAF50;
-              color: white;
-              border: none;
-              border-radius: 4px;
-              cursor: pointer;
-              font-weight: bold;
-              transition: background 0.2s;
-            }
-            
-            .player-selection-dialog .select-player-btn:hover {
-              background: #45a049;
-            }
-          </style>
-        `,
-        buttons: [
-          {
-            action: "cancel",
-            label: "Cancelar",
-            icon: "fa-solid fa-times",
-            callback: () => resolve(null)
-          }
-        ],
-        position: {
-          width: 500,
-          height: "auto"
-        }
-      });
-      
-      // Add click handlers to player selection buttons
-      dialog.addEventListener('render', () => {
-        const buttons = dialog.element.querySelectorAll('.select-player-btn');
-        buttons.forEach(btn => {
-          btn.addEventListener('click', () => {
-            const actorId = btn.dataset.actorId;
-            resolve(actorId);
-            dialog.close();
-          });
-        });
-      });
-      
-      dialog.render(true);
-    });
-  }
-
-  /**
-   * Handle opening the character creation wizard
-   * @param {Event} event - Click event
-   * @param {HTMLElement} target - Clicked element
-   * @private
+   * Handle opening character wizard - delegates to HeaderActions
    */
   static async _onOpenCharacterWizard(event, target) {
-    const actor = this.actor;
-    
-    // Verificar se o level é 0
-    if (actor.system.attributes.level.value !== 0) {
-      ui.notifications.warn("O wizard de criação só está disponível para personagens de nível 0!");
-      return;
-    }
-    
-    // Abrir o wizard
-    const wizard = new CharacterCreationWizard(actor);
-    await wizard.render(true);
+    return HeaderActions.onOpenCharacterWizard(event, target, this);
   }
 
   /**
-   * Handle opening the level up wizard
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @private
+   * Handle opening level up wizard - delegates to HeaderActions
    */
   static async _onOpenLevelUpWizard(event, target) {
-    const actor = this.actor;
-    
-    // Verificar se o personagem está pronto para upar
-    const currentLevel = actor.system.attributes.level.value || 0;
-    const currentXP = actor.system.experience.current || 0;
-    const nextLevelXP = actor.system.experience.nextLevel || 100;
-    
-    if (currentLevel === 0) {
-      ui.notifications.warn("Use o botão 'Criar Personagem' primeiro!");
-      return;
-    }
-    
-    if (currentXP < nextLevelXP) {
-      ui.notifications.warn(`Você precisa de ${nextLevelXP - currentXP} XP para upar de nível!`);
-      return;
-    }
-    
-    // Abrir o wizard de level up
-    const { LevelUpWizard } = await import('../applications/level-up-wizard.mjs');
-    const wizard = new LevelUpWizard(actor);
-    await wizard.render(true);
+    return HeaderActions.onOpenLevelUpWizard(event, target, this);
   }
-
 
 }
