@@ -8,7 +8,9 @@ import { buildRollFormula } from '../helpers/config.mjs';
 import { AdvantageSelectionDialog } from '../applications/advantage-selection-dialog.mjs';
 import { CharacterCreationWizard } from '../applications/character-creation-wizard.mjs';
 import { HeaderActions } from './actions/header-actions.mjs';
+import { HeaderStatusActions } from './actions/header-status-actions.mjs';
 import { HeaderContext } from './parts/header-context.mjs';
+import { HeaderListeners } from './listeners/header-listeners.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -333,8 +335,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }, 50); // Small delay to ensure DOM is ready
     }
     
-    // Adicionar event listeners para checkboxes de hunger e thirst
-    this.#addStatusListeners();
+    // Adicionar event listeners do header (status, critical hit, movement)
+    HeaderListeners.initialize(this.element, this.actor);
     
     // Adicionar event listeners para campos de durabilidade
     this.#addDurabilityListeners();
@@ -350,12 +352,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Adicionar event listeners para rolagem nas perícias (Accuracy, Evasion, etc.)
     this.#addProficiencyRollListeners();
-    
-    // Adicionar event listeners para campo dinâmico de critical hit
-    this.#addCriticalHitListeners();
-    
-    // Adicionar event listeners para campo dinâmico de movement
-    this.#addMovementListeners();
     
     // Adicionar event listeners para campos dinâmicos de bonus
     this.#addBonusFieldsListeners();
@@ -1211,424 +1207,71 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     await this.actor.update({ 'system.details.showEffectsTab': !currentValue });
   }
 
+  // ========================================
+  // HEADER STATUS/ROLLS ACTIONS (delegated to HeaderStatusActions module)
+  // ========================================
+
   /**
-   * Handle clickable rolls.
-   * @param {Event} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
+   * Handle generic roll - delegates to HeaderStatusActions
    */
   static async _onRoll(event, target) {
-    event.preventDefault();
-    
-    const element = target;
-    const dataset = element.dataset;
-
-    // Handle item rolls.
-    switch (dataset.rollType) {
-      case 'item':
-        const itemId = element.closest('[data-item-id]')?.dataset.itemId;
-        const item = this.document.items.get(itemId);
-        if (item) return item.roll();
-        break;
-    }
-
-    // Handle rolls that supply the formula directly.
-    if (dataset.roll) {
-      const label = dataset.label || 'Roll';
-      
-      try {
-        // Show advantage selection dialog
-        const result = await AdvantageSelectionDialog.show();
-        if (!result) return; // User cancelled
-
-        const { rollType, attackMode } = result;
-
-        let rollFormula = dataset.roll;
-        let rollDescription = "Rolagem Normal";
-        
-        // Modify the formula based on advantage type
-        switch (rollType) {
-          case 'normal':
-            // Keep original formula
-            rollDescription = "Rolagem Normal";
-            break;
-            
-          case 'advantage':
-            // Replace d20 with 2d20kh (keep highest)
-            rollFormula = rollFormula.replace(/1?d20/g, '2d20kh');
-            rollDescription = "Rolagem com Vantagem";
-            break;
-            
-          case 'disadvantage':
-            // Replace d20 with 2d20kl (keep lowest)
-            rollFormula = rollFormula.replace(/1?d20/g, '2d20kl');
-            rollDescription = "Rolagem com Desvantagem";
-            break;
-            
-          case 'enhanced-advantage':
-            // Replace d20 with 3d20kh (keep highest of 3)
-            rollFormula = rollFormula.replace(/1?d20/g, '3d20kh');
-            rollDescription = "Rolagem com Vantagem Aprimorada";
-            break;
-            
-          case 'enhanced-disadvantage':
-            // Replace d20 with 3d20kl (keep lowest of 3)
-            rollFormula = rollFormula.replace(/1?d20/g, '3d20kl');
-            rollDescription = "Rolagem com Desvantagem Aprimorada";
-            break;
-            
-          default:
-            return;
-        }
-        
-        // Add attack mode to description
-        const modeText = attackMode === 'conjunto' ? ' (Conjunto)' : ' (Individual)';
-        rollDescription += modeText;
-        
-        // Check for Congelado effect and apply skill penalty
-        const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
-        const congeladoPenalty = CongeladoEffect.getSkillPenalty(this.document);
-        
-        // Apply Congelado penalty to formula if present
-        if (congeladoPenalty !== 0) {
-          rollFormula += ` ${congeladoPenalty}`;
-          rollDescription += ` [Congelado ${congeladoPenalty}]`;
-        }
-        
-        // Create the roll with modified formula
-        const roll = new Roll(rollFormula, this.document.getRollData());
-        
-        // Evaluate the roll
-        await roll.evaluate();
-        
-        // Check for Sangramento effect and apply damage if rolling an ability
-        const abilityKey = dataset.key || null;
-        if (abilityKey) {
-          const abilityLabel = label || dataset.label || '';
-          const { SangramentoEffect } = await import('../effects/index.mjs');
-          await SangramentoEffect.applyBleedingDamage(this.document, abilityLabel, abilityKey);
-        }
-        
-        // Detect critical results, passing the ability key if available
-        const flags = this.constructor._detectCriticalResults(roll, this.document, abilityKey);
-        
-        // Show notification for critical results (only for the user who rolled)
-        if (flags?.cardigan?.criticalHit) {
-          const critThreshold = this.document.system?.details?.criticalHit;
-          if (abilityKey === 'accuracy' && critThreshold) {
-            ui.notifications.info(`Acerto Crítico! (${roll.total} >= ${critThreshold})`);
-          } else {
-            ui.notifications.info(`Sucesso Crítico!`);
-          }
-        } else if (flags?.cardigan?.criticalFailure) {
-          ui.notifications.warn(`Erro Crítico!`);
-        }
-        
-        // Create custom flavor text showing the advantage type
-        const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
-          <strong>${label}</strong> - ${rollDescription}
-        </div>`;
-        
-        // Send to chat
-        const message = await roll.toMessage({
-          speaker: ChatMessage.getSpeaker({ actor: this.document }),
-          flavor: flavorText,
-          rollMode: game.settings.get('core', 'rollMode'),
-          flags: flags
-        });
-        
-        return roll;
-      } catch (error) {
-        console.error("Error during roll:", error);
-        ui.notifications.error(`Erro ao rolar ${label}: ${error.message}`);
-      }
-    }
+    return HeaderStatusActions.onRoll(event, target, this);
   }
 
   /**
-   * Handle rolling the Death Die (1d12)
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
+   * Handle death die roll - delegates to HeaderStatusActions
    */
   static async _onRollDeathDie(event, target) {
-    event.preventDefault();
-    
-    try {
-      // Create the death die roll (1d20)
-      const roll = new Roll('1d20');
-      
-      // Evaluate the roll
-      await roll.evaluate();
-      
-      // Create custom flavor message based on result and apply automatic effects
-      let flavorMessage = "Death Die";
-      const result = roll.total;
-      let updateData = {};
-      
-      // Apply automatic effects based on result
-      if (result >= 1 && result <= 10) {
-        // 1-10: Death Sentence
-        const currentDeathSentence = this.document.system.status?.deathSentence ?? null;
-        
-        if (currentDeathSentence === 3) {
-          // Já está no máximo
-          flavorMessage += `\n Sentença de Morte! (${result})`;
-          flavorMessage += `\n→ Já possui 3 Sentenças de Morte - PERSONAGEM MORREU!!`;
-        } else if (currentDeathSentence === null) {
-          // Começar do 1 (contagem zerada ou nunca marcada)
-          updateData['system.status.deathSentence'] = 1;
-          flavorMessage += `\n Sentença de Morte! (${result})`;
-          flavorMessage += `\n→ Sentença de Morte nível 1 automaticamente marcada`;
-        } else {
-          // Incrementar (de 1 para 2, ou de 2 para 3)
-          const newLevel = currentDeathSentence + 1;
-          updateData['system.status.deathSentence'] = newLevel;
-          flavorMessage += `\n Sentença de Morte! (${result})`;
-          flavorMessage += `\n→ Sentença de Morte nível ${newLevel} automaticamente marcada`;
-
-          if (newLevel === 3) {
-            flavorMessage += `\n PERSONAGEM MORREU! (3 Sentenças de Morte)`;
-          }
-        }
-      } else if (result >= 11 && result <= 20) {
-        // 11-20: Dádiva da Vida
-        const currentLifeGift = this.document.system.status?.giftOfLife ?? null;
-        
-        if (currentLifeGift === 3) {
-          // Já está no máximo
-          flavorMessage += `\n Dádiva da Vida! (${result})`;
-          flavorMessage += `\n→ Já possui 3 Dádivas da Vida - ESTABILIZADO!`;
-        } else if (currentLifeGift === null) {
-          // Começar do 1 (contagem zerada ou nunca marcada)
-          updateData['system.status.giftOfLife'] = 1;
-          flavorMessage += `\n Dádiva da Vida! (${result})`;
-          flavorMessage += `\n→ Dádiva da Vida nível 1 automaticamente marcada`;
-        } else {
-          // Incrementar (de 1 para 2, ou de 2 para 3)
-          const newLevel = currentLifeGift + 1;
-          updateData['system.status.giftOfLife'] = newLevel;
-          flavorMessage += `\n Dádiva da Vida! (${result})`;
-          flavorMessage += `\n→ Dádiva da Vida nível ${newLevel} automaticamente marcada`;
-
-          if (newLevel === 3) {
-            flavorMessage += `\n ESTABILIZADO! (3 Dádivas da Vida)`;
-          }
-        }
-      }
-      
-      // Detect critical results
-      const flags = this.constructor._detectCriticalResults(roll, this.document, null);
-      
-      // Send to chat FIRST - so result appears before checkbox is marked
-      const chatMessage = await roll.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: this.document }),
-        flavor: flavorMessage,
-        rollMode: game.settings.get('core', 'rollMode'),
-        flags: flags
-      });
-      
-      // Wait for Dice So Nice! animation to complete (if module is active)
-      if (game.dice3d) {
-        await game.dice3d.waitFor3DAnimationByMessageID(chatMessage.id);
-      }
-      
-      // Update the actor AFTER chat message AND dice animation
-      if (Object.keys(updateData).length > 0) {
-        await this.document.update(updateData);
-      }
-      
-      return roll;
-    } catch (error) {
-      console.error("Error during death die roll:", error);
-      ui.notifications.error(`Erro ao rolar Dado de Morte: ${error.message}`);
-    }
+    return HeaderStatusActions.onRollDeathDie(event, target, this);
   }
 
   /**
-   * Handle resetting Dádiva da Vida
-   *  checkboxes
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
+   * Handle reset gift of life - delegates to HeaderStatusActions
    */
   static async _onResetGiftOfLife(event, target) {
-    event.preventDefault();
-    
-    try {
-      // Reset Dádiva da Vida to null (unchecked)
-      await this.document.update({
-        'system.status.giftOfLife': null
-      });
-      
-      ui.notifications.info("Dádiva da Vida zerada.");
-    } catch (error) {
-      console.error("Error resetting Gift of Life:", error);
-      ui.notifications.error(`Erro ao zerar Dádiva da Vida: ${error.message}`);
-    }
+    return HeaderStatusActions.onResetGiftOfLife(event, target, this);
   }
 
   /**
-   * Handle resetting Sentença de Morte checkboxes
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
+   * Handle reset death sentence - delegates to HeaderStatusActions
    */
   static async _onResetDeathSentence(event, target) {
-    event.preventDefault();
-    
-    try {
-      // Reset Death Sentence to null (unchecked)
-      await this.document.update({
-        'system.status.deathSentence': null
-      });
-      
-      ui.notifications.info("Sentença de Morte zerada.");
-    } catch (error) {
-      console.error("Error resetting Death Sentence:", error);
-      ui.notifications.error(`Erro ao zerar Sentença de Morte: ${error.message}`);
-    }
+    return HeaderStatusActions.onResetDeathSentence(event, target, this);
   }
 
   /**
-   * Handle resetting Sanity checkboxes
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
+   * Handle reset sanity - delegates to HeaderStatusActions
    */
   static async _onResetSanity(event, target) {
-    event.preventDefault();
-    
-    try {
-      // Reset Sanity to null (unchecked)
-      await this.document.update({
-        'system.status.sanity': null
-      });
-      
-      ChatMessage.create({ 
-        content: `${this.document.name}: Estado mental estabilizado.`,
-        speaker: ChatMessage.getSpeaker({ actor: this.document })
-      });
-      
-      ui.notifications.info("Sanidade zerada.");
-    } catch (error) {
-      console.error("Error resetting Sanity:", error);
-      ui.notifications.error(`Erro ao zerar Sanidade: ${error.message}`);
-    }
+    return HeaderStatusActions.onResetSanity(event, target, this);
   }
 
   /**
-   * Handle resetting Toxicity checkboxes
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
+   * Handle reset toxicity - delegates to HeaderStatusActions
    */
   static async _onResetToxicity(event, target) {
-    event.preventDefault();
-    
-    try {
-      // Reset Toxicity to null (unchecked)
-      await this.document.update({
-        'system.status.toxicity': null
-      });
-      
-      ChatMessage.create({ 
-        content: `${this.document.name}: Toxinas eliminadas do organismo.`,
-        speaker: ChatMessage.getSpeaker({ actor: this.document })
-      });
-      
-      ui.notifications.info("Toxicidade zerada.");
-    } catch (error) {
-      console.error("Error resetting Toxicity:", error);
-      ui.notifications.error(`Erro ao zerar Toxicidade: ${error.message}`);
-    }
+    return HeaderStatusActions.onResetToxicity(event, target, this);
   }
 
-
-
   /**
-   * Handle resetting Fracture checkboxes
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
+   * Handle reset fracture - delegates to HeaderStatusActions
    */
   static async _onResetFracture(event, target) {
-    event.preventDefault();
-    
-    try {
-      // Reset Fracture to 0 (unchecked)
-      await this.document.update({
-        'system.status.fracture': 0
-      });
-      
-      ChatMessage.create({ 
-        content: `${this.document.name}: Fraturas completamente curadas.`,
-        speaker: ChatMessage.getSpeaker({ actor: this.document })
-      });
-      
-      ui.notifications.info("Fratura zerada.");
-    } catch (error) {
-      console.error("Error resetting Fracture:", error);
-      ui.notifications.error(`Erro ao zerar Fratura: ${error.message}`);
-    }
+    return HeaderStatusActions.onResetFracture(event, target, this);
   }
 
   /**
-   * Handle resetting Hunger to normal (0)
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
+   * Handle reset hunger - delegates to HeaderStatusActions
    */
   static async _onResetHunger(event, target) {
-    event.preventDefault();
-    
-    try {
-      // Resetar hunger para 0 (sem fome)
-      await this.document.update({
-        'system.status.hunger': 0
-      });
-      
-      ChatMessage.create({ 
-        content: `${this.document.name}: Fome resetada (sem fome).`,
-        speaker: ChatMessage.getSpeaker({ actor: this.document })
-      });
-      
-      ui.notifications.info("Fome resetada.");
-      
-      // Efeito de exaustão será gerenciado automaticamente pelo ExaustaoEffect
-    } catch (error) {
-      console.error("Error resetting Hunger:", error);
-      ui.notifications.error(`Erro ao resetar Fome: ${error.message}`);
-    }
+    return HeaderStatusActions.onResetHunger(event, target, this);
   }
 
   /**
-   * Handle resetting Thirst to normal (0)
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
+   * Handle reset thirst - delegates to HeaderStatusActions
    */
   static async _onResetThirst(event, target) {
-    event.preventDefault();
-    
-    try {
-      // Resetar thirst para 0 (sem sede)
-      await this.document.update({
-        'system.status.thirst': 0
-      });
-      
-      ChatMessage.create({ 
-        content: `${this.document.name}: Sede resetada (sem sede).`,
-        speaker: ChatMessage.getSpeaker({ actor: this.document })
-      });
-      
-      ui.notifications.info("Sede resetada.");
-      
-      // Efeito de exaustão será gerenciado automaticamente pelo ExaustaoEffect
-    } catch (error) {
-      console.error("Error resetting Thirst:", error);
-      ui.notifications.error(`Erro ao resetar Sede: ${error.message}`);
-    }
+    return HeaderStatusActions.onResetThirst(event, target, this);
   }
 
   /**
@@ -2096,224 +1739,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * Actor Override Handling
    *
    ********************/
-
-  /**
-   * Configura checkboxes para serem acumulativos (podem ser desmarcados)
-   * @param {NodeList} checkboxes 
-   * @param {string} field 
-   */
-  #setupIndependentRadios(checkboxes, field) {
-    checkboxes.forEach(checkbox => {
-      let wasChecked = false;
-      
-      // Capturar estado em mousedown
-      checkbox.addEventListener('mousedown', () => {
-        wasChecked = checkbox.checked;
-      });
-      
-      // Processar click
-      checkbox.addEventListener('click', async (ev) => {
-        ev.preventDefault();
-        
-        const clickedLevel = parseInt(checkbox.dataset.level);
-        let newValue = 0;
-        
-        if (wasChecked) {
-          // Se estava marcado, desmarcar todos (volta para 0)
-          checkboxes.forEach(r => r.checked = false);
-          newValue = 0;
-        } else {
-          // Se não estava marcado, marcar este e todos os anteriores (acumulativo)
-          checkboxes.forEach(r => {
-            const rLevel = parseInt(r.dataset.level);
-            r.checked = rLevel <= clickedLevel;
-          });
-          newValue = clickedLevel;
-        }
-        
-        // Atualizar o documento
-        await this.actor.update({
-          [`system.status.${field}`]: newValue
-        });
-        
-        // Gerar mensagem para chat
-        this.#sendFieldMessage(field, newValue);
-        
-        // Efeito de exaustão será gerenciado automaticamente pelo ExaustaoEffect
-      });
-    });
-  }
-
-  /**
-   * Calcula o valor do campo baseado nos radios marcados
-   * @param {string} field 
-   * @returns {number}
-   */
-  #calculateFieldValue(field) {
-    const radios = document.querySelectorAll(`.radio-group[data-field="${field}"] input[type="radio"]:checked`);
-    if (radios.length === 0) return 0;
-    
-    // Para radio buttons, pegar o valor mais alto marcado
-    let maxValue = 0;
-    radios.forEach(radio => {
-      const level = parseInt(radio.dataset.level) || 0;
-      if (level > maxValue) maxValue = level;
-    });
-    
-    return maxValue;
-  }
-
-  /**
-   * Calcula penalty total baseado em hunger e thirst
-   * @returns {number}
-   */
-  #calculatePenalty() {
-    // Removida penalidade automática por fome/sede
-    // Nova regra será implementada posteriormente
-    return 0;
-  }
-
-  /**
-   * Envia mensagem para o chat baseada no valor do campo
-   * @param {string} field 
-   * @param {number} value 
-   */
-  #sendFieldMessage(field, value) {
-    let message = "";
-    
-    if (field === 'hunger') {
-      if (value === 0) {
-        message = `${this.actor.name} não está mais com fome.`;
-      } else if (value === 1) {
-        message = `${this.actor.name} está com 1 de Fome.`;
-      } else if (value === 2) {
-        message = `${this.actor.name} está com 2 de Fome.`;
-      } else if (value === 3) {
-        message = `${this.actor.name} está com fome! [3 de Fome]`;
-      }
-    } else if (field === 'thirst') {
-      if (value === 0) {
-        message = `${this.actor.name} não está mais com sede.`;
-      } else if (value === 1) {
-        message = `${this.actor.name} está com 1 de Sede.`;
-      } else if (value === 2) {
-        message = `${this.actor.name} está com 2 de Sede.`;
-      } else if (value === 3) {
-        message = `${this.actor.name} está com sede! [3 de Sede]`;
-      }
-    }
-    
-    if (message) {
-      ChatMessage.create({ 
-        content: message,
-        speaker: ChatMessage.getSpeaker({ actor: this.actor })
-      });
-    }
-  }
-
-  /**
-   * Adiciona event listeners para os checkboxes de hunger e thirst
-   */
-  #addStatusListeners() {
-    const html = this.element;
-
-    // Configurar checkboxes de fome e sede (acumulativos)
-    const hungerCheckboxes = html.querySelectorAll('.radio-group[data-field="hunger"] input[type="checkbox"]');
-    const thirstCheckboxes = html.querySelectorAll('.radio-group[data-field="thirst"] input[type="checkbox"]');
-    
-    this.#setupIndependentRadios(hungerCheckboxes, 'hunger');
-    this.#setupIndependentRadios(thirstCheckboxes, 'thirst');
-
-    // Adicionar listeners para os grupos sequenciais (giftOfLife, deathSentence, sanity, toxicity, fracture)
-    html.querySelectorAll('.sequential-group').forEach(group => {
-      const field = group.dataset.field;
-      const checkboxes = group.querySelectorAll('input[type="checkbox"]');
-      
-      checkboxes.forEach(checkbox => {
-        // Remover listener anterior se existir
-        if (checkbox._sequentialHandler) {
-          checkbox.removeEventListener('change', checkbox._sequentialHandler);
-        }
-        
-        // Criar e armazenar o handler
-        checkbox._sequentialHandler = async (ev) => {
-          ev.preventDefault();
-          ev.stopPropagation(); // Previne que o evento chegue ao handler do formulário
-          ev.stopImmediatePropagation(); // Garante que nenhum outro listener seja executado
-          const level = parseInt(ev.target.dataset.level);
-          const currentValue = this.actor.system.status?.[field] ?? null;
-          let newValue = null;
-          let message = "";
-          
-          if (ev.target.checked) {
-            // Marcar: definir o valor como o nível da checkbox
-            newValue = level;
-            
-            // Gerar mensagem baseada no campo e nível
-            if (field === 'sanity') {
-              const messages = {
-                1: "Ansioso, você está estressado, tenso e desconfiado.",
-                2: "Paranoico, você está desesperado, neurótico e pessimista.",
-                3: "Violento, você inconsequente, você está hostil e insensível.",
-                4: "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.",
-                5: "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição."
-              };
-              message = `${this.actor.name}: ${messages[level]}`;
-            } else if (field === 'toxicity') {
-              const messages = {
-                1: "Levemente intoxicado, você sente náusea e tontura.",
-                2: "Intoxicação moderada, você está enjoado e com visão turva.",
-                3: "Severamente intoxicado, você está vomitando e com dores intensas.",
-                4: "Intoxicação crítica, você está delirando e perdendo consciência.",
-                5: "Envenenamento fatal, você está à beira da morte por toxinas."
-              };
-              message = `${this.actor.name}: ${messages[level]}`;
-            }
-          } else {
-            // Desmarcar: definir como o nível anterior (level - 1) ou null se for 1
-            newValue = level > 1 ? level - 1 : null;
-            
-            if (field === 'sanity' && newValue === null) {
-              message = `${this.actor.name}: Estado mental estabilizado.`;
-            } else if (field === 'toxicity' && newValue === null) {
-              message = `${this.actor.name}: Toxinas eliminadas do organismo.`;
-            } else if (field === 'fracture' && newValue === null) {
-              message = `${this.actor.name}: Fraturas completamente curadas.`;
-            }
-          }
-          
-          // Atualizar o valor no ator
-          try {
-            await this.actor.update({
-              [`system.status.${field}`]: newValue
-            });
-            
-            // Mostrar notificação de info quando fracture for zerada
-            if (field === 'fracture' && newValue === null) {
-              ui.notifications.info("Fratura zerada.");
-            }
-          } catch (error) {
-            console.error(`Error updating ${field}:`, error);
-            if (field === 'fracture') {
-              ui.notifications.error(`Erro ao zerar Fratura: ${error.message}`);
-            }
-            return; // Não enviar mensagem de chat em caso de erro
-          }
-          
-          // Enviar mensagem para o chat se houver
-          if (message) {
-            ChatMessage.create({ 
-              content: message,
-              speaker: ChatMessage.getSpeaker({ actor: this.actor })
-            });
-          }
-        };
-        
-        // Adicionar o listener
-        checkbox.addEventListener('change', checkbox._sequentialHandler);
-      });
-    });
-  }
 
   /**
    * Adiciona event listeners para campos de durabilidade de armas
@@ -6557,161 +5982,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
       console.log(`[ABILITY BLUR] ${ability}.totalBonus - Manual: ${userInput}, Calculated: ${calculatedBonus}, Total: ${totalBonus}`);
     }
-  }
-
-  /**
-   * Add listeners for critical hit dynamic field
-   * @private
-   */
-  #addCriticalHitListeners() {
-    const criticalHitField = this.element.querySelector('input[name="system.details.criticalHit"].dynamic-field');
-    
-    if (criticalHitField) {
-      // Event listener para focus (mostrar valor manual)
-      criticalHitField.addEventListener('focus', (event) => {
-        this.#handleCriticalHitFocus(event);
-      });
-      
-      // Event listener para blur (calcular e mostrar total)
-      criticalHitField.addEventListener('blur', (event) => {
-        this.#handleCriticalHitBlur(event);
-      });
-      
-      console.log('[CARDIGAN] Critical Hit dynamic field listener added');
-    }
-  }
-
-  /**
-   * Handler para quando o usuário clica no campo de critical hit (focus)
-   * @private
-   */
-  #handleCriticalHitFocus(event) {
-    const field = event.target;
-    const system = this.actor.system;
-    
-    // Obter o valor manual armazenado ou 0 se não existir
-    const manualValue = system.details.criticalHitManual || 0;
-    
-    // Mostrar apenas o valor manual
-    field.value = manualValue === 0 ? '' : manualValue;
-    field.dataset.manualValue = manualValue;
-    
-    console.log(`[CRITICAL HIT FOCUS] Manual: ${manualValue}`);
-    field.select();
-  }
-
-  /**
-   * Handler para quando o usuário sai do campo de critical hit (blur)
-   * @private
-   */
-  #handleCriticalHitBlur(event) {
-    const field = event.target;
-    const userInput = Number(field.value) || 0;
-    const system = this.actor.system;
-    
-    // Calcular o valor automático baseado na Destreza
-    const dexterity = system.abilities.dexterity.value || 0;
-    const dexterityTotalBonus = system.abilities.dexterity.totalBonus || 0;
-    const totalDexterity = dexterity + dexterityTotalBonus;
-    const dexterityCriticalEffect = Math.floor(totalDexterity / 3);
-    const autoValue = Math.max(1, 20 - dexterityCriticalEffect);
-    
-    // O valor total é o automático + o manual
-    const totalValue = autoValue + userInput;
-    
-    // Mostrar o valor total no campo
-    field.value = totalValue;
-    field.dataset.manualValue = userInput;
-    
-    // Salvar o valor manual e o total
-    this.actor.update({
-      'system.details.criticalHitManual': userInput,
-      'system.details.criticalHit': totalValue
-    }).catch(error => {
-      console.error('[CARDIGAN] Erro ao atualizar criticalHit:', error);
-    });
-    
-    console.log(`[CRITICAL HIT BLUR] Manual: ${userInput}, Auto: ${autoValue}, Total: ${totalValue}`);
-  }
-
-  /**
-   * Add listeners for movement dynamic field
-   * @private
-   */
-  #addMovementListeners() {
-    const movementField = this.element.querySelector('input[name="system.details.movement"].dynamic-field');
-    
-    if (movementField) {
-      // Event listener para focus (mostrar valor manual)
-      movementField.addEventListener('focus', (event) => {
-        this.#handleMovementFocus(event);
-      });
-      
-      // Event listener para blur (calcular e mostrar total)
-      movementField.addEventListener('blur', (event) => {
-        this.#handleMovementBlur(event);
-      });
-      
-      console.log('[CARDIGAN] Movement dynamic field listener added');
-    }
-  }
-
-  /**
-   * Handler para quando o usuário clica no campo de movement (focus)
-   * @private
-   */
-  #handleMovementFocus(event) {
-    const field = event.target;
-    const system = this.actor.system;
-    
-    // Obter o valor manual armazenado ou 0 se não existir
-    const manualValue = system.details.movementManual || 0;
-    
-    // Mostrar apenas o valor manual
-    field.value = manualValue === 0 ? '' : manualValue;
-    field.dataset.manualValue = manualValue;
-    
-    console.log(`[MOVEMENT FOCUS] Manual: ${manualValue}`);
-    field.select();
-  }
-
-  /**
-   * Handler para quando o usuário sai do campo de movement (blur)
-   * @private
-   */
-  #handleMovementBlur(event) {
-    const field = event.target;
-    const userInput = Number(field.value) || 0;
-    const system = this.actor.system;
-    
-    // Calcular o valor automático baseado na Destreza
-    const dexterity = system.abilities.dexterity.value || 0;
-    const dexterityTotalBonus = system.abilities.dexterity.totalBonus || 0;
-    const totalDexterity = dexterity + dexterityTotalBonus;
-    const dexterityMovement = Math.floor(totalDexterity / 2);
-    
-    // Calcular bônus de armaduras
-    const armorMovementBonus = this.actor._armorMovementBonus || 0;
-    
-    // O valor automático é Destreza + Armaduras
-    const autoValue = dexterityMovement + armorMovementBonus;
-    
-    // O valor total é o automático + o manual
-    const totalValue = autoValue + userInput;
-    
-    // Mostrar o valor total no campo
-    field.value = totalValue;
-    field.dataset.manualValue = userInput;
-    
-    // Salvar o valor manual e o total
-    this.actor.update({
-      'system.details.movementManual': userInput,
-      'system.details.movement': totalValue
-    }).catch(error => {
-      console.error('[CARDIGAN] Erro ao atualizar movement:', error);
-    });
-    
-    console.log(`[MOVEMENT BLUR] Manual: ${userInput}, Auto: ${autoValue} (Dex: ${dexterityMovement} + Armor: ${armorMovementBonus}), Total: ${totalValue}`);
   }
 
   /**
