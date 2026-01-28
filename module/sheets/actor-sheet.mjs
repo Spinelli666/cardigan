@@ -358,6 +358,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar tooltips ricos de proficiências
     CardiganTooltipManager.attachProficiencyTooltips(this.element, this.actor);
     
+    // Adicionar tooltips ricos de efeitos
+    CardiganTooltipManager.attachEffectTooltips(this.element, this.actor);
+    
     // NOTE: Profession table toggles are handled automatically by Foundry's form system
     // The checkboxes update system.details.show*Table which triggers a re-render
     // No manual event listeners needed

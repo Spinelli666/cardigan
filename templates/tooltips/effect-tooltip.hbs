@@ -1,0 +1,17 @@
+<div class="cardigan dh-style tooltip effect-tooltip">
+    <img src="systems/cardigan/assets/images/decorative/divider.webp" alt="divider" class="divider-left" />
+    <img src="systems/cardigan/assets/images/decorative/divider.webp" alt="divider" class="divider-right" />
+    {{#if icon}}
+    <div class="tooltip-icon">
+        <img src="{{icon}}" alt="{{name}}" />
+    </div>
+    {{/if}}
+    <div class="tooltip-header">
+        <h2 class="tooltip-title">{{name}}</h2>
+    </div>
+    {{#if description}}
+    <div class="tooltip-description">
+        {{{description}}}
+    </div>
+    {{/if}}
+</div>
