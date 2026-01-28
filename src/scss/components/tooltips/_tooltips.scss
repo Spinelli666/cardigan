@@ -2,6 +2,9 @@
 /*  Cardigan Tooltips                        */
 /* ----------------------------------------- */
 
+/* Import rich tooltips styles */
+@import 'rich-tooltips';
+
 /* Tooltip com classe cardigan-tooltip */
 #tooltip.cardigan-tooltip,
 .locked-tooltip.cardigan-tooltip {

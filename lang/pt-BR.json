@@ -71,39 +71,48 @@
     "Ability": {
       "Accuracy": {
         "long": "PRE",
-        "abbr": "acc"
+        "abbr": "acc",
+        "full": "PRECISÃO"
       },
       "Evasion": {
         "long": "EVA", 
-        "abbr": "eva"
+        "abbr": "eva",
+        "full": "EVASÃO"
       },
       "Strength": {
         "long": "FOR",
-        "abbr": "str"
+        "abbr": "str",
+        "full": "FORÇA"
       },
       "Dexterity": {
         "long": "DES",
-        "abbr": "dex"
+        "abbr": "dex",
+        "full": "DESTREZA"
       },
       "Stamina": {
         "long": "VIG",
-        "abbr": "sta"
+        "abbr": "sta",
+        "full": "VIGOR"
       },
       "Stealth": {
         "long": "FUR",
-        "abbr": "ste"
+        "abbr": "ste",
+        "full": "FURTIVIDADE"
       },
       "Persuasion": {
         "long": "PER",
-        "abbr": "per"
+        "abbr": "per",
+        "full": "PERSUASÃO"
       },
       "Intelligence": {
         "long": "INT",
-        "abbr": "int"
+        "abbr": "int",
+        "full": "INTELIGÊNCIA"
       },
       "Psionics": {
         "long": "PSI",
-        "abbr": "psi"
+        "abbr": "psi",
+        "full": "PSIÔNICO"
       }
     },
     "SheetLabels": {
@@ -1093,7 +1102,24 @@
       "Health": "Vida",
       "HealthBonus": "Vida Temporária",
       "Energy": "Energia",
-      "EnergyBonus": "Energia Temporária"
+      "EnergyBonus": "Energia Temporária",
+      "ClickToLock": "Clique para fixar tooltip",
+      "Effects": "Efeitos",
+      "AddEffects": "Adicionar Efeitos",
+      "Proficiency": {
+        "CurrentValue": "Valor Atual",
+        "Bonus": "Bônus",
+        "Total": "Total",
+        "Accuracy.Description": "Precisão em ataques, capacidade de acertar o alvo com armas e habilidades ofensivas.",
+        "Evasion.Description": "Capacidade de esquivar-se de ataques, evitar dano através de reflexos rápidos e movimentação ágil.",
+        "Strength.Description": "Força física bruta, capacidade de levantar peso e causar dano em combate corpo a corpo.",
+        "Dexterity.Description": "Agilidade, reflexos, coordenação motora fina e precisão com armas à distância.",
+        "Stamina.Description": "Resistência física, capacidade de suportar dano, doenças e condições adversas.",
+        "Stealth.Description": "Capacidade de mover-se furtivamente, esconder-se nas sombras e evitar detecção.",
+        "Persuasion.Description": "Carisma, capacidade de influenciar, enganar, intimidar ou negociar com outros.",
+        "Intelligence.Description": "Capacidade de raciocínio, memória, conhecimento e compreensão de informações complexas.",
+        "Psionics.Description": "Poder mental, capacidade de manifestar habilidades psiônicas e resistir a ataques mentais."
+      }
     },
     "Dialogs": {
       "SkillEffectsSelection": {

@@ -1,0 +1,14 @@
+{{! Rich Tooltip Template for Proficiencies }}
+<div class="cardigan dh-style tooltip proficiency-tooltip">
+    <img src="systems/cardigan/assets/images/decorative/divider.webp" alt="divider" class="divider-left" />
+    <img src="systems/cardigan/assets/images/decorative/divider.webp" alt="divider" class="divider-right" />
+    <div class="tooltip-header">
+        <h2 class="tooltip-title">{{name}}</h2>
+    </div>
+    
+    {{#if description}}
+    <div class="tooltip-description">
+        {{{description}}}
+    </div>
+    {{/if}}
+</div>

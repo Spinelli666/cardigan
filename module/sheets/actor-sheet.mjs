@@ -9,6 +9,7 @@ import { HeaderActions } from './actions/header-actions.mjs';
 import { HeaderStatusActions } from './actions/header-status-actions.mjs';
 import { HeaderListeners } from './listeners/header-listeners.mjs';
 import { ProficienciesActions } from './actions/proficiencies-actions.mjs';
+import CardiganTooltipManager from '../tooltips/tooltip-manager.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -353,6 +354,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Adicionar event listeners para campos dinâmicos de bonus
     this.#addBonusFieldsListeners();
+    
+    // Adicionar tooltips ricos de proficiências
+    CardiganTooltipManager.attachProficiencyTooltips(this.element, this.actor);
     
     // NOTE: Profession table toggles are handled automatically by Foundry's form system
     // The checkboxes update system.details.show*Table which triggers a re-render

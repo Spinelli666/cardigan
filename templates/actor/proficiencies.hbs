@@ -40,7 +40,11 @@
           </div>
           <div class='proficiency-label-wrapper'>
             <label 
-              class='proficiency-clickable-label'>
+              class='proficiency-clickable-label'
+              data-tooltip='CARDIGAN.Ability.Accuracy.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='accuracy'>
               {{localize "CARDIGAN.Ability.Accuracy.long"}}
             </label>
           </div>
@@ -73,7 +77,11 @@
           </div>
           <div class='proficiency-label-wrapper'>
             <label
-              class='proficiency-clickable-label'>
+              class='proficiency-clickable-label'
+              data-tooltip='CARDIGAN.Ability.Evasion.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='evasion'>
               {{localize "CARDIGAN.Ability.Evasion.long"}}
             </label>
           </div>
@@ -112,7 +120,11 @@
           </div>
           <div class='proficiency-label-wrapper'>
             <label 
-              class='proficiency-clickable-label'>
+              class='proficiency-clickable-label'
+              data-tooltip='CARDIGAN.Ability.Strength.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='strength'>
               {{localize "CARDIGAN.Ability.Strength.long"}}
             </label>
           </div>
@@ -147,7 +159,11 @@
           </div>
           <div class='proficiency-label-wrapper'>
             <label
-              class='proficiency-clickable-label'>
+              class='proficiency-clickable-label'
+              data-tooltip='CARDIGAN.Ability.Dexterity.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='dexterity'>
               {{localize "CARDIGAN.Ability.Dexterity.long"}}
             </label>
           </div>
@@ -182,7 +198,11 @@
           </div>
           <div class='proficiency-label-wrapper'>
             <label
-              class='proficiency-clickable-label'>
+              class='proficiency-clickable-label'
+              data-tooltip='CARDIGAN.Ability.Stamina.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='stamina'>
               {{localize "CARDIGAN.Ability.Stamina.long"}}
             </label>
           </div>
@@ -217,7 +237,11 @@
           </div>
           <div class='proficiency-label-wrapper'>
             <label
-              class='proficiency-clickable-label'>
+              class='proficiency-clickable-label'
+              data-tooltip='CARDIGAN.Ability.Stealth.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='stealth'>
               {{localize "CARDIGAN.Ability.Stealth.long"}}
             </label>
           </div>
@@ -252,7 +276,11 @@
           </div>
           <div class='proficiency-label-wrapper'>
             <label
-              class='proficiency-clickable-label'>
+              class='proficiency-clickable-label'
+              data-tooltip='CARDIGAN.Ability.Persuasion.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='persuasion'>
               {{localize "CARDIGAN.Ability.Persuasion.long"}}
             </label>
           </div>
@@ -287,7 +315,11 @@
           </div>
           <div class='proficiency-label-wrapper'>
             <label
-              class='proficiency-clickable-label'>
+              class='proficiency-clickable-label'
+              data-tooltip='CARDIGAN.Ability.Intelligence.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='intelligence'>
               {{localize "CARDIGAN.Ability.Intelligence.long"}}
             </label>
           </div>
@@ -322,7 +354,11 @@
           </div>
           <div class='proficiency-label-wrapper'>
             <label
-              class='proficiency-clickable-label'>
+              class='proficiency-clickable-label'
+              data-tooltip='CARDIGAN.Ability.Psionics.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='psionics'>
               {{localize "CARDIGAN.Ability.Psionics.long"}}
             </label>
           </div>
@@ -348,6 +384,8 @@
             alt="Toggle Effects" 
             class="effects-toggle-icon"
             data-action="toggleEffectsSection"
+            data-tooltip='CARDIGAN.Tooltip.Effects' 
+            data-tooltip-class='cardigan-tooltip'
           />
         </div>
         {{#if system.details.showEffectsTab}}
@@ -358,12 +396,11 @@
       
       {{#if system.details.showEffectsTab}}
         <div class="effects-content-wrapper">
-          <div class="add-effect-button-container">
+          <div class="add-effect-button-container" data-tooltip='CARDIGAN.Tooltip.AddEffects' data-tooltip-class='cardigan-tooltip'>
             <img 
               src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg" 
               alt="Add Effect" 
               class="add-effect-icon"
-              
               data-action="createDoc"
               data-document-class="Item"
               data-type="efeito"
