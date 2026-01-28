@@ -1073,6 +1073,28 @@
     "AddSkill": "Add Skill",
     "RollSkill": "Roll Skill",
     "PassiveSkill": "Passive Skill",
+    "Tooltip": {
+      "CreateCharacter": "Criar Personagem",
+      "LevelUP": "Subir de Nível",
+      "LevelXP": "Nível & XP",
+      "Armor": "Armadura",
+      "ArmorBonus": "Armadura Temporária",
+      "Movement": "Deslocamento",
+      "CriticalHit": "Acerto Crítico",
+      "DeathSentence": "Sentença de Morte",
+      "GiftOfLife": "Dádiva da Vida",
+      "TestDestiny": "Teste do Destino",
+      "Fracture": "Fratura",
+      "Sanity": "Sanidade",
+      "Toxicity": "Toxidade",
+      "Hunger": "Fome",
+      "Thirst": "Sede",
+      "Rest": "Descanso",
+      "Health": "Vida",
+      "HealthBonus": "Vida Temporária",
+      "Energy": "Energia",
+      "EnergyBonus": "Energia Temporária"
+    },
     "Dialogs": {
       "SkillEffectsSelection": {
         "Title": "Selecionar Efeitos para Skill",

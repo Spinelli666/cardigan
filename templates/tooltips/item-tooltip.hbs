@@ -1,0 +1,20 @@
+<div class="cardigan-tooltip-wrapper item-tooltip-wrapper">
+  <div class="tooltip-header">
+    {{#if img}}
+    <img src="{{img}}" alt="{{name}}" class="tooltip-image">
+    {{/if}}
+    <h3 class="tooltip-title">{{name}}</h3>
+  </div>
+  
+  {{#if description}}
+  <div class="tooltip-description">
+    {{{description}}}
+  </div>
+  {{/if}}
+  
+  {{#if type}}
+  <div class="tooltip-footer">
+    <span class="tooltip-type">{{localize (concat "TYPES.Item." type)}}</span>
+  </div>
+  {{/if}}
+</div>

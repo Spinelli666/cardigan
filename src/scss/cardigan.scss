@@ -9,9 +9,6 @@
 @import 'utils/variables';
 
 
-// Tooltip components
-
-
 /* Global styles */
 @import 'global/window';
 @import 'global/grid';
@@ -115,4 +112,5 @@
 @import 'dialogs/character-creation-wizard';
 @import 'dialogs/level-up-wizard';
 
-
+// Tooltip components - DEVE SER O ÚLTIMO para ter precedência
+@import 'components/tooltips/tooltips';

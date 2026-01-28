@@ -16,6 +16,8 @@ import { initializeEffects } from './effects/index.mjs';
 import { initializeRaces } from './races/index.mjs';
 // Import Weapon Properties System
 import { initializeWeaponProperties } from './weapon-properties/index.mjs';
+// Import Tooltips System
+import CardiganTooltipManager from './tooltips/tooltip-manager.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -2890,6 +2892,9 @@ globalThis.handleExecuteMerchantTradeTransfer = handleExecuteMerchantTradeTransf
 /* -------------------------------------------- */
 
 Hooks.once('ready', function () {
+  // Initialize Cardigan tooltip system
+  CardiganTooltipManager.initialize();
+  
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => createDocMacro(data, slot));
   
