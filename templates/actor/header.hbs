@@ -13,18 +13,17 @@
                  alt='Criar Personagem' 
                  class='wizard-icon pulsing' 
                  data-action='openCharacterWizard' 
- />
+            />
             {{else if (gte system.experience.current system.experience.nextLevel)}}
             <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
                  alt='Level Up!' 
                  class='wizard-icon pulsing' 
-                 data-action='openLevelUpWizard' 
- />
+                 data-action='openLevelUpWizard'
+            />
             {{else}}
             <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
                  alt='Level & XP' 
-                 class='wizard-icon'
- />
+                 class='wizard-icon'/>
             {{/if}}
             
             {{! Triangle Arrow Icon }}
@@ -140,7 +139,6 @@
             value='{{system.status.armorBonus}}'
             data-dtype='Number'
             class='armor-bonus'
-            
           />
         </div>
         <div class='border-divider'>
@@ -222,7 +220,6 @@
               src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' 
               alt='Death Die' 
               class='death-die-icon'
-              
               data-action='rollDeathDie'
             />
           </div>
@@ -528,7 +525,6 @@
           value='{{system.status.healthBonus}}'
           data-dtype='Number'
           class='health-bonus-input'
-          
         />
       </div>
     </div>

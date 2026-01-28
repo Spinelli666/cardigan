@@ -110,7 +110,6 @@
       "Actor": "CardiganSystem Actor Sheet",
       "Item": "CardiganSystem Item Sheet"
     },
-    "Optional": "Optional",
     "base": {
       "FIELDS": {
         "biography": {
@@ -186,7 +185,30 @@
             }
           }
         }
-      },
+      }
+    },
+    "ItemCreate": {
+      "Title": "Create New Item",
+      "NameLabel": "Item Name",
+      "NamePlaceholder": "Enter item name...",
+      "Create": "Create Item",
+      "NoTypeSelected": "Please select an item type",
+      "Categories": {
+        "Equipment": "Equipment",
+        "Items": "Items & Consumables",
+        "Crafting": "Crafting",
+        "Character": "Character Features",
+        "Effects": "Effects"
+      }
+    },
+    "Item": {
+      "New": "New {type}",
+      "Title": "{type} Sheet",
+      "Subtitle": "{name}",
+      "RecoveredUsage": "{name} recovered {value} uses.",
+      "LostUsage": "{name} lost {value} uses."
+    },
+    "Actor": {
       "Tabs": {
         "Biography": "Biografia",
         "Proficiencies": "Perícias",
@@ -483,20 +505,10 @@
       "ShowEquipment": "Show Equipment"
     },
     "Hunger": {
-      "label": "Hunger",
-      "messages": {
-        "normal": "The character is not hungry.",
-        "low": "The character is getting hungry.",
-        "critical": "The character is starving!"
-      }
+      "label": "Hunger"
     },
     "Thirst": {
-      "label": "Thirst",
-      "messages": {
-        "normal": "The character is not thirsty.",
-        "low": "The character is getting thirsty.",
-        "critical": "The character is dehydrated!"
-      }
+      "label": "Thirst"
     },
     "Fracture": {
       "label": "Fracture",
@@ -523,26 +535,12 @@
     "Sanity": {
       "label": "Sanity",
       "description": "Sanity radio buttons (0-5).",
-      "reset": "Reset Sanity",
-      "messages": {
-        "level1": "Ansioso, você está estressado, tenso e desconfiado.",
-        "level2": "Paranoico, você está desesperado, neurótico e pessimista.",
-        "level3": "Violento, você inconsequente, você está hostil e insensível.",
-        "level4": "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.",
-        "level5": "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição."
-      }
+      "reset": "Reset Sanity"
     },
     "Toxicity": {
       "label": "Toxicity",
       "description": "Toxicity radio buttons (0-5).",
-      "reset": "Reset Toxicity",
-      "messages": {
-        "level1": "Levemente intoxicado, você sente náusea e tontura.",
-        "level2": "Intoxicação moderada, você está enjoado e com visão turva.",
-        "level3": "Severamente intoxicado, você está vomitando e com dores intensas.",
-        "level4": "Intoxicação crítica, você está delirando e perdendo consciência.",
-        "level5": "Envenenamento fatal, você está à beira da morte por toxinas."
-      }
+      "reset": "Reset Toxicity"
     },
     "AddWeapon": "Add Weapon",
     "EditItem": "Edit Item", 
