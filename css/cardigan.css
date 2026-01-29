@@ -1336,7 +1336,7 @@
 }
 .cardigan .proficiencies-divider-top-right {
   position: absolute;
-  bottom: 288px;
+  top: 271px;
   right: -15px;
   width: 110px;
   opacity: 0.8;
