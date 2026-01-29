@@ -363,6 +363,11 @@
   font-family: "Alatsi", sans-serif !important;
 }
 
+/* Item sheet specific layout - Remove padding from window-content */
+.cardigan.item .window-content {
+  padding: 0 !important;
+}
+
 /* Styles limited to cardigan sheets */
 .cardigan .tab:not(.active) {
   display: none !important;

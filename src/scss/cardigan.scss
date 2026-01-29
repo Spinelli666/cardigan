@@ -53,6 +53,13 @@
   }
 }
 
+/* Item sheet specific layout - Remove padding from window-content */
+.cardigan.item {
+  .window-content {
+    padding: 0 !important;
+  }
+}
+
 /* Styles limited to cardigan sheets */
 .cardigan {
   // Tab visibility control for item sheets
