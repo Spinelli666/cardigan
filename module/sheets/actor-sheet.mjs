@@ -907,6 +907,64 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   static async _deleteDoc(event, target) {
     const doc = this._getEmbeddedDocument(target);
+    
+    // Check if this is an auto-managed effect (Fratura, Exaustão, Toxicidade, Intoxicado, Inconsciente・Sono)
+    if (doc.type === "efeito") {
+      const actor = doc.parent;
+      const effectName = doc.name.trim(); // Normalize name
+      
+      console.log("[DELETE DOC CHECK] Effect details:", {
+        name: effectName,
+        nameLength: effectName.length,
+        nameBytes: Array.from(effectName).map(c => c.charCodeAt(0)),
+        type: doc.type,
+        toxicity: actor?.system?.status?.toxicity,
+        hunger: actor?.system?.status?.hunger,
+        thirst: actor?.system?.status?.thirst,
+        fracture: actor?.system?.status?.fracture
+      });
+      
+      // Map of effect names to their status conditions
+      // Using exact match with normalized names
+      const autoManagedEffects = {
+        'Fratura': ['fracture'],
+        'Exaustão': ['hunger', 'thirst'],
+        'Intoxicado': ['toxicity'],
+        'Inconsciente・Sono': ['toxicity']
+      };
+      
+      // Try to find matching effect name (case-insensitive and trimmed)
+      let statusKeys = null;
+      for (const [effectKey, keys] of Object.entries(autoManagedEffects)) {
+        if (effectKey.trim().toLowerCase() === effectName.toLowerCase()) {
+          statusKeys = keys;
+          console.log("[DELETE DOC CHECK] Matched effect:", effectKey);
+          break;
+        }
+      }
+      
+      console.log("[DELETE DOC CHECK] Status keys for", effectName, ":", statusKeys);
+      
+      if (statusKeys) {
+        // Check if any of the status conditions are active
+        const activeStatuses = [];
+        for (const statusKey of statusKeys) {
+          const statusValue = actor?.system?.status?.[statusKey] || 0;
+          if (statusValue > 0) {
+            activeStatuses.push({ key: statusKey, value: statusValue });
+          }
+        }
+        
+        console.log("[DELETE DOC CHECK] Active statuses:", activeStatuses);
+        
+        if (activeStatuses.length > 0) {
+          const statusInfo = activeStatuses.map(s => `${s.key}: ${s.value}`).join(', ');
+          ui.notifications.warn(`Não é possível excluir o efeito "${effectName}" enquanto houver checkboxes marcadas (${statusInfo}). Desmarque as checkboxes primeiro.`);
+          return;
+        }
+      }
+    }
+    
     const performDeletion = await foundry.applications.api.DialogV2.confirm({
       window: { title: game.i18n.format('DOCUMENT.Delete', { type: doc.documentName }) },
       content: game.i18n.format('DOCUMENT.DeleteWarning', { name: doc.name }),
@@ -5438,6 +5496,34 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         }
         return null;
       case "delete":
+        // Check if this is an auto-managed effect (Fratura, Exaustão, Intoxicado, Inconsciente・Sono)
+        if (item.type === "efeito") {
+          const autoManagedEffects = {
+            'Fratura': ['fracture'],
+            'Exaustão': ['hunger', 'thirst'],
+            'Intoxicado': ['toxicity'],
+            'Inconsciente・Sono': ['toxicity']
+          };
+          
+          const statusKeys = autoManagedEffects[item.name];
+          if (statusKeys) {
+            // Check if any of the status conditions are active
+            const activeStatuses = [];
+            for (const statusKey of statusKeys) {
+              const statusValue = this.document.system.status?.[statusKey] || 0;
+              if (statusValue > 0) {
+                activeStatuses.push({ key: statusKey, value: statusValue });
+              }
+            }
+            
+            if (activeStatuses.length > 0) {
+              const statusInfo = activeStatuses.map(s => `${s.key}: ${s.value}`).join(', ');
+              ui.notifications.warn(`Não é possível excluir o efeito "${item.name}" enquanto houver checkboxes marcadas (${statusInfo}). Desmarque as checkboxes primeiro.`);
+              return null;
+            }
+          }
+        }
+        
         // Show confirmation dialog before deleting
         const deleteConfirmed = await foundry.applications.api.DialogV2.confirm({
           title: `Excluir ${item.name}?`,
