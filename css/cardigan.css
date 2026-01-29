@@ -378,7 +378,6 @@
   flex: 0 0 auto;
   overflow: visible;
   display: flex;
-  flex-direction: column;
   position: relative;
 }
 .cardigan .sheet-header span, .cardigan .sheet-header label, .cardigan .sheet-header p, .cardigan .sheet-header div:not([class*=fa-]):not([class*=icon]) {
@@ -391,10 +390,13 @@
   font-family: "Font Awesome 6 Free" !important;
   font-family: "Font Awesome 6 Pro" !important;
 }
-.cardigan .sheet-header {
+.cardigan.actor .sheet-header {
+  flex-direction: column;
   z-index: 100;
+  height: 227px;
+  gap: 0;
 }
-.cardigan .sheet-header::before {
+.cardigan.actor .sheet-header::before {
   content: "";
   position: absolute;
   top: 0;
@@ -406,18 +408,26 @@
   z-index: -1;
   pointer-events: none;
 }
-.cardigan .sheet-header {
-  height: 227px;
-  gap: 0;
+.cardigan.actor .sheet-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.7;
+  background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 28.78%, rgba(118, 212, 255, 0.19) 100%);
+  z-index: -1;
+  pointer-events: none;
 }
-.cardigan .sheet-header .header-top-container {
+.cardigan.actor .sheet-header .header-top-container {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-evenly;
   gap: 0;
 }
-.cardigan .sheet-header .header-left {
+.cardigan.actor .sheet-header .header-left {
   width: 155.54px;
   height: 182.55px;
   flex-shrink: 0;
@@ -429,10 +439,10 @@
   z-index: 150;
   transform: translateZ(0);
 }
-.cardigan .sheet-header .header-left .border-divider {
+.cardigan.actor .sheet-header .header-left .border-divider {
   padding: 0px 18px;
 }
-.cardigan .sheet-header .header-left .border-divider img {
+.cardigan.actor .sheet-header .header-left .border-divider img {
   width: 120px;
   height: 2px;
   min-width: 120px;
@@ -440,7 +450,7 @@
   display: block;
   transform: scaleY(1.9);
 }
-.cardigan .sheet-header .header-center {
+.cardigan.actor .sheet-header .header-center {
   width: 201px;
   height: 176px;
   flex-shrink: 0;
@@ -448,12 +458,12 @@
   align-items: center;
   justify-content: center;
 }
-.cardigan .sheet-header .header-center .profile-img {
+.cardigan.actor .sheet-header .header-center .profile-img {
   width: 176px;
   height: 176px;
   border-radius: 4px;
 }
-.cardigan .sheet-header .header-right {
+.cardigan.actor .sheet-header .header-right {
   width: 155.54px;
   height: 182.55px;
   flex-shrink: 0;
@@ -463,10 +473,10 @@
   position: relative;
   z-index: 200;
 }
-.cardigan .sheet-header .header-right .border-divider {
+.cardigan.actor .sheet-header .header-right .border-divider {
   padding: 0px 18px;
 }
-.cardigan .sheet-header .header-right .border-divider img {
+.cardigan.actor .sheet-header .header-right .border-divider img {
   width: 120px;
   height: 2px;
   min-width: 120px;
@@ -474,7 +484,7 @@
   display: block;
   transform: scaleY(1.9);
 }
-.cardigan .sheet-header .header-bottom-section {
+.cardigan.actor .sheet-header .header-bottom-section {
   height: 67px;
   top: -22px;
   display: flex;
@@ -485,7 +495,7 @@
   position: relative;
   z-index: 160;
 }
-.cardigan .sheet-header .header-bottom-section input[name=name] {
+.cardigan.actor .sheet-header .header-bottom-section input[name=name] {
   position: absolute;
   top: 28px;
   left: 257px;
@@ -506,7 +516,7 @@
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 10;
 }
-.cardigan .sheet-header .header-bottom-section input[name=name]:focus {
+.cardigan.actor .sheet-header .header-bottom-section input[name=name]:focus {
   outline: none !important;
   border: none;
   box-shadow: none;
@@ -516,12 +526,12 @@
   -webkit-text-fill-color: transparent;
   text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
 }
-.cardigan .sheet-header .header-bottom-section input[name=name]:focus-visible {
+.cardigan.actor .sheet-header .header-bottom-section input[name=name]:focus-visible {
   outline: none !important;
   border: none;
   box-shadow: none;
 }
-.cardigan .sheet-header .header-bottom-section .border-bottom-name {
+.cardigan.actor .sheet-header .header-bottom-section .border-bottom-name {
   position: absolute;
   top: 39px;
   left: 257px;
@@ -531,7 +541,7 @@
   pointer-events: none;
   z-index: 9;
 }
-.cardigan .sheet-header .header-bottom-section .race-drop-zone {
+.cardigan.actor .sheet-header .header-bottom-section .race-drop-zone {
   position: absolute;
   top: 52px;
   left: 257px;
@@ -540,7 +550,7 @@
   min-height: 20px;
   z-index: 10;
 }
-.cardigan .sheet-header .header-bottom-section .race-drop-zone .race-item-display {
+.cardigan.actor .sheet-header .header-bottom-section .race-drop-zone .race-item-display {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -549,20 +559,20 @@
   border: none;
   cursor: grab;
 }
-.cardigan .sheet-header .header-bottom-section .race-drop-zone .race-item-display:active {
+.cardigan.actor .sheet-header .header-bottom-section .race-drop-zone .race-item-display:active {
   cursor: grabbing;
 }
-.cardigan .sheet-header .header-bottom-section .race-drop-zone .race-item-display .race-item-image {
+.cardigan.actor .sheet-header .header-bottom-section .race-drop-zone .race-item-display .race-item-image {
   display: none;
 }
-.cardigan .sheet-header .header-bottom-section .race-drop-zone .race-item-display .race-item-name {
+.cardigan.actor .sheet-header .header-bottom-section .race-drop-zone .race-item-display .race-item-name {
   font-size: 11px;
   font-weight: normal;
   color: #FFB75C;
   text-align: center;
   text-transform: uppercase;
 }
-.cardigan .sheet-header .header-bottom-section .race-drop-zone .race-item-display .race-item-delete {
+.cardigan.actor .sheet-header .header-bottom-section .race-drop-zone .race-item-display .race-item-delete {
   display: none;
   color: #ff4444;
   font-size: 12px;
@@ -570,25 +580,25 @@
   transition: color 0.2s;
   margin-left: 3px;
 }
-.cardigan .sheet-header .header-bottom-section .race-drop-zone .race-item-display .race-item-delete:hover {
+.cardigan.actor .sheet-header .header-bottom-section .race-drop-zone .race-item-display .race-item-delete:hover {
   color: #ff6666;
 }
-.cardigan .sheet-header .header-bottom-section .race-drop-zone .race-item-display:hover .race-item-delete {
+.cardigan.actor .sheet-header .header-bottom-section .race-drop-zone .race-item-display:hover .race-item-delete {
   display: block;
 }
-.cardigan .sheet-header .header-bottom-section .race-drop-zone .race-placeholder {
+.cardigan.actor .sheet-header .header-bottom-section .race-drop-zone .race-placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
 }
-.cardigan .sheet-header .header-bottom-section .race-drop-zone .race-placeholder i {
+.cardigan.actor .sheet-header .header-bottom-section .race-drop-zone .race-placeholder i {
   font-size: 16px;
   color: rgba(255, 183, 92, 0.5);
   margin-bottom: 4px;
 }
-.cardigan .sheet-header .header-bottom-section .race-drop-zone .race-placeholder span {
+.cardigan.actor .sheet-header .header-bottom-section .race-drop-zone .race-placeholder span {
   color: #CF954C;
   text-align: center;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -597,12 +607,38 @@
   line-height: normal;
   transition: all 0.2s;
 }
-.cardigan .sheet-header .header-bottom-section .race-drop-zone .race-placeholder:hover span {
+.cardigan.actor .sheet-header .header-bottom-section .race-drop-zone .race-placeholder:hover span {
   background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+}
+.cardigan.item .sheet-header {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+.cardigan.item .sheet-header .profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 4px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.cardigan.item .sheet-header .header-fields {
+  flex: 1;
+}
+.cardigan.item .sheet-header .header-fields .document-name input[name=name] {
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  background: transparent;
+  width: 100%;
+}
+.cardigan.item .sheet-header .header-fields .document-name input[name=name]:focus {
+  outline: 1px solid var(--color-border-highlight);
 }
 .cardigan .tox .tox-editor-container {
   background: var(--cardigan-c-white);

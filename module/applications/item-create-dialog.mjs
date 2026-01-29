@@ -169,7 +169,7 @@ export class ItemCreateDialog extends HandlebarsApplicationMixin(ApplicationV2) 
     
     // Prepare item data
     const itemData = {
-      name: formData.name || game.i18n.localize(`DOCUMENT.New.${formData.type}`),
+      name: formData.name || game.i18n.localize(`CARDIGAN.Document.New.${formData.type}`),
       type: formData.type
     };
     

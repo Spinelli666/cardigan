@@ -2,19 +2,33 @@
   "DOCUMENT": {
     "DeleteWarning": "Tem certeza que quer excluir?",
     "New": {
-      "arma": "New Weapon",
-      "armadura": "New Armor",
-      "item-municao": "New Ammunition",
-      "item-comum": "New Item",
-      "item-consumivel": "New Consumable",
-      "item-ingredient": "New Ingredient",
-      "item-recipe": "New Recipe",
-      "skill": "New Skill",
-      "efeito": "New Effect",
-      "race": "New Race"
+      "arma": "Nova Arma",
+      "armadura": "Nova Armadura",
+      "item-municao": "Nova Munição",
+      "item-comum": "Novo Item",
+      "item-consumivel": "Novo Consumível",
+      "item-ingredient": "Novo Ingrediente",
+      "item-recipe": "Nova Receita",
+      "skill": "Nova Habilidade",
+      "efeito": "Novo Efeito",
+      "race": "Nova Raça"
     }
   },
   "CARDIGAN": {
+    "Document": {
+      "New": {
+        "arma": "Nova Arma",
+        "armadura": "Nova Armadura",
+        "item-municao": "Nova Munição",
+        "item-comum": "Novo Item",
+        "item-consumivel": "Novo Consumível",
+        "item-ingredient": "Novo Ingrediente",
+        "item-recipe": "Nova Receita",
+        "skill": "Nova Habilidade",
+        "efeito": "Novo Efeito",
+        "race": "Nova Raça"
+      }
+    },
     "Common": {
       "Save": "Save",
       "Cancel": "Cancel",
@@ -194,30 +208,7 @@
             }
           }
         }
-      }
-    },
-    "ItemCreate": {
-      "Title": "Create New Item",
-      "NameLabel": "Item Name",
-      "NamePlaceholder": "Enter item name...",
-      "Create": "Create Item",
-      "NoTypeSelected": "Please select an item type",
-      "Categories": {
-        "Equipment": "Equipment",
-        "Items": "Items & Consumables",
-        "Crafting": "Crafting",
-        "Character": "Character Features",
-        "Effects": "Effects"
-      }
-    },
-    "Item": {
-      "New": "New {type}",
-      "Title": "{type} Sheet",
-      "Subtitle": "{name}",
-      "RecoveredUsage": "{name} recovered {value} uses.",
-      "LostUsage": "{name} lost {value} uses."
-    },
-    "Actor": {
+      },
       "Tabs": {
         "Biography": "Biografia",
         "Proficiencies": "Perícias",
@@ -258,6 +249,11 @@
       }
     },
     "Item": {
+      "New": "New {type}",
+      "Title": "{type} Sheet",
+      "Subtitle": "{name}",
+      "RecoveredUsage": "{name} recovered {value} uses.",
+      "LostUsage": "{name} lost {value} uses.",
       "Tabs": {
         "Description": "Description",
         "Attributes": "Details",
@@ -633,20 +629,20 @@
     "RecipeResult": "Result",
     "RecipeDifficulty": "Difficulty",
     "CookRecipe": "Cook Recipe",
-    "ShowCulinaryTable": "",
+    "ShowCulinaryTable": "Show Culinary Table",
     "CulinaryTable": "Culinary Table",
     "AddCulinaryRecipe": "Add Culinary Recipe",
-    "ShowTailoringTable": "",
-    "ShowTecnomagicTable": "",
-    "ShowBlacksmithingTable": "",
-    "ShowAlchemyTable": "",
-    "ShowCarpentryTable": "",
-    "ShowSkillsAndarilhoTable": "",
-    "ShowSkillsGuerreiroTable": "",
-    "ShowSkillsLadinoTable": "",
-    "ShowSkillsFeiticeiroTable": "",
-    "ShowSkillsRaciaisTable": "",
-    "ShowSkillsUnicasTable": "",
+    "ShowTailoringTable": "Show Tailoring Table",
+    "ShowTecnomagicTable": "Show Tecnomagic Table",
+    "ShowBlacksmithingTable": "Show Blacksmithing Table",
+    "ShowAlchemyTable": "Show Alchemy Table",
+    "ShowCarpentryTable": "Show Carpentry Table",
+    "ShowSkillsAndarilhoTable": "Show Andarilho Skills",
+    "ShowSkillsGuerreiroTable": "Show Guerreiro Skills",
+    "ShowSkillsLadinoTable": "Show Ladino Skills",
+    "ShowSkillsFeiticeiroTable": "Show Feiticeiro Skills",
+    "ShowSkillsRaciaisTable": "Show Raciais Skills",
+    "ShowSkillsUnicasTable": "Show Únicas Skills",
     "TailoringTable": "Tailoring Table",
     "TecnomagicTable": "Tecnomagic Table",
     "BlacksmithingTable": "Blacksmithing Table",
@@ -1130,20 +1126,20 @@
   },
   "TYPES": {
     "Actor": {
-      "character": "Character",
+      "character": "Personagem",
       "npc": "NPC"
     },
     "Item": {
-      "item-comum": "Common Item",
-      "item-municao": "Ammunition",
-      "item-consumivel": "Consumable",
-      "item-ingredient": "Ingredient",
-      "item-recipe": "Recipe",
+      "item-comum": "Item Comum",
+      "item-municao": "Munição",
+      "item-consumivel": "Consumível",
+      "item-ingredient": "Ingrediente",
+      "item-recipe": "Receita",
       "race": "Raça",
       "efeito": "Efeito",
-      "arma": "Weapon",
-      "armadura": "Armor",
-      "skill": "Skill"
+      "arma": "Arma",
+      "armadura": "Armadura",
+      "skill": "Habilidade"
     }
   }
 }
