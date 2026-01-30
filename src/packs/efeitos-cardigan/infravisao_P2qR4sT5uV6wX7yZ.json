@@ -6,7 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/infravisao.webp",
   "system": {
     "description": "<p style=\"text-align: justify;\">Você consegue enxergar no escuro e possui <em>Vantagem</em> para detectar personagens furtivos.</p>",
-    "efeitoType": "positivo"
+    "efeitoType": "positivo",
+    "rodadas": "0"
   },
   "effects": [],
   "folder": "FszDz3GuPvOHfi8w",

@@ -6,7 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/eletrocutado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Recebe <code>15⚡️</code> dano elétrico instantâneo e deve testar Vigor contra <strong><code>💫Atordoado¹</code></strong> adicionalmente.</p>",
-    "efeitoType": "negativo"
+    "efeitoType": "negativo",
+    "rodadas": "0"
   },
   "effects": [],
   "folder": "Kx8mN2QwRtY5UvBp",

@@ -23,6 +23,21 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
       choices: CONFIG.CARDIGAN.efeitoTypes,
     });
 
+    schema.rodadas = new fields.StringField({
+      required: true,
+      blank: false,
+      initial: '0',
+      choices: {
+        '0': '0',
+        '1': '1',
+        '2': '2',
+        '3': '3',
+        '4': '4',
+        '5': '5',
+        'infinito': 'ထ'
+      }
+    });
+
     schema.duration = new fields.NumberField({
       required: false,
       nullable: true,

@@ -43,7 +43,7 @@
       "Confirm": "Confirm",
       "Yes": "Yes",
       "No": "No",
-      "Description": "Description",
+      "Description": "Descrição",
       "Name": "Name",
       "Cost": "Cost",
       "Type": "Type",
@@ -52,7 +52,7 @@
       "Quantity": "Quantity",
       "Weight": "Weight",
       "Price": "Price",
-      "Details": "Details",
+      "Details": "Detalhes",
       "Effects": "Effects",
       "Properties": "Properties",
       "Requirements": "Requirements",
@@ -255,9 +255,9 @@
       "RecoveredUsage": "{name} recovered {value} uses.",
       "LostUsage": "{name} lost {value} uses.",
       "Tabs": {
-        "Description": "Description",
-        "Attributes": "Details",
-        "Details": "Details",
+        "Description": "Descrição",
+        "Attributes": "Detalhes",
+        "Details": "Detalhes",
         "Effects": "Effects",
         "Modifiers": "Modifiers",
         "Ingredients": "Ingredients",
@@ -399,12 +399,15 @@
       },
       "Efeito": {
         "Types": {
-          "Positivo": "Positive",
-          "Negativo": "Negative"
+          "Positivo": "Positivo",
+          "Negativo": "Negativo"
         },
         "FIELDS": {
           "efeitoType": {
-            "label": "Effect Type"
+            "label": "Tipos de Efeitos"
+          },
+          "rodadas": {
+            "label": "Rodadas"
           }
         }
       },

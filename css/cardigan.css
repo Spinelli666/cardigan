@@ -916,6 +916,29 @@
 .cardigan .skill-bonuses .skill-bonus-row .remove-skill-bonus-btn:hover {
   background: #d32f2f;
 }
+.cardigan {
+  /**
+   * Item Efeito Styles
+   * Estilos específicos para o Item do tipo Efeito
+   */
+}
+.cardigan section[data-application-part=attributesEfeito] {
+  margin-top: 20px;
+}
+.cardigan .item-efeito-form-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 25px;
+}
+.cardigan .item-efeito-form-group label {
+  min-width: 150px;
+  margin: 0;
+}
+.cardigan .item-efeito-form-group select {
+  flex: 1;
+  margin-right: 215px;
+}
 .cardigan .effects-header {
   height: 28px;
   margin: 2px 0;
