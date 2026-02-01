@@ -326,6 +326,11 @@
 /* ---------------------------------- */
 /*  Chat Messages                     */
 /* ---------------------------------- */
+.chat-message {
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  border: 4px solid #FFB75C;
+  border-radius: 12px;
+}
 .chat-message .message-content .content-link i {
   display: none !important;
 }
