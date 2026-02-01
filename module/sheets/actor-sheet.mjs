@@ -73,6 +73,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       resetHunger: this._onResetHunger,
       resetThirst: this._onResetThirst,
       showEffectInChat: this._onShowEffectInChat,
+      sendEffectToChat: this._onSendEffectToChat,
       skillToChat: this._onSkillToChat,
 
       rest: this._onRest,
@@ -1342,6 +1343,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   static async _onShowEffectInChat(event, target) {
     return ProficienciesActions.onShowEffectInChat(event, target, this);
+  }
+
+  /**
+   * Handle sending effect to chat when clicking image - delegates to ProficienciesActions
+   */
+  static async _onSendEffectToChat(event, target) {
+    return ProficienciesActions.onSendEffectToChat(event, target, this);
   }
 
   /**

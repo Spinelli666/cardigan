@@ -111,11 +111,54 @@
       flex: 0 0 20px;
       align-items: center;
       justify-content: center;
+      position: relative;
 
       img {
         width: 19px;
         height: 19px;
         border-radius: 3px;
+        transition: opacity 0.2s ease;
+        
+        &.effect-image-clickable {
+          cursor: pointer;
+        }
+      }
+
+      // Chat icon (invisível por padrão, usa mask igual às perícias)
+      .chat-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 19px;
+        height: 19px;
+        opacity: 0;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        pointer-events: none;
+        
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(180deg, #FFB75C, #996E37);
+          -webkit-mask: url('../assets/images/decorative/icons/icon-chat.svg') center/contain no-repeat;
+          mask: url('../assets/images/decorative/icons/icon-chat.svg') center/contain no-repeat;
+        }
+      }
+
+      // Efeito no hover
+      &:hover {
+        img.effect-image-clickable {
+          opacity: 0;
+        }
+        
+        .chat-icon {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1.15);
+        }
       }
     }
 

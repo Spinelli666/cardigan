@@ -416,7 +416,18 @@
               data-document-class='ActiveEffect'
             >
               <div class='effect-image'>
-                <img src='{{effect.img}}' alt='{{effect.name}}' width='24' height='24' />
+                <img 
+                  src='{{effect.img}}' 
+                  alt='{{effect.name}}' 
+                  width='24' 
+                  height='24'
+                  data-action="sendEffectToChat"
+                  data-effect-name="{{effect.name}}"
+                  data-effect-description="{{effect.flags.cardigan.description}}"
+                  data-effect-img="{{effect.img}}"
+                  class="effect-image-clickable"
+                />
+                <div class="chat-icon"></div>
               </div>
               
               <div class='effect-name'>
@@ -452,7 +463,18 @@
               data-drag="true"
             >
               <div class='effect-image'>
-                <img src='{{efeito.img}}' alt='{{efeito.name}}' width='24' height='24' />
+                <img 
+                  src='{{efeito.img}}' 
+                  alt='{{efeito.name}}' 
+                  width='24' 
+                  height='24'
+                  data-action="sendEffectToChat"
+                  data-effect-name="{{efeito.name}}"
+                  data-effect-description="{{efeito.system.description}}"
+                  data-effect-img="{{efeito.img}}"
+                  class="effect-image-clickable"
+                />
+                <div class="chat-icon"></div>
               </div>
               
               <div class='effect-name'>
