@@ -1,0 +1,23 @@
+<div class='cardigan-effect-chat-message'>
+  {{! Actor Header }}
+  <div class='actor-header'>
+    <img src='{{actorImg}}' alt='{{actorName}}' class='actor-avatar' />
+    <h2 class='actor-name'>{{actorName}}</h2>
+  </div>
+
+  {{! Effect Header }}
+  <div class='effect-header'>
+    <div class="effect-chat-icon">
+        <img src='{{effectImg}}' alt='{{effectName}}' class='effect-icon' />
+    </div>
+    <p class='effect-subtitle'>SOB O EFEITO</p>
+    <h3 class='effect-title'>{{effectName}}</h3>
+  </div>
+
+  {{! Effect Description }}
+  {{#if effectDescription}}
+  <div class='effect-description'>
+    {{{effectDescription}}}
+  </div>
+  {{/if}}
+</div>

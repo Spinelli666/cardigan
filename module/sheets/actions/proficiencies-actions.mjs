@@ -63,71 +63,19 @@ export class ProficienciesActions {
       const effectDescription = target.dataset.effectDescription || "";
       const effectImg = target.dataset.effectImg || "icons/svg/aura.svg";
       const actorName = sheet.document.name;
+      const actorImg = sheet.document.img || sheet.document.prototypeToken?.texture?.src || "icons/svg/mystery-man.svg";
       
-      // Create message content with image in card style
-      let content = `<div class="cardigan-effect-chat-message" style="
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 12px;
-        background: linear-gradient(135deg, rgba(40, 44, 52, 0.95) 0%, rgba(25, 28, 33, 0.95) 100%);
-        border: 2px solid #c0863b;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      ">
-        <div style="
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding-bottom: 10px;
-          border-bottom: 2px solid rgba(192, 134, 59, 0.3);
-        ">
-          <img src="${effectImg}" alt="${effectName}" style="
-            width: 48px;
-            height: 48px;
-            border-radius: 6px;
-            border: 2px solid #c0863b;
-            box-shadow: 0 0 12px rgba(192, 134, 59, 0.5);
-          " />
-          <div style="flex: 1;">
-            <h3 style="
-              margin: 0 0 4px 0;
-              font-family: 'Alatsi', sans-serif;
-              font-size: 18px;
-              background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              background-clip: text;
-              text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            ">
-              <i class="fas fa-magic" style="margin-right: 6px; color: #c0863b;"></i>${effectName}
-            </h3>
-            <p style="
-              margin: 0;
-              font-size: 12px;
-              color: #b5b3a4;
-              font-style: italic;
-            ">
-              <strong style="color: #FFB75C;">${actorName}</strong> está sob este efeito
-            </p>
-          </div>
-        </div>`;
-      
-      if (effectDescription && effectDescription.trim() !== "") {
-        content += `<div style="
-          padding: 10px;
-          background: rgba(0, 0, 0, 0.2);
-          border-left: 3px solid #c0863b;
-          border-radius: 4px;
-          color: #d0d0d0;
-          font-size: 13px;
-          line-height: 1.5;
-        ">
-          ${effectDescription}
-        </div>`;
-      }
-      
-      content += `</div>`;
+      // Render template with context data
+      const content = await foundry.applications.handlebars.renderTemplate(
+        "systems/cardigan/templates/chat/effect-message.hbs",
+        {
+          actorImg,
+          actorName,
+          effectImg,
+          effectName,
+          effectDescription
+        }
+      );
       
       // Send message to chat
       await ChatMessage.create({

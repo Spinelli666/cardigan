@@ -1,3 +1,8 @@
-2026/02/01-11:09:44.180 2efc Recovering log #728
-2026/02/01-11:09:44.230 2efc Delete type=0 #728
-2026/02/01-11:09:44.231 2efc Delete type=3 #726
+2026/02/04-17:34:28.419 24e8 Recovering log #736
+2026/02/04-17:34:28.464 24e8 Delete type=0 #736
+2026/02/04-17:34:28.464 24e8 Delete type=3 #734
+2026/02/04-18:38:40.457 40ec Level-0 table #741: started
+2026/02/04-18:38:40.457 40ec Level-0 table #741: 0 bytes OK
+2026/02/04-18:38:40.551 40ec Delete type=0 #739
+2026/02/04-18:38:40.772 40ec Manual compaction at level-0 from '!folders!QcRacDwarf3GzTk1' @ 72057594037927935 : 1 .. '!items!Y7zZ0aA3bB6cC9dD' @ 0 : 0; will stop at (end)
+2026/02/04-18:38:40.772 40ec Manual compaction at level-1 from '!folders!QcRacDwarf3GzTk1' @ 72057594037927935 : 1 .. '!items!Y7zZ0aA3bB6cC9dD' @ 0 : 0; will stop at (end)
