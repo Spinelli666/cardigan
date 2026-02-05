@@ -50,7 +50,6 @@
   .tab {
     flex: 1;
     min-height: 0;
-    // background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 31.35%, rgba(118, 212, 255, 0.19) 99.96%);
     background: linear-gradient(180deg, rgba(118, 212, 255, 0.19) 43.81%, rgba(9, 21, 29, 0.19) 99.96%);
     font-family: 'Alatsi', sans-serif !important;
   }
@@ -122,6 +121,7 @@
 @import 'dialogs/merchant-trade-dialog';
 @import 'dialogs/character-creation-wizard';
 @import 'dialogs/level-up-wizard';
+@import 'dialogs/effects-selection';
 
 // Tooltip components - DEVE SER O ÚLTIMO para ter precedência
 @import 'components/tooltips/tooltips';

@@ -5,6 +5,7 @@ import { HandSelectionDialog } from '../applications/hand-selection-dialog.mjs';
 import { RecipeCraftingDialog } from '../applications/recipe-crafting-dialog.mjs';
 import { buildRollFormula } from '../helpers/config.mjs';
 import { AdvantageSelectionDialog } from '../applications/advantage-selection-dialog.mjs';
+import EffectsCompendiumSelectionDialog from '../applications/effects-compendium-selection-dialog.mjs';
 import { HeaderActions } from './actions/header-actions.mjs';
 import { HeaderStatusActions } from './actions/header-status-actions.mjs';
 import { HeaderListeners } from './listeners/header-listeners.mjs';
@@ -60,6 +61,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       onEditImage: this._onEditImage,
       createDoc: this._createDoc,
       createDocWithSelection: this._createDocWithSelection,
+      openEffectsSelection: this._openEffectsSelection,
       editDoc: this._editDoc,
       deleteDoc: this._deleteDoc,
       toggleExpand: this._onToggleExpand,
@@ -1235,6 +1237,19 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         ui.notifications.error("Failed to create item");
       }
     }
+  }
+
+  /**
+   * Open effects compendium selection dialog
+   *
+   * @this CardiganSystemActorSheet
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @private
+   */
+  static async _openEffectsSelection(event, target) {
+    event.preventDefault();
+    await EffectsCompendiumSelectionDialog.show(this.document);
   }
 
   /**

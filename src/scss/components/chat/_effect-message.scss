@@ -67,6 +67,9 @@
 
     .effect-title {
       margin: 0;
+      padding: 0;
+      background: none;
+      border: none;
       font-family: 'Alatsi', sans-serif;
       font-size: 18px;
       background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
@@ -75,6 +78,22 @@
       background-clip: text;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       text-transform: uppercase;
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.2s ease, transform 0.1s ease;
+
+      &:hover {
+        opacity: 0.85;
+        transform: translateY(-1px);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+      
+      &:focus {
+        outline: none;
+      }
     }
   }
 

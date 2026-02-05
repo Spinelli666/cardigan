@@ -3131,6 +3131,31 @@ Hooks.on('renderChatMessageHTML', (chatMessage, html) => {
   });
 });
 
+/**
+ * Add toggle functionality to effect title buttons in chat
+ */
+Hooks.on('renderChatMessageHTML', (message, html) => {
+  const toggleButtons = html.querySelectorAll('.toggle-effect-description');
+  if (toggleButtons.length === 0) return;
+
+  toggleButtons.forEach(button => {
+    const effectId = button.dataset.effectId;
+    const descElement = html.querySelector(`.effect-description[data-effect-id="${effectId}"]`);
+
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (!descElement) return;
+
+      const isHidden = descElement.style.display === 'none' || !descElement.style.display;
+
+      // Toggle visibility
+      descElement.style.display = isHidden ? 'block' : 'none';
+    });
+  });
+});
+
 /* -------------------------------------------- */
 /*  Evasion System Hooks                        */
 /* -------------------------------------------- */
@@ -3199,6 +3224,29 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
   if (messageContent) {
     messageContent.appendChild(evasionSection);
   }
+});
+
+/**
+ * Add toggle functionality to effect chat messages
+ */
+Hooks.on('renderChatMessageHTML', (message, html) => {
+  // Validate html parameter
+  if (!html || !html[0]) return;
+  
+  // Check if this is an effect message
+  const effectMessage = html[0].querySelector('.cardigan-effect-chat-message');
+  if (!effectMessage) return;
+
+  const effectTitle = effectMessage.querySelector('.effect-title[data-action="toggle-description"]');
+  const effectDescription = effectMessage.querySelector('.effect-description');
+  
+  if (!effectTitle || !effectDescription) return;
+
+  // Add click event listener to toggle description
+  effectTitle.addEventListener('click', (event) => {
+    event.preventDefault();
+    effectDescription.classList.toggle('collapsed');
+  });
 });
 
 /**

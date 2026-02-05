@@ -11,12 +11,14 @@
         <img src='{{effectImg}}' alt='{{effectName}}' class='effect-icon' />
     </div>
     <p class='effect-subtitle'>SOB O EFEITO</p>
-    <h3 class='effect-title'>{{effectName}}</h3>
+    <button class='effect-title toggle-effect-description' data-effect-id='{{effectName}}' type='button'>
+      {{effectName}}
+    </button>
   </div>
 
   {{! Effect Description }}
   {{#if effectDescription}}
-  <div class='effect-description'>
+  <div class='effect-description' data-effect-id='{{effectName}}' style='display: none;'>
     {{{effectDescription}}}
   </div>
   {{/if}}
