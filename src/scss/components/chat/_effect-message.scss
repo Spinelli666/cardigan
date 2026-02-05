@@ -80,6 +80,7 @@
 
   // Effect Description Section
   .effect-description {
+    margin-bottom: 4px;
     padding: 0px 15px;
     color: #FFB75C;
     font-size: 13px;
@@ -88,6 +89,7 @@
     background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
 
     p {
+      font-family: 'Alatsi', sans-serif !important;
       text-align: center !important;
     }
   }
