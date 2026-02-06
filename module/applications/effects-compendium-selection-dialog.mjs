@@ -134,13 +134,6 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
       });
     }
     
-    // Add click handler for buttons
-    this.element.querySelectorAll('[data-action="addEffects"]').forEach(button => {
-      button.addEventListener('click', (event) => {
-        this.constructor._onAddEffects.call(this, event, button);
-      });
-    });
-    
     // Add click handler for effect items to toggle selection
     this.element.querySelectorAll('.effect-item').forEach(item => {
       item.addEventListener('click', (event) => {
@@ -175,9 +168,13 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
         else if (currentRounds === '∞') nextRounds = '0';
         else nextRounds = '0';
         
-        // Update dataset and button text
+        // Update dataset and button
         item.dataset.rounds = nextRounds;
-        button.textContent = nextRounds;
+        if (nextRounds === '∞') {
+          button.innerHTML = '<img src="systems/cardigan/assets/images/decorative/icons/icon-infinite.svg" alt="Infinito" class="icon-infinite" width="10" height="10">';
+        } else {
+          button.textContent = nextRounds;
+        }
       });
     });
   }
@@ -210,8 +207,8 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
         const effectItem = this.element.querySelector(`.effect-item[data-effect-uuid="${uuid}"]`);
         if (effectItem) {
           const rounds = effectItem.dataset.rounds || '0';
-          // Convert ∞ to -1 or a large number for infinite duration
-          const roundsValue = rounds === '∞' ? -1 : parseInt(rounds);
+          // Convert ∞ to 'infinito' string to match schema choices
+          const roundsValue = rounds === '∞' ? 'infinito' : rounds;
           
           // Add rounds to the effect data
           if (!itemData.system) itemData.system = {};

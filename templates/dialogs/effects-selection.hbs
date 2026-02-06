@@ -16,7 +16,7 @@
     {{#each effects as |effect|}}
       <div class="effect-item" data-effect-uuid="{{effect.uuid}}" data-rounds="0">
         <div class="rounds-counter">
-          <i class="fas fa-clock"></i>
+          <img src="systems/cardigan/assets/images/decorative/icons/icon-clock.svg" alt="Rodadas" class="icon-clock" width="25" height="25">
           <button type="button" class="rounds-button" data-effect-uuid="{{effect.uuid}}">0</button>
         </div>
         <div class="effect-content">
@@ -44,7 +44,6 @@
 
   <div class="dialog-buttons">
     <button type="button" class="confirm-button" data-action="addEffects">
-      <i class="fas fa-check"></i>
       Adicionar
     </button>
   </div>

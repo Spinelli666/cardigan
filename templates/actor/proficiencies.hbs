@@ -490,6 +490,11 @@
                 </h4>
               </div>
 
+              <div class='effect-rounds'>
+                <img src="systems/cardigan/assets/images/decorative/icons/icon-clock.svg" alt="Rodadas" class="rounds-icon" width="16" height="16">
+                <span class="rounds-value">{{#if efeito.system.rodadas}}{{#if (eq efeito.system.rodadas "infinito")}}∞{{else}}{{efeito.system.rodadas}}{{/if}}{{else}}0{{/if}}</span>
+              </div>
+
               <div class='effect-controls flexrow'>
                 {{#if @root.editable}}
                 <a class='effect-control' data-action='deleteDoc' title='Delete Efeito'>

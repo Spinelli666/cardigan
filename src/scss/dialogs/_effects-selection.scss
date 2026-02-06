@@ -18,6 +18,14 @@
     .window-title {
       color: #FFB75C;
     }
+    
+    .header-control,
+    button.header-control {
+      i.fa-xmark,
+      &.fa-xmark {
+        color: #FFB75C !important;
+      }
+    }
   }
   
   .window-content {
@@ -109,21 +117,21 @@
 
   .effect-item {
     position: relative;
-    border: 2px solid #43AAD9;
+    border: 2px solid #FFB75C;
     border-radius: 8px;
     padding: 12px;
-    background: rgba(0, 0, 0, 0.3);
+    background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      background: rgba(67, 170, 218, 0.2);
+      background: linear-gradient(90deg, rgba(255, 183, 92, 1) 0%, rgba(67, 170, 218, 1) 100%);
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(67, 170, 218, 0.3);
     }
 
     &.selected {
-      background: rgba(67, 170, 218, 0.3);
+      background: linear-gradient(90deg, rgba(255, 183, 92, 1) 0%, rgba(67, 170, 218, 1) 100%);
       border-color: #FFB75C;
       box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
     }
@@ -131,7 +139,8 @@
 
   .rounds-counter {
     position: absolute;
-    bottom: 8px;
+    top: 50%;
+    transform: translateY(-50%);
     right: 8px;
     display: flex;
     align-items: center;
@@ -145,8 +154,8 @@
     }
     
     .rounds-button {
-      background: rgba(67, 170, 218, 0.3);
-      border: 1px solid #43AAD9;
+      background: none;
+      border: 1px solid #FFB75C;
       border-radius: 4px;
       color: #FFB75C;
       font-family: 'Alatsi', sans-serif;
@@ -185,13 +194,16 @@
     border-radius: 50%;
     border: 2px solid #FFB75C;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.5);
+    background: #2D353A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .effect-icon {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 75%;
+    height: 75%;
+    object-fit: contain;
   }
 
   .effect-info {
@@ -240,7 +252,7 @@
     display: flex;
     justify-content: center;
     gap: 12px;
-    padding: 15px 300px;
+    padding: 15px 350px;
     border-top: 2px solid #c0863b;
 
     button {
@@ -248,7 +260,7 @@
       font-family: 'Alatsi', sans-serif;
       font-size: 14px;
       border: none;
-      border-radius: 4px;
+      border-radius: 18px;
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
@@ -256,13 +268,15 @@
       gap: 8px;
 
       &.confirm-button {
-        background: linear-gradient(135deg, #2ECC71, #27AE60);
-        color: white;
+        background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+        border: 2px solid #FFB75C;
+        color: #FFB75C;
 
         &:hover {
-          background: linear-gradient(135deg, #27AE60, #229954);
+          background: linear-gradient(90deg, rgba(255, 183, 92, 1) 0%, rgba(67, 170, 218, 1) 100%);
+          border-color: #FFB75C;
+          box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
           transform: translateY(-1px);
-          box-shadow: 0 4px 8px rgba(46, 204, 113, 0.3);
         }
       }
     }
