@@ -13365,6 +13365,28 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   border-color: rgba(255, 255, 255, 0.3);
 }
 
+.advantage-selection-dialog {
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  border: 4px solid #c0863b;
+  border-radius: 20px;
+  font-family: "Alatsi", sans-serif;
+}
+.advantage-selection-dialog .window-header {
+  background: initial !important;
+  border-bottom: initial !important;
+  backdrop-filter: blur(4px);
+}
+.advantage-selection-dialog .window-header .window-title {
+  color: #FFB75C;
+}
+.advantage-selection-dialog .window-header .header-control i.fa-xmark, .advantage-selection-dialog .window-header .header-control.fa-xmark,
+.advantage-selection-dialog .window-header button.header-control i.fa-xmark,
+.advantage-selection-dialog .window-header button.header-control.fa-xmark {
+  color: #FFB75C !important;
+}
+.advantage-selection-dialog .window-content {
+  padding: 0 !important;
+}
 .advantage-selection-dialog .advantage-selection-content {
   padding: 20px;
 }
@@ -13397,65 +13419,106 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   width: 18px;
   height: 18px;
 }
-.advantage-selection-dialog .roll-options-horizontal {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+.advantage-selection-dialog .roll-options-container {
+  display: flex;
+  align-items: stretch;
   gap: 8px;
+  margin-bottom: 8px;
 }
-.advantage-selection-dialog .roll-option-button {
-  padding: 16px 10px;
-  border: 1px solid #7a7971;
-  border-radius: 5px;
-  background: rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+.advantage-selection-dialog .roll-options-container .roll-modifier-option {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+.advantage-selection-dialog .roll-options-container .roll-modifier-option input[type=radio] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.advantage-selection-dialog .roll-options-container .roll-modifier-option .modifier-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
-  transition: all 0.2s;
-  min-height: 80px;
+  padding: 12px 8px;
+  border: 2px solid #c0863b;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  transition: all 0.2s ease;
+  width: 100%;
+  height: 100%;
 }
-.advantage-selection-dialog .roll-option-button i {
-  font-size: 24px;
-}
-.advantage-selection-dialog .roll-option-button .roll-info {
-  text-align: center;
-  flex: 1;
+.advantage-selection-dialog .roll-options-container .roll-modifier-option .modifier-content .modifier-icon {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
 }
-.advantage-selection-dialog .roll-option-button .roll-info .roll-name {
+.advantage-selection-dialog .roll-options-container .roll-modifier-option .modifier-content .modifier-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.advantage-selection-dialog .roll-options-container .roll-modifier-option:hover .modifier-content {
+  border-color: #FFB75C;
+  transform: translateY(-4px);
+  box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
+}
+.advantage-selection-dialog .roll-options-container .roll-modifier-option:has(input:checked) .modifier-content {
+  border-color: #FFB75C;
+  box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
+}
+.advantage-selection-dialog .roll-options-container .roll-action {
+  flex: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.advantage-selection-dialog .roll-options-container .roll-action .roll-test-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  font-size: 14px;
   font-weight: bold;
-  font-size: 13px;
+  color: white;
+  background: #2D353A;
+  border: 4px solid #c9934a;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100px;
+  height: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 20px rgba(201, 147, 74, 0.6), 0 4px 12px rgba(0, 0, 0, 0.7), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+.advantage-selection-dialog .roll-options-container .roll-action .roll-test-button img {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+}
+.advantage-selection-dialog .roll-options-container .roll-action .roll-test-button span {
   line-height: 1.2;
 }
-.advantage-selection-dialog .roll-option-button .roll-info .roll-name.enhanced {
-  font-size: 12px;
+.advantage-selection-dialog .roll-options-container .roll-action .roll-test-button:hover {
+  background: #3a454c;
+  transform: translateY(-4px);
+  box-shadow: 0 0 30px rgba(201, 147, 74, 0.8), 0 6px 20px rgba(0, 0, 0, 0.8), inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
-.advantage-selection-dialog .roll-option-button.normal i {
-  color: #999;
-}
-.advantage-selection-dialog .roll-option-button.advantage i {
-  color: #4caf50;
-}
-.advantage-selection-dialog .roll-option-button.disadvantage i {
-  color: #f44336;
-}
-.advantage-selection-dialog .roll-option-button.enhanced-advantage i {
-  color: #66bb6a;
-}
-.advantage-selection-dialog .roll-option-button.enhanced-disadvantage i {
-  color: #ef5350;
-}
-.advantage-selection-dialog .roll-option-button:hover {
+.advantage-selection-dialog .roll-options-container .roll-action .roll-test-button:active {
   transform: translateY(-2px);
-  box-shadow: 0 0 10px rgba(255, 100, 0, 0.5);
-  background: rgba(0, 0, 0, 0.2);
-  border-color: #ff6400;
-}
-.advantage-selection-dialog .roll-option-button:active {
-  transform: translateY(0);
-  box-shadow: 0 0 5px rgba(255, 100, 0, 0.3);
+  box-shadow: 0 0 15px rgba(201, 147, 74, 0.5), 0 3px 10px rgba(0, 0, 0, 0.6), inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .rest-selection-dialog .dialog-header {

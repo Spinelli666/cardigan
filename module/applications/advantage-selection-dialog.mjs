@@ -13,11 +13,10 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
 
   static DEFAULT_OPTIONS = {
     id: "advantage-selection-dialog",
-    classes: ["cardigan", "advantage-selection-dialog"],
+    classes: ["cardigan", "dialog", "advantage-selection-dialog"],
     tag: "dialog",
     window: {
-      title: "Tipo de Rolagem",
-      icon: "fas fa-dice-d20",
+      title: "Tipo de Teste",
       contentClasses: ["standard-form"],
       minimizable: false,
       resizable: false,
@@ -28,7 +27,7 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
       height: "auto"
     },
     actions: {
-      selectRoll: this._onSelectRoll
+      rollTest: this._onRollTest
     }
   };
 
@@ -82,35 +81,34 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
       });
     }
 
-    // Add click handlers to roll buttons
-    this.element.querySelectorAll('[data-roll-type]').forEach(button => {
-      button.addEventListener('click', (event) => {
-        event.preventDefault();
-        const rollType = button.dataset.rollType;
-        this._selectRoll(rollType);
+    // Allow deselecting radio buttons by clicking again
+    const radioButtons = this.element.querySelectorAll('input[name="rollModifier"]');
+    let lastSelected = null;
+
+    radioButtons.forEach(radio => {
+      radio.addEventListener('click', (event) => {
+        if (lastSelected === radio) {
+          radio.checked = false;
+          lastSelected = null;
+        } else {
+          lastSelected = radio;
+        }
       });
     });
   }
 
   /**
-   * Handle roll type selection
+   * Handle roll test button click
    * @param {Event} event
    * @param {HTMLElement} target
    * @private
    */
-  static async _onSelectRoll(event, target) {
-    const rollType = target.dataset.rollType || target.closest('[data-roll-type]')?.dataset.rollType;
-    if (rollType) {
-      this._selectRoll(rollType);
-    }
-  }
-
-  /**
-   * Select a roll type and resolve the promise
-   * @param {string} rollType - The selected roll type
-   * @private
-   */
-  _selectRoll(rollType) {
+  static async _onRollTest(event, target) {
+    // Get selected roll modifier (if any)
+    const selectedModifier = this.element.querySelector('input[name="rollModifier"]:checked');
+    const rollType = selectedModifier ? selectedModifier.value : 'normal';
+    
+    // Get attack mode
     const attackMode = this.element.querySelector('input[name="attackType"]:checked')?.value || 'individual';
     
     if (this.resolve) {

@@ -16,40 +16,39 @@
   </fieldset>
   {{/unless}}
   
-  <div class="roll-options-horizontal">
-    <button type="button" class="roll-option-button enhanced-disadvantage" data-roll-type="enhanced-disadvantage">
-      <i class="fas fa-angle-double-down"></i>
-      <div class="roll-info">
-        <div class="roll-name enhanced">Desvantagem Aprimorada</div>
-      </div>
-    </button>
+  <div class="roll-options-container">
+    <label class="roll-modifier-option">
+      <input type="radio" name="rollModifier" value="enhanced-disadvantage">
+      <span class="modifier-content">
+        <span class="modifier-icon enhanced-disadvantage"><img src="systems/cardigan/assets/images/decorative/icons/icon-enhanced-disadvantage.svg" alt="Desvantagem Aprimorada"></span>
+      </span>
+    </label>
     
-    <button type="button" class="roll-option-button disadvantage" data-roll-type="disadvantage">
-      <i class="fas fa-arrow-down"></i>
-      <div class="roll-info">
-        <div class="roll-name">Desvantagem</div>
-      </div>
-    </button>
+    <label class="roll-modifier-option">
+      <input type="radio" name="rollModifier" value="disadvantage">
+      <span class="modifier-content">
+        <span class="modifier-icon disadvantage"><img src="systems/cardigan/assets/images/decorative/icons/icon-disadvantage.svg" alt="Desvantagem"></span>
+      </span>
+    </label>
     
-    <button type="button" class="roll-option-button normal" data-roll-type="normal">
-      <i class="fas fa-dice-d20"></i>
-      <div class="roll-info">
-        <div class="roll-name">Normal</div>
-      </div>
-    </button>
+    <div class="roll-action">
+      <button type="button" class="roll-test-button" data-action="rollTest">
+        <img src="systems/cardigan/assets/images/decorative/icons/icon-d20.svg" alt="Rolar Teste">
+      </button>
+    </div>
     
-    <button type="button" class="roll-option-button advantage" data-roll-type="advantage">
-      <i class="fas fa-arrow-up"></i>
-      <div class="roll-info">
-        <div class="roll-name">Vantagem</div>
-      </div>
-    </button>
+    <label class="roll-modifier-option">
+      <input type="radio" name="rollModifier" value="advantage">
+      <span class="modifier-content">
+        <span class="modifier-icon advantage"><img src="systems/cardigan/assets/images/decorative/icons/icon-advantage.svg" alt="Vantagem"></span>
+      </span>
+    </label>
     
-    <button type="button" class="roll-option-button enhanced-advantage" data-roll-type="enhanced-advantage">
-      <i class="fas fa-angle-double-up"></i>
-      <div class="roll-info">
-        <div class="roll-name enhanced">Vantagem Aprimorada</div>
-      </div>
-    </button>
+    <label class="roll-modifier-option">
+      <input type="radio" name="rollModifier" value="enhanced-advantage">
+      <span class="modifier-content">
+        <span class="modifier-icon enhanced-advantage"><img src="systems/cardigan/assets/images/decorative/icons/icon-enhanced-advantage.svg" alt="Vantagem Aprimorada"></span>
+      </span>
+    </label>
   </div>
 </div>
