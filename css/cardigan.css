@@ -3772,8 +3772,8 @@
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  border: 1.7px solid rgba(207, 149, 76, 0.6);
-  background: rgba(105, 76, 39, 0.6);
+  border: 1.7px solid #c0863b;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   text-align: center;
   font-size: 14px;
   color: white;
@@ -3781,8 +3781,8 @@
   filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.6));
 }
 .cardigan .xp-level-container .level-container .level-input:focus {
-  border-color: rgba(207, 149, 76, 0.9);
-  background: rgba(105, 76, 39, 0.85);
+  border-color: #FFB75C;
+  box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
 }
 .cardigan .xp-level-container .xp-container {
   display: flex;
@@ -3793,15 +3793,15 @@
   padding: 0.25px 0px 0px 0px;
   justify-content: center;
   border-radius: 6px;
-  border: 1.7px solid rgba(207, 149, 76, 0.6);
-  background: rgba(105, 76, 39, 0.6);
+  border: 1.7px solid #c0863b;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   flex-shrink: 1;
   min-width: 0;
   filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.6));
 }
 .cardigan .xp-level-container .xp-container:focus-within {
-  border-color: rgba(207, 149, 76, 0.9);
-  background: rgba(105, 76, 39, 0.85);
+  border-color: #FFB75C;
+  box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
 }
 .cardigan .xp-level-container .xp-container .status-current,
 .cardigan .xp-level-container .xp-container .status-next {
@@ -3904,8 +3904,8 @@
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  border: 1.7px solid rgba(207, 149, 76, 0.6);
-  background: rgba(105, 76, 39, 0.6);
+  border: 1.7px solid #c0863b;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   text-align: center;
   font-size: 14px;
   color: white;
@@ -3914,8 +3914,8 @@
 }
 .cardigan .movement-crit-container .movement-input:focus,
 .cardigan .movement-crit-container .crit-input:focus {
-  border-color: rgba(207, 149, 76, 0.9);
-  background: rgba(105, 76, 39, 0.85);
+  border-color: #FFB75C;
+  box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
 }
 .cardigan {
   /* Armor Container Styles */
@@ -3964,15 +3964,15 @@
   padding: 0.25px 0px 0px 0px;
   justify-content: center;
   border-radius: 6px;
-  border: 1.7px solid rgba(207, 149, 76, 0.6);
-  background: rgba(105, 76, 39, 0.6);
+  border: 1.7px solid #c0863b;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   flex-shrink: 1;
   min-width: 0;
   filter: drop-shadow(0 2.847px 2.847px rgba(0, 0, 0, 0.6));
 }
 .cardigan .armor-container .armor-value-container:focus-within {
-  border-color: rgba(207, 149, 76, 0.9);
-  background: rgba(105, 76, 39, 0.85);
+  border-color: #FFB75C;
+  box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
 }
 .cardigan .armor-container .armor-value-container .armor-current,
 .cardigan .armor-container .armor-value-container .armor-max {
@@ -4005,8 +4005,8 @@
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  border: 1.7px solid rgba(207, 149, 76, 0.6);
-  background: rgba(105, 76, 39, 0.6);
+  border: 1.7px solid #c0863b;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   text-align: center;
   font-size: 14px;
   color: white;
@@ -4014,8 +4014,8 @@
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
 }
 .cardigan .armor-container .armor-bonus:focus {
-  border-color: rgba(207, 149, 76, 0.9);
-  background: rgba(105, 76, 39, 0.85);
+  border-color: #FFB75C;
+  box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
 }
 .cardigan .death-fields-container {
   z-index: 200;
