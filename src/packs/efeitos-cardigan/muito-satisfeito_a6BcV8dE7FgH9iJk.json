@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/muito-satisfeito.webp",
   "system": {
-    "description": "<p style=\"text-align: justify;\">Recebe <code>💔PV</code> e <code>⚡️PE</code> <code>Temporários</code> das receitas de Culinária permanecerão até seu próximo <em>Descanso</em>.</p>",
+    "description": "<p style=\"text-align: justify;\">Recebe 💔PV e ⚡️PE Temporários das receitas de Culinária permanecerão até seu próximo <em>Descanso</em>.</p>",
     "efeitoType": "positivo",
     "rodadas": "0"
   },

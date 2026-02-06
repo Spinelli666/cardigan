@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/lento.webp",
   "system": {
-    "description": "<p style=\"text-align: justify\">Recebe <strong><code>-5m</code></strong> de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong>.</p>",
+    "description": "<p style=\"text-align: justify\">Recebe <strong>-5m</strong> de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong>.</p>",
     "efeitoType": "negativo",
     "rodadas": "0"
   },

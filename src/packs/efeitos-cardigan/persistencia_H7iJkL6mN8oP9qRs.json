@@ -5,7 +5,7 @@
   "type": "efeito",
   "img": "systems/cardigan/assets/images/effects/persistencia.webp",
   "system": {
-    "description": "<p style=\"text-align: justify;\">Ao ter seus <code>💔PV</code> reduzidos a <code>0</code> ou menos, imediatamente retorna a ter <code>1💔PV</code>.</p>",
+    "description": "<p style=\"text-align: justify;\">Ao ter seus 💔PV reduzidos a 0 ou menos, imediatamente retorna a ter 1💔PV.</p>",
     "efeitoType": "positivo",
     "rodadas": "0"
   },
