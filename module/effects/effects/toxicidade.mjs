@@ -95,9 +95,11 @@ export class ToxicidadeEffect extends BaseEffect {
       return;
     }
 
-    // Add to actor as Item
-    await actor.createEmbeddedDocuments('Item', [effectDoc.toObject()]);
-    console.log(`[${this.effectName} Sync] Added ${effectName} effect to ${actor.name}`);
+    // Add to actor as Item with infinite rounds (since it's from checkbox)
+    const effectData = effectDoc.toObject();
+    effectData.system.rodadas = 'infinito';
+    await actor.createEmbeddedDocuments('Item', [effectData]);
+    console.log(`[${this.effectName} Sync] Added ${effectName} effect to ${actor.name} with infinite rounds`);
   }
 
   /**

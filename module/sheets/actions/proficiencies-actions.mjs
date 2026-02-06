@@ -62,6 +62,7 @@ export class ProficienciesActions {
       const effectName = target.dataset.effectName;
       const effectDescription = target.dataset.effectDescription || "";
       const effectImg = target.dataset.effectImg || "icons/svg/aura.svg";
+      const effectRounds = target.dataset.effectRounds;
       const actorName = sheet.document.name;
       const actorImg = sheet.document.img || sheet.document.prototypeToken?.texture?.src || "icons/svg/mystery-man.svg";
       
@@ -73,7 +74,8 @@ export class ProficienciesActions {
           actorName,
           effectImg,
           effectName,
-          effectDescription
+          effectDescription,
+          effectRounds
         }
       );
       

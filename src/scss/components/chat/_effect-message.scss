@@ -95,6 +95,41 @@
         outline: none;
       }
     }
+
+    .effect-rounds-chat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+
+      .rounds-icon {
+        width: 16px;
+        height: 16px;
+      }
+
+      .rounds-value {
+        font-family: 'Alatsi', sans-serif;
+        font-size: 14px;
+        background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        font-weight: bold;
+
+        .rounds-infinite-icon {
+          width: 16px;
+          height: 16px;
+          background: linear-gradient(180deg, #FFB75C 20%, #996E37 70%);
+          -webkit-mask: url('/systems/cardigan/assets/images/decorative/icons/icon-infinite.svg') no-repeat center;
+          mask: url('/systems/cardigan/assets/images/decorative/icons/icon-infinite.svg') no-repeat center;
+          -webkit-mask-size: contain;
+          mask-size: contain;
+          vertical-align: middle;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+      }
+    }
   }
 
   // Effect Description Section

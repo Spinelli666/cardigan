@@ -63,9 +63,11 @@ export class FraturaEffect extends BaseEffect {
       return;
     }
 
-    // Add to actor
-    await actor.createEmbeddedDocuments('Item', [effectDoc.toObject()]);
-    console.log(`[${this.effectName} Sync] Added ${this.effectName} effect to ${actor.name}`);
+    // Add to actor with infinite rounds (since it's from checkbox)
+    const effectData = effectDoc.toObject();
+    effectData.system.rodadas = 'infinito';
+    await actor.createEmbeddedDocuments('Item', [effectData]);
+    console.log(`[${this.effectName} Sync] Added ${this.effectName} effect to ${actor.name} with infinite rounds`);
   }
 
   /**

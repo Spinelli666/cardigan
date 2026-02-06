@@ -52,6 +52,19 @@
       background-clip: text;
       min-width: 20px;
       text-align: center;
+
+      .rounds-infinite-icon {
+        vertical-align: middle;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(180deg, #FFB75C 20%, #996E37 70%);
+        -webkit-mask: url('/systems/cardigan/assets/images/decorative/icons/icon-infinite.svg') no-repeat center;
+        mask: url('/systems/cardigan/assets/images/decorative/icons/icon-infinite.svg') no-repeat center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      }
     }
   }
 
