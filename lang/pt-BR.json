@@ -1118,7 +1118,12 @@
         "Persuasion.Description": "Carisma, capacidade de influenciar, enganar, intimidar ou negociar com outros.",
         "Intelligence.Description": "Capacidade de raciocínio, memória, conhecimento e compreensão de informações complexas.",
         "Psionics.Description": "Poder mental, capacidade de manifestar habilidades psiônicas e resistir a ataques mentais."
-      }
+      },
+      "EnhancedDisadvantage": "Desvantagem Aprimorada",
+      "Disadvantage": "Desvantagem",
+      "RollTest": "Rolar Teste",
+      "Advantage": "Vantagem",
+      "EnhancedAdvantage": "Vantagem Aprimorada"
     },
     "Dialogs": {
       "SkillEffectsSelection": {

@@ -13421,12 +13421,12 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .advantage-selection-dialog .roll-options-container {
   display: flex;
-  align-items: stretch;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
   margin-bottom: 8px;
 }
 .advantage-selection-dialog .roll-options-container .roll-modifier-option {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13448,11 +13448,11 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   gap: 8px;
   padding: 12px 8px;
   border: 2px solid #c0863b;
-  border-radius: 6px;
+  border-radius: 23px;
   background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   transition: all 0.2s ease;
-  width: 100%;
-  height: 100%;
+  width: 65px;
+  height: 50px;
 }
 .advantage-selection-dialog .roll-options-container .roll-modifier-option .modifier-content .modifier-icon {
   display: flex;
@@ -13463,8 +13463,8 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   border-radius: 6px;
 }
 .advantage-selection-dialog .roll-options-container .roll-modifier-option .modifier-content .modifier-icon img {
-  width: 100%;
-  height: 100%;
+  width: 75%;
+  height: 75%;
   object-fit: contain;
 }
 .advantage-selection-dialog .roll-options-container .roll-modifier-option:hover .modifier-content {
@@ -13477,7 +13477,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
 }
 .advantage-selection-dialog .roll-options-container .roll-action {
-  flex: 1.2;
+  margin: 0 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13514,6 +13514,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 .advantage-selection-dialog .roll-options-container .roll-action .roll-test-button:hover {
   background: #3a454c;
   transform: translateY(-4px);
+  border-color: #FFB75C;
   box-shadow: 0 0 30px rgba(201, 147, 74, 0.8), 0 6px 20px rgba(0, 0, 0, 0.8), inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 .advantage-selection-dialog .roll-options-container .roll-action .roll-test-button:active {
