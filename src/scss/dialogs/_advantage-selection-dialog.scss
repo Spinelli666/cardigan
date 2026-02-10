@@ -35,12 +35,20 @@
     align-items: center;
   }
 
-  .joint-attack-checkbox {
+  .attack-mode-container {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .hand-checkbox,
+  .joint-attack-checkbox,
+  .hand-primary-checkbox {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    margin-bottom: 20px;
 
     input[type="checkbox"] {
       position: absolute;
@@ -59,12 +67,30 @@
       border: 2px solid #c0863b;
       border-radius: 8px;
       background: linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
-      background-image: url('../assets/images/decorative/icons/icon-joint-attack.svg'), linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
       background-size: 75%, 100%;
       background-position: center, center;
       background-repeat: no-repeat, no-repeat;
       transition: all 0.2s ease;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+      &.hand-icon {
+        width: 70px;
+        height: 55px;
+        background-image: url('../assets/images/decorative/icons/icon-hand.svg'), linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+        background-size: 45%, 100%;
+      }
+
+      &.joint-icon {
+        background-image: url('../assets/images/decorative/icons/icon-joint-attack.svg'), linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+      }
+
+      &.hand-primary-icon {
+        width: 70px;
+        height: 55px;
+        background-image: url('../assets/images/decorative/icons/icon-hand.svg'), linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+        background-size: 45%, 100%;
+        transform: scaleX(-1);
+      }
     }
 
     input[type="checkbox"]:checked + .checkbox-icon {
