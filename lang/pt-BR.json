@@ -1119,6 +1119,7 @@
         "Intelligence.Description": "Capacidade de raciocínio, memória, conhecimento e compreensão de informações complexas.",
         "Psionics.Description": "Poder mental, capacidade de manifestar habilidades psiônicas e resistir a ataques mentais."
       },
+      "JointAttack": "Ataque Conjunto",
       "EnhancedDisadvantage": "Desvantagem Aprimorada",
       "Disadvantage": "Desvantagem",
       "RollTest": "Rolar Teste",

@@ -13389,35 +13389,47 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .advantage-selection-dialog .advantage-selection-content {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.advantage-selection-dialog .attack-type-fieldset {
-  border: 1px solid #999;
-  padding: 16px;
-  border-radius: 4px;
+.advantage-selection-dialog .joint-attack-checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   margin-bottom: 20px;
 }
-.advantage-selection-dialog .attack-type-fieldset legend {
-  padding: 0 8px;
-  font-weight: bold;
-  font-size: 14px;
+.advantage-selection-dialog .joint-attack-checkbox input[type=checkbox] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
-.advantage-selection-dialog .attack-type-fieldset .attack-type-options {
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-  margin-top: 8px;
-}
-.advantage-selection-dialog .attack-type-fieldset .attack-type-options .attack-type-label {
+.advantage-selection-dialog .joint-attack-checkbox .checkbox-icon {
   display: flex;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-size: 15px;
+  justify-content: center;
+  width: 30px;
+  height: 27px;
+  border: 2px solid #c0863b;
+  border-radius: 8px;
+  background: linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  background-image: url("../assets/images/decorative/icons/icon-joint-attack.svg"), linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  background-size: 75%, 100%;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
-.advantage-selection-dialog .attack-type-fieldset .attack-type-options .attack-type-label input[type=checkbox] {
-  cursor: pointer;
-  width: 18px;
-  height: 18px;
+.advantage-selection-dialog .joint-attack-checkbox input[type=checkbox]:checked + .checkbox-icon {
+  border-color: #FFB75C;
+  box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
+}
+.advantage-selection-dialog .joint-attack-checkbox:hover .checkbox-icon {
+  border-color: #FFB75C;
+  box-shadow: 0 0 8px rgba(255, 183, 92, 0.4);
 }
 .advantage-selection-dialog .roll-options-container {
   display: flex;
@@ -13453,6 +13465,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   transition: all 0.2s ease;
   width: 65px;
   height: 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 .advantage-selection-dialog .roll-options-container .roll-modifier-option .modifier-content .modifier-icon {
   display: flex;
@@ -17025,6 +17038,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   background: linear-gradient(90deg, rgb(255, 183, 92) 0%, rgb(67, 170, 218) 100%);
   border-color: #FFB75C;
   box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
+  transform: translateY(-2px);
 }
 .cardigan.dialog.effects-selection .rounds-counter {
   position: absolute;

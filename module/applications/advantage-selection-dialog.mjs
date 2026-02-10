@@ -59,28 +59,6 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
   _onRender(context, options) {
     super._onRender(context, options);
 
-    // Add mutual exclusivity to checkboxes
-    const conjuntoCheckbox = this.element.querySelector('#attack-conjunto');
-    const individualCheckbox = this.element.querySelector('#attack-individual');
-
-    if (conjuntoCheckbox && individualCheckbox) {
-      conjuntoCheckbox.addEventListener('change', () => {
-        if (conjuntoCheckbox.checked) {
-          individualCheckbox.checked = false;
-        } else if (!individualCheckbox.checked) {
-          individualCheckbox.checked = true;
-        }
-      });
-
-      individualCheckbox.addEventListener('change', () => {
-        if (individualCheckbox.checked) {
-          conjuntoCheckbox.checked = false;
-        } else if (!conjuntoCheckbox.checked) {
-          conjuntoCheckbox.checked = true;
-        }
-      });
-    }
-
     // Allow deselecting radio buttons by clicking again
     const radioButtons = this.element.querySelectorAll('input[name="rollModifier"]');
     let lastSelected = null;
@@ -108,8 +86,9 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
     const selectedModifier = this.element.querySelector('input[name="rollModifier"]:checked');
     const rollType = selectedModifier ? selectedModifier.value : 'normal';
     
-    // Get attack mode
-    const attackMode = this.element.querySelector('input[name="attackType"]:checked')?.value || 'individual';
+    // Get attack mode: 'conjunto' if checked, 'individual' if not
+    const conjuntoCheckbox = this.element.querySelector('#attack-conjunto');
+    const attackMode = conjuntoCheckbox?.checked ? 'conjunto' : 'individual';
     
     if (this.resolve) {
       this.resolve({ rollType, attackMode });

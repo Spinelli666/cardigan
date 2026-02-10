@@ -1,19 +1,10 @@
 {{! Advantage Selection Dialog Template }}
 <div class="advantage-selection-content">
   {{#unless hideAttackMode}}
-  <fieldset class="attack-type-fieldset">
-    <legend>Tipo de Ataque</legend>
-    <div class="attack-type-options">
-      <label class="attack-type-label">
-        <input type="checkbox" name="attackType" value="conjunto" id="attack-conjunto">
-        <span><strong>Conjunto</strong></span>
-      </label>
-      <label class="attack-type-label">
-        <input type="checkbox" name="attackType" value="individual" id="attack-individual" checked>
-        <span><strong>Individual</strong></span>
-      </label>
-    </div>
-  </fieldset>
+  <label class="joint-attack-checkbox" data-tooltip="CARDIGAN.Tooltip.JointAttack" data-tooltip-class="cardigan-tooltip">
+    <input type="checkbox" name="attackType" value="conjunto" id="attack-conjunto">
+    <span class="checkbox-icon"></span>
+  </label>
   {{/unless}}
   
   <div class="roll-options-container">

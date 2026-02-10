@@ -30,39 +30,51 @@
   
   .advantage-selection-content {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .attack-type-fieldset {
-    border: 1px solid #999;
-    padding: 16px;
-    border-radius: 4px;
+  .joint-attack-checkbox {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     margin-bottom: 20px;
 
-    legend {
-      padding: 0 8px;
-      font-weight: bold;
-      font-size: 14px;
+    input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
     }
 
-    .attack-type-options {
+    .checkbox-icon {
       display: flex;
-      gap: 24px;
+      align-items: center;
       justify-content: center;
-      margin-top: 8px;
+      width: 30px;
+      height: 27px;
+      border: 2px solid #c0863b;
+      border-radius: 8px;
+      background: linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+      background-image: url('../assets/images/decorative/icons/icon-joint-attack.svg'), linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+      background-size: 75%, 100%;
+      background-position: center, center;
+      background-repeat: no-repeat, no-repeat;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
 
-      .attack-type-label {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-        font-size: 15px;
+    input[type="checkbox"]:checked + .checkbox-icon {
+      border-color: #FFB75C;
+      box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
+    }
 
-        input[type="checkbox"] {
-          cursor: pointer;
-          width: 18px;
-          height: 18px;
-        }
-      }
+    &:hover .checkbox-icon {
+      border-color: #FFB75C;
+      box-shadow: 0 0 8px rgba(255, 183, 92, 0.4);
     }
   }
 
@@ -101,6 +113,7 @@
         transition: all 0.2s ease;
         width: 65px;
         height: 50px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
         .modifier-icon {
           display: flex;
