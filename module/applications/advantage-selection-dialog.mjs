@@ -23,7 +23,7 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
       positioned: true
     },
     position: {
-      width: 600,
+      width: 500,
       height: "auto"
     },
     actions: {
@@ -90,8 +90,12 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
     const conjuntoCheckbox = this.element.querySelector('#attack-conjunto');
     const attackMode = conjuntoCheckbox?.checked ? 'conjunto' : 'individual';
     
+    // Get manual modifier
+    const manualModifierInput = this.element.querySelector('#manual-modifier');
+    const manualModifier = parseInt(manualModifierInput?.value || 0);
+    
     if (this.resolve) {
-      this.resolve({ rollType, attackMode });
+      this.resolve({ rollType, attackMode, manualModifier });
     }
     this.close();
   }

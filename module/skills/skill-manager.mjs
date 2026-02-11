@@ -956,12 +956,12 @@ export class SkillManager {
       const result = await AdvantageSelectionDialog.show();
       if (!result) return; // User cancelled
 
-      const { rollType, attackMode } = result;
+      const { rollType, attackMode, manualModifier = 0 } = result;
 
       // Get roll data
       const rollData = actor.getRollData();
       
-      const formula = buildRollFormula(rollType, "@accuracy.total");
+      const formula = buildRollFormula(rollType, "@accuracy.total", manualModifier);
       let rollDescription = "";
       
       switch (rollType) {
@@ -1294,12 +1294,12 @@ export class SkillManager {
       const result = await AdvantageSelectionDialog.show();
       if (!result) return; // User cancelled
 
-      const { rollType, attackMode } = result;
+      const { rollType, attackMode, manualModifier = 0 } = result;
 
       // Get roll data
       const rollData = actor.getRollData();
       
-      const formula = buildRollFormula(rollType, "@accuracy.total");
+      const formula = buildRollFormula(rollType, "@accuracy.total", manualModifier);
       let rollDescription = "";
       
       switch (rollType) {

@@ -36,7 +36,7 @@ export class HeaderStatusActions {
         const result = await AdvantageSelectionDialog.show();
         if (!result) return; // User cancelled
 
-        const { rollType, attackMode } = result;
+        const { rollType, attackMode, manualModifier = 0 } = result;
 
         let rollFormula = dataset.roll;
         let rollDescription = "Rolagem Normal";
@@ -88,6 +88,12 @@ export class HeaderStatusActions {
         if (congeladoPenalty !== 0) {
           rollFormula += ` ${congeladoPenalty}`;
           rollDescription += ` [Congelado ${congeladoPenalty}]`;
+        }
+        
+        // Apply manual modifier if present
+        if (manualModifier !== 0) {
+          rollFormula += ` + ${manualModifier}`;
+          rollDescription += ` [Mod ${manualModifier > 0 ? '+' : ''}${manualModifier}]`;
         }
         
         // Create the roll with modified formula

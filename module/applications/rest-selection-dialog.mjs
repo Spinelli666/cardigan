@@ -15,7 +15,7 @@ export class RestSelectionDialog extends HandlebarsApplicationMixin(ApplicationV
   /** @override */
   static DEFAULT_OPTIONS = {
     id: "rest-selection-dialog",
-    classes: ["cardigan", "rest-selection-dialog"],
+    classes: ["cardigan", "dialog", "rest-selection-dialog"],
     tag: "dialog",
     window: {
       title: "CARDIGAN.Rest.SelectRestType",

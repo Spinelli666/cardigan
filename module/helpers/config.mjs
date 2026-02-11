@@ -313,19 +313,20 @@ export function registerHandlebarsHelpers() {
  * @param {string} attribute - Attribute to add to formula (e.g., "@precision.total", "@evasion.total")
  * @returns {string} The complete roll formula
  */
-export function buildRollFormula(rollType, attribute) {
+export function buildRollFormula(rollType, attribute, manualModifier = 0) {
+  const modifier = manualModifier !== 0 ? ` + ${manualModifier}` : '';
   switch (rollType) {
     case 'advantage':
-      return `2d20kh + ${attribute}`;
+      return `2d20kh + ${attribute}${modifier}`;
     case 'disadvantage':
-      return `2d20kl + ${attribute}`;
+      return `2d20kl + ${attribute}${modifier}`;
     case 'enhanced-advantage':
-      return `3d20kh + ${attribute}`;
+      return `3d20kh + ${attribute}${modifier}`;
     case 'enhanced-disadvantage':
-      return `3d20kl + ${attribute}`;
+      return `3d20kl + ${attribute}${modifier}`;
     case 'normal':
     default:
-      return `1d20 + ${attribute}`;
+      return `1d20 + ${attribute}${modifier}`;
   }
 }
 

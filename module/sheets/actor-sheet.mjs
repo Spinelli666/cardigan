@@ -3149,7 +3149,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const result = await AdvantageSelectionDialog.show();
     if (!result) return; // User cancelled
     
-    const { rollType, attackMode } = result;
+    const { rollType, attackMode, manualModifier = 0 } = result;
     
     // Check if we need to make individual attacks for each target
     const shouldRollIndividually = attackMode === 'individual' && targets.size > 1;
@@ -3175,7 +3175,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           rollType, 
           attackMode, 
           [targetToken], 
-          specificAmmoId
+          specificAmmoId,
+          manualModifier
         );
       }
       
@@ -3183,7 +3184,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }
     
     // Single attack for all targets (conjunto mode or single target)
-    await CardiganSystemActorSheet._performSingleAttack(item, actor, rollType, attackMode, Array.from(targets), specificAmmoId);
+    await CardiganSystemActorSheet._performSingleAttack(item, actor, rollType, attackMode, Array.from(targets), specificAmmoId, manualModifier);
   }
 
   /**
@@ -3194,13 +3195,14 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @param {string} attackMode - Attack mode (individual or conjunto)
    * @param {Array} targetTokens - Array of target tokens for this attack
    * @param {string|null} specificAmmoId - Specific ammunition ID if selected
+   * @param {number} manualModifier - Manual modifier to add to the roll
    * @private
    */
-  static async _performSingleAttack(item, actor, rollType, attackMode, targetTokens, specificAmmoId) {
+  static async _performSingleAttack(item, actor, rollType, attackMode, targetTokens, specificAmmoId, manualModifier = 0) {
     // Use getRollData() method for consistent roll data like in skills
     const rollData = actor.getRollData();
 
-    const rollFormula = buildRollFormula(rollType, "@accuracy.total");
+    const rollFormula = buildRollFormula(rollType, "@accuracy.total", manualModifier);
     let rollDescription = "";
     
     switch (rollType) {

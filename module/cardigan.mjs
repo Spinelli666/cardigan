@@ -840,13 +840,13 @@ async function createAttackerResultDialog(data) {
           const result = await AdvantageSelectionDialog.show();
           if (!result) return false; // User cancelled
           
-          const { rollType } = result;
+          const { rollType, manualModifier = 0 } = result;
           
           // Get roll data from attacker
           const rollData = attackerActor.getRollData();
           
-          // Determine formula based on roll type
-          const formula = buildRollFormula(rollType, "@accuracy.total");
+          // Determine formula based on roll type (including manual modifier)
+          const formula = buildRollFormula(rollType, "@accuracy.total", manualModifier);
           let rollDescription = "";
           
           switch (rollType) {
@@ -1741,7 +1741,7 @@ async function createGMEvasionNotification(data) {
           });
           if (!result) return false; // User cancelled
           
-          const { rollType } = result;
+          const { rollType, manualModifier = 0 } = result;
           
           // Determine which actor to use based on roll choice
           let rollingActorId, rollingActorName;
@@ -1772,7 +1772,7 @@ async function createGMEvasionNotification(data) {
           // Determine formula based on roll type and choice
           const attribute = rollChoice === "evasion" ? "@abilities.evasion.total" : "@abilities.accuracy.total";
           const attributeName = rollChoice === "evasion" ? "Evasão" : "Precisão";
-          const formula = buildRollFormula(rollType, attribute);
+          const formula = buildRollFormula(rollType, attribute, manualModifier);
           let rollDescription = "";
           
           switch (rollType) {
@@ -3354,7 +3354,7 @@ async function handleEvasionClick(button) {
   const result = await AdvantageSelectionDialog.show({ hideAttackMode: true });
   if (!result) return; // User cancelled
 
-  const { rollType } = result;
+  const { rollType, manualModifier = 0 } = result;
 
   // Disable button to prevent double-clicks
   button.disabled = true;
@@ -3365,8 +3365,8 @@ async function handleEvasionClick(button) {
     // Get roll data from actor (includes all bonuses and modifiers)
     const rollData = actor.getRollData();
 
-    // Determine formula based on roll type
-    const formula = buildRollFormula(rollType, "@evasion.total");
+    // Determine formula based on roll type (including manual modifier)
+    const formula = buildRollFormula(rollType, "@evasion.total", manualModifier);
     let rollDescription = "";
     
     switch (rollType) {
@@ -3742,13 +3742,13 @@ async function handlePrecisionClick(button) {
       return;
     }
 
-    const { rollType } = result;
+    const { rollType, manualModifier = 0 } = result;
 
     // Import buildRollFormula helper
     const { buildRollFormula } = await import('./helpers/config.mjs');
     
-    // Build roll formula
-    const formula = buildRollFormula(rollType, `@abilities.accuracy.total`);
+    // Build roll formula (including manual modifier)
+    const formula = buildRollFormula(rollType, `@abilities.accuracy.total`, manualModifier);
     const rollData = actor.getRollData();
 
     // Check for Congelado effect and apply skill penalty

@@ -39,7 +39,51 @@
     display: flex;
     gap: 12px;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+  }
+
+  .attack-mode-border {
+    display: block !important;
+    width: 210px !important;
+    height: 5px !important;
+    margin: 0 auto 10px !important;
+  }
+
+  .manual-modifier-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+
+    input[type="number"] {
+      width: 50px;
+      height: 32px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      border: 2px solid #c9934a;
+      border-radius: 6px;
+      background: linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+      color: #fff;
+      padding: 4px;
+      transition: all 0.2s ease;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 4px;
+
+      &:focus {
+        outline: none;
+        border-color: #FFB75C;
+        box-shadow: 0 0 8px rgba(255, 183, 92, 0.5);
+      }
+
+      &:hover {
+        border-color: #FFB75C;
+      }
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        opacity: 1;
+      }
+    }
   }
 
   .hand-checkbox,

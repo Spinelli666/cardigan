@@ -988,6 +988,8 @@ export class BaseSkill {
       // Show advantage selection dialog
       const advantageType = await AdvantageSelectionDialog.show();
       if (!advantageType) return; // User cancelled
+      
+      const { rollType, attackMode, manualModifier = 0 } = advantageType;
 
       // Check for Congelado effect and get penalty
       const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
@@ -1001,6 +1003,11 @@ export class BaseSkill {
         if (congeladoPenalty !== 0) {
           finalFormula += ` ${congeladoPenalty}`;
           finalFlavor += ` [Congelado ${congeladoPenalty}]`;
+        }
+        // Apply manual modifier if present
+        if (manualModifier !== 0) {
+          finalFormula += ` + ${manualModifier}`;
+          finalFlavor += ` [Mod ${manualModifier > 0 ? '+' : ''}${manualModifier}]`;
         }
         
         const roll = new Roll(finalFormula, rollData);
@@ -1067,6 +1074,8 @@ export class BaseSkill {
       // Show advantage selection dialog
       const advantageType = await AdvantageSelectionDialog.show();
       if (!advantageType) return; // User cancelled
+      
+      const { rollType, attackMode, manualModifier = 0 } = advantageType;
 
       // Check for Congelado effect and get penalty
       const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
@@ -1080,6 +1089,11 @@ export class BaseSkill {
         if (congeladoPenalty !== 0) {
           finalFormula += ` ${congeladoPenalty}`;
           finalFlavor += ` [Congelado ${congeladoPenalty}]`;
+        }
+        // Apply manual modifier if present
+        if (manualModifier !== 0) {
+          finalFormula += ` + ${manualModifier}`;
+          finalFlavor += ` [Mod ${manualModifier > 0 ? '+' : ''}${manualModifier}]`;
         }
         
         const roll = new Roll(finalFormula, rollData);
