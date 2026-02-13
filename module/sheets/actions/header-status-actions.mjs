@@ -32,8 +32,9 @@ export class HeaderStatusActions {
       const label = dataset.label || 'Roll';
       
       try {
-        // Show advantage selection dialog
-        const result = await AdvantageSelectionDialog.show();
+        // Show advantage selection dialog (hide hand selection for all proficiency tests except accuracy)
+        const isAccuracy = dataset.key === 'accuracy';
+        const result = await AdvantageSelectionDialog.show({ hideHandSelection: !isAccuracy });
         if (!result) return; // User cancelled
 
         const { rollType, attackMode, manualModifier = 0 } = result;

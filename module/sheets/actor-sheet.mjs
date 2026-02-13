@@ -3145,8 +3145,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
     const actor = this.document;
     
-    // Show advantage selection dialog
-    const result = await AdvantageSelectionDialog.show();
+    // Show advantage selection dialog (hide hand selection for weapon attacks)
+    const result = await AdvantageSelectionDialog.show({ hideHandSelection: true });
     if (!result) return; // User cancelled
     
     const { rollType, attackMode, manualModifier = 0 } = result;

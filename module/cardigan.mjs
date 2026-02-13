@@ -837,7 +837,7 @@ async function createAttackerResultDialog(data) {
           
           // Import and show advantage selection dialog
           const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
-          const result = await AdvantageSelectionDialog.show();
+          const result = await AdvantageSelectionDialog.show({ hideHandSelection: true });
           if (!result) return false; // User cancelled
           
           const { rollType, manualModifier = 0 } = result;
@@ -1737,7 +1737,7 @@ async function createGMEvasionNotification(data) {
           // Import advantage selection dialog
           const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
           const result = await AdvantageSelectionDialog.show({ 
-            hideAttackMode: rollChoice === "evasion" 
+            hideHandSelection: rollChoice === "evasion" 
           });
           if (!result) return false; // User cancelled
           
@@ -2000,7 +2000,9 @@ async function createGMEvasionNotification(data) {
         
         // Show tooltip
         requestAnimationFrame(() => {
-          tooltipElement.classList.add('visible');
+          if (tooltipElement) {
+            tooltipElement.classList.add('visible');
+          }
         });
       });
       
@@ -3350,8 +3352,8 @@ async function handleEvasionClick(button) {
   // Import the advantage selection dialog
   const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
   
-  // Show advantage selection dialog (without attack mode checkboxes for evasion)
-  const result = await AdvantageSelectionDialog.show({ hideAttackMode: true });
+  // Show advantage selection dialog (without hand selection checkboxes for evasion)
+  const result = await AdvantageSelectionDialog.show({ hideHandSelection: true });
   if (!result) return; // User cancelled
 
   const { rollType, manualModifier = 0 } = result;

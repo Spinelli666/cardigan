@@ -4,18 +4,22 @@
   
   {{#unless hideAttackMode}}
   <div class="attack-mode-container">
+    {{#unless hideHandSelection}}
     <label class="hand-checkbox" data-tooltip="CARDIGAN.Tooltip.HandSecondary" data-tooltip-class="cardigan-tooltip">
       <input type="checkbox" name="handSecondary" value="secondary" id="attack-hand-secondary">
       <span class="checkbox-icon hand-icon"></span>
     </label>
-    <label class="joint-attack-checkbox" data-tooltip="CARDIGAN.Tooltip.JointAttack" data-tooltip-class="cardigan-tooltip">
+    {{/unless}}
+    <label class="joint-attack-checkbox" data-tooltip="CARDIGAN.Tooltip.JointRoll" data-tooltip-class="cardigan-tooltip">
       <input type="checkbox" name="attackType" value="conjunto" id="attack-conjunto">
       <span class="checkbox-icon joint-icon"></span>
     </label>
+    {{#unless hideHandSelection}}
     <label class="hand-primary-checkbox" data-tooltip="CARDIGAN.Tooltip.HandPrimary" data-tooltip-class="cardigan-tooltip">
       <input type="checkbox" name="handPrimary" value="primary" id="attack-hand-primary">
       <span class="checkbox-icon hand-primary-icon"></span>
     </label>
+    {{/unless}}
   </div>
   <img src="systems/cardigan/assets/images/decorative/border.webp" class="attack-mode-border" alt="">
   <div class="manual-modifier-container">

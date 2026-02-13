@@ -953,7 +953,7 @@ export class SkillManager {
       const { AdvantageSelectionDialog } = await import('../applications/advantage-selection-dialog.mjs');
       
       // Show advantage selection dialog
-      const result = await AdvantageSelectionDialog.show();
+      const result = await AdvantageSelectionDialog.show({ hideHandSelection: true });
       if (!result) return; // User cancelled
 
       const { rollType, attackMode, manualModifier = 0 } = result;
@@ -1291,7 +1291,7 @@ export class SkillManager {
       const { AdvantageSelectionDialog } = await import('../applications/advantage-selection-dialog.mjs');
       
       // Show advantage selection dialog
-      const result = await AdvantageSelectionDialog.show();
+      const result = await AdvantageSelectionDialog.show({ hideHandSelection: true });
       if (!result) return; // User cancelled
 
       const { rollType, attackMode, manualModifier = 0 } = result;
