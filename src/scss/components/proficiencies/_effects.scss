@@ -52,6 +52,12 @@
       background-clip: text;
       min-width: 20px;
       text-align: center;
+      padding-right: 2px;
+
+      // Remove padding when infinite icon is present
+      &:has(.rounds-infinite-icon) {
+        padding-right: 0;
+      }
 
       .rounds-infinite-icon {
         vertical-align: middle;
@@ -101,9 +107,6 @@
     padding: 8px;
     margin: 0px 20px;
     width: calc(100% - 110px);
-    max-height: 120px;
-    overflow-y: auto;
-    overflow-x: visible;
     border: 1px solid #FFB75C;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);

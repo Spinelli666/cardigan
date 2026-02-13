@@ -23,7 +23,7 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
       positioned: true
     },
     position: {
-      width: 500,
+      width: 455,
       height: "auto"
     },
     actions: {

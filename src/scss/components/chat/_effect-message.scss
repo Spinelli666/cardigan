@@ -99,8 +99,13 @@
     .effect-rounds-chat {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 3px;
       margin-top: 4px;
+
+      // When rounds value contains the infinite icon, use smaller gap
+      &:has(.rounds-infinite-icon) {
+        gap: 2px;
+      }
 
       .rounds-icon {
         width: 16px;

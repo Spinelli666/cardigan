@@ -10,9 +10,21 @@
     background: initial !important;
     border-bottom: initial !important;
     backdrop-filter: blur(4px);
-    
+    justify-content: center !important;
+
     .window-title {
-      color: #FFB75C;
+      padding: 2px 0 0 44px !important;
+      font-family: 'Alatsi', sans-serif;
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+      margin: 0;
+      letter-spacing: 1px;
+      text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+      background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .header-control,
@@ -29,10 +41,17 @@
   }
   
   .advantage-selection-content {
-    padding: 20px;
+    padding: 0px 10px 5px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .title-border {
+    display: block !important;
+    width: 380px !important;
+    height: 7px !important;
+    margin: 0 auto 15px !important;
   }
 
   .attack-mode-container {
