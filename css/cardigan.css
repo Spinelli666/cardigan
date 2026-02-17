@@ -13459,7 +13459,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 .advantage-selection-dialog .manual-modifier-container input[type=number]::-webkit-inner-spin-button, .advantage-selection-dialog .manual-modifier-container input[type=number]::-webkit-outer-spin-button {
   opacity: 1;
 }
-.advantage-selection-dialog .hand-checkbox,
+.advantage-selection-dialog .hand-secondary-checkbox,
 .advantage-selection-dialog .joint-attack-checkbox,
 .advantage-selection-dialog .hand-primary-checkbox {
   display: inline-flex;
@@ -13467,7 +13467,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   justify-content: center;
   cursor: pointer;
 }
-.advantage-selection-dialog .hand-checkbox input[type=checkbox],
+.advantage-selection-dialog .hand-secondary-checkbox input[type=checkbox],
 .advantage-selection-dialog .joint-attack-checkbox input[type=checkbox],
 .advantage-selection-dialog .hand-primary-checkbox input[type=checkbox] {
   position: absolute;
@@ -13476,7 +13476,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   height: 0;
   pointer-events: none;
 }
-.advantage-selection-dialog .hand-checkbox .checkbox-icon,
+.advantage-selection-dialog .hand-secondary-checkbox .checkbox-icon,
 .advantage-selection-dialog .joint-attack-checkbox .checkbox-icon,
 .advantage-selection-dialog .hand-primary-checkbox .checkbox-icon {
   display: flex;
@@ -13493,7 +13493,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
-.advantage-selection-dialog .hand-checkbox .checkbox-icon.hand-icon,
+.advantage-selection-dialog .hand-secondary-checkbox .checkbox-icon.hand-icon,
 .advantage-selection-dialog .joint-attack-checkbox .checkbox-icon.hand-icon,
 .advantage-selection-dialog .hand-primary-checkbox .checkbox-icon.hand-icon {
   width: 70px;
@@ -13501,12 +13501,12 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   background-image: url("../assets/images/decorative/icons/icon-hand.svg"), linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   background-size: 45%, 100%;
 }
-.advantage-selection-dialog .hand-checkbox .checkbox-icon.joint-icon,
+.advantage-selection-dialog .hand-secondary-checkbox .checkbox-icon.joint-icon,
 .advantage-selection-dialog .joint-attack-checkbox .checkbox-icon.joint-icon,
 .advantage-selection-dialog .hand-primary-checkbox .checkbox-icon.joint-icon {
   background-image: url("../assets/images/decorative/icons/icon-joint-attack.svg"), linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
 }
-.advantage-selection-dialog .hand-checkbox .checkbox-icon.hand-primary-icon,
+.advantage-selection-dialog .hand-secondary-checkbox .checkbox-icon.hand-primary-icon,
 .advantage-selection-dialog .joint-attack-checkbox .checkbox-icon.hand-primary-icon,
 .advantage-selection-dialog .hand-primary-checkbox .checkbox-icon.hand-primary-icon {
   width: 70px;
@@ -13515,13 +13515,13 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   background-size: 45%, 100%;
   transform: scaleX(-1);
 }
-.advantage-selection-dialog .hand-checkbox input[type=checkbox]:checked + .checkbox-icon,
+.advantage-selection-dialog .hand-secondary-checkbox input[type=checkbox]:checked + .checkbox-icon,
 .advantage-selection-dialog .joint-attack-checkbox input[type=checkbox]:checked + .checkbox-icon,
 .advantage-selection-dialog .hand-primary-checkbox input[type=checkbox]:checked + .checkbox-icon {
   border-color: #FFB75C;
   box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
 }
-.advantage-selection-dialog .hand-checkbox:hover .checkbox-icon,
+.advantage-selection-dialog .hand-secondary-checkbox:hover .checkbox-icon,
 .advantage-selection-dialog .joint-attack-checkbox:hover .checkbox-icon,
 .advantage-selection-dialog .hand-primary-checkbox:hover .checkbox-icon {
   border-color: #FFB75C;

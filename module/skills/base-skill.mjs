@@ -986,7 +986,7 @@ export class BaseSkill {
       const { AdvantageSelectionDialog } = await import('../applications/advantage-selection-dialog.mjs');
       
       // Show advantage selection dialog
-      const advantageType = await AdvantageSelectionDialog.show({ hideHandSelection: true });
+      const advantageType = await AdvantageSelectionDialog.show();
       if (!advantageType) return; // User cancelled
       
       const { rollType, attackMode, manualModifier = 0 } = advantageType;
@@ -1072,7 +1072,7 @@ export class BaseSkill {
       const { AdvantageSelectionDialog } = await import('../applications/advantage-selection-dialog.mjs');
       
       // Show advantage selection dialog
-      const advantageType = await AdvantageSelectionDialog.show({ hideHandSelection: true });
+      const advantageType = await AdvantageSelectionDialog.show();
       if (!advantageType) return; // User cancelled
       
       const { rollType, attackMode, manualModifier = 0 } = advantageType;

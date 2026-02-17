@@ -87,7 +87,7 @@ export class SangramentoEffect extends BaseEffect {
    * 1. actor-sheet.mjs _onRoll() - Ability buttons in Features tab
    * 2. actor-sheet.mjs _performSingleAttack() - Weapon attacks from character sheet
    * 3. skill-manager.mjs #performDefaultPrimaryAttack() - Skill "Ataque" button in chat
-   * 4. skill-manager.mjs #performDefaultSecondaryAttack() - Skill "Ataque S" button in chat
+   * 4. skill-manager.mjs #performUnifiedSkillAttack() - Skill unified attack button in chat
    * 5. cardigan.mjs handleEvasionClick() - "Rolar Evasão" button in attack results
    * 6. cardigan.mjs handlePrecisionClick() - "Rolar Precisão" button in evasion rerolls
    * 

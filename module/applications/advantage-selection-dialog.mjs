@@ -96,8 +96,14 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
     const manualModifierInput = this.element.querySelector('#manual-modifier');
     const manualModifier = parseInt(manualModifierInput?.value || 0);
     
+    // Get hand selection checkboxes (correct IDs from template)
+    const primaryHandCheckbox = this.element.querySelector('#attack-hand-primary');
+    const secondaryHandCheckbox = this.element.querySelector('#attack-hand-secondary');
+    const primaryHand = primaryHandCheckbox?.checked || false;
+    const secondaryHand = secondaryHandCheckbox?.checked || false;
+    
     if (this.resolve) {
-      this.resolve({ rollType, attackMode, manualModifier });
+      this.resolve({ rollType, attackMode, manualModifier, primaryHand, secondaryHand });
     }
     this.close();
   }

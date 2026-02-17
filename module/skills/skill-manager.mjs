@@ -157,7 +157,6 @@ export class SkillManager {
           // Determine button type from class
           let buttonType = 'unknown';
           if (button.classList.contains('cardigan-skill-attack-btn')) buttonType = 'attack';
-          else if (button.classList.contains('cardigan-skill-attack-simple-btn')) buttonType = 'attack-simple';
           else if (button.classList.contains('cardigan-skill-attack-secondary-btn')) buttonType = 'attack-secondary';
           else if (button.classList.contains('cardigan-skill-energy-btn')) buttonType = 'energy';
           else if (button.classList.contains('cardigan-skill-d6-btn')) buttonType = 'd6';
@@ -477,12 +476,8 @@ export class SkillManager {
       const skill = actor.items.find(item => item.type === 'skill' && item.name === skillName);
       const hasCustomEffects = this.hasAnyEffects(skill);
       
-      // Add default attack buttons for all skills (same style as Acerto Debilitante)
+      // Add default attack button for all skills (single unified attack button)
       content += `<div style="text-align: center; margin: 12px 0; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; align-items: center;">
-        <button class="cardigan-skill-attack-simple-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${skillName}"
-                style="display: inline-block; padding: 8px 16px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
-          <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque S
-        </button>
         <button class="cardigan-skill-attack-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${skillName}"
                 style="display: inline-block; padding: 8px 16px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
           <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque
@@ -541,13 +536,8 @@ export class SkillManager {
 
     switch (buttonType) {
       case 'attack':
-        // Primary hand attack
-        await this.#performDefaultPrimaryAttack(actor, skillName);
-        break;
-        
-      case 'attack-simple':
-        // Secondary hand attack
-        await this.#performDefaultSecondaryAttack(actor, skillName);
+        // Unified attack - hand selection via dialog checkboxes
+        await this.#performUnifiedSkillAttack(actor, skillName);
         break;
         
       case 'expand':
@@ -797,10 +787,6 @@ export class SkillManager {
         const hasCustomEffects = this.hasAnyEffects(skill);
         
         content += `<div style="text-align: center; margin: 12px 0; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; align-items: center;">
-          <button class="cardigan-skill-attack-simple-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${skillName}"
-                  style="display: inline-block; padding: 8px 16px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
-            <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque S
-          </button>
           <button class="cardigan-skill-attack-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${skillName}"
                   style="display: inline-block; padding: 8px 16px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
             <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque
@@ -953,7 +939,7 @@ export class SkillManager {
       const { AdvantageSelectionDialog } = await import('../applications/advantage-selection-dialog.mjs');
       
       // Show advantage selection dialog
-      const result = await AdvantageSelectionDialog.show({ hideHandSelection: true });
+      const result = await AdvantageSelectionDialog.show();
       if (!result) return; // User cancelled
 
       const { rollType, attackMode, manualModifier = 0 } = result;
@@ -1291,7 +1277,7 @@ export class SkillManager {
       const { AdvantageSelectionDialog } = await import('../applications/advantage-selection-dialog.mjs');
       
       // Show advantage selection dialog
-      const result = await AdvantageSelectionDialog.show({ hideHandSelection: true });
+      const result = await AdvantageSelectionDialog.show();
       if (!result) return; // User cancelled
 
       const { rollType, attackMode, manualModifier = 0 } = result;
@@ -1546,7 +1532,242 @@ export class SkillManager {
 
     } catch (error) {
       console.error(`Error performing default secondary attack for ${skillName}:`, error);
-      ui.notifications.error(`Erro ao realizar ataque secundário: ${error.message}`);
+      ui.notifications.error(`Erro ao realizar ataque: ${error.message}`);
+    }
+  }
+
+  /**
+   * Perform a unified attack for skills - weapon selection based on hand checkboxes
+   * @param {Actor} actor - The actor
+   * @param {string} skillName - The skill name
+   * @private
+   */
+  static async #performUnifiedSkillAttack(actor, skillName) {
+    try {
+      // Validate target selection
+      const selectedTargets = game.user.targets;
+      if (selectedTargets.size === 0) {
+        ui.notifications.warn("Por favor, selecione um ou mais alvos para atacar.");
+        return;
+      }
+
+      // Import the advantage selection dialog
+      const { AdvantageSelectionDialog } = await import('../applications/advantage-selection-dialog.mjs');
+      
+      // Show advantage selection dialog with hand checkboxes visible
+      const result = await AdvantageSelectionDialog.show();
+      if (!result) return; // User cancelled
+
+      const { rollType, attackMode, manualModifier = 0, primaryHand, secondaryHand } = result;
+
+      // Determine which weapon to use based on checkbox selection
+      let selectedWeapon = null;
+      let weaponSource = null; // 'primary', 'secondary', or 'unarmed'
+      
+      // Get all REAL weapons (not virtual unarmed attacks) that are equipped
+      const realWeapons = actor.items.filter(item => 
+        item.type === 'arma' && 
+        item.system.equipped && 
+        !item.system.isUnarmed &&
+        (item.system.rightHand || item.system.leftHand)
+      );
+
+      // Priority: Primary hand first, then secondary hand
+      if (primaryHand) {
+        // Use right hand weapon
+        selectedWeapon = realWeapons.find(weapon => weapon.system.rightHand);
+        weaponSource = 'primary';
+      } else if (secondaryHand) {
+        // Use left hand weapon
+        selectedWeapon = realWeapons.find(weapon => weapon.system.leftHand);
+        weaponSource = 'secondary';
+      } else {
+        // No checkbox selected - default to primary hand or unarmed
+        selectedWeapon = realWeapons.find(weapon => weapon.system.rightHand);
+        weaponSource = selectedWeapon ? 'primary' : 'unarmed';
+      }
+      
+      // Calculate weapon damage (base damage + ability modifiers)
+      let weaponDamage = 0;
+      if (selectedWeapon) {
+        const baseDamage = parseInt(selectedWeapon.system.damage?.value) || 0;
+        weaponDamage = baseDamage;
+        
+        // Add ability modifiers
+        if (selectedWeapon.system.damage?.useStrength) {
+          weaponDamage += actor.system.abilities.strength.value || 0;
+        }
+        if (selectedWeapon.system.damage?.useDexterity) {
+          weaponDamage += actor.system.abilities.dexterity.value || 0;
+        }
+      } else {
+        // No weapon equipped - calculate unarmed attack damage
+        const strengthValue = actor.system.abilities.strength.value || 0;
+        const strengthBonus = actor.system.abilities.strength.totalBonus || 0;
+        const totalStrength = strengthValue + strengthBonus;
+        weaponDamage = totalStrength > 0 ? totalStrength : 1; // Minimum 1 damage
+        weaponSource = 'unarmed';
+      }
+      
+      // Check ammunition for ranged weapons
+      if (selectedWeapon && selectedWeapon.system.ranged) {
+        const canAttack = await this.#checkAndConsumeAmmunition(actor, selectedWeapon);
+        if (!canAttack) return;
+      }
+
+      // Get roll data
+      const rollData = actor.getRollData();
+      
+      const formula = buildRollFormula(rollType, "@accuracy.total", manualModifier);
+      let rollDescription = "";
+      
+      switch (rollType) {
+        case 'advantage':
+          rollDescription = "Rolagem com Vantagem";
+          break;
+        case 'disadvantage':
+          rollDescription = "Rolagem com Desvantagem";
+          break;
+        case 'enhanced-advantage':
+          rollDescription = "Rolagem com Vantagem Aprimorada";
+          break;
+        case 'enhanced-disadvantage':
+          rollDescription = "Rolagem com Desvantagem Aprimorada";
+          break;
+        case 'normal':
+          rollDescription = "Rolagem Normal";
+          break;
+        default:
+          return;
+      }
+
+      // Add attack mode to description
+      const modeText = attackMode === 'conjunto' ? ' (Conjunto)' : ' (Individual)';
+      rollDescription += modeText;
+      
+      // Add weapon source indicator
+      let weaponIndicator = '';
+      if (weaponSource === 'primary') {
+        weaponIndicator = ' [Mão Primária]';
+      } else if (weaponSource === 'secondary') {
+        weaponIndicator = ' [Mão Secundária]';
+      } else if (weaponSource === 'unarmed') {
+        weaponIndicator = ' [Desarmado]';
+      }
+      rollDescription += weaponIndicator;
+
+      // Check for Congelado effect and apply skill penalty
+      const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+      const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
+      
+      // Apply Congelado penalty to formula if present
+      if (congeladoPenalty !== 0) {
+        formula += ` ${congeladoPenalty}`;
+        rollDescription += ` [Congelado ${congeladoPenalty}]`;
+      }
+
+      // Create flavor text
+      const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
+        <strong>${skillName}</strong> - ${rollDescription}
+      </div>`;
+      
+      // Roll with critical detection
+      const roll = new Roll(formula, rollData);
+      await roll.evaluate();
+      
+      // Apply Sangramento effect for accuracy rolls
+      const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+      await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
+      
+      // Detect critical results using accuracy logic
+      const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
+      
+      // Calculate final damage (double on critical hit)
+      const isCriticalHit = flags?.cardigan?.criticalHit || false;
+      const isCriticalFailure = flags?.cardigan?.criticalFailure || false;
+      const finalDamage = isCriticalHit ? weaponDamage * 2 : weaponDamage;
+      
+      // Show notification for critical results
+      if (isCriticalHit) {
+        const critThreshold = actor.system?.details?.criticalHit;
+        if (critThreshold) {
+          ui.notifications.info(`Acerto Crítico! (${roll.total} >= ${critThreshold})`);
+        } else {
+          ui.notifications.info(`Acerto Crítico!`);
+        }
+      } else if (isCriticalFailure) {
+        if (selectedWeapon && selectedWeapon.system.durability) {
+          const currentDurability = selectedWeapon.system.durability.current;
+          if (currentDurability > 0) {
+            const newDurability = Math.max(0, currentDurability - 1);
+            ui.notifications.warn(`Erro Crítico! ${selectedWeapon.name} perdeu durabilidade (${currentDurability} → ${newDurability})`);
+          } else {
+            ui.notifications.warn(`Erro Crítico!`);
+          }
+        } else {
+          ui.notifications.warn(`Erro Crítico!`);
+        }
+      }
+      
+      // Handle critical failure - reduce weapon durability
+      if (isCriticalFailure && selectedWeapon && selectedWeapon.system.durability) {
+        const currentDurability = selectedWeapon.system.durability.current;
+        if (currentDurability > 0) {
+          const newDurability = Math.max(0, currentDurability - 1);
+          await selectedWeapon.update({
+            'system.durability.current': newDurability
+          });
+        }
+      }
+      
+      // Collect target data for evasion buttons
+      const targetData = [];
+      selectedTargets.forEach(target => {
+        if (target.actor) {
+          targetData.push({
+            tokenId: target.id,
+            actorId: target.actor.id,
+            name: target.name
+          });
+        }
+      });
+
+      // Add target data to flags
+      if (targetData.length > 0) {
+        flags.cardigan = flags.cardigan || {};
+        flags.cardigan.attackTargets = {
+          targets: targetData,
+          attackerId: actor.id,
+          attackerName: actor.name,
+          skillName: skillName,
+          weaponId: selectedWeapon?._id || selectedWeapon?.id,
+          weaponName: selectedWeapon?.name,
+          weaponProperties: selectedWeapon?.system?.properties || [],
+          damage: weaponDamage,  // ALWAYS use BASE damage (not doubled) in flags
+          attackerCriticalHit: isCriticalHit  // Add critical hit flag
+        };
+      }
+
+      // Use player's roll mode setting
+      const rollMode = game.settings.get('core', 'rollMode');
+
+      // Create message data with flags
+      const messageData = {
+        speaker: { alias: actor.name },
+        flavor: flavorText,
+        rolls: [roll],
+        flags: flags
+      };
+
+      // Apply roll mode using Foundry's official API method
+      ChatMessage.applyRollMode(messageData, rollMode);
+      
+      // Send attack roll to chat
+      await ChatMessage.create(messageData);
+
+    } catch (error) {
+      console.error(`Error performing unified skill attack for ${skillName}:`, error);
+      ui.notifications.error(`Erro ao realizar ataque: ${error.message}`);
     }
   }
 
