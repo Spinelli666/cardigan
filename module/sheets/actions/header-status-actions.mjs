@@ -7,6 +7,32 @@ import { AdvantageSelectionDialog } from '../../applications/advantage-selection
 export class HeaderStatusActions {
   
   /**
+   * Check and consume ammunition for ranged weapons
+   * @param {Actor} actor - The actor
+   * @param {Item} weapon - The weapon item
+   * @returns {boolean} - True if can attack, false if no ammo
+   */
+  static async checkAndConsumeAmmunition(actor, weapon) {
+    if (!weapon.system.ranged) return true;
+    
+    const ammoName = weapon.system.ammunition?.name;
+    if (!ammoName) return true; // No ammo required
+    
+    const ammoItem = actor.items.find(item => 
+      item.type === 'municao' && item.name === ammoName
+    );
+    
+    if (!ammoItem || ammoItem.system.quantity <= 0) {
+      ui.notifications.warn(`Você não tem munição suficiente (${ammoName}) para esta arma.`);
+      return false;
+    }
+    
+    // Consume 1 ammunition
+    await ammoItem.update({ 'system.quantity': ammoItem.system.quantity - 1 });
+    return true;
+  }
+  
+  /**
    * Handle generic roll with advantage/disadvantage system
    * @param {Event} event - The click event
    * @param {HTMLElement} target - The clicked element
@@ -37,7 +63,16 @@ export class HeaderStatusActions {
         const result = await AdvantageSelectionDialog.show({ hideHandSelection: !isAccuracy });
         if (!result) return; // User cancelled
 
-        const { rollType, attackMode, manualModifier = 0 } = result;
+        const { rollType, attackMode, manualModifier = 0, primaryHand, secondaryHand } = result;
+
+        // ACCURACY WITH HAND SELECTION: Require target
+        if (isAccuracy && (primaryHand || secondaryHand)) {
+          // Check if at least one target is selected
+          if (!game.user.targets || game.user.targets.size === 0) {
+            ui.notifications.warn("Por favor, selecione um alvo antes de fazer um teste de Precisão com mão especificada.");
+            return;
+          }
+        }
 
         let rollFormula = dataset.roll;
         let rollDescription = "Rolagem Normal";
@@ -114,6 +149,84 @@ export class HeaderStatusActions {
         // Detect critical results, passing the ability key if available
         const flags = HeaderStatusActions.detectCriticalResults(roll, sheet.document, abilityKey);
         
+        // ACCURACY WITH HAND: Full attack flow (same as skill attack)
+        let weaponSource = null;
+        if (isAccuracy && (primaryHand || secondaryHand)) {
+          const actor = sheet.document;
+          
+          // Get all REAL weapons (not virtual unarmed attacks) that are equipped
+          const realWeapons = actor.items.filter(item => 
+            item.type === 'arma' && 
+            item.system.equipped && 
+            !item.system.isUnarmed &&
+            (item.system.rightHand || item.system.leftHand)
+          );
+
+          // Determine which weapon to use based on checkbox selection
+          let selectedWeapon = null;
+          if (primaryHand) {
+            selectedWeapon = realWeapons.find(weapon => weapon.system.rightHand);
+            weaponSource = 'primary';
+          } else if (secondaryHand) {
+            selectedWeapon = realWeapons.find(weapon => weapon.system.leftHand);
+            weaponSource = 'secondary';
+          }
+
+          // Check ammunition for ranged weapons
+          if (selectedWeapon && selectedWeapon.system.ranged) {
+            const canAttack = await HeaderStatusActions.checkAndConsumeAmmunition(actor, selectedWeapon);
+            if (!canAttack) return;
+          }
+
+          // Calculate weapon damage (base damage + ability modifiers)
+          let weaponDamage = 0;
+          if (selectedWeapon) {
+            const baseDamage = parseInt(selectedWeapon.system.damage?.value) || 0;
+            weaponDamage = baseDamage;
+            
+            if (selectedWeapon.system.damage?.useStrength) {
+              weaponDamage += actor.system.abilities.strength.value || 0;
+            }
+            if (selectedWeapon.system.damage?.useDexterity) {
+              weaponDamage += actor.system.abilities.dexterity.value || 0;
+            }
+          } else {
+            // No weapon equipped - unarmed attack damage
+            const strengthValue = actor.system.abilities.strength.value || 0;
+            const strengthBonus = actor.system.abilities.strength.totalBonus || 0;
+            const totalStrength = strengthValue + strengthBonus;
+            weaponDamage = totalStrength > 0 ? totalStrength : 1; // Minimum 1 damage
+            weaponSource = 'unarmed';
+          }
+
+          // Collect target data
+          const targetData = [];
+          game.user.targets.forEach(target => {
+            if (target.actor) {
+              targetData.push({
+                tokenId: target.id,
+                actorId: target.actor.id,
+                name: target.name
+              });
+            }
+          });
+
+          // Add attack targets to flags (same structure as skill attack)
+          if (targetData.length > 0) {
+            flags.cardigan = flags.cardigan || {};
+            flags.cardigan.attackTargets = {
+              targets: targetData,
+              attackerId: actor.id,
+              attackerName: actor.name,
+              weaponName: selectedWeapon?.name || 'Desarmado',
+              weaponId: selectedWeapon?._id || selectedWeapon?.id,
+              weaponProperties: selectedWeapon?.system?.properties || [],
+              damage: weaponDamage,
+              attackerCriticalHit: flags.cardigan?.criticalHit || false
+            };
+          }
+        }
+        
         // Show notification for critical results (only for the user who rolled)
         if (flags?.cardigan?.criticalHit) {
           const critThreshold = sheet.document.system?.details?.criticalHit;
@@ -126,10 +239,22 @@ export class HeaderStatusActions {
           ui.notifications.warn(`Erro Crítico!`);
         }
         
-        // Create custom flavor text showing the advantage type
-        const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
-          <strong>${label}</strong> - ${rollDescription}
-        </div>`;
+        // Build flavor text with hand indicator (if attack)
+        let flavorText = `<div style="text-align: center; margin-bottom: 4px;">
+          <strong>${label}</strong> - ${rollDescription}`;
+        
+        // Add hand/weapon indicator for accuracy attacks (same as skill attack)
+        if (isAccuracy && (primaryHand || secondaryHand) && weaponSource) {
+          if (weaponSource === 'primary') {
+            flavorText += ` <span style="color: #4a90e2; font-weight: bold;">[Mão Primária]</span>`;
+          } else if (weaponSource === 'secondary') {
+            flavorText += ` <span style="color: #e24a90; font-weight: bold;">[Mão Secundária]</span>`;
+          } else if (weaponSource === 'unarmed') {
+            flavorText += ` <span style="color: #999; font-style: italic;">[Desarmado]</span>`;
+          }
+        }
+        
+        flavorText += `</div>`;
         
         // Send to chat
         const message = await roll.toMessage({
