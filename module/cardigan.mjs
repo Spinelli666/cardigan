@@ -3441,7 +3441,7 @@ async function handleEvasionClick(button) {
     const chatMessage = await ChatMessageHelper.createRollMessage({
       actor: token.actor,
       roll: roll,
-      label: 'Evasão',
+      label: 'EVASÃO',
       rollType: rollType,
       rollDescription: ChatMessageHelper.getRollTypeDescription(rollType),
       handIndicator: null,

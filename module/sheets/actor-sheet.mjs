@@ -3504,7 +3504,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const chatMessage = await ChatMessageHelper.createRollMessage({
       actor: actor,
       roll: roll,
-      label: `${game.i18n.localize("CARDIGAN.AttackWith")} ${item.name}`,
+      label: 'PRECISÃO',
       rollType: rollType,
       rollDescription: rollDescription,
       handIndicator: null,  // Weapon attacks don't show hand indicators
@@ -5887,7 +5887,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     proficiencyFields.forEach(field => {
       const abilityKey = field.dataset.ability;
-      const abilityLabel = abilityKey.charAt(0).toUpperCase() + abilityKey.slice(1);
+      // Capitalize first letter for localization key (accuracy -> Accuracy)
+      const abilityKeyCapitalized = abilityKey.charAt(0).toUpperCase() + abilityKey.slice(1);
+      const localizationKey = `CARDIGAN.Ability.${abilityKeyCapitalized}.full`;
+      const abilityLabel = game.i18n.localize(localizationKey);
       
       // Variável para rastrear se estamos em modo de edição (por campo)
       let isEditMode = false;

@@ -1753,7 +1753,7 @@ export class SkillManager {
       await ChatMessageHelper.createRollMessage({
         actor: actor,
         roll: roll,
-        label: skillName,
+        label: 'PRECISÃO',
         rollType: rollType,
         rollDescription: rollDescription,
         handIndicator: null,

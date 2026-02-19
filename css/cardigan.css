@@ -537,12 +537,24 @@
 }
 .cardigan-roll-chat-message .roll-content .roll-title {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
   justify-content: center;
   margin-bottom: 8px;
 }
+.cardigan-roll-chat-message .roll-content .roll-title .roll-subtitle {
+  margin: 3px 0 0 0;
+  font-family: "Alatsi", sans-serif;
+  font-size: 12px;
+  background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+}
 .cardigan-roll-chat-message .roll-content .roll-title strong {
+  margin: 0;
   font-family: "Alatsi", sans-serif;
   font-size: 18px;
   background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
@@ -551,28 +563,6 @@
   background-clip: text;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   text-transform: uppercase;
-}
-.cardigan-roll-chat-message .roll-content .roll-title .roll-type-badge {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 12px;
-  font-size: 0.75em;
-  font-weight: 600;
-  font-family: "Alatsi", sans-serif;
-  text-transform: uppercase;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-.cardigan-roll-chat-message .roll-content .roll-title .roll-type-badge.advantage {
-  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
-  color: #ffffff;
-}
-.cardigan-roll-chat-message .roll-content .roll-title .roll-type-badge.disadvantage {
-  background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
-  color: #ffffff;
-}
-.cardigan-roll-chat-message .roll-content .roll-title .roll-type-badge.normal {
-  background: linear-gradient(135deg, #2196f3 0%, #1565c0 100%);
-  color: #ffffff;
 }
 .cardigan-roll-chat-message .roll-content .hand-indicator {
   text-align: center;
