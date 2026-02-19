@@ -1,4 +1,5 @@
 import { AdvantageSelectionDialog } from '../../applications/advantage-selection-dialog.mjs';
+import { ChatMessageHelper } from '../../helpers/chat-messages.mjs';
 
 /**
  * Header Status Actions Module
@@ -239,28 +240,18 @@ export class HeaderStatusActions {
           ui.notifications.warn(`Erro Crítico!`);
         }
         
-        // Build flavor text with hand indicator (if attack)
-        let flavorText = `<div style="text-align: center; margin-bottom: 4px;">
-          <strong>${label}</strong> - ${rollDescription}`;
+        // Prepare hand indicator for accuracy attacks
+        const handIndicator = weaponSource ? ChatMessageHelper.getHandIndicator(weaponSource) : null;
         
-        // Add hand/weapon indicator for accuracy attacks (same as skill attack)
-        if (isAccuracy && (primaryHand || secondaryHand) && weaponSource) {
-          if (weaponSource === 'primary') {
-            flavorText += ` <span style="color: #4a90e2; font-weight: bold;">[Mão Primária]</span>`;
-          } else if (weaponSource === 'secondary') {
-            flavorText += ` <span style="color: #e24a90; font-weight: bold;">[Mão Secundária]</span>`;
-          } else if (weaponSource === 'unarmed') {
-            flavorText += ` <span style="color: #999; font-style: italic;">[Desarmado]</span>`;
-          }
-        }
-        
-        flavorText += `</div>`;
-        
-        // Send to chat
-        const message = await roll.toMessage({
-          speaker: ChatMessage.getSpeaker({ actor: sheet.document }),
-          flavor: flavorText,
-          rollMode: game.settings.get('core', 'rollMode'),
+        // Send to chat using helper
+        await ChatMessageHelper.createRollMessage({
+          actor: sheet.document,
+          roll: roll,
+          label: label,
+          rollType: rollType,
+          rollDescription: rollDescription,
+          handIndicator: handIndicator,
+          modifiers: [],
           flags: flags
         });
         

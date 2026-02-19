@@ -4,6 +4,7 @@ import { ItemTypeSelectionDialog } from '../applications/item-type-selection-dia
 import { HandSelectionDialog } from '../applications/hand-selection-dialog.mjs';
 import { RecipeCraftingDialog } from '../applications/recipe-crafting-dialog.mjs';
 import { buildRollFormula } from '../helpers/config.mjs';
+import { ChatMessageHelper } from '../helpers/chat-messages.mjs';
 import { AdvantageSelectionDialog } from '../applications/advantage-selection-dialog.mjs';
 import EffectsCompendiumSelectionDialog from '../applications/effects-compendium-selection-dialog.mjs';
 import { HeaderActions } from './actions/header-actions.mjs';
@@ -3277,11 +3278,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
 
-    // Criar flavor text personalizado com tipo de rolagem
-    const flavor = `<div style="text-align: center; margin-bottom: 4px;">
-      <strong>${game.i18n.localize("CARDIGAN.AttackWith")} ${item.name}</strong> - ${rollDescription}
-    </div>`;
-
     // Detect critical results - use accuracy logic for weapon attacks
     const flags = CardiganSystemActorSheet._detectCriticalResults(roll, actor, 'accuracy');
 
@@ -3493,19 +3489,29 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Use player's roll mode setting (GM can choose blind manually)
     const rollMode = game.settings.get('core', 'rollMode');
 
-    // Create message data with flags
-    const messageData = {
-      speaker: ChatMessage.getSpeaker({ actor }),
-      flavor: flavor,
-      rolls: [roll],
-      flags: flags
-    };
-
-    // Apply roll mode using Foundry's official API method
-    ChatMessage.applyRollMode(messageData, rollMode);
+    // Build modifiers array with critical and ammunition messages
+    const modifiers = [];
     
-    // Create the chat message
-    const chatMessage = await ChatMessage.create(messageData);
+    if (criticalMessage) {
+      modifiers.push(criticalMessage);
+    }
+    
+    if (ammunitionMessage) {
+      modifiers.push(ammunitionMessage);
+    }
+
+    // Create chat message using helper
+    const chatMessage = await ChatMessageHelper.createRollMessage({
+      actor: actor,
+      roll: roll,
+      label: `${game.i18n.localize("CARDIGAN.AttackWith")} ${item.name}`,
+      rollType: rollType,
+      rollDescription: rollDescription,
+      handIndicator: null,  // Weapon attacks don't show hand indicators
+      modifiers: modifiers,
+      flags: flags,
+      rollMode: rollMode
+    });
 
     return roll;
   }

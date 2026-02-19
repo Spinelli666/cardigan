@@ -1,0 +1,37 @@
+{{! Chat Roll Message Template - Unified template for all roll types }}
+<div class='cardigan-roll-chat-message'>
+  {{! Actor Header }}
+  <div class='actor-header'>
+    <img src='{{actorImg}}' alt='{{actorName}}' class='actor-avatar' />
+    <h2 class='actor-name'>{{actorName}}</h2>
+  </div>
+
+  {{! Roll Content }}
+  <div class='roll-content'>
+    <div class="roll-chat-icon">
+      <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' alt='Dado' class='d20-icon' />
+    </div>
+    <div class='roll-title'>
+      <strong>{{rollLabel}}</strong>
+      {{#if rollType}}
+        <span class='roll-type-badge {{rollTypeClass}}'>{{rollType}}</span>
+      {{/if}}
+    </div>
+
+    {{! Hand/Weapon Indicator }}
+    {{#if handIndicator}}
+      <div class='hand-indicator {{handIndicatorClass}}'>
+        {{handIndicator}}
+      </div>
+    {{/if}}
+
+    {{! Modifiers/Effects }}
+    {{#if modifiers}}
+      <div class='roll-modifiers'>
+        {{#each modifiers}}
+          <span class='modifier-badge'>{{this}}</span>
+        {{/each}}
+      </div>
+    {{/if}}
+  </div>
+</div>

@@ -1,5 +1,6 @@
 import { BaseSkill } from './base-skill.mjs';
 import { buildRollFormula } from '../helpers/config.mjs';
+import { ChatMessageHelper } from '../helpers/chat-messages.mjs';
 
 /**
  * Skill Manager - Orchestrates all skill-related functionality
@@ -12,7 +13,6 @@ export class SkillManager {
    * @type {Map<string, BaseSkill>}
    */
   static #skillRegistry = new Map();
-
   /**
    * Check if a skill has any effects to apply (base effects OR active enhancement effects)
    * @param {Item} skill - The skill item
@@ -1660,16 +1660,14 @@ export class SkillManager {
       const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
       const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
       
+      // Collect modifiers for display
+      const modifiers = [];
+      
       // Apply Congelado penalty to formula if present
       if (congeladoPenalty !== 0) {
         formula += ` ${congeladoPenalty}`;
-        rollDescription += ` [Congelado ${congeladoPenalty}]`;
+        modifiers.push(`Congelado ${congeladoPenalty}`);
       }
-
-      // Create flavor text
-      const flavorText = `<div style="text-align: center; margin-bottom: 4px;">
-        <strong>${skillName}</strong> - ${rollDescription}
-      </div>`;
       
       // Roll with critical detection
       const roll = new Roll(formula, rollData);
@@ -1751,19 +1749,18 @@ export class SkillManager {
       // Use player's roll mode setting
       const rollMode = game.settings.get('core', 'rollMode');
 
-      // Create message data with flags
-      const messageData = {
-        speaker: { alias: actor.name },
-        flavor: flavorText,
-        rolls: [roll],
-        flags: flags
-      };
-
-      // Apply roll mode using Foundry's official API method
-      ChatMessage.applyRollMode(messageData, rollMode);
-      
-      // Send attack roll to chat
-      await ChatMessage.create(messageData);
+      // Send to chat using helper
+      await ChatMessageHelper.createRollMessage({
+        actor: actor,
+        roll: roll,
+        label: skillName,
+        rollType: rollType,
+        rollDescription: rollDescription,
+        handIndicator: null,
+        modifiers: modifiers,
+        flags: flags,
+        rollMode: rollMode
+      });
 
     } catch (error) {
       console.error(`Error performing unified skill attack for ${skillName}:`, error);

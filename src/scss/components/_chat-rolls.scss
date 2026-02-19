@@ -1,0 +1,167 @@
+// Chat Roll Messages Styling
+// Custom styling for all roll messages (proficiency, attacks, evasion)
+// Matching the same visual style as effect-message.scss
+
+.cardigan-roll-chat-message {
+  display: flex;
+  flex-direction: column;
+
+  // Actor Header (same style as effect-message)
+  .actor-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 8px;
+
+    .actor-avatar {
+      width: 90px;
+      height: 90px;
+    }
+
+    .actor-name {
+      margin: 0;
+      font-family: 'Alatsi', sans-serif;
+      font-size: 20px;
+      background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      text-transform: uppercase;
+    }
+  }
+
+  // Roll Content
+  .roll-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    .roll-chat-icon {
+      background: url('/systems/cardigan/assets/images/decorative/back-icon-effect.webp') no-repeat center center;
+      background-size: contain;
+      display: flex;
+      height: 60px;
+      width: 285px;
+      justify-content: center;
+
+      .d20-icon {
+        margin-top: 9px;
+        height: 40px;
+        width: 40px;
+      }
+    }
+    
+    .roll-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 8px;
+
+      strong {
+        font-family: 'Alatsi', sans-serif;
+        font-size: 18px;
+        background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        text-transform: uppercase;
+      }
+
+      .roll-type-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 0.75em;
+        font-weight: 600;
+        font-family: 'Alatsi', sans-serif;
+        text-transform: uppercase;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+        &.advantage {
+          background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+          color: #ffffff;
+        }
+
+        &.disadvantage {
+          background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+          color: #ffffff;
+        }
+
+        &.normal {
+          background: linear-gradient(135deg, #2196f3 0%, #1565c0 100%);
+          color: #ffffff;
+        }
+      }
+    }
+
+    // Hand/Weapon Indicator
+    .hand-indicator {
+      text-align: center;
+      padding: 4px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 0.9em;
+      font-family: 'Alatsi', sans-serif;
+      margin: 6px auto;
+      display: inline-block;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      text-transform: uppercase;
+
+      &.primary-hand {
+        background: linear-gradient(135deg, #4a90e2 0%, #2563a8 100%);
+        color: #ffffff;
+      }
+
+      &.secondary-hand {
+        background: linear-gradient(135deg, #e24a90 0%, #a82563 100%);
+        color: #ffffff;
+      }
+
+      &.unarmed {
+        background: linear-gradient(135deg, #999 0%, #666 100%);
+        color: #ffffff;
+        font-style: italic;
+      }
+    }
+
+    // Roll Modifiers
+    .roll-modifiers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 8px;
+
+      .modifier-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 0.75em;
+        font-family: 'Alatsi', sans-serif;
+        background: linear-gradient(135deg, #ff9800 0%, #e65100 100%);
+        color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+/* Foundry message-header for roll messages only */
+.chat-message:has(.cardigan-roll-chat-message) .message-header.flexrow {
+  position: absolute;
+  right: 15px;
+}
+
+/* Foundry chat-message padding for roll messages only */
+.chat-message.message.flexcol:has(.cardigan-roll-chat-message) {
+  padding: 2px 8px 8px 8px;
+  
+  // Hide message sender name (same as effect-message)
+  .message-sender {
+    display: none !important;
+  }
+}

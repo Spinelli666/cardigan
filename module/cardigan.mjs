@@ -6,6 +6,7 @@ import { CardiganSystemActorSheet } from './sheets/actor-sheet.mjs';
 import { CardiganSystemItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
 import { CARDIGAN, registerHandlebarsHelpers, buildRollFormula } from './helpers/config.mjs';
+import { ChatMessageHelper } from './helpers/chat-messages.mjs';
 // Import DataModel classes
 import * as models from './data/_module.mjs';
 // Import Skills System
@@ -22,7 +23,6 @@ import CardiganTooltipManager from './tooltips/tooltip-manager.mjs';
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
-
 // Add key classes to the global scope so they can be more easily used
 // by downstream developers
 globalThis.cardigan = {
@@ -3437,34 +3437,22 @@ async function handleEvasionClick(button) {
     const damageTaken = success ? 0 : attackDamage;
     const remainingHP = Math.max(0, currentHP - damageTaken);
 
-    // Create flavor text
-    const flavor = `
-      <div style="text-align: center;">
-        <strong>Evasão de ${token.name}</strong> - ${rollDescription}<br>
-      </div>
-    `;
-
-    // Use player's roll mode setting (GM can choose blind manually)
-    const rollMode = game.settings.get('core', 'rollMode');
-
-    // Create message data with critical flags
-    const messageData = {
-      speaker: { alias: token.name },
-      flavor: flavor,
-      rolls: [roll],
+    // Send to chat using helper
+    const chatMessage = await ChatMessageHelper.createRollMessage({
+      actor: token.actor,
+      roll: roll,
+      label: 'Evasão',
+      rollType: rollType,
+      rollDescription: ChatMessageHelper.getRollTypeDescription(rollType),
+      handIndicator: null,
+      modifiers: [],
       flags: {
         cardigan: {
           criticalSuccess: criticalSuccess,
           criticalFailure: criticalFailure
         }
       }
-    };
-
-    // Apply roll mode using Foundry's official API method
-    ChatMessage.applyRollMode(messageData, rollMode);
-    
-    // Create the chat message
-    const chatMessage = await ChatMessage.create(messageData);
+    });
 
     // Wait for Dice So Nice animation to complete before notifying GM
     if (game.dice3d) {
