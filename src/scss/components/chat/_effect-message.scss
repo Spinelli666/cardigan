@@ -176,3 +176,40 @@
     }
   }
 }
+
+/* ========================================= */
+/*  Effect Messages - Dividers              */
+/* ========================================= */
+
+// Adiciona dividers decorativos nas mensagens de efeito
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-effect-message {
+  .message-header {
+    position: relative;
+
+    // First divider (left side)
+    .message-divider-1 {
+      position: absolute;
+      bottom: 0;
+      left: 221px;
+      width: 23%;
+      height: 70px;
+      object-fit: contain;
+      pointer-events: none;
+      transform: rotate(138deg) scaleX(-1);
+      top: -12px;
+    }
+
+    // Second divider (right side)
+    .message-divider-2 {
+      position: absolute;
+      bottom: 0;
+      right: 221px;
+      width: 23%;
+      height: 70px;
+      object-fit: contain;
+      pointer-events: none;
+      transform: rotate(224deg);
+      top: -12px;
+    }
+  }
+}

@@ -10,6 +10,8 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
     this.resolve = null;
     this.hideAttackMode = options.hideAttackMode || false;
     this.hideHandSelection = options.hideHandSelection || false;
+    this.hideJointRoll = options.hideJointRoll || false;
+    this.hideAttackModeBorder = options.hideAttackModeBorder || false;
   }
 
   static DEFAULT_OPTIONS = {
@@ -55,6 +57,8 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
     const context = await super._prepareContext(options);
     context.hideAttackMode = this.hideAttackMode;
     context.hideHandSelection = this.hideHandSelection;
+    context.hideJointRoll = this.hideJointRoll;
+    context.hideAttackModeBorder = this.hideAttackModeBorder;
     return context;
   }
 

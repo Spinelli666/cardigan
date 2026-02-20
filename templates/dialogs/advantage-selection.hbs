@@ -10,10 +10,12 @@
       <span class="checkbox-icon hand-icon"></span>
     </label>
     {{/unless}}
+    {{#unless hideJointRoll}}
     <label class="joint-attack-checkbox" data-tooltip="CARDIGAN.Tooltip.JointRoll" data-tooltip-class="cardigan-tooltip">
       <input type="checkbox" name="attackType" value="conjunto" id="attack-conjunto">
       <span class="checkbox-icon joint-icon"></span>
     </label>
+    {{/unless}}
     {{#unless hideHandSelection}}
     <label class="hand-primary-checkbox" data-tooltip="CARDIGAN.Tooltip.HandPrimary" data-tooltip-class="cardigan-tooltip">
       <input type="checkbox" name="handPrimary" value="primary" id="attack-hand-primary">
@@ -21,7 +23,9 @@
     </label>
     {{/unless}}
   </div>
+  {{#unless hideAttackModeBorder}}
   <img src="systems/cardigan/assets/images/decorative/border.webp" class="attack-mode-border" alt="">
+  {{/unless}}
   <div class="manual-modifier-container">
     <input type="number" id="manual-modifier" name="manualModifier" value="0" step="1" placeholder="±0" data-tooltip="CARDIGAN.Tooltip.Modifier" data-tooltip-class="cardigan-tooltip">
   </div>

@@ -31,6 +31,23 @@ export class CardiganChatMessage extends ChatMessage {
     const messageContent = html.querySelector(".message-content");
     if (!messageHeader || !messageContent) return;
 
+    // Check if it's a roll message or effect message
+    const isRollMessage = html.querySelector(".cardigan-roll-chat-message");
+    const isEffectMessage = html.querySelector(".cardigan-effect-chat-message");
+    
+    if (!isRollMessage && !isEffectMessage) {
+      // Not a roll or effect message - skip dividers
+      return;
+    }
+
+    // Mark message type for CSS targeting
+    if (isRollMessage) {
+      html.classList.add("cardigan-roll-message");
+    }
+    if (isEffectMessage) {
+      html.classList.add("cardigan-effect-message");
+    }
+
     // Move message-metadata from header to content
     const messageMetadata = messageHeader.querySelector(".message-metadata");
     if (messageMetadata) {

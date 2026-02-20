@@ -491,6 +491,35 @@
   display: none !important;
 }
 
+/* ========================================= */
+/*  Effect Messages - Dividers              */
+/* ========================================= */
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-effect-message .message-header {
+  position: relative;
+}
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-effect-message .message-header .message-divider-1 {
+  position: absolute;
+  bottom: 0;
+  left: 221px;
+  width: 23%;
+  height: 70px;
+  object-fit: contain;
+  pointer-events: none;
+  transform: rotate(138deg) scaleX(-1);
+  top: -12px;
+}
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-effect-message .message-header .message-divider-2 {
+  position: absolute;
+  bottom: 0;
+  right: 221px;
+  width: 23%;
+  height: 70px;
+  object-fit: contain;
+  pointer-events: none;
+  transform: rotate(224deg);
+  top: -12px;
+}
+
 .cardigan-roll-chat-message {
   display: flex;
   flex-direction: column;
@@ -522,7 +551,7 @@
   align-items: center;
 }
 .cardigan-roll-chat-message .roll-content .roll-chat-icon {
-  background: url("/systems/cardigan/assets/images/decorative/back-icon-effect.webp") no-repeat center center;
+  background: url("/systems/cardigan/assets/images/decorative/back-icon-d20.webp") no-repeat center center;
   background-size: contain;
   display: flex;
   height: 60px;
@@ -530,7 +559,8 @@
   justify-content: center;
 }
 .cardigan-roll-chat-message .roll-content .roll-chat-icon .d20-icon {
-  margin-top: 9px;
+  margin-top: 9.5px;
+  margin-left: 1px;
   height: 40px;
   width: 40px;
 }
@@ -562,6 +592,21 @@
   background-clip: text;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   text-transform: uppercase;
+}
+.cardigan-roll-chat-message .roll-content .roll-title .joint-roll-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+}
+.cardigan-roll-chat-message .roll-content .roll-title .joint-roll-indicator .joint-roll-icon {
+  width: 30px;
+  height: 27px;
+  padding: 4px;
+  border: 2px solid #c0863b;
+  border-radius: 8px;
+  background: linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 .cardigan-roll-chat-message .roll-content .hand-indicator {
   text-align: center;
@@ -621,12 +666,12 @@
 }
 
 /* ========================================= */
-/*  Chat Messages Customization             */
+/*  Chat Roll Messages - Dividers          */
 /* ========================================= */
-:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat .message-header {
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-roll-message .message-header {
   position: relative;
 }
-:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat .message-header .message-divider-1 {
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-roll-message .message-header .message-divider-1 {
   position: absolute;
   bottom: 0;
   left: 221px;
@@ -637,7 +682,7 @@
   transform: rotate(138deg) scaleX(-1);
   top: -12px;
 }
-:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat .message-header .message-divider-2 {
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-roll-message .message-header .message-divider-2 {
   position: absolute;
   bottom: 0;
   right: 221px;
@@ -647,20 +692,6 @@
   pointer-events: none;
   transform: rotate(224deg);
   top: -12px;
-}
-
-:is(.chat-popout, #chat-log, .chat-log) .message.ic.cardigan-chat .message-header .message-sender {
-  display: none !important;
-}
-:is(.chat-popout, #chat-log, .chat-log) .message.ic.cardigan-chat .message-header .message-divider-1,
-:is(.chat-popout, #chat-log, .chat-log) .message.ic.cardigan-chat .message-header .message-divider-2 {
-  top: -19px;
-}
-:is(.chat-popout, #chat-log, .chat-log) .message.ic.cardigan-chat .message-content {
-  margin-top: 4px;
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-bottom: 15px;
 }
 
 /* ProseMirror - Comportamento padrão do Foundry VTT */

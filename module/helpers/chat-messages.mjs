@@ -14,6 +14,7 @@ export class ChatMessageHelper {
    * @param {string} options.rollDescription - Description text for the roll type
    * @param {string} [options.handIndicator] - Hand indicator text ("Mão Primária", "Mão Secundária", "Desarmado")
    * @param {Array<string>} [options.modifiers] - Array of modifier texts to display
+   * @param {boolean} [options.isJointRoll] - Whether this is a joint roll (Rolagem em Conjunto)
    * @param {Object} [options.flags] - Additional flags to attach to the message
    * @param {string} [options.rollMode] - Roll mode override (uses game setting if not provided)
    * @returns {Promise<ChatMessage>} The created chat message
@@ -26,6 +27,7 @@ export class ChatMessageHelper {
     rollDescription = 'Rolagem Normal',
     handIndicator = null,
     modifiers = [],
+    isJointRoll = false,
     flags = {},
     rollMode = null
   }) {
@@ -55,7 +57,8 @@ export class ChatMessageHelper {
       rollTypeClass: rollType,
       handIndicator: handIndicator,
       handIndicatorClass: handIndicatorClass,
-      modifiers: modifiers.length > 0 ? modifiers : null
+      modifiers: modifiers.length > 0 ? modifiers : null,
+      isJointRoll: isJointRoll
     });
     
     // Use provided rollMode or get from settings

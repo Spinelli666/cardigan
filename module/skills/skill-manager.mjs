@@ -1759,7 +1759,8 @@ export class SkillManager {
         handIndicator: null,
         modifiers: modifiers,
         flags: flags,
-        rollMode: rollMode
+        rollMode: rollMode,
+        isJointRoll: attackMode === 'conjunto'
       });
 
     } catch (error) {

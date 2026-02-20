@@ -840,7 +840,11 @@ async function createAttackerResultDialog(data) {
           
           // Import and show advantage selection dialog
           const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
-          const result = await AdvantageSelectionDialog.show({ hideHandSelection: true });
+          const result = await AdvantageSelectionDialog.show({ 
+            hideHandSelection: true,
+            hideJointRoll: true,  // Hide joint roll for evasion tests
+            hideAttackModeBorder: true  // Hide border for evasion tests
+          });
           if (!result) return false; // User cancelled
           
           const { rollType, manualModifier = 0 } = result;
@@ -3356,7 +3360,11 @@ async function handleEvasionClick(button) {
   const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
   
   // Show advantage selection dialog (without hand selection checkboxes for evasion)
-  const result = await AdvantageSelectionDialog.show({ hideHandSelection: true });
+  const result = await AdvantageSelectionDialog.show({ 
+    hideHandSelection: true,
+    hideJointRoll: true,  // Hide joint roll for evasion tests
+    hideAttackModeBorder: true  // Hide border for evasion tests
+  });
   if (!result) return; // User cancelled
 
   const { rollType, manualModifier = 0 } = result;

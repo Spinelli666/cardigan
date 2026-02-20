@@ -3510,7 +3510,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       handIndicator: null,  // Weapon attacks don't show hand indicators
       modifiers: modifiers,
       flags: flags,
-      rollMode: rollMode
+      rollMode: rollMode,
+      isJointRoll: attackMode === 'conjunto'
     });
 
     return roll;

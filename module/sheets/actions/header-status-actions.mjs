@@ -59,18 +59,25 @@ export class HeaderStatusActions {
       const label = dataset.label || 'Roll';
       
       try {
-        // Show advantage selection dialog (hide hand selection for all proficiency tests except accuracy)
+        // Show advantage selection dialog (hide hand selection for all proficiency tests except accuracy and psionics)
         const isAccuracy = dataset.key === 'accuracy';
-        const result = await AdvantageSelectionDialog.show({ hideHandSelection: !isAccuracy });
+        const isPsionics = dataset.key === 'psionics';
+        const allowJointRoll = isAccuracy || isPsionics;
+        const result = await AdvantageSelectionDialog.show({ 
+          hideHandSelection: !allowJointRoll,  // Show hand selection for accuracy and psionics
+          hideJointRoll: !allowJointRoll,  // Hide joint roll for all tests except accuracy and psionics
+          hideAttackModeBorder: !allowJointRoll  // Hide border for tests without joint roll
+        });
         if (!result) return; // User cancelled
 
         const { rollType, attackMode, manualModifier = 0, primaryHand, secondaryHand } = result;
 
-        // ACCURACY WITH HAND SELECTION: Require target
-        if (isAccuracy && (primaryHand || secondaryHand)) {
+        // ACCURACY OR PSIONICS WITH HAND SELECTION: Require target
+        if ((isAccuracy || isPsionics) && (primaryHand || secondaryHand)) {
           // Check if at least one target is selected
           if (!game.user.targets || game.user.targets.size === 0) {
-            ui.notifications.warn("Por favor, selecione um alvo antes de fazer um teste de Precisão com mão especificada.");
+            const skillName = isAccuracy ? "Precisão" : "Psionismo";
+            ui.notifications.warn(`Por favor, selecione um alvo antes de fazer um teste de ${skillName} com mão especificada.`);
             return;
           }
         }
@@ -252,7 +259,8 @@ export class HeaderStatusActions {
           rollDescription: rollDescription,
           handIndicator: handIndicator,
           modifiers: [],
-          flags: flags
+          flags: flags,
+          isJointRoll: attackMode === 'conjunto'
         });
         
         return roll;
