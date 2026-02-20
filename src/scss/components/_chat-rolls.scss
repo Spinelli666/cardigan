@@ -140,7 +140,7 @@
 /* Foundry message-header for roll messages only */
 .chat-message:has(.cardigan-roll-chat-message) .message-header.flexrow {
   position: absolute;
-  right: 15px;
+  // right: 15px;
 }
 
 /* Foundry chat-message padding for roll messages only */

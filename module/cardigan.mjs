@@ -1,6 +1,7 @@
 // Import document classes.
 import { CardiganSystemActor } from './documents/actor.mjs';
 import { CardiganSystemItem } from './documents/item.mjs';
+import { CardiganChatMessage } from './documents/chat-message.mjs';
 // Import sheet classes.
 import { CardiganSystemActorSheet } from './sheets/actor-sheet.mjs';
 import { CardiganSystemItemSheet } from './sheets/item-sheet.mjs';
@@ -29,6 +30,7 @@ globalThis.cardigan = {
   documents: {
     CardiganSystemActor,
     CardiganSystemItem,
+    CardiganChatMessage,
   },
   applications: {
     CardiganSystemActorSheet,
@@ -61,6 +63,7 @@ Hooks.once('init', function () {
 
   // Define custom Document and DataModel classes
   CONFIG.Actor.documentClass = CardiganSystemActor;
+  CONFIG.ChatMessage.documentClass = CardiganChatMessage;
 
   // Note that you don't need to declare a DataModel
   // for the base actor/item classes - they are included

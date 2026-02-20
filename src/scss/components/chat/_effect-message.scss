@@ -157,7 +157,7 @@
 /* Foundry message-header for effect messages only */
 .chat-message:has(.cardigan-effect-chat-message) .message-header.flexrow {
   position: absolute;
-  right: 15px;
+  // right: 15px;
 }
 
 /* Foundry chat-message padding for effect messages only */

@@ -478,7 +478,6 @@
 /* Foundry message-header for effect messages only */
 .chat-message:has(.cardigan-effect-chat-message) .message-header.flexrow {
   position: absolute;
-  right: 15px;
 }
 
 /* Foundry chat-message padding for effect messages only */
@@ -611,7 +610,6 @@
 /* Foundry message-header for roll messages only */
 .chat-message:has(.cardigan-roll-chat-message) .message-header.flexrow {
   position: absolute;
-  right: 15px;
 }
 
 /* Foundry chat-message padding for roll messages only */
@@ -620,6 +618,49 @@
 }
 .chat-message.message.flexcol:has(.cardigan-roll-chat-message) .message-sender {
   display: none !important;
+}
+
+/* ========================================= */
+/*  Chat Messages Customization             */
+/* ========================================= */
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat .message-header {
+  position: relative;
+}
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat .message-header .message-divider-1 {
+  position: absolute;
+  bottom: 0;
+  left: 221px;
+  width: 23%;
+  height: 70px;
+  object-fit: contain;
+  pointer-events: none;
+  transform: rotate(138deg) scaleX(-1);
+  top: -12px;
+}
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat .message-header .message-divider-2 {
+  position: absolute;
+  bottom: 0;
+  right: 221px;
+  width: 23%;
+  height: 70px;
+  object-fit: contain;
+  pointer-events: none;
+  transform: rotate(224deg);
+  top: -12px;
+}
+
+:is(.chat-popout, #chat-log, .chat-log) .message.ic.cardigan-chat .message-header .message-sender {
+  display: none !important;
+}
+:is(.chat-popout, #chat-log, .chat-log) .message.ic.cardigan-chat .message-header .message-divider-1,
+:is(.chat-popout, #chat-log, .chat-log) .message.ic.cardigan-chat .message-header .message-divider-2 {
+  top: -19px;
+}
+:is(.chat-popout, #chat-log, .chat-log) .message.ic.cardigan-chat .message-content {
+  margin-top: 4px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 15px;
 }
 
 /* ProseMirror - Comportamento padrão do Foundry VTT */
