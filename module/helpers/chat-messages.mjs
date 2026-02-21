@@ -83,6 +83,8 @@ export class ChatMessageHelper {
     
     // Extract dice result and modifiers for cleaner display
     let diceResultFormula = roll.formula;
+    let diceFormulaData = null; // Structured data for rich tooltip
+    
     try {
       // Get the first term (should be the dice pool)
       const diceTerm = roll.terms[0];
@@ -98,19 +100,25 @@ export class ChatMessageHelper {
           }
         }
         
-        // For advantage/disadvantage, show ALL dice results
-        if (diceTerm.results.length > 1) {
-          // Sort results in descending order (highest first) for better readability
-          const sortedResults = [...diceTerm.results].sort((a, b) => b.result - a.result);
-          const formulas = sortedResults.map(r => {
-            return modifierString ? `${r.result}${modifierString}` : `${r.result}`;
-          });
-          diceResultFormula = formulas.join('\n');
-        } else {
-          // Normal roll: single die
-          const diceValue = diceTerm.results[0].result;
-          diceResultFormula = modifierString ? `${diceValue}${modifierString}` : `${diceValue}`;
-        }
+        // Build structured data for rich tooltip
+        const sortedResults = diceTerm.results.length > 1 
+          ? [...diceTerm.results].sort((a, b) => b.result - a.result)
+          : diceTerm.results;
+        
+        const formulas = sortedResults.map(r => {
+          const formula = modifierString ? `${r.result}${modifierString}` : `${r.result}`;
+          const isKept = !r.discarded;
+          return { formula, isKept };
+        });
+        
+        // Store structured data for tooltip
+        diceFormulaData = JSON.stringify({
+          formulas: formulas,
+          rollType: rollType
+        });
+        
+        // Simple text version for fallback
+        diceResultFormula = formulas.map(f => f.formula).join('\n');
       }
     } catch (error) {
       console.warn('[CARDIGAN] Could not parse dice result, using formula:', error);
@@ -125,6 +133,7 @@ export class ChatMessageHelper {
       rollTypeClass: rollType,
       rollResult: roll.total,
       rollFormula: diceResultFormula,
+      diceFormulaData: diceFormulaData, // Structured data for rich tooltip
       handIndicator: handIndicator,
       handIndicatorClass: handIndicatorClass,
       modifiers: modifiers.length > 0 ? modifiers : null,

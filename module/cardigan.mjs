@@ -3109,6 +3109,19 @@ Hooks.on('renderChatMessageHTML', (chatMessage, html) => {
   }
 });
 
+/* -------------------------------------------- */
+/*  Dice Formula Rich Tooltips Hook             */
+/* -------------------------------------------- */
+
+// Hook to attach rich tooltips to dice formula results
+Hooks.on('renderChatMessageHTML', (chatMessage, html) => {
+  // Import tooltip manager dynamically to avoid circular dependencies
+  import('./tooltips/tooltip-manager.mjs').then(module => {
+    const TooltipManager = module.default;
+    TooltipManager.attachDiceFormulaTooltips(html);
+  });
+});
+
 /**
  * Add toggle functionality to skill description buttons in chat
  */

@@ -42,7 +42,13 @@
         </div>
       {{/if}}
       
-      <div class='dice-result-number' data-tooltip="{{{rollFormula}}}" data-tooltip-class="cardigan-chat-tooltip">{{rollResult}}</div>
+      <div class='dice-result-number'
+           data-tooltip="{{{rollFormula}}}" 
+           data-tooltip-class="cardigan-chat-tooltip"
+           {{#if diceFormulaData}}
+           data-tooltip-type="dice-formula"
+           data-dice-formula='{{{diceFormulaData}}}'
+           {{/if}}>{{rollResult}}</div>
       
       {{#if (or (eq rollTypeClass "disadvantage") (eq rollTypeClass "enhanced-disadvantage"))}}
         <div class='disadvantage-container'>

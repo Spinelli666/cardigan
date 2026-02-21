@@ -1,0 +1,8 @@
+{{! Tooltip for dice formula - shows individual dice results with color coding }}
+<div class="dice-formulas">
+  {{#each formulas}}
+    <div class="formula-line {{#if isKept}}kept{{/if}} {{rollType}}">
+      {{formula}}
+    </div>
+  {{/each}}
+</div>

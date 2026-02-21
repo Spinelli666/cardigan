@@ -138,6 +138,56 @@ export default class CardiganTooltipManager {
   }
 
   /**
+   * Anexa event listeners para tooltips ricos de fórmulas de dados
+   * @param {HTMLElement} html - Elemento HTML da mensagem de chat renderizada
+   */
+  static attachDiceFormulaTooltips(html) {
+    // Encontrar todos os elementos com data-tooltip-type="dice-formula"
+    const diceElements = html.querySelectorAll('[data-tooltip-type="dice-formula"]');
+    
+    diceElements.forEach(element => {
+      const diceFormulaJson = element.dataset.diceFormula;
+      
+      if (!diceFormulaJson) return;
+      
+      let diceFormulaData;
+      try {
+        diceFormulaData = JSON.parse(diceFormulaJson);
+      } catch (error) {
+        console.warn('[CARDIGAN] Failed to parse dice formula data:', error);
+        return;
+      }
+      
+      // Hover para mostrar tooltip rico
+      element.addEventListener('mouseenter', async (event) => {
+        // Desativar tooltip nativo se estiver ativo
+        if (game.tooltip) {
+          game.tooltip.deactivate();
+        }
+        
+        // Remover tooltips anteriores com fade rápido
+        const existingTooltips = document.querySelectorAll('.locked-tooltip.dice-formula-tooltip');
+        existingTooltips.forEach(tooltip => this._removeTooltipWithFade(tooltip, 100));
+        
+        // Delay mínimo para suavizar transição
+        if (existingTooltips.length > 0) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        
+        // Mostrar tooltip rico
+        await this._showRichDiceFormulaTooltip(element, diceFormulaData);
+      });
+      
+      // Mouseleave para fechar tooltip
+      element.addEventListener('mouseleave', async (event) => {
+        // Remove todos os tooltips de fórmula de dados com fade
+        const hoverTooltips = document.querySelectorAll('.locked-tooltip.dice-formula-tooltip');
+        hoverTooltips.forEach(tooltip => this._removeTooltipWithFade(tooltip, 150));
+      });
+    });
+  }
+
+  /**
    * Calcula a melhor posição para o tooltip (acima ou abaixo do elemento)
    * @param {HTMLElement} element - Elemento de referência
    * @param {HTMLElement} tooltipEl - Elemento do tooltip
@@ -368,5 +418,61 @@ export default class CardiganTooltipManager {
         document.addEventListener('click', closeTooltip);
       }, 100);
     }
+  }
+
+  /**
+   * Mostra um tooltip rico com fórmulas de dados coloridas (hover apenas)
+   * @param {HTMLElement} element - Elemento que disparou o tooltip
+   * @param {Object} data - Dados das fórmulas (formulas array e rollType)
+   */
+  static async _showRichDiceFormulaTooltip(element, data) {
+    if (!data || !data.formulas) {
+      console.warn('[CARDIGAN] No dice formula data provided for rich tooltip');
+      return;
+    }
+    
+    // Preparar contexto para o template
+    const context = {
+      formulas: data.formulas.map(f => {
+        return {
+          formula: f.formula,
+          isKept: f.isKept,
+          rollType: data.rollType
+        };
+      })
+    };
+    
+    // Renderizar template
+    const template = await foundry.applications.handlebars.getTemplate('systems/cardigan/templates/tooltips/dice-formula-tooltip.hbs');
+    const html = await template(context);
+    
+    // Criar elemento do tooltip
+    const tooltipEl = document.createElement('div');
+    tooltipEl.className = 'locked-tooltip dice-formula-tooltip cardigan-tooltip tooltip-centered';
+    tooltipEl.innerHTML = html;
+    
+    // Adicionar ao body invisível para medir
+    tooltipEl.style.position = 'fixed';
+    tooltipEl.style.visibility = 'hidden';
+    tooltipEl.style.opacity = '0';
+    document.body.appendChild(tooltipEl);
+    
+    // Calcular posição
+    const position = this._calculateTooltipPosition(element, tooltipEl);
+    
+    // Aplicar posição
+    tooltipEl.style.left = `${position.left}px`;
+    tooltipEl.style.top = `${position.top}px`;
+    tooltipEl.style.zIndex = '10000';
+    tooltipEl.style.pointerEvents = 'auto';
+    
+    // Adicionar classe se invertido
+    if (position.shouldFlip) {
+      tooltipEl.classList.add('tooltip-flipped');
+    }
+    
+    // Tornar visível com animação (como outros tooltips)
+    tooltipEl.style.visibility = 'visible';
+    tooltipEl.style.opacity = '1';
   }
 }
