@@ -3457,6 +3457,8 @@ async function handleEvasionClick(button) {
       rollDescription: ChatMessageHelper.getRollTypeDescription(rollType),
       handIndicator: null,
       modifiers: [],
+      primaryHand: false,
+      secondaryHand: false,
       flags: {
         cardigan: {
           criticalSuccess: criticalSuccess,

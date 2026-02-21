@@ -1122,6 +1122,8 @@
       "HandSecondary": "Mão Secundária",
       "HandPrimary": "Mão Primária",
       "JointRoll": "Rolagem Conjunta",
+      "JointRollTargets": "Alvos da Rolagem Conjunta",
+      "CharacterName": "Personagem",
       "Modifier": "Modificador",
       "EnhancedDisadvantage": "Desvantagem Aprimorada",
       "Disadvantage": "Desvantagem",

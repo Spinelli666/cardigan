@@ -3152,6 +3152,14 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     const { rollType, attackMode, manualModifier = 0 } = result;
     
+    // JOINT ROLL: Require multiple targets
+    if (attackMode === 'conjunto') {
+      if (!game.user.targets || game.user.targets.size < 2) {
+        ui.notifications.warn('Por favor, selecione dois ou mais alvos antes de fazer uma Rolagem em Conjunto.');
+        return;
+      }
+    }
+    
     // Check if we need to make individual attacks for each target
     const shouldRollIndividually = attackMode === 'individual' && targets.size > 1;
     
@@ -3511,7 +3519,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       modifiers: modifiers,
       flags: flags,
       rollMode: rollMode,
-      isJointRoll: attackMode === 'conjunto'
+      isJointRoll: attackMode === 'conjunto',
+      primaryHand: false,  // Weapon attacks don't have hand selection
+      secondaryHand: false
     });
 
     return roll;

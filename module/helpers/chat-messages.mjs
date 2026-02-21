@@ -15,6 +15,8 @@ export class ChatMessageHelper {
    * @param {string} [options.handIndicator] - Hand indicator text ("Mão Primária", "Mão Secundária", "Desarmado")
    * @param {Array<string>} [options.modifiers] - Array of modifier texts to display
    * @param {boolean} [options.isJointRoll] - Whether this is a joint roll (Rolagem em Conjunto)
+   * @param {boolean} [options.primaryHand] - Whether primary hand was selected
+   * @param {boolean} [options.secondaryHand] - Whether secondary hand was selected
    * @param {Object} [options.flags] - Additional flags to attach to the message
    * @param {string} [options.rollMode] - Roll mode override (uses game setting if not provided)
    * @returns {Promise<ChatMessage>} The created chat message
@@ -28,6 +30,8 @@ export class ChatMessageHelper {
     handIndicator = null,
     modifiers = [],
     isJointRoll = false,
+    primaryHand = false,
+    secondaryHand = false,
     flags = {},
     rollMode = null
   }) {
@@ -49,6 +53,16 @@ export class ChatMessageHelper {
       'systems/cardigan/templates/chat/roll-message.hbs'
     );
     
+    // Check if special action mode is active (hand selection or joint roll)
+    const hasSpecialAction = primaryHand || secondaryHand || isJointRoll;
+    
+    // Get target names for joint roll tooltip (one per line)
+    let targetNames = '';
+    if (isJointRoll && game.user.targets && game.user.targets.size > 0) {
+      const names = Array.from(game.user.targets).map(token => token.actor?.name || token.name);
+      targetNames = names.join('<br>');
+    }
+    
     const content = template({
       actorImg: actor.img,
       actorName: actor.name,
@@ -58,7 +72,9 @@ export class ChatMessageHelper {
       handIndicator: handIndicator,
       handIndicatorClass: handIndicatorClass,
       modifiers: modifiers.length > 0 ? modifiers : null,
-      isJointRoll: isJointRoll
+      isJointRoll: isJointRoll,
+      hasSpecialAction: hasSpecialAction,
+      targetNames: targetNames
     });
     
     // Use provided rollMode or get from settings

@@ -27,8 +27,10 @@
 
 .proficiency-tooltip .tooltip-title {
   margin: 0;
+  padding-top: 4px;
   font-family: 'Alatsi', sans-serif;
   font-size: 20px;
+  line-height: 1.3;
   background: linear-gradient(180deg, #FFB75C 33.6%, #996E37 66.67%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -200,6 +202,7 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
 
 .effect-tooltip .tooltip-title {
   margin: 0;
+  padding-top: 3px;
   font-family: 'Alatsi', sans-serif;
   font-size: 20px;
   background: linear-gradient(180deg, #FFB75C 33.6%, #996E37 66.67%);
@@ -207,6 +210,7 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  text-transform: uppercase;
 }
 
 .effect-tooltip .tooltip-description {
@@ -219,6 +223,7 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
   border: 1px solid #FFB75C;
   background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  text-transform: none !important;
 
   p {
     text-align: center !important;

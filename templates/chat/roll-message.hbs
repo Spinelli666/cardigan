@@ -1,9 +1,18 @@
 {{! Chat Roll Message Template - Unified template for all roll types }}
 <div class='cardigan-roll-chat-message'>
   {{! Actor Header }}
-  <div class='actor-header'>
-    <img src='{{actorImg}}' alt='{{actorName}}' class='actor-avatar' />
-    <h2 class='actor-name'>{{actorName}}</h2>
+  <div class='actor-header {{#if hasSpecialAction}}special-action{{/if}}'>
+    <img src='{{actorImg}}' alt='{{actorName}}' class='actor-avatar' {{#if hasSpecialAction}}data-tooltip="{{actorName}}" data-tooltip-class="cardigan-chat-tooltip"{{/if}} />
+    {{#if hasSpecialAction}}
+      {{! Show attack icon and joint roll icon when special action is active }}
+      <img src='systems/cardigan/assets/images/decorative/icons/icon-attack.svg' alt='Ataque' class='attack-icon' />
+      {{#if isJointRoll}}
+        <img src='systems/cardigan/assets/images/decorative/icons/icon-joint-attack.svg' alt='Rolagem em Conjunto' class='joint-roll-header-icon' data-tooltip="{{{targetNames}}}" data-tooltip-class="cardigan-chat-tooltip" />
+      {{/if}}
+    {{else}}
+      {{! Show actor name when no special action }}
+      <h2 class='actor-name'>{{actorName}}</h2>
+    {{/if}}
   </div>
 
   {{! Roll Content }}
@@ -14,11 +23,6 @@
     <div class='roll-title'>
       <p class='roll-subtitle'>TESTE DE</p>
       <strong>{{rollLabel}}</strong>
-      {{#if isJointRoll}}
-      <div class='joint-roll-indicator'>
-        <img src='systems/cardigan/assets/images/decorative/icons/icon-joint-attack.svg' alt='Rolagem em Conjunto' class='joint-roll-icon' />
-      </div>
-      {{/if}}
     </div>
 
     {{! Hand/Weapon Indicator }}

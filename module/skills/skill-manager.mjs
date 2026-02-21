@@ -944,6 +944,14 @@ export class SkillManager {
 
       const { rollType, attackMode, manualModifier = 0 } = result;
 
+      // JOINT ROLL: Require selected tokens
+      if (attackMode === 'conjunto') {
+        if (!canvas.tokens.controlled || canvas.tokens.controlled.length === 0) {
+          ui.notifications.warn('Por favor, selecione um ou mais tokens antes de fazer uma Rolagem em Conjunto.');
+          return;
+        }
+      }
+
       // Get roll data
       const rollData = actor.getRollData();
       
@@ -1282,6 +1290,14 @@ export class SkillManager {
 
       const { rollType, attackMode, manualModifier = 0 } = result;
 
+      // JOINT ROLL: Require multiple targets
+      if (attackMode === 'conjunto') {
+        if (!game.user.targets || game.user.targets.size < 2) {
+          ui.notifications.warn('Por favor, selecione dois ou mais alvos antes de fazer uma Rolagem em Conjunto.');
+          return;
+        }
+      }
+
       // Get roll data
       const rollData = actor.getRollData();
       
@@ -1560,6 +1576,14 @@ export class SkillManager {
 
       const { rollType, attackMode, manualModifier = 0, primaryHand, secondaryHand } = result;
 
+      // JOINT ROLL: Require multiple targets
+      if (attackMode === 'conjunto') {
+        if (!game.user.targets || game.user.targets.size < 2) {
+          ui.notifications.warn('Por favor, selecione dois ou mais alvos antes de fazer uma Rolagem em Conjunto.');
+          return;
+        }
+      }
+
       // Determine which weapon to use based on checkbox selection
       let selectedWeapon = null;
       let weaponSource = null; // 'primary', 'secondary', or 'unarmed'
@@ -1760,7 +1784,9 @@ export class SkillManager {
         modifiers: modifiers,
         flags: flags,
         rollMode: rollMode,
-        isJointRoll: attackMode === 'conjunto'
+        isJointRoll: attackMode === 'conjunto',
+        primaryHand: primaryHand,
+        secondaryHand: secondaryHand
       });
 
     } catch (error) {

@@ -528,7 +528,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 8px;
+  justify-content: center;
+}
+.cardigan-roll-chat-message .actor-header.special-action {
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px;
 }
 .cardigan-roll-chat-message .actor-header .actor-avatar {
   width: 90px;
@@ -544,6 +550,26 @@
   background-clip: text;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   text-transform: uppercase;
+}
+.cardigan-roll-chat-message .actor-header .attack-icon {
+  width: 50px;
+  height: 50px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  position: relative;
+  top: -9px;
+  right: 7px;
+}
+.cardigan-roll-chat-message .actor-header .joint-roll-header-icon {
+  width: 60px;
+  height: 55px;
+  padding: 6px;
+  border: 2px solid #c0863b;
+  border-radius: 24px;
+  background: linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  top: -9px;
+  right: 3px;
 }
 .cardigan-roll-chat-message .roll-content {
   display: flex;
@@ -17517,8 +17543,10 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 
 .proficiency-tooltip .tooltip-title {
   margin: 0;
+  padding-top: 4px;
   font-family: "Alatsi", sans-serif;
   font-size: 20px;
+  line-height: 1.3;
   background: linear-gradient(180deg, #FFB75C 33.6%, #996E37 66.67%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -17683,6 +17711,7 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
 
 .effect-tooltip .tooltip-title {
   margin: 0;
+  padding-top: 3px;
   font-family: "Alatsi", sans-serif;
   font-size: 20px;
   background: linear-gradient(180deg, #FFB75C 33.6%, #996E37 66.67%);
@@ -17690,6 +17719,7 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  text-transform: uppercase;
 }
 
 .effect-tooltip .tooltip-description {
@@ -17702,6 +17732,7 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
   border: 1px solid #FFB75C;
   background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  text-transform: none !important;
 }
 .effect-tooltip .tooltip-description p {
   text-align: center !important;
@@ -17746,11 +17777,11 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
 /* Tooltip com classe cardigan-tooltip */
 #tooltip.cardigan-tooltip,
 .locked-tooltip.cardigan-tooltip {
-  font-family: var(--font-primary) !important;
+  font-family: "Alatsi", sans-serif !important;
   font-size: 14px !important;
   color: #FFB75C !important;
+  background: linear-gradient(0deg, rgba(255, 183, 92, 0.5) 0%, rgba(29, 91, 102, 0.5) 50%) !important;
   text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25) !important;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.5) 0%, rgba(29, 91, 102, 0.5) 70%) !important;
   backdrop-filter: blur(4px) !important;
   border: 2px solid #c0863b !important;
   border-radius: 50px !important;
@@ -17759,9 +17790,35 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
   max-width: 300px !important;
   text-align: left !important;
   z-index: 1000 !important;
+  text-transform: uppercase !important;
 }
 #tooltip.cardigan-tooltip .cardigan-tooltip-content,
 .locked-tooltip.cardigan-tooltip .cardigan-tooltip-content {
+  margin: 0;
+  padding: 0;
+}
+
+/* Tooltip customizado para mensagens de chat */
+#tooltip.cardigan-chat-tooltip,
+.locked-tooltip.cardigan-chat-tooltip {
+  font-family: "Alatsi", sans-serif !important;
+  font-size: 14px !important;
+  color: #FFB75C !important;
+  backdrop-filter: blur(6px) !important;
+  background: linear-gradient(0deg, rgba(255, 183, 92, 0.4) 0%, rgba(29, 91, 102, 0.4) 50%) !important;
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25) !important;
+  border: 2px solid #c0863b !important;
+  border-radius: 7px !important;
+  padding: 0px 10px !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6) !important;
+  max-width: 350px !important;
+  text-align: center !important;
+  z-index: 1000 !important;
+  line-height: 1.6 !important;
+  text-transform: uppercase !important;
+}
+#tooltip.cardigan-chat-tooltip .cardigan-tooltip-content,
+.locked-tooltip.cardigan-chat-tooltip .cardigan-tooltip-content {
   margin: 0;
   padding: 0;
 }

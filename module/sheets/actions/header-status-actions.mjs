@@ -72,6 +72,14 @@ export class HeaderStatusActions {
 
         const { rollType, attackMode, manualModifier = 0, primaryHand, secondaryHand } = result;
 
+        // JOINT ROLL: Require multiple targets
+        if (attackMode === 'conjunto') {
+          if (!game.user.targets || game.user.targets.size < 2) {
+            ui.notifications.warn('Por favor, selecione dois ou mais alvos antes de fazer uma Rolagem em Conjunto.');
+            return;
+          }
+        }
+
         // ACCURACY OR PSIONICS WITH HAND SELECTION: Require target
         if ((isAccuracy || isPsionics) && (primaryHand || secondaryHand)) {
           // Check if at least one target is selected
@@ -260,7 +268,9 @@ export class HeaderStatusActions {
           handIndicator: handIndicator,
           modifiers: [],
           flags: flags,
-          isJointRoll: attackMode === 'conjunto'
+          isJointRoll: attackMode === 'conjunto',
+          primaryHand: primaryHand,
+          secondaryHand: secondaryHand
         });
         
         return roll;
