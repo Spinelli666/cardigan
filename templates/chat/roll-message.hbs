@@ -4,10 +4,14 @@
   <div class='actor-header {{#if hasSpecialAction}}special-action{{/if}}'>
     <img src='{{actorImg}}' alt='{{actorName}}' class='actor-avatar' {{#if hasSpecialAction}}data-tooltip="{{actorName}}" data-tooltip-class="cardigan-chat-tooltip"{{/if}} />
     {{#if hasSpecialAction}}
-      {{! Show attack icon and joint roll icon when special action is active }}
+      {{! Show attack icon }}
       <img src='systems/cardigan/assets/images/decorative/icons/icon-attack.svg' alt='Ataque' class='attack-icon' />
       {{#if isJointRoll}}
+        {{! Joint roll: show joint attack icon }}
         <img src='systems/cardigan/assets/images/decorative/icons/icon-joint-attack.svg' alt='Rolagem em Conjunto' class='joint-roll-header-icon' data-tooltip="{{{targetNames}}}" data-tooltip-class="cardigan-chat-tooltip" />
+      {{else if hasSingleTarget}}
+        {{! Single target: show target avatar }}
+        <img src='{{targetImg}}' alt='{{targetName}}' class='target-avatar' data-tooltip="{{targetName}}" data-tooltip-class="cardigan-chat-tooltip" />
       {{/if}}
     {{else}}
       {{! Show actor name when no special action }}
@@ -25,12 +29,32 @@
       <strong>{{rollLabel}}</strong>
     </div>
 
-    {{! Hand/Weapon Indicator }}
-    {{#if handIndicator}}
-      <div class='hand-indicator {{handIndicatorClass}}'>
-        {{handIndicator}}
-      </div>
-    {{/if}}
+    {{! Dice Result with Advantage/Disadvantage Icons }}
+    <div class='dice-result-container'>
+      {{#if (or (eq rollTypeClass "advantage") (eq rollTypeClass "enhanced-advantage"))}}
+        <div class='advantage-container'>
+          {{#if (eq rollTypeClass "advantage")}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-advantage.svg' alt='Vantagem' class='advantage-icon' />
+          {{/if}}
+          {{#if (eq rollTypeClass "enhanced-advantage")}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-enhanced-advantage.svg' alt='Vantagem Aprimorada' class='advantage-icon' />
+          {{/if}}
+        </div>
+      {{/if}}
+      
+      <div class='dice-result-number' data-tooltip="{{{rollFormula}}}" data-tooltip-class="cardigan-chat-tooltip">{{rollResult}}</div>
+      
+      {{#if (or (eq rollTypeClass "disadvantage") (eq rollTypeClass "enhanced-disadvantage"))}}
+        <div class='disadvantage-container'>
+          {{#if (eq rollTypeClass "disadvantage")}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-disadvantage.svg' alt='Desvantagem' class='disadvantage-icon' />
+          {{/if}}
+          {{#if (eq rollTypeClass "enhanced-disadvantage")}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-enhanced-disadvantage.svg' alt='Desvantagem Aprimorada' class='disadvantage-icon' />
+          {{/if}}
+        </div>
+      {{/if}}
+    </div>
 
     {{! Modifiers/Effects }}
     {{#if modifiers}}

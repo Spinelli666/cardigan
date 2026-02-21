@@ -61,6 +61,12 @@
       top: -9px;
       right: 3px;
     }
+
+    // Target avatar (shown when single target with hand selected)
+    .target-avatar {
+      width: 90px;
+      height: 90px;
+    }
   }
 
   // Roll Content
@@ -90,7 +96,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
 
       .roll-subtitle {
         margin: 3px 0 0 0;
@@ -132,6 +138,44 @@
           background: linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
+      }
+    }
+
+    // Dice Result Container (vertical layout)
+    .dice-result-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+      border-radius: 8px;
+      border: 2px solid #c0863b;
+      padding: 3px 22px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+      .advantage-container,
+      .disadvantage-container {
+        padding: 2px 3px;
+        border-radius: 8px;
+        background: linear-gradient(270deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .advantage-icon,
+      .disadvantage-icon {
+        width: 20px;
+        height: 20px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+      }
+
+      .dice-result-number {
+        font-family: 'Alatsi', sans-serif;
+        font-size: 35px;
+        font-weight: bold;
+        background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       }
     }
 

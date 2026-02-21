@@ -56,11 +56,65 @@ export class ChatMessageHelper {
     // Check if special action mode is active (hand selection or joint roll)
     const hasSpecialAction = primaryHand || secondaryHand || isJointRoll;
     
-    // Get target names for joint roll tooltip (one per line)
+    // Get target data for tooltips and display
     let targetNames = '';
-    if (isJointRoll && game.user.targets && game.user.targets.size > 0) {
-      const names = Array.from(game.user.targets).map(token => token.actor?.name || token.name);
-      targetNames = names.join('<br>');
+    let hasSingleTarget = false;
+    let targetImg = '';
+    let targetName = '';
+    
+    if (game.user.targets && game.user.targets.size > 0) {
+      const targets = Array.from(game.user.targets);
+      
+      if (isJointRoll) {
+        // Joint roll: get all target names for tooltip
+        const names = targets.map(token => token.actor?.name || token.name);
+        targetNames = names.join('<br>');
+      } else if (targets.length === 1 && (primaryHand || secondaryHand)) {
+        // Single target with hand selected: get target avatar
+        hasSingleTarget = true;
+        const target = targets[0];
+        targetImg = target.actor?.img || target.texture.src;
+        targetName = target.actor?.name || target.name;
+      }
+    }
+    
+    // Debug: Log rollType for verification
+    console.log('[CARDIGAN CHAT] Creating roll message with rollType:', rollType);
+    
+    // Extract dice result and modifiers for cleaner display
+    let diceResultFormula = roll.formula;
+    try {
+      // Get the first term (should be the dice pool)
+      const diceTerm = roll.terms[0];
+      if (diceTerm && diceTerm.results) {
+        // Build modifier string from remaining terms
+        let modifierString = '';
+        for (let i = 1; i < roll.terms.length; i++) {
+          const term = roll.terms[i];
+          if (term.operator) {
+            modifierString += ` ${term.operator} `;
+          } else if (term.number !== undefined) {
+            modifierString += term.number;
+          }
+        }
+        
+        // For advantage/disadvantage, show ALL dice results
+        if (diceTerm.results.length > 1) {
+          // Sort results in descending order (highest first) for better readability
+          const sortedResults = [...diceTerm.results].sort((a, b) => b.result - a.result);
+          const formulas = sortedResults.map(r => {
+            return modifierString ? `${r.result}${modifierString}` : `${r.result}`;
+          });
+          diceResultFormula = formulas.join('<br>');
+        } else {
+          // Normal roll: single die
+          const diceValue = diceTerm.results[0].result;
+          diceResultFormula = modifierString ? `${diceValue}${modifierString}` : `${diceValue}`;
+        }
+      }
+    } catch (error) {
+      console.warn('[CARDIGAN] Could not parse dice result, using formula:', error);
+      diceResultFormula = roll.formula;
     }
     
     const content = template({
@@ -69,12 +123,17 @@ export class ChatMessageHelper {
       rollLabel: label,
       rollType: rollDescription,
       rollTypeClass: rollType,
+      rollResult: roll.total,
+      rollFormula: diceResultFormula,
       handIndicator: handIndicator,
       handIndicatorClass: handIndicatorClass,
       modifiers: modifiers.length > 0 ? modifiers : null,
       isJointRoll: isJointRoll,
       hasSpecialAction: hasSpecialAction,
-      targetNames: targetNames
+      targetNames: targetNames,
+      hasSingleTarget: hasSingleTarget,
+      targetImg: targetImg,
+      targetName: targetName
     });
     
     // Use provided rollMode or get from settings

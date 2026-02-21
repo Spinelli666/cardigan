@@ -571,6 +571,10 @@
   top: -9px;
   right: 3px;
 }
+.cardigan-roll-chat-message .actor-header .target-avatar {
+  width: 90px;
+  height: 90px;
+}
 .cardigan-roll-chat-message .roll-content {
   display: flex;
   flex-direction: column;
@@ -595,7 +599,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .cardigan-roll-chat-message .roll-content .roll-title .roll-subtitle {
   margin: 3px 0 0 0;
@@ -633,6 +637,39 @@
   border-radius: 8px;
   background: linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.cardigan-roll-chat-message .roll-content .dice-result-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  border-radius: 8px;
+  border: 2px solid #c0863b;
+  padding: 3px 22px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.cardigan-roll-chat-message .roll-content .dice-result-container .advantage-container,
+.cardigan-roll-chat-message .roll-content .dice-result-container .disadvantage-container {
+  padding: 2px 3px;
+  border-radius: 8px;
+  background: linear-gradient(270deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.cardigan-roll-chat-message .roll-content .dice-result-container .advantage-icon,
+.cardigan-roll-chat-message .roll-content .dice-result-container .disadvantage-icon {
+  width: 20px;
+  height: 20px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+.cardigan-roll-chat-message .roll-content .dice-result-container .dice-result-number {
+  font-family: "Alatsi", sans-serif;
+  font-size: 35px;
+  font-weight: bold;
+  background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 .cardigan-roll-chat-message .roll-content .hand-indicator {
   text-align: center;
@@ -17796,6 +17833,13 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
 .locked-tooltip.cardigan-tooltip .cardigan-tooltip-content {
   margin: 0;
   padding: 0;
+}
+
+/* Tooltip para fórmulas de dados (tooltip de múltiplas linhas) */
+#tooltip.cardigan-dice-formula-tooltip,
+.locked-tooltip.cardigan-dice-formula-tooltip {
+  text-align: center !important;
+  line-height: 1.4 !important;
 }
 
 /* Tooltip customizado para mensagens de chat */
