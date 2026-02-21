@@ -17835,13 +17835,6 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
   padding: 0;
 }
 
-/* Tooltip para fórmulas de dados (tooltip de múltiplas linhas) */
-#tooltip.cardigan-dice-formula-tooltip,
-.locked-tooltip.cardigan-dice-formula-tooltip {
-  text-align: center !important;
-  line-height: 1.4 !important;
-}
-
 /* Tooltip customizado para mensagens de chat */
 #tooltip.cardigan-chat-tooltip,
 .locked-tooltip.cardigan-chat-tooltip {
@@ -17860,6 +17853,7 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
   z-index: 1000 !important;
   line-height: 1.6 !important;
   text-transform: uppercase !important;
+  white-space: pre-line !important;
 }
 #tooltip.cardigan-chat-tooltip .cardigan-tooltip-content,
 .locked-tooltip.cardigan-chat-tooltip .cardigan-tooltip-content {

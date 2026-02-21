@@ -105,7 +105,7 @@ export class ChatMessageHelper {
           const formulas = sortedResults.map(r => {
             return modifierString ? `${r.result}${modifierString}` : `${r.result}`;
           });
-          diceResultFormula = formulas.join('<br>');
+          diceResultFormula = formulas.join('\n');
         } else {
           // Normal roll: single die
           const diceValue = diceTerm.results[0].result;
