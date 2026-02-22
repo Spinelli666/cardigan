@@ -84,11 +84,16 @@ export class ChatMessageHelper {
     // Extract dice result and modifiers for cleaner display
     let diceResultFormula = roll.formula;
     let diceFormulaData = null; // Structured data for rich tooltip
+    let naturalDiceResult = null; // Natural (pre-modifier) kept die result
     
     try {
       // Get the first term (should be the dice pool)
       const diceTerm = roll.terms[0];
       if (diceTerm && diceTerm.results) {
+        // Extract the natural result of the kept die (before modifiers)
+        const keptResult = diceTerm.results.find(r => !r.discarded);
+        if (keptResult) naturalDiceResult = keptResult.result;
+
         // Build modifier string from remaining terms
         let modifierString = '';
         for (let i = 1; i < roll.terms.length; i++) {
@@ -125,6 +130,12 @@ export class ChatMessageHelper {
       diceResultFormula = roll.formula;
     }
     
+    // Check for critical results:
+    // - Critical success: natural 20 on the die OR total >= 20
+    // - Critical failure: natural 1 on the die OR total <= 1 (covers natural 1 with modifiers like +2 = 3)
+    const isCriticalSuccess = naturalDiceResult === 20 || roll.total >= 20;
+    const isCriticalFailure = naturalDiceResult === 1 || roll.total <= 1;
+    
     const content = template({
       actorImg: actor.img,
       actorName: actor.name,
@@ -142,7 +153,9 @@ export class ChatMessageHelper {
       targetNames: targetNames,
       hasSingleTarget: hasSingleTarget,
       targetImg: targetImg,
-      targetName: targetName
+      targetName: targetName,
+      isCriticalSuccess: isCriticalSuccess,
+      isCriticalFailure: isCriticalFailure
     });
     
     // Use provided rollMode or get from settings
