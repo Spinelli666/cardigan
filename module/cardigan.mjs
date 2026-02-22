@@ -918,25 +918,18 @@ async function createAttackerResultDialog(data) {
             }
           }
           
-          // Create flavor text
-          const flavor = `
-            <div style="text-align: center;">
-              <strong>🔄 Re-rolagem de Ataque de ${attackerName}</strong> - ${rollDescription}<br>
-            </div>
-          `;
-          
-          // Use player's roll mode setting
-          const rollMode = game.settings.get('core', 'rollMode');
-          
           // Get defender token for flags
           const defenderActor = game.actors.get(actorId);
           const defenderToken = game.scenes.current?.tokens.find(t => t.actorId === actorId);
-          
-          // Create message data with flags for evasion button system
-          const messageData = {
-            speaker: { alias: attackerName },
-            flavor: flavor,
-            rolls: [roll],
+
+          // Create chat message using custom template
+          await ChatMessageHelper.createRollMessage({
+            actor: attackerActor,
+            roll: roll,
+            label: 'PRECISÃO',
+            rollType: rollType,
+            rollDescription: rollDescription,
+            rollMode: game.settings.get('core', 'rollMode'),
             flags: {
               cardigan: {
                 criticalSuccess: criticalSuccess,
@@ -945,7 +938,7 @@ async function createAttackerResultDialog(data) {
                   targets: [{ tokenId: defenderToken?.id, actorId: actorId }],
                   damage: attackDamage,
                   attackerId: attackerActor.id,
-                  attackerCriticalHit: criticalSuccess,  // Add attacker critical for damage calculation
+                  attackerCriticalHit: criticalSuccess,
                   isReroll: true,
                   dialogId: dialogId,
                   oldDialogId: dialogId,
@@ -958,13 +951,7 @@ async function createAttackerResultDialog(data) {
                 }
               }
             }
-          };
-          
-          // Apply roll mode
-          ChatMessage.applyRollMode(messageData, rollMode);
-          
-          // Create the chat message (this will trigger the existing hook that adds evasion button)
-          await ChatMessage.create(messageData);
+          });
           
           // Keep dialog open
           return false;
@@ -1845,13 +1832,6 @@ async function createGMEvasionNotification(data) {
             }
           }
           
-          // Create flavor text
-          const flavor = `
-            <div style="text-align: center;">
-              <strong>🔄 Re-rolagem de ${attributeName} de ${rollingActorName}</strong> - ${rollDescription}<br>
-            </div>
-          `;
-          
           // Create message flags
           const messageFlags = {
             cardigan: {
@@ -1903,20 +1883,16 @@ async function createGMEvasionNotification(data) {
             }
           }
           
-          // Create message data
-          const messageData = {
-            speaker: { alias: rollingActorName },
-            flavor: flavor,
-            rolls: [roll],
+          // Create chat message using custom template
+          await ChatMessageHelper.createRollMessage({
+            actor: actor,
+            roll: roll,
+            label: attributeName.toUpperCase(),
+            rollType: rollType,
+            rollDescription: rollDescription,
+            rollMode: "gmroll",
             flags: messageFlags
-          };
-          
-          // Use GM roll mode
-          const rollMode = "gmroll";
-          ChatMessage.applyRollMode(messageData, rollMode);
-          
-          // Create the chat message
-          await ChatMessage.create(messageData);
+          });
           
           // Keep dialog open
           return false;
@@ -3200,7 +3176,6 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
   // Create evasion buttons container
   const evasionSection = document.createElement('div');
   evasionSection.className = 'cardigan-evasion-section';
-  evasionSection.style.cssText = 'margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.1);';
 
   // Check if current user can defend (owns any of the targets)
   let canDefend = false;
@@ -3225,25 +3200,36 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
 
   // Create single evasion button
   const buttonContainer = document.createElement('div');
-  buttonContainer.style.cssText = 'margin-top: 4px; text-align: center;';
+  buttonContainer.className = 'cardigan-chat-action-section';
 
   const button = document.createElement('button');
-  button.className = 'cardigan-evasion-button';
+  button.className = 'cardigan-evasion-button cardigan-chat-action-button';
   button.dataset.messageId = message.id;
   button.dataset.tokenId = userTarget.data.tokenId;
   button.dataset.actorId = userTarget.data.actorId;
   button.dataset.attackTotal = attackTotal;
   button.dataset.attackDamage = attackDamage;
-  button.style.cssText = 'padding: 4px 12px; background: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;';
-  button.textContent = 'Rolar Evasão';
+  button.dataset.tooltip = 'Testar EVASÃO';
+  button.dataset.tooltipClass = 'cardigan-chat-tooltip';
+  button.textContent = '';
+  const evasionIcon = document.createElement('img');
+  evasionIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-d20-message.svg';
+  evasionIcon.alt = '';
+  evasionIcon.className = 'action-button-icon';
+  button.appendChild(evasionIcon);
   
   button.addEventListener('click', () => handleEvasionClick(button));
   buttonContainer.appendChild(button);
   evasionSection.appendChild(buttonContainer);
 
-  // Add evasion section to message - html is now HTMLElement, not jQuery
+  // Add border decoration + evasion section to message
   const messageContent = html.querySelector('.message-content');
   if (messageContent) {
+    const borderImg = document.createElement('img');
+    borderImg.src = 'systems/cardigan/assets/images/decorative/border-chat-message.webp';
+    borderImg.alt = '';
+    borderImg.className = 'chat-border-decoration';
+    messageContent.appendChild(borderImg);
     messageContent.appendChild(evasionSection);
   }
 });
@@ -3286,7 +3272,6 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
   // Create precision button container
   const precisionSection = document.createElement('div');
   precisionSection.className = 'cardigan-precision-section';
-  precisionSection.style.cssText = 'margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.1);';
 
   // Check if current user can attack (owns the attacker)
   const attackerToken = game.scenes.current?.tokens.get(precisionData.tokenId);
@@ -3299,24 +3284,35 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
 
   // Create precision button
   const buttonContainer = document.createElement('div');
-  buttonContainer.style.cssText = 'margin-top: 4px; text-align: center;';
+  buttonContainer.className = 'cardigan-chat-action-section';
 
   const button = document.createElement('button');
-  button.className = 'cardigan-precision-button';
+  button.className = 'cardigan-precision-button cardigan-chat-action-button';
   button.dataset.messageId = message.id;
   button.dataset.tokenId = precisionData.tokenId;
   button.dataset.actorId = precisionData.actorId;
   button.dataset.evasionTotal = evasionTotal;
-  button.style.cssText = 'padding: 4px 12px; background: #2196F3; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;';
-  button.textContent = 'Rolar Precisão';
+  button.dataset.tooltip = 'Testar PRECISÃO';
+  button.dataset.tooltipClass = 'cardigan-chat-tooltip';
+  button.textContent = '';
+  const precisionIcon = document.createElement('img');
+  precisionIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-d20-message.svg';
+  precisionIcon.alt = '';
+  precisionIcon.className = 'action-button-icon';
+  button.appendChild(precisionIcon);
   
   button.addEventListener('click', () => handlePrecisionClick(button));
   buttonContainer.appendChild(button);
   precisionSection.appendChild(buttonContainer);
 
-  // Add precision section to message
+  // Add border decoration + precision section to message
   const messageContent = html.querySelector('.message-content');
   if (messageContent) {
+    const borderImg = document.createElement('img');
+    borderImg.src = 'systems/cardigan/assets/images/decorative/border-chat-message.webp';
+    borderImg.alt = '';
+    borderImg.className = 'chat-border-decoration';
+    messageContent.appendChild(borderImg);
     messageContent.appendChild(precisionSection);
   }
 });
@@ -3824,17 +3820,20 @@ async function handlePrecisionClick(button) {
       }
     }
 
-    // Create chat message with roll
-    const flavor = `
-      <div style="text-align: center;">
-        <strong>🎯 Re-rolagem de Precisão de ${actor.name}</strong>
-      </div>
-    `;
-
-    await ChatMessage.create({
-      speaker: ChatMessage.getSpeaker({ actor }),
-      flavor: flavor,
-      rolls: [roll],
+    // Create chat message using custom template
+    const rollDescriptionMap = {
+      'advantage': 'Rolagem com Vantagem',
+      'disadvantage': 'Rolagem com Desvantagem',
+      'enhanced-advantage': 'Rolagem com Vantagem Aprimorada',
+      'enhanced-disadvantage': 'Rolagem com Desvantagem Aprimorada',
+      'normal': 'Rolagem Normal'
+    };
+    await ChatMessageHelper.createRollMessage({
+      actor: actor,
+      roll: roll,
+      label: 'PRECISÃO',
+      rollType: rollType,
+      rollDescription: rollDescriptionMap[rollType] || 'Rolagem Normal',
       flags: {
         cardigan: {
           criticalSuccess: precisionCriticalHit,

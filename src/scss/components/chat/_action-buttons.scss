@@ -1,0 +1,54 @@
+// ============================================================
+// Chat Action Buttons (Rolar Evasão / Rolar Precisão)
+// ============================================================
+
+.cardigan-evasion-section,
+.cardigan-precision-section {
+    position: relative;
+    top: -15px;
+}
+
+.cardigan-chat-action-section {
+  display: flex;
+  justify-content: center;
+
+  .cardigan-chat-action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 75px;
+    height: 88px;
+    background: url('/systems/cardigan/assets/images/decorative/background-button-message.webp') no-repeat center center;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    color: transparent;
+    font-size: 0;
+    padding: 0;
+    transition: opacity 0.15s ease, transform 0.1s ease;
+    border-radius: 4px;
+
+    &:hover {
+      opacity: 0.85;
+      transform: scale(1.02);
+    }
+
+    &:active {
+      opacity: 0.7;
+      transform: scale(0.98);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .action-button-icon {
+      width: 52px;
+      height: 52px;
+      pointer-events: none;
+      display: block;
+    }
+  }
+}
