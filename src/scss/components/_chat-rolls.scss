@@ -309,3 +309,14 @@
   position: relative;
   z-index: 1;
 }
+// Whisper placeholder - "?" shown to non-recipients
+.cardigan-whisper-placeholder {
+  .roll-content {
+    margin-top: 20px;
+  }
+
+  .dice-result-number.whisper-question-mark {
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+  }
+}

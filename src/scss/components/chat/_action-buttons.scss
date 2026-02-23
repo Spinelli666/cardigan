@@ -11,6 +11,7 @@
 .cardigan-chat-action-section {
   display: flex;
   justify-content: center;
+  align-items: center;
 
   .cardigan-chat-action-button {
     display: flex;
@@ -49,6 +50,23 @@
       height: 52px;
       pointer-events: none;
       display: block;
+    }
+  }
+
+  .action-button-divider {
+    height: 45px;
+    width: auto;
+    pointer-events: none;
+    display: block;
+    object-fit: contain;
+    transform: scaleY(-1);
+    position: relative;
+    right: 12px;
+
+    &--left {
+      transform: scaleX(-1);
+      position: relative;
+      left: 12px;
     }
   }
 }

@@ -333,6 +333,21 @@
 }
 .chat-message .message-metadata {
   font-size: 10px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+.chat-message .message-metadata .message-delete {
+  display: none;
+}
+.chat-message .message-metadata .message-timestamp {
+  font-family: "Alatsi", sans-serif !important;
+  color: #FFB75C;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.chat-message .cardigan-evasion-section ~ .message-metadata,
+.chat-message .cardigan-precision-section ~ .message-metadata {
+  margin-top: 0;
 }
 
 /* Token HUD - Status Effects customization */
@@ -529,6 +544,7 @@
 .cardigan-chat-action-section {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .cardigan-chat-action-section .cardigan-chat-action-button {
   display: flex;
@@ -564,6 +580,21 @@
   height: 52px;
   pointer-events: none;
   display: block;
+}
+.cardigan-chat-action-section .action-button-divider {
+  height: 45px;
+  width: auto;
+  pointer-events: none;
+  display: block;
+  object-fit: contain;
+  transform: scaleY(-1);
+  position: relative;
+  right: 12px;
+}
+.cardigan-chat-action-section .action-button-divider--left {
+  transform: scaleX(-1);
+  position: relative;
+  left: 12px;
 }
 
 .cardigan-roll-chat-message {
@@ -824,6 +855,14 @@
   pointer-events: none;
   position: relative;
   z-index: 1;
+}
+
+.cardigan-whisper-placeholder .roll-content {
+  margin-top: 20px;
+}
+.cardigan-whisper-placeholder .dice-result-number.whisper-question-mark {
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
 }
 
 /* ProseMirror - Comportamento padrão do Foundry VTT */

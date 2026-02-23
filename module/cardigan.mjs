@@ -20,6 +20,8 @@ import { initializeRaces } from './races/index.mjs';
 import { initializeWeaponProperties } from './weapon-properties/index.mjs';
 // Import Tooltips System
 import CardiganTooltipManager from './tooltips/tooltip-manager.mjs';
+// Import Hooks
+import { registerWhisperPlaceholderHook } from './hooks/whisper-placeholder.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -3158,6 +3160,9 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
 /*  Evasion System Hooks                        */
 /* -------------------------------------------- */
 
+// Register whisper placeholder hook (see module/hooks/whisper-placeholder.mjs)
+registerWhisperPlaceholderHook();
+
 /**
  * Add evasion buttons to attack chat messages
  */
@@ -3219,7 +3224,17 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
   button.appendChild(evasionIcon);
   
   button.addEventListener('click', () => handleEvasionClick(button));
+  const evasionDividerLeft = document.createElement('img');
+  evasionDividerLeft.src = 'systems/cardigan/assets/images/decorative/divider.webp';
+  evasionDividerLeft.alt = '';
+  evasionDividerLeft.className = 'action-button-divider action-button-divider--left';
+  buttonContainer.appendChild(evasionDividerLeft);
   buttonContainer.appendChild(button);
+  const evasionDivider = document.createElement('img');
+  evasionDivider.src = 'systems/cardigan/assets/images/decorative/divider.webp';
+  evasionDivider.alt = '';
+  evasionDivider.className = 'action-button-divider';
+  buttonContainer.appendChild(evasionDivider);
   evasionSection.appendChild(buttonContainer);
 
   // Add border decoration + evasion section to message
@@ -3302,7 +3317,17 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
   button.appendChild(precisionIcon);
   
   button.addEventListener('click', () => handlePrecisionClick(button));
+  const precisionDividerLeft = document.createElement('img');
+  precisionDividerLeft.src = 'systems/cardigan/assets/images/decorative/divider.webp';
+  precisionDividerLeft.alt = '';
+  precisionDividerLeft.className = 'action-button-divider action-button-divider--left';
+  buttonContainer.appendChild(precisionDividerLeft);
   buttonContainer.appendChild(button);
+  const precisionDivider = document.createElement('img');
+  precisionDivider.src = 'systems/cardigan/assets/images/decorative/divider.webp';
+  precisionDivider.alt = '';
+  precisionDivider.className = 'action-button-divider';
+  buttonContainer.appendChild(precisionDivider);
   precisionSection.appendChild(buttonContainer);
 
   // Add border decoration + precision section to message
