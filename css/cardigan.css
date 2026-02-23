@@ -111,6 +111,41 @@
   font-family: "Roboto", sans-serif;
 }
 
+.application.cardigan .window-header {
+  position: relative;
+  overflow: visible;
+}
+.application.cardigan .window-header::before {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 20%;
+  width: 23%;
+  height: 70px;
+  background-image: url("../assets/images/decorative/divider.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  transform: rotate(138deg) scaleX(-1);
+  z-index: 10;
+}
+.application.cardigan .window-header::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  right: 20%;
+  width: 23%;
+  height: 70px;
+  background-image: url("../assets/images/decorative/divider.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  transform: rotate(224deg);
+  z-index: 10;
+}
+
 .rollable:hover, .rollable:focus {
   color: var(--cardigan-c-black);
   text-shadow: 0 0 10px red;
@@ -348,6 +383,50 @@
 .chat-message .cardigan-evasion-section ~ .message-metadata,
 .chat-message .cardigan-precision-section ~ .message-metadata {
   margin-top: 0;
+}
+
+.cardigan-chat .message-metadata {
+  margin-top: 0;
+  display: block;
+  justify-content: unset;
+}
+.cardigan-chat.cardigan-roll-message .message-metadata, .cardigan-chat.cardigan-effect-message .message-metadata {
+  display: flex;
+  justify-content: center;
+}
+.cardigan-chat.whisper.cardigan-roll-message .message-metadata {
+  margin-top: 20px;
+}
+.cardigan-chat .message-sender {
+  font-family: "Alatsi", sans-serif !important;
+  color: #FFB75C;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.cardigan-chat .message-content {
+  font-family: "Alatsi", sans-serif !important;
+  color: #FFB75C;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------------------------------- */
+/*  Context Menu (nav.expand-down)    */
+/* ---------------------------------- */
+nav.expand-down {
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  border: 1px solid #c0863b;
+  border-radius: 6px;
+  overflow: hidden;
+}
+nav.expand-down li.context-item {
+  font-family: "Alatsi", sans-serif !important;
+  color: #FFB75C;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+nav.expand-down li.context-item:hover {
+  background: rgba(192, 134, 59, 0.25);
+  color: #ffd08a;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
 }
 
 /* Token HUD - Status Effects customization */

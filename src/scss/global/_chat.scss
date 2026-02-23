@@ -31,3 +31,65 @@
     margin-top: 0;
   }
 }
+
+// Cardigan chat messages (all types)
+.cardigan-chat {
+  // No margin-top, no flex centering on metadata for regular cardigan messages
+  .message-metadata {
+    margin-top: 0;
+    display: block;
+    justify-content: unset;
+  }
+
+  // Re-apply flex centering for roll/effect messages (metadata moved into message-content)
+  &.cardigan-roll-message,
+  &.cardigan-effect-message {
+    .message-metadata {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  // margin-top only for whisper roll messages
+  &.whisper.cardigan-roll-message {
+    .message-metadata {
+      margin-top: 20px;
+    }
+  }
+
+  .message-sender {
+    font-family: 'Alatsi', sans-serif !important;
+    color: #FFB75C;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .message-content {
+    font-family: 'Alatsi', sans-serif !important;
+    color: #FFB75C;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* ---------------------------------- */
+/*  Context Menu (nav.expand-down)    */
+/* ---------------------------------- */
+
+nav.expand-down {
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.80) 8.69%, rgba(35, 85, 102, 0.80) 51.12%, rgba(25, 53, 66, 0.80) 86.06%);
+  border: 1px solid #c0863b;
+  border-radius: 6px;
+  overflow: hidden;
+
+  li.context-item {
+    font-family: 'Alatsi', sans-serif !important;
+    color: #FFB75C;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+
+    &:hover {
+      background: rgba(192, 134, 59, 0.25);
+      color: #ffd08a;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+      cursor: pointer;
+    }
+  }
+}
