@@ -14,28 +14,62 @@ export function registerWhisperPlaceholderHook() {
 
     // --- Resolve actor display data ---
     // message.speaker is always sent to all clients (even non-recipients)
-    const actorId = message.speaker?.actor;
-    const actor = actorId ? game.actors.get(actorId) : null;
-    const actorImg = actor?.img || 'icons/svg/mystery-man.svg';
-    const actorName = message.speaker?.alias || actor?.name || '???';
+    const speakerActorId = message.speaker?.actor;
+    const speakerActor = speakerActorId ? game.actors.get(speakerActorId) : null;
 
-    // Stored display flags (only present on messages created via ChatMessageHelper)
+    // attackTargets flag is always stored on attack/joint roll messages
+    const attackTargets = message.flags?.cardigan?.attackTargets;
+
+    // Stored display fallback (only on messages created via ChatMessageHelper)
     const display = message.flags?.cardigan?.whisperDisplay;
-    const hasSpecialAction = display?.hasSpecialAction ?? false;
-    const isJointRoll = display?.isJointRoll ?? false;
-    const rollLabel = display?.rollLabel || null;
+
+    // Determine actor img/name: prefer attackTargets.attackerId, then speaker, then display
+    const attackerActorId = attackTargets?.attackerId;
+    const attackerActor = attackerActorId ? game.actors.get(attackerActorId) : null;
+    const resolvedActor = attackerActor || speakerActor;
+    const actorImg = resolvedActor?.img || display?.actorImg || 'icons/svg/mystery-man.svg';
+    const actorName = resolvedActor?.name || message.speaker?.alias || display?.actorName || '???';
+
+    // hasSpecialAction: true if attackTargets flag is present, or stored in display
+    const hasSpecialAction = !!attackTargets || (display?.hasSpecialAction ?? false);
+    // isJointRoll: joint when multiple targets in attackTargets, or stored in display
+    const isJointRoll = (attackTargets?.targets?.length > 1) || (display?.isJointRoll ?? false);
+    const rollLabel = display?.rollLabel
+      || message.flags?.cardigan?.rollLabel
+      || attackTargets?.skillName
+      || null;
+
+    // --- Resolve target data from attackTargets ---
+    const targets = attackTargets?.targets || [];
+    // Joint tooltip: all target names joined with <br> (HTML-encoded for attribute)
+    const targetNamesTooltip = targets.map(t => t.name).join('&lt;br&gt;');
+    // Single target: resolve img from actor registry
+    const hasSingleTarget = !isJointRoll && hasSpecialAction && targets.length === 1;
+    const singleTarget = hasSingleTarget ? targets[0] : null;
+    const singleTargetActor = singleTarget?.actorId ? game.actors.get(singleTarget.actorId) : null;
+    const targetImg = singleTargetActor?.img || 'icons/svg/mystery-man.svg';
+    const targetName = singleTarget?.name || '';
 
     // --- Build actor-header HTML ---
     let actorHeaderHtml;
     if (hasSpecialAction) {
-      const jointIconHtml = isJointRoll
-        ? `<img src='systems/cardigan/assets/images/decorative/icons/icon-joint-attack.svg' alt='Rolagem em Conjunto' class='joint-roll-header-icon' />`
-        : '';
+      let rightSlotHtml;
+      if (isJointRoll) {
+        rightSlotHtml = `<img src='systems/cardigan/assets/images/decorative/icons/icon-joint-attack.svg'
+          alt='Rolagem em Conjunto' class='joint-roll-header-icon'
+          data-tooltip="${targetNamesTooltip}" data-tooltip-class="cardigan-chat-tooltip" />`;
+      } else if (hasSingleTarget) {
+        rightSlotHtml = `<img src='${targetImg}' alt='${targetName}' class='target-avatar'
+          data-tooltip="${targetName}" data-tooltip-class="cardigan-chat-tooltip" />`;
+      } else {
+        rightSlotHtml = '';
+      }
       actorHeaderHtml = `
         <div class='actor-header special-action'>
-          <img src='${actorImg}' alt='${actorName}' class='actor-avatar' />
+          <img src='${actorImg}' alt='${actorName}' class='actor-avatar'
+            data-tooltip="${actorName}" data-tooltip-class="cardigan-chat-tooltip" />
           <img src='systems/cardigan/assets/images/decorative/icons/icon-attack.svg' alt='Ataque' class='attack-icon' />
-          ${jointIconHtml}
+          ${rightSlotHtml}
         </div>`;
     } else {
       actorHeaderHtml = `
@@ -92,10 +126,11 @@ export function registerWhisperPlaceholderHook() {
       messageHeader.appendChild(divider2);
     }
 
-    // Move message-metadata into content (same as _enrichChatCard)
+    // Move message-metadata into content AFTER all hooks have run,
+    // so it always ends up below the evasion/precision sections.
     const messageMetadata = messageHeader?.querySelector('.message-metadata');
     if (messageMetadata) {
-      messageContent.appendChild(messageMetadata);
+      queueMicrotask(() => messageContent.appendChild(messageMetadata));
     }
   });
 }

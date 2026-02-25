@@ -58,6 +58,13 @@
     }
   }
 
+  // Attack/joint rolls without evasion section: show margin-top
+  &.cardigan-roll-message:has(.actor-header.special-action):not(:has(.cardigan-evasion-section)) {
+    .message-metadata {
+      margin-top: 20px;
+    }
+  }
+
   .message-sender {
     font-family: 'Alatsi', sans-serif !important;
     color: #FFB75C;

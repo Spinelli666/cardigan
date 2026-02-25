@@ -398,6 +398,9 @@
 .cardigan-chat.cardigan-roll-message:has(.actor-header .actor-name) .message-metadata {
   margin-top: 20px;
 }
+.cardigan-chat.cardigan-roll-message:has(.actor-header.special-action):not(:has(.cardigan-evasion-section)) .message-metadata {
+  margin-top: 20px;
+}
 .cardigan-chat .message-sender {
   font-family: "Alatsi", sans-serif !important;
   color: #FFB75C;

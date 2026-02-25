@@ -164,6 +164,7 @@ export class ChatMessageHelper {
     // Store display metadata in flags so whisper placeholder can reconstruct the visual
     flags.cardigan = {
       ...(flags.cardigan || {}),
+      rollLabel: label,           // flat — always reliable for non-recipients
       whisperDisplay: {
         actorImg: actor.img,
         actorName: actor.name,
