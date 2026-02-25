@@ -197,6 +197,7 @@
       pointer-events: none;
       transform: rotate(138deg) scaleX(-1);
       top: -12px;
+      opacity: 0.6;
     }
 
     // Second divider (right side)
@@ -210,6 +211,7 @@
       pointer-events: none;
       transform: rotate(224deg);
       top: -12px;
+      opacity: 0.6;
     }
   }
 }

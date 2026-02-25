@@ -413,24 +413,57 @@
 }
 
 /* ---------------------------------- */
-/*  Context Menu (nav.expand-down)    */
+/*  Context Menu (nav.expand-down/up) */
 /* ---------------------------------- */
-nav.expand-down {
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
-  border: 1px solid #c0863b;
-  border-radius: 6px;
-  overflow: hidden;
+@keyframes cardigan-expand-down {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-nav.expand-down li.context-item {
+@keyframes cardigan-expand-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+#context-menu.expand-down,
+#context-menu.expand-up {
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%) !important;
+  border: 1px solid #c0863b !important;
+  border-radius: 6px !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+#context-menu.expand-down li.context-item,
+#context-menu.expand-up li.context-item {
   font-family: "Alatsi", sans-serif !important;
-  color: #FFB75C;
+  color: #FFB75C !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
-nav.expand-down li.context-item:hover {
-  background: rgba(192, 134, 59, 0.25);
-  color: #ffd08a;
+#context-menu.expand-down li.context-item:hover,
+#context-menu.expand-up li.context-item:hover {
+  background: rgba(192, 134, 59, 0.25) !important;
+  color: #ffd08a !important;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
   cursor: pointer;
+}
+
+#context-menu.expand-down {
+  animation: cardigan-expand-down 0.15s ease-out forwards;
+}
+
+#context-menu.expand-up {
+  animation: cardigan-expand-up 0.15s ease-out forwards;
 }
 
 /* Token HUD - Status Effects customization */
@@ -605,6 +638,7 @@ nav.expand-down li.context-item:hover {
   pointer-events: none;
   transform: rotate(138deg) scaleX(-1);
   top: -12px;
+  opacity: 0.6;
 }
 :is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-effect-message .message-header .message-divider-2 {
   position: absolute;
@@ -616,6 +650,7 @@ nav.expand-down li.context-item:hover {
   pointer-events: none;
   transform: rotate(224deg);
   top: -12px;
+  opacity: 0.6;
 }
 
 .cardigan-evasion-section,
@@ -791,6 +826,31 @@ nav.expand-down li.context-item:hover {
   background: linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
+.cardigan-roll-chat-message .roll-content .dice-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cardigan-roll-chat-message .roll-content .dice-wrapper .advantage-container,
+.cardigan-roll-chat-message .roll-content .dice-wrapper .disadvantage-container {
+  padding: 2px 3px;
+  border-radius: 8px;
+  background: linear-gradient(270deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.cardigan-roll-chat-message .roll-content .dice-wrapper .advantage-container {
+  position: absolute;
+  margin-top: 5px;
+}
+.cardigan-roll-chat-message .roll-content .dice-wrapper .disadvantage-container {
+  margin-top: -15px;
+}
+.cardigan-roll-chat-message .roll-content .dice-wrapper .advantage-icon,
+.cardigan-roll-chat-message .roll-content .dice-wrapper .disadvantage-icon {
+  width: 15px;
+  height: 15px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
 .cardigan-roll-chat-message .roll-content .dice-result-container {
   display: flex;
   flex-direction: column;
@@ -798,22 +858,14 @@ nav.expand-down li.context-item:hover {
   background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   border-radius: 8px;
   border: 2px solid #c0863b;
-  padding: 3px 22px;
+  padding: 16px 22px;
+}
+.cardigan-roll-chat-message .roll-content .dice-result-container.single-digit {
+  padding: 16px 27px;
+}
+.cardigan-roll-chat-message .roll-content .dice-result-container {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   margin-bottom: -10px;
-}
-.cardigan-roll-chat-message .roll-content .dice-result-container .advantage-container,
-.cardigan-roll-chat-message .roll-content .dice-result-container .disadvantage-container {
-  padding: 2px 3px;
-  border-radius: 8px;
-  background: linear-gradient(270deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-.cardigan-roll-chat-message .roll-content .dice-result-container .advantage-icon,
-.cardigan-roll-chat-message .roll-content .dice-result-container .disadvantage-icon {
-  width: 20px;
-  height: 20px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
 .cardigan-roll-chat-message .roll-content .dice-result-container .dice-result-number {
   font-family: "Alatsi", sans-serif;
@@ -910,6 +962,7 @@ nav.expand-down li.context-item:hover {
   pointer-events: none;
   transform: rotate(138deg) scaleX(-1);
   top: -12px;
+  opacity: 0.6;
 }
 :is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-roll-message .message-header .message-divider-2 {
   position: absolute;
@@ -921,6 +974,7 @@ nav.expand-down li.context-item:hover {
   pointer-events: none;
   transform: rotate(224deg);
   top: -12px;
+  opacity: 0.6;
 }
 
 .chat-border-decoration {

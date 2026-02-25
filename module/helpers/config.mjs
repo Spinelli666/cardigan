@@ -279,6 +279,15 @@ export function registerHandlebarsHelpers() {
    * @param {Object} options - Handlebars options object containing context
    * @returns {boolean} - True if player has enough of the ingredient
    */
+  /**
+   * Check if a roll result is a single digit (1-9)
+   * @param {number|string} value - The roll result value
+   * @returns {boolean} - True if the value has only one digit
+   */
+  Handlebars.registerHelper('isSingleDigit', function(value) {
+    return String(value).replace('-', '').length === 1;
+  });
+
   Handlebars.registerHelper('hasEnoughIngredient', function(ingredientName, requiredQuantity, options) {
     // Get the actor from the template context
     const actor = options.data.root.actor;
