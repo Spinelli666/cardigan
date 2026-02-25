@@ -74,24 +74,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: -10px;
     
     .roll-chat-icon {
-      background: url('/systems/cardigan/assets/images/decorative/back-icon-d20.webp') no-repeat center center;
-      background-size: contain;
-      display: flex;
       height: 60px;
       width: 285px;
-      justify-content: center;
-
-      .d20-icon {
-        margin-top: 9.5px;
-        margin-left: 1px;
-        height: 40px;
-        width: 40px;
-      }
+      object-fit: contain;
     }
     
     .roll-title {
+      margin-top: -13px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -311,7 +303,8 @@
 }
 // Whisper placeholder - "?" shown to non-recipients
 .cardigan-whisper-placeholder {
-  .roll-content {
+  // Fallback spacing when no actor-header (old messages without stored flags)
+  &:not(:has(.actor-header)) .roll-content {
     margin-top: 20px;
   }
 

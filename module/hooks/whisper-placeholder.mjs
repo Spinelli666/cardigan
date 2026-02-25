@@ -12,10 +12,53 @@ export function registerWhisperPlaceholderHook() {
     const messageContent = html.querySelector('.message-content');
     if (!messageContent) return;
 
-    // Replace content with styled placeholder
+    // --- Resolve actor display data ---
+    // message.speaker is always sent to all clients (even non-recipients)
+    const actorId = message.speaker?.actor;
+    const actor = actorId ? game.actors.get(actorId) : null;
+    const actorImg = actor?.img || 'icons/svg/mystery-man.svg';
+    const actorName = message.speaker?.alias || actor?.name || '???';
+
+    // Stored display flags (only present on messages created via ChatMessageHelper)
+    const display = message.flags?.cardigan?.whisperDisplay;
+    const hasSpecialAction = display?.hasSpecialAction ?? false;
+    const isJointRoll = display?.isJointRoll ?? false;
+    const rollLabel = display?.rollLabel || null;
+
+    // --- Build actor-header HTML ---
+    let actorHeaderHtml;
+    if (hasSpecialAction) {
+      const jointIconHtml = isJointRoll
+        ? `<img src='systems/cardigan/assets/images/decorative/icons/icon-joint-attack.svg' alt='Rolagem em Conjunto' class='joint-roll-header-icon' />`
+        : '';
+      actorHeaderHtml = `
+        <div class='actor-header special-action'>
+          <img src='${actorImg}' alt='${actorName}' class='actor-avatar' />
+          <img src='systems/cardigan/assets/images/decorative/icons/icon-attack.svg' alt='Ataque' class='attack-icon' />
+          ${jointIconHtml}
+        </div>`;
+    } else {
+      actorHeaderHtml = `
+        <div class='actor-header'>
+          <img src='${actorImg}' alt='${actorName}' class='actor-avatar' />
+          <h2 class='actor-name'>${actorName}</h2>
+        </div>`;
+    }
+
+    // --- Build roll-title HTML ---
+    const rollTitleHtml = `
+      <div class='roll-title'>
+        <p class='roll-subtitle'>TESTE DE</p>
+        <strong>${rollLabel ?? '???'}</strong>
+      </div>`;
+
+    // Replace content with styled placeholder keeping full visual structure
     messageContent.innerHTML = `
       <div class="cardigan-roll-chat-message cardigan-whisper-placeholder">
+        ${actorHeaderHtml}
         <div class="roll-content">
+          <img src='systems/cardigan/assets/images/decorative/back-icon-d20.webp' alt='Dado' class='roll-chat-icon' />
+          ${rollTitleHtml}
           <div class="dice-result-container">
             <div class="dice-result-number whisper-question-mark">?</div>
           </div>
@@ -56,3 +99,4 @@ export function registerWhisperPlaceholderHook() {
     }
   });
 }
+

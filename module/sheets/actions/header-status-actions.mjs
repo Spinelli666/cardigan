@@ -72,10 +72,14 @@ export class HeaderStatusActions {
 
         const { rollType, attackMode, manualModifier = 0, primaryHand, secondaryHand } = result;
 
-        // JOINT ROLL: Require multiple targets
+        // JOINT ROLL: Require multiple targets and hand selection
         if (attackMode === 'conjunto') {
           if (!game.user.targets || game.user.targets.size < 2) {
             ui.notifications.warn('Por favor, selecione dois ou mais alvos antes de fazer uma Rolagem em Conjunto.');
+            return;
+          }
+          if (!primaryHand && !secondaryHand) {
+            ui.notifications.warn('Por favor, selecione a Mão Primária ou a Mão Secundária para fazer uma Rolagem em Conjunto.');
             return;
           }
         }

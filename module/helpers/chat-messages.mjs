@@ -160,6 +160,18 @@ export class ChatMessageHelper {
     
     // Use provided rollMode or get from settings
     const effectiveRollMode = rollMode || game.settings.get('core', 'rollMode');
+
+    // Store display metadata in flags so whisper placeholder can reconstruct the visual
+    flags.cardigan = {
+      ...(flags.cardigan || {}),
+      whisperDisplay: {
+        actorImg: actor.img,
+        actorName: actor.name,
+        rollLabel: label,
+        hasSpecialAction: hasSpecialAction,
+        isJointRoll: isJointRoll
+      }
+    };
     
     // Create message data (no speaker to avoid duplication)
     const messageData = {

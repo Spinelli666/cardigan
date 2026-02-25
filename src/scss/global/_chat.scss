@@ -47,11 +47,12 @@
     .message-metadata {
       display: flex;
       justify-content: center;
+      margin-top: 0;
     }
   }
 
-  // margin-top only for whisper roll messages
-  &.whisper.cardigan-roll-message {
+  // Simple skill test rolls (no attack/joint): show margin-top
+  &.cardigan-roll-message:has(.actor-header .actor-name) {
     .message-metadata {
       margin-top: 20px;
     }
