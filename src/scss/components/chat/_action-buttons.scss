@@ -2,6 +2,17 @@
 // Chat Action Buttons (Rolar Evasão / Rolar Precisão)
 // ============================================================
 
+@keyframes pulse-action-icon {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+    filter: drop-shadow(0 0 2px rgba(255, 183, 92, 0.35)) drop-shadow(0 0 4px rgba(255, 140, 30, 0.2));
+  }
+  50% {
+    transform: scale(1.12) translateY(-3px);
+    filter: drop-shadow(0 0 5px rgba(255, 200, 100, 0.65)) drop-shadow(0 0 10px rgba(255, 140, 30, 0.4));
+  }
+}
+
 .cardigan-evasion-section,
 .cardigan-precision-section {
     position: relative;
@@ -26,12 +37,11 @@
     color: transparent;
     font-size: 0;
     padding: 0;
-    transition: opacity 0.15s ease, transform 0.1s ease;
+    transition: opacity 0.15s ease;
     border-radius: 4px;
 
     &:hover {
       opacity: 0.85;
-      transform: scale(1.02);
     }
 
     &:active {
@@ -50,6 +60,11 @@
       height: 52px;
       pointer-events: none;
       display: block;
+      transition: transform 0.15s ease;
+    }
+
+    &:hover .action-button-icon {
+      animation: pulse-action-icon 1.5s ease-in-out infinite;
     }
   }
 
@@ -62,6 +77,7 @@
     transform: scaleY(-1);
     position: relative;
     right: 12px;
+    opacity: 0.6;
 
     &--left {
       transform: scaleX(-1);

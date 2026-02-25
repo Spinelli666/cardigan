@@ -18,7 +18,24 @@
       flex-direction: row !important;
       align-items: center !important;
       justify-content: center !important;
-      gap: 3px; // Espaço entre as imagens (aumente ou diminua conforme necessário)
+      gap: 3px;
+
+      // Apenas na rolagem em conjunto
+      &:has(.joint-roll-header-icon) {
+        margin-right: 10px;
+      } // Espaço entre as imagens (aumente ou diminua conforme necessário)
+
+      .actor-avatar,
+      .target-avatar {
+        width: 75px;
+        height: 75px;
+      }
+
+      .attack-icon {
+        width: 35px;
+        height: 35px;
+        right: 0;
+      }
     }
 
     .actor-avatar {
@@ -45,7 +62,6 @@
       filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
       position: relative;
       top: -9px;
-      right: 7px;
     }
 
     // Joint roll icon in header (shown when joint roll is active)
@@ -59,7 +75,7 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       position: relative;
       top: -9px;
-      right: 3px;
+      left: 4px;
     }
 
     // Target avatar (shown when single target with hand selected)
@@ -67,6 +83,11 @@
       width: 90px;
       height: 90px;
     }
+  }
+
+  // Attack (normal) and Joint Roll
+  .actor-header.special-action + .roll-content {
+    margin-top: -25px;
   }
 
   // Roll Content
