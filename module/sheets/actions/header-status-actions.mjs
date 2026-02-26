@@ -84,16 +84,6 @@ export class HeaderStatusActions {
           }
         }
 
-        // ACCURACY OR PSIONICS WITH HAND SELECTION: Require target
-        if ((isAccuracy || isPsionics) && (primaryHand || secondaryHand)) {
-          // Check if at least one target is selected
-          if (!game.user.targets || game.user.targets.size === 0) {
-            const skillName = isAccuracy ? "Precisão" : "Psionismo";
-            ui.notifications.warn(`Por favor, selecione um alvo antes de fazer um teste de ${skillName} com mão especificada.`);
-            return;
-          }
-        }
-
         let rollFormula = dataset.roll;
         let rollDescription = "Rolagem Normal";
         
@@ -170,8 +160,9 @@ export class HeaderStatusActions {
         const flags = HeaderStatusActions.detectCriticalResults(roll, sheet.document, abilityKey);
         
         // ACCURACY WITH HAND: Full attack flow (same as skill attack)
+        const hasTarget = game.user.targets && game.user.targets.size > 0;
         let weaponSource = null;
-        if (isAccuracy && (primaryHand || secondaryHand)) {
+        if (isAccuracy && (primaryHand || secondaryHand) && hasTarget) {
           const actor = sheet.document;
           
           // Get all REAL weapons (not virtual unarmed attacks) that are equipped
@@ -273,8 +264,8 @@ export class HeaderStatusActions {
           modifiers: [],
           flags: flags,
           isJointRoll: attackMode === 'conjunto',
-          primaryHand: primaryHand,
-          secondaryHand: secondaryHand
+          primaryHand: primaryHand && hasTarget,
+          secondaryHand: secondaryHand && hasTarget
         });
         
         return roll;
