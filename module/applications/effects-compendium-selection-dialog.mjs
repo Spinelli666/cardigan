@@ -25,7 +25,7 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
     },
     position: {
       width: 940,
-      height: 575
+      height: 580
     },
     actions: {
       addEffects: this._onAddEffects,

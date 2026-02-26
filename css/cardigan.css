@@ -127,8 +127,9 @@
   background-repeat: no-repeat;
   background-position: center;
   pointer-events: none;
-  transform: rotate(138deg) scaleX(-1);
+  transform: rotate(0deg) scaleX(-1);
   z-index: 10;
+  opacity: 0.8;
 }
 .application.cardigan .window-header::after {
   content: "";
@@ -142,8 +143,13 @@
   background-repeat: no-repeat;
   background-position: center;
   pointer-events: none;
-  transform: rotate(224deg);
+  transform: rotate(0deg);
   z-index: 10;
+  opacity: 0.8;
+}
+
+.application.cardigan.minimized .window-header::before, .application.cardigan.minimized .window-header::after {
+  display: none;
 }
 
 .rollable:hover, .rollable:focus {
@@ -17559,7 +17565,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 /* ---------------------------------- */
 .cardigan.dialog.effects-selection {
   min-width: 940px;
-  max-height: 575px;
+  max-height: 580px;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -17570,6 +17576,17 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   border-bottom: initial !important;
   backdrop-filter: blur(4px);
   justify-content: center !important;
+  padding-top: 10px;
+}
+.cardigan.dialog.effects-selection .window-header::before {
+  transform: rotate(45deg) scaleX(-1) scaleY(-1);
+  bottom: -15px;
+  left: -80px;
+}
+.cardigan.dialog.effects-selection .window-header::after {
+  transform: rotate(-45deg) scaleY(-1);
+  bottom: -15px;
+  right: -80px;
 }
 .cardigan.dialog.effects-selection .window-header .window-title {
   padding: 2px 0 0 35px !important;
@@ -17580,11 +17597,16 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   margin: 0;
   letter-spacing: 1px;
   text-transform: uppercase;
-  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.15);
   background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+.cardigan.dialog.effects-selection .window-header .header-control,
+.cardigan.dialog.effects-selection .window-header button.header-control {
+  position: relative;
+  right: 10px;
 }
 .cardigan.dialog.effects-selection .window-header .header-control i.fa-xmark, .cardigan.dialog.effects-selection .window-header .header-control.fa-xmark,
 .cardigan.dialog.effects-selection .window-header button.header-control i.fa-xmark,
@@ -17602,14 +17624,14 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .cardigan.dialog.effects-selection .search-bar {
   position: relative;
-  padding: 2px 20px 8px 20px;
+  padding: 2px 125px 8px 125px;
   display: flex;
   align-items: center;
   gap: 10px;
   border-bottom: 2px solid #c0863b;
 }
 .cardigan.dialog.effects-selection .search-bar i.fa-search {
-  color: #43AAD9;
+  color: #FFB75C;
   font-size: 16px;
 }
 .cardigan.dialog.effects-selection .search-bar .effect-search-input {
