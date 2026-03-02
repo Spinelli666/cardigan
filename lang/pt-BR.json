@@ -1100,6 +1100,8 @@
       "Rest": "Descanso",
       "Health": "Vida",
       "HealthBonus": "Vida Temporária",
+      "Money": "Moedas",
+      "Negotiate": "Negociar",
       "Energy": "Energia",
       "EnergyBonus": "Energia Temporária",
       "ClickToLock": "Clique para fixar tooltip",

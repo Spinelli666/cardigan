@@ -1,5 +1,33 @@
 <section class='tab equipment {{tab.cssClass}}' data-group='primary' data-tab='equipment'>
   
+  {{! Money & Business Banner }}
+  <div class="money-business-banner">
+    <div class="money-inner">
+      <img src='systems/cardigan/assets/images/decorative/icons/icon-coins.svg' alt='Moedas' class='money-coin-icon' />
+      <div class="money-field-container">
+        <input
+          type='number'
+          name='system.money'
+          value='{{system.money}}'
+          data-dtype='Number'
+          min='0'
+          class='money-field'
+          data-tooltip='CARDIGAN.Tooltip.Money'
+          data-tooltip-class='cardigan-tooltip'
+          {{#unless @root.isGM}}disabled{{/unless}}
+        />
+      </div>
+    </div>
+    {{#unless (eq actor.type "npc")}}
+    <div class="negotiation-container">
+      <button type='button' class='negotiate-button' data-action='initiateTrade'
+        data-tooltip='CARDIGAN.Tooltip.Negotiate' data-tooltip-class='cardigan-tooltip'>
+        <img src='systems/cardigan/assets/images/decorative/icons/icon-negotiation.svg' alt='Negociar' class='negotiate-icon' />
+      </button>
+    </div>
+    {{/unless}}
+  </div>
+
   {{! Checkbox to control weapons table visibility }}
   <div class='form-group'>
     <label>
@@ -334,22 +362,7 @@
     {{/if}}
   </div>
 
-  {{! Money Field }}
-  <div class='money-container horizontal-field'>
-    <label class='status-label label-left'>Money:</label>
-    <div class='status-display'>
-      <input
-        type='number'
-        name='system.money'
-        value='{{system.money}}'
-        data-dtype='Number'
-        min='0'
-        class='money-field'
-        title='{{#if @root.isGM}}Quantidade de moedas (peso: leve){{else}}Somente o GM pode editar este campo{{/if}}'
-        {{#unless @root.isGM}}disabled{{/unless}}
-      />
-    </div>
-  </div>
+
 
   {{! Backpack Table - Always Visible }}
   <h3 class="items-section-header">
