@@ -21,13 +21,18 @@
       .effects-toggle-icon {
         width: 50px;
         height: 50px;
+        filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
+        transition: filter 0.15s ease, transform 0.15s ease;
         cursor: pointer;
-        transition: transform 0.2s ease;
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
         
-        &:hover {
-          transform: scale(1.1);
-        }
+      &:hover {
+        filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.7));
+        transform: scale(1.1);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
       }
     }
   }

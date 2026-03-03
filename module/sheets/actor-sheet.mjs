@@ -11,6 +11,8 @@ import { HeaderActions } from './actions/header-actions.mjs';
 import { HeaderStatusActions } from './actions/header-status-actions.mjs';
 import { HeaderListeners } from './listeners/header-listeners.mjs';
 import { ProficienciesActions } from './actions/proficiencies-actions.mjs';
+import { MoneyTradeActions } from './actions/money-trade-actions.mjs';
+import { InventoryActions } from './actions/inventory-actions.mjs';
 import CardiganTooltipManager from '../tooltips/tooltip-manager.mjs';
 
 /**
@@ -97,6 +99,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       openCharacterWizard: this._onOpenCharacterWizard,
       openLevelUpWizard: this._onOpenLevelUpWizard,
       toggleEffectsSection: this._toggleEffectsSection,
+      toggleBackpackContainer: this._toggleBackpackContainer,
       // Removemos as ações do modal para implementar via event listeners diretos
     },
     // Custom property that's merged into `this.options`
@@ -1285,6 +1288,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const checkbox = target.closest('.effects-toggle').querySelector('input[name="system.details.showEffectsTab"]');
     const currentValue = checkbox.checked;
     await this.actor.update({ 'system.details.showEffectsTab': !currentValue });
+  }
+
+  static async _toggleBackpackContainer(event, target) {
+    return InventoryActions.onToggleBackpackContainer(event, target, this);
   }
 
   // ========================================
@@ -8466,125 +8473,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Handle initiating trade with target actor
-   * @param {Event} event - The click event
-   * @param {HTMLElement} target - The clicked element
+   * Handle initiating trade - delegates to MoneyTradeActions
    */
   static async _onInitiateTrade(event, target) {
-    event.preventDefault();
-    const actor = this.actor;
-    
-    // Validate targeting: must have exactly 1 target
-    if (game.user.targets.size === 0) {
-      ui.notifications.error("Selecione um alvo antes de negociar!");
-      return;
-    }
-    
-    if (game.user.targets.size > 1) {
-      ui.notifications.warn("Você só pode negociar com um alvo por vez!");
-      return;
-    }
-    
-    // Get the single target
-    const targetToken = game.user.targets.first();
-    
-    if (!targetToken || !targetToken.actor) {
-      ui.notifications.error("Alvo inválido!");
-      return;
-    }
-    
-    const targetActor = targetToken.actor;
-    
-    // Prevent trading with self
-    if (targetActor.id === actor.id) {
-      ui.notifications.warn("Você não pode negociar consigo mesmo!");
-      return;
-    }
-    
-    // Generate unique trade ID
-    const tradeId = foundry.utils.randomID();
-    
-    // If GM, show trade mode selection dialog
-    if (game.user.isGM) {
-      const mode = await this._showTradeModeSelection();
-      
-      if (!mode) return; // User cancelled
-      
-      if (mode === 'merchant') {
-        // Initiate merchant trade
-        game.socket.emit('system.cardigan', {
-          action: 'merchantTradeRequest',
-          data: {
-            tradeId: tradeId,
-            merchantId: actor.id,
-            customerId: targetActor.id,
-            merchantOwnerId: game.user.id
-          }
-        });
-        
-        ui.notifications.info(`Solicitação de comércio enviada para ${targetActor.name}! Aguardando resposta...`);
-        return;
-      }
-      // else: fall through to normal trade
-    }
-    
-    // Normal trade (non-GM or GM selected normal mode)
-    game.socket.emit('system.cardigan', {
-      action: 'tradeRequest',
-      data: {
-        tradeId: tradeId,
-        initiatorId: actor.id,
-        targetId: targetActor.id
-      }
-    });
-    
-    ui.notifications.info(`Solicitação de negociação enviada para ${targetActor.name}! Aguardando resposta...`);
-  }
-
-  /**
-   * Show trade mode selection dialog (GM only)
-   * @returns {Promise<string|null>} Selected mode ('normal' or 'merchant') or null if cancelled
-   * @private
-   */
-  static async _showTradeModeSelection() {
-    // Render template
-    const content = await foundry.applications.handlebars.getTemplate(
-      'systems/cardigan/templates/dialogs/trade-mode-selection.hbs'
-    );
-    const html = await content({});
-    
-    return new Promise((resolve) => {
-      const dialog = new foundry.applications.api.DialogV2({
-        window: {
-          title: "Modo de Negociação",
-          icon: "fa-solid fa-handshake"
-        },
-        content: html,
-        buttons: [
-          {
-            action: "cancel",
-            label: "Cancelar",
-            icon: "fa-solid fa-times",
-            callback: () => resolve(null)
-          }
-        ],
-        position: { width: 450 }
-      });
-      
-      // Add click handlers to mode options
-      dialog.addEventListener('render', () => {
-        const options = dialog.element.querySelectorAll('.mode-option');
-        options.forEach(option => {
-          option.addEventListener('click', () => {
-            const mode = option.dataset.mode;
-            dialog.close();
-            resolve(mode);
-          });
-        });
-      });
-      
-      dialog.render(true);
-    });
+    return MoneyTradeActions.onInitiateTrade(event, target, this);
   }
 
   /**

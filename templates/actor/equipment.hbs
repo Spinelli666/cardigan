@@ -28,6 +28,27 @@
     {{/unless}}
   </div>
 
+  {{! Inventory Banner }}
+  <div class="inventory-banner">
+    <div class="backpack-toggle">
+      <input
+        type="checkbox"
+        name="system.details.showBackpackContainer"
+        {{#if system.details.showBackpackContainer}}checked{{/if}}
+        data-dtype="Boolean"
+        style="display: none;"
+      />
+      <img
+        src="systems/cardigan/assets/images/decorative/backpack.svg"
+        alt="Toggle Backpack"
+        class="backpack-toggle-icon"
+        data-action="toggleBackpackContainer"
+        data-tooltip='CARDIGAN.Tooltip.Backpack'
+        data-tooltip-class='cardigan-tooltip'
+      />
+    </div>
+  </div>
+
   {{! Checkbox to control weapons table visibility }}
   <div class='form-group'>
     <label>
@@ -224,10 +245,6 @@
   <div class="section-divider"></div>
 
   {{! Armor Table - Equipped Armors }}
-  <h3 class="items-section-header">
-    <i class="fas fa-shield"></i>
-    {{localize "CARDIGAN.ArmorTable"}}
-  </h3>
   <ol class='items-list'>
     <li class='item flexrow items-header'>
       <div class='item-name'>{{localize 'Name'}}</div>
@@ -364,12 +381,7 @@
 
 
 
-  {{! Backpack Table - Always Visible }}
-  <h3 class="items-section-header">
-    <i class="fas fa-backpack"></i>
-    {{localize "CARDIGAN.BackpackTable"}}
-  </h3>
-  
+  {{#if system.details.showBackpackContainer}}
   <div class="backpack-container">
     {{! Profession Filter Sidebar }}
     <div class="profession-filters">
@@ -537,5 +549,6 @@
     {{/each}}
     </ol>
   </div>
+  {{/if}}
 </section>
 

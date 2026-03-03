@@ -618,7 +618,6 @@
     "NoEffectsAdded": "No effects added yet. Click + to add an effect.",
     "NoEffectsSelected": "No effects selected. Click Configure to select effects.",
     "ShowBackpack": "Show Backpack",
-    "BackpackTable": "Backpack Table",
     "Backpack": "Backpack",
     "BackpackCapacity": "Backpack Capacity",
     "BackpackFull": "Backpack is full! Cannot add more items.",
@@ -738,7 +737,6 @@
       "Pernas": "Legs",
       "Pes": "Feet"
     },
-    "ArmorTable": "Equipped Armor",
     "ArmorProtection": "Protection",
     "ArmorTypeLabel": "Armor Type",
     "ArmorBasicInfo": "Basic Information",
@@ -1102,6 +1100,7 @@
       "HealthBonus": "Vida Temporária",
       "Money": "Moedas",
       "Negotiate": "Negociar",
+      "Backpack": "Mochila",
       "Energy": "Energia",
       "EnergyBonus": "Energia Temporária",
       "ClickToLock": "Clique para fixar tooltip",

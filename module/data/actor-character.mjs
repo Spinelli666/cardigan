@@ -83,6 +83,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       additionalNotes: new fields.StringField({ initial: "" }),
       showAdditionalNotes: new fields.BooleanField({ initial: true }),
       showEffectsTab: new fields.BooleanField({ initial: true }),
+      showBackpackContainer: new fields.BooleanField({ initial: false }),
       showWeaponsTable: new fields.BooleanField({ initial: true }),
       showCulinaryTable: new fields.BooleanField({ initial: false }),
       showTailoringTable: new fields.BooleanField({ initial: false }),

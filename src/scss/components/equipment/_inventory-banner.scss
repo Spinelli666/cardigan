@@ -1,0 +1,36 @@
+.inventory-banner {
+  width: 100%;
+  min-height: 50px;
+  background: url('/systems/cardigan/assets/images/decorative/back-inventory.webp') no-repeat center top;
+  background-size: 90%;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .backpack-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    top: -14px;
+
+    .backpack-toggle-icon {
+      width: 60px;
+      height: 60px;
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
+      transition: filter 0.15s ease, transform 0.15s ease;
+      cursor: pointer;
+
+      &:hover {
+        filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.7));
+        transform: scale(1.1);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+}
