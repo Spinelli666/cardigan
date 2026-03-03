@@ -5,6 +5,7 @@
   background-size: 90%;
   margin-bottom: 12px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
@@ -31,6 +32,25 @@
       &:active {
         transform: scale(0.95);
       }
+    }
+  }
+
+  .status-display {
+    position: relative;
+    top: -20px;
+  }
+
+  .backpack-warning {
+    font-size: 11px;
+    color: #e74c3c;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    position: relative;
+    top: -20px;
+
+    i {
+      font-size: 0.7rem;
     }
   }
 }

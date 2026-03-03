@@ -2472,6 +2472,7 @@
   background-size: 90%;
   margin-bottom: 12px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -2496,6 +2497,22 @@
 }
 .cardigan .tab.equipment .inventory-banner .backpack-toggle .backpack-toggle-icon:active {
   transform: scale(0.95);
+}
+.cardigan .tab.equipment .inventory-banner .status-display {
+  position: relative;
+  top: -20px;
+}
+.cardigan .tab.equipment .inventory-banner .backpack-warning {
+  font-size: 11px;
+  color: #e74c3c;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  position: relative;
+  top: -20px;
+}
+.cardigan .tab.equipment .inventory-banner .backpack-warning i {
+  font-size: 0.7rem;
 }
 .cardigan .tab.equipment .item-formula {
   text-align: center;
@@ -2548,16 +2565,10 @@
   color: #c9c7b8;
   font-weight: 600;
 }
-.cardigan .tab.equipment .backpack-full {
-  border: 2px solid #ff6b6b !important;
-  background: rgba(255, 107, 107, 0.1) !important;
-}
 .cardigan .tab.equipment .backpack-full-text {
-  color: #ff6b6b !important;
-  font-weight: 600;
+  color: red !important;
 }
 .cardigan .tab.equipment .backpack-warning {
-  margin-top: 8px;
   padding: 6px 12px;
   background: rgba(255, 107, 107, 0.2);
   border: 1px solid #ff6b6b;
@@ -5562,50 +5573,48 @@
 .cardigan {
   /* Mochila/Backpack Container Styles */
 }
-.cardigan .mochila-container {
-  margin-bottom: 10px;
-}
-.cardigan .mochila-container .status-label {
-  font-weight: bold;
-  font-size: 14px;
-  color: #fff;
-  margin-bottom: 4px;
-  display: block;
-}
-.cardigan .mochila-container .status-display {
+.cardigan .inventory-banner .status-display {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 2px;
-  background: transparent;
+  background: url(/systems/cardigan/assets/images/decorative/back-space.webp) no-repeat center center;
+  background-size: 75%;
+  border: none;
   width: auto;
-  min-width: 0;
-  max-width: 220px;
+  min-width: 80px;
   justify-content: center;
 }
-.cardigan .mochila-container .status-current,
-.cardigan .mochila-container .status-next {
+.cardigan .inventory-banner .status-current {
   border: none;
   background: transparent;
   text-align: center;
-  font-size: 14px;
+  font-size: 0.6rem;
   font-weight: bold;
-  padding: 4px 0;
-  width: 38px !important;
-  min-width: 38px !important;
-  max-width: 38px !important;
+  color: white;
   outline: none;
   box-sizing: border-box;
   flex: 0 0 38px;
+  position: relative;
+  left: 15px;
+  top: -0.5px;
 }
-.cardigan .mochila-container .status-separator {
-  font-size: 14px;
+.cardigan .inventory-banner .status-next {
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 0.6rem;
   font-weight: bold;
-  color: #666;
-  margin: 0 2px;
-  user-select: none;
+  color: white;
+  outline: none;
+  box-sizing: border-box;
+  flex: 0 0 38px;
+  position: relative;
+  right: 15px;
+  top: -0.5px;
+}
+.cardigan .inventory-banner .status-separator-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 .cardigan {
   /* Money Container Styles */

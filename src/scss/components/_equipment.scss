@@ -116,18 +116,12 @@
   }
 
   // Backpack full warning styles
-  .backpack-full {
-    border: 2px solid #ff6b6b !important;
-    background: rgba(255, 107, 107, 0.1) !important;
-  }
 
   .backpack-full-text {
-    color: #ff6b6b !important;
-    font-weight: 600;
+    color: red !important;
   }
 
   .backpack-warning {
-    margin-top: 8px;
     padding: 6px 12px;
     background: rgba(255, 107, 107, 0.2);
     border: 1px solid #ff6b6b;
