@@ -15,18 +15,18 @@
     justify-content: center;
     cursor: pointer;
     position: relative;
-    top: -14px;
+    top: -16px;
 
     .backpack-toggle-icon {
-      width: 60px;
-      height: 60px;
+      width: 65px;
+      height: 65px;
       filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
       transition: filter 0.15s ease, transform 0.15s ease;
       cursor: pointer;
 
       &:hover {
         filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.7));
-        transform: scale(1.1);
+        transform: scale(1.05);
       }
 
       &:active {
@@ -37,7 +37,7 @@
 
   .status-display {
     position: relative;
-    top: -20px;
+    top: -22px;
   }
 
   .backpack-warning {

@@ -2482,25 +2482,25 @@
   justify-content: center;
   cursor: pointer;
   position: relative;
-  top: -14px;
+  top: -16px;
 }
 .cardigan .tab.equipment .inventory-banner .backpack-toggle .backpack-toggle-icon {
-  width: 60px;
-  height: 60px;
+  width: 65px;
+  height: 65px;
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
   transition: filter 0.15s ease, transform 0.15s ease;
   cursor: pointer;
 }
 .cardigan .tab.equipment .inventory-banner .backpack-toggle .backpack-toggle-icon:hover {
   filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.7));
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 .cardigan .tab.equipment .inventory-banner .backpack-toggle .backpack-toggle-icon:active {
   transform: scale(0.95);
 }
 .cardigan .tab.equipment .inventory-banner .status-display {
   position: relative;
-  top: -20px;
+  top: -22px;
 }
 .cardigan .tab.equipment .inventory-banner .backpack-warning {
   font-size: 11px;
