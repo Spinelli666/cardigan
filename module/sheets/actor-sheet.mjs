@@ -800,9 +800,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       'leve': 0
     };
 
-    // Calculate money weight separately (30 coins = 1 space)
+    // Calculate money weight separately (100 coins = 1 space)
     const moneyAmount = this.actor?.system?.money || 0;
-    const moneySpaces = Math.floor(moneyAmount / 30);
+    const moneySpaces = Math.floor(moneyAmount / 100);
 
     // First pass: calculate individual item spaces and count weight groups
     backpackItems.forEach(item => {
@@ -820,7 +820,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Apply special rules for weight groups
     totalSpaces += this._calculateItemSpaces('leve', weightGroups['leve']);
     
-    // Add money spaces (30 coins = 1 space)
+    // Add money spaces (100 coins = 1 space)
     totalSpaces += moneySpaces;
 
     return totalSpaces;

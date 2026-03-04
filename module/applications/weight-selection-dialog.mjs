@@ -194,9 +194,9 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
     let totalSpaces = 0;
     const weightGroups = { 'leve': 0 };
 
-    // Calculate money weight separately (30 coins = 1 space)
+    // Calculate money weight separately (100 coins = 1 space)
     const moneyAmount = this.actor?.system?.money || 0;
-    const moneySpaces = Math.floor(moneyAmount / 30);
+    const moneySpaces = Math.floor(moneyAmount / 100);
 
     // Group items by weight for special rules
     backpackItems.forEach(item => {
@@ -213,7 +213,7 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
     // Apply special rules for weight groups
     totalSpaces += this._calculateItemSpaces('leve', weightGroups['leve']);
     
-    // Add money spaces (30 coins = 1 space)
+    // Add money spaces (100 coins = 1 space)
     totalSpaces += moneySpaces;
 
     return totalSpaces;

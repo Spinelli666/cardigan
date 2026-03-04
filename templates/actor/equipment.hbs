@@ -47,7 +47,9 @@
         data-tooltip-class='cardigan-tooltip'
       />
     </div>
-    <div class='status-display {{#if (gte backpackSpacesOccupied system.backpack.max)}}backpack-full{{/if}}'>
+    <div class='status-display {{#if (gte backpackSpacesOccupied system.backpack.max)}}backpack-full{{/if}}'
+      data-tooltip='CARDIGAN.Tooltip.Weight'
+      data-tooltip-class='cardigan-tooltip'>
       <input
         type='number'
         name='system.backpack.current'
