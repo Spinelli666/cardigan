@@ -758,29 +758,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   _calculateItemSpaces(weight, quantity) {
-    if (!weight || quantity <= 0) return 0;
-
-    switch (weight) {
-      case 'leve':
-        // 0 spaces, but +1 space per 10 items
-        return Math.floor(quantity / 10);
-      
-      case 'medio':
-        // 1 space each
-        return quantity;
-      
-      case 'pesado':
-        // 2 spaces each
-        return quantity * 2;
-      
-      case 'muito-pesado':
-        // 4 spaces each
-        return quantity * 4;
-      
-      default:
-        console.warn(`[CARDIGAN] Unknown weight category: ${weight}`);
-        return 0;
-    }
+    return InventoryActions.calculateItemSpaces(weight, quantity);
   }
 
   /**
@@ -791,39 +769,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   _calculateBackpackSpaces(backpackItems) {
-    if (!backpackItems || !Array.isArray(backpackItems)) return 0;
-
-    let totalSpaces = 0;
-
-    // Group items by weight for special rules
-    const weightGroups = {
-      'leve': 0
-    };
-
-    // Calculate money weight separately (100 coins = 1 space)
-    const moneyAmount = this.actor?.system?.money || 0;
-    const moneySpaces = Math.floor(moneyAmount / 100);
-
-    // First pass: calculate individual item spaces and count weight groups
-    backpackItems.forEach(item => {
-      const weight = item.system?.weight;
-      const quantity = item.system?.quantity || 1;
-
-      if (weight === 'leve') {
-        weightGroups['leve'] += quantity;
-      } else {
-        // For other weights, calculate normally
-        totalSpaces += this._calculateItemSpaces(weight, quantity);
-      }
-    });
-
-    // Apply special rules for weight groups
-    totalSpaces += this._calculateItemSpaces('leve', weightGroups['leve']);
-    
-    // Add money spaces (100 coins = 1 space)
-    totalSpaces += moneySpaces;
-
-    return totalSpaces;
+    return InventoryActions.calculateBackpackSpaces(backpackItems, this.actor?.system?.money || 0);
   }
 
   /**
@@ -834,11 +780,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   _hasBackpackSpace(weight, quantity) {
-    const currentSpaces = this.context?.backpackSpacesOccupied || 0;
-    const maxSpaces = this.actor.system.backpack.max;
-    const requiredSpaces = this._calculateItemSpaces(weight, quantity);
-    
-    return (currentSpaces + requiredSpaces) <= maxSpaces;
+    return InventoryActions.hasBackpackSpace(this.actor, this.context?.backpackSpacesOccupied || 0, weight, quantity);
   }
 
   /**
@@ -849,11 +791,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   _getItemRequiredSpaces(item) {
     if (!item || !item.system) return 0;
-    
-    const weight = item.system.weight;
-    const quantity = item.system.quantity || 1;
-    
-    return this._calculateItemSpaces(weight, quantity);
+    return InventoryActions.calculateItemSpaces(item.system.weight, item.system.quantity || 1);
   }
 
   /**
@@ -863,11 +801,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   _canUnequipItem(item) {
-    const requiredSpaces = this._getItemRequiredSpaces(item);
-    const currentSpaces = this.context?.backpackSpacesOccupied || 0;
-    const maxSpaces = this.actor.system.backpack.max;
-    
-    return (currentSpaces + requiredSpaces) <= maxSpaces;
+    return InventoryActions.canUnequipItem(this.actor, item);
   }
 
   /**************
@@ -3631,26 +3565,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }
 
     // Check if there's enough space in backpack
-    const requiredSpaces = this._calculateItemSpaces(item.system.weight, item.system.quantity || 1);
-    
-    // Calculate current backpack spaces
-    const backpackItems = this.document.items.filter(i => {
-      // Items that go to backpack table: unequipped items or specific types
-      if (i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel' || i.type === 'item-ingredient') {
-        return true;
-      }
-      // Unequipped weapons and armors
-      if (i.type === 'arma' && !i.system.equipped) return true;
-      if (i.type === 'armadura' && !i.system.equipped) return true;
-      return false;
-    });
-    
-    const currentSpaces = this._calculateBackpackSpaces(backpackItems);
-    const maxSpaces = this.document.system.backpack.max;
-    
-    console.log(`[UNEQUIP WEAPON CHECK] Current: ${currentSpaces}, Required: ${requiredSpaces}, Max: ${maxSpaces}`);
-    
-    if ((currentSpaces + requiredSpaces) > maxSpaces) {
+    if (!InventoryActions.canUnequipItem(this.document, item)) {
+      const requiredSpaces = InventoryActions.calculateItemSpaces(item.system.weight, item.system.quantity || 1);
+      console.log(`[UNEQUIP WEAPON CHECK] canUnequipItem=false, required=${requiredSpaces}`);
       ui.notifications.warn(`Não é possível desequipar ${item.name}. Mochila cheia! Precisa de ${requiredSpaces} espaço(s) livre(s).`);
       return;
     }
@@ -3742,26 +3659,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }
 
     // Check if there's enough space in backpack
-    const requiredSpaces = this._calculateItemSpaces(item.system.weight, item.system.quantity || 1);
-    
-    // Calculate current backpack spaces
-    const backpackItems = this.document.items.filter(i => {
-      // Items that go to backpack table: unequipped items or specific types
-      if (i.type === 'item-comum' || i.type === 'item-municao' || i.type === 'item-consumivel' || i.type === 'item-ingredient') {
-        return true;
-      }
-      // Unequipped weapons and armors
-      if (i.type === 'arma' && !i.system.equipped) return true;
-      if (i.type === 'armadura' && !i.system.equipped) return true;
-      return false;
-    });
-    
-    const currentSpaces = this._calculateBackpackSpaces(backpackItems);
-    const maxSpaces = this.document.system.backpack.max;
-    
-    console.log(`[UNEQUIP ARMOR CHECK] Current: ${currentSpaces}, Required: ${requiredSpaces}, Max: ${maxSpaces}`);
-    
-    if ((currentSpaces + requiredSpaces) > maxSpaces) {
+    if (!InventoryActions.canUnequipItem(this.document, item)) {
+      const requiredSpaces = InventoryActions.calculateItemSpaces(item.system.weight, item.system.quantity || 1);
+      console.log(`[UNEQUIP ARMOR CHECK] canUnequipItem=false, required=${requiredSpaces}`);
       ui.notifications.warn(`Não é possível desequipar ${item.name}. Mochila cheia! Precisa de ${requiredSpaces} espaço(s) livre(s).`);
       return;
     }

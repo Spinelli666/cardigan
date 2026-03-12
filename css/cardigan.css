@@ -2459,6 +2459,10 @@
 .cardigan .tab.equipment .money-business-banner .negotiation-container .negotiate-button:active {
   filter: brightness(1.2) drop-shadow(0 0 8px rgba(255, 183, 92, 0.8));
 }
+.cardigan .tab.equipment .money-business-banner .negotiation-container .negotiate-button:focus {
+  outline: none;
+  box-shadow: none;
+}
 .cardigan .tab.equipment .money-business-banner .negotiation-container .negotiate-button .negotiate-icon {
   position: relative;
   left: 3px;
