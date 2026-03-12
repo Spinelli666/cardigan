@@ -1,0 +1,414 @@
+// ===========================================
+// Backpack Table & Inventory Styles
+// ===========================================
+
+// -----------------------------------------
+// Item List Column Styles (inside .tab.equipment)
+// -----------------------------------------
+.tab.equipment {
+
+  // Style for quantity column in backpack table
+  .item-quantity {
+    text-align: center;
+    min-width: 60px;
+    color: #c9c7b8;
+  }
+
+  // Style for weight column in backpack table
+  .item-weight {
+    text-align: center;
+    min-width: 60px;
+    color: #c9c7b8;
+    font-weight: 600;
+  }
+
+  // Backpack full warning styles
+  .backpack-full-text {
+    color: red !important;
+  }
+
+  .backpack-warning {
+    padding: 6px 12px;
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid #ff6b6b;
+    border-radius: 4px;
+    color: #ff6b6b;
+    font-size: 12px;
+    text-align: center;
+    
+    .fas {
+      margin-right: 6px;
+    }
+  }
+  
+  // Style for reload button column
+  .item-reload {
+    text-align: center;
+    min-width: 40px;
+    
+    .reload-ammunition {
+      display: inline-block;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      
+      &:hover {
+        background: rgba(76, 175, 80, 0.2);
+        transform: scale(1.1);
+      }
+      
+      &:active {
+        transform: scale(0.95);
+      }
+      
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  // Style for attack button column
+  .item-attack {
+    text-align: center;
+    min-width: 40px;
+    
+    .attack-weapon {
+      display: inline-block;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      
+      &:hover:not(.disabled) {
+        background: rgba(211, 47, 47, 0.2);
+        transform: scale(1.1);
+      }
+      
+      &:active:not(.disabled) {
+        transform: scale(0.95);
+      }
+      
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed !important;
+        pointer-events: none;
+        
+        &:hover {
+          transform: none;
+          background: none;
+        }
+      }
+      
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  // Style for durability display
+  .item-durability {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 60px;
+    
+    span {
+      padding: 2px 6px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    input[type="number"] {
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 2px 4px;
+      font-size: 12px;
+      font-weight: bold;
+      background: transparent;
+      color: #fff;
+      text-align: center;
+      width: 50px;
+      
+      &:focus {
+        outline: none;
+        border-color: #888;
+        box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
+      }
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+  
+  // Style for ammunition display
+  .item-ammunition {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 60px;
+    
+    span {
+      padding: 2px 6px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    input[type="number"] {
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 2px 4px;
+      font-size: 12px;
+      font-weight: bold;
+      background: transparent;
+      color: #fff;
+      
+      &:focus {
+        outline: none;
+        border-color: #888;
+        box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
+      }
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+  
+  // Style for unequip weapon column
+  .item-unequip {
+    text-align: center;
+    min-width: 50px;
+    
+    .unequip-weapon {
+      display: inline-block;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      
+      &:hover {
+        background: rgba(255, 87, 34, 0.2);
+        transform: scale(1.1);
+      }
+      
+      &:active {
+        transform: scale(0.95);
+      }
+      
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  // Style for equip weapon column in backpack
+  .item-equip {
+    text-align: center;
+    min-width: 50px;
+    
+    .equip-weapon {
+      display: inline-block;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      
+      &:hover {
+        background: rgba(76, 175, 80, 0.2);
+        transform: scale(1.1);
+      }
+      
+      &:active {
+        transform: scale(0.95);
+      }
+      
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  // Style for broken weapons (durability = 0)
+  .item-name-broken {
+    color: #ff4444 !important;
+    
+    div {
+      color: #ff4444 !important;
+    }
+  }
+  
+  // Style for equipped status icons
+  .fa-check-circle {
+    color: #4caf50 !important;
+  }
+  
+  .fa-circle {
+    color: #666 !important;
+    opacity: 0.5;
+  }
+  
+  // Style for damage/prop display
+  .item-prop {
+    font-size: 12px;
+    text-transform: capitalize;
+  }
+}
+
+// -----------------------------------------
+// Backpack Container with Profession Filters
+// -----------------------------------------
+.backpack-container {
+  display: flex;
+  flex-direction: row-reverse; // Filtros à direita
+  gap: 1rem;
+  align-items: flex-start;
+  width: 470px;
+}
+
+// -----------------------------------------
+// Profession Filters Sidebar
+// -----------------------------------------
+.profession-filters {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 50px;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  .filter-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      z-index: 1;
+
+      &:checked + .filter-emoji {
+        background: rgba(76, 175, 80, 0.3);
+        border-color: #4caf50;
+        box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+        transform: scale(1.1);
+      }
+
+      &:hover + .filter-emoji {
+        background: rgba(255, 255, 255, 0.1);
+        transform: scale(1.05);
+      }
+    }
+
+    .filter-emoji {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+      pointer-events: none; // Let radio button handle clicks
+    }
+  }
+}
+
+// -----------------------------------------
+// Backpack Table
+// -----------------------------------------
+
+// Header oculto - seletor com máxima especificidade para sobrepor regras do Foundry
+ol.items-list.backpack-table > li.item.items-header {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.backpack-table {
+  flex: 1;
+  min-width: 0; // Allow table to shrink
+  padding: 8px;
+  border: 1px solid #FFB75C;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  overflow: visible;
+
+  .item-weight {
+    display: none;
+  }
+
+  // Cada linha: sem wrap, tudo numa linha só
+  li.item {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center;
+    padding: 2px 5px;
+    border: 1px solid #FFB75C;
+    border-radius: 15px;
+    border-bottom: 1px solid #FFB75C;
+    background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+
+    &:last-child {
+      border-bottom: 1px solid #FFB75C;
+    }
+  }
+
+  // Imagem do item: fora do item-name, tamanho fixo
+  .item-image {
+    margin-left: 4px;
+    margin-right: 4px;
+    display: flex;
+    flex: 0 0 24px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  // Nome: cresce para preencher todo o espaço livre, trunca se necessário
+  .item-name {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    min-width: 0;
+    text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  // Colunas após o nome: tamanho mínimo fixo, vão para o canto direito
+  .item-quantity,
+  .item-equip,
+  .item-controls {
+    flex: 0 0 auto;
+    margin-left: auto;
+
+    & ~ & {
+      margin-left: 0;
+    }
+  }
+}

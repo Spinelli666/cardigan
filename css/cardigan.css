@@ -2601,200 +2601,6 @@
   border-color: #888;
   box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
 }
-.cardigan .tab.equipment .item-quantity {
-  text-align: center;
-  min-width: 60px;
-  color: #c9c7b8;
-}
-.cardigan .tab.equipment .item-weight {
-  text-align: center;
-  min-width: 60px;
-  color: #c9c7b8;
-  font-weight: 600;
-}
-.cardigan .tab.equipment .backpack-full-text {
-  color: red !important;
-}
-.cardigan .tab.equipment .backpack-warning {
-  padding: 6px 12px;
-  background: rgba(255, 107, 107, 0.2);
-  border: 1px solid #ff6b6b;
-  border-radius: 4px;
-  color: #ff6b6b;
-  font-size: 12px;
-  text-align: center;
-}
-.cardigan .tab.equipment .backpack-warning .fas {
-  margin-right: 6px;
-}
-.cardigan .tab.equipment .item-reload {
-  text-align: center;
-  min-width: 40px;
-}
-.cardigan .tab.equipment .item-reload .reload-ammunition {
-  display: inline-block;
-  padding: 4px 6px;
-  border-radius: 3px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-.cardigan .tab.equipment .item-reload .reload-ammunition:hover {
-  background: rgba(76, 175, 80, 0.2);
-  transform: scale(1.1);
-}
-.cardigan .tab.equipment .item-reload .reload-ammunition:active {
-  transform: scale(0.95);
-}
-.cardigan .tab.equipment .item-reload .reload-ammunition i {
-  font-size: 14px;
-}
-.cardigan .tab.equipment .item-attack {
-  text-align: center;
-  min-width: 40px;
-}
-.cardigan .tab.equipment .item-attack .attack-weapon {
-  display: inline-block;
-  padding: 4px 6px;
-  border-radius: 3px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-.cardigan .tab.equipment .item-attack .attack-weapon:hover:not(.disabled) {
-  background: rgba(211, 47, 47, 0.2);
-  transform: scale(1.1);
-}
-.cardigan .tab.equipment .item-attack .attack-weapon:active:not(.disabled) {
-  transform: scale(0.95);
-}
-.cardigan .tab.equipment .item-attack .attack-weapon.disabled {
-  opacity: 0.5;
-  cursor: not-allowed !important;
-  pointer-events: none;
-}
-.cardigan .tab.equipment .item-attack .attack-weapon.disabled:hover {
-  transform: none;
-  background: none;
-}
-.cardigan .tab.equipment .item-attack .attack-weapon i {
-  font-size: 14px;
-}
-.cardigan .tab.equipment .item-durability {
-  text-align: center;
-  font-size: 12px;
-  font-weight: bold;
-  min-width: 60px;
-}
-.cardigan .tab.equipment .item-durability span {
-  padding: 2px 6px;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, 0.1);
-}
-.cardigan .tab.equipment .item-durability input[type=number] {
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 2px 4px;
-  font-size: 12px;
-  font-weight: bold;
-  background: transparent;
-  color: #fff;
-  text-align: center;
-  width: 50px;
-}
-.cardigan .tab.equipment .item-durability input[type=number]:focus {
-  outline: none;
-  border-color: #888;
-  box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
-}
-.cardigan .tab.equipment .item-durability input[type=number]:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-.cardigan .tab.equipment .item-ammunition {
-  text-align: center;
-  font-size: 12px;
-  font-weight: bold;
-  min-width: 60px;
-}
-.cardigan .tab.equipment .item-ammunition span {
-  padding: 2px 6px;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, 0.1);
-}
-.cardigan .tab.equipment .item-ammunition input[type=number] {
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 2px 4px;
-  font-size: 12px;
-  font-weight: bold;
-  background: transparent;
-  color: #fff;
-}
-.cardigan .tab.equipment .item-ammunition input[type=number]:focus {
-  outline: none;
-  border-color: #888;
-  box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
-}
-.cardigan .tab.equipment .item-ammunition input[type=number]:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-.cardigan .tab.equipment .item-unequip {
-  text-align: center;
-  min-width: 50px;
-}
-.cardigan .tab.equipment .item-unequip .unequip-weapon {
-  display: inline-block;
-  padding: 4px 6px;
-  border-radius: 3px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-.cardigan .tab.equipment .item-unequip .unequip-weapon:hover {
-  background: rgba(255, 87, 34, 0.2);
-  transform: scale(1.1);
-}
-.cardigan .tab.equipment .item-unequip .unequip-weapon:active {
-  transform: scale(0.95);
-}
-.cardigan .tab.equipment .item-unequip .unequip-weapon i {
-  font-size: 14px;
-}
-.cardigan .tab.equipment .item-equip {
-  text-align: center;
-  min-width: 50px;
-}
-.cardigan .tab.equipment .item-equip .equip-weapon {
-  display: inline-block;
-  padding: 4px 6px;
-  border-radius: 3px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-.cardigan .tab.equipment .item-equip .equip-weapon:hover {
-  background: rgba(76, 175, 80, 0.2);
-  transform: scale(1.1);
-}
-.cardigan .tab.equipment .item-equip .equip-weapon:active {
-  transform: scale(0.95);
-}
-.cardigan .tab.equipment .item-equip .equip-weapon i {
-  font-size: 14px;
-}
-.cardigan .tab.equipment .item-name-broken {
-  color: #ff4444 !important;
-}
-.cardigan .tab.equipment .item-name-broken div {
-  color: #ff4444 !important;
-}
-.cardigan .tab.equipment .fa-check-circle {
-  color: #4caf50 !important;
-}
-.cardigan .tab.equipment .fa-circle {
-  color: #666 !important;
-  opacity: 0.5;
-}
-.cardigan .tab.equipment .item-prop {
-  font-size: 12px;
-  text-transform: capitalize;
-}
 .cardigan .tab.equipment .weapon-name-hover {
   cursor: pointer;
   transition: color 0.2s ease;
@@ -4287,14 +4093,209 @@
   margin: 20px 0;
   border-bottom: 1px solid #444;
 }
+.cardigan .tab.equipment .item-quantity {
+  text-align: center;
+  min-width: 60px;
+  color: #c9c7b8;
+}
+.cardigan .tab.equipment .item-weight {
+  text-align: center;
+  min-width: 60px;
+  color: #c9c7b8;
+  font-weight: 600;
+}
+.cardigan .tab.equipment .backpack-full-text {
+  color: red !important;
+}
+.cardigan .tab.equipment .backpack-warning {
+  padding: 6px 12px;
+  background: rgba(255, 107, 107, 0.2);
+  border: 1px solid #ff6b6b;
+  border-radius: 4px;
+  color: #ff6b6b;
+  font-size: 12px;
+  text-align: center;
+}
+.cardigan .tab.equipment .backpack-warning .fas {
+  margin-right: 6px;
+}
+.cardigan .tab.equipment .item-reload {
+  text-align: center;
+  min-width: 40px;
+}
+.cardigan .tab.equipment .item-reload .reload-ammunition {
+  display: inline-block;
+  padding: 4px 6px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.cardigan .tab.equipment .item-reload .reload-ammunition:hover {
+  background: rgba(76, 175, 80, 0.2);
+  transform: scale(1.1);
+}
+.cardigan .tab.equipment .item-reload .reload-ammunition:active {
+  transform: scale(0.95);
+}
+.cardigan .tab.equipment .item-reload .reload-ammunition i {
+  font-size: 14px;
+}
+.cardigan .tab.equipment .item-attack {
+  text-align: center;
+  min-width: 40px;
+}
+.cardigan .tab.equipment .item-attack .attack-weapon {
+  display: inline-block;
+  padding: 4px 6px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.cardigan .tab.equipment .item-attack .attack-weapon:hover:not(.disabled) {
+  background: rgba(211, 47, 47, 0.2);
+  transform: scale(1.1);
+}
+.cardigan .tab.equipment .item-attack .attack-weapon:active:not(.disabled) {
+  transform: scale(0.95);
+}
+.cardigan .tab.equipment .item-attack .attack-weapon.disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+.cardigan .tab.equipment .item-attack .attack-weapon.disabled:hover {
+  transform: none;
+  background: none;
+}
+.cardigan .tab.equipment .item-attack .attack-weapon i {
+  font-size: 14px;
+}
+.cardigan .tab.equipment .item-durability {
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 60px;
+}
+.cardigan .tab.equipment .item-durability span {
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.cardigan .tab.equipment .item-durability input[type=number] {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 12px;
+  font-weight: bold;
+  background: transparent;
+  color: #fff;
+  text-align: center;
+  width: 50px;
+}
+.cardigan .tab.equipment .item-durability input[type=number]:focus {
+  outline: none;
+  border-color: #888;
+  box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
+}
+.cardigan .tab.equipment .item-durability input[type=number]:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.cardigan .tab.equipment .item-ammunition {
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 60px;
+}
+.cardigan .tab.equipment .item-ammunition span {
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.cardigan .tab.equipment .item-ammunition input[type=number] {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 12px;
+  font-weight: bold;
+  background: transparent;
+  color: #fff;
+}
+.cardigan .tab.equipment .item-ammunition input[type=number]:focus {
+  outline: none;
+  border-color: #888;
+  box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
+}
+.cardigan .tab.equipment .item-ammunition input[type=number]:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.cardigan .tab.equipment .item-unequip {
+  text-align: center;
+  min-width: 50px;
+}
+.cardigan .tab.equipment .item-unequip .unequip-weapon {
+  display: inline-block;
+  padding: 4px 6px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.cardigan .tab.equipment .item-unequip .unequip-weapon:hover {
+  background: rgba(255, 87, 34, 0.2);
+  transform: scale(1.1);
+}
+.cardigan .tab.equipment .item-unequip .unequip-weapon:active {
+  transform: scale(0.95);
+}
+.cardigan .tab.equipment .item-unequip .unequip-weapon i {
+  font-size: 14px;
+}
+.cardigan .tab.equipment .item-equip {
+  text-align: center;
+  min-width: 50px;
+}
+.cardigan .tab.equipment .item-equip .equip-weapon {
+  display: inline-block;
+  padding: 4px 6px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.cardigan .tab.equipment .item-equip .equip-weapon:hover {
+  background: rgba(76, 175, 80, 0.2);
+  transform: scale(1.1);
+}
+.cardigan .tab.equipment .item-equip .equip-weapon:active {
+  transform: scale(0.95);
+}
+.cardigan .tab.equipment .item-equip .equip-weapon i {
+  font-size: 14px;
+}
+.cardigan .tab.equipment .item-name-broken {
+  color: #ff4444 !important;
+}
+.cardigan .tab.equipment .item-name-broken div {
+  color: #ff4444 !important;
+}
+.cardigan .tab.equipment .fa-check-circle {
+  color: #4caf50 !important;
+}
+.cardigan .tab.equipment .fa-circle {
+  color: #666 !important;
+  opacity: 0.5;
+}
+.cardigan .tab.equipment .item-prop {
+  font-size: 12px;
+  text-transform: capitalize;
+}
 .cardigan .backpack-container {
   display: flex;
   flex-direction: row-reverse;
   gap: 1rem;
   align-items: flex-start;
+  width: 470px;
 }
 .cardigan .profession-filters {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 0.5rem;
   min-width: 50px;
@@ -4343,9 +4344,81 @@
   user-select: none;
   pointer-events: none;
 }
+.cardigan ol.items-list.backpack-table > li.item.items-header {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
 .cardigan .backpack-table {
   flex: 1;
   min-width: 0;
+  padding: 8px;
+  border: 1px solid #FFB75C;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  overflow: visible;
+}
+.cardigan .backpack-table .item-weight {
+  display: none;
+}
+.cardigan .backpack-table li.item {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center;
+  padding: 2px 5px;
+  border: 1px solid #FFB75C;
+  border-radius: 15px;
+  border-bottom: 1px solid #FFB75C;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+}
+.cardigan .backpack-table li.item:last-child {
+  border-bottom: 1px solid #FFB75C;
+}
+.cardigan .backpack-table .item-image {
+  margin-left: 4px;
+  margin-right: 4px;
+  display: flex;
+  flex: 0 0 24px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.cardigan .backpack-table .item-name {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  min-width: 0;
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .backpack-table .item-name div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cardigan .backpack-table .item-quantity,
+.cardigan .backpack-table .item-equip,
+.cardigan .backpack-table .item-controls {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+.cardigan .backpack-table .item-quantity ~ .cardigan .backpack-table .item-quantity,
+.cardigan .backpack-table .item-quantity ~ .cardigan .backpack-table .item-equip,
+.cardigan .backpack-table .item-quantity ~ .cardigan .backpack-table .item-controls,
+.cardigan .backpack-table .item-equip ~ .cardigan .backpack-table .item-quantity,
+.cardigan .backpack-table .item-equip ~ .cardigan .backpack-table .item-equip,
+.cardigan .backpack-table .item-equip ~ .cardigan .backpack-table .item-controls,
+.cardigan .backpack-table .item-controls ~ .cardigan .backpack-table .item-quantity,
+.cardigan .backpack-table .item-controls ~ .cardigan .backpack-table .item-equip,
+.cardigan .backpack-table .item-controls ~ .cardigan .backpack-table .item-controls {
+  margin-left: 0;
 }
 .cardigan {
   /* Character Details Container Styles */
