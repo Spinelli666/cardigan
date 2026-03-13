@@ -83,13 +83,39 @@
     {{#if system.details.showBackpackContainer}}
     <div class="backpack-section">
     {{#if @root.editable}}
-    <div class="add-item-button-container" data-tooltip='CARDIGAN.AddBackpack' data-tooltip-class='cardigan-tooltip'>
-      <img
-        src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg"
-        alt="{{localize 'CARDIGAN.AddBackpack'}}"
-        class="add-item-icon"
-        data-action='createDocWithSelection'
-      />
+    <div class="backpack-actions">
+      <div class="filter-cointainer" data-tooltip='Filtrar profissões' data-tooltip-class='cardigan-tooltip'>
+        <label class="filter-button-visual">
+          <input type="checkbox" class="filter-button" aria-label="Filtrar profissões" />
+          <img
+            src="systems/cardigan/assets/images/decorative/icons/icon-filter.svg"
+            alt="Filtrar profissões"
+            class="filter-icon"
+          />
+        </label>
+      </div>
+        <div class="search-container" data-tooltip='Buscar no inventário' data-tooltip-class='cardigan-tooltip'>
+          <label class="search-input-visual">
+            <input
+              type="button"
+              class="search-input"
+              aria-label="Buscar no inventário"
+            />
+            <img
+              src="systems/cardigan/assets/images/decorative/icons/icon-search.svg"
+              alt="Buscar no inventário"
+              class="search-icon"
+            />
+          </label>
+        </div>
+      <div class="add-item-button-container" data-tooltip='CARDIGAN.AddBackpack' data-tooltip-class='cardigan-tooltip'>
+        <img
+          src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg"
+          alt="{{localize 'CARDIGAN.AddBackpack'}}"
+          class="add-item-icon"
+          data-action='createDocWithSelection'
+        />
+      </div>
     </div>
     {{/if}}
     <div class="backpack-container">
