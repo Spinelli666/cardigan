@@ -4095,7 +4095,7 @@
 }
 .cardigan .tab.equipment .item-quantity {
   text-align: center;
-  min-width: 60px;
+  min-width: 40px;
   color: #c9c7b8;
 }
 .cardigan .tab.equipment .item-weight {
@@ -4419,6 +4419,84 @@
 .cardigan .backpack-table .item-controls ~ .cardigan .backpack-table .item-equip,
 .cardigan .backpack-table .item-controls ~ .cardigan .backpack-table .item-controls {
   margin-left: 0;
+}
+.cardigan .backpack-table .item-quantity input[type=number] {
+  width: 40px;
+  padding: 0;
+  text-align: center;
+  transition: none !important;
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: #FFB75C;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cardigan .backpack-table .item-quantity input[type=number]:hover, .cardigan .backpack-table .item-quantity input[type=number]:active {
+  transition: none !important;
+  border: none;
+  border-radius: 0;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  box-shadow: none;
+  outline: none;
+}
+.cardigan .backpack-table .item-quantity input[type=number]:focus {
+  transition: none !important;
+  border-radius: 6px;
+  border: 1.7px solid #FFB75C;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  box-shadow: none;
+  outline: none;
+}
+.cardigan .backpack-table .item-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cardigan .backpack-table .item-controls .item-control[data-context-menu],
+.cardigan .backpack-table .item-controls .item-control.always-interactive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.cardigan .backpack-table .item-controls .item-control[data-context-menu] i,
+.cardigan .backpack-table .item-controls .item-control.always-interactive i {
+  font-size: 12px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cardigan .backpack-table .item-controls .item-control[data-context-menu]:hover,
+.cardigan .backpack-table .item-controls .item-control.always-interactive:hover {
+  background: none !important;
+  transform: translateY(-1px);
+}
+.cardigan .backpack-table .item-controls .item-control[data-context-menu]:active,
+.cardigan .backpack-table .item-controls .item-control.always-interactive:active {
+  transform: scale(0.95);
+}
+.cardigan .backpack-table .item-controls .item-control[data-context-menu]:focus, .cardigan .backpack-table .item-controls .item-control[data-context-menu]:focus-visible,
+.cardigan .backpack-table .item-controls .item-control.always-interactive:focus,
+.cardigan .backpack-table .item-controls .item-control.always-interactive:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 .cardigan {
   /* Character Details Container Styles */
