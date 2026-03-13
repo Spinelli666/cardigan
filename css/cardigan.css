@@ -4287,6 +4287,32 @@
   font-size: 12px;
   text-transform: capitalize;
 }
+.cardigan .backpack-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: -20px;
+}
+.cardigan .add-item-button-container {
+  width: 44px;
+  height: 20px;
+  background: url("/systems/cardigan/assets/images/decorative/background-button-effects.webp") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cardigan .add-item-button-container .add-item-icon {
+  width: 11px;
+  height: 11px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+.cardigan .add-item-button-container .add-item-icon:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
 .cardigan .backpack-container {
   display: flex;
   flex-direction: row-reverse;

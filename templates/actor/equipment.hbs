@@ -81,6 +81,17 @@
       </div>
     {{/if}}
     {{#if system.details.showBackpackContainer}}
+    <div class="backpack-section">
+    {{#if @root.editable}}
+    <div class="add-item-button-container" data-tooltip='CARDIGAN.AddBackpack' data-tooltip-class='cardigan-tooltip'>
+      <img
+        src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg"
+        alt="{{localize 'CARDIGAN.AddBackpack'}}"
+        class="add-item-icon"
+        data-action='createDocWithSelection'
+      />
+    </div>
+    {{/if}}
     <div class="backpack-container">
       {{! Profession Filter Sidebar }}
       <div class="profession-filters">
@@ -121,19 +132,7 @@
           <div class='item-quantity'>{{localize 'CARDIGAN.Common.Quantity'}}</div>
           <div class='item-weight'>{{localize 'CARDIGAN.Common.Weight'}}</div>
           <div class='item-equip'></div>
-          <div class='item-controls'>
-            {{#if @root.editable}}
-              <button
-                type='button'
-                class='item-control item-create-with-selection'
-                title='{{localize "DOCUMENT.Create" type="Item"}}'
-                data-action='createDocWithSelection'
-              >
-                <i class='fas fa-plus'></i>
-                {{localize 'CARDIGAN.AddBackpack'}}
-              </button>
-            {{/if}}
-          </div>
+          <div class='item-controls'></div>
         </li>
       {{#each backpack as |item id|}}
         <li
@@ -247,6 +246,7 @@
         </li>
       {{/each}}
       </ol>
+    </div>
     </div>
     {{/if}}
   </div>
