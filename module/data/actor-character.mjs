@@ -90,7 +90,6 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       showTecnomagicTable: new fields.BooleanField({ initial: false }),
       showBlacksmithingTable: new fields.BooleanField({ initial: false }),
       showAlchemyTable: new fields.BooleanField({ initial: false }),
-      showCarpentryTable: new fields.BooleanField({ initial: false }),
       showSkillsAndarilhoTable: new fields.BooleanField({ initial: false }),
       showSkillsGuerreiroTable: new fields.BooleanField({ initial: false }),
       showSkillsLadinoTable: new fields.BooleanField({ initial: false }),

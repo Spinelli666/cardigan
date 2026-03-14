@@ -4299,7 +4299,6 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  right: 175px;
 }
 .cardigan .add-item-button-container {
   width: 44px;
@@ -4309,7 +4308,6 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  left: 125px;
   top: 1px;
 }
 .cardigan .add-item-button-container .add-item-icon {
@@ -4329,12 +4327,13 @@
   justify-content: center;
   position: relative;
   top: -3px;
+  width: 30px;
 }
 .cardigan .filter-cointainer .filter-button-visual {
   height: 22px;
   width: 70px;
   background: url("/systems/cardigan/assets/images/decorative/back-filter.webp") no-repeat center center;
-  background-size: 42%;
+  background-size: 96%;
   border: none;
   cursor: pointer;
   display: flex;
@@ -4383,10 +4382,9 @@
   justify-content: center;
   position: relative;
   top: -3px;
-  right: 25px;
   width: 30px;
 }
-.cardigan .search-container .search-input-visual {
+.cardigan .search-container .search-button-visual {
   height: 22px;
   width: 70px;
   background: url("/systems/cardigan/assets/images/decorative/back-search.webp") no-repeat center center;
@@ -4398,14 +4396,18 @@
   cursor: pointer;
   transition: background-image 0.15s ease, filter 0.15s ease;
 }
-.cardigan .search-container .search-input-visual:hover, .cardigan .search-container .search-input-visual:has(.search-input:focus), .cardigan .search-container .search-input-visual:has(.search-input:focus-visible) {
+.cardigan .search-container .search-button-visual:hover {
   background-image: url("/systems/cardigan/assets/images/decorative/back-search-activate.webp");
   filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.6));
 }
-.cardigan .search-container .search-input-visual:has(.search-input:active) {
+.cardigan .search-container .search-button-visual:active {
   filter: brightness(1.2) drop-shadow(0 0 8px rgba(255, 183, 92, 0.8));
 }
-.cardigan .search-container .search-input-visual .search-input {
+.cardigan .search-container .search-button-visual:has(.search-button:checked) {
+  background-image: url("/systems/cardigan/assets/images/decorative/back-search-activate.webp");
+  filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.6));
+}
+.cardigan .search-container .search-button-visual .search-button {
   position: absolute;
   inset: 0;
   width: 12px;
@@ -4413,17 +4415,18 @@
   margin: 0;
   padding: 0;
   border: none;
+  opacity: 0;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
   transition: none;
 }
-.cardigan .search-container .search-input-visual .search-input:focus, .cardigan .search-container .search-input-visual .search-input:focus-visible {
+.cardigan .search-container .search-button-visual .search-button:focus, .cardigan .search-container .search-button-visual .search-button:focus-visible {
   outline: none;
   box-shadow: none;
 }
-.cardigan .search-container .search-input-visual .search-icon {
+.cardigan .search-container .search-button-visual .search-icon {
   position: relative;
   width: 12px;
   height: 12px;
@@ -4432,14 +4435,41 @@
   pointer-events: none;
   z-index: 1;
 }
+.cardigan .backpack-search-panel {
+  display: none;
+  align-items: center;
+  position: relative;
+  top: -3px;
+}
+.cardigan .backpack-search-panel .backpack-search-field {
+  width: 180px;
+  height: 22px;
+  padding: 0 12px 0 4px;
+  border: 1.7px solid #c0863b;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  color: #FFB75C;
+  box-shadow: 0 0 8px rgba(255, 183, 92, 0.15);
+}
+.cardigan .backpack-search-panel .backpack-search-field::placeholder {
+  color: rgba(255, 183, 92, 0.65);
+}
+.cardigan .backpack-search-panel .backpack-search-field:focus, .cardigan .backpack-search-panel .backpack-search-field:focus-visible {
+  outline: none;
+  border-color: #FFB75C;
+  box-shadow: 0 0 10px rgba(255, 183, 92, 0.35);
+}
 .cardigan .backpack-container {
   display: flex;
   flex-direction: row-reverse;
-  gap: 1rem;
+  gap: 4px;
   align-items: flex-start;
   width: 470px;
 }
 .cardigan .backpack-section:has(.filter-button:checked) .profession-filters {
+  display: flex;
+}
+.cardigan .backpack-section:has(.search-button:checked) .backpack-search-panel {
   display: flex;
 }
 .cardigan .profession-filters {
@@ -4449,8 +4479,8 @@
   min-width: 50px;
   padding: 0.5rem;
   background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 1px solid #FFB75C;
 }
 .cardigan .profession-filters .filter-option {
   position: relative;
@@ -4468,28 +4498,34 @@
   z-index: 1;
 }
 .cardigan .profession-filters .filter-option input[type=radio]:checked + .filter-emoji {
-  background: rgba(76, 175, 80, 0.3);
-  border-color: #4caf50;
-  box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+  border-color: #FFB75C;
+  box-shadow: 0 0 8px rgba(255, 183, 92, 0.5);
   transform: scale(1.1);
 }
 .cardigan .profession-filters .filter-option input[type=radio]:hover + .filter-emoji {
-  background: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  border: 1px solid #FFB75C;
   transform: scale(1.05);
 }
 .cardigan .profession-filters .filter-option .filter-emoji {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   font-size: 24px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  border: 1px solid #c0863b;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
+  pointer-events: none;
+}
+.cardigan .profession-filters .filter-option .filter-emoji img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
   pointer-events: none;
 }
 .cardigan ol.items-list.backpack-table > li.item.items-header {

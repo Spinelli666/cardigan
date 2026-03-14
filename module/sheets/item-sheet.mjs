@@ -2738,7 +2738,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const item = this.item;
     
     // Check if this is a recipe type
-    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe'];
     if (!recipeTypes.includes(item.type)) {
       return;
     }
@@ -2769,7 +2769,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const item = this.item;
     
     // Check if this is a recipe type
-    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe'];
     if (!recipeTypes.includes(item.type)) {
       return;
     }
@@ -2800,7 +2800,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const item = this.item;
     
     // Check if this is a recipe type
-    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe'];
     if (!recipeTypes.includes(item.type)) return;
 
     const index = parseInt(target.dataset.index);
@@ -2968,7 +2968,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const item = this.item;
     
     // Check if this is a recipe type
-    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe'];
     if (!recipeTypes.includes(item.type)) return;
 
     const index = parseInt(target.dataset.index);
@@ -3005,7 +3005,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const professionMap = {
       'alchemy-recipe': 'alchemy',
       'blacksmithing-recipe': 'blacksmithing', 
-      'carpentry-recipe': 'carpentry',
       'culinary-recipe': 'culinary',
       'tailoring-recipe': 'tailoring',
       'tecnomagic-recipe': 'tecnomagic',
@@ -3045,7 +3044,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   _registerForAutoUpdates() {
-    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe'];
     if (recipeTypes.includes(this.item.type)) {
       CardiganSystemItemSheet._openRecipeSheets.add(this);
     }

@@ -40,6 +40,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Track profession filter state
     this.professionFilter = 'all';
+
+    // Track backpack search UI state
+    this.isBackpackSearchOpen = false;
+    this.backpackSearch = '';
   }
 
   /** @override */
@@ -218,6 +222,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Add profession filter state to context
     context.professionFilter = this.professionFilter || 'all';
+    context.isBackpackSearchOpen = this.isBackpackSearchOpen || false;
+    context.backpackSearch = this.backpackSearch || '';
     
     // Filter ActiveEffects to hide those that duplicate Item efeitos
     // This prevents duplicate display in the effects list while keeping the ActiveEffect
@@ -395,6 +401,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Setup custom window controls (includes drag functionality)
     this.#setupCustomControls();
+
+    // Setup backpack search toggle and live filtering
+    this.#addBackpackSearchListeners();
+    this.#applyBackpackSearchFilter();
     
     // Setup minimized window header drag and double-click
     this.#setupMinimizedHeader();
@@ -402,6 +412,72 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
+  }
+
+  /**
+   * Add listeners for backpack search toggle and input
+   * @private
+   */
+  #addBackpackSearchListeners() {
+    const searchToggle = this.element.querySelector('.search-button');
+    const searchField = this.element.querySelector('.backpack-search-field');
+
+    if (searchToggle) {
+      searchToggle.checked = this.isBackpackSearchOpen;
+
+      searchToggle.addEventListener('change', (event) => {
+        this.isBackpackSearchOpen = event.target.checked;
+
+        if (!this.isBackpackSearchOpen) {
+          this.backpackSearch = '';
+          if (searchField) searchField.value = '';
+        }
+
+        this.#applyBackpackSearchFilter();
+
+        if (this.isBackpackSearchOpen && searchField) {
+          searchField.focus();
+          searchField.select();
+        }
+      });
+    }
+
+    if (searchField) {
+      searchField.value = this.backpackSearch || '';
+
+      searchField.addEventListener('input', (event) => {
+        this.backpackSearch = event.target.value || '';
+        this.#applyBackpackSearchFilter();
+      });
+
+      searchField.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          this.backpackSearch = '';
+          searchField.value = '';
+
+          if (searchToggle) {
+            searchToggle.checked = false;
+            this.isBackpackSearchOpen = false;
+          }
+
+          this.#applyBackpackSearchFilter();
+        }
+      });
+    }
+  }
+
+  /**
+   * Apply live search filtering to backpack rows without re-rendering the sheet
+   * @private
+   */
+  #applyBackpackSearchFilter() {
+    const searchTerm = (this.backpackSearch || '').trim().toLowerCase();
+    const backpackRows = this.element.querySelectorAll('.backpack-table li.item[data-item-id]');
+
+    backpackRows.forEach((row) => {
+      const itemName = row.querySelector('.item-name div')?.textContent?.trim().toLowerCase() || '';
+      row.style.display = !searchTerm || itemName.includes(searchTerm) ? '' : 'none';
+    });
   }
 
   /**
@@ -429,7 +505,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const tecnomagicRecipes = [];
     const blacksmithingRecipes = [];
     const alchemyRecipes = [];
-    const carpentryRecipes = [];
 
     // Iterate through items, allocating to containers
     for (let i of this.document.items) {
@@ -502,8 +577,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           blacksmithingRecipes.push(i);
         } else if (recipeType === 'alchemy') {
           alchemyRecipes.push(i);
-        } else if (recipeType === 'carpentry') {
-          carpentryRecipes.push(i);
         }
       }
     }
@@ -529,24 +602,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Apply profession filter
     if (this.professionFilter && this.professionFilter !== 'all') {
       sortedBackpack = sortedBackpack.filter(item => {
-        // Only filter items that have a profession field (ingredients, consumables, common items)
-        if (item.system.profession) {
-          return item.system.profession === this.professionFilter;
-        }
-        // Items without profession field (weapons, armor, etc) don't show in profession-specific filters
-        return false;
-      });
-    } else if (this.professionFilter === 'all') {
-      // "All Items" shows only items without profession field OR with profession set to "general"
-      sortedBackpack = sortedBackpack.filter(item => {
-        // Items without profession field always show (weapons, armor, ammunition, etc)
-        if (!item.system.profession) {
-          return true;
-        }
-        // Items with profession field only show if set to "general"
-        return item.system.profession === 'general';
+        return item.system.profession === this.professionFilter;
       });
     }
+    // "All" / General Use shows every item with no restrictions
     
     context.backpack = sortedBackpack;
     context.proficiencies = proficiencies.sort((a, b) => (a.sort || 0) - (b.sort || 0));
@@ -568,7 +627,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     context.tecnomagicRecipes = tecnomagicRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.blacksmithingRecipes = blacksmithingRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.alchemyRecipes = alchemyRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.carpentryRecipes = carpentryRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     // Custom sort for weapons: Primary hand first, then secondary hand, then by sort order
     context.armas = armas.sort((a, b) => {
       // Primary hand weapons (rightHand) always come first
@@ -1132,8 +1190,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         createData.system = { recipeType: 'blacksmithing' };
       } else if (name.includes('alchemy')) {
         createData.system = { recipeType: 'alchemy' };
-      } else if (name.includes('carpentry')) {
-        createData.system = { recipeType: 'carpentry' };
       }
     }
     
@@ -6041,8 +6097,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       { name: 'tailoring', displayName: 'TAILORING TABLE' },
       { name: 'tecnomagic', displayName: 'TECNOMAGIC TABLE' },
       { name: 'blacksmithing', displayName: 'BLACKSMITHING TABLE' },
-      { name: 'alchemy', displayName: 'ALCHEMY TABLE' },
-      { name: 'carpentry', displayName: 'CARPENTRY TABLE' }
+      { name: 'alchemy', displayName: 'ALCHEMY TABLE' }
     ];
 
     professions.forEach(profession => {

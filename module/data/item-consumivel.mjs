@@ -719,7 +719,6 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
         "general": "CARDIGAN.ItemIngredient.Professions.General",
         "alchemy": "CARDIGAN.ItemIngredient.Professions.Alchemy",
         "blacksmithing": "CARDIGAN.ItemIngredient.Professions.Blacksmithing",
-        "carpentry": "CARDIGAN.ItemIngredient.Professions.Carpentry",
         "culinary": "CARDIGAN.ItemIngredient.Professions.Culinary",
         "tailoring": "CARDIGAN.ItemIngredient.Professions.Tailoring",
         "tecnomagic": "CARDIGAN.ItemIngredient.Professions.Tecnomagic"

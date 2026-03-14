@@ -95,11 +95,12 @@
         </label>
       </div>
         <div class="search-container" data-tooltip='Buscar no inventário' data-tooltip-class='cardigan-tooltip'>
-          <label class="search-input-visual">
+          <label class="search-button-visual">
             <input
-              type="button"
-              class="search-input"
+              type="checkbox"
+              class="search-button"
               aria-label="Buscar no inventário"
+              {{#if isBackpackSearchOpen}}checked{{/if}}
             />
             <img
               src="systems/cardigan/assets/images/decorative/icons/icon-search.svg"
@@ -116,6 +117,16 @@
           data-action='createDocWithSelection'
         />
       </div>
+      <div class="backpack-search-panel">
+        <input
+          type="text"
+          class="backpack-search-field"
+          value="{{backpackSearch}}"
+          placeholder="Buscar no inventário..."
+          aria-label="Buscar no inventário"
+          autocomplete="off"
+        />
+      </div>
     </div>
     {{/if}}
     <div class="backpack-container">
@@ -123,31 +134,39 @@
       <div class="profession-filters">
         <div class="filter-option"  >
           <input type="radio" name="profession-filter" value="all" id="filter-all" {{#if (eq professionFilter "all")}}checked{{/if}} data-action="filterProfession">
-          <label for="filter-all" class="filter-emoji">ðŸ“¦</label>
+          <label for="filter-all" class="filter-emoji">
+            <img src="systems/cardigan/assets/images/profession/icon-profession.webp" alt="Todas as profissões" />
+          </label>
         </div>
         <div class="filter-option"  >
           <input type="radio" name="profession-filter" value="alchemy" id="filter-alchemy" {{#if (eq professionFilter "alchemy")}}checked{{/if}} data-action="filterProfession">
-          <label for="filter-alchemy" class="filter-emoji">âš—ï¸</label>
+          <label for="filter-alchemy" class="filter-emoji">
+            <img src="systems/cardigan/assets/images/profession/icon-alchemy.svg" alt="Alquimia" />
+          </label>
         </div>
         <div class="filter-option"  >
           <input type="radio" name="profession-filter" value="blacksmithing" id="filter-blacksmithing" {{#if (eq professionFilter "blacksmithing")}}checked{{/if}} data-action="filterProfession">
-          <label for="filter-blacksmithing" class="filter-emoji">ðŸ”¨</label>
-        </div>
-        <div class="filter-option"  >
-          <input type="radio" name="profession-filter" value="carpentry" id="filter-carpentry" {{#if (eq professionFilter "carpentry")}}checked{{/if}} data-action="filterProfession">
-          <label for="filter-carpentry" class="filter-emoji">ðŸªš</label>
+          <label for="filter-blacksmithing" class="filter-emoji">
+            <img src="systems/cardigan/assets/images/profession/icon-blacksmithing.svg" alt="Ferraria" />
+          </label>
         </div>
         <div class="filter-option"  >
           <input type="radio" name="profession-filter" value="culinary" id="filter-culinary" {{#if (eq professionFilter "culinary")}}checked{{/if}} data-action="filterProfession">
-          <label for="filter-culinary" class="filter-emoji">ðŸ³</label>
+          <label for="filter-culinary" class="filter-emoji">
+            <img src="systems/cardigan/assets/images/profession/icon-culinary.svg" alt="Culinária" />
+          </label>
         </div>
         <div class="filter-option"  >
           <input type="radio" name="profession-filter" value="tailoring" id="filter-tailoring" {{#if (eq professionFilter "tailoring")}}checked{{/if}} data-action="filterProfession">
-          <label for="filter-tailoring" class="filter-emoji">ðŸ§µ</label>
+          <label for="filter-tailoring" class="filter-emoji">
+            <img src="systems/cardigan/assets/images/profession/icon-tailoring.svg" alt="Alfaiataria" />
+          </label>
         </div>
         <div class="filter-option"  >
           <input type="radio" name="profession-filter" value="tecnomagic" id="filter-tecnomagic" {{#if (eq professionFilter "tecnomagic")}}checked{{/if}} data-action="filterProfession">
-          <label for="filter-tecnomagic" class="filter-emoji">âš¡ï¸</label>
+          <label for="filter-tecnomagic" class="filter-emoji">
+            <img src="systems/cardigan/assets/images/profession/icon-technomagic.svg" alt="Tecnomagia" />
+          </label>
         </div>
       </div>
       

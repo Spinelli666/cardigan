@@ -424,8 +424,7 @@
           "tailoring": "Tailoring",
           "tecnomagic": "Tecnomagic",
           "blacksmithing": "Blacksmithing",
-          "alchemy": "Alchemy",
-          "carpentry": "Carpentry"
+          "alchemy": "Alchemy"
         },
         "ingredients": {
           "label": "Ingredients",
@@ -638,7 +637,6 @@
     "ShowTecnomagicTable": "Show Tecnomagic Table",
     "ShowBlacksmithingTable": "Show Blacksmithing Table",
     "ShowAlchemyTable": "Show Alchemy Table",
-    "ShowCarpentryTable": "Show Carpentry Table",
     "ShowSkillsAndarilhoTable": "Show Andarilho Skills",
     "ShowSkillsGuerreiroTable": "Show Guerreiro Skills",
     "ShowSkillsLadinoTable": "Show Ladino Skills",
@@ -649,7 +647,6 @@
     "TecnomagicTable": "Tecnomagic Table",
     "BlacksmithingTable": "Blacksmithing Table",
     "AlchemyTable": "Alchemy Table",
-    "CarpentryTable": "Carpentry Table",
     "AndarilhoSkillsTable": "Andarilho Skills",
     "GuerreiroSkillsTable": "Guerreiro Skills",
     "LadinoSkillsTable": "Ladino Skills",
@@ -660,7 +657,6 @@
     "AddTecnomagicRecipe": "Add Tecnomagic Recipe",
     "AddBlacksmithingRecipe": "Add Blacksmithing Recipe",
     "AddAlchemyRecipe": "Add Alchemy Recipe",
-    "AddCarpentryRecipe": "Add Carpentry Recipe",
     "CraftItem": "Craft Item",
     "CraftFromRecipe": "Craft from Recipe",
     "SelectItemType": "Select Item Type",
@@ -1025,7 +1021,6 @@
         "General": "General Use",
         "Alchemy": "Alchemy",
         "Blacksmithing": "Blacksmithing",
-        "Carpentry": "Carpentry",
         "Culinary": "Culinary Arts",
         "Tailoring": "Tailoring",
         "Tecnomagic": "Tecnomagic",

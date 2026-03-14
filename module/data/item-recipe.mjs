@@ -11,8 +11,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
     "tailoring": "CARDIGAN.Item.ItemRecipe.recipeType.tailoring",
     "tecnomagic": "CARDIGAN.Item.ItemRecipe.recipeType.tecnomagic",
     "blacksmithing": "CARDIGAN.Item.ItemRecipe.recipeType.blacksmithing",
-    "alchemy": "CARDIGAN.Item.ItemRecipe.recipeType.alchemy",
-    "carpentry": "CARDIGAN.Item.ItemRecipe.recipeType.carpentry"
+    "alchemy": "CARDIGAN.Item.ItemRecipe.recipeType.alchemy"
   };
 
   static DIFFICULTY_CHOICES = {
