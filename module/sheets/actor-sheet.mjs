@@ -13,6 +13,9 @@ import { HeaderListeners } from './listeners/header-listeners.mjs';
 import { ProficienciesActions } from './actions/proficiencies-actions.mjs';
 import { MoneyTradeActions } from './actions/money-trade-actions.mjs';
 import { InventoryActions } from './actions/inventory-actions.mjs';
+import { ProfessionFilterActions } from './actions/profession-filter-actions.mjs';
+import { BackpackSearchActions } from './actions/backpack-search-actions.mjs';
+import { SheetScrollActions } from './actions/sheet-scroll-actions.mjs';
 import CardiganTooltipManager from '../tooltips/tooltip-manager.mjs';
 
 /**
@@ -40,10 +43,14 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Track profession filter state
     this.professionFilter = 'all';
+    this.isProfessionFilterOpen = false;
 
     // Track backpack search UI state
     this.isBackpackSearchOpen = false;
     this.backpackSearch = '';
+
+    // Preserve scroll state across re-renders
+    this._pendingScrollState = null;
   }
 
   /** @override */
@@ -221,9 +228,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     this._prepareItems(context);
     
     // Add profession filter state to context
-    context.professionFilter = this.professionFilter || 'all';
-    context.isBackpackSearchOpen = this.isBackpackSearchOpen || false;
-    context.backpackSearch = this.backpackSearch || '';
+    ProfessionFilterActions.addToContext(this, context);
+    BackpackSearchActions.addToContext(this, context);
     
     // Filter ActiveEffects to hide those that duplicate Item efeitos
     // This prevents duplicate display in the effects list while keeping the ActiveEffect
@@ -325,6 +331,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }, {});
   }
 
+  /** @override */
+  render(options = {}) {
+    SheetScrollActions.captureBeforeRender(this);
+    return super.render(options);
+  }
+
   /**
    * Actions performed after any render of the Application.
    * Post-render steps are not awaited by the render process.
@@ -402,82 +414,22 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Setup custom window controls (includes drag functionality)
     this.#setupCustomControls();
 
+    // Setup backpack profession filter toggle persistence
+    ProfessionFilterActions.bindFilterToggleListener(this, this.element);
+
     // Setup backpack search toggle and live filtering
-    this.#addBackpackSearchListeners();
-    this.#applyBackpackSearchFilter();
+    BackpackSearchActions.bindSearchListeners(this, this.element);
+    BackpackSearchActions.applySearchFilter(this, this.element);
     
     // Setup minimized window header drag and double-click
     this.#setupMinimizedHeader();
+
+    // Restore previous scroll position after all post-render bindings.
+    SheetScrollActions.restoreAfterRender(this);
     
     // You may want to add other special handling here
     // Foundry comes with a large number of utility classes, e.g. SearchFilter
     // That you may want to implement yourself.
-  }
-
-  /**
-   * Add listeners for backpack search toggle and input
-   * @private
-   */
-  #addBackpackSearchListeners() {
-    const searchToggle = this.element.querySelector('.search-button');
-    const searchField = this.element.querySelector('.backpack-search-field');
-
-    if (searchToggle) {
-      searchToggle.checked = this.isBackpackSearchOpen;
-
-      searchToggle.addEventListener('change', (event) => {
-        this.isBackpackSearchOpen = event.target.checked;
-
-        if (!this.isBackpackSearchOpen) {
-          this.backpackSearch = '';
-          if (searchField) searchField.value = '';
-        }
-
-        this.#applyBackpackSearchFilter();
-
-        if (this.isBackpackSearchOpen && searchField) {
-          searchField.focus();
-          searchField.select();
-        }
-      });
-    }
-
-    if (searchField) {
-      searchField.value = this.backpackSearch || '';
-
-      searchField.addEventListener('input', (event) => {
-        this.backpackSearch = event.target.value || '';
-        this.#applyBackpackSearchFilter();
-      });
-
-      searchField.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-          this.backpackSearch = '';
-          searchField.value = '';
-
-          if (searchToggle) {
-            searchToggle.checked = false;
-            this.isBackpackSearchOpen = false;
-          }
-
-          this.#applyBackpackSearchFilter();
-        }
-      });
-    }
-  }
-
-  /**
-   * Apply live search filtering to backpack rows without re-rendering the sheet
-   * @private
-   */
-  #applyBackpackSearchFilter() {
-    const searchTerm = (this.backpackSearch || '').trim().toLowerCase();
-    const backpackRows = this.element.querySelectorAll('.backpack-table li.item[data-item-id]');
-
-    backpackRows.forEach((row) => {
-      const itemName = row.querySelector('.item-name div')?.textContent?.trim().toLowerCase() || '';
-      row.style.display = !searchTerm || itemName.includes(searchTerm) ? '' : 'none';
-    });
   }
 
   /**
@@ -598,14 +550,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
     // Sort then assign
     let sortedBackpack = backpack.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    
+
     // Apply profession filter
-    if (this.professionFilter && this.professionFilter !== 'all') {
-      sortedBackpack = sortedBackpack.filter(item => {
-        return item.system.profession === this.professionFilter;
-      });
-    }
-    // "All" / General Use shows every item with no restrictions
+    sortedBackpack = ProfessionFilterActions.applyBackpackFilter(this, sortedBackpack);
     
     context.backpack = sortedBackpack;
     context.proficiencies = proficiencies.sort((a, b) => (a.sort || 0) - (b.sort || 0));
@@ -7197,14 +7144,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @param {HTMLElement} target - The target element
    */
   static _onFilterProfession(event, target) {
-    event.preventDefault();
-    const profession = target.value;
-    
-    // Update the filter state
-    this.professionFilter = profession;
-    
-    // Re-render to apply the filter
-    this.render();
+    return ProfessionFilterActions.onFilterProfession(event, target, this);
   }
 
   /**
