@@ -42,6 +42,13 @@ export class ProfessionFilterActions {
 
     filterToggle.addEventListener('change', (event) => {
       sheet.isProfessionFilterOpen = !!event.target.checked;
+
+      // When closing the panel, reset to "all" so hidden filters don't keep
+      // affecting backpack results behind the scenes.
+      if (!sheet.isProfessionFilterOpen && sheet.professionFilter !== 'all') {
+        sheet.professionFilter = 'all';
+        sheet.render();
+      }
     });
   }
 
