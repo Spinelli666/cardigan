@@ -84,40 +84,34 @@
     <div class="backpack-section">
     {{#if @root.editable}}
     <div class="backpack-actions">
-      <div class="backpack-filter-search-group">
-        <div class="filter-cointainer" data-tooltip='Filtrar profissões' data-tooltip-class='cardigan-tooltip'>
-          <label class="filter-button-visual">
-            <input type="checkbox" class="filter-button" aria-label="Filtrar profissões" {{#if isProfessionFilterOpen}}checked{{/if}} />
-            <img
-              src="systems/cardigan/assets/images/decorative/icons/icon-filter.svg"
-              alt="Filtrar profissões"
-              class="filter-icon"
-            />
-          </label>
+      <div class="backpack-filter-search-wrapper">
+        <div class="backpack-filter-search-group">
+          <div class="filter-cointainer" data-tooltip='Filtrar profissões' data-tooltip-class='cardigan-tooltip'>
+            <label class="filter-button-visual">
+              <input type="checkbox" class="filter-button" aria-label="Filtrar profissões" {{#if isProfessionFilterOpen}}checked{{/if}} />
+              <img
+                src="systems/cardigan/assets/images/decorative/icons/icon-filter.svg"
+                alt="Filtrar profissões"
+                class="filter-icon"
+              />
+            </label>
+          </div>
+          <div class="search-container" data-tooltip='Buscar no inventário' data-tooltip-class='cardigan-tooltip'>
+            <label class="search-button-visual">
+              <input
+                type="checkbox"
+                class="search-button"
+                aria-label="Buscar no inventário"
+                {{#if isBackpackSearchOpen}}checked{{/if}}
+              />
+              <img
+                src="systems/cardigan/assets/images/decorative/icons/icon-search.svg"
+                alt="Buscar no inventário"
+                class="search-icon"
+              />
+            </label>
+          </div>
         </div>
-        <div class="search-container" data-tooltip='Buscar no inventário' data-tooltip-class='cardigan-tooltip'>
-          <label class="search-button-visual">
-            <input
-              type="checkbox"
-              class="search-button"
-              aria-label="Buscar no inventário"
-              {{#if isBackpackSearchOpen}}checked{{/if}}
-            />
-            <img
-              src="systems/cardigan/assets/images/decorative/icons/icon-search.svg"
-              alt="Buscar no inventário"
-              class="search-icon"
-            />
-          </label>
-        </div>
-      </div>
-      <div class="add-item-button-container" data-tooltip='CARDIGAN.AddBackpack' data-tooltip-class='cardigan-tooltip'>
-        <img
-          src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg"
-          alt="{{localize 'CARDIGAN.AddBackpack'}}"
-          class="add-item-icon"
-          data-action='createDocWithSelection'
-        />
       </div>
       <div class="backpack-search-panel">
         <input
@@ -127,6 +121,14 @@
           placeholder="Buscar no inventário..."
           aria-label="Buscar no inventário"
           autocomplete="off"
+        />
+      </div>
+      <div class="add-item-button-container" data-tooltip='CARDIGAN.AddBackpack' data-tooltip-class='cardigan-tooltip'>
+        <img
+          src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg"
+          alt="{{localize 'CARDIGAN.AddBackpack'}}"
+          class="add-item-icon"
+          data-action='createDocWithSelection'
         />
       </div>
     </div>

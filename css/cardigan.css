@@ -463,6 +463,7 @@
 #context-menu.expand-down li.context-item:hover,
 #context-menu.expand-up li.context-item:hover {
   background: rgba(192, 134, 59, 0.25) !important;
+  border: none !important;
   color: #ffd08a !important;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
   cursor: pointer;
@@ -4314,16 +4315,23 @@
 .cardigan .backpack-actions {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
-  gap: 85px;
+  width: 470px;
+  max-width: 100%;
+  margin-left: 15px;
 }
-.cardigan .backpack-filter-search-group {
+.cardigan .backpack-filter-search-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   top: -3px;
+}
+.cardigan .backpack-filter-search-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .cardigan .add-item-button-container {
   width: 44px;
@@ -4333,7 +4341,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  left: 60px;
+  margin-left: 5.5px;
   top: 1px;
 }
 .cardigan .add-item-button-container .add-item-icon {
@@ -4464,9 +4472,9 @@
   display: flex;
   align-items: center;
   position: relative;
-  left: 4px;
+  left: 0;
   top: -3px;
-  width: 180px;
+  width: 140px;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -4474,7 +4482,7 @@
 .cardigan .backpack-search-panel .backpack-search-field {
   width: 100%;
   height: 22px;
-  padding: 0 12px 0 4px;
+  padding: 0 4px 0 4px;
   border: 1.7px solid #c0863b;
   border-radius: 6px;
   background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
@@ -4491,7 +4499,7 @@
 }
 .cardigan .backpack-container {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   gap: 4px;
   align-items: flex-start;
   width: 470px;
@@ -18256,6 +18264,8 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   min-width: 28px;
   cursor: pointer;
   transition: all 0.2s ease;
+  outline: none !important;
+  box-shadow: none !important;
 }
 .cardigan.dialog.effects-selection .rounds-counter .rounds-button:hover {
   background: rgba(67, 170, 218, 0.5);
@@ -18264,6 +18274,10 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .cardigan.dialog.effects-selection .rounds-counter .rounds-button:active {
   transform: scale(0.95);
+}
+.cardigan.dialog.effects-selection .rounds-counter .rounds-button:focus, .cardigan.dialog.effects-selection .rounds-counter .rounds-button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
 }
 .cardigan.dialog.effects-selection .effect-content {
   display: flex;
