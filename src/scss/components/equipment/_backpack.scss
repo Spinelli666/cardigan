@@ -746,3 +746,17 @@ ol.items-list.backpack-table > li.item.items-header {
     }
   }
 }
+
+// -----------------------------------------
+// Backpack Section Border
+// -----------------------------------------
+.backpack-section-border {
+  width: 95%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+// Remove margin-top quando o inventário está escondido
+.inventory-banner:has(input[type="checkbox"]:not(:checked)) .backpack-section-border {
+  margin-top: 0;
+}
