@@ -300,23 +300,27 @@
     {{/if}}
     <img src="systems/cardigan/assets/images/decorative/border.webp" alt="border" class="backpack-section-border" />
   </div>
-  <div class="equipament-banner"></div>
-
-  {{! Checkbox to control weapons table visibility }}
-  <div class='form-group'>
-    <label>
+  <div class="equipament-banner">
+    <div class="equipament-toggle">
       <input
         type="checkbox"
         name="system.details.showWeaponsTable"
         {{#if system.details.showWeaponsTable}}checked{{/if}}
         data-dtype="Boolean"
+        style="display: none;"
       />
-      {{localize "CARDIGAN.ShowWeapons"}}
-    </label>
-  </div>
+      <img
+        src="systems/cardigan/assets/images/decorative/equipament.svg"
+        alt="Toggle Equipment"
+        class="equipament-toggle-icon"
+        data-action="toggleWeaponsTable"
+        data-tooltip='CARDIGAN.ShowWeapons'
+        data-tooltip-class='cardigan-tooltip'
+      />
+    </div>
 
   {{#if system.details.showWeaponsTable}}
-  <ol class='items-list'>
+  <ol class='items-list equipament-table'>
     <li class='item flexrow items-header'>
       <div class='item-formula'>{{localize 'CARDIGAN.Hand'}}</div>
       <div class='item-name'>{{localize 'Name'}}</div>
@@ -493,6 +497,7 @@
     {{/each}}
   </ol>
   {{/if}}
+  </div>
 
   {{! Spacer between weapons and backpack }}
   <div class="section-divider"></div>

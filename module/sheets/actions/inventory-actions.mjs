@@ -1,6 +1,6 @@
 /**
  * Inventory Actions Module
- * Handles event handlers related to the inventory banner (backpack toggle)
+ * Handles event handlers related to the inventory banner toggles
  */
 export class InventoryActions {
 
@@ -14,6 +14,18 @@ export class InventoryActions {
     const checkbox = target.closest('.backpack-toggle').querySelector('input[name="system.details.showBackpackContainer"]');
     const currentValue = checkbox.checked;
     await sheet.actor.update({ 'system.details.showBackpackContainer': !currentValue });
+  }
+
+  /**
+   * Toggle the visibility of the weapons table
+   * @param {Event} event
+   * @param {HTMLElement} target
+   * @param {CardiganSystemActorSheet} sheet
+   */
+  static async onToggleWeaponsTable(event, target, sheet) {
+    const checkbox = target.closest('.equipament-toggle').querySelector('input[name="system.details.showWeaponsTable"]');
+    const currentValue = checkbox.checked;
+    await sheet.actor.update({ 'system.details.showWeaponsTable': !currentValue });
   }
 
   /**

@@ -52,6 +52,10 @@
     &:last-of-type {
       text-align: center;
     }
+    
+    &.item-prop {
+      flex: 0 0 50px;
+    }
   }
 
   // Style for weapon image click

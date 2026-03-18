@@ -111,6 +111,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       openLevelUpWizard: this._onOpenLevelUpWizard,
       toggleEffectsSection: this._toggleEffectsSection,
       toggleBackpackContainer: this._toggleBackpackContainer,
+      toggleWeaponsTable: this._toggleWeaponsTable,
       // Removemos as ações do modal para implementar via event listeners diretos
     },
     // Custom property that's merged into `this.options`
@@ -1229,6 +1230,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
   static async _toggleBackpackContainer(event, target) {
     return InventoryActions.onToggleBackpackContainer(event, target, this);
+  }
+
+  static async _toggleWeaponsTable(event, target) {
+    return InventoryActions.onToggleWeaponsTable(event, target, this);
   }
 
   // ========================================

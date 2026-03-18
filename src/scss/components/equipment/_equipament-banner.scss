@@ -3,4 +3,60 @@
   min-height: 50px;
   background: url('/systems/cardigan/assets/images/decorative/back-inventory.webp') no-repeat center top;
   background-size: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .equipament-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    top: -16px;
+
+    .equipament-toggle-icon {
+      width: 65px;
+      height: 65px;
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
+      transition: filter 0.15s ease, transform 0.15s ease;
+      cursor: pointer;
+
+      &:hover {
+        filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.7));
+        transform: scale(1.05);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+}
+
+// -----------------------------------------
+// Equipament Table Header (Hidden)
+// -----------------------------------------
+ol.items-list.equipament-table > li.item.items-header {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.equipament-table {
+  flex: 1;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid #FFB75C;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  overflow: visible;
+  margin: 0 20px;
+  position: relative;
+  top: -10px;
 }
