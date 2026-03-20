@@ -356,20 +356,25 @@
         data-document-class='Item'
       >
         {{!-- Item Row Summary --}}
-        <div class="item-row flexrow">
-        <div class='item-formula item-prop'>
-          {{#if item.system.rightHand}}
-            {{#if item.system.leftHand}}
-              <span class='hand-both'>P+S</span>
-            {{else}}
-              <span class='hand-primary'>P</span>
+        <div class='item-wrapper flexrow'>
+          <div class='item-formula item-prop'>
+            {{#if item.system.rightHand}}
+              <img 
+                src='/systems/cardigan/assets/images/weapons/right-hand.webp' 
+                alt='Mão Direita (P)' 
+                class='hand-icon right-hand-icon'
+                title='Mão Primária'
+              />
+            {{else if item.system.leftHand}}
+              <img 
+                src='/systems/cardigan/assets/images/weapons/left-hand.webp' 
+                alt='Mão Esquerda (S)' 
+                class='hand-icon left-hand-icon'
+                title='Mão Secundária'
+              />
             {{/if}}
-          {{else if item.system.leftHand}}
-            <span class='hand-secondary'>S</span>
-          {{else}}
-            <span class='hand-none'>-</span>
-          {{/if}}
-        </div>
+          </div>
+          <div class="item-row flexrow">
         <div class='item-name {{#if (eq item.system.durability.current 0)}}item-name-broken{{/if}}'>
           <div class='item-image'>
             <a 
@@ -484,6 +489,7 @@
               </button>
             {{/if}}
           {{/unless}}
+        </div>
         </div>
         </div>
         

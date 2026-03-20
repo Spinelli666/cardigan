@@ -1,4 +1,4 @@
-.equipament-banner {
+﻿.equipament-banner {
   width: 100%;
   min-height: 50px;
   background: url('/systems/cardigan/assets/images/decorative/back-inventory.webp') no-repeat center top;
@@ -48,10 +48,13 @@ ol.items-list.equipament-table > li.item.items-header {
   border: none !important;
 }
 
+// -----------------------------------------
+// Equipament Table Item Wrapper (P/S + Row Side by Side)
+// -----------------------------------------
 .equipament-table {
   flex: 1;
   min-width: 0;
-  padding: 8px;
+  padding: 8px 8px 8px 4px;
   border: 1px solid #FFB75C;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -59,4 +62,53 @@ ol.items-list.equipament-table > li.item.items-header {
   margin: 0 20px;
   position: relative;
   top: -10px;
+
+  // Cada linha: sem wrap, tudo numa linha só (mesmo que backpack-table)
+  li.item {
+    display: flex !important;
+    flex-direction: column;
+    padding: 0;
+    border: none;
+    background: none;
+
+    .item-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .item-row {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      align-items: center;
+      padding: 2px 5px;
+      border: 1px solid #FFB75C;
+      border-radius: 15px;
+      border-bottom: 1px solid #FFB75C;
+      background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+      flex: 1;
+      min-width: 0;
+
+      .item-image {
+        margin-left: 4px;
+        margin-right: 4px;
+        display: flex;
+        flex: 0 0 24px;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      &:last-child {
+        border-bottom: 1px solid #FFB75C;
+      }
+    }
+  }
+
+  li.item.is-search-hidden {
+    display: none !important;
+  }
 }
