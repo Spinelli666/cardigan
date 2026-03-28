@@ -48,6 +48,16 @@ ol.items-list.equipament-table > li.item.items-header {
   border: none !important;
 }
 
+.equipament-container {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: flex-start;
+  width: 470px;
+  position: relative;
+  top: -10px;
+}
+
 // -----------------------------------------
 // Equipament Table Item Wrapper (P/S + Row Side by Side)
 // -----------------------------------------
@@ -59,9 +69,6 @@ ol.items-list.equipament-table > li.item.items-header {
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   overflow: visible;
-  margin: 0 20px;
-  position: relative;
-  top: -10px;
 
   // Cada linha: sem wrap, tudo numa linha só (mesmo que backpack-table)
   li.item {
@@ -84,6 +91,7 @@ ol.items-list.equipament-table > li.item.items-header {
       display: flex !important;
       flex-wrap: nowrap !important;
       align-items: center;
+      width: 420px !important;
       padding: 2px 5px;
       border: 1px solid #FFB75C;
       border-radius: 15px;
@@ -91,6 +99,100 @@ ol.items-list.equipament-table > li.item.items-header {
       background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
       flex: 1;
       min-width: 0;
+
+      .item-name {
+        flex: 0 0 140px;
+        display: flex;
+        align-items: flex-start;
+        min-width: 0;
+        text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+        background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      // Colunas após o nome: mesmo padrão da backpack-table
+      .item-reload,
+      .item-ammunition,
+      .item-durability,
+      .item-unequip,
+      .item-controls {
+        flex: 0 0 auto;
+        margin-left: auto;
+
+        & ~ & {
+          margin-left: 0;
+        }
+      }
+
+      .item-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .item-control[data-context-menu],
+        .item-control.always-interactive {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          padding: 0;
+          cursor: pointer;
+          transition: all 0.15s ease;
+
+          i {
+            font-size: 12px;
+            text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+
+          &:hover {
+            background: none !important;
+            transform: translateY(-1px);
+          }
+
+          &:active {
+            transform: scale(0.95);
+          }
+
+          &:focus,
+          &:focus-visible {
+            outline: none;
+            box-shadow: none;
+          }
+        }
+      }
+
+      .item-reload {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 0;
+
+        .manage-ammunition {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .reload-icon,
+        .reload-icon-readonly {
+          transition: transform 0.15s ease, filter 0.15s ease;
+          will-change: transform, filter;
+        }
+
+        &:hover {
+          .reload-icon,
+          .reload-icon-readonly {
+            animation: reload-subtle-pulse 1.15s ease-in-out infinite;
+          }
+        }
+      }
 
       .item-image {
         margin-left: 4px;
@@ -100,6 +202,51 @@ ol.items-list.equipament-table > li.item.items-header {
         align-items: center;
         justify-content: center;
         position: relative;
+
+        .weapon-image-attack {
+          position: relative;
+          width: 24px;
+          height: 24px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+
+          img {
+            width: 24px;
+            height: 24px;
+            object-fit: cover;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+          }
+
+          .weapon-base-icon {
+            opacity: 1;
+          }
+
+          .weapon-d20-icon {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            filter: drop-shadow(0 0 4px rgba(255, 183, 92, 0.55));
+            will-change: transform, filter;
+          }
+
+          &:hover:not(.disabled) {
+            .weapon-base-icon {
+              opacity: 0;
+            }
+
+            .weapon-d20-icon {
+              opacity: 1;
+              animation: weapon-d20-subtle-pulse 1.15s ease-in-out infinite;
+            }
+          }
+
+          &.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+          }
+        }
       }
 
       &:last-child {
@@ -110,5 +257,31 @@ ol.items-list.equipament-table > li.item.items-header {
 
   li.item.is-search-hidden {
     display: none !important;
+  }
+}
+
+@keyframes weapon-d20-subtle-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 4px rgba(255, 183, 92, 0.45));
+  }
+
+  50% {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.7));
+  }
+}
+
+@keyframes reload-subtle-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 3px rgba(255, 183, 92, 0.4));
+  }
+
+  50% {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
   }
 }

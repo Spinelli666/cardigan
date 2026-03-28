@@ -2617,6 +2617,15 @@
   padding: 0 !important;
   border: none !important;
 }
+.cardigan .tab.equipment .equipament-container {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: flex-start;
+  width: 470px;
+  position: relative;
+  top: -10px;
+}
 .cardigan .tab.equipment .equipament-table {
   flex: 1;
   min-width: 0;
@@ -2625,9 +2634,6 @@
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   overflow: visible;
-  margin: 0 20px;
-  position: relative;
-  top: -10px;
 }
 .cardigan .tab.equipment .equipament-table li.item {
   display: flex !important;
@@ -2648,6 +2654,7 @@
   display: flex !important;
   flex-wrap: nowrap !important;
   align-items: center;
+  width: 420px !important;
   padding: 2px 5px;
   border: 1px solid #FFB75C;
   border-radius: 15px;
@@ -2655,6 +2662,112 @@
   background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   flex: 1;
   min-width: 0;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-name {
+  flex: 0 0 140px;
+  display: flex;
+  align-items: flex-start;
+  min-width: 0;
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-durability,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-unequip,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-unequip,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-controls,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-unequip,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-controls,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-durability ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-durability ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-durability ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-durability ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-unequip,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-durability ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-controls,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-unequip ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-unequip ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-unequip ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-unequip ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-unequip,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-unequip ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-controls,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-unequip,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls ~ .cardigan .tab.equipment .equipament-table li.item .item-row .item-controls {
+  margin-left: 0;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control[data-context-menu],
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control.always-interactive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control[data-context-menu] i,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control.always-interactive i {
+  font-size: 12px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control[data-context-menu]:hover,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control.always-interactive:hover {
+  background: none !important;
+  transform: translateY(-1px);
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control[data-context-menu]:active,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control.always-interactive:active {
+  transform: scale(0.95);
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control[data-context-menu]:focus, .cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control[data-context-menu]:focus-visible,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control.always-interactive:focus,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control.always-interactive:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload .manage-ammunition {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload .reload-icon,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload .reload-icon-readonly {
+  transition: transform 0.15s ease, filter 0.15s ease;
+  will-change: transform, filter;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload:hover .reload-icon,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload:hover .reload-icon-readonly {
+  animation: reload-subtle-pulse 1.15s ease-in-out infinite;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-image {
   margin-left: 4px;
@@ -2665,11 +2778,67 @@
   justify-content: center;
   position: relative;
 }
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-image .weapon-image-attack {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-image .weapon-image-attack img {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-image .weapon-image-attack .weapon-base-icon {
+  opacity: 1;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-image .weapon-image-attack .weapon-d20-icon {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  filter: drop-shadow(0 0 4px rgba(255, 183, 92, 0.55));
+  will-change: transform, filter;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-image .weapon-image-attack:hover:not(.disabled) .weapon-base-icon {
+  opacity: 0;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-image .weapon-image-attack:hover:not(.disabled) .weapon-d20-icon {
+  opacity: 1;
+  animation: weapon-d20-subtle-pulse 1.15s ease-in-out infinite;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-image .weapon-image-attack.disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
 .cardigan .tab.equipment .equipament-table li.item .item-row:last-child {
   border-bottom: 1px solid #FFB75C;
 }
 .cardigan .tab.equipment .equipament-table li.item.is-search-hidden {
   display: none !important;
+}
+@keyframes weapon-d20-subtle-pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 4px rgba(255, 183, 92, 0.45));
+  }
+  50% {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.7));
+  }
+}
+@keyframes reload-subtle-pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 3px rgba(255, 183, 92, 0.4));
+  }
+  50% {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
+  }
 }
 .cardigan .tab.equipment .item-formula {
   text-align: center;
