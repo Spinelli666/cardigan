@@ -90,8 +90,9 @@ ol.items-list.equipament-table > li.item.items-header {
     .item-row {
       display: flex !important;
       flex-wrap: nowrap !important;
+      gap: 4px;
       align-items: center;
-      width: 420px !important;
+      width: 100% !important;
       padding: 2px 5px;
       border: 1px solid #FFB75C;
       border-radius: 15px;
@@ -101,7 +102,8 @@ ol.items-list.equipament-table > li.item.items-header {
       min-width: 0;
 
       .item-name {
-        flex: 0 0 140px;
+        flex: 0 0 136px;
+        width: auto;
         display: flex;
         align-items: flex-start;
         min-width: 0;
@@ -118,12 +120,35 @@ ol.items-list.equipament-table > li.item.items-header {
       .item-durability,
       .item-unequip,
       .item-controls {
-        flex: 0 0 auto;
-        margin-left: auto;
+        margin-left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-        & ~ & {
-          margin-left: 0;
-        }
+      .item-reload {
+        flex: 0 0 30px;
+        width: 30px;
+      }
+
+      .item-ammunition {
+        flex: 0 0 56px;
+        width: 56px;
+      }
+
+      .item-durability {
+        flex: 0 0 44px;
+        width: 44px;
+      }
+
+      .item-unequip {
+        flex: 0 0 36px;
+        width: 36px;
+      }
+
+      .item-controls {
+        flex: 0 0 28px;
+        width: 28px;
       }
 
       .item-controls {
@@ -189,16 +214,102 @@ ol.items-list.equipament-table > li.item.items-header {
         &:hover {
           .reload-icon,
           .reload-icon-readonly {
-            animation: reload-subtle-pulse 1.15s ease-in-out infinite;
+            transform: scale(1.06);
+            filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
           }
         }
       }
 
+      .item-durability {
+        span {
+          padding: 0;
+          border-radius: 0;
+          background: none;
+          text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+          background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        input[type='number'] {
+          width: 40px;
+          padding: 0;
+          text-align: center;
+          transition: none !important;
+          border: none;
+          border-radius: 0;
+          background: none;
+          box-shadow: none;
+          color: #FFB75C;
+          text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+          background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+
+          &:hover,
+          &:active {
+            transition: none !important;
+            border: none;
+            border-radius: 0;
+            background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            box-shadow: none;
+            outline: none;
+          }
+
+          &:focus {
+            transition: none !important;
+            border-radius: 6px;
+            border: 1.7px solid #FFB75C;
+            background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            box-shadow: none;
+            outline: none;
+          }
+        }
+      }
+
+      .item-ammunition {
+        .ammunition-display,
+        .ammunition-current,
+        .ammunition-magazine {
+          padding: 0;
+          border-radius: 0;
+          background: none;
+          text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+          background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .ammunition-firearm.ammunition-display {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1px;
+        }
+
+        .ammunition-separator-icon {
+          width: 8px;
+          height: 15px;
+          object-fit: contain;
+          filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+        }
+      }
+
       .item-image {
-        margin-left: 4px;
-        margin-right: 4px;
+        margin-left: 0;
+        margin-right: 0;
         display: flex;
         flex: 0 0 24px;
+        width: 24px;
         align-items: center;
         justify-content: center;
         position: relative;
@@ -273,15 +384,3 @@ ol.items-list.equipament-table > li.item.items-header {
   }
 }
 
-@keyframes reload-subtle-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 3px rgba(255, 183, 92, 0.4));
-  }
-
-  50% {
-    transform: scale(1.06);
-    filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
-  }
-}

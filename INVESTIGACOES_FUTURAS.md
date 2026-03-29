@@ -4,6 +4,35 @@ Este arquivo documenta questões técnicas e melhorias arquiteturais identificad
 
 ---
 
+## 🧩 Backlog de Extrações Cirúrgicas (`actor-sheet.mjs`) — 28/03/2026
+
+### ✅ Já extraído
+- `module/sheets/actions/ammunition-actions.mjs`
+  - Gestão de munição, diálogo reativo e listeners de atualização.
+- `module/sheets/actions/weapon-actions.mjs`
+  - Fluxo de ataque com arma e detecção de críticos.
+- `module/sheets/actions/equipment-actions.mjs`
+  - Equipar/desequipar arma+armadura (ações da tabela e fluxo de contexto).
+- `module/sheets/actions/consumable-actions.mjs`
+  - Consumo de itens, skill-check/crit, tracking effect e processadores de modificadores.
+
+### 🎯 Próximas extrações recomendadas (ordem sugerida)
+1. **Modal de abilities + derived stats**
+  - ciclo de abertura/fechamento do modal e sincronização de campos.
+2. **Context menu completo**
+  - `_getContextOptions`, `_onAction`, exibição em chat e handlers correlatos.
+3. **Drag & drop completo**
+  - handlers de drag/drop, sort e criação por drop.
+4. **Listeners de campos dinâmicos**
+  - blocos `#add*Listeners` e `#handle*`.
+
+### 📌 Observações de segurança para continuidade
+- Manter abordagem de **wrappers no `actor-sheet`** para preservar compatibilidade com `DEFAULT_OPTIONS.actions` e integrações externas.
+- Extrair por blocos coesos e validar erros após cada etapa.
+- Evitar mudança de comportamento no mesmo commit da extração.
+
+---
+
 ## ✅ ETAPA 6: Refatoração Toxicity Effects - **CONCLUÍDA**
 
 ### 🎉 Solução Implementada

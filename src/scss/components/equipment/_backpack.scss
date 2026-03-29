@@ -17,7 +17,7 @@
   // Style for weight column in backpack table
   .item-weight {
     text-align: center;
-    min-width: 60px;
+    min-width: 40px;
     color: #c9c7b8;
     font-weight: 600;
   }
@@ -111,7 +111,7 @@
     text-align: center;
     font-size: 12px;
     font-weight: bold;
-    min-width: 60px;
+    min-width: 40px;
     
     span {
       padding: 2px 6px;
@@ -147,7 +147,7 @@
     text-align: center;
     font-size: 12px;
     font-weight: bold;
-    min-width: 60px;
+    min-width: 40px;
     
     span {
       padding: 2px 6px;
@@ -182,19 +182,28 @@
     min-width: 50px;
     
     .unequip-weapon {
-      display: inline-block;
-      padding: 4px 6px;
-      border-radius: 3px;
-      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
       cursor: pointer;
+
+      img {
+        transition: transform 0.15s ease, filter 0.15s ease;
+        will-change: transform, filter;
+      }
       
       &:hover {
-        background: rgba(255, 87, 34, 0.2);
-        transform: scale(1.1);
+        img {
+          transform: scale(1.06);
+          filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
+        }
       }
       
       &:active {
-        transform: scale(0.95);
+        img {
+          transform: scale(0.95);
+        }
       }
       
       i {
@@ -208,20 +217,30 @@
     text-align: center;
     min-width: 50px;
     
-    .equip-weapon {
-      display: inline-block;
-      padding: 4px 6px;
-      border-radius: 3px;
-      transition: all 0.2s ease;
+    .equip-weapon,
+    .equip-armor {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
       cursor: pointer;
+
+      img {
+        transition: transform 0.15s ease, filter 0.15s ease;
+        will-change: transform, filter;
+      }
       
       &:hover {
-        background: rgba(76, 175, 80, 0.2);
-        transform: scale(1.1);
+        img {
+          transform: scale(1.06);
+          filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
+        }
       }
       
       &:active {
-        transform: scale(0.95);
+        img {
+          transform: scale(0.95);
+        }
       }
       
       i {
@@ -602,6 +621,7 @@ ol.items-list.backpack-table > li.item.items-header {
   li.item {
     display: flex !important;
     flex-wrap: nowrap !important;
+    gap: 4px;
     align-items: center;
     padding: 2px 5px;
     border: 1px solid #FFB75C;
@@ -620,10 +640,11 @@ ol.items-list.backpack-table > li.item.items-header {
 
   // Imagem do item: fora do item-name, tamanho fixo
   .item-image {
-    margin-left: 4px;
-    margin-right: 4px;
+    margin-left: 0;
+    margin-right: 0;
     display: flex;
     flex: 0 0 24px;
+    width: 24px;
     align-items: center;
     justify-content: center;
     position: relative;
@@ -631,7 +652,8 @@ ol.items-list.backpack-table > li.item.items-header {
 
   // Nome: cresce para preencher todo o espaço livre, trunca se necessário
   .item-name {
-    flex: 1;
+    flex: 1 1 auto;
+    width: auto;
     display: flex;
     align-items: flex-start;
     min-width: 0;
@@ -652,12 +674,25 @@ ol.items-list.backpack-table > li.item.items-header {
   .item-quantity,
   .item-equip,
   .item-controls {
-    flex: 0 0 auto;
-    margin-left: auto;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    & ~ & {
-      margin-left: 0;
-    }
+  .item-quantity {
+    flex: 0 0 44px;
+    width: 44px;
+  }
+
+  .item-equip {
+    flex: 0 0 36px;
+    width: 36px;
+  }
+
+  .item-controls {
+    flex: 0 0 28px;
+    width: 28px;
   }
 
   .item-quantity {

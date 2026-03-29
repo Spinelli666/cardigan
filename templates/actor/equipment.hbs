@@ -239,7 +239,12 @@
                     data-item-id='{{item._id}}'
                     style='color: #4caf50; font-size: 16px;'
                   >
-                    <i class='fas fa-shield-alt'></i>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
+                      alt='{{localize "CARDIGAN.EquipWeapon"}}'
+                      width='24'
+                      height='24'
+                    />
                   </a>
                 {{/if}}
               {{else if (eq item.type "armadura")}}
@@ -253,7 +258,12 @@
                     data-item-id='{{item._id}}'
                     style='color: #2196f3; font-size: 16px;'
                   >
-                    <i class='fas fa-shield'></i>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
+                      alt='{{localize "CARDIGAN.EquipArmor"}}'
+                      width='24'
+                      height='24'
+                    />
                   </a>
                 {{/if}}
               {{else if (eq item.type "item-consumivel")}}
@@ -441,7 +451,15 @@
           {{#unless item.system.isUnarmed}}
             {{#if (or item.system.ranged item.system.isFirearm)}}
               {{#if item.system.isFirearm}}
-                <span class='ammunition-firearm ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}/{{item.system.magazine}}</span>
+                <span class='ammunition-firearm ammunition-display' data-weapon-id='{{item._id}}'>
+                  <span class='ammunition-current'>{{item.system.loadedAmmo}}</span>
+                  <img
+                    src='systems/cardigan/assets/images/decorative/field-divider.svg'
+                    alt='/'
+                    class='ammunition-separator-icon'
+                  />
+                  <span class='ammunition-magazine'>{{item.system.magazine}}</span>
+                </span>
               {{else}}
                 <span class='ammunition-ranged ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}</span>
               {{/if}}
@@ -477,7 +495,12 @@
                 data-action='unequipWeapon'
                 data-item-id='{{item._id}}'
               >
-                <i class='fas fa-times-circle'></i>
+                <img
+                  src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
+                  alt='{{localize "CARDIGAN.UnequipWeapon"}}'
+                  width='24'
+                  height='24'
+                />
               </a>
             {{/if}}
           {{/unless}}
