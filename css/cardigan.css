@@ -2472,6 +2472,7 @@
 .cardigan .tab.equipment .inventory-banner {
   width: 100%;
   min-height: 50px;
+  margin-bottom: 5px;
   background: url("/systems/cardigan/assets/images/decorative/back-inventory.webp") no-repeat center top;
   background-size: 90%;
   display: flex;
@@ -2664,6 +2665,10 @@
   flex: 1;
   min-width: 0;
 }
+.cardigan .tab.equipment .equipament-table li.item .item-row.unarmed-row {
+  padding: 3px 5px;
+  border-radius: 11px;
+}
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-name {
   flex: 0 0 136px;
   width: auto;
@@ -2676,6 +2681,7 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload-ammunition-wrapper,
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload,
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition,
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability,
@@ -2685,6 +2691,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-reload-ammunition-wrapper {
+  flex: 0 0 86px;
+  width: 86px;
+  gap: 4px;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload {
   flex: 0 0 30px;
@@ -2767,6 +2778,39 @@
   transform: scale(1.06);
   filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
 }
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-durability {
+  gap: 4px;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-durability .durability-icon,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-durability .durability-icon-header {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-durability .durability-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-durability .durability-separator-icon {
+  width: 8px;
+  height: 15px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-durability .durability-max {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 0.9em;
+}
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability span {
   padding: 0;
   border-radius: 0;
@@ -2778,7 +2822,7 @@
   -webkit-text-fill-color: transparent;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability input[type=number] {
-  width: 40px;
+  width: 32px;
   padding: 0;
   text-align: center;
   transition: none !important;
@@ -4532,6 +4576,25 @@
   font-size: 12px;
   font-weight: bold;
   min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+.cardigan .tab.equipment .item-durability .durability-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+.cardigan .tab.equipment .item-durability .durability-separator-icon {
+  width: 8px;
+  height: 15px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+}
+.cardigan .tab.equipment .item-durability .durability-max {
+  font-size: 12px;
 }
 .cardigan .tab.equipment .item-durability span {
   padding: 2px 6px;
@@ -4547,7 +4610,7 @@
   background: transparent;
   color: #fff;
   text-align: center;
-  width: 50px;
+  width: 35px;
 }
 .cardigan .tab.equipment .item-durability input[type=number]:focus {
   outline: none;
@@ -5082,14 +5145,6 @@
 .cardigan .backpack-table .item-controls .item-control.always-interactive:focus-visible {
   outline: none;
   box-shadow: none;
-}
-.cardigan .backpack-section-border {
-  width: 95%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-.cardigan .inventory-banner:has(input[type=checkbox]:not(:checked)) .backpack-section-border {
-  margin-top: 0;
 }
 .cardigan {
   /* Character Details Container Styles */
