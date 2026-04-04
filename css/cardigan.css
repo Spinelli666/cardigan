@@ -2676,7 +2676,7 @@
   flex: 1 1 auto;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-name {
-  flex: 0 0 136px;
+  flex: 0 0 99px;
   width: auto;
   display: flex;
   align-items: flex-start;
@@ -2812,12 +2812,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 28px;
   gap: 0;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability .durability-values .durability-input.durability-current,
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability .durability-values .durability-input.durability-max.durability-max-input {
   height: 15px;
-  width: 10px;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability .durability-separator-icon {
   width: 8px;

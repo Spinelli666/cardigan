@@ -115,7 +115,7 @@ ol.items-list.equipament-table > li.item.items-header {
       }
 
       .item-name {
-        flex: 0 0 136px;
+        flex: 0 0 99px;
         width: auto;
         display: flex;
         align-items: flex-start;
@@ -271,12 +271,12 @@ ol.items-list.equipament-table > li.item.items-header {
           display: inline-flex;
           align-items: center;
           justify-content: center;
+          width: 28px;
           gap: 0;
 
           .durability-input.durability-current,
           .durability-input.durability-max.durability-max-input {
             height: 15px;
-            width: 10px;
           }
         }
 

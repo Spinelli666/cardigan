@@ -484,6 +484,7 @@
               class='durability-icon'
               width='18'
               height='18'
+              title='{{localize "CARDIGAN.Durability"}}'
             />
             {{#if @root.editable}}
               <div class='durability-display'>
@@ -496,7 +497,6 @@
                     min='0'
                     max='{{item.system.durability.max}}'
                     data-dtype='Number'
-                    title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'
                   />
                   <img
                     src='systems/cardigan/assets/images/decorative/field-divider.svg'
@@ -511,12 +511,11 @@
                     min='0'
                     data-dtype='Number'
                     readonly
-                    title='Durabilidade máxima: {{item.system.durability.max}}'
                   />
                 </span>
               </div>
             {{else}}
-              <span title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'>
+              <span title='Durabilidade'>
                 {{item.system.durability.current}}/{{item.system.durability.max}}
               </span>
             {{/if}}
@@ -632,6 +631,7 @@
             class='durability-icon'
             width='18'
             height='18'
+            title='{{localize "CARDIGAN.Durability"}}'
           />
           {{#if @root.editable}}
             <div class='durability-display'>
@@ -644,7 +644,7 @@
                   min='0'
                   max='{{item.system.durability.max}}'
                   data-dtype='Number'
-                  title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'
+                  title='Durabilidade'
                 />
                 <img
                   src='systems/cardigan/assets/images/decorative/field-divider.svg'
@@ -659,12 +659,12 @@
                   min='0'
                   data-dtype='Number'
                   readonly
-                  title='Durabilidade máxima: {{item.system.durability.max}}'
+                  title='Durabilidade'
                 />
               </span>
             </div>
           {{else}}
-            <span title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'>
+            <span title='Durabilidade'>
               {{item.system.durability.current}}/{{item.system.durability.max}}
             </span>
           {{/if}}
