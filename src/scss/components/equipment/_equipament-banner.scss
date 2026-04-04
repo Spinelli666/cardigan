@@ -96,7 +96,7 @@ ol.items-list.equipament-table > li.item.items-header {
       flex-wrap: nowrap !important;
       gap: 4px;
       align-items: center;
-      width: 100% !important;
+      width: 456px !important;
       padding: 2px 5px;
       border: 1px solid #FFB75C;
       border-radius: 15px;
@@ -107,7 +107,7 @@ ol.items-list.equipament-table > li.item.items-header {
 
       &.unarmed-row {
         padding: 3px 5px;
-        border-radius: 15px;
+        border-radius: 14px;
 
         .item-name {
           flex: 1 1 auto;

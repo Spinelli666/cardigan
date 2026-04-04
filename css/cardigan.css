@@ -2659,7 +2659,7 @@
   flex-wrap: nowrap !important;
   gap: 4px;
   align-items: center;
-  width: 100% !important;
+  width: 456px !important;
   padding: 2px 5px;
   border: 1px solid #FFB75C;
   border-radius: 15px;
@@ -2670,7 +2670,7 @@
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row.unarmed-row {
   padding: 3px 5px;
-  border-radius: 15px;
+  border-radius: 14px;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row.unarmed-row .item-name {
   flex: 1 1 auto;
