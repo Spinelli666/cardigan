@@ -516,6 +516,31 @@ export class CardiganSystemItem extends Item {
    */
   async _preUpdate(changed, options, user) {
     await super._preUpdate(changed, options, user);
+
+    // Enforce durability consistency for equipment items
+    if (this.type === 'arma' || this.type === 'armadura') {
+      const incomingCurrent = foundry.utils.getProperty(changed, 'system.durability.current');
+      const incomingMax = foundry.utils.getProperty(changed, 'system.durability.max');
+
+      if (incomingCurrent !== undefined || incomingMax !== undefined) {
+        const existingCurrent = this.system?.durability?.current ?? 0;
+        const existingMax = this.system?.durability?.max ?? 1;
+
+        let nextMax = incomingMax !== undefined ? Number(incomingMax) : Number(existingMax);
+        if (!Number.isFinite(nextMax)) nextMax = Number(existingMax) || 1;
+        nextMax = Math.max(1, Math.floor(nextMax));
+
+        let nextCurrent = incomingCurrent !== undefined ? Number(incomingCurrent) : Number(existingCurrent);
+        if (!Number.isFinite(nextCurrent)) nextCurrent = Number(existingCurrent) || 0;
+        nextCurrent = Math.max(0, Math.floor(nextCurrent));
+
+        // current can never exceed max (prevents states like 4/3)
+        if (nextCurrent > nextMax) nextCurrent = nextMax;
+
+        foundry.utils.setProperty(changed, 'system.durability.max', nextMax);
+        foundry.utils.setProperty(changed, 'system.durability.current', nextCurrent);
+      }
+    }
     
     // If this is a weapon (arma) and skillBonuses are being changed
     if (this.type === 'arma' && changed.system?.skillBonuses !== undefined) {

@@ -242,8 +242,8 @@
                     <img
                       src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
                       alt='{{localize "CARDIGAN.EquipWeapon"}}'
-                      width='24'
-                      height='24'
+                      width='20'
+                      height='20'
                     />
                   </a>
                 {{/if}}
@@ -261,8 +261,8 @@
                     <img
                       src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
                       alt='{{localize "CARDIGAN.EquipArmor"}}'
-                      width='24'
-                      height='24'
+                      width='20'
+                      height='20'
                     />
                   </a>
                 {{/if}}
@@ -373,7 +373,7 @@
         data-document-class='Item'
       >
         {{!-- Item Row Summary --}}
-        <div class='item-wrapper flexrow'>
+        <div class='item-wrapper flexrow {{#if item.system.isUnarmed}}unarmed-wrapper{{/if}}'>
           <div class='item-formula item-prop'>
             {{#if item.system.rightHand}}
               <img 
@@ -439,8 +439,8 @@
                       src='systems/cardigan/assets/images/decorative/icons/icon-recharge.svg'
                       alt='Recarregar'
                       class='reload-icon'
-                      width='24'
-                      height='24'
+                      width='20'
+                      height='20'
                     />
                   </a>
                 {{else}}
@@ -448,16 +448,16 @@
                     src='systems/cardigan/assets/images/decorative/icons/icon-recharge.svg'
                     alt='Reload'
                     class='reload-icon-readonly'
-                    width='24'
-                    height='24'
+                    width='20'
+                    height='20'
                     title='Reload'
                   />
                 {{/if}}
               {{/if}}
             {{/unless}}
           </div>
-          <div class='item-ammunition'>
-            {{#unless item.system.isUnarmed}}
+          {{#unless item.system.isUnarmed}}
+            <div class='item-ammunition'>
               {{#if (or item.system.ranged item.system.isFirearm)}}
                 {{#if item.system.isFirearm}}
                   <span class='ammunition-firearm ammunition-display' data-weapon-id='{{item._id}}'>
@@ -473,36 +473,47 @@
                   <span class='ammunition-ranged ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}</span>
                 {{/if}}
               {{/if}}
-            {{/unless}}
-          </div>
+            </div>
+          {{/unless}}
         </div>
-        <div class='item-durability'>
+        <div class='item-durability {{#if item.system.isUnarmed}}unarmed-durability-hidden{{/if}}'>
           {{#unless item.system.isUnarmed}}
             <img
               src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
               alt='Durabilidade'
               class='durability-icon'
-              width='24'
-              height='24'
+              width='18'
+              height='18'
             />
             {{#if @root.editable}}
               <div class='durability-display'>
-                <input
-                  type='number'
-                  class='durability-input'
-                  name='items.{{item._id}}.system.durability.current'
-                  value='{{item.system.durability.current}}'
-                  min='0'
-                  max='{{item.system.durability.max}}'
-                  data-dtype='Number'
-                  title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'
-                />
-                <img
-                  src='systems/cardigan/assets/images/decorative/field-divider.svg'
-                  alt='/'
-                  class='durability-separator-icon'
-                />
-                <span class='durability-max'>{{item.system.durability.max}}</span>
+                <span class='durability-values'>
+                  <input
+                    type='number'
+                    class='durability-input durability-current'
+                    name='items.{{item._id}}.system.durability.current'
+                    value='{{item.system.durability.current}}'
+                    min='0'
+                    max='{{item.system.durability.max}}'
+                    data-dtype='Number'
+                    title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'
+                  />
+                  <img
+                    src='systems/cardigan/assets/images/decorative/field-divider.svg'
+                    alt='/'
+                    class='durability-separator-icon'
+                  />
+                  <input
+                    type='number'
+                    class='durability-input durability-max durability-max-input'
+                    name='items.{{item._id}}.system.durability.max'
+                    value='{{item.system.durability.max}}'
+                    min='0'
+                    data-dtype='Number'
+                    readonly
+                    title='Durabilidade máxima: {{item.system.durability.max}}'
+                  />
+                </span>
               </div>
             {{else}}
               <span title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'>
@@ -523,8 +534,8 @@
                 <img
                   src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
                   alt='{{localize "CARDIGAN.UnequipWeapon"}}'
-                  width='24'
-                  height='24'
+                  width='20'
+                  height='20'
                 />
               </a>
             {{/if}}
@@ -619,27 +630,38 @@
             src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
             alt='Durabilidade'
             class='durability-icon'
-            width='24'
-            height='24'
+            width='18'
+            height='18'
           />
           {{#if @root.editable}}
             <div class='durability-display'>
-              <input
-                type='number'
-                class='durability-input'
-                name='items.{{item._id}}.system.durability.current'
-                value='{{item.system.durability.current}}'
-                min='0'
-                max='{{item.system.durability.max}}'
-                data-dtype='Number'
-                title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'
-              />
-              <img
-                src='systems/cardigan/assets/images/decorative/field-divider.svg'
-                alt='/'
-                class='durability-separator-icon'
-              />
-              <span class='durability-max'>{{item.system.durability.max}}</span>
+              <span class='durability-values'>
+                <input
+                  type='number'
+                  class='durability-input durability-current'
+                  name='items.{{item._id}}.system.durability.current'
+                  value='{{item.system.durability.current}}'
+                  min='0'
+                  max='{{item.system.durability.max}}'
+                  data-dtype='Number'
+                  title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'
+                />
+                <img
+                  src='systems/cardigan/assets/images/decorative/field-divider.svg'
+                  alt='/'
+                  class='durability-separator-icon'
+                />
+                <input
+                  type='number'
+                  class='durability-input durability-max durability-max-input'
+                  name='items.{{item._id}}.system.durability.max'
+                  value='{{item.system.durability.max}}'
+                  min='0'
+                  data-dtype='Number'
+                  readonly
+                  title='Durabilidade máxima: {{item.system.durability.max}}'
+                />
+              </span>
             </div>
           {{else}}
             <span title='Durabilidade atual: {{item.system.durability.current}}/{{item.system.durability.max}}'>

@@ -96,8 +96,8 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
       }),
       price: new fields.NumberField({ required: true, nullable: false, initial: 0, min: 0 }),
       durability: new fields.SchemaField({
-        current: new fields.NumberField({ required: true, nullable: false, initial: CardiganSystemArma.DURABILITY_MAX, min: 0, max: CardiganSystemArma.DURABILITY_MAX, integer: true }),
-        max: new fields.NumberField({ required: true, nullable: false, initial: CardiganSystemArma.DURABILITY_MAX, min: CardiganSystemArma.DURABILITY_MAX, max: CardiganSystemArma.DURABILITY_MAX, integer: true })
+        current: new fields.NumberField({ required: true, nullable: false, initial: CardiganSystemArma.DURABILITY_MAX, min: 0, integer: true }),
+        max: new fields.NumberField({ required: true, nullable: false, initial: CardiganSystemArma.DURABILITY_MAX, min: 1, integer: true })
       }),
       skillBonuses: new fields.ArrayField(
         new fields.SchemaField({
