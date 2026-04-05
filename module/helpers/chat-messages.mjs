@@ -53,8 +53,10 @@ export class ChatMessageHelper {
       'systems/cardigan/templates/chat/roll-message.hbs'
     );
     
-    // Check if special action mode is active (hand selection or joint roll)
-    const hasSpecialAction = primaryHand || secondaryHand || isJointRoll;
+    const hasAttackTargets = !!flags?.cardigan?.attackTargets;
+
+    // Check if special action mode is active (hand selection, attack targets or joint roll)
+    const hasSpecialAction = primaryHand || secondaryHand || isJointRoll || hasAttackTargets;
     
     // Get target data for tooltips and display
     let targetNames = '';
@@ -69,8 +71,8 @@ export class ChatMessageHelper {
         // Joint roll: get all target names for tooltip
         const names = targets.map(token => token.actor?.name || token.name);
         targetNames = names.join('<br>');
-      } else if (targets.length === 1 && (primaryHand || secondaryHand)) {
-        // Single target with hand selected: get target avatar
+      } else if (targets.length === 1 && (primaryHand || secondaryHand || hasAttackTargets)) {
+        // Single target attack: get target avatar
         hasSingleTarget = true;
         const target = targets[0];
         targetImg = target.actor?.img || target.texture.src;

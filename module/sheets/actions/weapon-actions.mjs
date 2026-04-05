@@ -9,18 +9,68 @@ import { AdvantageSelectionDialog } from '../../applications/advantage-selection
 export class WeaponActions {
 
   /**
+   * Ask the player whether to attack freely without a selected target.
+   * @returns {Promise<boolean>}
+   */
+  static async _confirmFreeAttack() {
+    return new Promise((resolve) => {
+      let resolved = false;
+
+      const finish = (value) => {
+        if (resolved) return;
+        resolved = true;
+        resolve(value);
+      };
+
+      const dialog = new foundry.applications.api.DialogV2({
+        window: {
+          title: "Atacar livremente?",
+          icon: "fa-solid fa-crosshairs"
+        },
+        content: `
+          <div style="padding: 12px 16px;">
+            <p style="margin: 0; line-height: 1.4;">
+              Você não selecionou um alvo, tem certeza que deseja atacar livremente?
+            </p>
+          </div>
+        `,
+        buttons: [
+          {
+            action: "confirm",
+            label: "Sim",
+            icon: "fa-solid fa-check",
+            default: true,
+            callback: () => finish(true)
+          },
+          {
+            action: "cancel",
+            label: "Não",
+            icon: "fa-solid fa-times",
+            callback: () => finish(false)
+          }
+        ],
+        position: {
+          width: 420,
+          height: "auto"
+        },
+        modal: false,
+        rejectClose: false
+      });
+
+      dialog.addEventListener('close', () => finish(false));
+      dialog.render(true);
+    });
+  }
+
+  /**
    * Handle attacking with a weapon
    * @param {PointerEvent|Item} eventOrItem   The originating click event or weapon item
    * @param {HTMLElement|string} targetOrAmmoId   The capturing HTML element or specific ammunition ID
    * @param {CardiganSystemActorSheet} sheet
    */
   static async onAttackWithWeapon(eventOrItem, targetOrAmmoId, sheet) {
-    // Validate target selection
-    const targets = game.user.targets;
-    if (targets.size === 0) {
-      ui.notifications.warn("Por favor, selecione um ou mais alvos para atacar.");
-      return;
-    }
+    const targets = game.user.targets ?? new Set();
+    const hasTargets = targets.size > 0;
 
     let event, target, item, specificAmmoId;
 
@@ -84,6 +134,11 @@ export class WeaponActions {
       }
     }
 
+    if (!hasTargets) {
+      const confirmed = await WeaponActions._confirmFreeAttack();
+      if (!confirmed) return;
+    }
+
     const actor = sheet.document;
 
     // Show advantage selection dialog (hide hand selection for weapon attacks)
@@ -92,8 +147,8 @@ export class WeaponActions {
 
     const { rollType, attackMode, manualModifier = 0 } = result;
 
-    // JOINT ROLL: Require multiple targets
-    if (attackMode === 'conjunto') {
+    // JOINT ROLL: Require multiple targets when targets are selected
+    if (attackMode === 'conjunto' && hasTargets) {
       if (!game.user.targets || game.user.targets.size < 2) {
         ui.notifications.warn('Por favor, selecione dois ou mais alvos antes de fazer uma Rolagem em Conjunto.');
         return;
@@ -290,7 +345,6 @@ export class WeaponActions {
     let ammunitionMessage = '';
     if (item.system.ranged && !isCriticalFailure) {
       const loadedAmmoTypes = item.system.loadedAmmoTypes || {};
-      const currentLoaded = item.system.loadedAmmo || 0;
 
       // Find first ammunition type with loaded ammo following display order
       let consumedAmmoType = null;
@@ -450,11 +504,15 @@ export class WeaponActions {
       modifiers.push(ammunitionMessage);
     }
 
+    const attackLabel = attackMode === 'conjunto'
+      ? 'Ataque conjunto'
+      : (targetTokens.length === 1 ? 'Ataque com um alvo' : 'Precisão');
+
     // Create chat message using helper
     await ChatMessageHelper.createRollMessage({
       actor: actor,
       roll: roll,
-      label: 'PRECISÃO',
+      label: attackLabel,
       rollType: rollType,
       rollDescription: rollDescription,
       handIndicator: null,  // Weapon attacks don't show hand indicators

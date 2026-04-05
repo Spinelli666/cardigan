@@ -954,24 +954,6 @@
   color: #ffffff;
   font-style: italic;
 }
-.cardigan-roll-chat-message .roll-content .roll-modifiers {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  justify-content: center;
-  margin-top: 8px;
-}
-.cardigan-roll-chat-message .roll-content .roll-modifiers .modifier-badge {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 12px;
-  font-size: 0.75em;
-  font-family: "Alatsi", sans-serif;
-  background: linear-gradient(135deg, #ff9800 0%, #e65100 100%);
-  color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  text-transform: uppercase;
-}
 
 /* Foundry message-header for roll messages only */
 .chat-message:has(.cardigan-roll-chat-message) .message-header.flexrow {
