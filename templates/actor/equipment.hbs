@@ -457,8 +457,8 @@
             {{/unless}}
           </div>
           {{#unless item.system.isUnarmed}}
-            <div class='item-ammunition'>
-              {{#if (or item.system.ranged item.system.isFirearm)}}
+            {{#if (or item.system.ranged item.system.isFirearm)}}
+              <div class='item-ammunition'>
                 {{#if item.system.isFirearm}}
                   <span class='ammunition-firearm ammunition-display' data-weapon-id='{{item._id}}'>
                     <span class='ammunition-current'>{{item.system.loadedAmmo}}</span>
@@ -472,8 +472,8 @@
                 {{else}}
                   <span class='ammunition-ranged ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}</span>
                 {{/if}}
-              {{/if}}
-            </div>
+              </div>
+            {{/if}}
           {{/unless}}
         </div>
         <div class='item-durability {{#if item.system.isUnarmed}}unarmed-durability-hidden{{/if}}'>
