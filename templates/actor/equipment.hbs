@@ -206,6 +206,13 @@
           <div class='item-quantity'>
             {{#if @root.editable}}
               {{#if (or (eq item.type "item-comum") (eq item.type "item-municao") (eq item.type "item-consumivel") (eq item.type "item-ingredient"))}}
+                <img
+                  src='systems/cardigan/assets/images/decorative/icons/icon-delete.svg'
+                  alt='Delete'
+                  class='quantity-delete-icon'
+                  width='10'
+                  height='10'
+                />
                 <input
                   type='number'
                   name='items.{{item._id}}.system.quantity'
@@ -234,14 +241,15 @@
                 {{else}}
                   <a
                     class='item-control equip-weapon'
-                    title='{{localize "CARDIGAN.EquipWeapon"}}'
+                    data-tooltip='CARDIGAN.Tooltip.Equip'
+                    data-tooltip-class='cardigan-tooltip'
                     data-action='equipWeapon'
                     data-item-id='{{item._id}}'
                     style='color: #4caf50; font-size: 16px;'
                   >
                     <img
                       src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
-                      alt='{{localize "CARDIGAN.EquipWeapon"}}'
+                      alt='{{localize "CARDIGAN.Tooltip.Equip"}}'
                       width='20'
                       height='20'
                     />
@@ -253,14 +261,15 @@
                 {{else}}
                   <a
                     class='item-control equip-armor'
-                    title='{{localize "CARDIGAN.EquipArmor"}}'
+                    data-tooltip='CARDIGAN.Tooltip.Equip'
+                    data-tooltip-class='cardigan-tooltip'
                     data-action='equipArmor'
                     data-item-id='{{item._id}}'
                     style='color: #2196f3; font-size: 16px;'
                   >
                     <img
                       src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
-                      alt='{{localize "CARDIGAN.EquipArmor"}}'
+                      alt='{{localize "CARDIGAN.Tooltip.Equip"}}'
                       width='20'
                       height='20'
                     />
@@ -269,12 +278,18 @@
               {{else if (eq item.type "item-consumivel")}}
                 <a
                   class='item-control consume-item'
-                  title='{{localize "CARDIGAN.UseConsumable"}}'
+                  data-tooltip='CARDIGAN.Tooltip.Use'
+                  data-tooltip-class='cardigan-tooltip'
                   data-action='consumeItem'
                   data-item-id='{{item._id}}'
-                  style='color: #ff9800; font-size: 16px; cursor: pointer;'
+                  style='cursor: pointer;'
                 >
-                  <i class='fas fa-flask'></i>
+                  <img
+                    src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
+                    alt='{{localize "CARDIGAN.Tooltip.Use"}}'
+                    width='20'
+                    height='20'
+                  />
                 </a>
               {{/if}}
             {{else}}
@@ -287,7 +302,7 @@
                   <i class='fas fa-shield' style='color: #2196f3; font-size: 16px;' title='{{localize "CARDIGAN.Equipped"}}'></i>
                 {{/if}}
               {{else if (eq item.type "item-consumivel")}}
-                <i class='fas fa-flask' style='color: #ff9800; font-size: 16px;' title='{{localize "CARDIGAN.Consumable"}}'></i>
+                <i class='fas fa-flask' style='color: #ff9800; font-size: 16px;' title='{{localize "CARDIGAN.Tooltip.Use"}}'></i>
               {{/if}}
             {{/if}}
           </div>
@@ -359,7 +374,7 @@
       </div>
       <div class='item-unequip'>
         {{#if hasNonUnarmedWeapons}}
-          {{localize 'CARDIGAN.Unequip'}}
+          {{localize 'CARDIGAN.Tooltip.Unequip'}}
         {{/if}}
       </div>
       <div class='item-controls'>
@@ -526,13 +541,14 @@
             {{#if @root.editable}}
               <a
                 class='item-control unequip-weapon unequip-button'
-                title='{{localize "CARDIGAN.UnequipWeapon"}}'
+                data-tooltip='CARDIGAN.Tooltip.Unequip'
+                data-tooltip-class='cardigan-tooltip'
                 data-action='unequipWeapon'
                 data-item-id='{{item._id}}'
               >
                 <img
                   src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
-                  alt='{{localize "CARDIGAN.UnequipWeapon"}}'
+                  alt='{{localize "CARDIGAN.Tooltip.Unequip"}}'
                   width='20'
                   height='20'
                 />
@@ -586,7 +602,7 @@
         />
         {{localize 'CARDIGAN.Durability'}}
       </div>
-      <div class='item-unequip'>{{localize 'CARDIGAN.Unequip'}}</div>
+      <div class='item-unequip'>{{localize 'CARDIGAN.Tooltip.Unequip'}}</div>
       <div class='item-controls'></div>
     </li>
     {{#each armaduras as |item id|}}
@@ -673,7 +689,8 @@
           {{#if @root.editable}}
             <button
               class='item-control unequip-armor-btn'
-              title='{{localize "CARDIGAN.UnequipArmor"}}'
+              data-tooltip='CARDIGAN.Tooltip.Unequip'
+              data-tooltip-class='cardigan-tooltip'
               data-action='unequipArmor'
               data-item-id='{{item._id}}'
             >

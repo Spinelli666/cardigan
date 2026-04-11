@@ -44,8 +44,7 @@
   // Style for reload button column
   .item-reload {
     text-align: center;
-    min-width: 40px;
-    
+
     .reload-ammunition {
       display: inline-block;
       padding: 4px 6px;
@@ -58,10 +57,6 @@
         transform: scale(1.1);
       }
       
-      &:active {
-        transform: scale(0.95);
-      }
-      
       i {
         font-size: 14px;
       }
@@ -70,9 +65,6 @@
   
   // Style for attack button column
   .item-attack {
-    text-align: center;
-    min-width: 40px;
-    
     .attack-weapon {
       display: inline-block;
       padding: 4px 6px;
@@ -239,7 +231,8 @@
     min-width: 50px;
     
     .equip-weapon,
-    .equip-armor {
+    .equip-armor,
+    .consume-item {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -252,6 +245,8 @@
       }
       
       &:hover {
+        background: none;
+
         img {
           transform: scale(1.06);
           filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
@@ -702,8 +697,15 @@ ol.items-list.backpack-table > li.item.items-header {
   }
 
   .item-quantity {
-    flex: 0 0 44px;
-    width: 44px;
+    flex: 0 0 54px;
+    width: 54px;
+
+    .quantity-delete-icon {
+      width: 5px;
+      height: 5px;
+      align-self: flex-end;
+      margin-bottom: 6px;
+    }
   }
 
   .item-equip {
@@ -718,7 +720,7 @@ ol.items-list.backpack-table > li.item.items-header {
 
   .item-quantity {
     input[type='number'] {
-      width: 40px;
+      height: 22px;
       padding: 0;
       text-align: center;
       transition: none !important;
@@ -748,8 +750,8 @@ ol.items-list.backpack-table > li.item.items-header {
 
       &:focus {
         transition: none !important;
-        border-radius: 6px;
-        border: 1.7px solid #FFB75C;
+        border-radius: 0;
+        border: none;
         background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
         background-clip: text;
         -webkit-background-clip: text;

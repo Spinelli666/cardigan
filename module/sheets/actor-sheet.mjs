@@ -368,6 +368,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Adicionar event listeners para campos de quantidade
     this.#addQuantityListeners();
+    this.#syncQuantityInputWidths();
     
     // Adicionar event listeners para campos de munição
     this.#addAmmunitionListeners();
@@ -1830,15 +1831,40 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const html = this.element;
     
     // Encontrar todos os inputs de quantidade dos itens da backpack
-    const quantityInputs = html.querySelectorAll('input[name*="quantity"]');
+    const quantityInputs = html.querySelectorAll('.backpack-table .item-quantity input[type="number"]');
     
     quantityInputs.forEach(input => {
       // Armazenar valor anterior para comparação
       input.dataset.previousValue = input.value;
+
+      // Ajustar largura conforme a quantidade atual e enquanto digita
+      this.#updateQuantityInputWidth(input);
+      input.addEventListener('input', () => this.#updateQuantityInputWidth(input));
       
       // Usar apenas 'blur' para evitar processamento excessivo
       input.addEventListener('blur', this.#handleQuantityChange.bind(this));
     });
+  }
+
+  /**
+   * Ajusta a largura do input de quantidade com base na quantidade de dígitos.
+   * @param {HTMLInputElement} input - O input de quantidade.
+   */
+  #updateQuantityInputWidth(input) {
+    if (!input) return;
+
+    const digits = String(Math.abs(parseInt(input.value) || 0)).length;
+    const widthCh = digits === 1 ? 1.5 : digits === 2 ? 2.5 : Math.max(1, Math.min(3, digits));
+    input.style.width = `${widthCh}ch`;
+  }
+
+  /**
+   * Sincroniza a largura de todos os inputs de quantidade do inventário.
+   */
+  #syncQuantityInputWidths() {
+    const html = this.element;
+    const quantityInputs = html.querySelectorAll('.backpack-table .item-quantity input[type="number"]');
+    quantityInputs.forEach((input) => this.#updateQuantityInputWidth(input));
   }
 
   /**
@@ -3415,7 +3441,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       if (item.system.equipped) {
         // Show Unequip option for equipped weapons
         options.push({
-          name: game.i18n.localize("CARDIGAN.UnequipWeapon"),
+          name: game.i18n.localize("CARDIGAN.Tooltip.Unequip"),
           icon: '<i class="fa-solid fa-shield fa-fw"></i>',
           condition: () => item.isOwner,
           callback: li => this._onAction(li, "unequip", item)
@@ -3423,7 +3449,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       } else {
         // Show Equip option for unequipped weapons
         options.push({
-          name: game.i18n.localize("CARDIGAN.EquipWeapon"),
+          name: game.i18n.localize("CARDIGAN.Tooltip.Equip"),
           icon: '<i class="fa-solid fa-hand-fist fa-fw"></i>',
           condition: () => item.isOwner,
           callback: li => this._onAction(li, "equip", item)
@@ -3436,7 +3462,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       if (item.system.equipped) {
         // Show Unequip option for equipped armors
         options.push({
-          name: game.i18n.localize("CARDIGAN.UnequipArmor"),
+          name: game.i18n.localize("CARDIGAN.Tooltip.Unequip"),
           icon: '<i class="fa-solid fa-shield-slash fa-fw"></i>',
           condition: () => item.isOwner,
           callback: li => this._onAction(li, "unequipArmor", item)
@@ -3444,7 +3470,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       } else {
         // Show Equip option for unequipped armors
         options.push({
-          name: game.i18n.localize("CARDIGAN.EquipArmor"),
+          name: game.i18n.localize("CARDIGAN.Tooltip.Equip"),
           icon: '<i class="fa-solid fa-shield fa-fw"></i>',
           condition: () => item.isOwner,
           callback: li => this._onAction(li, "equipArmor", item)
