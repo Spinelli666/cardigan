@@ -178,6 +178,10 @@
       <ol class='items-list backpack-table'>
         <li class='item flexrow items-header'>
           <div class='item-name'>{{localize 'Name'}}</div>
+          <div class='item-reload-ammunition-wrapper'>
+            <div class='item-reload'>{{localize 'CARDIGAN.ReloadButton'}}</div>
+            <div class='item-ammunition'>{{localize 'CARDIGAN.Ammunition'}}</div>
+          </div>
           <div class='item-quantity'>{{localize 'CARDIGAN.Common.Quantity'}}</div>
           <div class='item-equip'></div>
           <div class='item-controls'></div>
@@ -202,6 +206,58 @@
           </div>
           <div class='item-name'>
             <div>{{item.name}}</div>
+          </div>
+          <div class='item-reload-ammunition-wrapper'>
+            <div class='item-reload'>
+              {{#unless item.system.isUnarmed}}
+                {{#if (or item.system.ranged item.system.isFirearm)}}
+                  {{#if @root.editable}}
+                    <a
+                      class='item-control manage-ammunition'
+                      title='Gerenciar Munição'
+                      data-action='manageAmmunition'
+                      data-item-id='{{item._id}}'
+                    >
+                      <img
+                        src='systems/cardigan/assets/images/decorative/icons/icon-recharge.svg'
+                        alt='Recarregar'
+                        class='reload-icon'
+                        width='20'
+                        height='20'
+                      />
+                    </a>
+                  {{else}}
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-recharge.svg'
+                      alt='Reload'
+                      class='reload-icon-readonly'
+                      width='20'
+                      height='20'
+                      title='Reload'
+                    />
+                  {{/if}}
+                {{/if}}
+              {{/unless}}
+            </div>
+            {{#unless item.system.isUnarmed}}
+              {{#if (or item.system.ranged item.system.isFirearm)}}
+                <div class='item-ammunition'>
+                  {{#if item.system.isFirearm}}
+                    <span class='ammunition-firearm ammunition-display' data-weapon-id='{{item._id}}'>
+                      <span class='ammunition-current'>{{item.system.loadedAmmo}}</span>
+                      <img
+                        src='systems/cardigan/assets/images/decorative/field-divider.svg'
+                        alt='/'
+                        class='ammunition-separator-icon'
+                      />
+                      <span class='ammunition-magazine'>{{item.system.magazine}}</span>
+                    </span>
+                  {{else}}
+                    <span class='ammunition-ranged ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}</span>
+                  {{/if}}
+                </div>
+              {{/if}}
+            {{/unless}}
           </div>
           <div class='item-quantity'>
             {{#if @root.editable}}
@@ -233,7 +289,7 @@
                 {{item.system.quantity}}
               </span>
             {{/if}}
-                  </div>
+          </div>
           <div class='item-equip'>
             {{#if @root.editable}}
               {{#if (eq item.type "arma")}}

@@ -4638,11 +4638,6 @@
   font-weight: bold;
   min-width: 40px;
 }
-.cardigan .tab.equipment .item-ammunition span {
-  padding: 2px 6px;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, 0.1);
-}
 .cardigan .tab.equipment .item-ammunition input[type=number] {
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -5071,6 +5066,9 @@
   text-overflow: ellipsis;
 }
 .cardigan .backpack-table .item-quantity,
+.cardigan .backpack-table .item-reload-ammunition-wrapper,
+.cardigan .backpack-table .item-reload,
+.cardigan .backpack-table .item-ammunition,
 .cardigan .backpack-table .item-equip,
 .cardigan .backpack-table .item-controls {
   margin-left: 0;
@@ -5137,6 +5135,60 @@
 .cardigan .backpack-table .item-equip {
   flex: 0 0 36px;
   width: 36px;
+}
+.cardigan .backpack-table .item-reload-ammunition-wrapper {
+  flex: 0 0 86px;
+  width: 86px;
+  gap: 4px;
+}
+.cardigan .backpack-table .item-reload {
+  min-width: 0;
+}
+.cardigan .backpack-table .item-reload .manage-ammunition {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.cardigan .backpack-table .item-reload .reload-icon,
+.cardigan .backpack-table .item-reload .reload-icon-readonly {
+  transition: transform 0.15s ease, filter 0.15s ease;
+  will-change: transform, filter;
+}
+.cardigan .backpack-table .item-reload:hover .reload-icon,
+.cardigan .backpack-table .item-reload:hover .reload-icon-readonly {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
+}
+.cardigan .backpack-table .item-ammunition {
+  border: 1px solid #FFB75C;
+  border-radius: 5px;
+  padding: 2px;
+  font-weight: 400;
+}
+.cardigan .backpack-table .item-ammunition .ammunition-display,
+.cardigan .backpack-table .item-ammunition .ammunition-current,
+.cardigan .backpack-table .item-ammunition .ammunition-magazine {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 400;
+}
+.cardigan .backpack-table .item-ammunition .ammunition-firearm.ammunition-display {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+.cardigan .backpack-table .item-ammunition .ammunition-separator-icon {
+  width: 8px;
+  height: 15px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
 }
 .cardigan .backpack-table .item-controls {
   flex: 0 0 28px;

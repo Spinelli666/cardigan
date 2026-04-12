@@ -162,12 +162,6 @@
     font-weight: bold;
     min-width: 40px;
     
-    span {
-      padding: 2px 6px;
-      border-radius: 3px;
-      background: rgba(0, 0, 0, 0.1);
-    }
-    
     input[type="number"] {
       border: 1px solid #ccc;
       border-radius: 3px;
@@ -688,6 +682,9 @@ ol.items-list.backpack-table > li.item.items-header {
 
   // Colunas após o nome: tamanho mínimo fixo, vão para o canto direito
   .item-quantity,
+  .item-reload-ammunition-wrapper,
+  .item-reload,
+  .item-ammunition,
   .item-equip,
   .item-controls {
     margin-left: 0;
@@ -762,6 +759,71 @@ ol.items-list.backpack-table > li.item.items-header {
   .item-equip {
     flex: 0 0 36px;
     width: 36px;
+  }
+
+  .item-reload-ammunition-wrapper {
+    flex: 0 0 86px;
+    width: 86px;
+    gap: 4px;
+  }
+
+  .item-reload {
+    min-width: 0;
+
+    .manage-ammunition {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .reload-icon,
+    .reload-icon-readonly {
+      transition: transform 0.15s ease, filter 0.15s ease;
+      will-change: transform, filter;
+    }
+
+    &:hover {
+      .reload-icon,
+      .reload-icon-readonly {
+        transform: scale(1.06);
+        filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
+      }
+    }
+  }
+
+  .item-ammunition {
+    border: 1px solid #FFB75C;
+    border-radius: 5px;
+    padding: 2px;
+    font-weight: 400;
+
+    .ammunition-display,
+    .ammunition-current,
+    .ammunition-magazine {
+      padding: 0;
+      border-radius: 0;
+      background: none;
+      text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+      background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 400;
+    }
+
+    .ammunition-firearm.ammunition-display {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+    }
+
+    .ammunition-separator-icon {
+      width: 8px;
+      height: 15px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+    }
   }
 
   .item-controls {
