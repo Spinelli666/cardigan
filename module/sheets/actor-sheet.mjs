@@ -4857,7 +4857,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           itemData = {
             name: selectedResult.name,
             type: "item-comum", // Default type
-            img: selectedResult.img || "icons/svg/item-bag.svg",
+            img: selectedResult.img || "systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg",
             system: {}
           };
         }

@@ -101,7 +101,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
         img: new fields.StringField({
           required: false,
           blank: true,
-          initial: "icons/svg/item-bag.svg",
+          initial: "systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg",
           label: "CARDIGAN.Item.ItemRecipe.IngredientImage"
         })
       }),
@@ -131,7 +131,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
         img: new fields.StringField({
           required: false,
           blank: true,
-          initial: "icons/svg/item-bag.svg",
+          initial: "systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg",
           label: "CARDIGAN.Item.ItemRecipe.ResultItemImage"
         }),
         quantity: new fields.NumberField({
@@ -168,7 +168,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
             img: new fields.StringField({
               required: false,
               blank: true,
-              initial: "icons/svg/item-bag.svg",
+              initial: "systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg",
               label: "CARDIGAN.Item.ItemRecipe.IngredientImage"
             })
           }),

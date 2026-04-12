@@ -4,6 +4,34 @@
  */
 export class CardiganSystemItem extends Item {
   /**
+   * Get the default artwork for an item based on its type.
+   * This method is called by Foundry when creating or displaying items without artwork.
+   * @param {object} itemData - The item data object containing at least a 'type' property
+   * @returns {object} Object with 'img' property containing the default image path
+   */
+  static getDefaultArtwork(itemData = {}) {
+    const { type } = itemData;
+    
+    // Map of item types to their default images
+    const defaultImages = {
+      'item-comum': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'item-municao': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'item-consumivel': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'item-ingredient': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'item-recipe': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'efeito': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'arma': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'armadura': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'skill': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'race': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'backpack': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg'
+    };
+    
+    const img = defaultImages[type] ?? 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg';
+    return { img };
+  }
+
+  /**
    * Augment the basic Item data model with additional dynamic data.
    */
   prepareData() {

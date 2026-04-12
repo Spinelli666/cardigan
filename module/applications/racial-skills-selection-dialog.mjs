@@ -58,7 +58,7 @@ export class RacialSkillsSelectionDialog extends foundry.applications.api.Handle
           .map(skill => ({
             id: skill.id,
             name: skill.name,
-            img: skill.img || 'icons/svg/item-bag.svg',
+            img: skill.img || 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
             uuid: skill.uuid,
             source: 'compendium'
           }));
@@ -71,7 +71,7 @@ export class RacialSkillsSelectionDialog extends foundry.applications.api.Handle
         .map(skill => ({
           id: skill.id,
           name: skill.name,
-          img: skill.img || 'icons/svg/item-bag.svg',
+          img: skill.img || 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
           uuid: skill.uuid,
           source: 'world'
         }));

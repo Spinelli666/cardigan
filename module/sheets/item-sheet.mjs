@@ -399,7 +399,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
               resultItem.requiredIngredients[parseInt(ingredientIndex)] = {
                 name: "Novo Ingrediente",
                 quantity: 1,
-                img: "icons/svg/item-bag.svg"
+                img: "systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg"
               };
             }
             
@@ -1742,7 +1742,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       const newResultItem = {
         uuid: data.uuid,
         name: droppedItem.name,
-        img: droppedItem.img || "icons/svg/item-bag.svg",
+        img: droppedItem.img || "systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg",
         quantity: 1,
         isDefault: resultItems.length === 0, // First item is default
         customProperties: {}
@@ -2703,7 +2703,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       newIngredients[index] = {
         ...newIngredients[index],
         name: ingredientName, // Keep the user input name
-        img: bestMatch.img || 'icons/svg/item-bag.svg'
+        img: bestMatch.img || 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg'
       };
       
       // Show notification about the source and profession match
@@ -2747,7 +2747,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const newIngredient = {
       name: 'New Ingredient',
       quantity: 1,
-      img: 'icons/svg/item-bag.svg'
+      img: 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg'
     };
     
     const newIngredients = [...currentIngredients, newIngredient];
@@ -2886,7 +2886,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const newIngredient = {
       name: 'Novo Ingrediente',
       quantity: 1,
-      img: 'icons/svg/item-bag.svg' // Default fallback
+      img: 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg' // Default fallback
     };
     
     // Try to find matching item image
@@ -3074,7 +3074,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         const matchingItems = await CardiganSystemItemSheet._searchItemsByName(ingredient.name, false, recipeProfession);
         if (matchingItems.length > 0) {
           const bestMatch = matchingItems[0];
-          const newImg = bestMatch.img || 'icons/svg/item-bag.svg';
+          const newImg = bestMatch.img || 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg';
           
           if (newImg !== ingredient.img) {
             newIngredients[i] = {
