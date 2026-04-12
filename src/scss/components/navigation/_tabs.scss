@@ -91,6 +91,16 @@
   overflow-y: auto;
   overflow-x: hidden;
   
+  &.proficiencies,
+  &.equipment,
+  &.skills,
+  &.professions,
+  &.biography {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);
+    scrollbar-gutter: stable;
+  }
+  
   &.biography {
     display: flex;
     flex-direction: column;

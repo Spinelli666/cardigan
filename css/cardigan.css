@@ -1406,6 +1406,11 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+.cardigan .tab.proficiencies, .cardigan .tab.equipment, .cardigan .tab.skills, .cardigan .tab.professions, .cardigan .tab.biography {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);
+  scrollbar-gutter: stable;
+}
 .cardigan .tab.biography {
   display: flex;
   flex-direction: column;
