@@ -4609,29 +4609,6 @@
 .cardigan .tab.equipment .item-durability .durability-max {
   font-size: 12px;
 }
-.cardigan .tab.equipment .item-durability span {
-  padding: 2px 6px;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, 0.1);
-}
-.cardigan .tab.equipment .item-durability input[type=number] {
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 2px 4px;
-  font-size: 12px;
-  font-weight: bold;
-  background: transparent;
-  color: #fff;
-  text-align: center;
-}
-.cardigan .tab.equipment .item-durability input[type=number]:focus {
-  outline: none;
-  border-color: #888;
-  box-shadow: 0 0 3px rgba(136, 136, 136, 0.3);
-}
-.cardigan .tab.equipment .item-durability input[type=number]:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
 .cardigan .tab.equipment .item-ammunition {
   text-align: center;
   font-size: 12px;
@@ -5069,6 +5046,7 @@
 .cardigan .backpack-table .item-reload-ammunition-wrapper,
 .cardigan .backpack-table .item-reload,
 .cardigan .backpack-table .item-ammunition,
+.cardigan .backpack-table .item-durability,
 .cardigan .backpack-table .item-equip,
 .cardigan .backpack-table .item-controls {
   margin-left: 0;
@@ -5189,6 +5167,114 @@
   height: 15px;
   object-fit: contain;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+}
+.cardigan .backpack-table .item-durability {
+  gap: 1px;
+  font-weight: 400;
+}
+.cardigan .backpack-table .item-durability .durability-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+}
+.cardigan .backpack-table .item-durability .durability-icon-header {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+}
+.cardigan .backpack-table .item-durability .durability-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #FFB75C;
+  border-radius: 5px;
+  padding: 2px;
+}
+.cardigan .backpack-table .item-durability .durability-values {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  gap: 0;
+}
+.cardigan .backpack-table .item-durability .durability-values .durability-input.durability-current,
+.cardigan .backpack-table .item-durability .durability-values .durability-input.durability-max.durability-max-input {
+  height: 15px;
+}
+.cardigan .backpack-table .item-durability .durability-separator-icon {
+  width: 8px;
+  height: 15px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+}
+.cardigan .backpack-table .item-durability .durability-max {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 400;
+}
+.cardigan .backpack-table .item-durability span {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cardigan .backpack-table .item-durability input[type=number] {
+  padding: 0;
+  text-align: center;
+  font-weight: 400;
+  transition: none !important;
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: #FFB75C;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cardigan .backpack-table .item-durability input[type=number]:hover, .cardigan .backpack-table .item-durability input[type=number]:active {
+  transition: none !important;
+  border: none;
+  border-radius: 0;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  box-shadow: none;
+  outline: none;
+}
+.cardigan .backpack-table .item-durability input[type=number]:focus {
+  transition: none !important;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  box-shadow: none;
+  outline: none;
+}
+.cardigan .backpack-table .item-durability input[type=number][readonly] {
+  cursor: default;
+  pointer-events: none;
+}
+.cardigan .backpack-table .item-durability input[type=number][readonly]:hover, .cardigan .backpack-table .item-durability input[type=number][readonly]:active, .cardigan .backpack-table .item-durability input[type=number][readonly]:focus {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
 }
 .cardigan .backpack-table .item-controls {
   flex: 0 0 28px;
