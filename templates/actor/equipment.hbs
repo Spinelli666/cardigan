@@ -220,10 +220,11 @@
                   min='0'
                   data-dtype='Number'
                   style='text-align: center;'
-                  title='Quantidade: {{item.system.quantity}}'
+                  data-tooltip='Quantidade'
+                  data-tooltip-class='cardigan-tooltip'
                 />
               {{else}}
-                <span title='Quantidade: {{item.system.quantity}}'>
+                <span data-tooltip='Quantidade' data-tooltip-class='cardigan-tooltip'>
                   {{item.system.quantity}}
                 </span>
               {{/if}}

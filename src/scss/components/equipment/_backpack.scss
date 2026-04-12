@@ -697,28 +697,17 @@ ol.items-list.backpack-table > li.item.items-header {
   }
 
   .item-quantity {
-    flex: 0 0 54px;
-    width: 54px;
+    flex: 0 0 40px;
+    width: 40px;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 
-    .quantity-delete-icon {
-      width: 5px;
-      height: 5px;
-      align-self: flex-end;
-      margin-bottom: 6px;
+    &:has(input:focus) {
+      border: 1px solid #FFB75C;
     }
-  }
 
-  .item-equip {
-    flex: 0 0 36px;
-    width: 36px;
-  }
-
-  .item-controls {
-    flex: 0 0 28px;
-    width: 28px;
-  }
-
-  .item-quantity {
     input[type='number'] {
       height: 22px;
       padding: 0;
@@ -760,6 +749,24 @@ ol.items-list.backpack-table > li.item.items-header {
         outline: none;
       }
     }
+
+    .quantity-delete-icon {
+      width: 5px;
+      height: 5px;
+      align-self: flex-end;
+      margin-bottom: 6px;
+      margin-right: -1px;
+    }
+  }
+
+  .item-equip {
+    flex: 0 0 36px;
+    width: 36px;
+  }
+
+  .item-controls {
+    flex: 0 0 28px;
+    width: 28px;
   }
 
   .item-controls {
