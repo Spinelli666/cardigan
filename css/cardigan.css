@@ -1407,6 +1407,7 @@
   overflow-x: hidden;
 }
 .cardigan .tab.proficiencies, .cardigan .tab.equipment, .cardigan .tab.skills, .cardigan .tab.professions, .cardigan .tab.biography {
+  padding-left: 5px !important;
   scrollbar-width: thin;
   scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);
   scrollbar-gutter: stable;
