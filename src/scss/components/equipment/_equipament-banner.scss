@@ -78,6 +78,12 @@ ol.items-list.equipament-table > li.item.items-header {
     border: none;
     background: none;
 
+    &.durability-broken {
+      .item-row {
+        background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(245, 0, 4, 0.19) 100%);
+      }
+    }
+
     .item-wrapper {
       display: flex;
       flex-direction: row;
@@ -127,6 +133,14 @@ ol.items-list.equipament-table > li.item.items-header {
         background-clip: text;
       }
 
+      .item-name.item-name-broken,
+      .item-name.item-name-broken div {
+        background: linear-gradient(180deg, #FF0004 40%, #2E0001 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
       // Colunas após o nome: mesmo padrão da backpack-table
       .item-reload-ammunition-wrapper,
       .item-reload,
@@ -147,8 +161,10 @@ ol.items-list.equipament-table > li.item.items-header {
       }
 
       .item-ammunition {
-        border: 1px solid #FFB75C;
-        border-radius: 5px;
+        background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+        border: 1px solid rgba(255, 183, 92, 0.2);
+        border-radius: 7px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
         padding: 2px;
         font-weight: 400;
       }
@@ -244,6 +260,17 @@ ol.items-list.equipament-table > li.item.items-header {
       .item-durability {
         gap: 1px;
 
+        &.durability-broken {
+          .durability-max,
+          span,
+          input[type='number'] {
+            background: linear-gradient(180deg, #FF0004 40%, #2E0001 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+        }
+
         .durability-icon {
           width: 18px;
           height: 18px;
@@ -262,8 +289,10 @@ ol.items-list.equipament-table > li.item.items-header {
           display: flex;
           align-items: center;
           justify-content: center;
-          border: 1px solid #FFB75C;
-          border-radius: 5px;
+          background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+          border: 1px solid rgba(255, 183, 92, 0.2);
+          border-radius: 7px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
           padding: 2px;
         }
 

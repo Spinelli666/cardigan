@@ -198,7 +198,7 @@
         </li>
       {{#each backpack as |item id|}}
         <li
-          class='item flexrow'
+          class='item flexrow {{#if (and (eq item.type "arma") (eq item.system.durability.current 0))}}durability-broken{{/if}}'
           data-item-id='{{item._id}}'
           data-uuid='{{item.uuid}}'
           data-drag='true'
@@ -214,7 +214,7 @@
               />
             </a>
           </div>
-          <div class='item-name'>
+          <div class='item-name {{#if (and (eq item.type "arma") (eq item.system.durability.current 0))}}item-name-broken{{/if}}'>
             <div>{{item.name}}</div>
           </div>
           <div class='item-reload-ammunition-wrapper'>
@@ -269,7 +269,7 @@
               {{/if}}
             {{/unless}}
           </div>
-          <div class='item-durability'>
+          <div class='item-durability {{#if (and (eq item.type "arma") (eq item.system.durability.current 0))}}durability-broken{{/if}}'>
             {{#if (eq item.type "arma")}}
               <img
                 src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
@@ -493,7 +493,7 @@
     </li>
     {{#each armas as |item id|}}
       <li
-        class='item collapsible collapsed'
+        class='item collapsible collapsed {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'
         data-item-id='{{item._id}}'
         data-uuid='{{item.uuid}}'
         data-drag='true'
@@ -603,7 +603,7 @@
             {{/if}}
           {{/unless}}
         </div>
-        <div class='item-durability {{#if item.system.isUnarmed}}unarmed-durability-hidden{{/if}}'>
+        <div class='item-durability {{#if item.system.isUnarmed}}unarmed-durability-hidden{{/if}} {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'>
           {{#unless item.system.isUnarmed}}
             <img
               src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
@@ -719,7 +719,7 @@
     </li>
     {{#each armaduras as |item id|}}
       <li
-        class='item collapsible collapsed'
+        class='item collapsible collapsed {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'
         data-item-id='{{item._id}}'
         data-uuid='{{item.uuid}}'
         data-drag='true'
@@ -752,7 +752,7 @@
         <div class='item-protection'>
           {{item.system.protecao}}
         </div>
-        <div class='item-durability'>
+        <div class='item-durability {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'>
           <img
             src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
             alt='Durabilidade'
