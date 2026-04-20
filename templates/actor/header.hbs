@@ -145,7 +145,7 @@
             name='system.status.armorBonus'
             value='{{system.status.armorBonus}}'
             data-dtype='Number'
-            class='armor-bonus'
+            class='armor-bonus dynamic-field'
             data-tooltip='CARDIGAN.Tooltip.ArmorBonus' 
             data-tooltip-class='cardigan-tooltip'
           />
@@ -532,10 +532,16 @@
         <div class='health-bonus-square'></div>
         <input
           type='number'
+          value='{{system.status.healthBonus}}'
+          data-dtype='Number'
+          class='health-bonus-input dynamic-field'
+        />
+        <input
+          type='hidden'
           name='system.status.healthBonus'
           value='{{system.status.healthBonus}}'
           data-dtype='Number'
-          class='health-bonus-input'
+          class='health-bonus-hidden'
         />
       </div>
     </div>
@@ -619,11 +625,17 @@
         <div class='energy-bonus-square'></div>
         <input
           type='number'
+          value='{{system.status.energyBonus}}'
+          data-dtype='Number'
+          class='energy-bonus-input dynamic-field'
+          
+        />
+        <input
+          type='hidden'
           name='system.status.energyBonus'
           value='{{system.status.energyBonus}}'
           data-dtype='Number'
-          class='energy-bonus-input'
-          
+          class='energy-bonus-hidden'
         />
       </div>
     </div>

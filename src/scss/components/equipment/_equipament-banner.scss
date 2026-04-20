@@ -142,6 +142,7 @@ ol.items-list.equipament-table > li.item.items-header {
       }
 
       // Colunas após o nome: mesmo padrão da backpack-table
+      .item-information,
       .item-reload-ammunition-wrapper,
       .item-reload,
       .item-ammunition,
@@ -158,6 +159,14 @@ ol.items-list.equipament-table > li.item.items-header {
         flex: 0 0 86px;
         width: 86px;
         gap: 4px;
+      }
+
+      .item-information {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        flex: 0 0 auto;
       }
 
       .item-ammunition {

@@ -3110,11 +3110,28 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * Disables inputs subject to active effects
    */
   #disableOverrides() {
+    // First, clear any previous disabled state applied by this override pass.
+    // This prevents stale disabled fields when override sources are removed without a full rerender cycle.
+    for (const input of this.element.querySelectorAll('[data-override-disabled="true"]')) {
+      input.disabled = false;
+      input.removeAttribute('data-override-disabled');
+    }
+
+    // Manual bonus fields must remain editable by design.
+    const alwaysEditableOverrides = new Set([
+      'system.status.healthBonus',
+      'system.status.energyBonus',
+      'system.status.armorBonus'
+    ]);
+
     const flatOverrides = foundry.utils.flattenObject(this.actor.overrides);
     for (const override of Object.keys(flatOverrides)) {
+      if (alwaysEditableOverrides.has(override)) continue;
+
       const input = this.element.querySelector(`[name="${override}"]`);
       if (input) {
         input.disabled = true;
+        input.setAttribute('data-override-disabled', 'true');
       }
     }
   }
@@ -3955,23 +3972,35 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   #addBonusFieldsListeners() {
     const bonusFields = [
-      { selector: 'input[name="system.status.healthBonus"].dynamic-field', type: 'healthBonus' },
-      { selector: 'input[name="system.status.energyBonus"].dynamic-field', type: 'energyBonus' },
+      {
+        selector: 'input.health-bonus-input.dynamic-field',
+        hiddenSelector: 'input[name="system.status.healthBonus"]',
+        type: 'healthBonus'
+      },
+      {
+        selector: 'input.energy-bonus-input.dynamic-field',
+        hiddenSelector: 'input[name="system.status.energyBonus"]',
+        type: 'energyBonus'
+      },
       { selector: 'input[name="system.status.armorBonus"].dynamic-field', type: 'armorBonus' }
     ];
     
-    bonusFields.forEach(({ selector, type }) => {
+    bonusFields.forEach(({ selector, hiddenSelector, type }) => {
       const field = this.element.querySelector(selector);
+      const hiddenField = hiddenSelector ? this.element.querySelector(hiddenSelector) : null;
       
       if (field) {
+        // Sync displayed value (manual + equipment) when applicable
+        this.#syncBonusFieldDisplay(field, type, hiddenField);
+
         // Event listener para focus (mostrar valor atual)
         field.addEventListener('focus', (event) => {
-          this.#handleBonusFieldFocus(event, type);
+          this.#handleBonusFieldFocus(event, type, hiddenField);
         });
         
         // Event listener para blur (salvar valor)
         field.addEventListener('blur', (event) => {
-          this.#handleBonusFieldBlur(event, type);
+          this.#handleBonusFieldBlur(event, type, hiddenField);
         });
       }
     });
@@ -3980,21 +4009,63 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Get equipment-derived bonus for a status bonus type
+   * @param {string} bonusType
+   * @returns {number}
+   * @private
+   */
+  #getEquipmentStatusBonus(bonusType) {
+    const system = this.actor.system;
+
+    switch (bonusType) {
+      case 'healthBonus':
+        return Number(system._armorHealthBonus ?? 0);
+      case 'energyBonus':
+        return Number(system._armorEnergyBonus ?? 0);
+      case 'armorBonus':
+        return Number(system._armorProtectionBonus ?? 0);
+      default:
+        return 0;
+    }
+  }
+
+  /**
+   * Sync visible bonus field value from manual + equipment bonuses
+   * @param {HTMLInputElement} field
+   * @param {string} bonusType
+   * @param {HTMLInputElement | null} hiddenField
+   * @private
+   */
+  #syncBonusFieldDisplay(field, bonusType, hiddenField = null) {
+    const manualValue = Number(this.actor.system.status?.[bonusType] || 0);
+    const equipmentBonus = hiddenField ? this.#getEquipmentStatusBonus(bonusType) : 0;
+    const displayValue = manualValue + equipmentBonus;
+
+    field.value = displayValue;
+    field.dataset.currentValue = displayValue;
+
+    if (hiddenField) {
+      hiddenField.value = manualValue;
+    }
+  }
+
+  /**
    * Handler para quando o usuário clica em um campo de bonus (focus)
    * @private
    */
-  #handleBonusFieldFocus(event, bonusType) {
+  #handleBonusFieldFocus(event, bonusType, hiddenField = null) {
     const field = event.target;
-    const system = this.actor.system;
+    const manualValue = Number(this.actor.system.status?.[bonusType] || 0);
+    const equipmentBonus = hiddenField ? this.#getEquipmentStatusBonus(bonusType) : 0;
+
+    // Para campos com hidden (health/energy), editar o valor manual.
+    // Para os demais, mantém comportamento padrão.
+    const valueForEditing = hiddenField ? manualValue : (manualValue + equipmentBonus);
+
+    field.value = valueForEditing === 0 ? '' : valueForEditing;
+    field.dataset.currentValue = valueForEditing;
     
-    // Para bonus fields, não há valor automático, apenas manual
-    const currentValue = system.status[bonusType] || 0;
-    
-    // Mostrar o valor atual
-    field.value = currentValue === 0 ? '' : currentValue;
-    field.dataset.currentValue = currentValue;
-    
-    console.log(`[${bonusType.toUpperCase()} FOCUS] Current: ${currentValue}`);
+    console.log(`[${bonusType.toUpperCase()} FOCUS] Editing manual: ${manualValue}, Equipment: ${equipmentBonus}`);
     field.select();
   }
 
@@ -4002,22 +4073,29 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * Handler para quando o usuário sai de um campo de bonus (blur)
    * @private
    */
-  #handleBonusFieldBlur(event, bonusType) {
+  #handleBonusFieldBlur(event, bonusType, hiddenField = null) {
     const field = event.target;
     const userInput = Number(field.value) || 0;
-    
-    // Para bonus fields, o valor final é apenas o que o usuário inseriu
-    field.value = userInput;
-    field.dataset.currentValue = userInput;
+    const equipmentBonus = hiddenField ? this.#getEquipmentStatusBonus(bonusType) : 0;
+    const manualValue = userInput;
+
+    // Mostrar total e persistir apenas manual
+    const displayValue = manualValue + equipmentBonus;
+    field.value = displayValue;
+    field.dataset.currentValue = displayValue;
+
+    if (hiddenField) {
+      hiddenField.value = manualValue;
+    }
     
     // Salvar o valor
     this.actor.update({
-      [`system.status.${bonusType}`]: userInput
+      [`system.status.${bonusType}`]: manualValue
     }).catch(error => {
       console.error(`[CARDIGAN] Erro ao atualizar ${bonusType}:`, error);
     });
     
-    console.log(`[${bonusType.toUpperCase()} BLUR] Value: ${userInput}`);
+    console.log(`[${bonusType.toUpperCase()} BLUR] Total: ${displayValue}, Manual: ${manualValue}, Equipment: ${equipmentBonus}`);
   }
 
   /**

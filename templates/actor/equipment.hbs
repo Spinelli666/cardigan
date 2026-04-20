@@ -182,6 +182,9 @@
             <div class='item-reload'>{{localize 'CARDIGAN.ReloadButton'}}</div>
             <div class='item-ammunition'>{{localize 'CARDIGAN.Ammunition'}}</div>
           </div>
+          <div class='item-information'>
+          </div>
+          <div class='item-quantity'>{{localize 'CARDIGAN.Common.Quantity'}}</div>
           <div class='item-durability'>
             <img
               src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
@@ -192,13 +195,12 @@
             />
             {{localize 'CARDIGAN.Durability'}}
           </div>
-          <div class='item-quantity'>{{localize 'CARDIGAN.Common.Quantity'}}</div>
           <div class='item-equip'></div>
           <div class='item-controls'></div>
         </li>
       {{#each backpack as |item id|}}
         <li
-          class='item flexrow {{#if (and (eq item.type "arma") (eq item.system.durability.current 0))}}durability-broken{{/if}}'
+          class='item flexrow {{#if (or (eq item.type "item-comum") (eq item.type "item-municao") (eq item.type "item-ingredient") (eq item.type "backpack"))}}backpack-row-generic{{/if}} {{#if (eq item.type "item-consumivel")}}backpack-row-consumable{{/if}} {{#if (eq item.type "arma")}}backpack-row-weapon {{#unless (or item.system.ranged item.system.isFirearm)}}backpack-row-weapon-no-reload{{/unless}} {{#unless item.system.protection.enabled}}backpack-row-weapon-no-information{{/unless}} {{#if (and item.system.protection.enabled (not (or item.system.ranged item.system.isFirearm)))}}backpack-row-weapon-protection-no-reload{{/if}}{{/if}} {{#if (eq item.type "armadura")}}backpack-row-armor{{/if}} {{#if (and (or (eq item.type "arma") (eq item.type "armadura")) (eq item.system.durability.current 0))}}durability-broken{{/if}}'
           data-item-id='{{item._id}}'
           data-uuid='{{item.uuid}}'
           data-drag='true'
@@ -214,7 +216,7 @@
               />
             </a>
           </div>
-          <div class='item-name {{#if (and (eq item.type "arma") (eq item.system.durability.current 0))}}item-name-broken{{/if}}'>
+          <div class='item-name {{#if (and (or (eq item.type "arma") (eq item.type "armadura")) (eq item.system.durability.current 0))}}item-name-broken{{/if}}'>
             <div>{{item.name}}</div>
           </div>
           <div class='item-reload-ammunition-wrapper'>
@@ -269,8 +271,153 @@
               {{/if}}
             {{/unless}}
           </div>
-          <div class='item-durability {{#if (and (eq item.type "arma") (eq item.system.durability.current 0))}}durability-broken{{/if}}'>
-            {{#if (eq item.type "arma")}}
+          <div class='item-information'>
+            {{#if (and (eq item.type "arma") item.system.protection.enabled)}}
+              <div class='protection info-badge'>
+                <div class='bonus-display'>
+                  <span class='bonus-value'>+{{item.system.protection.value}}</span>
+                </div>
+                <img
+                  src='systems/cardigan/assets/images/decorative/icons/icon-armor.svg'
+                  alt='{{localize "CARDIGAN.Protection"}}'
+                  class='information-icon'
+                  width='20'
+                  height='20'
+                />
+              </div>
+            {{/if}}
+
+            {{#if (eq item.type "armadura")}}
+              {{#if item.system.stylish}}
+                <div class='stlish stylish info-badge'>
+                  <img
+                    src='systems/cardigan/assets/images/decorative/icons/icon-stylish.svg'
+                    alt='{{localize "CARDIGAN.Stylish"}}'
+                    class='information-icon'
+                    width='20'
+                    height='20'
+                  />
+                </div>
+              {{/if}}
+
+              {{#if item.system.resistenciaFrio}}
+                <div class='weather info-badge'>
+                  <img
+                    src='systems/cardigan/assets/images/decorative/icons/icon-weather.svg'
+                    alt='{{localize "CARDIGAN.ColdResistance"}}'
+                    class='information-icon'
+                    width='20'
+                    height='20'
+                  />
+                </div>
+              {{/if}}
+
+              {{#if item.system.bonusEspacoMochila.enabled}}
+                <div class='backpack info-badge'>
+                  <div class='bonus-display'>
+                    <span class='bonus-value'>+{{item.system.bonusEspacoMochila.bonus}}</span>
+                  </div>
+                  <img
+                    src='systems/cardigan/assets/images/decorative/icons/icon-backpack.svg'
+                    alt='{{localize "CARDIGAN.BackpackSpaceBonus"}}'
+                    class='information-icon'
+                    width='20'
+                    height='20'
+                  />
+                </div>
+              {{/if}}
+
+              {{#if item.system.magicalArtifact}}
+                <div class='paranormal-artifact info-badge'>
+                  <img
+                    src='systems/cardigan/assets/images/decorative/icons/icon-paranormal-artifact.svg'
+                    alt='{{localize "CARDIGAN.MagicalArtifact"}}'
+                    class='information-icon'
+                    width='20'
+                    height='20'
+                  />
+                </div>
+              {{/if}}
+
+              {{#if item.system.bonusDeslocamento.enabled}}
+                <div class='movement-bonus info-badge'>
+                  <div class='bonus-display'>
+                    <span class='bonus-value'>+{{item.system.bonusDeslocamento.bonus}}</span>
+                  </div>
+                  <img
+                    src='systems/cardigan/assets/images/decorative/icons/icon-movement.svg'
+                    alt='{{localize "CARDIGAN.MovementBonus"}}'
+                    class='information-icon'
+                    width='20'
+                    height='20'
+                  />
+                </div>
+              {{/if}}
+
+              {{#if (gte item.system.bonusEnergia 1)}}
+                <div class='energy-bonus info-badge'>
+                  <div class='bonus-display'>
+                    <span class='bonus-value'>+{{item.system.bonusEnergia}}</span>
+                  </div>
+                  <img
+                    src='systems/cardigan/assets/images/decorative/icons/icon-energy.svg'
+                    alt='{{localize "CARDIGAN.Energy"}}'
+                    class='information-icon'
+                    width='20'
+                    height='20'
+                  />
+                </div>
+              {{/if}}
+
+              {{#if (gte item.system.protecao 1)}}
+                <div class='protection info-badge'>
+                  <div class='bonus-display'>
+                    <span class='bonus-value'>+{{item.system.protecao}}</span>
+                  </div>
+                  <img
+                    src='systems/cardigan/assets/images/decorative/icons/icon-armor.svg'
+                    alt='{{localize "CARDIGAN.Protection"}}'
+                    class='information-icon'
+                    width='20'
+                    height='20'
+                  />
+                </div>
+              {{/if}}
+            {{/if}}
+          </div>
+          <div class='item-quantity'>
+            {{#if @root.editable}}
+              {{#if (or (eq item.type "item-comum") (eq item.type "item-municao") (eq item.type "item-consumivel") (eq item.type "item-ingredient"))}}
+                <img
+                  src='systems/cardigan/assets/images/decorative/icons/icon-delete.svg'
+                  alt='Delete'
+                  class='quantity-delete-icon'
+                  width='10'
+                  height='10'
+                />
+                <input
+                  type='number'
+                  name='items.{{item._id}}.system.quantity'
+                  value='{{item.system.quantity}}'
+                  min='0'
+                  data-dtype='Number'
+                  style='text-align: center;'
+                  data-tooltip='Quantidade'
+                  data-tooltip-class='cardigan-tooltip'
+                />
+              {{else}}
+                <span data-tooltip='Quantidade' data-tooltip-class='cardigan-tooltip'>
+                  {{item.system.quantity}}
+                </span>
+              {{/if}}
+            {{else}}
+              <span title='Quantidade: {{item.system.quantity}}'>
+                {{item.system.quantity}}
+              </span>
+            {{/if}}
+          </div>
+          <div class='item-durability {{#if (and (or (eq item.type "arma") (eq item.type "armadura")) (eq item.system.durability.current 0))}}durability-broken{{/if}}'>
+            {{#if (or (eq item.type "arma") (eq item.type "armadura"))}}
               <img
                 src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
                 alt='Durabilidade'
@@ -312,37 +459,6 @@
                   {{item.system.durability.current}}/{{item.system.durability.max}}
                 </span>
               {{/if}}
-            {{/if}}
-          </div>
-          <div class='item-quantity'>
-            {{#if @root.editable}}
-              {{#if (or (eq item.type "item-comum") (eq item.type "item-municao") (eq item.type "item-consumivel") (eq item.type "item-ingredient"))}}
-                <img
-                  src='systems/cardigan/assets/images/decorative/icons/icon-delete.svg'
-                  alt='Delete'
-                  class='quantity-delete-icon'
-                  width='10'
-                  height='10'
-                />
-                <input
-                  type='number'
-                  name='items.{{item._id}}.system.quantity'
-                  value='{{item.system.quantity}}'
-                  min='0'
-                  data-dtype='Number'
-                  style='text-align: center;'
-                  data-tooltip='Quantidade'
-                  data-tooltip-class='cardigan-tooltip'
-                />
-              {{else}}
-                <span data-tooltip='Quantidade' data-tooltip-class='cardigan-tooltip'>
-                  {{item.system.quantity}}
-                </span>
-              {{/if}}
-            {{else}}
-              <span title='Quantidade: {{item.system.quantity}}'>
-                {{item.system.quantity}}
-              </span>
             {{/if}}
           </div>
           <div class='item-equip'>
@@ -471,6 +587,8 @@
             {{localize 'CARDIGAN.Ammunition'}}
           {{/if}}
         </div>
+      </div>
+      <div class='item-information'>
       </div>
       <div class='item-durability'>
         <img
@@ -602,6 +720,8 @@
               </div>
             {{/if}}
           {{/unless}}
+        </div>
+        <div class='item-information'>
         </div>
         <div class='item-durability {{#if item.system.isUnarmed}}unarmed-durability-hidden{{/if}} {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'>
           {{#unless item.system.isUnarmed}}

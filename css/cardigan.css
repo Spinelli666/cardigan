@@ -2685,6 +2685,7 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-information,
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload-ammunition-wrapper,
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload,
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition,
@@ -2700,6 +2701,13 @@
   flex: 0 0 86px;
   width: 86px;
   gap: 4px;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-information {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  flex: 0 0 auto;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition {
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
@@ -5044,6 +5052,60 @@
 .cardigan .backpack-table li.item.durability-broken {
   background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(245, 0, 4, 0.19) 100%);
 }
+.cardigan .backpack-table li.item.backpack-row-generic .item-reload-ammunition-wrapper,
+.cardigan .backpack-table li.item.backpack-row-generic .item-information,
+.cardigan .backpack-table li.item.backpack-row-generic .item-durability,
+.cardigan .backpack-table li.item.backpack-row-generic .item-equip {
+  display: none !important;
+}
+.cardigan .backpack-table li.item.backpack-row-generic .item-quantity {
+  margin-left: auto;
+  margin-right: 58px;
+}
+.cardigan .backpack-table li.item.backpack-row-consumable .item-reload-ammunition-wrapper,
+.cardigan .backpack-table li.item.backpack-row-consumable .item-information,
+.cardigan .backpack-table li.item.backpack-row-consumable .item-durability {
+  display: none !important;
+}
+.cardigan .backpack-table li.item.backpack-row-consumable .item-quantity {
+  margin-left: auto;
+  margin-right: 5px;
+}
+.cardigan .backpack-table li.item.backpack-row-weapon {
+  gap: 3px;
+}
+.cardigan .backpack-table li.item.backpack-row-weapon .item-quantity {
+  display: none !important;
+}
+.cardigan .backpack-table li.item.backpack-row-weapon .item-information {
+  min-width: 26px;
+  width: 26px;
+  flex: 0 0 26px;
+  padding-left: 0;
+}
+.cardigan .backpack-table li.item.backpack-row-weapon-no-reload .item-reload-ammunition-wrapper {
+  display: none !important;
+}
+.cardigan .backpack-table li.item.backpack-row-weapon-no-information .item-information {
+  display: none !important;
+}
+.cardigan .backpack-table li.item.backpack-row-weapon-protection-no-reload .item-information {
+  min-width: 74px;
+  width: 74px;
+  flex: 0 0 74px;
+}
+.cardigan .backpack-table li.item.backpack-row-armor {
+  gap: 3px;
+}
+.cardigan .backpack-table li.item.backpack-row-armor .item-reload-ammunition-wrapper,
+.cardigan .backpack-table li.item.backpack-row-armor .item-quantity {
+  display: none !important;
+}
+.cardigan .backpack-table li.item.backpack-row-armor .item-information {
+  min-width: 76px;
+  width: 76px;
+  flex: 0 0 76px;
+}
 .cardigan .backpack-table li.item.is-search-hidden {
   display: none !important;
 }
@@ -5058,7 +5120,7 @@
   position: relative;
 }
 .cardigan .backpack-table .item-name {
-  flex: 1 1 auto;
+  flex: 1 1 0;
   width: auto;
   display: flex;
   align-items: flex-start;
@@ -5075,6 +5137,7 @@
   text-overflow: ellipsis;
 }
 .cardigan .backpack-table .item-quantity,
+.cardigan .backpack-table .item-information,
 .cardigan .backpack-table .item-reload-ammunition-wrapper,
 .cardigan .backpack-table .item-reload,
 .cardigan .backpack-table .item-ammunition,
@@ -5146,9 +5209,70 @@
   flex: 0 0 36px;
   width: 36px;
 }
+.cardigan .backpack-table .item-information {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  width: 88px;
+  flex: 0 0 88px;
+  padding-left: 2px;
+}
+.cardigan .backpack-table .item-information .info-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+.cardigan .backpack-table .item-information .info-badge + .info-badge {
+  margin-left: 12px;
+}
+.cardigan .backpack-table .item-information .info-badge + .info-badge::before {
+  content: "⬩";
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: absolute;
+  left: -9px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  line-height: 1;
+}
+.cardigan .backpack-table .item-information .info-badge .information-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+.cardigan .backpack-table .item-information .info-badge.backpack .bonus-display, .cardigan .backpack-table .item-information .info-badge.energy-bonus .bonus-display, .cardigan .backpack-table .item-information .info-badge.movement-bonus .bonus-display, .cardigan .backpack-table .item-information .info-badge.protection .bonus-display {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  width: 22px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: none;
+  border-radius: 7px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.cardigan .backpack-table .item-information .info-badge.backpack .bonus-value, .cardigan .backpack-table .item-information .info-badge.energy-bonus .bonus-value, .cardigan .backpack-table .item-information .info-badge.movement-bonus .bonus-value, .cardigan .backpack-table .item-information .info-badge.protection .bonus-value {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+}
 .cardigan .backpack-table .item-reload-ammunition-wrapper {
   flex: 0 0 86px;
   width: 86px;
+  min-width: 86px;
   gap: 4px;
 }
 .cardigan .backpack-table .item-reload {
@@ -5203,6 +5327,9 @@
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
 }
 .cardigan .backpack-table .item-durability {
+  flex: 0 0 68px;
+  width: 68px;
+  min-width: 68px;
   gap: 1px;
   font-weight: 400;
 }
