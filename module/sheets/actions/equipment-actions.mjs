@@ -59,12 +59,34 @@ export class EquipmentActions {
           break;
       }
 
-      await item.update(updateData);
+      // Handle quantity splitting: if qty > 1, create equipped copy and reduce original
+      const currentQuantity = item.system.quantity || 1;
+      if (currentQuantity > 1) {
+        // Create a new equipped copy with quantity 1
+        const equippedCopyData = item.toObject();
+        equippedCopyData.system.quantity = 1;
+        equippedCopyData.system.equipped = true;
+        equippedCopyData.system.rightHand = updateData["system.rightHand"];
+        equippedCopyData.system.leftHand = updateData["system.leftHand"];
+        delete equippedCopyData._id; // Remove ID to create new item
 
-      // Show success message based on hand selection
-      const handText = selectedHand === "both" ? "ambas as mãos" :
-        selectedHand === "right" ? "mão principal" : "mão secundária";
-      ui.notifications.info(`${item.name} foi equipada em ${handText}.`);
+        // Reduce original item quantity and keep it unequipped
+        await item.update({ "system.quantity": currentQuantity - 1 });
+        
+        // Create the equipped copy
+        await sheet.document.createEmbeddedDocuments('Item', [equippedCopyData]);
+        
+        const handText = selectedHand === "both" ? "ambas as mãos" :
+          selectedHand === "right" ? "mão principal" : "mão secundária";
+        ui.notifications.info(`${item.name} foi equipada em ${handText}. ${currentQuantity - 1} unidade(s) permanece(m) na mochila.`);
+      } else {
+        // qty = 1: just equip the item normally
+        await item.update(updateData);
+        
+        const handText = selectedHand === "both" ? "ambas as mãos" :
+          selectedHand === "right" ? "mão principal" : "mão secundária";
+        ui.notifications.info(`${item.name} foi equipada em ${handText}.`);
+      }
 
       // Force re-render to update the tables
       await sheet.render(false);
@@ -112,8 +134,25 @@ export class EquipmentActions {
         "system.leftHand": false
       };
 
-      await item.update(updateData);
-      ui.notifications.info(`${item.name} foi desequipada e movida para a mochila.`);
+      // Check if there's an unequipped copy of this weapon to merge with
+      const unequippedCopy = sheet.document.items.find((i) => 
+        i.type === 'arma' &&
+        i.name === item.name &&
+        !i.system.equipped &&
+        i._id !== item._id
+      );
+
+      if (unequippedCopy) {
+        // Merge: increase quantity of unequipped copy
+        const newQuantity = (unequippedCopy.system.quantity || 1) + (item.system.quantity || 1);
+        await unequippedCopy.update({ "system.quantity": newQuantity });
+        await item.delete();
+        ui.notifications.info(`${item.name} foi desequipada e mesclada com outra cópia na mochila. Total: ${newQuantity} unidade(s).`);
+      } else {
+        // No unequipped copy: just unequip normally
+        await item.update(updateData);
+        ui.notifications.info(`${item.name} foi desequipada e movida para a mochila.`);
+      }
 
       // Force re-render to update the tables
       await sheet.render(false);
@@ -146,15 +185,32 @@ export class EquipmentActions {
     }
 
     try {
-      // Simply equip the armor (no dialog needed like weapons)
-      const updateData = {
-        "system.equipped": true
-      };
-
-      await item.update(updateData);
-
       const armorTypeLabel = game.i18n.localize(`CARDIGAN.ArmorType.${item.system.armorType.charAt(0).toUpperCase() + item.system.armorType.slice(1)}`);
-      ui.notifications.info(`${item.name} (${armorTypeLabel}) foi equipada.`);
+      
+      // Handle quantity splitting: if qty > 1, create equipped copy and reduce original
+      const currentQuantity = item.system.quantity || 1;
+      if (currentQuantity > 1) {
+        // Create a new equipped copy with quantity 1
+        const equippedCopyData = item.toObject();
+        equippedCopyData.system.quantity = 1;
+        equippedCopyData.system.equipped = true;
+        delete equippedCopyData._id; // Remove ID to create new item
+
+        // Reduce original item quantity and keep it unequipped
+        await item.update({ "system.quantity": currentQuantity - 1 });
+        
+        // Create the equipped copy
+        await sheet.document.createEmbeddedDocuments('Item', [equippedCopyData]);
+        
+        ui.notifications.info(`${item.name} (${armorTypeLabel}) foi equipada. ${currentQuantity - 1} unidade(s) permanece(m) na mochila.`);
+      } else {
+        // qty = 1: just equip the armor normally
+        const updateData = {
+          "system.equipped": true
+        };
+        await item.update(updateData);
+        ui.notifications.info(`${item.name} (${armorTypeLabel}) foi equipada.`);
+      }
 
       // Force re-render to update the tables
       await sheet.render(false);
@@ -195,12 +251,28 @@ export class EquipmentActions {
     }
 
     try {
-      const updateData = {
-        "system.equipped": false
-      };
+      // Check if there's an unequipped copy of this armor to merge with
+      const unequippedCopy = sheet.document.items.find((i) => 
+        i.type === 'armadura' &&
+        i.name === item.name &&
+        !i.system.equipped &&
+        i._id !== item._id
+      );
 
-      await item.update(updateData);
-      ui.notifications.info(`${item.name} foi desequipada e movida para a mochila.`);
+      if (unequippedCopy) {
+        // Merge: increase quantity of unequipped copy
+        const newQuantity = (unequippedCopy.system.quantity || 1) + (item.system.quantity || 1);
+        await unequippedCopy.update({ "system.quantity": newQuantity });
+        await item.delete();
+        ui.notifications.info(`${item.name} foi desequipada e mesclada com outra cópia na mochila. Total: ${newQuantity} unidade(s).`);
+      } else {
+        // No unequipped copy: just unequip normally
+        const updateData = {
+          "system.equipped": false
+        };
+        await item.update(updateData);
+        ui.notifications.info(`${item.name} foi desequipada e movida para a mochila.`);
+      }
 
       // Force re-render to update the tables
       await sheet.render(false);
@@ -211,7 +283,7 @@ export class EquipmentActions {
   }
 
   /**
-   * Equip a weapon via context menu flow (preserves existing debug logs/behavior)
+   * Equip a weapon via context menu flow (with quantity splitting)
    * @param {Item} weapon
    * @param {CardiganSystemActorSheet} sheet
    */
@@ -223,7 +295,7 @@ export class EquipmentActions {
       console.log("Equipando arma:", weapon.name);
       console.log("Status ANTES do update:", weapon.system.equipped);
       console.log("Weapon ID:", weapon._id);
-      console.log("Weapon data before:", weapon.system);
+      console.log("Weapon quantity:", weapon.system.quantity || 1);
 
       // Show hand selection dialog
       const selectedHand = await HandSelectionDialog.show(weapon);
@@ -256,23 +328,35 @@ export class EquipmentActions {
           break;
       }
 
-      console.log("Update data:", updateData);
+      // Handle quantity splitting
+      const currentQuantity = weapon.system.quantity || 1;
+      if (currentQuantity > 1) {
+        // Create equipped copy
+        const equippedCopyData = weapon.toObject();
+        equippedCopyData.system.quantity = 1;
+        equippedCopyData.system.equipped = true;
+        equippedCopyData.system.rightHand = updateData["system.rightHand"];
+        equippedCopyData.system.leftHand = updateData["system.leftHand"];
+        delete equippedCopyData._id;
 
-      const result = await weapon.update(updateData);
-      console.log("Update result:", result);
+        // Reduce original quantity
+        await weapon.update({ "system.quantity": currentQuantity - 1 });
+        await sheet.document.createEmbeddedDocuments('Item', [equippedCopyData]);
+        
+        const handText = selectedHand === "both" ? "ambas as mãos" :
+          selectedHand === "right" ? "mão primária" : "mão secundária";
+        ui.notifications.info(`${weapon.name} foi equipada na ${handText}. ${currentQuantity - 1} unidade(s) permanece(m) na mochila.`);
+      } else {
+        // Just equip normally
+        const result = await weapon.update(updateData);
+        console.log("Update result:", result);
+        
+        const handText = selectedHand === "both" ? "ambas as mãos" :
+          selectedHand === "right" ? "mão primária" : "mão secundária";
+        ui.notifications.info(`${weapon.name} foi equipada na ${handText}.`);
+      }
 
-      // Get fresh weapon data after update
-      const updatedWeapon = sheet.document.items.get(weapon._id);
-      console.log("Status DEPOIS do update:", updatedWeapon?.system.equipped);
-      console.log("Right hand:", updatedWeapon?.system.rightHand);
-      console.log("Left hand:", updatedWeapon?.system.leftHand);
-      console.log("Weapon data after:", updatedWeapon?.system);
       console.log("=== END EQUIP DEBUG ===");
-
-      // Show success message based on hand selection
-      const handText = selectedHand === "both" ? "ambas as mãos" :
-        selectedHand === "right" ? "mão primária" : "mão secundária";
-      ui.notifications.info(`${weapon.name} foi equipada na ${handText}.`);
 
       // Force re-render to update the tables
       await sheet.render(false);
@@ -283,7 +367,7 @@ export class EquipmentActions {
   }
 
   /**
-   * Unequip a weapon via context menu flow (preserves existing behavior)
+   * Unequip a weapon via context menu flow (with quantity merging)
    * @param {Item} weapon
    * @param {CardiganSystemActorSheet} sheet
    */
@@ -293,16 +377,32 @@ export class EquipmentActions {
     try {
       console.log("Desequipando arma:", weapon.name, "Status atual:", weapon.system.equipped);
 
-      // Clear hand assignments when unequipping
-      const updateData = {
-        "system.equipped": false,
-        "system.rightHand": false,
-        "system.leftHand": false
-      };
+      // Check if there's an unequipped copy to merge with
+      const unequippedCopy = sheet.document.items.find((i) => 
+        i.type === 'arma' &&
+        i.name === weapon.name &&
+        !i.system.equipped &&
+        i._id !== weapon._id
+      );
 
-      await weapon.update(updateData);
-      console.log("Arma desequipada:", weapon.name, "Novo status:", weapon.system.equipped);
-      ui.notifications.info(`${weapon.name} foi desequipada e movida para a mochila.`);
+      if (unequippedCopy) {
+        // Merge: increase quantity of unequipped copy
+        const newQuantity = (unequippedCopy.system.quantity || 1) + (weapon.system.quantity || 1);
+        await unequippedCopy.update({ "system.quantity": newQuantity });
+        await weapon.delete();
+        console.log("Arma desequipada e mesclada:", weapon.name, "Novo total:", newQuantity);
+        ui.notifications.info(`${weapon.name} foi desequipada e mesclada com outra cópia na mochila. Total: ${newQuantity} unidade(s).`);
+      } else {
+        // No unequipped copy: just unequip normally
+        const updateData = {
+          "system.equipped": false,
+          "system.rightHand": false,
+          "system.leftHand": false
+        };
+        await weapon.update(updateData);
+        console.log("Arma desequipada:", weapon.name, "Novo status:", weapon.system.equipped);
+        ui.notifications.info(`${weapon.name} foi desequipada e movida para a mochila.`);
+      }
 
       // Force re-render to update the tables
       await sheet.render(false);
@@ -313,7 +413,7 @@ export class EquipmentActions {
   }
 
   /**
-   * Equip an armor via context menu flow (preserves existing debug logs/behavior)
+   * Equip an armor via context menu flow (with quantity splitting)
    * @param {Item} armor
    * @param {CardiganSystemActorSheet} sheet
    */
@@ -325,24 +425,34 @@ export class EquipmentActions {
       console.log("Equipando armadura:", armor.name);
       console.log("Status ANTES do update:", armor.system.equipped);
       console.log("Armor ID:", armor._id);
-      console.log("Armor type:", armor.system.armorType);
-
-      const updateData = {
-        "system.equipped": true
-      };
-
-      console.log("Update data:", updateData);
-
-      const result = await armor.update(updateData);
-      console.log("Update result:", result);
-
-      // Get fresh armor data after update
-      const updatedArmor = sheet.document.items.get(armor._id);
-      console.log("Status DEPOIS do update:", updatedArmor?.system.equipped);
-      console.log("=== END EQUIP ARMOR DEBUG ===");
+      console.log("Armor quantity:", armor.system.quantity || 1);
 
       const armorTypeLabel = game.i18n.localize(`CARDIGAN.ArmorType.${armor.system.armorType.charAt(0).toUpperCase() + armor.system.armorType.slice(1)}`);
-      ui.notifications.info(`${armor.name} (${armorTypeLabel}) foi equipada.`);
+
+      // Handle quantity splitting
+      const currentQuantity = armor.system.quantity || 1;
+      if (currentQuantity > 1) {
+        // Create equipped copy
+        const equippedCopyData = armor.toObject();
+        equippedCopyData.system.quantity = 1;
+        equippedCopyData.system.equipped = true;
+        delete equippedCopyData._id;
+
+        // Reduce original quantity
+        await armor.update({ "system.quantity": currentQuantity - 1 });
+        await sheet.document.createEmbeddedDocuments('Item', [equippedCopyData]);
+        
+        ui.notifications.info(`${armor.name} (${armorTypeLabel}) foi equipada. ${currentQuantity - 1} unidade(s) permanece(m) na mochila.`);
+      } else {
+        // Just equip normally
+        const updateData = {
+          "system.equipped": true
+        };
+        await armor.update(updateData);
+        ui.notifications.info(`${armor.name} (${armorTypeLabel}) foi equipada.`);
+      }
+
+      console.log("=== END EQUIP ARMOR DEBUG ===");
 
       // Force re-render to update the tables
       await sheet.render(false);
@@ -353,7 +463,7 @@ export class EquipmentActions {
   }
 
   /**
-   * Unequip an armor via context menu flow (preserves existing behavior)
+   * Unequip an armor via context menu flow (with quantity merging)
    * @param {Item} armor
    * @param {CardiganSystemActorSheet} sheet
    */
@@ -363,13 +473,30 @@ export class EquipmentActions {
     try {
       console.log("Desequipando armadura:", armor.name, "Status atual:", armor.system.equipped);
 
-      const updateData = {
-        "system.equipped": false
-      };
+      // Check if there's an unequipped copy to merge with
+      const unequippedCopy = sheet.document.items.find((i) => 
+        i.type === 'armadura' &&
+        i.name === armor.name &&
+        !i.system.equipped &&
+        i._id !== armor._id
+      );
 
-      await armor.update(updateData);
-      console.log("Armadura desequipada:", armor.name, "Novo status:", armor.system.equipped);
-      ui.notifications.info(`${armor.name} foi desequipada e movida para a mochila.`);
+      if (unequippedCopy) {
+        // Merge: increase quantity of unequipped copy
+        const newQuantity = (unequippedCopy.system.quantity || 1) + (armor.system.quantity || 1);
+        await unequippedCopy.update({ "system.quantity": newQuantity });
+        await armor.delete();
+        console.log("Armadura desequipada e mesclada:", armor.name, "Novo total:", newQuantity);
+        ui.notifications.info(`${armor.name} foi desequipada e mesclada com outra cópia na mochila. Total: ${newQuantity} unidade(s).`);
+      } else {
+        // No unequipped copy: just unequip normally
+        const updateData = {
+          "system.equipped": false
+        };
+        await armor.update(updateData);
+        console.log("Armadura desequipada:", armor.name, "Novo status:", armor.system.equipped);
+        ui.notifications.info(`${armor.name} foi desequipada e movida para a mochila.`);
+      }
 
       // Force re-render to update the tables
       await sheet.render(false);

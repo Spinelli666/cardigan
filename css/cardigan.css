@@ -4718,7 +4718,6 @@
 }
 .cardigan .tab.equipment .item-equip {
   text-align: center;
-  min-width: 50px;
 }
 .cardigan .tab.equipment .item-equip .equip-weapon,
 .cardigan .tab.equipment .item-equip .equip-armor,
@@ -5066,7 +5065,7 @@
 .cardigan .backpack-table li.item {
   display: flex !important;
   flex-wrap: nowrap !important;
-  gap: 4px;
+  gap: 2px;
   align-items: center;
   padding: 2px 5px;
   border: 1px solid #FFB75C;
@@ -5087,6 +5086,7 @@
   display: none !important;
 }
 .cardigan .backpack-table li.item.backpack-row-generic .item-quantity {
+  margin-right: 35px;
   margin-left: auto;
 }
 .cardigan .backpack-table li.item.backpack-row-consumable .item-reload-ammunition-wrapper,
@@ -5098,13 +5098,10 @@
   margin-left: auto;
 }
 .cardigan .backpack-table li.item.backpack-row-weapon {
-  gap: 3px;
+  gap: 2px;
 }
 .cardigan .backpack-table li.item.backpack-row-weapon .item-reload-ammunition-wrapper {
   margin-left: auto;
-}
-.cardigan .backpack-table li.item.backpack-row-weapon .item-quantity {
-  display: none !important;
 }
 .cardigan .backpack-table li.item.backpack-row-weapon .item-information {
   min-width: 26px;
@@ -5131,7 +5128,7 @@
   flex: 0 0 74px;
 }
 .cardigan .backpack-table li.item.backpack-row-armor {
-  gap: 3px;
+  gap: 2px;
 }
 .cardigan .backpack-table li.item.backpack-row-armor .item-name-group {
   flex: 0 1 auto;
@@ -5143,8 +5140,7 @@
   width: auto;
   min-width: 0;
 }
-.cardigan .backpack-table li.item.backpack-row-armor .item-reload-ammunition-wrapper,
-.cardigan .backpack-table li.item.backpack-row-armor .item-quantity {
+.cardigan .backpack-table li.item.backpack-row-armor .item-reload-ammunition-wrapper {
   display: none !important;
 }
 .cardigan .backpack-table li.item.backpack-row-armor .item-single-heavy {
@@ -5208,6 +5204,7 @@
   justify-content: center;
 }
 .cardigan .backpack-table .item-quantity {
+  margin-right: 5px;
   flex: 0 0 35px;
   width: 35px;
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
@@ -5264,8 +5261,8 @@
   margin-right: -1px;
 }
 .cardigan .backpack-table .item-equip {
-  flex: 0 0 36px;
-  width: 36px;
+  flex: 0 0 28px;
+  width: 28px;
 }
 .cardigan .backpack-table .item-information {
   display: flex;
@@ -5309,15 +5306,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 22px;
-  width: 22px;
+  height: 18px;
+  width: 18px;
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
   border: none;
   border-radius: 7px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 }
 .cardigan .backpack-table .item-information .info-badge.backpack .bonus-value, .cardigan .backpack-table .item-information .info-badge.energy-bonus .bonus-value, .cardigan .backpack-table .item-information .info-badge.movement-bonus .bonus-value, .cardigan .backpack-table .item-information .info-badge.protection .bonus-value, .cardigan .backpack-table .item-information .info-badge.skill-bonus .bonus-value {
-  font-size: 12px;
+  font-size: 10px;
   line-height: 1;
   text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
   background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
@@ -5395,6 +5392,26 @@
   gap: 1px;
   font-weight: 400;
 }
+.cardigan .backpack-table .item-durability .toggle-durability-display {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.cardigan .backpack-table .item-durability .durability-icon {
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+  will-change: transform, filter;
+}
+.cardigan .backpack-table .item-durability .toggle-durability-display:hover .durability-icon {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
+}
+.cardigan .backpack-table .item-durability .toggle-durability-display:active .durability-icon {
+  transform: scale(0.95);
+}
+.cardigan .backpack-table .item-durability .durability-display {
+  display: none !important;
+}
 .cardigan .backpack-table .item-durability.durability-broken .durability-max,
 .cardigan .backpack-table .item-durability.durability-broken span,
 .cardigan .backpack-table .item-durability.durability-broken input[type=number] {
@@ -5404,8 +5421,8 @@
   -webkit-text-fill-color: transparent;
 }
 .cardigan .backpack-table .item-durability .durability-icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
 }
@@ -5414,6 +5431,9 @@
   height: 16px;
   flex-shrink: 0;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+}
+.cardigan .backpack-table .item-durability.is-durability-expanded .durability-display {
+  display: flex !important;
 }
 .cardigan .backpack-table .item-durability .durability-display {
   display: flex;
@@ -5510,10 +5530,11 @@
   outline: none;
 }
 .cardigan .backpack-table .item-controls {
-  flex: 0 0 28px;
-  width: 28px;
+  flex: 0 0 18px;
+  width: 18px;
 }
 .cardigan .backpack-table .item-controls {
+  margin-right: 5px;
   display: flex;
   align-items: center;
   justify-content: center;

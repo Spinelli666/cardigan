@@ -94,6 +94,13 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
           return value;
         }
       }),
+      quantity: new fields.NumberField({
+        required: true,
+        nullable: false,
+        integer: true,
+        initial: 1,
+        min: 1
+      }),
       price: new fields.NumberField({ required: true, nullable: false, initial: 0, min: 0 }),
       durability: new fields.SchemaField({
         current: new fields.NumberField({ required: true, nullable: false, initial: CardiganSystemArma.DURABILITY_MAX, min: 0, integer: true }),

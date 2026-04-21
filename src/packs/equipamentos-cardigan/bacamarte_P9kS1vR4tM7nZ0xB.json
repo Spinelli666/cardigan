@@ -20,7 +20,14 @@
       "useDexterity": true,
       "total": "18"
     },
-    "properties": ["queima-roupa", "colateral", "pente", "recarga", "ferir", "impacto"],
+    "properties": [
+      "queima-roupa",
+      "colateral",
+      "pente",
+      "recarga",
+      "ferir",
+      "impacto"
+    ],
     "rightHand": false,
     "leftHand": false,
     "weight": "pesado",
@@ -35,7 +42,8 @@
     "protection": {
       "enabled": false,
       "value": 0
-    }
+    },
+    "quantity": 1
   },
   "effects": [],
   "flags": {},

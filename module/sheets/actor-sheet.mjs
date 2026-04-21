@@ -49,6 +49,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     this.isBackpackSearchOpen = false;
     this.backpackSearch = '';
 
+    // Track collapsed/expanded durability state for item rows
+    this.durabilityExpandedItems = new Set();
+
     // Preserve scroll state across re-renders
     this._pendingScrollState = null;
   }
@@ -365,6 +368,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Adicionar event listeners para campos de durabilidade
     this.#addDurabilityListeners();
+    this.#restoreDurabilityVisibility();
     
     // Adicionar event listeners para campos de quantidade
     this.#addQuantityListeners();
@@ -1520,6 +1524,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   async _onDropItemCreate(itemData, event) {
     itemData = itemData instanceof Array ? itemData : [itemData];
+    itemData = itemData.map((item) => {
+      if (item?.toObject instanceof Function) return item.toObject();
+      return foundry.utils.deepClone(item);
+    });
     
     // Special handling for race items - only one race allowed
     const raceItems = itemData.filter(item => item.type === 'race');
@@ -1586,7 +1594,87 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       }
     }
     
-    return this.actor.createEmbeddedDocuments('Item', itemData);
+    const stackableTypes = new Set(['item-comum', 'item-municao', 'item-consumivel', 'item-ingredient', 'arma', 'armadura']);
+    const quantityUpdates = [];
+    const itemsToCreate = [];
+
+    for (const data of itemData) {
+      if (!stackableTypes.has(data?.type)) {
+        itemsToCreate.push(data);
+        continue;
+      }
+
+      if (!data.system || typeof data.system !== 'object') {
+        data.system = {};
+      }
+
+      const minQuantity = ['arma', 'armadura'].includes(data.type) ? 1 : 0;
+      const quantityToAdd = Math.max(minQuantity, Number(data.system.quantity ?? 1) || 0);
+      data.system.quantity = quantityToAdd;
+
+      const existingItem = this.actor.items.find((item) => {
+        if (item.type !== data.type) return false;
+        if (item.name !== data.name) return false;
+        return this.#canStackDroppedItem(item, data);
+      });
+
+      if (!existingItem) {
+        itemsToCreate.push(data);
+        continue;
+      }
+
+      const currentQuantity = Number(existingItem.system?.quantity ?? (minQuantity || 1)) || 0;
+      const newQuantity = Math.max(minQuantity, currentQuantity + quantityToAdd);
+
+      quantityUpdates.push({
+        _id: existingItem.id,
+        'system.quantity': newQuantity
+      });
+    }
+
+    let updatedItems = [];
+    if (quantityUpdates.length > 0) {
+      await this.actor.updateEmbeddedDocuments('Item', quantityUpdates);
+      updatedItems = quantityUpdates
+        .map((update) => this.actor.items.get(update._id))
+        .filter(Boolean);
+    }
+
+    const createdItems = itemsToCreate.length > 0
+      ? await this.actor.createEmbeddedDocuments('Item', itemsToCreate)
+      : [];
+
+    return [...updatedItems, ...createdItems];
+  }
+
+  /**
+   * Determine whether a dropped item can stack with an existing owned item.
+   * @param {Item} existingItem
+   * @param {object} droppedItemData
+   * @returns {boolean}
+   */
+  #canStackDroppedItem(existingItem, droppedItemData) {
+    if (!existingItem || !droppedItemData) return false;
+
+    // Never stack equipped gear
+    if (existingItem.type === 'arma') {
+      if (existingItem.system?.isUnarmed) return false;
+      if (existingItem.system?.rightHand || existingItem.system?.leftHand || existingItem.system?.equipped) return false;
+    }
+
+    if (existingItem.type === 'armadura' && existingItem.system?.equipped) {
+      return false;
+    }
+
+    // Prefer matching compendium sourceId when available
+    const existingSourceId = existingItem.flags?.core?.sourceId;
+    const droppedSourceId = droppedItemData.flags?.core?.sourceId;
+
+    if (existingSourceId && droppedSourceId) {
+      return existingSourceId === droppedSourceId;
+    }
+
+    return true;
   }
 
   /**
@@ -1733,6 +1821,55 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
           e.target.blur(); // Força o blur que irá processar a mudança
         }
       });
+    });
+
+    const durabilityToggleButtons = html.querySelectorAll('.item-durability .toggle-durability-display[data-action="toggleDurabilityDisplay"]');
+    durabilityToggleButtons.forEach(button => {
+      button.addEventListener('click', this.#handleDurabilityToggle.bind(this));
+    });
+  }
+
+  /**
+   * Alterna a visibilidade da durabilidade do item ao clicar no ícone
+   * @param {MouseEvent} event
+   */
+  #handleDurabilityToggle(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const toggleButton = event.currentTarget;
+    const itemRow = toggleButton.closest('li.item[data-item-id]');
+    const durabilityContainer = toggleButton.closest('.item-durability');
+
+    if (!itemRow || !durabilityContainer) return;
+
+    const itemId = itemRow.dataset.itemId;
+    if (!itemId) return;
+
+    const isExpanded = durabilityContainer.classList.toggle('is-durability-expanded');
+
+    if (isExpanded) {
+      this.durabilityExpandedItems.add(itemId);
+    } else {
+      this.durabilityExpandedItems.delete(itemId);
+    }
+  }
+
+  /**
+   * Restaura o estado de visibilidade da durabilidade após re-render
+   */
+  #restoreDurabilityVisibility() {
+    const html = this.element;
+    if (!html) return;
+
+    html.querySelectorAll('li.item[data-item-id] .item-durability').forEach(container => {
+      const itemRow = container.closest('li.item[data-item-id]');
+      const itemId = itemRow?.dataset.itemId;
+      if (itemId && this.durabilityExpandedItems.has(itemId)) {
+        container.classList.add('is-durability-expanded');
+      } else {
+        container.classList.remove('is-durability-expanded');
+      }
     });
   }
 
@@ -1898,15 +2035,17 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     }
     
     // Validar se é um dos tipos permitidos para edição de quantidade
-    if (!['item-comum', 'item-municao', 'item-consumivel'].includes(item.type)) {
+    const allowedQuantityTypes = ['item-comum', 'item-municao', 'item-consumivel', 'item-ingredient', 'arma', 'armadura'];
+    if (!allowedQuantityTypes.includes(item.type)) {
       console.warn('[CARDIGAN] Tipo de item não permitido para edição de quantidade:', item.type);
       return;
     }
     
-    // Validar valor mínimo
-    const finalValue = Math.max(0, value);
+    // Validar valor mínimo por tipo
+    const minQuantity = ['arma', 'armadura'].includes(item.type) ? 1 : 0;
+    const finalValue = Math.max(minQuantity, value);
     if (finalValue !== value) {
-      console.log(`[CARDIGAN] Valor ${value} ajustado para mínimo 0`);
+      console.log(`[CARDIGAN] Valor ${value} ajustado para mínimo ${minQuantity}`);
       input.value = finalValue;
     }
     

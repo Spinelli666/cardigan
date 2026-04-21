@@ -211,7 +211,6 @@
   // Style for equip weapon column in backpack
   .item-equip {
     text-align: center;
-    min-width: 50px;
     
     .equip-weapon,
     .equip-armor,
@@ -626,7 +625,7 @@ ol.items-list.backpack-table > li.item.items-header {
   li.item {
     display: flex !important;
     flex-wrap: nowrap !important;
-    gap: 4px;
+    gap: 2px;
     align-items: center;
     padding: 2px 5px;
     border: 1px solid #FFB75C;
@@ -651,6 +650,7 @@ ol.items-list.backpack-table > li.item.items-header {
       }
 
       .item-quantity {
+        margin-right: 35px;
         margin-left: auto;
       }
     }
@@ -668,14 +668,10 @@ ol.items-list.backpack-table > li.item.items-header {
     }
 
     &.backpack-row-weapon {
-      gap: 3px;
+      gap: 2px;
 
       .item-reload-ammunition-wrapper {
         margin-left: auto;
-      }
-
-      .item-quantity {
-        display: none !important;
       }
 
       .item-information {
@@ -716,7 +712,7 @@ ol.items-list.backpack-table > li.item.items-header {
     }
 
     &.backpack-row-armor {
-      gap: 3px;
+      gap: 2px;
 
       .item-name-group {
         flex: 0 1 auto;
@@ -730,8 +726,7 @@ ol.items-list.backpack-table > li.item.items-header {
         }
       }
 
-      .item-reload-ammunition-wrapper,
-      .item-quantity {
+      .item-reload-ammunition-wrapper {
         display: none !important;
       }
 
@@ -809,6 +804,7 @@ ol.items-list.backpack-table > li.item.items-header {
   }
 
   .item-quantity {
+    margin-right: 5px;
     flex: 0 0 35px;
     width: 35px;
     background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
@@ -872,8 +868,8 @@ ol.items-list.backpack-table > li.item.items-header {
   }
 
   .item-equip {
-    flex: 0 0 36px;
-    width: 36px;
+    flex: 0 0 28px;
+    width: 28px;
   }
 
   .item-information {
@@ -927,8 +923,8 @@ ol.items-list.backpack-table > li.item.items-header {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          height: 22px;
-          width: 22px;
+          height: 18px;
+          width: 18px;
           background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
           border: none;
           border-radius: 7px;
@@ -936,7 +932,7 @@ ol.items-list.backpack-table > li.item.items-header {
         }
 
         .bonus-value {
-          font-size: 12px;
+          font-size: 10px;
           line-height: 1;
           text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
           background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
@@ -1032,6 +1028,35 @@ ol.items-list.backpack-table > li.item.items-header {
     gap: 1px;
     font-weight: 400;
 
+    .toggle-durability-display {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .durability-icon {
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease;
+      will-change: transform, filter;
+    }
+
+    .toggle-durability-display:hover {
+      .durability-icon {
+        transform: scale(1.06);
+        filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
+      }
+    }
+
+    .toggle-durability-display:active {
+      .durability-icon {
+        transform: scale(0.95);
+      }
+    }
+
+    .durability-display {
+      display: none !important;
+    }
+
     &.durability-broken {
       .durability-max,
       span,
@@ -1044,8 +1069,8 @@ ol.items-list.backpack-table > li.item.items-header {
     }
 
     .durability-icon {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       flex-shrink: 0;
       filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
     }
@@ -1055,6 +1080,12 @@ ol.items-list.backpack-table > li.item.items-header {
       height: 16px;
       flex-shrink: 0;
       filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+    }
+
+    &.is-durability-expanded {
+      .durability-display {
+        display: flex !important;
+      }
     }
 
     .durability-display {
@@ -1167,11 +1198,12 @@ ol.items-list.backpack-table > li.item.items-header {
   }
 
   .item-controls {
-    flex: 0 0 28px;
-    width: 28px;
+    flex: 0 0 18px;
+    width: 18px;
   }
 
   .item-controls {
+    margin-right: 5px;
     display: flex;
     align-items: center;
     justify-content: center;

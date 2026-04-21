@@ -125,6 +125,14 @@ export default class ArmorData extends BaseItemData {
           return value;
         }
       }),
+
+      quantity: new NumberField({
+        required: true,
+        nullable: false,
+        integer: true,
+        initial: 1,
+        min: 1
+      }),
       
       price: new NumberField({
         required: true,

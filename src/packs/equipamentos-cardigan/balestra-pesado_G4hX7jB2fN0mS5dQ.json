@@ -20,7 +20,10 @@
       "useDexterity": true,
       "total": "18"
     },
-    "properties": ["perfurar", "recarga"],
+    "properties": [
+      "perfurar",
+      "recarga"
+    ],
     "rightHand": false,
     "leftHand": false,
     "weight": "pesado",
@@ -35,7 +38,8 @@
     "protection": {
       "enabled": false,
       "value": 0
-    }
+    },
+    "quantity": 1
   },
   "effects": [],
   "flags": {},
