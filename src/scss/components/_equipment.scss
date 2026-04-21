@@ -1625,6 +1625,22 @@
   }
 
   // Armor table specific styles
+  .item-single-heavy {
+    flex: 0 0 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+
+    img {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      display: block;
+    }
+  }
+
   .item-armor-type {
     text-align: center;
     min-width: 100px;

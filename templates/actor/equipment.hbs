@@ -216,8 +216,34 @@
               />
             </a>
           </div>
-          <div class='item-name {{#if (and (or (eq item.type "arma") (eq item.type "armadura")) (eq item.system.durability.current 0))}}item-name-broken{{/if}}'>
-            <div>{{item.name}}</div>
+          <div class='item-name-group'>
+            <div class='item-name {{#if (and (or (eq item.type "arma") (eq item.type "armadura")) (eq item.system.durability.current 0))}}item-name-broken{{/if}}'>
+              <div>{{item.name}}</div>
+            </div>
+            {{#if (eq item.type "armadura")}}
+              <div class='item-single-heavy'>
+                {{#if item.system.single}}
+                  <img
+                    src='systems/cardigan/assets/images/decorative/icons/icon-single-equipped.svg'
+                    alt='{{localize "CARDIGAN.Single"}}'
+                    class='single-equipped-icon'
+                    width='18'
+                    height='18'
+                    title='{{localize "CARDIGAN.Single"}}'
+                  />
+                {{/if}}
+                {{#if (eq item.system.weight "pesado")}}
+                  <img
+                    src='systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg'
+                    alt='{{localize "CARDIGAN.Heavy"}}'
+                    class='heavy-item-icon'
+                    width='18'
+                    height='18'
+                    title='{{localize "CARDIGAN.Heavy"}}'
+                  />
+                {{/if}}
+              </div>
+            {{/if}}
           </div>
           <div class='item-reload-ammunition-wrapper'>
             <div class='item-reload'>
@@ -338,6 +364,27 @@
                   />
                 </div>
               {{/if}}
+
+              {{#each item.system.skillBonuses as |skillBonus|}}
+                {{#if (and skillBonus.skill skillBonus.bonus (not (eq skillBonus.bonus 0)))}}
+                  <div class='skill-bonus info-badge'>
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>
+                        {{#if (gt skillBonus.bonus 0)}}+{{skillBonus.bonus}}{{else}}{{skillBonus.bonus}}{{/if}}
+                        {{#if (eq skillBonus.skill "accuracy")}}PRE{{/if}}
+                        {{#if (eq skillBonus.skill "evasion")}}EVA{{/if}}
+                        {{#if (eq skillBonus.skill "strength")}}FOR{{/if}}
+                        {{#if (eq skillBonus.skill "dexterity")}}DES{{/if}}
+                        {{#if (eq skillBonus.skill "stamina")}}VIG{{/if}}
+                        {{#if (eq skillBonus.skill "stealth")}}FUR{{/if}}
+                        {{#if (eq skillBonus.skill "persuasion")}}PER{{/if}}
+                        {{#if (eq skillBonus.skill "intelligence")}}INT{{/if}}
+                        {{#if (eq skillBonus.skill "psionics")}}PSI{{/if}}
+                      </span>
+                    </div>
+                  </div>
+                {{/if}}
+              {{/each}}
 
               {{#if item.system.bonusDeslocamento.enabled}}
                 <div class='movement-bonus info-badge'>
@@ -822,6 +869,7 @@
   <ol class='items-list'>
     <li class='item flexrow items-header'>
       <div class='item-name'>{{localize 'Name'}}</div>
+      <div class='item-single-heavy'></div>
       <div class='item-armor-type'>{{localize 'CARDIGAN.ArmorTypeLabel'}}</div>
       <div class='item-protection'>{{localize 'CARDIGAN.Protection'}}</div>
       <div class='item-durability'>
@@ -865,6 +913,28 @@
           >
             {{item.name}}
           </div>
+        </div>
+        <div class='item-single-heavy'>
+          {{#if item.system.single}}
+            <img
+              src='systems/cardigan/assets/images/decorative/icons/icon-single-equipped.svg'
+              alt='{{localize "CARDIGAN.Single"}}'
+              class='single-equipped-icon'
+              width='18'
+              height='18'
+              title='{{localize "CARDIGAN.Single"}}'
+            />
+          {{/if}}
+          {{#if (eq item.system.weight "pesado")}}
+            <img
+              src='systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg'
+              alt='{{localize "CARDIGAN.Heavy"}}'
+              class='heavy-item-icon'
+              width='18'
+              height='18'
+              title='{{localize "CARDIGAN.Heavy"}}'
+            />
+          {{/if}}
         </div>
         <div class='item-armor-type'>
           {{localize (concat "CARDIGAN.ArmorType." (capitalize item.system.armorType))}}

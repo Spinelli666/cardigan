@@ -69,6 +69,7 @@ export default class ArmorData extends BaseItemData {
       magicalArtifact: new BooleanField({initial: false}),
       resistenciaFrio: new BooleanField({initial: false}),
       stylish: new BooleanField({initial: false}),
+      single: new BooleanField({initial: false}),
       
       bonusVida: new NumberField({
         required: true,
