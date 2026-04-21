@@ -5558,14 +5558,20 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  transition: transform 0.15s ease, filter 0.15s ease;
+  will-change: transform, filter;
 }
 .cardigan .backpack-table .item-controls .item-control[data-context-menu]:hover,
 .cardigan .backpack-table .item-controls .item-control.always-interactive:hover {
   background: none !important;
-  transform: translateY(-1px);
 }
-.cardigan .backpack-table .item-controls .item-control[data-context-menu]:active,
-.cardigan .backpack-table .item-controls .item-control.always-interactive:active {
+.cardigan .backpack-table .item-controls .item-control[data-context-menu]:hover i,
+.cardigan .backpack-table .item-controls .item-control.always-interactive:hover i {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
+}
+.cardigan .backpack-table .item-controls .item-control[data-context-menu]:active i,
+.cardigan .backpack-table .item-controls .item-control.always-interactive:active i {
   transform: scale(0.95);
 }
 .cardigan .backpack-table .item-controls .item-control[data-context-menu]:focus, .cardigan .backpack-table .item-controls .item-control[data-context-menu]:focus-visible,

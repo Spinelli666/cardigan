@@ -1226,15 +1226,23 @@ ol.items-list.backpack-table > li.item.items-header {
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        transition: transform 0.15s ease, filter 0.15s ease;
+        will-change: transform, filter;
       }
 
       &:hover {
         background: none !important;
-        transform: translateY(-1px);
+
+        i {
+          transform: scale(1.06);
+          filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
+        }
       }
 
       &:active {
-        transform: scale(0.95);
+        i {
+          transform: scale(0.95);
+        }
       }
 
       &:focus,
