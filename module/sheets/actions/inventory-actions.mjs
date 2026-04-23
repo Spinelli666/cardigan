@@ -134,4 +134,45 @@ export class InventoryActions {
 
     return totalSpaces;
   }
+
+  /**
+   * Calculate totals from equipped armors for display purposes only
+   * This method calculates totals to show in the UI but doesn't modify the actor's actual bonus fields
+   * The actual bonuses are calculated in the actor's _calculateArmorBonuses method
+   * @param {object} context - The context object containing armaduras array
+   * @static
+   */
+  static calculateArmorTotals(context) {
+    let totalArmor = 0;
+    let totalLifeBonus = 0;
+    let totalEnergyBonus = 0;
+    let totalMovementBonus = 0;
+
+    // Calculate totals from equipped armors
+    context.armaduras.forEach(armor => {
+      // Armor protection
+      totalArmor += armor.system.protecao || 0;
+      
+      // Life and energy bonuses
+      totalLifeBonus += armor.system.bonusVida || 0;
+      totalEnergyBonus += armor.system.bonusEnergia || 0;
+      
+      // Movement bonus (only if enabled)
+      if (armor.system.bonusDeslocamento && armor.system.bonusDeslocamento.enabled) {
+        totalMovementBonus += armor.system.bonusDeslocamento.bonus || 0;
+      }
+    });
+
+    // Store totals in context for display/use only - DO NOT modify actor data
+    context.armorTotals = {
+      armor: totalArmor,
+      life: totalLifeBonus,
+      energy: totalEnergyBonus,
+      movement: totalMovementBonus
+    };
+
+    // REMOVED: Do NOT modify the actor's status fields here!
+    // The actor's _calculateArmorBonuses method handles all armor bonuses correctly
+    // Modifying status fields here causes duplication in the max calculations
+  }
 }

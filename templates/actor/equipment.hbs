@@ -229,7 +229,8 @@
                     class='single-equipped-icon'
                     width='18'
                     height='18'
-                    title='{{localize "CARDIGAN.Single"}}'
+                    data-tooltip='Único'
+                    data-tooltip-class='cardigan-tooltip'
                   />
                 {{/if}}
                 {{#if (eq item.system.weight "pesado")}}
@@ -239,7 +240,8 @@
                     class='heavy-item-icon'
                     width='18'
                     height='18'
-                    title='{{localize "CARDIGAN.Heavy"}}'
+                    data-tooltip='Pesada'
+                    data-tooltip-class='cardigan-tooltip'
                   />
                 {{/if}}
               </div>
@@ -252,7 +254,8 @@
                   {{#if @root.editable}}
                     <a
                       class='item-control manage-ammunition'
-                      title='Gerenciar Munição'
+                      data-tooltip='Gerenciar Munição'
+                      data-tooltip-class='cardigan-tooltip'
                       data-action='manageAmmunition'
                       data-item-id='{{item._id}}'
                     >
@@ -436,8 +439,9 @@
             {{#if (or (eq item.type "arma") (eq item.type "armadura"))}}
               <a
                 class='item-control toggle-durability-display'
-                title='{{localize "CARDIGAN.Durability"}}'
                 data-action='toggleDurabilityDisplay'
+                data-tooltip='CARDIGAN.Durability'
+                data-tooltip-class='cardigan-tooltip'
               >
                 <img
                   src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
@@ -709,7 +713,8 @@
                 {{#if @root.editable}}
                   <a
                     class='item-control manage-ammunition'
-                    title='Gerenciar Munição'
+                    data-tooltip='Gerenciar Munição'
+                    data-tooltip-class='cardigan-tooltip'
                     data-action='manageAmmunition'
                     data-item-id='{{item._id}}'
                   >
@@ -913,7 +918,8 @@
               class='single-equipped-icon'
               width='18'
               height='18'
-              title='{{localize "CARDIGAN.Single"}}'
+              data-tooltip='Único'
+              data-tooltip-class='cardigan-tooltip'
             />
           {{/if}}
           {{#if (eq item.system.weight "pesado")}}
@@ -923,7 +929,8 @@
               class='heavy-item-icon'
               width='18'
               height='18'
-              title='{{localize "CARDIGAN.Heavy"}}'
+              data-tooltip='Pesada'
+              data-tooltip-class='cardigan-tooltip'
             />
           {{/if}}
         </div>
