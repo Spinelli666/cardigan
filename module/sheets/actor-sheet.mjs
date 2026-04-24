@@ -3800,12 +3800,12 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const bonusFields = [
       {
         selector: 'input.health-bonus-input.dynamic-field',
-        hiddenSelector: 'input[name="system.status.healthBonus"]',
+        hiddenSelector: 'input.health-bonus-hidden',
         type: 'healthBonus'
       },
       {
         selector: 'input.energy-bonus-input.dynamic-field',
-        hiddenSelector: 'input[name="system.status.energyBonus"]',
+        hiddenSelector: 'input.energy-bonus-hidden',
         type: 'energyBonus'
       },
       { selector: 'input[name="system.status.armorBonus"].dynamic-field', type: 'armorBonus' }

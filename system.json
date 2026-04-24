@@ -71,8 +71,8 @@
   ],
   "version": "1.3.7",
   "compatibility": {
-    "minimum": "12.328",
-    "verified": "12.328"
+    "minimum": "12",
+    "verified": "12"
   },
   "esmodules": ["module/cardigan.mjs"],
   "styles": ["css/cardigan.css"],

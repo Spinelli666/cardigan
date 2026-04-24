@@ -22,6 +22,8 @@ import { initializeWeaponProperties } from './weapon-properties/index.mjs';
 import CardiganTooltipManager from './tooltips/tooltip-manager.mjs';
 // Import Hooks
 import { registerWhisperPlaceholderHook } from './hooks/whisper-placeholder.mjs';
+// Import Socket listeners
+import { registerInitSocketListeners, registerReadySocketListeners } from './socket.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -126,119 +128,13 @@ Hooks.once('init', function () {
     return str.toLowerCase();
   });
 
-  // Socket listener para notificações de evasão, dano e resultado de ataque (registrado no init)
-  game.socket.on("system.cardigan", async (data) => {
-    if (data.action === "notifyGMEvasion" && game.user.isGM) {
-      createGMEvasionNotification(data.payload);
-    } else if (data.action === "notifyDamage") {
-      showDamageNotification(data.payload);
-    } else if (data.action === "notifyArmorDurability") {
-      showArmorDurabilityNotification(data.payload);
-    } else if (data.action === "notifyAttacker" && !game.user.isGM) {
-      // Only show to the attacker's owner
-      if (data.payload.attackerOwnerId === game.user.id) {
-        createAttackerResultDialog(data.payload);
-      }
-    } else if (data.action === "applyDamage") {
-      // Apply damage to actor - only if user owns the actor or is GM
-      const actor = game.actors.get(data.payload.actorId);
-      if (actor && (actor.isOwner || game.user.isGM)) {
-        actor.update({ 'system.health.value': data.payload.newHP });
-      }
-    } else if (data.action === "closeAttackDialog") {
-      // Close attack dialog by ID
-      closeAttackDialogForAttacker(data.payload);
-    } else if (data.action === "openNewAttackDialog") {
-      // Close old dialog and open new one with updated values
-      if (data.payload.attackerOwnerId === game.user.id) {
-        closeAttackDialogForAttacker({ dialogId: data.payload.oldDialogId });
-        createAttackerResultDialog(data.payload);
-      }
-    } else if (data.type === "applyBleeding" && game.user.isGM) {
-      // Handle bleeding application - only GM can execute
-      const targetActor = game.actors.get(data.targetActorId);
-      if (targetActor) {
-        const { Ferir } = await import('./weapon-properties/properties/ferir.mjs');
-        await Ferir.applyBleedingEffect(targetActor, data.weaponName);
-      } else {
-        console.error('[FERIR] Target actor not found:', data.targetActorId);
-      }
-    } else if (data.type === "notifyBleeding") {
-      // Notify defender's owner about bleeding effect
-      if (data.userId === game.user.id) {
-        ui.notifications.info(`🩸 Você recebeu Sangramento de ${data.weaponName}!`);
-      }
-    } else if (data.type === "applyWeakened" && game.user.isGM) {
-      // Handle weakened application - only GM can execute
-      const targetActor = game.actors.get(data.targetActorId);
-      if (targetActor) {
-        const { Traspassar } = await import('./weapon-properties/properties/traspassar.mjs');
-        await Traspassar.applyWeakenedEffect(targetActor, data.weaponName);
-      } else {
-        console.error('[TRASPASSAR] Target actor not found:', data.targetActorId);
-      }
-    } else if (data.type === "notifyWeakened") {
-      // Notify defender's owner about weakened effect
-      if (data.userId === game.user.id) {
-        ui.notifications.info(`💪 Você ficou Enfraquecido por ${data.weaponName}!`);
-      }
-    } else if (data.type === "applyProne" && game.user.isGM) {
-      // Handle prone application - only GM can execute
-      const targetActor = game.actors.get(data.targetActorId);
-      if (targetActor) {
-        const { Contundente } = await import('./weapon-properties/properties/contundente.mjs');
-        await Contundente.applyProneEffect(targetActor, data.weaponName);
-      } else {
-        console.error('[CONTUNDENTE] Target actor not found:', data.targetActorId);
-      }
-    } else if (data.type === "notifyProne") {
-      // Notify defender's owner about prone effect
-      if (data.userId === game.user.id) {
-        ui.notifications.info(`🔽 Você ficou Caído por ${data.weaponName}!`);
-      }
-    } else if (data.type === "applyBurning" && game.user.isGM) {
-      // Handle burning application - only GM can execute
-      const targetActor = game.actors.get(data.targetActorId);
-      if (targetActor) {
-        const { Incendiar } = await import('./weapon-properties/properties/incendiar.mjs');
-        await Incendiar.applyBurningEffect(targetActor, data.weaponName);
-      } else {
-        console.error('[INCENDIAR] Target actor not found:', data.targetActorId);
-      }
-    } else if (data.type === "notifyBurning") {
-      // Notify defender's owner about burning effect
-      if (data.userId === game.user.id) {
-        ui.notifications.info(`🔥 Você ficou Incendiado por ${data.weaponName}!`);
-      }
-    } else if (data.type === "applyShocked" && game.user.isGM) {
-      // Handle shocked application - only GM can execute
-      const targetActor = game.actors.get(data.targetActorId);
-      if (targetActor) {
-        const { Eletrocutar } = await import('./weapon-properties/properties/eletrocutar.mjs');
-        await Eletrocutar.applyShockedEffect(targetActor, data.weaponName);
-      } else {
-        console.error('[ELETROCUTAR] Target actor not found:', data.targetActorId);
-      }
-    } else if (data.type === "notifyShocked") {
-      // Notify defender's owner about shocked effect
-      if (data.userId === game.user.id) {
-        ui.notifications.info(`⚡ Você ficou Eletrocutado por ${data.weaponName}!`);
-      }
-    } else if (data.type === "applyFracture" && game.user.isGM) {
-      // Handle fracture application - only GM can execute
-      const targetActor = game.actors.get(data.targetActorId);
-      if (targetActor) {
-        const { Impacto } = await import('./weapon-properties/properties/impacto.mjs');
-        await Impacto.applyFractureEffect(targetActor, data.weaponName);
-      } else {
-        console.error('[IMPACTO] Target actor not found:', data.targetActorId);
-      }
-    } else if (data.type === "notifyFracture") {
-      // Notify defender's owner about fracture increment
-      if (data.userId === game.user.id) {
-        ui.notifications.info(`🦴 Você sofreu Fratura por ${data.weaponName}! (${data.oldFracture} → ${data.newFracture})`);
-      }
-    }
+  // Socket listeners for combat notifications, evasion, damage, armor durability, weapon property effects
+  registerInitSocketListeners({
+    createGMEvasionNotification,
+    showDamageNotification,
+    showArmorDurabilityNotification,
+    createAttackerResultDialog,
+    closeAttackDialogForAttacker,
   });
 
   // Register helper for "lt" (less than) comparison
@@ -2885,91 +2781,31 @@ Hooks.once('ready', function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => createDocMacro(data, slot));
   
-  // Register trade system socket listeners
-  game.socket.on('system.cardigan', async (data) => {
-    console.log('[CARDIGAN SOCKET] Received:', data);
-    
-    switch (data.action) {
-      case 'tradeRequest':
-        await handleTradeRequest(data.data);
-        break;
-      case 'tradeAccepted':
-        await handleTradeAccepted(data.data);
-        break;
-      case 'tradeRejected':
-        handleTradeRejected(data.data);
-        break;
-      case 'tradeUpdate':
-        handleTradeUpdate(data.data);
-        break;
-      case 'tradeConfirm':
-        await handleTradeConfirm(data.data);
-        break;
-      case 'tradeUndo':
-        handleTradeUndo(data.data);
-        break;
-      case 'tradeCancel':
-        handleTradeCancel(data.data);
-        break;
-      case 'tradeComplete':
-        handleTradeComplete(data.data);
-        break;
-      case 'executeTradeTransfer':
-        if (game.user.isGM) {
-          await handleExecuteTradeTransfer(data.data);
-        }
-        break;
-      
-      // Merchant trade system
-      case 'merchantTradeRequest':
-        await handleMerchantTradeRequest(data.data);
-        break;
-      case 'merchantTradeAccepted':
-        await handleMerchantTradeAccepted(data.data);
-        break;
-      case 'merchantTradeRejected':
-        handleMerchantTradeRejected(data.data);
-        break;
-      case 'merchantTradeUpdate':
-        handleMerchantTradeUpdate(data.data);
-        break;
-      case 'merchantTradeConfirm':
-        await handleMerchantTradeConfirm(data.data);
-        break;
-      case 'merchantTradeUndo':
-        handleMerchantTradeUndo(data.data);
-        break;
-      case 'merchantTradeCancel':
-        handleMerchantTradeCancel(data.data);
-        break;
-      case 'merchantTradeComplete':
-        handleMerchantTradeComplete(data.data);
-        break;
-      case 'executeMerchantTradeTransfer':
-        if (game.user.isGM) {
-          await handleExecuteMerchantTradeTransfer(data.data);
-        }
-        break;
-      
-      // Existing combat system handlers
-      case 'createGMEvasionNotification':
-        if (game.user.isGM) {
-          await createGMEvasionNotification(data.data);
-        }
-        break;
-      case 'createAttackerResultDialog':
-        await createAttackerResultDialog(data.data);
-        break;
-      case 'closeAttackDialogForAttacker':
-        closeAttackDialogForAttacker(data.data);
-        break;
-      case 'showDamageNotification':
-        showDamageNotification(data.data);
-        break;
-      case 'showArmorDurabilityNotification':
-        showArmorDurabilityNotification(data.data);
-        break;
-    }
+  // Socket listeners for trade system and secondary combat events
+  registerReadySocketListeners({
+    handleTradeRequest,
+    handleTradeAccepted,
+    handleTradeRejected,
+    handleTradeUpdate,
+    handleTradeConfirm,
+    handleTradeUndo,
+    handleTradeCancel,
+    handleTradeComplete,
+    handleExecuteTradeTransfer,
+    handleMerchantTradeRequest,
+    handleMerchantTradeAccepted,
+    handleMerchantTradeRejected,
+    handleMerchantTradeUpdate,
+    handleMerchantTradeConfirm,
+    handleMerchantTradeUndo,
+    handleMerchantTradeCancel,
+    handleMerchantTradeComplete,
+    handleExecuteMerchantTradeTransfer,
+    createGMEvasionNotification,
+    createAttackerResultDialog,
+    closeAttackDialogForAttacker,
+    showDamageNotification,
+    showArmorDurabilityNotification,
   });
 });
 

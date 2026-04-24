@@ -24,7 +24,6 @@
 
     img {
       width: 18px;
-      height: 18px;
       display: block;
       flex: 0 0 auto;
     }
@@ -880,6 +879,7 @@ ol.items-list.backpack-table > li.item.items-header {
     width: 88px;
     flex: 0 0 88px;
     padding-left: 2px;
+    margin-right: 16px;
 
     .info-badge {
       display: inline-flex;
@@ -958,6 +958,7 @@ ol.items-list.backpack-table > li.item.items-header {
     width: 86px;
     min-width: 86px;
     gap: 4px;
+    margin-right: 22px;
   }
 
   .item-reload {
@@ -1036,12 +1037,14 @@ ol.items-list.backpack-table > li.item.items-header {
 
     .durability-icon {
       cursor: pointer;
-      transition: transform 0.15s ease, filter 0.15s ease;
+      opacity: 0.6;
+      transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
       will-change: transform, filter;
     }
 
     .toggle-durability-display:hover {
       .durability-icon {
+        opacity: 1;
         transform: scale(1.06);
         filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
       }
@@ -1049,6 +1052,7 @@ ol.items-list.backpack-table > li.item.items-header {
 
     .toggle-durability-display:active {
       .durability-icon {
+        opacity: 1;
         transform: scale(0.95);
       }
     }
@@ -1083,6 +1087,10 @@ ol.items-list.backpack-table > li.item.items-header {
     }
 
     &.is-durability-expanded {
+      .toggle-durability-display .durability-icon {
+        opacity: 1;
+      }
+
       .durability-display {
         display: flex !important;
       }
