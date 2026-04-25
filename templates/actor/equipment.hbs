@@ -857,7 +857,9 @@
   </div>
   {{/if}}
 
+  {{#if (and system.details.showWeaponsTable hasHeaderArmorEquipped)}}
   <div class="armor-equipament-container">
+    {{#if hasHeadArmorEquipped}}
     <div class="head-container">
       <div class='head-title-row'>
         <img
@@ -1104,7 +1106,1254 @@
         {{/each}}
       </ol>
     </div>
+    {{/if}}
+
+    {{#if hasTorsoArmorEquipped}}
+    <div class="torso-container">
+      <div class='torso-title-row'>
+        <img
+          src='systems/cardigan/assets/images/armor/chest.webp'
+          alt='Torso'
+          class='torso-image'
+        />
+        <p>⬩ TORSO</p>
+      </div>
+
+      <ol class='items-list torso-armor-table'>
+        {{#each armaduras as |item id|}}
+          {{#if (eq item.system.armorType "torso")}}
+            <li
+              class='item torso-armor-item {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'
+              data-item-id='{{item._id}}'
+              data-uuid='{{item.uuid}}'
+              data-drag='true'
+              data-document-class='Item'
+            >
+              <div class='item-name-group'>
+                <div class='item-name {{#if (eq item.system.durability.current 0)}}item-name-broken{{/if}}'>
+                  <div>{{item.name}}</div>
+                </div>
+                <div class='item-single-heavy'>
+                  {{#if item.system.single}}
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-single-equipped.svg'
+                      alt='{{localize "CARDIGAN.Single"}}'
+                      class='single-equipped-icon'
+                      width='18'
+                      height='18'
+                      data-tooltip='Único'
+                      data-tooltip-class='cardigan-tooltip'
+                    />
+                  {{/if}}
+                  {{#if (eq item.system.weight "pesado")}}
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg'
+                      alt='{{localize "CARDIGAN.Heavy"}}'
+                      class='heavy-item-icon'
+                      width='15'
+                      height='15'
+                      data-tooltip='Pesada'
+                      data-tooltip-class='cardigan-tooltip'
+                    />
+                  {{/if}}
+                </div>
+              </div>
+              <div class='item-information'>
+                {{#if item.system.stylish}}
+                  <div class='stlish stylish info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-stylish.svg'
+                      alt='{{localize "CARDIGAN.Stylish"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#if item.system.resistenciaFrio}}
+                  <div class='weather info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-weather.svg'
+                      alt='{{localize "CARDIGAN.ColdResistance"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#if item.system.bonusEspacoMochila.enabled}}
+                  <div class='backpack info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-backpack.svg'
+                      alt='{{localize "CARDIGAN.BackpackSpaceBonus"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusEspacoMochila.bonus}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if item.system.magicalArtifact}}
+                  <div class='paranormal-artifact info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-paranormal-artifact.svg'
+                      alt='{{localize "CARDIGAN.MagicalArtifact"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#each item.system.skillBonuses as |skillBonus|}}
+                  {{#if (and skillBonus.skill skillBonus.bonus (not (eq skillBonus.bonus 0)))}}
+                    <div class='skill-bonus info-badge'>
+                      <div class='bonus-display'>
+                        <span class='bonus-value'>
+                          {{#if (gt skillBonus.bonus 0)}}+{{skillBonus.bonus}}{{else}}{{skillBonus.bonus}}{{/if}}
+                          {{#if (eq skillBonus.skill "accuracy")}}PRE{{/if}}
+                          {{#if (eq skillBonus.skill "evasion")}}EVA{{/if}}
+                          {{#if (eq skillBonus.skill "strength")}}FOR{{/if}}
+                          {{#if (eq skillBonus.skill "dexterity")}}DES{{/if}}
+                          {{#if (eq skillBonus.skill "stamina")}}VIG{{/if}}
+                          {{#if (eq skillBonus.skill "stealth")}}FUR{{/if}}
+                          {{#if (eq skillBonus.skill "persuasion")}}PER{{/if}}
+                          {{#if (eq skillBonus.skill "intelligence")}}INT{{/if}}
+                          {{#if (eq skillBonus.skill "psionics")}}PSI{{/if}}
+                        </span>
+                      </div>
+                    </div>
+                  {{/if}}
+                {{/each}}
+
+                {{#if item.system.bonusDeslocamento.enabled}}
+                  <div class='movement-bonus info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-movement.svg'
+                      alt='{{localize "CARDIGAN.MovementBonus"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusDeslocamento.bonus}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if (gte item.system.bonusEnergia 1)}}
+                  <div class='energy-bonus info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-energy.svg'
+                      alt='{{localize "CARDIGAN.Energy"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusEnergia}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if (gte item.system.protecao 1)}}
+                  <div class='protection info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-armor.svg'
+                      alt='{{localize "CARDIGAN.Protection"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.protecao}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+              </div>
+                <div class='item-durability {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'>
+                  <a
+                    class='item-control toggle-durability-display'
+                    data-tooltip='CARDIGAN.Durability'
+                    data-tooltip-class='cardigan-tooltip'
+                    data-action='toggleDurabilityDisplay'
+                  >
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
+                      alt='Durabilidade'
+                      class='durability-icon'
+                      width='18'
+                      height='18'
+                    />
+                  </a>
+                  {{#if @root.editable}}
+                    <div class='durability-display'>
+                      <span class='durability-values'>
+                        <input
+                          type='number'
+                          class='durability-input durability-current'
+                          name='items.{{item._id}}.system.durability.current'
+                          value='{{item.system.durability.current}}'
+                          min='0'
+                          max='{{item.system.durability.max}}'
+                          data-dtype='Number'
+                        />
+                        <img
+                          src='systems/cardigan/assets/images/decorative/field-divider.svg'
+                          alt='/ '
+                          class='durability-separator-icon'
+                        />
+                        <input
+                          type='number'
+                          class='durability-input durability-max durability-max-input'
+                          name='items.{{item._id}}.system.durability.max'
+                          value='{{item.system.durability.max}}'
+                          min='0'
+                          data-dtype='Number'
+                          readonly
+                        />
+                      </span>
+                    </div>
+                  {{else}}
+                    <span title='Durabilidade'>
+                      {{item.system.durability.current}}/{{item.system.durability.max}}
+                    </span>
+                  {{/if}}
+                </div>
+                <div class='item-unequip'>
+                  {{#if @root.editable}}
+                    <a
+                      class='item-control unequip-armor unequip-button'
+                      data-tooltip='CARDIGAN.Tooltip.Unequip'
+                      data-tooltip-class='cardigan-tooltip'
+                      data-action='unequipArmor'
+                      data-item-id='{{item._id}}'
+                    >
+                      <img
+                        src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
+                        alt='{{localize "CARDIGAN.Tooltip.Unequip"}}'
+                        width='20'
+                        height='20'
+                      />
+                    </a>
+                  {{/if}}
+                </div>
+                <div class='item-controls'>
+                  {{#if @root.editable}}
+                    <button type='button' class='unbutton item-control always-interactive' data-context-menu>
+                      <i class='fa-solid fa-ellipsis-vertical' inert></i>
+                    </button>
+                  {{/if}}
+                </div>
+            </li>
+          {{/if}}
+        {{/each}}
+      </ol>
+    </div>
+    {{/if}}
+
+    {{#if hasArmsArmorEquipped}}
+    <div class="arms-container">
+      <div class='arms-title-row'>
+        <img
+          src='systems/cardigan/assets/images/armor/arms.webp'
+          alt='Braços'
+          class='arms-image'
+        />
+        <p>⬩ BRAÇOS</p>
+      </div>
+
+      <ol class='items-list arms-armor-table'>
+        {{#each armaduras as |item id|}}
+          {{#if (eq item.system.armorType "bracos")}}
+            <li
+              class='item arms-armor-item {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'
+              data-item-id='{{item._id}}'
+              data-uuid='{{item.uuid}}'
+              data-drag='true'
+              data-document-class='Item'
+            >
+              <div class='item-name-group'>
+                <div class='item-name {{#if (eq item.system.durability.current 0)}}item-name-broken{{/if}}'>
+                  <div>{{item.name}}</div>
+                </div>
+                <div class='item-single-heavy'>
+                  {{#if item.system.single}}
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-single-equipped.svg'
+                      alt='{{localize "CARDIGAN.Single"}}'
+                      class='single-equipped-icon'
+                      width='18'
+                      height='18'
+                      data-tooltip='Único'
+                      data-tooltip-class='cardigan-tooltip'
+                    />
+                  {{/if}}
+                  {{#if (eq item.system.weight "pesado")}}
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg'
+                      alt='{{localize "CARDIGAN.Heavy"}}'
+                      class='heavy-item-icon'
+                      width='15'
+                      height='15'
+                      data-tooltip='Pesada'
+                      data-tooltip-class='cardigan-tooltip'
+                    />
+                  {{/if}}
+                </div>
+              </div>
+              <div class='item-information'>
+                {{#if item.system.stylish}}
+                  <div class='stlish stylish info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-stylish.svg'
+                      alt='{{localize "CARDIGAN.Stylish"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#if item.system.resistenciaFrio}}
+                  <div class='weather info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-weather.svg'
+                      alt='{{localize "CARDIGAN.ColdResistance"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#if item.system.bonusEspacoMochila.enabled}}
+                  <div class='backpack info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-backpack.svg'
+                      alt='{{localize "CARDIGAN.BackpackSpaceBonus"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusEspacoMochila.bonus}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if item.system.magicalArtifact}}
+                  <div class='paranormal-artifact info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-paranormal-artifact.svg'
+                      alt='{{localize "CARDIGAN.MagicalArtifact"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#each item.system.skillBonuses as |skillBonus|}}
+                  {{#if (and skillBonus.skill skillBonus.bonus (not (eq skillBonus.bonus 0)))}}
+                    <div class='skill-bonus info-badge'>
+                      <div class='bonus-display'>
+                        <span class='bonus-value'>
+                          {{#if (gt skillBonus.bonus 0)}}+{{skillBonus.bonus}}{{else}}{{skillBonus.bonus}}{{/if}}
+                          {{#if (eq skillBonus.skill "accuracy")}}PRE{{/if}}
+                          {{#if (eq skillBonus.skill "evasion")}}EVA{{/if}}
+                          {{#if (eq skillBonus.skill "strength")}}FOR{{/if}}
+                          {{#if (eq skillBonus.skill "dexterity")}}DES{{/if}}
+                          {{#if (eq skillBonus.skill "stamina")}}VIG{{/if}}
+                          {{#if (eq skillBonus.skill "stealth")}}FUR{{/if}}
+                          {{#if (eq skillBonus.skill "persuasion")}}PER{{/if}}
+                          {{#if (eq skillBonus.skill "intelligence")}}INT{{/if}}
+                          {{#if (eq skillBonus.skill "psionics")}}PSI{{/if}}
+                        </span>
+                      </div>
+                    </div>
+                  {{/if}}
+                {{/each}}
+
+                {{#if item.system.bonusDeslocamento.enabled}}
+                  <div class='movement-bonus info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-movement.svg'
+                      alt='{{localize "CARDIGAN.MovementBonus"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusDeslocamento.bonus}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if (gte item.system.bonusEnergia 1)}}
+                  <div class='energy-bonus info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-energy.svg'
+                      alt='{{localize "CARDIGAN.Energy"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusEnergia}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if (gte item.system.protecao 1)}}
+                  <div class='protection info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-armor.svg'
+                      alt='{{localize "CARDIGAN.Protection"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.protecao}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+              </div>
+                <div class='item-durability {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'>
+                  <a
+                    class='item-control toggle-durability-display'
+                    data-tooltip='CARDIGAN.Durability'
+                    data-tooltip-class='cardigan-tooltip'
+                    data-action='toggleDurabilityDisplay'
+                  >
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
+                      alt='Durabilidade'
+                      class='durability-icon'
+                      width='18'
+                      height='18'
+                    />
+                  </a>
+                  {{#if @root.editable}}
+                    <div class='durability-display'>
+                      <span class='durability-values'>
+                        <input
+                          type='number'
+                          class='durability-input durability-current'
+                          name='items.{{item._id}}.system.durability.current'
+                          value='{{item.system.durability.current}}'
+                          min='0'
+                          max='{{item.system.durability.max}}'
+                          data-dtype='Number'
+                        />
+                        <img
+                          src='systems/cardigan/assets/images/decorative/field-divider.svg'
+                          alt='/ '
+                          class='durability-separator-icon'
+                        />
+                        <input
+                          type='number'
+                          class='durability-input durability-max durability-max-input'
+                          name='items.{{item._id}}.system.durability.max'
+                          value='{{item.system.durability.max}}'
+                          min='0'
+                          data-dtype='Number'
+                          readonly
+                        />
+                      </span>
+                    </div>
+                  {{else}}
+                    <span title='Durabilidade'>
+                      {{item.system.durability.current}}/{{item.system.durability.max}}
+                    </span>
+                  {{/if}}
+                </div>
+                <div class='item-unequip'>
+                  {{#if @root.editable}}
+                    <a
+                      class='item-control unequip-armor unequip-button'
+                      data-tooltip='CARDIGAN.Tooltip.Unequip'
+                      data-tooltip-class='cardigan-tooltip'
+                      data-action='unequipArmor'
+                      data-item-id='{{item._id}}'
+                    >
+                      <img
+                        src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
+                        alt='{{localize "CARDIGAN.Tooltip.Unequip"}}'
+                        width='20'
+                        height='20'
+                      />
+                    </a>
+                  {{/if}}
+                </div>
+                <div class='item-controls'>
+                  {{#if @root.editable}}
+                    <button type='button' class='unbutton item-control always-interactive' data-context-menu>
+                      <i class='fa-solid fa-ellipsis-vertical' inert></i>
+                    </button>
+                  {{/if}}
+                </div>
+            </li>
+          {{/if}}
+        {{/each}}
+      </ol>
+    </div>
+    {{/if}}
+
+    {{#if hasLegsArmorEquipped}}
+    <div class="legs-container">
+      <div class='legs-title-row'>
+        <img
+          src='systems/cardigan/assets/images/armor/leggings.webp'
+          alt='Pernas'
+          class='legs-image'
+        />
+        <p>⬩ PERNAS</p>
+      </div>
+
+      <ol class='items-list legs-armor-table'>
+        {{#each armaduras as |item id|}}
+          {{#if (eq item.system.armorType "pernas")}}
+            <li
+              class='item legs-armor-item {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'
+              data-item-id='{{item._id}}'
+              data-uuid='{{item.uuid}}'
+              data-drag='true'
+              data-document-class='Item'
+            >
+              <div class='item-name-group'>
+                <div class='item-name {{#if (eq item.system.durability.current 0)}}item-name-broken{{/if}}'>
+                  <div>{{item.name}}</div>
+                </div>
+                <div class='item-single-heavy'>
+                  {{#if item.system.single}}
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-single-equipped.svg'
+                      alt='{{localize "CARDIGAN.Single"}}'
+                      class='single-equipped-icon'
+                      width='18'
+                      height='18'
+                      data-tooltip='Único'
+                      data-tooltip-class='cardigan-tooltip'
+                    />
+                  {{/if}}
+                  {{#if (eq item.system.weight "pesado")}}
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg'
+                      alt='{{localize "CARDIGAN.Heavy"}}'
+                      class='heavy-item-icon'
+                      width='15'
+                      height='15'
+                      data-tooltip='Pesada'
+                      data-tooltip-class='cardigan-tooltip'
+                    />
+                  {{/if}}
+                </div>
+              </div>
+              <div class='item-information'>
+                {{#if item.system.stylish}}
+                  <div class='stlish stylish info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-stylish.svg'
+                      alt='{{localize "CARDIGAN.Stylish"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#if item.system.resistenciaFrio}}
+                  <div class='weather info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-weather.svg'
+                      alt='{{localize "CARDIGAN.ColdResistance"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#if item.system.bonusEspacoMochila.enabled}}
+                  <div class='backpack info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-backpack.svg'
+                      alt='{{localize "CARDIGAN.BackpackSpaceBonus"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusEspacoMochila.bonus}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if item.system.magicalArtifact}}
+                  <div class='paranormal-artifact info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-paranormal-artifact.svg'
+                      alt='{{localize "CARDIGAN.MagicalArtifact"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#each item.system.skillBonuses as |skillBonus|}}
+                  {{#if (and skillBonus.skill skillBonus.bonus (not (eq skillBonus.bonus 0)))}}
+                    <div class='skill-bonus info-badge'>
+                      <div class='bonus-display'>
+                        <span class='bonus-value'>
+                          {{#if (gt skillBonus.bonus 0)}}+{{skillBonus.bonus}}{{else}}{{skillBonus.bonus}}{{/if}}
+                          {{#if (eq skillBonus.skill "accuracy")}}PRE{{/if}}
+                          {{#if (eq skillBonus.skill "evasion")}}EVA{{/if}}
+                          {{#if (eq skillBonus.skill "strength")}}FOR{{/if}}
+                          {{#if (eq skillBonus.skill "dexterity")}}DES{{/if}}
+                          {{#if (eq skillBonus.skill "stamina")}}VIG{{/if}}
+                          {{#if (eq skillBonus.skill "stealth")}}FUR{{/if}}
+                          {{#if (eq skillBonus.skill "persuasion")}}PER{{/if}}
+                          {{#if (eq skillBonus.skill "intelligence")}}INT{{/if}}
+                          {{#if (eq skillBonus.skill "psionics")}}PSI{{/if}}
+                        </span>
+                      </div>
+                    </div>
+                  {{/if}}
+                {{/each}}
+
+                {{#if item.system.bonusDeslocamento.enabled}}
+                  <div class='movement-bonus info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-movement.svg'
+                      alt='{{localize "CARDIGAN.MovementBonus"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusDeslocamento.bonus}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if (gte item.system.bonusEnergia 1)}}
+                  <div class='energy-bonus info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-energy.svg'
+                      alt='{{localize "CARDIGAN.Energy"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusEnergia}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if (gte item.system.protecao 1)}}
+                  <div class='protection info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-armor.svg'
+                      alt='{{localize "CARDIGAN.Protection"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.protecao}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+              </div>
+                <div class='item-durability {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'>
+                  <a
+                    class='item-control toggle-durability-display'
+                    data-tooltip='CARDIGAN.Durability'
+                    data-tooltip-class='cardigan-tooltip'
+                    data-action='toggleDurabilityDisplay'
+                  >
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
+                      alt='Durabilidade'
+                      class='durability-icon'
+                      width='18'
+                      height='18'
+                    />
+                  </a>
+                  {{#if @root.editable}}
+                    <div class='durability-display'>
+                      <span class='durability-values'>
+                        <input
+                          type='number'
+                          class='durability-input durability-current'
+                          name='items.{{item._id}}.system.durability.current'
+                          value='{{item.system.durability.current}}'
+                          min='0'
+                          max='{{item.system.durability.max}}'
+                          data-dtype='Number'
+                        />
+                        <img
+                          src='systems/cardigan/assets/images/decorative/field-divider.svg'
+                          alt='/ '
+                          class='durability-separator-icon'
+                        />
+                        <input
+                          type='number'
+                          class='durability-input durability-max durability-max-input'
+                          name='items.{{item._id}}.system.durability.max'
+                          value='{{item.system.durability.max}}'
+                          min='0'
+                          data-dtype='Number'
+                          readonly
+                        />
+                      </span>
+                    </div>
+                  {{else}}
+                    <span title='Durabilidade'>
+                      {{item.system.durability.current}}/{{item.system.durability.max}}
+                    </span>
+                  {{/if}}
+                </div>
+                <div class='item-unequip'>
+                  {{#if @root.editable}}
+                    <a
+                      class='item-control unequip-armor unequip-button'
+                      data-tooltip='CARDIGAN.Tooltip.Unequip'
+                      data-tooltip-class='cardigan-tooltip'
+                      data-action='unequipArmor'
+                      data-item-id='{{item._id}}'
+                    >
+                      <img
+                        src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
+                        alt='{{localize "CARDIGAN.Tooltip.Unequip"}}'
+                        width='20'
+                        height='20'
+                      />
+                    </a>
+                  {{/if}}
+                </div>
+                <div class='item-controls'>
+                  {{#if @root.editable}}
+                    <button type='button' class='unbutton item-control always-interactive' data-context-menu>
+                      <i class='fa-solid fa-ellipsis-vertical' inert></i>
+                    </button>
+                  {{/if}}
+                </div>
+            </li>
+          {{/if}}
+        {{/each}}
+      </ol>
+    </div>
+    {{/if}}
+
+    {{#if hasFeetArmorEquipped}}
+    <div class="feet-container">
+      <div class='feet-title-row'>
+        <img
+          src='systems/cardigan/assets/images/armor/boots.webp'
+          alt='Pés'
+          class='feet-image'
+        />
+        <p>⬩ PÉS</p>
+      </div>
+
+      <ol class='items-list feet-armor-table'>
+        {{#each armaduras as |item id|}}
+          {{#if (eq item.system.armorType "pes")}}
+            <li
+              class='item feet-armor-item {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'
+              data-item-id='{{item._id}}'
+              data-uuid='{{item.uuid}}'
+              data-drag='true'
+              data-document-class='Item'
+            >
+              <div class='item-name-group'>
+                <div class='item-name {{#if (eq item.system.durability.current 0)}}item-name-broken{{/if}}'>
+                  <div>{{item.name}}</div>
+                </div>
+                <div class='item-single-heavy'>
+                  {{#if item.system.single}}
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-single-equipped.svg'
+                      alt='{{localize "CARDIGAN.Single"}}'
+                      class='single-equipped-icon'
+                      width='18'
+                      height='18'
+                      data-tooltip='Único'
+                      data-tooltip-class='cardigan-tooltip'
+                    />
+                  {{/if}}
+                  {{#if (eq item.system.weight "pesado")}}
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg'
+                      alt='{{localize "CARDIGAN.Heavy"}}'
+                      class='heavy-item-icon'
+                      width='15'
+                      height='15'
+                      data-tooltip='Pesada'
+                      data-tooltip-class='cardigan-tooltip'
+                    />
+                  {{/if}}
+                </div>
+              </div>
+              <div class='item-information'>
+                {{#if item.system.stylish}}
+                  <div class='stlish stylish info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-stylish.svg'
+                      alt='{{localize "CARDIGAN.Stylish"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#if item.system.resistenciaFrio}}
+                  <div class='weather info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-weather.svg'
+                      alt='{{localize "CARDIGAN.ColdResistance"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#if item.system.bonusEspacoMochila.enabled}}
+                  <div class='backpack info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-backpack.svg'
+                      alt='{{localize "CARDIGAN.BackpackSpaceBonus"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusEspacoMochila.bonus}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if item.system.magicalArtifact}}
+                  <div class='paranormal-artifact info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-paranormal-artifact.svg'
+                      alt='{{localize "CARDIGAN.MagicalArtifact"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#each item.system.skillBonuses as |skillBonus|}}
+                  {{#if (and skillBonus.skill skillBonus.bonus (not (eq skillBonus.bonus 0)))}}
+                    <div class='skill-bonus info-badge'>
+                      <div class='bonus-display'>
+                        <span class='bonus-value'>
+                          {{#if (gt skillBonus.bonus 0)}}+{{skillBonus.bonus}}{{else}}{{skillBonus.bonus}}{{/if}}
+                          {{#if (eq skillBonus.skill "accuracy")}}PRE{{/if}}
+                          {{#if (eq skillBonus.skill "evasion")}}EVA{{/if}}
+                          {{#if (eq skillBonus.skill "strength")}}FOR{{/if}}
+                          {{#if (eq skillBonus.skill "dexterity")}}DES{{/if}}
+                          {{#if (eq skillBonus.skill "stamina")}}VIG{{/if}}
+                          {{#if (eq skillBonus.skill "stealth")}}FUR{{/if}}
+                          {{#if (eq skillBonus.skill "persuasion")}}PER{{/if}}
+                          {{#if (eq skillBonus.skill "intelligence")}}INT{{/if}}
+                          {{#if (eq skillBonus.skill "psionics")}}PSI{{/if}}
+                        </span>
+                      </div>
+                    </div>
+                  {{/if}}
+                {{/each}}
+
+                {{#if item.system.bonusDeslocamento.enabled}}
+                  <div class='movement-bonus info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-movement.svg'
+                      alt='{{localize "CARDIGAN.MovementBonus"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusDeslocamento.bonus}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if (gte item.system.bonusEnergia 1)}}
+                  <div class='energy-bonus info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-energy.svg'
+                      alt='{{localize "CARDIGAN.Energy"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusEnergia}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if (gte item.system.protecao 1)}}
+                  <div class='protection info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-armor.svg'
+                      alt='{{localize "CARDIGAN.Protection"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.protecao}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+              </div>
+                <div class='item-durability {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'>
+                  <a
+                    class='item-control toggle-durability-display'
+                    data-tooltip='CARDIGAN.Durability'
+                    data-tooltip-class='cardigan-tooltip'
+                    data-action='toggleDurabilityDisplay'
+                  >
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
+                      alt='Durabilidade'
+                      class='durability-icon'
+                      width='18'
+                      height='18'
+                    />
+                  </a>
+                  {{#if @root.editable}}
+                    <div class='durability-display'>
+                      <span class='durability-values'>
+                        <input
+                          type='number'
+                          class='durability-input durability-current'
+                          name='items.{{item._id}}.system.durability.current'
+                          value='{{item.system.durability.current}}'
+                          min='0'
+                          max='{{item.system.durability.max}}'
+                          data-dtype='Number'
+                        />
+                        <img
+                          src='systems/cardigan/assets/images/decorative/field-divider.svg'
+                          alt='/ '
+                          class='durability-separator-icon'
+                        />
+                        <input
+                          type='number'
+                          class='durability-input durability-max durability-max-input'
+                          name='items.{{item._id}}.system.durability.max'
+                          value='{{item.system.durability.max}}'
+                          min='0'
+                          data-dtype='Number'
+                          readonly
+                        />
+                      </span>
+                    </div>
+                  {{else}}
+                    <span title='Durabilidade'>
+                      {{item.system.durability.current}}/{{item.system.durability.max}}
+                    </span>
+                  {{/if}}
+                </div>
+                <div class='item-unequip'>
+                  {{#if @root.editable}}
+                    <a
+                      class='item-control unequip-armor unequip-button'
+                      data-tooltip='CARDIGAN.Tooltip.Unequip'
+                      data-tooltip-class='cardigan-tooltip'
+                      data-action='unequipArmor'
+                      data-item-id='{{item._id}}'
+                    >
+                      <img
+                        src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
+                        alt='{{localize "CARDIGAN.Tooltip.Unequip"}}'
+                        width='20'
+                        height='20'
+                      />
+                    </a>
+                  {{/if}}
+                </div>
+                <div class='item-controls'>
+                  {{#if @root.editable}}
+                    <button type='button' class='unbutton item-control always-interactive' data-context-menu>
+                      <i class='fa-solid fa-ellipsis-vertical' inert></i>
+                    </button>
+                  {{/if}}
+                </div>
+            </li>
+          {{/if}}
+        {{/each}}
+      </ol>
+    </div>
+    {{/if}}
+
+    {{#if hasAccessoriesArmorEquipped}}
+    <div class="accessories-container">
+      <div class='accessories-title-row'>
+        <img
+          src='systems/cardigan/assets/images/armor/charm.webp'
+          alt='Acessórios'
+          class='accessories-image'
+        />
+        <p>⬩ ACESSÓRIOS</p>
+      </div>
+
+      <ol class='items-list accessories-armor-table'>
+        {{#each armaduras as |item id|}}
+          {{#if (eq item.system.armorType "acessorios")}}
+            <li
+              class='item accessories-armor-item {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'
+              data-item-id='{{item._id}}'
+              data-uuid='{{item.uuid}}'
+              data-drag='true'
+              data-document-class='Item'
+            >
+              <div class='item-name-group'>
+                <div class='item-name {{#if (eq item.system.durability.current 0)}}item-name-broken{{/if}}'>
+                  <div>{{item.name}}</div>
+                </div>
+                <div class='item-single-heavy'>
+                  {{#if item.system.single}}
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-single-equipped.svg'
+                      alt='{{localize "CARDIGAN.Single"}}'
+                      class='single-equipped-icon'
+                      width='18'
+                      height='18'
+                      data-tooltip='Único'
+                      data-tooltip-class='cardigan-tooltip'
+                    />
+                  {{/if}}
+                  {{#if (eq item.system.weight "pesado")}}
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg'
+                      alt='{{localize "CARDIGAN.Heavy"}}'
+                      class='heavy-item-icon'
+                      width='15'
+                      height='15'
+                      data-tooltip='Pesada'
+                      data-tooltip-class='cardigan-tooltip'
+                    />
+                  {{/if}}
+                </div>
+              </div>
+              <div class='item-information'>
+                {{#if item.system.stylish}}
+                  <div class='stlish stylish info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-stylish.svg'
+                      alt='{{localize "CARDIGAN.Stylish"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#if item.system.resistenciaFrio}}
+                  <div class='weather info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-weather.svg'
+                      alt='{{localize "CARDIGAN.ColdResistance"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#if item.system.bonusEspacoMochila.enabled}}
+                  <div class='backpack info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-backpack.svg'
+                      alt='{{localize "CARDIGAN.BackpackSpaceBonus"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusEspacoMochila.bonus}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if item.system.magicalArtifact}}
+                  <div class='paranormal-artifact info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-paranormal-artifact.svg'
+                      alt='{{localize "CARDIGAN.MagicalArtifact"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                  </div>
+                {{/if}}
+
+                {{#each item.system.skillBonuses as |skillBonus|}}
+                  {{#if (and skillBonus.skill skillBonus.bonus (not (eq skillBonus.bonus 0)))}}
+                    <div class='skill-bonus info-badge'>
+                      <div class='bonus-display'>
+                        <span class='bonus-value'>
+                          {{#if (gt skillBonus.bonus 0)}}+{{skillBonus.bonus}}{{else}}{{skillBonus.bonus}}{{/if}}
+                          {{#if (eq skillBonus.skill "accuracy")}}PRE{{/if}}
+                          {{#if (eq skillBonus.skill "evasion")}}EVA{{/if}}
+                          {{#if (eq skillBonus.skill "strength")}}FOR{{/if}}
+                          {{#if (eq skillBonus.skill "dexterity")}}DES{{/if}}
+                          {{#if (eq skillBonus.skill "stamina")}}VIG{{/if}}
+                          {{#if (eq skillBonus.skill "stealth")}}FUR{{/if}}
+                          {{#if (eq skillBonus.skill "persuasion")}}PER{{/if}}
+                          {{#if (eq skillBonus.skill "intelligence")}}INT{{/if}}
+                          {{#if (eq skillBonus.skill "psionics")}}PSI{{/if}}
+                        </span>
+                      </div>
+                    </div>
+                  {{/if}}
+                {{/each}}
+
+                {{#if item.system.bonusDeslocamento.enabled}}
+                  <div class='movement-bonus info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-movement.svg'
+                      alt='{{localize "CARDIGAN.MovementBonus"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusDeslocamento.bonus}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if (gte item.system.bonusEnergia 1)}}
+                  <div class='energy-bonus info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-energy.svg'
+                      alt='{{localize "CARDIGAN.Energy"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.bonusEnergia}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if (gte item.system.protecao 1)}}
+                  <div class='protection info-badge'>
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-armor.svg'
+                      alt='{{localize "CARDIGAN.Protection"}}'
+                      class='information-icon'
+                      width='20'
+                      height='20'
+                    />
+                    <div class='bonus-display'>
+                      <span class='bonus-value'>+{{item.system.protecao}}</span>
+                    </div>
+                  </div>
+                {{/if}}
+              </div>
+                <div class='item-durability {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'>
+                  <a
+                    class='item-control toggle-durability-display'
+                    data-tooltip='CARDIGAN.Durability'
+                    data-tooltip-class='cardigan-tooltip'
+                    data-action='toggleDurabilityDisplay'
+                  >
+                    <img
+                      src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'
+                      alt='Durabilidade'
+                      class='durability-icon'
+                      width='18'
+                      height='18'
+                    />
+                  </a>
+                  {{#if @root.editable}}
+                    <div class='durability-display'>
+                      <span class='durability-values'>
+                        <input
+                          type='number'
+                          class='durability-input durability-current'
+                          name='items.{{item._id}}.system.durability.current'
+                          value='{{item.system.durability.current}}'
+                          min='0'
+                          max='{{item.system.durability.max}}'
+                          data-dtype='Number'
+                        />
+                        <img
+                          src='systems/cardigan/assets/images/decorative/field-divider.svg'
+                          alt='/ '
+                          class='durability-separator-icon'
+                        />
+                        <input
+                          type='number'
+                          class='durability-input durability-max durability-max-input'
+                          name='items.{{item._id}}.system.durability.max'
+                          value='{{item.system.durability.max}}'
+                          min='0'
+                          data-dtype='Number'
+                          readonly
+                        />
+                      </span>
+                    </div>
+                  {{else}}
+                    <span title='Durabilidade'>
+                      {{item.system.durability.current}}/{{item.system.durability.max}}
+                    </span>
+                  {{/if}}
+                </div>
+                <div class='item-unequip'>
+                  {{#if @root.editable}}
+                    <a
+                      class='item-control unequip-armor unequip-button'
+                      data-tooltip='CARDIGAN.Tooltip.Unequip'
+                      data-tooltip-class='cardigan-tooltip'
+                      data-action='unequipArmor'
+                      data-item-id='{{item._id}}'
+                    >
+                      <img
+                        src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
+                        alt='{{localize "CARDIGAN.Tooltip.Unequip"}}'
+                        width='20'
+                        height='20'
+                      />
+                    </a>
+                  {{/if}}
+                </div>
+                <div class='item-controls'>
+                  {{#if @root.editable}}
+                    <button type='button' class='unbutton item-control always-interactive' data-context-menu>
+                      <i class='fa-solid fa-ellipsis-vertical' inert></i>
+                    </button>
+                  {{/if}}
+                </div>
+            </li>
+          {{/if}}
+        {{/each}}
+      </ol>
+    </div>
+    {{/if}}
   </div>
+  {{/if}}
   </div>
 
 </section>

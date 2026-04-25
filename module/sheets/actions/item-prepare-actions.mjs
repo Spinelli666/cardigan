@@ -198,6 +198,21 @@ export class ItemPrepareActions {
       return orderA - orderB;
     });
 
+    // Header armor section visibility flags
+    context.hasHeadArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'cabeca');
+    context.hasTorsoArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'torso');
+    context.hasArmsArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'bracos');
+    context.hasLegsArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'pernas');
+    context.hasFeetArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'pes');
+    context.hasAccessoriesArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'acessorios');
+    context.hasHeaderArmorEquipped =
+      context.hasHeadArmorEquipped ||
+      context.hasTorsoArmorEquipped ||
+      context.hasArmsArmorEquipped ||
+      context.hasLegsArmorEquipped ||
+      context.hasFeetArmorEquipped ||
+      context.hasAccessoriesArmorEquipped;
+
     // Calculate armor totals for equipped armors
     InventoryActions.calculateArmorTotals(context);
     

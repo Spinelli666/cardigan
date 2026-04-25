@@ -63,8 +63,14 @@ ol.items-list.equipament-table > li.item.items-header {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  margin-bottom: 15px;
 
-  .head-container {
+  .head-container,
+  .torso-container,
+  .arms-container,
+  .legs-container,
+  .feet-container,
+  .accessories-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -75,24 +81,79 @@ ol.items-list.equipament-table > li.item.items-header {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
-  .head-title-row {
+  .torso-container {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+
+  .arms-container {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+
+  .legs-container,
+  .feet-container,
+  .accessories-container {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+
+  .head-title-row,
+  .torso-title-row,
+  .arms-title-row,
+  .legs-title-row,
+  .feet-title-row,
+  .accessories-title-row {
     display: flex;
     align-items: center;
     margin-left: 5px;
   }
 
-  .head-image {
+  .torso-title-row {
+    margin-bottom: 4px;
+  }
+
+  .arms-title-row {
+    margin-bottom: 4px;
+  }
+
+  .legs-title-row,
+  .feet-title-row,
+  .accessories-title-row {
+    margin-bottom: 4px;
+  }
+
+  .head-image,
+  .torso-image,
+  .arms-image,
+  .legs-image,
+  .feet-image,
+  .accessories-image {
     width: 44px;
     height: 44px;
     object-fit: contain;
     flex: 0 0 auto;
   }
 
+  .torso-image {
+    height: 35px;
+  }
+
+  .arms-image {
+    height: 35px;
+  }
+
+  .legs-image,
+  .feet-image,
+  .accessories-image {
+    height: 35px;
+  }
+
   p {
     margin: 0;
     display: inline-block;
     text-align: left;
-    font-size: 24px;
+    font-size: 20px;
     padding-bottom: 1px;
     overflow: visible;
     font-family: "Alatsi", sans-serif !important;
@@ -103,15 +164,25 @@ ol.items-list.equipament-table > li.item.items-header {
     background-clip: text;
   }
 
-  .head-armor-table {
+  .head-armor-table,
+  .torso-armor-table,
+  .arms-armor-table,
+  .legs-armor-table,
+  .feet-armor-table,
+  .accessories-armor-table {
     flex: 1;
     width: 460px;
     padding: 0px 4px 4px 4px;
 
-    .head-armor-item {
+    .head-armor-item,
+    .torso-armor-item,
+    .arms-armor-item,
+    .legs-armor-item,
+    .feet-armor-item,
+    .accessories-armor-item {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 2px;
       padding: 2px 5px;
       border: 1px solid #FFB75C;
       border-radius: 15px;
@@ -121,11 +192,17 @@ ol.items-list.equipament-table > li.item.items-header {
         background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(245, 0, 4, 0.19) 100%);
       }
 
-      & + .head-armor-item {
+      & + .head-armor-item,
+      & + .torso-armor-item,
+      & + .arms-armor-item,
+      & + .legs-armor-item,
+      & + .feet-armor-item,
+      & + .accessories-armor-item {
         margin-top: 4px;
       }
 
       .item-name-group {
+        padding-left: 5px;
         display: flex;
         align-items: center;
         gap: 4px;
@@ -182,6 +259,7 @@ ol.items-list.equipament-table > li.item.items-header {
         width: 76px;
         flex: 0 0 76px;
         padding-left: 2px;
+        margin-right: 16px;
         gap: 2px;
 
         .info-badge {
@@ -262,6 +340,7 @@ ol.items-list.equipament-table > li.item.items-header {
         min-width: 68px;
         gap: 1px;
         font-weight: 400;
+        margin-right: 41.5px;
 
         .toggle-durability-display {
           display: inline-flex;
@@ -296,7 +375,7 @@ ol.items-list.equipament-table > li.item.items-header {
           .durability-max,
           span,
           input[type='number'] {
-            background: linear-gradient(180deg, #FF0004 40%, #2E0001 100%);
+            background: linear-gradient(180deg, #FF0004 60%, #2E0001 100%);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -439,8 +518,8 @@ ol.items-list.equipament-table > li.item.items-header {
       .item-unequip {
         flex: 0 0 28px;
         width: 28px;
+        min-width: 0px;
 
-        .unequip-weapon,
         .unequip-armor {
           display: inline-flex;
           align-items: center;
@@ -604,7 +683,7 @@ ol.items-list.equipament-table > li.item.items-header {
 
       .item-name.item-name-broken,
       .item-name.item-name-broken div {
-        background: linear-gradient(180deg, #FF0004 40%, #2E0001 100%);
+        background: linear-gradient(180deg, #FF0004 60%, #2E0001 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -776,7 +855,7 @@ ol.items-list.equipament-table > li.item.items-header {
           .durability-max,
           span,
           input[type='number'] {
-            background: linear-gradient(180deg, #FF0004 40%, #2E0001 100%);
+            background: linear-gradient(180deg, #FF0004 60%, #2E0001 100%);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -1025,4 +1104,5 @@ ol.items-list.equipament-table > li.item.items-header {
     filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.7));
   }
 }
+
 

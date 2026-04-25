@@ -1,3 +1,8 @@
-2026/04/23-16:45:28.251 17d4 Recovering log #1987
-2026/04/23-16:45:28.304 17d4 Delete type=0 #1987
-2026/04/23-16:45:28.304 17d4 Delete type=3 #1985
+2026/04/25-14:55:52.822 1858 Recovering log #1992
+2026/04/25-14:55:53.101 1858 Delete type=0 #1992
+2026/04/25-14:55:53.101 1858 Delete type=3 #1991
+2026/04/25-15:26:12.108 46cc Level-0 table #1996: started
+2026/04/25-15:26:12.108 46cc Level-0 table #1996: 0 bytes OK
+2026/04/25-15:26:12.150 46cc Delete type=0 #1994
+2026/04/25-15:26:12.250 46cc Manual compaction at level-0 from '!items!D6eF9gG2hI5iJ8kL' @ 72057594037927935 : 1 .. '!items!V9wX2yY5zZ8aA1bB' @ 0 : 0; will stop at (end)
+2026/04/25-15:26:12.291 46cc Manual compaction at level-1 from '!items!D6eF9gG2hI5iJ8kL' @ 72057594037927935 : 1 .. '!items!V9wX2yY5zZ8aA1bB' @ 0 : 0; will stop at (end)
