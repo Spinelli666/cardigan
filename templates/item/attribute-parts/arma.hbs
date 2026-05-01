@@ -99,6 +99,10 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
             <input type="checkbox" name="system.damage.useDexterity" {{checked item.system.damage.useDexterity}} data-mutually-exclusive="damage-ability"/>
             {{localize "CARDIGAN.Ability.Dexterity.abbr"}}
           </label>
+          <label style="display: flex; align-items: center; gap: 5px;">
+            <input type="checkbox" name="system.damage.usePsionics" {{checked item.system.damage.usePsionics}} data-mutually-exclusive="damage-ability"/>
+            {{localize "CARDIGAN.Ability.Psionics.abbr"}}
+          </label>
         </div>
         <div class="form-group">
           <label for="system.damage.total">{{localize "CARDIGAN.DamageTotal"}}</label>

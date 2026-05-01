@@ -22,6 +22,14 @@ export class ProfessionFilterActions {
    */
   static applyBackpackFilter(sheet, items) {
     if (sheet.professionFilter && sheet.professionFilter !== 'all') {
+      // Handle item-type filters (weapons, armors)
+      if (sheet.professionFilter === 'weapons') {
+        return items.filter(item => item.type === 'arma');
+      }
+      if (sheet.professionFilter === 'armors') {
+        return items.filter(item => item.type === 'armadura');
+      }
+      // Handle profession filters
       return items.filter(item => item.system.profession === sheet.professionFilter);
     }
 

@@ -1325,6 +1325,9 @@ export class BaseSkill {
     } else if (weapon.system.damage.useDexterity && actor.system.abilities?.dexterity) {
       abilityModifier = actor.system.abilities.dexterity.value || 0;  
       abilityName = "Destreza";
+    } else if (weapon.system.damage.usePsionics && actor.system.abilities?.psionics) {
+      abilityModifier = actor.system.abilities.psionics.value || 0;
+      abilityName = "Psionismo";
     }
 
     // Format breakdown

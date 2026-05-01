@@ -69,6 +69,7 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
         value: new fields.StringField({ ...requiredString, initial: "0" }),
         useStrength: new fields.BooleanField({ required: true, initial: false }),
         useDexterity: new fields.BooleanField({ required: true, initial: false }),
+        usePsionics: new fields.BooleanField({ required: true, initial: false }),
         total: new fields.StringField({ required: true, blank: true, initial: "0" })
       }),
       properties: new fields.ArrayField(
@@ -168,6 +169,8 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
       abilityBonus = actor.system.abilities.strength.value || 0;
     } else if (this.damage.useDexterity && actor.system.abilities?.dexterity) {
       abilityBonus = actor.system.abilities.dexterity.value || 0;
+    } else if (this.damage.usePsionics && actor.system.abilities?.psionics) {
+      abilityBonus = actor.system.abilities.psionics.value || 0;
     }
 
     // Calculate total damage with bonuses

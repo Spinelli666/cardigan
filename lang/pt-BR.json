@@ -545,7 +545,7 @@
     },
     "Fracture": {
       "label": "Fracture",
-      "description": "Each point of Fracture reduces maximum health and energy by 5."
+      "description": "Each point of Fracture reduces maximum health by 5."
     },
     "GiftOfLife": {
       "label": "Gift of Life",

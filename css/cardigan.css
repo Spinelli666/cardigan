@@ -5796,11 +5796,17 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  transition: transform 0.15s ease, filter 0.15s ease;
+  will-change: transform, filter;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control[data-context-menu]:hover,
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control.always-interactive:hover {
   background: none !important;
-  transform: translateY(-1px);
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control[data-context-menu]:hover i,
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control.always-interactive:hover i {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.72));
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control[data-context-menu]:active,
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control.always-interactive:active {

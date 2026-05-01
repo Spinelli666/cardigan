@@ -172,6 +172,18 @@
             <img src="systems/cardigan/assets/images/profession/icon-technomagic.svg" alt="Tecnomagia" />
           </label>
         </div>
+        <div class="filter-option" data-tooltip='Armas' data-tooltip-class='cardigan-tooltip'>
+          <input type="radio" name="profession-filter" value="weapons" id="filter-weapons" {{#if (eq professionFilter "weapons")}}checked{{/if}} data-action="filterProfession">
+          <label for="filter-weapons" class="filter-emoji">
+            <img src="systems/cardigan/assets/images/weapons/sword.webp" alt="Armas" />
+          </label>
+        </div>
+        <div class="filter-option" data-tooltip='Armaduras' data-tooltip-class='cardigan-tooltip'>
+          <input type="radio" name="profession-filter" value="armors" id="filter-armors" {{#if (eq professionFilter "armors")}}checked{{/if}} data-action="filterProfession">
+          <label for="filter-armors" class="filter-emoji">
+            <img src="systems/cardigan/assets/images/weapons/shield-weapon.webp" alt="Armaduras" />
+          </label>
+        </div>
       </div>
       
       {{! Backpack Table }}
@@ -765,8 +777,9 @@
           {{#unless item.system.isUnarmed}}
             <a
               class='item-control toggle-durability-display'
-              title='{{localize "CARDIGAN.Durability"}}'
               data-action='toggleDurabilityDisplay'
+              data-tooltip='CARDIGAN.Durability'
+              data-tooltip-class='cardigan-tooltip'
             >
               <img
                 src='systems/cardigan/assets/images/decorative/icons/icon-durability.svg'

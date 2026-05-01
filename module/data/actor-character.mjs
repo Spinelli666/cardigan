@@ -325,7 +325,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const levelHealthBonus = Math.max(0, Math.min(level, 10) - 1) * 5;
     const levelEnergyBonus = Math.max(0, Math.min(level, 10) - 1) * 1;
     
-    // Fracture reduction (rule: each Fracture point reduces HP and Energy by 5)
+    // Fracture reduction (rule: each Fracture point reduces HP by 5, no longer reduces Energy)
     const fractureLevel = this.status?.fracture ?? 0;
     const fractureReduction = fractureLevel * 5;
     
@@ -346,7 +346,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     
     // Calculate maximum values
     this.health.max = Math.max(0, staminaHealthBonus + levelHealthBonus - fractureReduction + healthBonus + armorHealthBonus + raceHealthBonus);
-    this.power.max = Math.max(0, staminaEnergyBonus + levelEnergyBonus - fractureReduction + energyBonus + armorEnergyBonus + racePowerBonus);
+    this.power.max = Math.max(0, staminaEnergyBonus + levelEnergyBonus + energyBonus + armorEnergyBonus + racePowerBonus);
     this.armor.max = Math.max(0, armorBonus + armorProtectionBonus + raceArmorBonus);
     
     // Backpack capacity (rule: 15 base + Strength/2 + armor bonus)

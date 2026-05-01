@@ -2329,7 +2329,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       const energyBonus = system.status?.energyBonus ?? 0;
       
       const newHealthMax = Math.max(0, 0 + (totalStamina * 10) + levelBonus - fractureReduction + healthBonus);
-      const newEnergyMax = Math.max(0, 0 + (totalStamina * 1) + levelBonus - fractureReduction + energyBonus);
+      const newEnergyMax = Math.max(0, 0 + (totalStamina * 1) + levelBonus + energyBonus);
       
       // Update health max input
       const healthMaxInput = this.element.querySelector('input[name="system.health.max"]');

@@ -184,6 +184,19 @@ export class EquipmentActions {
       return;
     }
 
+    // Se já existir uma armadura equipada desta mesma parte marcada como `single`, bloqueia o equip
+    const existingSingleEquipped = sheet.document.items.find((i) =>
+      i.type === 'armadura' &&
+      i.system.armorType === item.system.armorType &&
+      i.system.equipped &&
+      i.system.single &&
+      i._id !== item._id
+    );
+    if (existingSingleEquipped) {
+      ui.notifications.warn(`${existingSingleEquipped.name} (marcado como \"single\") já está equipada nesta parte (${item.system.armorType}). Desequipe-a antes de equipar outro item desta parte.`);
+      return;
+    }
+
     try {
       const armorTypeLabel = game.i18n.localize(`CARDIGAN.ArmorType.${item.system.armorType.charAt(0).toUpperCase() + item.system.armorType.slice(1)}`);
       
@@ -428,6 +441,19 @@ export class EquipmentActions {
       console.log("Armor quantity:", armor.system.quantity || 1);
 
       const armorTypeLabel = game.i18n.localize(`CARDIGAN.ArmorType.${armor.system.armorType.charAt(0).toUpperCase() + armor.system.armorType.slice(1)}`);
+
+      // Bloqueia equipar se já houver uma armadura equipada desta parte marcada como `single`
+      const existingSingleEquipped = sheet.document.items.find((i) =>
+        i.type === 'armadura' &&
+        i.system.armorType === armor.system.armorType &&
+        i.system.equipped &&
+        i.system.single &&
+        i._id !== armor._id
+      );
+      if (existingSingleEquipped) {
+        ui.notifications.warn(`${existingSingleEquipped.name} (marcado como \"single\") já está equipada nesta parte (${armor.system.armorType}). Desequipe-a antes de equipar outro item desta parte.`);
+        return;
+      }
 
       // Handle quantity splitting
       const currentQuantity = armor.system.quantity || 1;
