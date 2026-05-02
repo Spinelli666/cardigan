@@ -21,12 +21,10 @@ export class AmmunitionActions {
       return;
     }
 
-    // Check if dialog is already open, if so, close it first
     if (sheet._ammunitionDialog) {
       sheet._ammunitionDialog.close();
     }
 
-    // Create reactive ammunition management dialog
     const actorSheet = sheet;
     actorSheet._ammunitionDialog = new foundry.applications.api.DialogV2({
       window: {
@@ -47,10 +45,7 @@ export class AmmunitionActions {
       rejectClose: false
     });
 
-    // Render the dialog first
     await actorSheet._ammunitionDialog.render({ force: true });
-
-    // Setup item change listener for reactive updates AFTER rendering
     AmmunitionActions.setupAmmunitionDialogListener(item, actorSheet);
   }
 
@@ -61,22 +56,14 @@ export class AmmunitionActions {
    * @returns {Promise<string>} The rendered HTML content
    */
   static async renderAmmunitionContent(weapon, sheet) {
-    // Get actor from weapon or use sheet.document if called from static action
     const actor = weapon.parent || sheet.document;
-
-    // Get all ammunition items
     const allAmmunitionItems = actor.items.filter(i => i.type === "item-municao");
 
-    // Filter ammunition based on weapon type
     const filteredAmmunitionItems = allAmmunitionItems.filter(ammoItem => {
-      // If weapon is a firearm, show only firearm ammunition
       if (weapon.system.isFirearm) {
         return ammoItem.system.isFirearmAmmo === true;
       }
-      // If weapon is not a firearm, show only non-firearm ammunition
-      else {
-        return ammoItem.system.isFirearmAmmo === false;
-      }
+      return ammoItem.system.isFirearmAmmo === false;
     });
 
     const templatePath = "systems/cardigan/templates/dialogs/ammunition-management.hbs";
@@ -96,15 +83,11 @@ export class AmmunitionActions {
   static setupAmmunitionDialogListener(weapon, sheet) {
     const actorSheet = sheet;
 
-    // Check if dialog element exists
     if (!actorSheet._ammunitionDialog || !actorSheet._ammunitionDialog.element) {
       console.warn("Ammunition dialog element not available for setup");
       return;
     }
 
-    // No need for loadedAmounts Map since we persist in weapon.system.loadedAmmo
-
-    // Add method to update weapon table ammunition display
     actorSheet._updateWeaponTableAmmunition = function (weaponId, loadedAmmo, magazine, isFirearm) {
       const weaponRow = actorSheet.element.querySelector(`[data-item-id="${weaponId}"]`);
       if (weaponRow) {
@@ -116,136 +99,118 @@ export class AmmunitionActions {
       }
     };
 
-    // Add method to update ammunition dialog inputs
     actorSheet._updateAmmunitionDialogInputs = function (weaponId, loadedAmmoTypes) {
       if (actorSheet._ammunitionDialog && actorSheet._ammunitionDialog.element) {
         const dialogElement = actorSheet._ammunitionDialog.element;
-
-        // Update each ammunition input based on the loadedAmmoTypes mapping
-        for (const [ammoId, amount] of Object.entries(loadedAmmoTypes)) {
-          const input = dialogElement.querySelector(`input[data-item-id="${ammoId}"]`);
-          if (input) {
-            input.value = amount.toString();
-          }
-        }
-
-        // Set inputs to 0 for ammo types not in the mapping
-        const allInputs = dialogElement.querySelectorAll('.ammunition-load-input');
-        allInputs.forEach(input => {
-          const ammoId = input.getAttribute('data-item-id');
-          if (!loadedAmmoTypes[ammoId]) {
-            input.value = '0';
-          }
+        const loadSpans = dialogElement.querySelectorAll('.ammunition-load-input');
+        loadSpans.forEach(span => {
+          const ammoId = span.getAttribute('data-item-id');
+          const amount = loadedAmmoTypes[ammoId] || 0;
+          span.textContent = amount.toString();
+          span.setAttribute('data-loaded', amount.toString());
         });
       }
     };
 
-    // Setup input listeners for ammunition loading
-    actorSheet._ammunitionDialog.element.addEventListener('input', async (event) => {
-      if (event.target.classList.contains('ammunition-load-input')) {
-        const input = event.target;
-        const itemId = input.getAttribute('data-item-id');
+    const applyAmmoLoad = async (ammoId, requestedAmount, sourceElement) => {
+      const ammunition = actorSheet.actor.items.get(ammoId);
+      if (!ammunition) return;
 
-        // Clean the input value to prevent leading zeros
-        let rawValue = input.value.replace(/^0+/, '') || '0';
-        let newValue = parseInt(rawValue) || 0;
+      const loadedAmmoTypes = weapon.system.loadedAmmoTypes || {};
+      const currentLoadedAmount = loadedAmmoTypes[ammoId] || 0;
+      const currentQuantity = ammunition.system.quantity;
+      const totalLoadedAcrossTypes = Object.values(loadedAmmoTypes).reduce((sum, amount) => sum + amount, 0);
 
-        // Update the input value to the cleaned version
-        if (input.value !== newValue.toString()) {
-          input.value = newValue.toString();
-        }
+      let amountToLoad = Math.max(0, parseInt(requestedAmount) || 0);
+      amountToLoad = Math.min(amountToLoad, currentQuantity);
+      if (weapon.system.isFirearm) {
+        const capacityRemaining = Math.max(0, weapon.system.magazine - totalLoadedAcrossTypes);
+        amountToLoad = Math.min(amountToLoad, capacityRemaining);
+      }
 
-        // Get ammunition item
-        const ammunition = actorSheet.actor.items.get(itemId);
-        if (!ammunition) return;
+      if (amountToLoad <= 0) {
+        ui.notifications.warn("No capacity available or ammunition already loaded.");
+        return;
+      }
 
-        // Get current loaded amount for this specific ammunition type
-        const loadedAmmoTypes = weapon.system.loadedAmmoTypes || {};
-        const currentLoadedAmount = loadedAmmoTypes[itemId] || 0;
+      const newQuantity = currentQuantity - amountToLoad;
+      await ammunition.update({
+        "system.quantity": newQuantity
+      });
 
-        // Calculate available quantity (current inventory + what's currently loaded of this type)
-        const currentQuantity = ammunition.system.quantity;
-        const totalAvailable = currentQuantity + currentLoadedAmount;
+      const updatedLoadedAmmoTypes = { ...loadedAmmoTypes };
+      const newLoadedForType = currentLoadedAmount + amountToLoad;
+      if (newLoadedForType > 0) {
+        updatedLoadedAmmoTypes[ammoId] = newLoadedForType;
+      } else {
+        delete updatedLoadedAmmoTypes[ammoId];
+      }
 
-        // Calculate total loaded ammunition across all types
-        const totalLoadedAcrossTypes = Object.values(loadedAmmoTypes).reduce((sum, amount) => sum + amount, 0);
+      const newTotalLoaded = Object.values(updatedLoadedAmmoTypes).reduce((sum, amount) => sum + amount, 0);
 
-        // Validate maximum value for firearms considering total capacity
-        if (weapon.system.isFirearm) {
-          const otherTypesLoaded = totalLoadedAcrossTypes - currentLoadedAmount;
-          const availableCapacity = weapon.system.magazine - otherTypesLoaded;
+      await weapon.update({
+        "system.loadedAmmoTypes": updatedLoadedAmmoTypes,
+        "system.loadedAmmo": newTotalLoaded
+      });
 
-          if (newValue > availableCapacity) {
-            input.value = availableCapacity;
-            newValue = availableCapacity; // Update newValue to the corrected value
-            ui.notifications.warn(`Magazine capacity exceeded. Available space: ${availableCapacity} rounds. Value adjusted automatically.`);
+      const quantityElement = sourceElement?.parentElement?.querySelector('.ammunition-quantity');
+      if (quantityElement) {
+        quantityElement.textContent = newQuantity;
+        quantityElement.setAttribute('data-quantity', newQuantity);
+      }
+
+      actorSheet._updateWeaponTableAmmunition(weapon._id, newTotalLoaded, weapon.system.magazine, weapon.system.isFirearm);
+
+      if (actorSheet._ammunitionDialog && actorSheet._ammunitionDialog.rendered) {
+        actorSheet._updateAmmunitionDialogInputs(weapon._id, updatedLoadedAmmoTypes);
+      }
+    };
+
+    const openAmmoLoadDialog = async (ammoId, ammoName, currentLoaded, sourceElement) => {
+      let dialog;
+      dialog = new foundry.applications.api.DialogV2({
+        window: {
+          title: `Carregar ${ammoName}`,
+          resizable: false,
+          classes: ["cardigan-ammo-load-dialog"]
+        },
+        content: `
+          <div style="display:flex; flex-direction:column; gap:8px; min-width:220px;">
+            <label style="color: var(--cardigan-c-beige, #f4f1e8); font-weight:bold;">Quantidade a carregar</label>
+            <input type="number" class="cardigan-ammo-load-input" min="0" value="0" style="width:100%; padding:6px 8px; border:1px solid #666; border-radius:4px; background:rgba(0,0,0,0.3); color: var(--cardigan-c-beige, #f4f1e8); text-align:center;" />
+            <div style="color: var(--cardigan-c-beige, #f4f1e8); opacity:0.8; font-size:0.85em;">Atual carregado: ${currentLoaded}</div>
+          </div>
+        `,
+        buttons: [{
+          action: "ok",
+          icon: "fas fa-check",
+          label: "OK",
+          callback: async () => {
+            const input = dialog.element?.querySelector('.cardigan-ammo-load-input');
+            const amount = input ? parseInt(input.value) || 0 : 0;
+            await applyAmmoLoad(ammoId, amount, sourceElement);
           }
-        }
+        }],
+        modal: true,
+        rejectClose: false
+      });
 
-        // Validate against total available quantity
-        if (newValue > totalAvailable) {
-          input.value = totalAvailable;
-          newValue = totalAvailable; // Update newValue to the corrected value
-          ui.notifications.warn(`Only ${totalAvailable} rounds available in inventory. Value adjusted automatically.`);
-        }
+      await dialog.render({ force: true });
+      const input = dialog.element?.querySelector('.cardigan-ammo-load-input');
+      input?.focus();
+      input?.select();
+    };
 
-        // Calculate the difference in loaded ammunition
-        const loadedDifference = newValue - currentLoadedAmount;
-
-        let newQuantity = currentQuantity;
-
-        if (loadedDifference > 0) {
-          // Loading more ammunition: reduce inventory
-          newQuantity = currentQuantity - loadedDifference;
-        } else if (loadedDifference < 0) {
-          // Unloading ammunition: for consumed ammo, don't return to inventory
-          // Only return to inventory if we're manually unloading (not after consumption)
-          // Since this is manual input change, we consider it "disposal" of loaded ammo
-          // So we don't add it back to inventory - it's considered consumed/lost
-          newQuantity = currentQuantity; // Keep inventory unchanged
-        }
-
-        await ammunition.update({
-          "system.quantity": newQuantity
-        });
-
-        // Update weapon's loaded ammo types mapping
-        const updatedLoadedAmmoTypes = { ...loadedAmmoTypes };
-        if (newValue > 0) {
-          updatedLoadedAmmoTypes[itemId] = newValue;
-        } else {
-          delete updatedLoadedAmmoTypes[itemId]; // Remove entry if 0
-        }
-
-        // Calculate new total loaded ammo
-        const newTotalLoaded = Object.values(updatedLoadedAmmoTypes).reduce((sum, amount) => sum + amount, 0);
-
-        // Update weapon with both the mapping and total
-        await weapon.update({
-          "system.loadedAmmoTypes": updatedLoadedAmmoTypes,
-          "system.loadedAmmo": newTotalLoaded
-        });
-
-        // No need to track in Map anymore since we persist in weapon
-
-        // Update the display immediately
-        const quantityElement = input.parentElement.querySelector('.ammunition-quantity');
-        if (quantityElement) {
-          quantityElement.textContent = newQuantity;
-          quantityElement.setAttribute('data-quantity', newQuantity);
-        }
-
-        // Update weapon table display in real-time
-        actorSheet._updateWeaponTableAmmunition(weapon._id, newTotalLoaded, weapon.system.magazine, weapon.system.isFirearm);
-
-        // Update ammunition dialog inputs if open (for cross-dialog synchronization)
-        if (actorSheet._ammunitionDialog && actorSheet._ammunitionDialog.rendered) {
-          actorSheet._updateAmmunitionDialogInputs(weapon._id, updatedLoadedAmmoTypes);
-        }
+    actorSheet._ammunitionDialog.element.addEventListener('click', async (event) => {
+      const loadSpan = event.target.closest('.ammunition-load-input');
+      if (loadSpan) {
+        const ammoId = loadSpan.getAttribute('data-item-id');
+        const ammoName = loadSpan.closest('.ammunition-item')?.querySelector('.ammunition-name')?.textContent?.trim() || 'Ammunition';
+        const currentLoaded = parseInt(loadSpan.getAttribute('data-loaded')) || 0;
+        await openAmmoLoadDialog(ammoId, ammoName, currentLoaded, loadSpan);
       }
     });
 
-    // Setup ammunition-specific attack button listeners
     actorSheet._ammunitionDialog.element.addEventListener('click', async (event) => {
       if (event.target.classList.contains('ammunition-attack-btn') ||
         event.target.closest('.ammunition-attack-btn')) {
@@ -256,7 +221,6 @@ export class AmmunitionActions {
         const ammunitionId = button.getAttribute('data-item-id');
         const weaponId = button.getAttribute('data-weapon-id');
 
-        // Get the weapon and ammunition items
         const weaponItem = actorSheet.actor.items.get(weaponId);
         const ammunitionItem = actorSheet.actor.items.get(ammunitionId);
 
@@ -265,7 +229,6 @@ export class AmmunitionActions {
           return;
         }
 
-        // Check if this ammunition type has loaded rounds
         const loadedAmmoTypes = weaponItem.system.loadedAmmoTypes || {};
         const loadedAmount = loadedAmmoTypes[ammunitionId] || 0;
 
@@ -274,13 +237,8 @@ export class AmmunitionActions {
           return;
         }
 
-        // Call the existing attack method but specify the ammunition to use
         try {
           await actorSheet.constructor._onAttackWithWeapon.call(actorSheet, weaponItem, ammunitionId);
-
-          // Optionally close the dialog after attack
-          // actorSheet._ammunitionDialog.close();
-
         } catch (error) {
           console.error("Error attacking with specific ammunition:", error);
           ui.notifications.error("Failed to attack with this ammunition.");
@@ -288,7 +246,6 @@ export class AmmunitionActions {
       }
     });
 
-    // Setup auto-load button listeners
     actorSheet._ammunitionDialog.element.addEventListener('click', async (event) => {
       if (event.target.classList.contains('ammunition-auto-load-btn') ||
         event.target.closest('.ammunition-auto-load-btn')) {
@@ -304,28 +261,18 @@ export class AmmunitionActions {
           return;
         }
 
-        // Get ammunition item
         const ammunition = actorSheet.actor.items.get(itemId);
         if (!ammunition) return;
 
-        // Get current loaded amounts
         const loadedAmmoTypes = weapon.system.loadedAmmoTypes || {};
         const currentLoadedAmount = loadedAmmoTypes[itemId] || 0;
+        const totalLoadedAcrossTypes = Object.values(loadedAmmoTypes).reduce((sum, amount) => sum + amount, 0);
 
-        // Calculate how much we can load
-        let amountToLoad = 0;
-
+        let amountToLoad = availableQuantity;
         if (weapon.system.isFirearm) {
-          // For firearms: respect magazine capacity
-          const totalLoadedAcrossTypes = Object.values(loadedAmmoTypes).reduce((sum, amount) => sum + amount, 0);
           const otherTypesLoaded = totalLoadedAcrossTypes - currentLoadedAmount;
           const availableCapacity = weapon.system.magazine - otherTypesLoaded;
-
-          // Load up to capacity or available quantity, whichever is smaller
           amountToLoad = Math.min(availableCapacity, availableQuantity);
-        } else {
-          // For non-firearms: load all available ammunition
-          amountToLoad = availableQuantity;
         }
 
         if (amountToLoad <= 0) {
@@ -333,58 +280,37 @@ export class AmmunitionActions {
           return;
         }
 
-        // Update the input value to trigger the existing logic
-        const input = button.parentElement.querySelector('.ammunition-load-input');
-        if (input) {
-          const newTotalLoaded = currentLoadedAmount + amountToLoad;
-          input.value = newTotalLoaded.toString();
-
-          // Trigger input event to use existing validation and update logic
-          const inputEvent = new Event('input', { bubbles: true });
-          input.dispatchEvent(inputEvent);
-
-          ui.notifications.info(`Auto-loaded ${amountToLoad} rounds of ${ammunition.name}.`);
-        }
+        await applyAmmoLoad(itemId, amountToLoad, button.parentElement.querySelector('.ammunition-load-input'));
+        ui.notifications.info(`Auto-loaded ${amountToLoad} rounds of ${ammunition.name}.`);
       }
     });
 
-    // Remove existing listener if any
     if (actorSheet._ammunitionUpdateHook) {
       Hooks.off("updateItem", actorSheet._ammunitionUpdateHook);
     }
 
-    // Create new listener
-    actorSheet._ammunitionUpdateHook = Hooks.on("updateItem", async (item, changes, options, userId) => {
+    actorSheet._ammunitionUpdateHook = Hooks.on("updateItem", async (item, changes) => {
       if (!actorSheet._ammunitionDialog || !actorSheet._ammunitionDialog.rendered) {
         return;
       }
 
-      // Handle ammunition item updates
       if (item.type === "item-municao") {
-        // Check if quantity changed (simple update)
         if (changes.system?.quantity !== undefined && !changes.system?.isFirearmAmmo) {
-          // Find the specific ammunition item in the dialog
           const itemElement = actorSheet._ammunitionDialog.element.querySelector(`[data-item-id="${item.id}"]`);
           if (itemElement) {
-            // Update just the quantity text
             const quantityElement = itemElement.querySelector('.ammunition-quantity');
             if (quantityElement) {
               quantityElement.textContent = `${item.system.quantity}`;
               quantityElement.setAttribute('data-quantity', item.system.quantity);
             }
           }
-        }
-        // Check if firearm ammo type changed (needs full re-render for filtering)
-        else if (changes.system?.isFirearmAmmo !== undefined) {
-          // Re-render to apply ammunition filtering
+        } else if (changes.system?.isFirearmAmmo !== undefined) {
           const newContent = await AmmunitionActions.renderAmmunitionContent(weapon, actorSheet);
           const contentElement = actorSheet._ammunitionDialog.element.querySelector('.dialog-content');
           if (contentElement) {
             contentElement.innerHTML = newContent;
           }
-        }
-        else {
-          // For other changes (like name, image), re-render full content
+        } else {
           const newContent = await AmmunitionActions.renderAmmunitionContent(weapon, actorSheet);
           const contentElement = actorSheet._ammunitionDialog.element.querySelector('.dialog-content');
           if (contentElement) {
@@ -393,20 +319,15 @@ export class AmmunitionActions {
         }
       }
 
-      // Handle weapon updates (magazine capacity)
-      else if (item.id === weapon.id && item.type === weapon.type) {
-        // Check if magazine capacity or isFirearm changed
+      if (item.id === weapon.id && item.type === weapon.type) {
         if (changes.system?.magazine !== undefined || changes.system?.isFirearm !== undefined) {
-          // Update the capacity display
           const capacityElement = actorSheet._ammunitionDialog.element.querySelector('.capacity-value');
 
           if (changes.system?.magazine !== undefined && capacityElement) {
-            // Update just the capacity number
             capacityElement.textContent = item.system.magazine;
           }
 
           if (changes.system?.isFirearm !== undefined) {
-            // Re-render to show/hide capacity section
             const newContent = await AmmunitionActions.renderAmmunitionContent(item, actorSheet);
             const contentElement = actorSheet._ammunitionDialog.element.querySelector('.dialog-content');
             if (contentElement) {
@@ -415,20 +336,15 @@ export class AmmunitionActions {
           }
         }
 
-        // Handle ammunition consumption/loading updates
         if (changes.system?.loadedAmmo !== undefined || changes.system?.loadedAmmoTypes !== undefined) {
-          // Update dialog inputs to reflect current loaded ammunition
           const loadedAmmoTypes = item.system.loadedAmmoTypes || {};
           actorSheet._updateAmmunitionDialogInputs(item.id, loadedAmmoTypes);
-
-          // Update weapon table display
           actorSheet._updateWeaponTableAmmunition(item.id, item.system.loadedAmmo, item.system.magazine, item.system.isFirearm);
         }
       }
     });
 
-    // Also listen for item creation/deletion
-    actorSheet._ammunitionCreateHook = Hooks.on("createItem", async (item, options, userId) => {
+    actorSheet._ammunitionCreateHook = Hooks.on("createItem", async (item) => {
       if (item.type === "item-municao" && actorSheet._ammunitionDialog && actorSheet._ammunitionDialog.rendered) {
         const newContent = await AmmunitionActions.renderAmmunitionContent(weapon, actorSheet);
         const contentElement = actorSheet._ammunitionDialog.element.querySelector('.dialog-content');
@@ -438,7 +354,7 @@ export class AmmunitionActions {
       }
     });
 
-    actorSheet._ammunitionDeleteHook = Hooks.on("deleteItem", async (item, options, userId) => {
+    actorSheet._ammunitionDeleteHook = Hooks.on("deleteItem", async (item) => {
       if (item.type === "item-municao" && actorSheet._ammunitionDialog && actorSheet._ammunitionDialog.rendered) {
         const itemElement = actorSheet._ammunitionDialog.element.querySelector(`[data-item-id="${item.id}"]`);
         if (itemElement) {
@@ -447,7 +363,6 @@ export class AmmunitionActions {
       }
     });
 
-    // Cleanup listeners when dialog closes
     const originalClose = actorSheet._ammunitionDialog.close.bind(actorSheet._ammunitionDialog);
     actorSheet._ammunitionDialog.close = (...args) => {
       if (actorSheet._ammunitionUpdateHook) {
@@ -482,28 +397,22 @@ export class AmmunitionActions {
         return;
       }
 
-      // Validate available quantity
       if (amount > ammunition.system.quantity) {
         ui.notifications.error(`Only ${ammunition.system.quantity} rounds available.`);
         return;
       }
 
-      // For firearms, validate magazine capacity
       if (weapon.system.isFirearm && amount > weapon.system.magazine) {
         ui.notifications.error(`Cannot load more than ${weapon.system.magazine} rounds.`);
         return;
       }
 
-      // Update ammunition quantity (subtract loaded amount)
       await ammunition.update({
         "system.quantity": ammunition.system.quantity - amount
       });
 
-      // For now, just show notification of successful loading
-      // In the future, you might want to track loaded ammunition on the weapon
       const weaponType = weapon.system.isFirearm ? "magazine" : "quiver";
       ui.notifications.info(`Loaded ${amount} rounds into ${weapon.name}'s ${weaponType}.`);
-
     } catch (error) {
       console.error("Error loading ammunition:", error);
       ui.notifications.error("Failed to load ammunition.");
