@@ -139,7 +139,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       template: 'systems/cardigan/templates/item/attribute-parts/arma.hbs',
     },
     attributesArmadura: {
-      template: 'systems/cardigan/templates/item/attribute-parts/armadura.hbs',
+      template: 'systems/cardigan/templates/item/attribute-parts/armor.hbs',
     },
     attributesSkill: {
       template: 'systems/cardigan/templates/item/attribute-parts/skill.hbs',
@@ -3182,6 +3182,94 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   // A lógica de processamento de skillActionTypes foi movida para prepareData no modelo
 
   /**
+   * Remove specific window-header elements for armor item sheets.
+   * - h1.window-title
+   * - control: "Copiar UUID do Documento"
+   * - control: "Alternar Controles"
+   * @private
+   */
+  _removeArmorHeaderElements() {
+    if (this.item?.type !== 'armadura') return;
+
+    const header = this.element?.querySelector('.window-header');
+    if (!header) return;
+
+    const normalize = (value) =>
+      String(value ?? '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase();
+
+    const phrases = [
+      'copiar uuid do documento',
+      'alternar controles',
+      'copy document uuid',
+      'toggle controls'
+    ];
+
+    // 1) Remove window title
+    const title = header.querySelector('h1.window-title');
+    if (title) title.remove();
+
+    // 2) Remove specific controls by title/aria-label/tooltip/text
+    const candidates = header.querySelectorAll('button, a, li, div, span');
+    candidates.forEach((element) => {
+      const values = [
+        element.getAttribute('title'),
+        element.getAttribute('aria-label'),
+        element.getAttribute('data-tooltip'),
+        element.textContent
+      ];
+
+      const matches = values.some((value) => {
+        const normalized = normalize(value);
+        return phrases.some((phrase) => normalized.includes(phrase));
+      });
+
+      if (matches) {
+        element.remove();
+      }
+    });
+
+    // 3) Keep the close control aligned to the right side.
+    const closePhrases = [
+      'fechar janela',
+      'close window'
+    ];
+
+    const closeControl = Array.from(
+      header.querySelectorAll('button, a, li, div, span')
+    ).find((element) => {
+      const values = [
+        element.getAttribute('title'),
+        element.getAttribute('aria-label'),
+        element.getAttribute('data-tooltip'),
+        element.textContent
+      ];
+
+      return values.some((value) => {
+        const normalized = normalize(value);
+        return closePhrases.some((phrase) => normalized.includes(phrase));
+      });
+    });
+
+    if (closeControl) {
+      const closeNode = closeControl.closest('button, a, li, div') || closeControl;
+      closeNode.style.marginLeft = 'auto';
+
+      if (closeNode.parentElement !== header) {
+        header.appendChild(closeNode);
+      }
+    } else {
+      // Fallback: if close action lives in the controls dropdown, keep that menu at right.
+      const controlsDropdown = header.querySelector('.controls-dropdown');
+      if (controlsDropdown) {
+        controlsDropdown.style.marginLeft = 'auto';
+      }
+    }
+  }
+
+  /**
    * CONSOLIDATED: Handle post-render operations
    * Combines drag-drop binding, auto-updates, and manual event listeners
    * @param {ApplicationRenderContext} context
@@ -3189,6 +3277,11 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    */
   _onRender(context, options) {
     super._onRender(context, options);
+
+    // Remove specific header controls for armor items only.
+    // Run immediately and on next frame in case controls are attached after initial render.
+    this._removeArmorHeaderElements();
+    requestAnimationFrame(() => this._removeArmorHeaderElements());
     
     console.log("[ITEM-SHEET] _onRender CONSOLIDATED called for item type:", this.item.type);
     console.log("[ITEM-SHEET] Binding drag-drop handlers, count:", this.#dragDrop.length);
