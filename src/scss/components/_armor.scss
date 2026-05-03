@@ -1,15 +1,37 @@
 /* Armor Item Sheet Styles */
 
-// Apply header styling to the ITEM FORM header (sheet-header), not the Foundry window chrome.
-.application.sheet.cardigan.item:has(.armor-details-form),
-.application.cardigan.item:has(.armor-details-form),
-.cardigan.item:has(.armor-details-form) {
-  .sheet-header {
+// Root-targeted window header styling for armor sheets.
+// This mirrors the pattern used by DnD5e/Daggerheart: the application root gets a
+// type-specific class, and the header is styled directly from that root.
+.application.sheet.cardigan.item.item-type-armadura {
+
+    width: 450.444px !important;
+    min-width: 450.444px !important;
+    max-width: 450.444px !important;
+    min-height: 520.333px !important;
+
+    background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+    border: 4px solid #c0863b;
+    border-radius: 20px;
+    font-family: "Alatsi", sans-serif;
+
+  // Form width/height constraints for this armor sheet only.
+  > form {
+    width: 450.444px !important;
+    min-height: 520.333px !important;
+  }
+
+  .window-header {
     background: initial !important;
     border-bottom: initial !important;
     backdrop-filter: blur(4px);
     justify-content: center !important;
     padding-top: 10px;
+  }
+
+  // Keep resize available, but effectively only vertical (height) by locking width.
+  .window-resize-handle {
+    cursor: ns-resize;
   }
 }
 

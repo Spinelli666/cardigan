@@ -3278,6 +3278,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   _onRender(context, options) {
     super._onRender(context, options);
 
+    // Mirror the type-specific root-class pattern used by other systems.
+    this.element?.classList.toggle('item-type-armadura', this.item?.type === 'armadura');
+
     // Remove specific header controls for armor items only.
     // Run immediately and on next frame in case controls are attached after initial render.
     this._removeArmorHeaderElements();

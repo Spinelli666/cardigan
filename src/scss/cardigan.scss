@@ -65,6 +65,9 @@
   }
 }
 
+/* Armor sheet header root styling must stay outside .cardigan scope */
+@import 'components/armor';
+
 /* Styles limited to cardigan sheets */
 .cardigan {
   // Tab visibility control for item sheets
