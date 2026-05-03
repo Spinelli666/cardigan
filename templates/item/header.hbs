@@ -1,11 +1,11 @@
 <header class='sheet-header'>
-  <img
-    class='profile-img'
-    src='{{item.img}}'
-    data-edit='img'
-    data-action='onEditImage'
-    title='{{item.name}}'
-  />
+  <div class='profile-img-wrapper' data-action='onEditImage' data-edit='img' title='{{item.name}}'>
+    <img
+      class='profile-img'
+      src='{{item.img}}'
+      alt='{{item.name}}'
+    />
+  </div>
   <div class='header-fields'>
     <div class='document-name'>
       <input name='name' type='text' value='{{item.name}}' placeholder='Name' />
