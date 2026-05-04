@@ -123,6 +123,167 @@
         }
       }
     }
+
+    .header-border {
+      width: 120%;
+      max-width: none;
+      height: auto;
+      pointer-events: none;
+      display: block;
+      image-rendering: -webkit-optimize-contrast;
+      transform-origin: center top;
+      transform: scale(0.88);
+      /* Improve rendering for pixel-art/webp decorative images */
+      image-rendering: crisp-edges;
+    }
+
+    @media (max-width: 520px) {
+      .header-border {
+        width: 140%;
+        transform: scale(0.88);
+      }
+    }
+  }
+
+  // Armor fields now render without tab/section wrappers.
+  .armor-section {
+    border: 1px solid rgba(201, 199, 184, 0.28);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 0 2px 14px;
+    background: linear-gradient(180deg, rgba(118, 212, 255, 0.06) 0%, rgba(9, 21, 29, 0.06) 100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+
+    legend {
+      padding: 0 8px;
+      color: var(--cardigan-c-beige, #f4f1e8);
+      font-weight: bold;
+      letter-spacing: 0.02em;
+    }
+  }
+
+  // The attributes container for armor sheets — use an internal scroll container
+  .attributesArmadura {
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 8px 6px 12px;
+    /* Try to size relative to the available sheet content; fallback fixed max-height */
+    max-height: calc(100% - 140px);
+    /* Provide a visible gutter for scrollbars on some platforms */
+    padding-right: 12px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--cardigan-c-beige, #f4f1e8);
+    }
+
+    input[type='text'],
+    input[type='number'],
+    select {
+      width: 100%;
+      min-height: 32px;
+      padding: 4px 8px;
+      border: 1px solid rgba(201, 199, 184, 0.35);
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.22);
+      color: var(--cardigan-c-beige, #f4f1e8);
+    }
+
+    input[type='checkbox'] {
+      width: 16px;
+      height: 16px;
+      accent-color: #76d4ff;
+    }
+  }
+
+  .durability-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    input {
+      width: 72px;
+      text-align: center;
+    }
+
+    span {
+      color: var(--cardigan-c-beige, #f4f1e8);
+      font-weight: bold;
+    }
+  }
+
+  .skill-bonuses {
+    .skill-bonuses-header {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .add-skill-bonus-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid rgba(201, 199, 184, 0.35);
+      background: rgba(118, 212, 255, 0.15);
+      color: var(--cardigan-c-beige, #f4f1e8);
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease;
+
+      &:hover {
+        transform: translateY(-1px);
+        background: rgba(118, 212, 255, 0.25);
+      }
+    }
+
+    .skill-bonuses-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .skill-bonus-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      select {
+        flex: 1;
+        min-width: 0;
+      }
+
+      input[type='number'] {
+        width: 72px;
+        text-align: center;
+      }
+
+      .remove-skill-bonus-btn {
+        width: 24px;
+        height: 24px;
+        border: 1px solid rgba(201, 199, 184, 0.35);
+        border-radius: 50%;
+        background: rgba(244, 67, 54, 0.18);
+        color: var(--cardigan-c-beige, #f4f1e8);
+        cursor: pointer;
+        transition: transform 0.15s ease, background 0.2s ease;
+
+        &:hover {
+          transform: translateY(-1px);
+          background: rgba(244, 67, 54, 0.32);
+        }
+      }
+    }
   }
 }
 

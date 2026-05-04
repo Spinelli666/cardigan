@@ -170,11 +170,13 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Not all parts always render
     options.parts = ['header', 'tabs', 'description'];
     if (this.document.type === 'armadura') {
+      options.parts = ['header', 'attributesArmadura'];
       options.position = {
         ...options.position,
         width: 450.444,
         height: 520.333,
       };
+      return;
     }
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
