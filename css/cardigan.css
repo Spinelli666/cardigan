@@ -1086,6 +1086,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: 10px 10px 0 10px;
 }
 .application.sheet.cardigan.item.item-type-armadura .sheet-header .profile-img-wrapper {
   display: flex;

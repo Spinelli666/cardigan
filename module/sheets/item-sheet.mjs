@@ -1036,8 +1036,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Always use 'accuracy' as default skill to ensure valid data
     const newSkillBonuses = [...filteredSkillBonuses, { skill: 'accuracy', bonus: 0 }];
     
-    
-    return this.submit({ updateData: { 'system.skillBonuses': newSkillBonuses } });
+    // Use direct update instead of form submit to avoid full document validation
+    return item.update({ 'system.skillBonuses': newSkillBonuses });
   }
 
   /**
@@ -1064,7 +1064,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       sb && typeof sb.skill === 'string' && sb.skill.trim() !== ''
     );
     
-    return this.submit({ updateData: { 'system.skillBonuses': finalSkillBonuses } });
+    // Use direct update instead of form submit to avoid full document validation
+    return item.update({ 'system.skillBonuses': finalSkillBonuses });
   }
 
   /**
