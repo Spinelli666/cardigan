@@ -2,22 +2,34 @@
 Template para itens do tipo armadura com aba Detail
 --}}
     
+    <div class="attributesArmadura" data-group="primary" data-tab="attributes">
+
+    {{!-- Top grid: properties (left) and description (right) --}}
+    <div class="armor-top-grid">
+      <div class="armor-properties">
+        <div class="armor-grid-title"><span>PROPRIEDADES</span><img class="armor-grid-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="border"/></div>
+        <div class="armor-properties-content">
+          <div class="armor-prop-row armor-type-row">
+            <label for="system.armorType">{{localize "CARDIGAN.ArmorTypeLabel"}}</label>
+            <select name="system.armorType">
+              <option value="cabeca" {{selected item.system.armorType "cabeca"}}>{{localize "CARDIGAN.ArmorType.Cabeca"}}</option>
+              <option value="acessorios" {{selected item.system.armorType "acessorios"}}>{{localize "CARDIGAN.ArmorType.Acessorios"}}</option>
+              <option value="torso" {{selected item.system.armorType "torso"}}>{{localize "CARDIGAN.ArmorType.Torso"}}</option>
+              <option value="bracos" {{selected item.system.armorType "bracos"}}>{{localize "CARDIGAN.ArmorType.Bracos"}}</option>
+              <option value="pernas" {{selected item.system.armorType "pernas"}}>{{localize "CARDIGAN.ArmorType.Pernas"}}</option>
+              <option value="pes" {{selected item.system.armorType "pes"}}>{{localize "CARDIGAN.ArmorType.Pes"}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="armor-description"><div class="armor-grid-title"><span>DESCRIÇÃO</span><img class="armor-grid-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="border"/></div></div>
+    </div>
+
     {{!-- Basic Information --}}
-<div class="attributesArmadura" data-group="primary" data-tab="attributes">
     <fieldset class="armor-section">
       <legend>{{localize "CARDIGAN.ArmorBasicInfo"}}</legend>
       
-      <div class="form-group">
-        <label for="system.armorType">{{localize "CARDIGAN.ArmorTypeLabel"}}</label>
-        <select name="system.armorType">
-          <option value="cabeca" {{selected item.system.armorType "cabeca"}}>{{localize "CARDIGAN.ArmorType.Cabeca"}}</option>
-          <option value="acessorios" {{selected item.system.armorType "acessorios"}}>{{localize "CARDIGAN.ArmorType.Acessorios"}}</option>
-          <option value="torso" {{selected item.system.armorType "torso"}}>{{localize "CARDIGAN.ArmorType.Torso"}}</option>
-          <option value="bracos" {{selected item.system.armorType "bracos"}}>{{localize "CARDIGAN.ArmorType.Bracos"}}</option>
-          <option value="pernas" {{selected item.system.armorType "pernas"}}>{{localize "CARDIGAN.ArmorType.Pernas"}}</option>
-          <option value="pes" {{selected item.system.armorType "pes"}}>{{localize "CARDIGAN.ArmorType.Pes"}}</option>
-        </select>
-      </div>
+      
 
       <div class="form-group">
         <label for="system.protecao">{{localize "CARDIGAN.ArmorProtection"}}</label>

@@ -1198,6 +1198,58 @@
   /* Provide a visible gutter for scrollbars on some platforms */
   padding-right: 12px;
 }
+.application.sheet.cardigan.item.item-type-armadura {
+  /* Top grid above attributes: properties (left) and description (right) */
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-top-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: start;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-grid-title {
+  width: 100%;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: normal;
+  text-align: center;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-grid-title span {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding-left: 5px;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-grid-title > img.armor-grid-border {
+  display: block !important;
+  width: 100% !important;
+  height: 5px !important;
+  margin-top: 2px !important;
+  max-width: none !important;
+  max-height: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  object-fit: fill !important;
+  pointer-events: none !important;
+}
+@media (max-width: 900px) {
+  .application.sheet.cardigan.item.item-type-armadura .armor-top-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .application.sheet.cardigan.item.item-type-armadura .form-group {
   display: flex;
   flex-direction: column;

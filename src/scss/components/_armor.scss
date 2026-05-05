@@ -174,6 +174,61 @@
     padding-right: 12px;
   }
 
+  /* Top grid above attributes: properties (left) and description (right) */
+  .armor-top-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: start;
+  }
+
+  .armor-grid-title {
+    width: 100%;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: normal;
+    text-align: center;
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 8px;
+
+    span {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding-left: 5px;
+    }
+  }
+
+  .armor-grid-title > img.armor-grid-border {
+    display: block !important;
+    width: 100% !important;
+    height: 5px !important;
+    margin-top: 2px !important;
+    max-width: none !important;
+    max-height: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    object-fit: fill !important;
+    pointer-events: none !important;
+  }
+
+  @media (max-width: 900px) {
+    .armor-top-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .form-group {
     display: flex;
     flex-direction: column;
