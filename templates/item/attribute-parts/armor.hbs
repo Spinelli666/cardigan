@@ -9,16 +9,29 @@ Template para itens do tipo armadura com aba Detail
       <div class="armor-properties">
         <div class="armor-grid-title"><span>PROPRIEDADES</span><img class="armor-grid-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="border"/></div>
         <div class="armor-properties-content">
-          <div class="armor-prop-row armor-type-row">
-            <label for="system.armorType">{{localize "CARDIGAN.ArmorTypeLabel"}}</label>
-            <select name="system.armorType">
-              <option value="cabeca" {{selected item.system.armorType "cabeca"}}>{{localize "CARDIGAN.ArmorType.Cabeca"}}</option>
-              <option value="acessorios" {{selected item.system.armorType "acessorios"}}>{{localize "CARDIGAN.ArmorType.Acessorios"}}</option>
-              <option value="torso" {{selected item.system.armorType "torso"}}>{{localize "CARDIGAN.ArmorType.Torso"}}</option>
-              <option value="bracos" {{selected item.system.armorType "bracos"}}>{{localize "CARDIGAN.ArmorType.Bracos"}}</option>
-              <option value="pernas" {{selected item.system.armorType "pernas"}}>{{localize "CARDIGAN.ArmorType.Pernas"}}</option>
-              <option value="pes" {{selected item.system.armorType "pes"}}>{{localize "CARDIGAN.ArmorType.Pes"}}</option>
-            </select>
+          {{!-- Grid of armor type selection buttons (3x2 layout) --}}
+          <div class="armor-type-selector-grid">
+            {{!-- First row: head, charm, chest --}}
+            <button type="button" class="armor-type-selector-btn" data-armor-type="cabeca" {{#if (eq item.system.armorType "cabeca")}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/armor/head.webp" alt="{{localize 'CARDIGAN.ArmorType.Cabeca'}}" title="{{localize 'CARDIGAN.ArmorType.Cabeca'}}" />
+            </button>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="acessorios" {{#if (eq item.system.armorType "acessorios")}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/armor/charm.webp" alt="{{localize 'CARDIGAN.ArmorType.Acessorios'}}" title="{{localize 'CARDIGAN.ArmorType.Acessorios'}}" />
+            </button>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="torso" {{#if (eq item.system.armorType "torso")}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/armor/chest.webp" alt="{{localize 'CARDIGAN.ArmorType.Torso'}}" title="{{localize 'CARDIGAN.ArmorType.Torso'}}" />
+            </button>
+            
+            {{!-- Second row: gauntlets, leggings, boots --}}
+            <button type="button" class="armor-type-selector-btn" data-armor-type="bracos" {{#if (eq item.system.armorType "bracos")}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/armor/gauntlets.webp" alt="{{localize 'CARDIGAN.ArmorType.Bracos'}}" title="{{localize 'CARDIGAN.ArmorType.Bracos'}}" />
+            </button>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="pernas" {{#if (eq item.system.armorType "pernas")}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/armor/leggings.webp" alt="{{localize 'CARDIGAN.ArmorType.Pernas'}}" title="{{localize 'CARDIGAN.ArmorType.Pernas'}}" />
+            </button>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="pes" {{#if (eq item.system.armorType "pes")}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/armor/boots.webp" alt="{{localize 'CARDIGAN.ArmorType.Pes'}}" title="{{localize 'CARDIGAN.ArmorType.Pes'}}" />
+            </button>
           </div>
         </div>
       </div>
@@ -34,11 +47,6 @@ Template para itens do tipo armadura com aba Detail
       <div class="form-group">
         <label for="system.protecao">{{localize "CARDIGAN.ArmorProtection"}}</label>
         <input type="number" name="system.protecao" value="{{item.system.protecao}}" min="0" placeholder="0"/>
-      </div>
-
-      <div class="form-group">
-        <label for="system.armorClass">{{localize "CARDIGAN.ArmorClass"}}</label>
-        <input type="text" name="system.armorClass" value="{{item.system.armorClass}}" placeholder="Couro, Cota de Malha, Placas"/>
       </div>
 
       <div class="form-group" style="display: flex; gap: 15px;">

@@ -2227,6 +2227,30 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Setup armor type selector buttons for armor items
+   * @private
+   */
+  _setupArmorTypeSelectorButtons() {
+    if (this.item.type !== 'armadura') return;
+
+    const grid = this.element?.querySelector('.armor-type-selector-grid');
+    if (!grid) return;
+
+    const buttons = grid.querySelectorAll('.armor-type-selector-btn');
+    buttons.forEach(button => {
+      button.addEventListener('click', async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        const armorType = button.dataset.armorType;
+        if (armorType && armorType !== this.item.system.armorType) {
+          await this.item.update({ 'system.armorType': armorType });
+        }
+      });
+    });
+  }
+
+  /**
    * Setup status ailments toggle visibility for consumable items
    * @private
    */
@@ -3365,6 +3389,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     // Setup conditional fields for armor items
     this._setupArmorConditionalFields();
+
+    // Setup armor type selector buttons for armor items
+    this._setupArmorTypeSelectorButtons();
     
     // Setup status ailments toggle visibility for consumable items
     this._setupStatusAilmentsToggle();
