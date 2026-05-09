@@ -15,6 +15,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   constructor(options = {}) {
     super(options);
     this.#dragDrop = this.#createDragDropHandlers();
+    this._armorExtraExpandedPanels = new Set();
   }
 
   /** @override */
@@ -329,6 +330,33 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    */
   _processFormData(event, form, formData) {
     const submitData = super._processFormData(event, form, formData);
+    const fallbackImg = 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg';
+    const currentItemImg = typeof this.item.img === 'string' ? this.item.img.trim() : '';
+    const hasValidExtension = (value) => /\.(webp|png|jpe?g|gif|svg|avif|webm)(?:[?#].*)?$/i.test(value);
+    const isDataImage = (value) => /^data:image\/[a-z0-9.+-]+;base64,/i.test(value);
+    const isValidImagePath = (value) => {
+      if (typeof value !== 'string') return false;
+      const trimmed = value.trim();
+      if (!trimmed) return false;
+      return hasValidExtension(trimmed) || isDataImage(trimmed);
+    };
+
+    // Preserve custom/valid images. Only normalize when the path is truly invalid.
+    const submittedHasImg = Object.prototype.hasOwnProperty.call(submitData, 'img');
+    if (submittedHasImg) {
+      const submittedImg = typeof submitData.img === 'string' ? submitData.img.trim() : '';
+      if (isValidImagePath(submittedImg)) {
+        submitData.img = submittedImg;
+      } else if (isValidImagePath(currentItemImg)) {
+        submitData.img = currentItemImg;
+      } else {
+        submitData.img = fallbackImg;
+      }
+    } else if (!isValidImagePath(currentItemImg)) {
+      // No image field in this submit (e.g. editing durability), but current item image is
+      // invalid for validation. Provide fallback only in this case.
+      submitData.img = fallbackImg;
+    }
     
     // CRITICAL FIX: For recipe items, prevent empty resultItems from causing validation errors
     if (this.item.type === 'item-recipe') {
@@ -352,6 +380,61 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @override
    */
   async _onChangeForm(formConfig, event) {
+    const target = event?.target;
+    const name = target?.name;
+
+    // Manual durability handling for armor sheet inputs in the extra panel.
+    // This guarantees validation feedback and consistent sync with actor equipment views.
+    if (this.item.type === 'armadura' && (name === 'system.durability.current' || name === 'system.durability.max')) {
+      const currentInput = this.element?.querySelector('input[name="system.durability.current"]');
+      const maxInput = this.element?.querySelector('input[name="system.durability.max"]');
+
+      if (!currentInput || !maxInput) return;
+
+      const existingCurrent = Number(this.item.system?.durability?.current ?? 0);
+      const existingMax = Math.max(1, Number(this.item.system?.durability?.max ?? 1));
+
+      const rawCurrent = String(currentInput.value ?? '').trim();
+      const rawMax = String(maxInput.value ?? '').trim();
+
+      // If the user is still editing and leaves the field blank, defer update.
+      if (rawCurrent === '' || rawMax === '') return;
+
+      let nextCurrent = Number(rawCurrent);
+      let nextMax = Number(rawMax);
+
+      if (!Number.isFinite(nextCurrent)) nextCurrent = existingCurrent;
+      if (!Number.isFinite(nextMax)) nextMax = existingMax;
+
+      nextCurrent = Math.max(0, Math.floor(nextCurrent));
+      nextMax = Math.max(1, Math.floor(nextMax));
+
+      const editingCurrent = name === 'system.durability.current';
+      if (editingCurrent && nextCurrent > nextMax) {
+        ui.notifications.warn('Não é possível definir a durabilidade atual acima da durabilidade máxima.');
+      }
+
+      if (nextCurrent > nextMax) nextCurrent = nextMax;
+
+      // Reflect normalized values immediately in the UI.
+      currentInput.value = String(nextCurrent);
+      currentInput.max = String(nextMax);
+      maxInput.value = String(nextMax);
+
+      const changed =
+        nextCurrent !== existingCurrent ||
+        nextMax !== existingMax;
+
+      if (changed) {
+        await this.item.update({
+          'system.durability.current': nextCurrent,
+          'system.durability.max': nextMax
+        });
+      }
+
+      return;
+    }
+
     // CRITICAL: Clean up empty resultItems BEFORE calling super (which validates)
     if (this.item.type === 'item-recipe') {
       const currentResultItems = this.item.system?.resultItems;
@@ -2251,6 +2334,66 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Setup click/keyboard toggles for armor extra property panels
+   * @private
+   */
+  _setupArmorExtraIconToggles() {
+    if (this.item.type !== 'armadura') return;
+
+    const root = this.element;
+    if (!root) return;
+
+    const toggleIcons = root.querySelectorAll('[data-armor-extra-toggle]');
+    if (!toggleIcons.length) return;
+
+    const syncIconState = (targetName) => {
+      const panel = root.querySelector(`[data-armor-extra-panel="${targetName}"]`);
+      const icon = root.querySelector(`[data-armor-extra-toggle="${targetName}"]`);
+      if (!panel || !icon) return;
+
+      const isExpanded = !panel.classList.contains('is-collapsed');
+      icon.setAttribute('aria-expanded', String(isExpanded));
+      icon.classList.toggle('is-active', isExpanded);
+    };
+
+    toggleIcons.forEach((icon) => {
+      const targetName = icon.dataset.armorExtraToggle;
+      if (!targetName) return;
+
+      const panel = root.querySelector(`[data-armor-extra-panel="${targetName}"]`);
+      if (!panel) return;
+
+      // Restore persisted state after re-render.
+      if (this._armorExtraExpandedPanels.has(targetName)) {
+        panel.classList.remove('is-collapsed');
+      } else {
+        panel.classList.add('is-collapsed');
+      }
+
+      const togglePanel = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const isCollapsed = panel.classList.toggle('is-collapsed');
+        if (isCollapsed) {
+          this._armorExtraExpandedPanels.delete(targetName);
+        } else {
+          this._armorExtraExpandedPanels.add(targetName);
+        }
+        syncIconState(targetName);
+      };
+
+      icon.addEventListener('click', togglePanel);
+      icon.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          togglePanel(event);
+        }
+      });
+
+      syncIconState(targetName);
+    });
+  }
+
+  /**
    * Setup status ailments toggle visibility for consumable items
    * @private
    */
@@ -3392,6 +3535,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     // Setup armor type selector buttons for armor items
     this._setupArmorTypeSelectorButtons();
+
+    // Setup icon toggles for armor extra property panels
+    this._setupArmorExtraIconToggles();
     
     // Setup status ailments toggle visibility for consumable items
     this._setupStatusAilmentsToggle();

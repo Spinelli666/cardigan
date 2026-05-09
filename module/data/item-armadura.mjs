@@ -148,8 +148,7 @@ export default class ArmorData extends BaseItemData {
           nullable: false,
           integer: true,
           initial: 3,
-          min: 0,
-          max: 3
+          min: 0
         }),
         max: new NumberField({
           required: true,

@@ -585,6 +585,17 @@ export class CardiganSystemItem extends Item {
    */
   async _onUpdate(changed, options, userId) {
     await super._onUpdate(changed, options, userId);
+
+    // Keep actor equipment durability displays synchronized when this item changes.
+    if (this.actor && (this.type === 'arma' || this.type === 'armadura')) {
+      const durabilityCurrentChanged = foundry.utils.hasProperty(changed, 'system.durability.current');
+      const durabilityMaxChanged = foundry.utils.hasProperty(changed, 'system.durability.max');
+
+      if (durabilityCurrentChanged || durabilityMaxChanged) {
+        const actorSheet = this.actor.sheet;
+        if (actorSheet?.rendered) actorSheet.render(false);
+      }
+    }
     
     // If weapon skill bonuses changed and this item has a parent actor
     if (this._weaponSkillBonusesChanged && this.actor) {

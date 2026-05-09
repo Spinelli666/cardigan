@@ -12,26 +12,48 @@ Template para itens do tipo armadura com aba Detail
           {{!-- Grid of armor type selection buttons (3x2 layout) --}}
           <div class="armor-type-selector-grid">
             {{!-- First row: head, charm, chest --}}
-            <button type="button" class="armor-type-selector-btn" data-armor-type="cabeca" {{#if (eq item.system.armorType "cabeca")}}data-selected{{/if}}>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="cabeca" data-tooltip="Cabeça" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "cabeca")}}data-selected{{/if}}>
               <img src="systems/cardigan/assets/images/armor/head.webp" alt="{{localize 'CARDIGAN.ArmorType.Cabeca'}}" title="{{localize 'CARDIGAN.ArmorType.Cabeca'}}" />
             </button>
-            <button type="button" class="armor-type-selector-btn" data-armor-type="acessorios" {{#if (eq item.system.armorType "acessorios")}}data-selected{{/if}}>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="acessorios" data-tooltip="Acessórios" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "acessorios")}}data-selected{{/if}}>
               <img src="systems/cardigan/assets/images/armor/charm.webp" alt="{{localize 'CARDIGAN.ArmorType.Acessorios'}}" title="{{localize 'CARDIGAN.ArmorType.Acessorios'}}" />
             </button>
-            <button type="button" class="armor-type-selector-btn" data-armor-type="torso" {{#if (eq item.system.armorType "torso")}}data-selected{{/if}}>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="torso" data-tooltip="Torso" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "torso")}}data-selected{{/if}}>
               <img src="systems/cardigan/assets/images/armor/chest.webp" alt="{{localize 'CARDIGAN.ArmorType.Torso'}}" title="{{localize 'CARDIGAN.ArmorType.Torso'}}" />
             </button>
             
             {{!-- Second row: gauntlets, leggings, boots --}}
-            <button type="button" class="armor-type-selector-btn" data-armor-type="bracos" {{#if (eq item.system.armorType "bracos")}}data-selected{{/if}}>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="bracos" data-tooltip="Braços" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "bracos")}}data-selected{{/if}}>
               <img src="systems/cardigan/assets/images/armor/gauntlets.webp" alt="{{localize 'CARDIGAN.ArmorType.Bracos'}}" title="{{localize 'CARDIGAN.ArmorType.Bracos'}}" />
             </button>
-            <button type="button" class="armor-type-selector-btn" data-armor-type="pernas" {{#if (eq item.system.armorType "pernas")}}data-selected{{/if}}>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="pernas" data-tooltip="Pernas" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "pernas")}}data-selected{{/if}}>
               <img src="systems/cardigan/assets/images/armor/leggings.webp" alt="{{localize 'CARDIGAN.ArmorType.Pernas'}}" title="{{localize 'CARDIGAN.ArmorType.Pernas'}}" />
             </button>
-            <button type="button" class="armor-type-selector-btn" data-armor-type="pes" {{#if (eq item.system.armorType "pes")}}data-selected{{/if}}>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="pes" data-tooltip="Pés" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "pes")}}data-selected{{/if}}>
               <img src="systems/cardigan/assets/images/armor/boots.webp" alt="{{localize 'CARDIGAN.ArmorType.Pes'}}" title="{{localize 'CARDIGAN.ArmorType.Pes'}}" />
             </button>
+          </div>
+        </div>
+
+        <div class="armor-extra-properties">
+          <div class="armor-extra-property armor-protection-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-armor.svg" alt="{{localize 'CARDIGAN.ArmorProtection'}}" data-armor-extra-toggle="protection" data-tooltip="Proteção" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
+              <div class="armor-protection-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="protection">
+                <input type="number" name="system.protecao" value="{{item.system.protecao}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-durability-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-durability.svg" alt="{{localize 'CARDIGAN.Durability'}}" data-armor-extra-toggle="durability" data-tooltip="Durabilidade" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
+              <div class="durability-container armor-extra-panel is-collapsed" data-armor-extra-panel="durability" style="display: flex; align-items: center; gap: 5px;">
+                <input type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}" style="width: 60px;"/>
+                <img src="systems/cardigan/assets/images/decorative/field-divider.svg" alt="/" class="durability-divider"/>
+                <input type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1" style="width: 60px;"/>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -43,11 +65,6 @@ Template para itens do tipo armadura com aba Detail
       <legend>{{localize "CARDIGAN.ArmorBasicInfo"}}</legend>
       
       
-
-      <div class="form-group">
-        <label for="system.protecao">{{localize "CARDIGAN.ArmorProtection"}}</label>
-        <input type="number" name="system.protecao" value="{{item.system.protecao}}" min="0" placeholder="0"/>
-      </div>
 
       <div class="form-group" style="display: flex; gap: 15px;">
         <div style="flex: 1;">
@@ -67,14 +84,6 @@ Template para itens do tipo armadura com aba Detail
         </div>
       </div>
       
-      <div class="form-group">
-        <label for="system.durability.current">{{localize "CARDIGAN.Durability"}}</label>
-        <div class="durability-container" style="display: flex; align-items: center; gap: 5px;">
-          <input type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}" style="width: 60px;"/>
-          <span>/</span>
-          <input type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1" style="width: 60px;"/>
-        </div>
-      </div>
     </fieldset>
 
     {{!-- Skill Bonuses Section --}}

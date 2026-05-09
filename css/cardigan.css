@@ -1256,13 +1256,157 @@
   gap: 8px;
   align-items: center;
 }
-.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-grid {
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties {
+  margin-top: 10px;
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-extra-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-extra-icon {
+  width: 25px;
+  height: 25px;
+  min-width: 20px;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.2s ease, opacity 0.2s ease;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-extra-icon:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.45));
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties.armor-protection-property .armor-extra-icon {
+  width: 22px;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-extra-panel.is-collapsed {
+  display: none !important;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-protection-input-wrapper {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1px solid rgba(255, 183, 92, 0.2);
+  border-radius: 7px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  align-items: center;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-protection-input-wrapper > input[name="system.protecao"] {
+  min-height: 20px !important;
+  height: 22px !important;
+  width: 22px !important;
+  padding: 0px;
+  background: none;
+  border: none;
+  font-size: 12px;
+  box-shadow: none;
+  color: #FFB75C;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  outline: none;
+  align-items: center;
+  text-align: center;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-protection-input-wrapper > input[name="system.protecao"]:focus {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-protection-input-wrapper > input[name="system.protecao"]:focus-visible {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-extra-content > input[type=number],
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-protection-input-wrapper > input[type=number] {
+  flex: 1;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties input[type=number] {
+  min-height: 30px;
+  padding: 4px 8px;
+  border: 1px solid rgba(201, 199, 184, 0.35);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--cardigan-c-beige, #f4f1e8);
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .durability-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  gap: 0px !important;
+  margin-top: 0;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1px solid rgba(255, 183, 92, 0.2);
+  border-radius: 7px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .durability-container input {
+  min-height: 20px !important;
+  height: 20px !important;
+  width: 20px !important;
+  padding: 0px;
+  background: none;
+  border: none;
+  font-size: 12px;
+  box-shadow: none;
+  color: #FFB75C;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  outline: none;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .durability-container input:focus {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .durability-container input:focus-visible {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .durability-container span {
+  color: var(--cardigan-c-beige, #f4f1e8);
+  font-weight: bold;
+  line-height: 1;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .durability-divider {
+  width: auto;
+  height: 16px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+  flex-shrink: 0;
+}
+
+.armor-type-selector-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
   width: 62%;
 }
-.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn {
+
+.armor-type-selector-btn {
   height: 40px;
   width: 40px;
   display: flex;
@@ -1278,7 +1422,7 @@
   position: relative;
   overflow: hidden;
 }
-.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn img {
+.armor-type-selector-btn img {
   width: 48px;
   height: 48px;
   object-fit: contain;
@@ -1286,44 +1430,45 @@
   transition: opacity 0.2s ease, filter 0.15s ease, transform 0.15s ease;
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
 }
-.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn:hover img {
+.armor-type-selector-btn:hover img {
   opacity: 0.6;
   filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.5));
   transform: scale(1.08);
 }
-.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn:active img {
+.armor-type-selector-btn:active img {
   transform: scale(0.95);
 }
-.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn[data-selected] {
+.armor-type-selector-btn[data-selected] {
   border-color: #FFB75C;
   border-width: 2px;
   box-shadow: 0 0 12px rgba(255, 183, 92, 0.4), inset 0 0 8px rgba(255, 183, 92, 0.1);
   background: linear-gradient(135deg, rgba(255, 183, 92, 0.08) 0%, rgba(255, 183, 92, 0.04) 100%);
 }
-.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn[data-selected] img {
+.armor-type-selector-btn[data-selected] img {
   opacity: 1;
   filter: drop-shadow(0 0 8px rgba(255, 183, 92, 0.8));
 }
-.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn[data-selected]:hover img {
+.armor-type-selector-btn[data-selected]:hover img {
   filter: drop-shadow(0 0 12px rgb(255, 183, 92));
   transform: scale(1.12);
 }
-.application.sheet.cardigan.item.item-type-armadura .form-group {
+
+.form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
   margin-bottom: 10px;
 }
-.application.sheet.cardigan.item.item-type-armadura .form-group:last-child {
+.form-group:last-child {
   margin-bottom: 0;
 }
-.application.sheet.cardigan.item.item-type-armadura .form-group label {
+.form-group label {
   font-weight: 600;
   color: var(--cardigan-c-beige, #f4f1e8);
 }
-.application.sheet.cardigan.item.item-type-armadura .form-group input[type=text],
-.application.sheet.cardigan.item.item-type-armadura .form-group input[type=number],
-.application.sheet.cardigan.item.item-type-armadura .form-group select {
+.form-group input[type=text],
+.form-group input[type=number],
+.form-group select {
   width: 100%;
   min-height: 32px;
   padding: 4px 8px;
@@ -1332,30 +1477,32 @@
   background: rgba(0, 0, 0, 0.22);
   color: var(--cardigan-c-beige, #f4f1e8);
 }
-.application.sheet.cardigan.item.item-type-armadura .form-group input[type=checkbox] {
+.form-group input[type=checkbox] {
   width: 16px;
   height: 16px;
   accent-color: #76d4ff;
 }
-.application.sheet.cardigan.item.item-type-armadura .durability-container {
+
+.durability-container {
   display: flex;
   align-items: center;
   gap: 6px;
 }
-.application.sheet.cardigan.item.item-type-armadura .durability-container input {
+.durability-container input {
   width: 72px;
   text-align: center;
 }
-.application.sheet.cardigan.item.item-type-armadura .durability-container span {
+.durability-container span {
   color: var(--cardigan-c-beige, #f4f1e8);
   font-weight: bold;
 }
-.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonuses-header {
+
+.skill-bonuses .skill-bonuses-header {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
 }
-.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .add-skill-bonus-btn {
+.skill-bonuses .add-skill-bonus-btn {
   width: 26px;
   height: 26px;
   border-radius: 50%;
@@ -1366,29 +1513,29 @@
   cursor: pointer;
   transition: transform 0.15s ease, background 0.2s ease;
 }
-.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .add-skill-bonus-btn:hover {
+.skill-bonuses .add-skill-bonus-btn:hover {
   transform: translateY(-1px);
   background: rgba(118, 212, 255, 0.25);
 }
-.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonuses-list {
+.skill-bonuses .skill-bonuses-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonus-row {
+.skill-bonuses .skill-bonus-row {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonus-row select {
+.skill-bonuses .skill-bonus-row select {
   flex: 1;
   min-width: 0;
 }
-.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonus-row input[type=number] {
+.skill-bonuses .skill-bonus-row input[type=number] {
   width: 72px;
   text-align: center;
 }
-.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonus-row .remove-skill-bonus-btn {
+.skill-bonuses .skill-bonus-row .remove-skill-bonus-btn {
   width: 24px;
   height: 24px;
   border: 1px solid rgba(201, 199, 184, 0.35);
@@ -1398,7 +1545,7 @@
   cursor: pointer;
   transition: transform 0.15s ease, background 0.2s ease;
 }
-.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonus-row .remove-skill-bonus-btn:hover {
+.skill-bonuses .skill-bonus-row .remove-skill-bonus-btn:hover {
   transform: translateY(-1px);
   background: rgba(244, 67, 54, 0.32);
 }
@@ -1465,15 +1612,32 @@
 .cardigan.item .tab[data-tab=attributes] .durability-container {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 2px;
+  padding: 2px 4px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1px solid rgba(255, 183, 92, 0.2);
+  border-radius: 7px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 }
 .cardigan.item .tab[data-tab=attributes] .durability-container input {
-  width: 72px;
-  text-align: center;
+  padding: 0px;
+  background: none;
+  width: 35px;
+  font-size: 12px;
+  box-shadow: none;
+  color: #FFB75C;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .cardigan.item .tab[data-tab=attributes] .durability-container span {
   color: var(--cardigan-c-beige, #f4f1e8);
   font-weight: bold;
+  line-height: 1;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
 }
 .cardigan.item .tab[data-tab=attributes] .skill-bonuses .skill-bonuses-header {
   display: flex;
