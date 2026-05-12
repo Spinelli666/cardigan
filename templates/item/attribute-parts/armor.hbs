@@ -56,6 +56,46 @@ Template para itens do tipo armadura com aba Detail
             </div>
           </div>
         </div>
+
+        <div class="armor-extra-properties armor-economy-properties">
+          <div class="armor-extra-property armor-price-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-coins.svg" alt="{{localize 'CARDIGAN.Price'}}" data-armor-extra-toggle="price" data-tooltip="Preço" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
+              <div class="armor-price-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="price">
+                <input type="number" name="system.price" value="{{item.system.price}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-quantity-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-negotiation.svg" alt="{{localize 'CARDIGAN.Common.Quantity'}}" data-armor-extra-toggle="quantity" data-tooltip="Quantidade" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
+              <div class="armor-quantity-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="quantity">
+                <input type="number" name="system.quantity" value="{{item.system.quantity}}" min="1" data-dtype="Number" placeholder="1"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="armor-extra-properties armor-movement-backpack-properties">
+          <div class="armor-extra-property movement-bonus">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-movement.svg" alt="{{localize 'CARDIGAN.MovementBonus'}}" data-armor-extra-toggle="movement" data-tooltip="Bônus de Movimento" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
+              <div class="movement-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="movement">
+                <input type="number" name="system.movementBonus" value="{{item.system.movementBonus}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="armor-extra-property backpack-space-bonus">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-backpack.svg" alt="{{localize 'CARDIGAN.BackpackSpace'}}" data-armor-extra-toggle="backpack" data-tooltip="Espaço na Mochila" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
+              <div class="backpack-space-input-wrapper armor-quantity-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="backpack">
+                <input type="number" name="system.backpackSpace" value="{{item.system.backpackSpace}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="armor-description"><div class="armor-grid-title"><span>DESCRIÇÃO</span><img class="armor-grid-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="border"/></div></div>
     </div>
@@ -73,14 +113,6 @@ Template para itens do tipo armadura com aba Detail
             <option value="leve" {{selected item.system.weight "leve"}}>{{localize "CARDIGAN.Light"}}</option>
             <option value="pesado" {{selected item.system.weight "pesado"}}>{{localize "CARDIGAN.Heavy"}}</option>
           </select>
-        </div>
-        <div style="flex: 1;">
-          <label for="system.price">{{localize "CARDIGAN.Price"}}</label>
-          <input type="number" name="system.price" value="{{item.system.price}}" min="0" placeholder="0"/>
-        </div>
-        <div style="flex: 1;">
-          <label for="system.quantity">{{localize "CARDIGAN.Common.Quantity"}}</label>
-          <input type="number" name="system.quantity" value="{{item.system.quantity}}" min="1" data-dtype="Number" placeholder="1"/>
         </div>
       </div>
       
@@ -157,28 +189,6 @@ Template para itens do tipo armadura com aba Detail
             <label>{{localize "CARDIGAN.Energy"}}:</label>
             <input type="number" name="system.bonusEnergia" value="{{item.system.bonusEnergia}}" style="width: 80px;" placeholder="0"/>
           </div>
-        </div>
-      </div>
-
-      <div class="form-group movement-bonus">
-        <label style="display: flex; align-items: center; gap: 5px;">
-          <input type="checkbox" name="system.bonusDeslocamento.enabled" {{checked item.system.bonusDeslocamento.enabled}} data-conditional-trigger="movement"/>
-          {{localize "CARDIGAN.MovementBonus"}}
-        </label>
-        <div class="movement-value" style="{{#unless item.system.bonusDeslocamento.enabled}}display: none;{{/unless}} margin-top: 5px;">
-          <input type="number" name="system.bonusDeslocamento.bonus" value="{{item.system.bonusDeslocamento.bonus}}" style="width: 80px;" placeholder="0"/>
-          <span style="margin-left: 5px;">{{localize "CARDIGAN.Meters"}}</span>
-        </div>
-      </div>
-
-      <div class="form-group backpack-space-bonus">
-        <label style="display: flex; align-items: center; gap: 5px;">
-          <input type="checkbox" name="system.bonusEspacoMochila.enabled" {{checked item.system.bonusEspacoMochila.enabled}} data-conditional-trigger="backpack"/>
-          {{localize "CARDIGAN.BackpackSpaceBonus"}}
-        </label>
-        <div class="backpack-value" style="{{#unless item.system.bonusEspacoMochila.enabled}}display: none;{{/unless}} margin-top: 5px;">
-          <input type="number" name="system.bonusEspacoMochila.bonus" value="{{item.system.bonusEspacoMochila.bonus}}" style="width: 80px;" placeholder="0" min="0"/>
-          <span style="margin-left: 5px;">{{localize "CARDIGAN.Slots"}}</span>
         </div>
       </div>
     </fieldset>
