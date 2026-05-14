@@ -96,27 +96,61 @@ Template para itens do tipo armadura com aba Detail
             </div>
           </div>
         </div>
+
+        <div class="armor-extra-properties armor-special-properties-row">
+          <div class="armor-extra-property armor-magical-artifact-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-paranormal-artifact.svg" alt="{{localize 'CARDIGAN.MagicalArtifact'}}" data-armor-checkbox-toggle="system.magicalArtifact" data-tooltip="Artefato Mágico" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-cold-resistance-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weather.svg" alt="{{localize 'CARDIGAN.ColdResistance'}}" data-armor-checkbox-toggle="system.resistenciaFrio" data-tooltip="Resistência ao Frio" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-stylish-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-stylish.svg" alt="{{localize 'CARDIGAN.Stylish'}}" data-armor-checkbox-toggle="system.stylish" data-tooltip="Estiloso" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-single-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-single-equipped.svg" alt="{{localize 'CARDIGAN.Single'}}" data-armor-checkbox-toggle="system.single" data-tooltip="Único" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-weight-heavy-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-armor-checkbox-toggle="system.weight" data-armor-toggle-on-value="pesado" data-armor-toggle-off-value="leve" data-tooltip="Pesado" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="armor-extra-properties armor-life-energy-properties">
+          <div class="armor-extra-property armor-life-bonus-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-health.svg" alt="{{localize 'CARDIGAN.Life'}}" data-armor-extra-toggle="lifeBonus" data-tooltip="Vida" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
+              <div class="life-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="lifeBonus">
+                <input type="number" name="system.bonusVida" value="{{item.system.bonusVida}}" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-energy-bonus-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-energy.svg" alt="{{localize 'CARDIGAN.Energy'}}" data-armor-extra-toggle="energyBonus" data-tooltip="Energia" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
+              <div class="energy-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="energyBonus">
+                <input type="number" name="system.bonusEnergia" value="{{item.system.bonusEnergia}}" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="armor-description"><div class="armor-grid-title"><span>DESCRIÇÃO</span><img class="armor-grid-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="border"/></div></div>
     </div>
-
-    {{!-- Basic Information --}}
-    <fieldset class="armor-section">
-      <legend>{{localize "CARDIGAN.ArmorBasicInfo"}}</legend>
-      
-      
-
-      <div class="form-group" style="display: flex; gap: 15px;">
-        <div style="flex: 1;">
-          <label for="system.weight">{{localize "CARDIGAN.Weight"}}</label>
-          <select name="system.weight">
-            <option value="leve" {{selected item.system.weight "leve"}}>{{localize "CARDIGAN.Light"}}</option>
-            <option value="pesado" {{selected item.system.weight "pesado"}}>{{localize "CARDIGAN.Heavy"}}</option>
-          </select>
-        </div>
-      </div>
-      
-    </fieldset>
 
     {{!-- Skill Bonuses Section --}}
     <fieldset class="armor-section">
@@ -150,46 +184,4 @@ Template para itens do tipo armadura com aba Detail
       </div>
     </fieldset>
 
-    {{!-- Special Properties --}}
-    <fieldset class="armor-section">
-      <legend>{{localize "CARDIGAN.SpecialProperties"}}</legend>
-      
-      <div class="form-group">
-        <label for="system.magicalArtifact">{{localize "CARDIGAN.MagicalArtifact"}}</label>
-        <input type="checkbox" name="system.magicalArtifact" {{checked item.system.magicalArtifact}}/>
-      </div>
-
-      <div class="form-group">
-        <label for="system.resistenciaFrio">{{localize "CARDIGAN.ColdResistance"}}</label>
-        <input type="checkbox" name="system.resistenciaFrio" {{checked item.system.resistenciaFrio}}/>
-      </div>
-
-      <div class="form-group">
-        <label for="system.stylish">{{localize "CARDIGAN.Stylish"}}</label>
-        <input type="checkbox" name="system.stylish" {{checked item.system.stylish}}/>
-      </div>
-
-      <div class="form-group">
-        <label for="system.single">{{localize "CARDIGAN.Single"}}</label>
-        <input type="checkbox" name="system.single" {{checked item.system.single}}/>
-      </div>
-    </fieldset>
-
-    {{!-- Attribute Bonuses Section --}}
-    <fieldset class="armor-section">
-      <legend>{{localize "CARDIGAN.AttributeBonuses"}}</legend>
-      
-      <div class="form-group">
-        <div style="display: flex; gap: 15px; align-items: center;">
-          <div style="display: flex; align-items: center; gap: 5px;">
-            <label>{{localize "CARDIGAN.Life"}}:</label>
-            <input type="number" name="system.bonusVida" value="{{item.system.bonusVida}}" style="width: 80px;" placeholder="0"/>
-          </div>
-          <div style="display: flex; align-items: center; gap: 5px;">
-            <label>{{localize "CARDIGAN.Energy"}}:</label>
-            <input type="number" name="system.bonusEnergia" value="{{item.system.bonusEnergia}}" style="width: 80px;" placeholder="0"/>
-          </div>
-        </div>
-      </div>
-    </fieldset>
   </div>

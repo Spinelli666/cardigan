@@ -2394,6 +2394,65 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Setup click/keyboard toggles where armor icons control checkbox fields
+   * @private
+   */
+  _setupArmorIconCheckboxToggles() {
+    if (this.item.type !== 'armadura') return;
+
+    const root = this.element;
+    if (!root) return;
+
+    const toggleIcons = root.querySelectorAll('[data-armor-checkbox-toggle]');
+    if (!toggleIcons.length) return;
+
+    const syncIconState = (icon, isChecked) => {
+      icon.classList.toggle('is-active', isChecked);
+      icon.setAttribute('aria-pressed', String(isChecked));
+      icon.closest('.armor-extra-content')?.classList.toggle('is-active', isChecked);
+    };
+
+    toggleIcons.forEach((icon) => {
+      const checkboxPath = icon.dataset.armorCheckboxToggle;
+      if (!checkboxPath) return;
+
+      const hasExplicitValues =
+        Object.prototype.hasOwnProperty.call(icon.dataset, 'armorToggleOnValue') ||
+        Object.prototype.hasOwnProperty.call(icon.dataset, 'armorToggleOffValue');
+
+      const onValue = icon.dataset.armorToggleOnValue ?? true;
+      const offValue = icon.dataset.armorToggleOffValue ?? false;
+
+      const getCurrentValue = () => foundry.utils.getProperty(this.item, checkboxPath);
+
+      const isChecked = () => {
+        const current = getCurrentValue();
+        if (hasExplicitValues) return String(current) === String(onValue);
+        return Boolean(current);
+      };
+
+      const toggleCheckbox = async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const nextChecked = !isChecked();
+        const nextValue = hasExplicitValues ? (nextChecked ? onValue : offValue) : nextChecked;
+        syncIconState(icon, nextChecked);
+        await this.item.update({ [checkboxPath]: nextValue });
+      };
+
+      icon.addEventListener('click', toggleCheckbox);
+      icon.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          toggleCheckbox(event);
+        }
+      });
+
+      syncIconState(icon, isChecked());
+    });
+  }
+
+  /**
    * Setup status ailments toggle visibility for consumable items
    * @private
    */
@@ -3538,6 +3597,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     // Setup icon toggles for armor extra property panels
     this._setupArmorExtraIconToggles();
+
+    // Setup icon toggles for armor checkbox properties
+    this._setupArmorIconCheckboxToggles();
     
     // Setup status ailments toggle visibility for consumable items
     this._setupStatusAilmentsToggle();

@@ -321,6 +321,17 @@
           }
         }
 
+        &.armor-special-properties-row {
+          .armor-extra-content {
+            opacity: 0.45;
+            transition: opacity 0.2s ease;
+
+            &.is-active {
+              opacity: 1;
+            }
+          }
+        }
+
         .armor-extra-content > input[type='number'],
         .armor-protection-input-wrapper > input[type='number'],
         .armor-price-input-wrapper > input[type='number'],

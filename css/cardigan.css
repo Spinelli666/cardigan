@@ -1337,6 +1337,13 @@
   border: none;
   box-shadow: none;
 }
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties.armor-special-properties-row .armor-extra-content {
+  opacity: 0.45;
+  transition: opacity 0.2s ease;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties.armor-special-properties-row .armor-extra-content.is-active {
+  opacity: 1;
+}
 .application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-extra-content > input[type=number],
 .application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-protection-input-wrapper > input[type=number],
 .application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-price-input-wrapper > input[type=number],
