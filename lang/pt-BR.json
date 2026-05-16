@@ -282,6 +282,7 @@
       "LostUsage": "{name} lost {value} uses.",
       "Tabs": {
         "Description": "Descrição",
+        "Properties": "Propriedades",
         "Attributes": "Detalhes",
         "Details": "Detalhes",
         "Effects": "Effects",

@@ -111,16 +111,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
   /** @override */
   static PARTS = {
-    header: {
-      template: 'systems/cardigan/templates/item/header.hbs',
-    },
-    tabs: {
-      // Foundry-provided generic template
-      template: 'templates/generic/tab-navigation.hbs',
-    },
-    description: {
-      template: 'systems/cardigan/templates/item/description.hbs',
-    },
+    header: { template: 'systems/cardigan/templates/item/header.hbs' },
+    tabs: { template: 'templates/generic/tab-navigation.hbs' },
+    description: { template: 'systems/cardigan/templates/item/description.hbs' },
     attributesItemComum: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-comum.hbs',
     },
@@ -171,7 +164,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Not all parts always render
     options.parts = ['header', 'tabs', 'description'];
     if (this.document.type === 'armadura') {
-      options.parts = ['header', 'attributesArmadura'];
+      options.parts = ['header', 'tabs', 'attributesArmadura', 'description'];
       options.position = {
         ...options.position,
         width: 450.444,
@@ -255,9 +248,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'attributesEfeito':
       case 'attributesArma':
       case 'attributesArmadura':
+      case 'attributesSkill':
       case 'attributesItemRecipe':
       case 'attributesItemIngredient':
-      case 'attributesSkill':
       case 'attributesRace':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
@@ -565,13 +558,16 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesItemConsumivel':
         case 'attributesEfeito':
         case 'attributesArma':
-        case 'attributesArmadura':
         case 'attributesSkill':
         case 'attributesItemRecipe':
         case 'attributesItemIngredient':
         case 'attributesRace':
           tab.id = 'attributes';
           tab.label += 'Details';
+          break;
+        case 'attributesArmadura':
+          tab.id = 'attributes';
+          tab.label += 'Properties';
           break;
         case 'enhancementsSkill':
           tab.id = 'enhancements';
