@@ -1,3 +1,8 @@
-2026/05/17-10:24:05.806 2c3c Recovering log #1093
-2026/05/17-10:24:05.939 2c3c Delete type=0 #1093
-2026/05/17-10:24:05.940 2c3c Delete type=3 #1092
+2026/05/17-15:28:16.073 5850 Recovering log #1095
+2026/05/17-15:28:16.188 5850 Delete type=0 #1095
+2026/05/17-15:28:16.188 5850 Delete type=3 #1094
+2026/05/17-16:27:09.428 5bbc Level-0 table #1099: started
+2026/05/17-16:27:09.428 5bbc Level-0 table #1099: 0 bytes OK
+2026/05/17-16:27:09.442 5bbc Delete type=0 #1097
+2026/05/17-16:27:09.478 5bbc Manual compaction at level-0 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items!xY2yZ3zA4bB5cC6D' @ 0 : 0; will stop at (end)
+2026/05/17-16:27:09.478 5bbc Manual compaction at level-1 from '!folders!FszDz3GuPvOHfi8w' @ 72057594037927935 : 1 .. '!items!xY2yZ3zA4bB5cC6D' @ 0 : 0; will stop at (end)

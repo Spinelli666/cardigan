@@ -42,7 +42,6 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
 
     return {
       ...super.defineSchema(),
-      weaponType: new fields.StringField({ required: false, blank: true, initial: "" }),
       melee: new fields.BooleanField({ required: true, initial: false }),
       ranged: new fields.BooleanField({ required: true, initial: false }),
       isFirearm: new fields.BooleanField({ required: true, initial: false }),
@@ -197,13 +196,12 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
     }
   }
 
-  /** Create melee weapon (STR bonus) - options: {weight, properties, price, weaponType} */
+  /** Create melee weapon (STR bonus) - options: {weight, properties, price} */
   static createMeleeWeapon(name, damage, options = {}) {
     return {
       name,
       type: 'arma',
       system: {
-        weaponType: options.weaponType || '',
         melee: true,
         ranged: false,
         isFirearm: false,
@@ -236,13 +234,12 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
     };
   }
 
-  /** Create ranged weapon (DEX bonus) - options: {weight, properties, price, weaponType} */
+  /** Create ranged weapon (DEX bonus) - options: {weight, properties, price} */
   static createRangedWeapon(name, damage, magazine, options = {}) {
     return {
       name,
       type: 'arma',
       system: {
-        weaponType: options.weaponType || '',
         melee: false,
         ranged: true,
         isFirearm: false,
@@ -275,13 +272,12 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
     };
   }
 
-  /** Create firearm (DEX bonus, isFirearm=true) - options: {weight, properties, price, weaponType} */
+  /** Create firearm (DEX bonus, isFirearm=true) - options: {weight, properties, price} */
   static createFirearm(name, damage, magazine, options = {}) {
     return {
       name,
       type: 'arma',
       system: {
-        weaponType: options.weaponType || '',
         melee: false,
         ranged: true,
         isFirearm: true,

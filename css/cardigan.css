@@ -1741,23 +1741,23 @@
   background: rgba(244, 67, 54, 0.32);
 }
 
-.cardigan.item .tab[data-tab=attributes] .armor-details-form {
+.application.sheet.cardigan.item.item-type-armadura .tab[data-tab=attributes] .armor-details-form {
   display: flex;
   flex-direction: column;
   gap: 14px;
   padding: 6px 2px 10px;
 }
-.cardigan.item .tab[data-tab=attributes] .armor-inline-grid {
+.application.sheet.cardigan.item.item-type-armadura .tab[data-tab=attributes] .armor-inline-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 @media (max-width: 900px) {
-  .cardigan.item .tab[data-tab=attributes] .armor-inline-grid {
+  .application.sheet.cardigan.item.item-type-armadura .tab[data-tab=attributes] .armor-inline-grid {
     grid-template-columns: 1fr;
   }
 }
-.cardigan.item .tab[data-tab=attributes] .durability-container {
+.application.sheet.cardigan.item.item-type-armadura .tab[data-tab=attributes] .durability-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1771,7 +1771,7 @@
   display: flex;
   justify-content: center;
 }
-.cardigan.item .tab[data-tab=attributes] .durability-container input {
+.application.sheet.cardigan.item.item-type-armadura .tab[data-tab=attributes] .durability-container input {
   background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -1786,7 +1786,7 @@
   text-align: center;
   width: 35px;
 }
-.cardigan.item .tab[data-tab=attributes] .durability-container input:focus {
+.application.sheet.cardigan.item.item-type-armadura .tab[data-tab=attributes] .durability-container input:focus {
   outline: none !important;
   border: none;
   box-shadow: none;
@@ -1796,21 +1796,21 @@
   -webkit-text-fill-color: transparent;
   text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
 }
-.cardigan.item .tab[data-tab=attributes] .durability-container input:focus-visible {
+.application.sheet.cardigan.item.item-type-armadura .tab[data-tab=attributes] .durability-container input:focus-visible {
   outline: none !important;
   border: none;
   box-shadow: none;
 }
-.cardigan.item .tab[data-tab=attributes] .durability-container span {
+.application.sheet.cardigan.item.item-type-armadura .tab[data-tab=attributes] .durability-container span {
   color: var(--cardigan-c-beige, #f4f1e8);
   font-weight: bold;
   line-height: 1;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
 }
-.cardigan.item .tab[data-tab=attributes] .movement-bonus .movement-value,
-.cardigan.item .tab[data-tab=attributes] .movement-bonus .backpack-value,
-.cardigan.item .tab[data-tab=attributes] .backpack-space-bonus .movement-value,
-.cardigan.item .tab[data-tab=attributes] .backpack-space-bonus .backpack-value {
+.application.sheet.cardigan.item.item-type-armadura .tab[data-tab=attributes] .movement-bonus .movement-value,
+.application.sheet.cardigan.item.item-type-armadura .tab[data-tab=attributes] .movement-bonus .backpack-value,
+.application.sheet.cardigan.item.item-type-armadura .tab[data-tab=attributes] .backpack-space-bonus .movement-value,
+.application.sheet.cardigan.item.item-type-armadura .tab[data-tab=attributes] .backpack-space-bonus .backpack-value {
   display: flex;
   align-items: center;
   gap: 6px;

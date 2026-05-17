@@ -1,3 +1,8 @@
-2026/05/17-10:24:06.162 40e8 Recovering log #2052
-2026/05/17-10:24:06.344 40e8 Delete type=0 #2052
-2026/05/17-10:24:06.344 40e8 Delete type=3 #2051
+2026/05/17-15:28:16.234 548c Recovering log #2054
+2026/05/17-15:28:16.272 548c Delete type=0 #2054
+2026/05/17-15:28:16.272 548c Delete type=3 #2053
+2026/05/17-16:27:09.407 5bbc Level-0 table #2058: started
+2026/05/17-16:27:09.407 5bbc Level-0 table #2058: 0 bytes OK
+2026/05/17-16:27:09.427 5bbc Delete type=0 #2056
+2026/05/17-16:27:09.478 5bbc Manual compaction at level-0 from '!items!D6eF9gG2hI5iJ8kL' @ 72057594037927935 : 1 .. '!items!V9wX2yY5zZ8aA1bB' @ 0 : 0; will stop at (end)
+2026/05/17-16:27:09.478 5bbc Manual compaction at level-1 from '!items!D6eF9gG2hI5iJ8kL' @ 72057594037927935 : 1 .. '!items!V9wX2yY5zZ8aA1bB' @ 0 : 0; will stop at (end)
