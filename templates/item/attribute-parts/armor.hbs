@@ -7,7 +7,7 @@ Template para itens do tipo armadura com aba Detail
     {{!-- Top grid: properties (left) and description (right) --}}
     <div class="armor-top-grid">
       <div class="armor-properties">
-        <div class="armor-grid-title"><span>PROPRIEDADES</span><img class="armor-grid-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="border"/></div>
+        
         <div class="armor-properties-content">
           {{!-- Grid of armor type selection buttons (3x2 layout) --}}
           <div class="armor-type-selector-grid">
@@ -38,8 +38,8 @@ Template para itens do tipo armadura com aba Detail
         <div class="armor-extra-properties">
           <div class="armor-extra-property armor-protection-property">
             <div class="armor-extra-content">
-              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-armor.svg" alt="{{localize 'CARDIGAN.ArmorProtection'}}" data-armor-extra-toggle="protection" data-tooltip="Proteção" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
-              <div class="armor-protection-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="protection">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-armor.svg" alt="{{localize 'CARDIGAN.ArmorProtection'}}" data-tooltip="Proteção" data-tooltip-class='cardigan-tooltip' />
+              <div class="armor-protection-input-wrapper armor-extra-panel" data-armor-extra-panel="protection">
                 <input type="number" name="system.protecao" value="{{item.system.protecao}}" min="0" placeholder="0"/>
               </div>
             </div>
@@ -47,8 +47,8 @@ Template para itens do tipo armadura com aba Detail
 
           <div class="armor-extra-property armor-durability-property">
             <div class="armor-extra-content">
-              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-durability.svg" alt="{{localize 'CARDIGAN.Durability'}}" data-armor-extra-toggle="durability" data-tooltip="Durabilidade" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
-              <div class="durability-container armor-extra-panel is-collapsed" data-armor-extra-panel="durability" style="display: flex; align-items: center; gap: 5px;">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-durability.svg" alt="{{localize 'CARDIGAN.Durability'}}" data-tooltip="Durabilidade" data-tooltip-class='cardigan-tooltip' />
+              <div class="durability-container armor-extra-panel" data-armor-extra-panel="durability" style="display: flex; align-items: center; gap: 5px;">
                 <input type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}" style="width: 60px;"/>
                 <img src="systems/cardigan/assets/images/decorative/field-divider.svg" alt="/" class="durability-divider"/>
                 <input type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1" style="width: 60px;"/>
@@ -57,65 +57,69 @@ Template para itens do tipo armadura com aba Detail
           </div>
         </div>
 
-        <div class="armor-extra-properties armor-economy-properties">
-          <div class="armor-extra-property armor-price-property">
+        <div class="armor-extra-properties armor-life-energy-properties">
+          <div class="armor-extra-property armor-life-bonus-property">
             <div class="armor-extra-content">
-              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-coins.svg" alt="{{localize 'CARDIGAN.Price'}}" data-armor-extra-toggle="price" data-tooltip="Preço" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
-              <div class="armor-price-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="price">
-                <input type="number" name="system.price" value="{{item.system.price}}" min="0" placeholder="0"/>
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-health.svg" alt="{{localize 'CARDIGAN.Life'}}" data-tooltip="Vida" data-tooltip-class='cardigan-tooltip' />
+              <div class="life-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="lifeBonus">
+                <input type="number" name="system.bonusVida" value="{{item.system.bonusVida}}" placeholder="0"/>
               </div>
             </div>
           </div>
 
-          <div class="armor-extra-property armor-quantity-property">
+          <div class="armor-extra-property armor-energy-bonus-property">
             <div class="armor-extra-content">
-              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-negotiation.svg" alt="{{localize 'CARDIGAN.Common.Quantity'}}" data-armor-extra-toggle="quantity" data-tooltip="Quantidade" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
-              <div class="armor-quantity-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="quantity">
-                <input type="number" name="system.quantity" value="{{item.system.quantity}}" min="1" data-dtype="Number" placeholder="1"/>
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-energy.svg" alt="{{localize 'CARDIGAN.Energy'}}" data-tooltip="Energia" data-tooltip-class='cardigan-tooltip' />
+              <div class="energy-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="energyBonus">
+                <input type="number" name="system.bonusEnergia" value="{{item.system.bonusEnergia}}" placeholder="0"/>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="armor-extra-properties armor-movement-backpack-properties">
+        <div class="armor-extra-properties armor-economy-properties">
           <div class="armor-extra-property movement-bonus">
             <div class="armor-extra-content">
-              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-movement.svg" alt="{{localize 'CARDIGAN.MovementBonus'}}" data-armor-extra-toggle="movement" data-tooltip="Bônus de Movimento" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
-              <div class="movement-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="movement">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-movement.svg" alt="{{localize 'CARDIGAN.MovementBonus'}}" data-tooltip="Bônus de Movimento" data-tooltip-class='cardigan-tooltip' />
+              <div class="movement-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="movement">
                 <input type="number" name="system.movementBonus" value="{{item.system.movementBonus}}" min="0" placeholder="0"/>
               </div>
             </div>
           </div>
 
+          <div class="armor-extra-property armor-cold-resistance-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weather.svg" alt="{{localize 'CARDIGAN.ColdResistance'}}" data-tooltip="Resistência ao Frio" data-tooltip-class='cardigan-tooltip' />
+              <div class="cold-resistance-input-wrapper armor-extra-panel" data-armor-extra-panel="coldResistance">
+                <input type="number" name="system.coldResistance" value="{{item.system.coldResistance}}" min="0" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
+          <input type="hidden" name="system.quantity" value="{{item.system.quantity}}" data-dtype="Number"/>
+        </div>
+
+        <div class="armor-extra-properties armor-movement-backpack-properties">
           <div class="armor-extra-property backpack-space-bonus">
             <div class="armor-extra-content">
-              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-backpack.svg" alt="{{localize 'CARDIGAN.BackpackSpace'}}" data-armor-extra-toggle="backpack" data-tooltip="Espaço na Mochila" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
-              <div class="backpack-space-input-wrapper armor-quantity-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="backpack">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-backpack.svg" alt="{{localize 'CARDIGAN.BackpackSpace'}}" data-tooltip="Espaço na Mochila" data-tooltip-class='cardigan-tooltip' />
+              <div class="backpack-space-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="backpack">
                 <input type="number" name="system.backpackSpace" value="{{item.system.backpackSpace}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-price-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-coins.svg" alt="{{localize 'CARDIGAN.Price'}}" data-tooltip="Preço" data-tooltip-class='cardigan-tooltip' />
+              <div class="armor-price-input-wrapper armor-extra-panel" data-armor-extra-panel="price">
+                <input type="number" name="system.price" value="{{item.system.price}}" min="0" placeholder="0"/>
               </div>
             </div>
           </div>
         </div>
 
         <div class="armor-extra-properties armor-special-properties-row">
-          <div class="armor-extra-property armor-magical-artifact-property">
-            <div class="armor-extra-content">
-              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-paranormal-artifact.svg" alt="{{localize 'CARDIGAN.MagicalArtifact'}}" data-armor-checkbox-toggle="system.magicalArtifact" data-tooltip="Artefato Mágico" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
-            </div>
-          </div>
-
-          <div class="armor-extra-property armor-cold-resistance-property">
-            <div class="armor-extra-content">
-              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weather.svg" alt="{{localize 'CARDIGAN.ColdResistance'}}" data-armor-checkbox-toggle="system.resistenciaFrio" data-tooltip="Resistência ao Frio" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
-            </div>
-          </div>
-
-          <div class="armor-extra-property armor-stylish-property">
-            <div class="armor-extra-content">
-              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-stylish.svg" alt="{{localize 'CARDIGAN.Stylish'}}" data-armor-checkbox-toggle="system.stylish" data-tooltip="Estiloso" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
-            </div>
-          </div>
-
           <div class="armor-extra-property armor-single-property">
             <div class="armor-extra-content">
               <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-single-equipped.svg" alt="{{localize 'CARDIGAN.Single'}}" data-armor-checkbox-toggle="system.single" data-tooltip="Único" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
@@ -127,61 +131,46 @@ Template para itens do tipo armadura com aba Detail
               <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-armor-checkbox-toggle="system.weight" data-armor-toggle-on-value="pesado" data-armor-toggle-off-value="leve" data-tooltip="Pesado" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
             </div>
           </div>
-        </div>
 
-        <div class="armor-extra-properties armor-life-energy-properties">
-          <div class="armor-extra-property armor-life-bonus-property">
+          <div class="armor-extra-property armor-stylish-property">
             <div class="armor-extra-content">
-              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-health.svg" alt="{{localize 'CARDIGAN.Life'}}" data-armor-extra-toggle="lifeBonus" data-tooltip="Vida" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
-              <div class="life-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="lifeBonus">
-                <input type="number" name="system.bonusVida" value="{{item.system.bonusVida}}" placeholder="0"/>
-              </div>
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-stylish.svg" alt="{{localize 'CARDIGAN.Stylish'}}" data-armor-checkbox-toggle="system.stylish" data-tooltip="Estiloso" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
             </div>
           </div>
 
-          <div class="armor-extra-property armor-energy-bonus-property">
+          <div class="armor-extra-property armor-magical-artifact-property">
             <div class="armor-extra-content">
-              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-energy.svg" alt="{{localize 'CARDIGAN.Energy'}}" data-armor-extra-toggle="energyBonus" data-tooltip="Energia" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-expanded="false"/>
-              <div class="energy-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel is-collapsed" data-armor-extra-panel="energyBonus">
-                <input type="number" name="system.bonusEnergia" value="{{item.system.bonusEnergia}}" placeholder="0"/>
-              </div>
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-paranormal-artifact.svg" alt="{{localize 'CARDIGAN.MagicalArtifact'}}" data-armor-checkbox-toggle="system.magicalArtifact" data-tooltip="Artefato Mágico" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
             </div>
           </div>
         </div>
+
       </div>
-      <div class="armor-description"><div class="armor-grid-title"><span>DESCRIÇÃO</span><img class="armor-grid-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="border"/></div></div>
+
+      <div class="armor-skill-bonuses">
+        <table class="armor-skill-bonuses-table">
+          <tbody>
+            {{#each armorSkillBonusRows as |row|}}
+              <tr class="armor-skill-bonus-row">
+                <th scope="row">{{row.label}}</th>
+                <td>
+                  <input type="hidden" name="system.skillBonuses.{{row.index}}.skill" value="{{row.key}}" />
+                  <div class="armor-skill-bonus-input-wrapper {{#if (eq row.index 0)}}armor-skill-bonus-input-wrapper--accuracy{{/if}}">
+                    <input
+                      type="number"
+                      name="system.skillBonuses.{{row.index}}.bonus"
+                      value="{{row.value}}"
+                      data-dtype="Number"
+                      placeholder="0"
+                    />
+                  </div>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+
     </div>
-
-    {{!-- Skill Bonuses Section --}}
-    <fieldset class="armor-section">
-      <legend>{{localize "CARDIGAN.SkillBonuses"}}</legend>
-      
-      <div class="form-group skill-bonuses">
-        <div class="skill-bonuses-header">
-          <button type="button" class="add-skill-bonus-btn" data-action="addSkillBonus" title="{{localize 'CARDIGAN.AddSkillBonus'}}">+</button>
-        </div>
-        
-        <div class="skill-bonuses-list" data-skill-bonuses-container>
-          {{#each item.system.skillBonuses as |skillBonus index|}}
-            <div class="skill-bonus-row" data-skill-bonus-index="{{index}}">
-              <select name="system.skillBonuses.{{index}}.skill" data-skill-select style="flex: 1;">
-                <option value="">{{localize "CARDIGAN.SelectSkill"}}</option>
-                <option value="accuracy" {{selected skillBonus.skill "accuracy"}}>Accuracy</option>
-                <option value="evasion" {{selected skillBonus.skill "evasion"}}>Evasion</option>
-                <option value="strength" {{selected skillBonus.skill "strength"}}>Strength</option>
-                <option value="dexterity" {{selected skillBonus.skill "dexterity"}}>Dexterity</option>
-                <option value="stamina" {{selected skillBonus.skill "stamina"}}>Stamina</option>
-                <option value="stealth" {{selected skillBonus.skill "stealth"}}>Stealth</option>
-                <option value="persuasion" {{selected skillBonus.skill "persuasion"}}>Persuasion</option>
-                <option value="intelligence" {{selected skillBonus.skill "intelligence"}}>Intelligence</option>
-                <option value="psionics" {{selected skillBonus.skill "psionics"}}>Psionics</option>
-              </select>
-              <input type="number" name="system.skillBonuses.{{index}}.bonus" value="{{skillBonus.bonus}}" style="width: 60px; margin-left: 5px;" placeholder="±0"/>
-              <button type="button" class="remove-skill-bonus-btn" data-action="removeSkillBonus" data-index="{{index}}" title="{{localize 'CARDIGAN.RemoveSkillBonus'}}">−</button>
-            </div>
-          {{/each}}
-        </div>
-      </div>
-    </fieldset>
 
 </section>

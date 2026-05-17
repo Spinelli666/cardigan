@@ -68,6 +68,13 @@ export default class ArmorData extends BaseItemData {
       
       magicalArtifact: new BooleanField({initial: false}),
       resistenciaFrio: new BooleanField({initial: false}),
+      coldResistance: new NumberField({
+        required: true,
+        nullable: false,
+        integer: true,
+        initial: 0,
+        min: 0
+      }),
       stylish: new BooleanField({initial: false}),
       single: new BooleanField({initial: false}),
       
@@ -213,6 +220,10 @@ export default class ArmorData extends BaseItemData {
     
     if (this.artefatoMagico !== undefined && this.magicalArtifact === undefined) {
       this.magicalArtifact = this.artefatoMagico;
+    }
+
+    if (this.resistenciaFrio !== undefined && this.coldResistance === undefined) {
+      this.coldResistance = this.resistenciaFrio ? 1 : 0;
     }
   }
 }

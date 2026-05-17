@@ -341,7 +341,7 @@
                 </div>
               {{/if}}
 
-              {{#if item.system.resistenciaFrio}}
+              {{#if (gte item.system.coldResistance 1)}}
                 <div class='weather info-badge'>
                   <img
                     src='systems/cardigan/assets/images/decorative/icons/icon-weather.svg'
@@ -350,6 +350,9 @@
                     width='20'
                     height='20'
                   />
+                  <div class='bonus-display'>
+                    <span class='bonus-value'>+{{item.system.coldResistance}}</span>
+                  </div>
                 </div>
               {{/if}}
 

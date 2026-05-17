@@ -242,12 +242,47 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   /** @override */
   async _preparePartContext(partId, context) {
     switch (partId) {
+      case 'attributesArmadura': {
+        // Necessary for preserving active tab on re-render
+        context.tab = context.tabs[partId];
+
+        const skillOrder = [
+          { key: 'accuracy', label: 'PRECISÃO' },
+          { key: 'evasion', label: 'EVASÃO' },
+          { key: 'strength', label: 'FORÇA' },
+          { key: 'dexterity', label: 'DESTREZA' },
+          { key: 'stamina', label: 'VIGOR' },
+          { key: 'stealth', label: 'FURTIVIDADE' },
+          { key: 'persuasion', label: 'PERSUASÃO' },
+          { key: 'intelligence', label: 'INTELIGÊNCIA' },
+          { key: 'psionics', label: 'PSIONISMO' }
+        ];
+
+        const existingBonuses = Array.isArray(this.item.system.skillBonuses)
+          ? this.item.system.skillBonuses
+          : [];
+
+        const bonusBySkill = existingBonuses.reduce((acc, entry) => {
+          if (!entry || typeof entry.skill !== 'string') return acc;
+          const key = entry.skill.trim();
+          if (!key) return acc;
+          const numericBonus = Number(entry.bonus ?? 0);
+          acc[key] = Number.isFinite(numericBonus) ? numericBonus : 0;
+          return acc;
+        }, {});
+
+        context.armorSkillBonusRows = skillOrder.map((row, index) => ({
+          ...row,
+          index,
+          value: bonusBySkill[row.key] ?? 0,
+        }));
+        break;
+      }
       case 'attributesItemComum':
       case 'attributesItemMunicao':
       case 'attributesItemConsumivel':
       case 'attributesEfeito':
       case 'attributesArma':
-      case 'attributesArmadura':
       case 'attributesSkill':
       case 'attributesItemRecipe':
       case 'attributesItemIngredient':
@@ -533,7 +568,13 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // If you have sub-tabs this is necessary to change
     const tabGroup = 'primary';
     // Default tab for first time it's rendered this session
-    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'description';
+    if (!this.tabGroups[tabGroup]) {
+      if (this.document.type === 'armadura') {
+        this.tabGroups[tabGroup] = 'attributes';
+      } else {
+        this.tabGroups[tabGroup] = 'description';
+      }
+    }
     return parts.reduce((tabs, partId) => {
       const tab = {
         cssClass: '',
@@ -1116,7 +1157,12 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const newSkillBonuses = [...filteredSkillBonuses, { skill: 'accuracy', bonus: 0 }];
     
     // Use direct update instead of form submit to avoid full document validation
-    return item.update({ 'system.skillBonuses': newSkillBonuses });
+    const updateResult = await item.update({ 'system.skillBonuses': newSkillBonuses });
+    // Se o item pertence a um ator, dispara update() no ator para garantir recálculo igual arma
+    if (item.parent && typeof item.parent.update === 'function') {
+      await item.parent.update({});
+    }
+    return updateResult;
   }
 
   /**

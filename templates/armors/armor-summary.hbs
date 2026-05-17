@@ -75,9 +75,9 @@
         {{/if}}
         
         {{!-- Cold Resistance with Description --}}
-        {{#if system.resistenciaFrio}}
+        {{#if (gte system.coldResistance 1)}}
         <div class="property-detail-line">
-          ◆ ☀️Resistência ao Frio ‣ Bônus para testes de resistência à climas de extremo frio.
+          ◆ ☀️Resistência ao Frio ‣ Você recebeu +{{system.coldResistance}} de Resistência ao Frio.
         </div>
         {{/if}}
         
