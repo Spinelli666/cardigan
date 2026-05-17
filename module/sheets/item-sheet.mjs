@@ -190,7 +190,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         options.parts.push('attributesEfeito');
         break;
       case 'arma':
-        options.parts.push('attributesArma');
+        // Weapon: PROPRIEDADES tab first, then DESCRIÇÃO
+        options.parts = ['header', 'tabs', 'attributesArma', 'description'];
         break;
       case 'armadura':
         options.parts.push('attributesArmadura');
@@ -514,13 +515,16 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesItemMunicao':
         case 'attributesItemConsumivel':
         case 'attributesEfeito':
-        case 'attributesArma':
         case 'attributesSkill':
         case 'attributesItemRecipe':
         case 'attributesItemIngredient':
         case 'attributesRace':
           tab.id = 'attributes';
           tab.label += 'Details';
+          break;
+        case 'attributesArma':
+          tab.id = 'attributes';
+          tab.label = 'Propriedades';
           break;
         case 'enhancementsSkill':
           tab.id = 'enhancements';
@@ -3189,6 +3193,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     // Mirror the type-specific root-class pattern used by other systems.
     this.element?.classList.toggle('item-type-armadura', this.item?.type === 'armadura');
+    this.element?.classList.toggle('item-type-arma', this.item?.type === 'arma');
 
     // Remove specific header controls for armor items only.
     // Run immediately and on next frame in case controls are attached after initial render.

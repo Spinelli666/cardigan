@@ -17,10 +17,14 @@
 @import 'global/chat';
 @import 'global/token-hud';
 
+
 /* Chat message components - outside .cardigan scope */
 @import 'components/chat/effect-message';
 @import 'components/chat/action-buttons';
 @import 'components/chat-rolls';
+
+/* Weapon form styles */
+@import 'components/weapon-form';
 
 
 /* ProseMirror - Comportamento padrão do Foundry VTT */

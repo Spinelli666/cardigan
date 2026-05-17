@@ -10,7 +10,8 @@ export class ArmorSheetBehavior {
    * @returns {string}
    */
   static resolveDefaultPrimaryTab(sheet) {
-    return sheet.document?.type === 'armadura' ? 'attributes' : 'description';
+    const attributesFirstTypes = ['armadura', 'arma'];
+    return attributesFirstTypes.includes(sheet.document?.type) ? 'attributes' : 'description';
   }
 
   /**
@@ -107,7 +108,7 @@ export class ArmorSheetBehavior {
    * @param {CardiganSystemItemSheet} sheet - The item sheet instance
    */
   static applyHeaderCleanup(sheet) {
-    if (sheet.item?.type !== 'armadura') return;
+    if (!['armadura', 'arma'].includes(sheet.item?.type)) return;
 
     const header = sheet.element?.querySelector('.window-header');
     if (!header) return;

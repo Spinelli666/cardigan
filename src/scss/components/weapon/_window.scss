@@ -1,12 +1,18 @@
-.application.sheet.cardigan.item.item-type-armadura {
+$color-gold-light: #FFB75C;
+$color-gold-dark: #996E37;
+$color-gold-focus: #FFCA7C;
+$color-gold-dark-focus: #C98A45;
+$color-gradient-text: linear-gradient(180deg, $color-gold-light 36.54%, $color-gold-dark 100%);
+$color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color-gold-light 40%, $color-gold-dark-focus 100%);
 
-    min-width: 400.444px !important;
-    width: 400.444px !important;
+@mixin gradient-text($gradient: $color-gradient-text) {
+  background: $gradient;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-    background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
-    border: 4px solid #c0863b;
-    border-radius: 20px;
-    font-family: "Alatsi", sans-serif;
+.application.sheet.cardigan.item.item-type-arma {
 
   .window-header {
     background: initial !important;
@@ -121,73 +127,5 @@
         }
       }
     }
-  }
-
-  .armor-section {
-    border: 1px solid rgba(201, 199, 184, 0.28);
-    border-radius: 8px;
-    padding: 12px;
-    margin: 0 2px 14px;
-    background: linear-gradient(180deg, rgba(118, 212, 255, 0.06) 0%, rgba(9, 21, 29, 0.06) 100%);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-
-    legend {
-      padding: 0 8px;
-      color: var(--cardigan-c-beige, #f4f1e8);
-      font-weight: bold;
-      letter-spacing: 0.02em;
-    }
-  }
-
-  .attributesArmadura {
-    overflow-y: auto;
-    box-sizing: border-box;
-    padding: 8px 6px 12px;
-    max-height: calc(100% - 140px);
-    padding-right: 12px;
-  }
-
-  .armor-top-grid {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    align-items: start;
-    justify-content: center;
-
-    > .armor-properties {
-      flex: 1 1 0;
-      min-width: 0;
-      transform: translateX(-12px);
-    }
-
-    > .armor-skill-bonuses {
-      flex: 0 0 auto;
-      align-self: flex-start;
-    }
-  }
-
-  @media (max-width: 900px) {
-    .armor-top-grid {
-      flex-direction: column;
-      align-items: center;
-
-      > .armor-skill-bonuses {
-        width: min(100%, 340px);
-        transform: none;
-      }
-
-      > .armor-properties {
-        transform: none;
-      }
-    }
-  }
-
-  .armor-properties-content {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: center;
   }
 }
