@@ -58,8 +58,8 @@ $color-border-gold: rgba($color-gold-light, 0.2);
 // type-specific class, and the header is styled directly from that root.
 .application.sheet.cardigan.item.item-type-armadura {
 
-    min-width: 450.444px !important;
-    width: 450.444px !important;
+    min-width: 400.444px !important;
+    width: 400.444px !important;
 
     background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
     border: 4px solid #c0863b;
@@ -76,14 +76,23 @@ $color-border-gold: rgba($color-gold-light, 0.2);
       transform: rotate(45deg) scaleX(-1);
       height: 90px;
       bottom: -45px;
-      left: -3.5%;
+      left: -2.5%;
     }
 
     &::after {
       transform: rotate(-45deg);
       height: 90px;
       bottom: -45px;
-      right: -3.5%;
+      right: -2.5%;
+    }
+
+    .header-control.fa-xmark {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    &:hover .header-control.fa-xmark {
+      opacity: 1;
     }
   }
 
@@ -206,18 +215,40 @@ $color-border-gold: rgba($color-gold-light, 0.2);
 
   /* Top grid above attributes: properties (left) and description (right) */
   .armor-top-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: row;
     gap: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     margin-top: 10px;
     align-items: start;
+    justify-content: center;
+
+    > .armor-properties {
+      flex: 1 1 0;
+      min-width: 0;
+      transform: translateX(-12px);
+    }
+
+    > .armor-skill-bonuses {
+      flex: 0 0 auto;
+      align-self: flex-start;
+    }
   }
 
 
   @media (max-width: 900px) {
     .armor-top-grid {
-      grid-template-columns: 1fr;
+      flex-direction: column;
+      align-items: center;
+
+      > .armor-skill-bonuses {
+        width: min(100%, 340px);
+        transform: none;
+      }
+
+      > .armor-properties {
+        transform: none;
+      }
     }
   }
 
@@ -229,7 +260,7 @@ $color-border-gold: rgba($color-gold-light, 0.2);
   }
 
   .armor-extra-properties {
-    margin-top: 6px;
+    margin-top: 8.4px;
     display: flex;
     gap: 10px;
     width: 100%;
@@ -260,9 +291,9 @@ $color-border-gold: rgba($color-gold-light, 0.2);
         }
 
         .armor-extra-icon {
-          width: 25px;
-          height: 25px;
-          min-width: 20px;
+          width: 22px;
+          height: 22px;
+          min-width: 16px;
           object-fit: contain;
           cursor: default;
           transition: opacity 0.2s ease;
@@ -280,7 +311,7 @@ $color-border-gold: rgba($color-gold-light, 0.2);
         }
 
         &.armor-protection-property .armor-extra-icon {
-          width: 22px;
+          width: 18px;
         }
 
         .armor-extra-panel.is-collapsed {
@@ -294,9 +325,9 @@ $color-border-gold: rgba($color-gold-light, 0.2);
 
           > input[type='number'] {
             @include gradient-number-input;
-            min-height: 20px !important;
-            height: 22px !important;
-            width: 22px !important;
+            min-height: 18px !important;
+            height: 18px !important;
+            width: 18px !important;
 
             &:focus {
               @include focus-gradient-input;
@@ -315,9 +346,9 @@ $color-border-gold: rgba($color-gold-light, 0.2);
 
           > input[type='number'] {
             @include gradient-number-input;
-            min-height: 20px !important;
-            height: 22px !important;
-            width: 22px !important;
+            min-height: 18px !important;
+            height: 18px !important;
+            width: 18px !important;
 
             &:focus {
               @include focus-gradient-input;
@@ -332,13 +363,13 @@ $color-border-gold: rgba($color-gold-light, 0.2);
         }
 
         &.armor-special-properties-row {
-          width: 88% !important;
-          padding: 5px;
+          width: 73% !important;
+          padding: 3px;
           background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
           border-radius: 10px;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
-          margin-left: 12px;
-          gap: 14px;
+          margin-left: 31px;
+          gap: 13px;
           .armor-extra-content {
             opacity: 0.45;
             transition: opacity 0.2s ease;
@@ -357,7 +388,7 @@ $color-border-gold: rgba($color-gold-light, 0.2);
         }
 
         .armor-price-input-wrapper > input[name='system.price'] {
-          width: 40px !important;
+          width: 34px !important;
         }
 
         .armor-protection-input-wrapper.armor-extra-panel,
@@ -367,7 +398,7 @@ $color-border-gold: rgba($color-gold-light, 0.2);
         .life-bonus-input-wrapper.armor-quantity-input-wrapper.armor-extra-panel,
         .energy-bonus-input-wrapper.armor-quantity-input-wrapper.armor-extra-panel,
         .cold-resistance-input-wrapper.armor-extra-panel {
-          width: 50px;
+          width: 42px;
           display: flex;
         }
 
@@ -383,8 +414,8 @@ $color-border-gold: rgba($color-gold-light, 0.2);
         }
 
         input[type='number'] {
-          min-height: 30px;
-          padding: 4px 8px;
+          min-height: 26px;
+          padding: 2px 6px;
           border: 1px solid rgba(201, 199, 184, 0.35);
           border-radius: 4px;
           background: rgba(0, 0, 0, 0.22);
@@ -393,16 +424,16 @@ $color-border-gold: rgba($color-gold-light, 0.2);
 
         .durability-container {
           @include input-container;
-          width: 50px;
-          height: 24px;
+          width: 42px;
+          height: 20px;
           gap: 0px !important;
           margin-top: 0;
 
           input {
             @include gradient-number-input;
-            min-height: 20px !important;
-            height: 20px !important;
-            width: 20px !important;
+            min-height: 17px !important;
+            height: 17px !important;
+            width: 17px !important;
 
             &:focus {
               @include focus-gradient-input;
@@ -438,11 +469,15 @@ $color-border-gold: rgba($color-gold-light, 0.2);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2px;
-    width: 60%;
+    width: 46%;
   }
 
   .armor-skill-bonuses {
-    width: 90%;
+    width: 100%;
+    min-width: 150px;
+    max-width: 150px;
+    margin-inline: auto;
+    transform: translateX(-16px);
     border: 1px solid #FFB75C;
     border-radius: 10px;
     background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
@@ -541,15 +576,15 @@ $color-border-gold: rgba($color-gold-light, 0.2);
   }
 
   .armor-type-selector-btn {
-    height: 40px;
-    width: 40px;
+    height: 34px;
+    width: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
     border: 1.5px solid #c0863b;
     border-radius: 12px;
-    padding: 8px;
+    padding: 5px;
     cursor: pointer;
     transition: all 0.2s ease;
     aspect-ratio: 1;
@@ -557,8 +592,8 @@ $color-border-gold: rgba($color-gold-light, 0.2);
     overflow: hidden;
 
     img {
-      width: 48px;
-      height: 48px;
+      width: 24px;
+      height: 24px;
       object-fit: contain;
       opacity: 0.4;
       transition: opacity 0.2s ease, filter 0.15s ease, transform 0.15s ease;

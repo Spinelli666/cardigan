@@ -167,7 +167,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       options.parts = ['header', 'tabs', 'attributesArmadura', 'description'];
       options.position = {
         ...options.position,
-        width: 450.444,
+        width: 400.444,
         height: 520.333,
       };
       return;
