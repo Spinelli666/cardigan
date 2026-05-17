@@ -1184,13 +1184,8 @@
   overflow-y: auto;
   box-sizing: border-box;
   padding: 8px 6px 12px;
-  /* Try to size relative to the available sheet content; fallback fixed max-height */
   max-height: calc(100% - 140px);
-  /* Provide a visible gutter for scrollbars on some platforms */
   padding-right: 12px;
-}
-.application.sheet.cardigan.item.item-type-armadura {
-  /* Top grid above attributes: properties (left) and description (right) */
 }
 .application.sheet.cardigan.item.item-type-armadura .armor-top-grid {
   display: flex;
@@ -1229,6 +1224,7 @@
   gap: 8px;
   align-items: center;
 }
+
 .application.sheet.cardigan.item.item-type-armadura .armor-extra-properties {
   margin-top: 8.4px;
   display: flex;
@@ -1473,6 +1469,11 @@
   line-height: 1;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
 }
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .durability-container--expanded {
+  width: auto;
+  align-items: center;
+  padding: 0 4px;
+}
 .application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .durability-divider {
   width: auto;
   height: 16px;
@@ -1480,15 +1481,61 @@
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
   flex-shrink: 0;
 }
-
-.armor-type-selector-grid {
+.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
   width: 46%;
 }
+.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn {
+  height: 34px;
+  width: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  border: 1.5px solid #c0863b;
+  border-radius: 12px;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  aspect-ratio: 1;
+  position: relative;
+  overflow: hidden;
+  outline: none !important;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  opacity: 0.4;
+  transition: opacity 0.2s ease, filter 0.15s ease, transform 0.15s ease;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn:hover img {
+  opacity: 0.6;
+  filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.5));
+  transform: scale(1.08);
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn:active img {
+  transform: scale(0.95);
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn[data-selected] {
+  border-color: #FFB75C;
+  border-width: 2px;
+  box-shadow: 0 0 12px rgba(255, 183, 92, 0.4), inset 0 0 8px rgba(255, 183, 92, 0.1);
+  background: linear-gradient(135deg, rgba(255, 183, 92, 0.08) 0%, rgba(255, 183, 92, 0.04) 100%);
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn[data-selected] img {
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(255, 183, 92, 0.8));
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-type-selector-btn[data-selected]:hover img {
+  filter: drop-shadow(0 0 12px rgb(255, 183, 92));
+  transform: scale(1.12);
+}
 
-.armor-skill-bonuses {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses {
   width: 100%;
   min-width: 150px;
   max-width: 150px;
@@ -1499,31 +1546,31 @@
   background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
-
-.armor-skill-bonuses-table {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table {
   width: 100%;
   margin: 0 !important;
   border-collapse: collapse;
   background: transparent;
 }
-.armor-skill-bonuses-table .armor-skill-bonus-row {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table .armor-skill-bonus-row {
   border-bottom: 1px solid #FFB75C;
   background: transparent;
 }
-.armor-skill-bonuses-table .armor-skill-bonus-row > th, .armor-skill-bonuses-table .armor-skill-bonus-row > td {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table .armor-skill-bonus-row > th,
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table .armor-skill-bonus-row > td {
   padding-top: 1.2px !important;
   padding-bottom: 1.2px !important;
 }
-.armor-skill-bonuses-table .armor-skill-bonus-row:last-child {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table .armor-skill-bonus-row:last-child {
   border-bottom: none;
 }
-.armor-skill-bonuses-table th,
-.armor-skill-bonuses-table td {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table th,
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table td {
   padding: 0 11px;
   vertical-align: middle;
   background: transparent;
 }
-.armor-skill-bonuses-table th {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table th {
   width: 72%;
   text-align: left;
   font-size: 11px;
@@ -1536,11 +1583,11 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.armor-skill-bonuses-table td {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table td {
   width: 28%;
   text-align: right;
 }
-.armor-skill-bonuses-table input[type=number] {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table input[type=number] {
   width: 44px;
   min-height: 18px;
   height: 18px;
@@ -1554,7 +1601,7 @@
   padding: 0 2px;
   margin: 0;
 }
-.armor-skill-bonuses-table .armor-skill-bonus-input-wrapper {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table .armor-skill-bonus-input-wrapper {
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
   border: 1px solid rgba(255, 183, 92, 0.2);
   border-radius: 9px;
@@ -1563,10 +1610,10 @@
   display: flex;
   justify-content: center;
 }
-.armor-skill-bonuses-table .armor-skill-bonus-input-wrapper:focus-within {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table .armor-skill-bonus-input-wrapper:focus-within {
   border-color: #FFB75C;
 }
-.armor-skill-bonuses-table .armor-skill-bonus-input-wrapper input[type=number] {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table .armor-skill-bonus-input-wrapper input[type=number] {
   background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -1583,7 +1630,7 @@
   height: 22px !important;
   width: 22px !important;
 }
-.armor-skill-bonuses-table .armor-skill-bonus-input-wrapper input[type=number]:focus {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table .armor-skill-bonus-input-wrapper input[type=number]:focus {
   outline: none !important;
   border: none;
   box-shadow: none;
@@ -1593,75 +1640,28 @@
   -webkit-text-fill-color: transparent;
   text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
 }
-.armor-skill-bonuses-table .armor-skill-bonus-input-wrapper input[type=number]:focus-visible {
+.application.sheet.cardigan.item.item-type-armadura .armor-skill-bonuses-table .armor-skill-bonus-input-wrapper input[type=number]:focus-visible {
   outline: none !important;
   border: none;
   box-shadow: none;
 }
 
-.armor-type-selector-btn {
-  height: 34px;
-  width: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
-  border: 1.5px solid #c0863b;
-  border-radius: 12px;
-  padding: 5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  aspect-ratio: 1;
-  position: relative;
-  overflow: hidden;
-}
-.armor-type-selector-btn img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-  opacity: 0.4;
-  transition: opacity 0.2s ease, filter 0.15s ease, transform 0.15s ease;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
-}
-.armor-type-selector-btn:hover img {
-  opacity: 0.6;
-  filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.5));
-  transform: scale(1.08);
-}
-.armor-type-selector-btn:active img {
-  transform: scale(0.95);
-}
-.armor-type-selector-btn[data-selected] {
-  border-color: #FFB75C;
-  border-width: 2px;
-  box-shadow: 0 0 12px rgba(255, 183, 92, 0.4), inset 0 0 8px rgba(255, 183, 92, 0.1);
-  background: linear-gradient(135deg, rgba(255, 183, 92, 0.08) 0%, rgba(255, 183, 92, 0.04) 100%);
-}
-.armor-type-selector-btn[data-selected] img {
-  opacity: 1;
-  filter: drop-shadow(0 0 8px rgba(255, 183, 92, 0.8));
-}
-.armor-type-selector-btn[data-selected]:hover img {
-  filter: drop-shadow(0 0 12px rgb(255, 183, 92));
-  transform: scale(1.12);
-}
-
-.form-group {
+.application.sheet.cardigan.item.item-type-armadura .form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
   margin-bottom: 10px;
 }
-.form-group:last-child {
+.application.sheet.cardigan.item.item-type-armadura .form-group:last-child {
   margin-bottom: 0;
 }
-.form-group label {
+.application.sheet.cardigan.item.item-type-armadura .form-group label {
   font-weight: 600;
   color: var(--cardigan-c-beige, #f4f1e8);
 }
-.form-group input[type=text],
-.form-group input[type=number],
-.form-group select {
+.application.sheet.cardigan.item.item-type-armadura .form-group input[type=text],
+.application.sheet.cardigan.item.item-type-armadura .form-group input[type=number],
+.application.sheet.cardigan.item.item-type-armadura .form-group select {
   width: 100%;
   min-height: 32px;
   padding: 4px 8px;
@@ -1670,32 +1670,30 @@
   background: rgba(0, 0, 0, 0.22);
   color: var(--cardigan-c-beige, #f4f1e8);
 }
-.form-group input[type=checkbox] {
+.application.sheet.cardigan.item.item-type-armadura .form-group input[type=checkbox] {
   width: 16px;
   height: 16px;
   accent-color: #76d4ff;
 }
-
-.durability-container {
+.application.sheet.cardigan.item.item-type-armadura .durability-container {
   display: flex;
   align-items: center;
   gap: 6px;
 }
-.durability-container input {
+.application.sheet.cardigan.item.item-type-armadura .durability-container input {
   width: 72px;
   text-align: center;
 }
-.durability-container span {
+.application.sheet.cardigan.item.item-type-armadura .durability-container span {
   color: var(--cardigan-c-beige, #f4f1e8);
   font-weight: bold;
 }
-
-.skill-bonuses .skill-bonuses-header {
+.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonuses-header {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
 }
-.skill-bonuses .add-skill-bonus-btn {
+.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .add-skill-bonus-btn {
   width: 26px;
   height: 26px;
   border-radius: 50%;
@@ -1706,29 +1704,29 @@
   cursor: pointer;
   transition: transform 0.15s ease, background 0.2s ease;
 }
-.skill-bonuses .add-skill-bonus-btn:hover {
+.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .add-skill-bonus-btn:hover {
   transform: translateY(-1px);
   background: rgba(118, 212, 255, 0.25);
 }
-.skill-bonuses .skill-bonuses-list {
+.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonuses-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.skill-bonuses .skill-bonus-row {
+.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonus-row {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.skill-bonuses .skill-bonus-row select {
+.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonus-row select {
   flex: 1;
   min-width: 0;
 }
-.skill-bonuses .skill-bonus-row input[type=number] {
+.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonus-row input[type=number] {
   width: 72px;
   text-align: center;
 }
-.skill-bonuses .skill-bonus-row .remove-skill-bonus-btn {
+.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonus-row .remove-skill-bonus-btn {
   width: 24px;
   height: 24px;
   border: 1px solid rgba(201, 199, 184, 0.35);
@@ -1738,7 +1736,7 @@
   cursor: pointer;
   transition: transform 0.15s ease, background 0.2s ease;
 }
-.skill-bonuses .skill-bonus-row .remove-skill-bonus-btn:hover {
+.application.sheet.cardigan.item.item-type-armadura .skill-bonuses .skill-bonus-row .remove-skill-bonus-btn:hover {
   transform: translateY(-1px);
   background: rgba(244, 67, 54, 0.32);
 }

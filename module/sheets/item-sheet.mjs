@@ -2,6 +2,9 @@ import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import SkillEnhancementConfigDialog from '../applications/skill-enhancement-config-dialog.mjs';
 import SkillLinkedSkillsDialog from '../applications/skill-linked-skills-dialog.mjs';
 import RacialSkillsSelectionDialog from '../applications/racial-skills-selection-dialog.mjs';
+import { ArmorItemListeners } from './listeners/armor-item-listeners.mjs';
+import { ArmorContext } from './parts/armor-context.mjs';
+import { ArmorSheetBehavior } from './parts/armor-sheet-behavior.mjs';
 
 const { api, sheets } = foundry.applications;
 
@@ -15,7 +18,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   constructor(options = {}) {
     super(options);
     this.#dragDrop = this.#createDragDropHandlers();
-    this._armorExtraExpandedPanels = new Set();
   }
 
   /** @override */
@@ -163,15 +165,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     super._configureRenderOptions(options);
     // Not all parts always render
     options.parts = ['header', 'tabs', 'description'];
-    if (this.document.type === 'armadura') {
-      options.parts = ['header', 'tabs', 'attributesArmadura', 'description'];
-      options.position = {
-        ...options.position,
-        width: 400.444,
-        height: 520.333,
-      };
-      return;
-    }
+    if (ArmorSheetBehavior.configureRenderOptions(this, options)) return;
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
     // Control which parts show based on document subtype
@@ -246,36 +240,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
 
-        const skillOrder = [
-          { key: 'accuracy', label: 'PRECISÃO' },
-          { key: 'evasion', label: 'EVASÃO' },
-          { key: 'strength', label: 'FORÇA' },
-          { key: 'dexterity', label: 'DESTREZA' },
-          { key: 'stamina', label: 'VIGOR' },
-          { key: 'stealth', label: 'FURTIVIDADE' },
-          { key: 'persuasion', label: 'PERSUASÃO' },
-          { key: 'intelligence', label: 'INTELIGÊNCIA' },
-          { key: 'psionics', label: 'PSIONISMO' }
-        ];
-
-        const existingBonuses = Array.isArray(this.item.system.skillBonuses)
-          ? this.item.system.skillBonuses
-          : [];
-
-        const bonusBySkill = existingBonuses.reduce((acc, entry) => {
-          if (!entry || typeof entry.skill !== 'string') return acc;
-          const key = entry.skill.trim();
-          if (!key) return acc;
-          const numericBonus = Number(entry.bonus ?? 0);
-          acc[key] = Number.isFinite(numericBonus) ? numericBonus : 0;
-          return acc;
-        }, {});
-
-        context.armorSkillBonusRows = skillOrder.map((row, index) => ({
-          ...row,
-          index,
-          value: bonusBySkill[row.key] ?? 0,
-        }));
+        ArmorContext.prepareAttributesData(context, this.item);
         break;
       }
       case 'attributesItemComum':
@@ -408,60 +373,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @override
    */
   async _onChangeForm(formConfig, event) {
-    const target = event?.target;
-    const name = target?.name;
-
-    // Manual durability handling for armor sheet inputs in the extra panel.
-    // This guarantees validation feedback and consistent sync with actor equipment views.
-    if (this.item.type === 'armadura' && (name === 'system.durability.current' || name === 'system.durability.max')) {
-      const currentInput = this.element?.querySelector('input[name="system.durability.current"]');
-      const maxInput = this.element?.querySelector('input[name="system.durability.max"]');
-
-      if (!currentInput || !maxInput) return;
-
-      const existingCurrent = Number(this.item.system?.durability?.current ?? 0);
-      const existingMax = Math.max(1, Number(this.item.system?.durability?.max ?? 1));
-
-      const rawCurrent = String(currentInput.value ?? '').trim();
-      const rawMax = String(maxInput.value ?? '').trim();
-
-      // If the user is still editing and leaves the field blank, defer update.
-      if (rawCurrent === '' || rawMax === '') return;
-
-      let nextCurrent = Number(rawCurrent);
-      let nextMax = Number(rawMax);
-
-      if (!Number.isFinite(nextCurrent)) nextCurrent = existingCurrent;
-      if (!Number.isFinite(nextMax)) nextMax = existingMax;
-
-      nextCurrent = Math.max(0, Math.floor(nextCurrent));
-      nextMax = Math.max(1, Math.floor(nextMax));
-
-      const editingCurrent = name === 'system.durability.current';
-      if (editingCurrent && nextCurrent > nextMax) {
-        ui.notifications.warn('Não é possível definir a durabilidade atual acima da durabilidade máxima.');
-      }
-
-      if (nextCurrent > nextMax) nextCurrent = nextMax;
-
-      // Reflect normalized values immediately in the UI.
-      currentInput.value = String(nextCurrent);
-      currentInput.max = String(nextMax);
-      maxInput.value = String(nextMax);
-
-      const changed =
-        nextCurrent !== existingCurrent ||
-        nextMax !== existingMax;
-
-      if (changed) {
-        await this.item.update({
-          'system.durability.current': nextCurrent,
-          'system.durability.max': nextMax
-        });
-      }
-
-      return;
-    }
+    const armorDurabilityHandled = await ArmorSheetBehavior.handleDurabilityChange(this, event);
+    if (armorDurabilityHandled) return;
 
     // CRITICAL: Clean up empty resultItems BEFORE calling super (which validates)
     if (this.item.type === 'item-recipe') {
@@ -569,11 +482,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const tabGroup = 'primary';
     // Default tab for first time it's rendered this session
     if (!this.tabGroups[tabGroup]) {
-      if (this.document.type === 'armadura') {
-        this.tabGroups[tabGroup] = 'attributes';
-      } else {
-        this.tabGroups[tabGroup] = 'description';
-      }
+      this.tabGroups[tabGroup] = ArmorSheetBehavior.resolveDefaultPrimaryTab(this);
     }
     return parts.reduce((tabs, partId) => {
       const tab = {
@@ -586,6 +495,13 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         // Run through localization
         label: 'CARDIGAN.Item.Tabs.',
       };
+
+      if (ArmorSheetBehavior.applyTabMetadata(partId, tab)) {
+        if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+        tabs[partId] = tab;
+        return tabs;
+      }
+
       switch (partId) {
         case 'header':
         case 'tabs':
@@ -605,10 +521,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesRace':
           tab.id = 'attributes';
           tab.label += 'Details';
-          break;
-        case 'attributesArmadura':
-          tab.id = 'attributes';
-          tab.label += 'Properties';
           break;
         case 'enhancementsSkill':
           tab.id = 'enhancements';
@@ -991,7 +903,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     event.preventDefault();
     
     const item = this.item;
-    if (item.type !== 'arma' && item.type !== 'armadura') {
+    if (item.type !== 'arma') {
       return;
     }
 
@@ -1013,7 +925,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   static async _removeWeaponProperty(event, target) {
     event.preventDefault();
     const item = this.item;
-    if (item.type !== 'arma' && item.type !== 'armadura') return;
+    if (item.type !== 'arma') return;
 
     const index = parseInt(target.dataset.index);
     if (isNaN(index)) return;
@@ -1143,7 +1055,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     event.preventDefault();
     
     const item = this.item;
-    if (item.type !== 'arma' && item.type !== 'armadura') {
+    if (item.type !== 'arma') {
       return;
     }
 
@@ -1174,7 +1086,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   static async _removeSkillBonus(event, target) {
     event.preventDefault();
     const item = this.item;
-    if (item.type !== 'arma' && item.type !== 'armadura') return;
+    if (item.type !== 'arma') return;
 
     const index = parseInt(target.dataset.index);
     if (isNaN(index)) return;
@@ -2302,199 +2214,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Setup armor bonus toggle visibility for consumable items
-   * @private
-   */
-  _setupArmorBonusToggle() {
-    const toggle = this.element.querySelector('[data-armor-bonus-toggle]');
-    const armorBonusSection = this.element.querySelector('[data-armor-bonus-section]');
-    
-    if (!toggle || !armorBonusSection) return;
-    
-    // Add event listener for the toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        armorBonusSection.classList.remove('hidden');
-      } else {
-        armorBonusSection.classList.add('hidden');
-      }
-    });
-  }
-
-  /**
-   * Setup conditional fields for armor items (movement bonus and backpack space bonus)
-   * @private
-   */
-  _setupArmorConditionalFields() {
-    // Setup movement bonus conditional field
-    const movementCheckbox = this.element.querySelector('input[data-conditional-trigger="movement"]');
-    const movementValue = this.element.querySelector('.movement-value');
-    
-    if (movementCheckbox && movementValue) {
-      movementCheckbox.addEventListener('change', (event) => {
-        const isChecked = event.target.checked;
-        movementValue.style.display = isChecked ? 'block' : 'none';
-      });
-    }
-
-    // Setup backpack space bonus conditional field
-    const backpackCheckbox = this.element.querySelector('input[data-conditional-trigger="backpack"]');
-    const backpackValue = this.element.querySelector('.backpack-value');
-    
-    if (backpackCheckbox && backpackValue) {
-      backpackCheckbox.addEventListener('change', (event) => {
-        const isChecked = event.target.checked;
-        backpackValue.style.display = isChecked ? 'block' : 'none';
-      });
-    }
-  }
-
-  /**
-   * Setup armor type selector buttons for armor items
-   * @private
-   */
-  _setupArmorTypeSelectorButtons() {
-    if (this.item.type !== 'armadura') return;
-
-    const grid = this.element?.querySelector('.armor-type-selector-grid');
-    if (!grid) return;
-
-    const buttons = grid.querySelectorAll('.armor-type-selector-btn');
-    buttons.forEach(button => {
-      button.addEventListener('click', async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        
-        const armorType = button.dataset.armorType;
-        if (armorType && armorType !== this.item.system.armorType) {
-          await this.item.update({ 'system.armorType': armorType });
-        }
-      });
-    });
-  }
-
-  /**
-   * Setup click/keyboard toggles for armor extra property panels
-   * @private
-   */
-  _setupArmorExtraIconToggles() {
-    if (this.item.type !== 'armadura') return;
-
-    const root = this.element;
-    if (!root) return;
-
-    const toggleIcons = root.querySelectorAll('[data-armor-extra-toggle]');
-    if (!toggleIcons.length) return;
-
-    const syncIconState = (targetName) => {
-      const panel = root.querySelector(`[data-armor-extra-panel="${targetName}"]`);
-      const icon = root.querySelector(`[data-armor-extra-toggle="${targetName}"]`);
-      if (!panel || !icon) return;
-
-      const isExpanded = !panel.classList.contains('is-collapsed');
-      icon.setAttribute('aria-expanded', String(isExpanded));
-      icon.classList.toggle('is-active', isExpanded);
-    };
-
-    toggleIcons.forEach((icon) => {
-      const targetName = icon.dataset.armorExtraToggle;
-      if (!targetName) return;
-
-      const panel = root.querySelector(`[data-armor-extra-panel="${targetName}"]`);
-      if (!panel) return;
-
-      // Restore persisted state after re-render.
-      if (this._armorExtraExpandedPanels.has(targetName)) {
-        panel.classList.remove('is-collapsed');
-      } else {
-        panel.classList.add('is-collapsed');
-      }
-
-      const togglePanel = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        const isCollapsed = panel.classList.toggle('is-collapsed');
-        if (isCollapsed) {
-          this._armorExtraExpandedPanels.delete(targetName);
-        } else {
-          this._armorExtraExpandedPanels.add(targetName);
-        }
-        syncIconState(targetName);
-      };
-
-      icon.addEventListener('click', togglePanel);
-      icon.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          togglePanel(event);
-        }
-      });
-
-      syncIconState(targetName);
-    });
-  }
-
-  /**
-   * Setup click/keyboard toggles where armor icons control checkbox fields
-   * @private
-   */
-  _setupArmorIconCheckboxToggles() {
-    if (this.item.type !== 'armadura') return;
-
-    const root = this.element;
-    if (!root) return;
-
-    const toggleIcons = root.querySelectorAll('[data-armor-checkbox-toggle]');
-    if (!toggleIcons.length) return;
-
-    const syncIconState = (icon, isChecked) => {
-      icon.classList.toggle('is-active', isChecked);
-      icon.setAttribute('aria-pressed', String(isChecked));
-      icon.closest('.armor-extra-content')?.classList.toggle('is-active', isChecked);
-    };
-
-    toggleIcons.forEach((icon) => {
-      const checkboxPath = icon.dataset.armorCheckboxToggle;
-      if (!checkboxPath) return;
-
-      const hasExplicitValues =
-        Object.prototype.hasOwnProperty.call(icon.dataset, 'armorToggleOnValue') ||
-        Object.prototype.hasOwnProperty.call(icon.dataset, 'armorToggleOffValue');
-
-      const onValue = icon.dataset.armorToggleOnValue ?? true;
-      const offValue = icon.dataset.armorToggleOffValue ?? false;
-
-      const getCurrentValue = () => foundry.utils.getProperty(this.item, checkboxPath);
-
-      const isChecked = () => {
-        const current = getCurrentValue();
-        if (hasExplicitValues) return String(current) === String(onValue);
-        return Boolean(current);
-      };
-
-      const toggleCheckbox = async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const nextChecked = !isChecked();
-        const nextValue = hasExplicitValues ? (nextChecked ? onValue : offValue) : nextChecked;
-        syncIconState(icon, nextChecked);
-        await this.item.update({ [checkboxPath]: nextValue });
-      };
-
-      icon.addEventListener('click', toggleCheckbox);
-      icon.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          toggleCheckbox(event);
-        }
-      });
-
-      syncIconState(icon, isChecked());
-    });
-  }
-
-  /**
    * Setup status ailments toggle visibility for consumable items
    * @private
    */
@@ -3460,94 +3179,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   // A lógica de processamento de skillActionTypes foi movida para prepareData no modelo
 
   /**
-   * Remove specific window-header elements for armor item sheets.
-   * - h1.window-title
-   * - control: "Copiar UUID do Documento"
-   * - control: "Alternar Controles"
-   * @private
-   */
-  _removeArmorHeaderElements() {
-    if (this.item?.type !== 'armadura') return;
-
-    const header = this.element?.querySelector('.window-header');
-    if (!header) return;
-
-    const normalize = (value) =>
-      String(value ?? '')
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase();
-
-    const phrases = [
-      'copiar uuid do documento',
-      'alternar controles',
-      'copy document uuid',
-      'toggle controls'
-    ];
-
-    // 1) Remove window title
-    const title = header.querySelector('h1.window-title');
-    if (title) title.remove();
-
-    // 2) Remove specific controls by title/aria-label/tooltip/text
-    const candidates = header.querySelectorAll('button, a, li, div, span');
-    candidates.forEach((element) => {
-      const values = [
-        element.getAttribute('title'),
-        element.getAttribute('aria-label'),
-        element.getAttribute('data-tooltip'),
-        element.textContent
-      ];
-
-      const matches = values.some((value) => {
-        const normalized = normalize(value);
-        return phrases.some((phrase) => normalized.includes(phrase));
-      });
-
-      if (matches) {
-        element.remove();
-      }
-    });
-
-    // 3) Keep the close control aligned to the right side.
-    const closePhrases = [
-      'fechar janela',
-      'close window'
-    ];
-
-    const closeControl = Array.from(
-      header.querySelectorAll('button, a, li, div, span')
-    ).find((element) => {
-      const values = [
-        element.getAttribute('title'),
-        element.getAttribute('aria-label'),
-        element.getAttribute('data-tooltip'),
-        element.textContent
-      ];
-
-      return values.some((value) => {
-        const normalized = normalize(value);
-        return closePhrases.some((phrase) => normalized.includes(phrase));
-      });
-    });
-
-    if (closeControl) {
-      const closeNode = closeControl.closest('button, a, li, div') || closeControl;
-      closeNode.style.marginLeft = 'auto';
-
-      if (closeNode.parentElement !== header) {
-        header.appendChild(closeNode);
-      }
-    } else {
-      // Fallback: if close action lives in the controls dropdown, keep that menu at right.
-      const controlsDropdown = header.querySelector('.controls-dropdown');
-      if (controlsDropdown) {
-        controlsDropdown.style.marginLeft = 'auto';
-      }
-    }
-  }
-
-  /**
    * CONSOLIDATED: Handle post-render operations
    * Combines drag-drop binding, auto-updates, and manual event listeners
    * @param {ApplicationRenderContext} context
@@ -3561,8 +3192,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     // Remove specific header controls for armor items only.
     // Run immediately and on next frame in case controls are attached after initial render.
-    this._removeArmorHeaderElements();
-    requestAnimationFrame(() => this._removeArmorHeaderElements());
+    ArmorSheetBehavior.applyHeaderCleanup(this);
+    requestAnimationFrame(() => ArmorSheetBehavior.applyHeaderCleanup(this));
     
     console.log("[ITEM-SHEET] _onRender CONSOLIDATED called for item type:", this.item.type);
     console.log("[ITEM-SHEET] Binding drag-drop handlers, count:", this.#dragDrop.length);
@@ -3629,19 +3260,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     this._setupEnergyModifierToggle();
     
     // Setup armor bonus toggle visibility for consumable items  
-    this._setupArmorBonusToggle();
-    
-    // Setup conditional fields for armor items
-    this._setupArmorConditionalFields();
-
-    // Setup armor type selector buttons for armor items
-    this._setupArmorTypeSelectorButtons();
-
-    // Setup icon toggles for armor extra property panels
-    this._setupArmorExtraIconToggles();
-
-    // Setup icon toggles for armor checkbox properties
-    this._setupArmorIconCheckboxToggles();
+    ArmorItemListeners.initialize(this);
     
     // Setup status ailments toggle visibility for consumable items
     this._setupStatusAilmentsToggle();

@@ -173,6 +173,7 @@ export default class ArmorData extends BaseItemData {
     super.prepareDerivedData();
     
     this._cleanLegacyFields();
+    this._normalizeBonusFields();
     
     if (!Array.isArray(this.skillBonuses)) {
       this.skillBonuses = [];
@@ -225,5 +226,53 @@ export default class ArmorData extends BaseItemData {
     if (this.resistenciaFrio !== undefined && this.coldResistance === undefined) {
       this.coldResistance = this.resistenciaFrio ? 1 : 0;
     }
+  }
+
+  /**
+   * Normalize armor bonus fields to the canonical nested structure.
+   * @private
+   */
+  _normalizeBonusFields() {
+    this._migrateLegacyBonusField("movementBonus", "bonusDeslocamento");
+    this._migrateLegacyBonusField("backpackSpace", "bonusEspacoMochila");
+
+    this._syncBonusEnabledState("bonusDeslocamento");
+    this._syncBonusEnabledState("bonusEspacoMochila");
+  }
+
+  /**
+   * Move a flat legacy bonus field into the nested armor structure.
+   * @param {string} legacyKey - Legacy flat field name
+   * @param {string} targetKey - Canonical nested field name
+   * @private
+   */
+  _migrateLegacyBonusField(legacyKey, targetKey) {
+    const legacyValue = Number(this[legacyKey]);
+    if (!Number.isFinite(legacyValue)) return;
+
+    const target = this[targetKey] ?? { enabled: false, bonus: 0 };
+    const currentBonus = Number(target.bonus ?? 0);
+
+    if (!Number.isFinite(currentBonus) || currentBonus === 0) {
+      target.bonus = legacyValue;
+    }
+
+    this[targetKey] = target;
+  }
+
+  /**
+   * Keep enabled flags aligned with the stored numeric bonus.
+   * @param {string} fieldKey - Canonical nested field name
+   * @private
+   */
+  _syncBonusEnabledState(fieldKey) {
+    const field = this[fieldKey] ?? { enabled: false, bonus: 0 };
+    const numericBonus = Number(field.bonus ?? 0);
+    const normalizedBonus = Number.isFinite(numericBonus) ? numericBonus : 0;
+
+    field.bonus = normalizedBonus;
+    field.enabled = normalizedBonus !== 0;
+
+    this[fieldKey] = field;
   }
 }

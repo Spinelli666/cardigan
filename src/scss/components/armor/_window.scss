@@ -1,0 +1,193 @@
+.application.sheet.cardigan.item.item-type-armadura {
+
+    min-width: 400.444px !important;
+    width: 400.444px !important;
+
+    background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+    border: 4px solid #c0863b;
+    border-radius: 20px;
+    font-family: "Alatsi", sans-serif;
+
+  .window-header {
+    background: initial !important;
+    border-bottom: initial !important;
+    justify-content: center !important;
+    margin-bottom: -36px !important;
+
+    &::before {
+      transform: rotate(45deg) scaleX(-1);
+      height: 90px;
+      bottom: -45px;
+      left: -2.5%;
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+      height: 90px;
+      bottom: -45px;
+      right: -2.5%;
+    }
+
+    .header-control.fa-xmark {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    &:hover .header-control.fa-xmark {
+      opacity: 1;
+    }
+  }
+
+  .window-resize-handle {
+    cursor: ns-resize;
+  }
+
+  .sheet-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 10px 0 10px;
+    margin-bottom: 5px;
+
+    .profile-img-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      background: #2D353A;
+      border: 4px solid #c9934a;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 125px;
+      height: 125px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 20px rgba(201, 147, 74, 0.6), 0 4px 12px rgba(0, 0, 0, 0.7), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+
+      .profile-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        display: block;
+      }
+    }
+
+    .header-fields {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+
+      .document-name {
+        width: 100%;
+
+        input {
+          width: 100%;
+          border: none;
+          background: transparent;
+          box-shadow: none;
+          @include gradient-text();
+          caret-color: $color-gold-light;
+          text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          font-weight: normal;
+          text-align: center;
+          font-size: 25px;
+          outline: none;
+
+          &:focus {
+            outline: none !important;
+            border: none;
+            box-shadow: none;
+            @include gradient-text($color-gradient-text-focus);
+            text-shadow: 0px 0px 3px rgba($color-gold-light, 0.4);
+          }
+
+          &:focus-visible {
+            outline: none !important;
+            border: none;
+            box-shadow: none;
+          }
+        }
+      }
+    }
+  }
+
+  .armor-section {
+    border: 1px solid rgba(201, 199, 184, 0.28);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 0 2px 14px;
+    background: linear-gradient(180deg, rgba(118, 212, 255, 0.06) 0%, rgba(9, 21, 29, 0.06) 100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+
+    legend {
+      padding: 0 8px;
+      color: var(--cardigan-c-beige, #f4f1e8);
+      font-weight: bold;
+      letter-spacing: 0.02em;
+    }
+  }
+
+  .attributesArmadura {
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 8px 6px 12px;
+    max-height: calc(100% - 140px);
+    padding-right: 12px;
+  }
+
+  .armor-top-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    align-items: start;
+    justify-content: center;
+
+    > .armor-properties {
+      flex: 1 1 0;
+      min-width: 0;
+      transform: translateX(-12px);
+    }
+
+    > .armor-skill-bonuses {
+      flex: 0 0 auto;
+      align-self: flex-start;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .armor-top-grid {
+      flex-direction: column;
+      align-items: center;
+
+      > .armor-skill-bonuses {
+        width: min(100%, 340px);
+        transform: none;
+      }
+
+      > .armor-properties {
+        transform: none;
+      }
+    }
+  }
+
+  .armor-properties-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+}

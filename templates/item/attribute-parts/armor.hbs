@@ -48,10 +48,10 @@ Template para itens do tipo armadura com aba Detail
           <div class="armor-extra-property armor-durability-property">
             <div class="armor-extra-content">
               <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-durability.svg" alt="{{localize 'CARDIGAN.Durability'}}" data-tooltip="Durabilidade" data-tooltip-class='cardigan-tooltip' />
-              <div class="durability-container armor-extra-panel" data-armor-extra-panel="durability" style="display: flex; align-items: center; gap: 5px;">
-                <input type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}" style="width: 60px;"/>
+              <div class="durability-container durability-container--expanded armor-extra-panel" data-armor-extra-panel="durability">
+                <input class="durability-value-input" type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}"/>
                 <img src="systems/cardigan/assets/images/decorative/field-divider.svg" alt="/" class="durability-divider"/>
-                <input type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1" style="width: 60px;"/>
+                <input class="durability-value-input" type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1"/>
               </div>
             </div>
           </div>
@@ -82,7 +82,8 @@ Template para itens do tipo armadura com aba Detail
             <div class="armor-extra-content">
               <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-movement.svg" alt="{{localize 'CARDIGAN.MovementBonus'}}" data-tooltip="Bônus de Movimento" data-tooltip-class='cardigan-tooltip' />
               <div class="movement-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="movement">
-                <input type="number" name="system.movementBonus" value="{{item.system.movementBonus}}" min="0" placeholder="0"/>
+                <input type="hidden" name="system.bonusDeslocamento.enabled" value="{{armorMovementBonus.enabled}}" data-dtype="Boolean"/>
+                <input type="number" name="system.bonusDeslocamento.bonus" value="{{armorMovementBonus.bonus}}" min="0" placeholder="0"/>
               </div>
             </div>
           </div>
@@ -104,7 +105,8 @@ Template para itens do tipo armadura com aba Detail
             <div class="armor-extra-content">
               <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-backpack.svg" alt="{{localize 'CARDIGAN.BackpackSpace'}}" data-tooltip="Espaço na Mochila" data-tooltip-class='cardigan-tooltip' />
               <div class="backpack-space-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="backpack">
-                <input type="number" name="system.backpackSpace" value="{{item.system.backpackSpace}}" min="0" placeholder="0"/>
+                <input type="hidden" name="system.bonusEspacoMochila.enabled" value="{{armorBackpackSpaceBonus.enabled}}" data-dtype="Boolean"/>
+                <input type="number" name="system.bonusEspacoMochila.bonus" value="{{armorBackpackSpaceBonus.bonus}}" min="0" placeholder="0"/>
               </div>
             </div>
           </div>
