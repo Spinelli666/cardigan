@@ -2322,14 +2322,25 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       
       // Calculate health and energy max
       const level = system.attributes?.level?.value ?? 0;
-      const levelBonus = Math.min(level, 10) * 5;
+      const levelHealthBonus = Math.max(0, Math.min(level, 10) - 1) * 5;
+      const levelEnergyBonus = Math.max(0, Math.min(level, 10) - 1) * 1;
       const fractureLevel = system.status?.fracture ?? 0;
       const fractureReduction = fractureLevel * 5;
       const healthBonus = system.status?.healthBonus ?? 0;
       const energyBonus = system.status?.energyBonus ?? 0;
+      const armorHealthBonus = Number(system._armorHealthBonus ?? 0);
+      const armorEnergyBonus = Number(system._armorEnergyBonus ?? 0);
+      const raceHealthBonus = Number(system._raceHealthBonus ?? 0);
+      const racePowerBonus = Number(system._racePowerBonus ?? 0);
       
-      const newHealthMax = Math.max(0, 0 + (totalStamina * 10) + levelBonus - fractureReduction + healthBonus);
-      const newEnergyMax = Math.max(0, 0 + (totalStamina * 1) + levelBonus + energyBonus);
+      const newHealthMax = Math.max(
+        0,
+        (totalStamina * 10) + levelHealthBonus - fractureReduction + healthBonus + armorHealthBonus + raceHealthBonus
+      );
+      const newEnergyMax = Math.max(
+        0,
+        (totalStamina * 1) + levelEnergyBonus + energyBonus + armorEnergyBonus + racePowerBonus
+      );
       
       // Update health max input
       const healthMaxInput = this.element.querySelector('input[name="system.health.max"]');
@@ -3844,10 +3855,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const system = this.actor.system;
 
     switch (bonusType) {
-      case 'healthBonus':
-        return Number(system._armorHealthBonus ?? 0);
-      case 'energyBonus':
-        return Number(system._armorEnergyBonus ?? 0);
       case 'armorBonus':
         return Number(system._armorProtectionBonus ?? 0);
       default:

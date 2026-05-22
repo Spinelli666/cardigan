@@ -345,12 +345,13 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const raceArmorBonus = this._raceArmorBonus ?? 0;
     
     // Calculate maximum values
+    const totalStrength = this._getTotalAbility('strength');
+    const strengthArmorBonus = Math.floor(totalStrength / 2);
     this.health.max = Math.max(0, staminaHealthBonus + levelHealthBonus - fractureReduction + healthBonus + armorHealthBonus + raceHealthBonus);
     this.power.max = Math.max(0, staminaEnergyBonus + levelEnergyBonus + energyBonus + armorEnergyBonus + racePowerBonus);
-    this.armor.max = Math.max(0, armorBonus + armorProtectionBonus + raceArmorBonus);
+    this.armor.max = Math.max(0, armorBonus + armorProtectionBonus + raceArmorBonus + strengthArmorBonus);
     
     // Backpack capacity (rule: 15 base + Strength/2 + armor bonus)
-    const totalStrength = this._getTotalAbility('strength');
     const baseBackpackCapacity = 15 + Math.floor(totalStrength / 2);
     const armorBackpackBonus = this._armorBackpackSpaceBonus || 0;
     this.backpack.max = baseBackpackCapacity + armorBackpackBonus;
