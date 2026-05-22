@@ -1037,14 +1037,12 @@
       },
       "Profession": "Profession",
       "Professions": {
-        "General": "General Use",
-        "Alchemy": "Alchemy",
-        "Blacksmithing": "Blacksmithing",
-        "Culinary": "Culinary Arts",
-        "Tailoring": "Tailoring",
-        "Tecnomagic": "Tecnomagic",
-        "Enchanting": "Enchanting",
-        "Herbalism": "Herbalism"
+        "General": "GENÉRICO",
+        "Alchemy": "ALQUIMIA",
+        "Blacksmithing": "FERRARIA",
+        "Culinary": "CULINÁRIA",
+        "Tailoring": "COSTURA",
+        "Tecnomagic": "TECNOMAGIA"
       }
     },
     "Skill": {
