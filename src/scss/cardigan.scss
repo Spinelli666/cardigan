@@ -23,6 +23,9 @@
 @import 'components/chat/action-buttons';
 @import 'components/chat-rolls';
 
+/* Common item form styles */
+@import 'components/common-item-form';
+
 /* Weapon form styles */
 @import 'components/weapon-form';
 
@@ -132,6 +135,7 @@
 @import 'dialogs/character-creation-wizard';
 @import 'dialogs/level-up-wizard';
 @import 'dialogs/effects-selection';
+@import 'dialogs/common-item-weight-dialog';
 
 // Tooltip components - DEVE SER O ÚLTIMO para ter precedência
 @import 'components/tooltips/tooltips';

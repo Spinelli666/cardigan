@@ -1017,6 +1017,278 @@
   background-clip: text !important;
 }
 
+/* Common item form styles */
+.application.sheet.cardigan.item.item-type-comum {
+  min-width: 400.444px !important;
+  width: 400.444px !important;
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  border: 4px solid #c0863b;
+  border-radius: 20px;
+  font-family: "Alatsi", sans-serif;
+}
+.application.sheet.cardigan.item.item-type-comum .window-header {
+  background: initial !important;
+  border-bottom: initial !important;
+  justify-content: center !important;
+  margin-bottom: -36px !important;
+}
+.application.sheet.cardigan.item.item-type-comum .window-header::before {
+  transform: rotate(45deg) scaleX(-1);
+  height: 90px;
+  bottom: -45px;
+  left: -2.5%;
+}
+.application.sheet.cardigan.item.item-type-comum .window-header::after {
+  transform: rotate(-45deg);
+  height: 90px;
+  bottom: -45px;
+  right: -2.5%;
+}
+.application.sheet.cardigan.item.item-type-comum .window-header .header-control.fa-xmark {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.application.sheet.cardigan.item.item-type-comum .window-header:hover .header-control.fa-xmark {
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-comum .window-resize-handle {
+  cursor: ns-resize;
+}
+.application.sheet.cardigan.item.item-type-comum .sheet-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 10px 0 10px;
+  margin-bottom: 5px;
+}
+.application.sheet.cardigan.item.item-type-comum .sheet-header .profile-img-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  background: #2D353A;
+  border: 4px solid #c9934a;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 125px;
+  height: 125px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 20px rgba(201, 147, 74, 0.6), 0 4px 12px rgba(0, 0, 0, 0.7), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+.application.sheet.cardigan.item.item-type-comum .sheet-header .profile-img-wrapper .profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 25%;
+  display: block;
+}
+.application.sheet.cardigan.item.item-type-comum .sheet-header .header-fields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.application.sheet.cardigan.item.item-type-comum .sheet-header .header-fields .document-name {
+  width: 100%;
+}
+.application.sheet.cardigan.item.item-type-comum .sheet-header .header-fields .document-name input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  caret-color: #FFB75C;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: normal;
+  text-align: center;
+  font-size: 25px;
+  outline: none;
+}
+.application.sheet.cardigan.item.item-type-comum .sheet-header .header-fields .document-name input:focus {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+}
+.application.sheet.cardigan.item.item-type-comum .sheet-header .header-fields .document-name input:focus-visible {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-top-fields {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  flex-direction: column;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-properties-content {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content {
+  margin-top: 8.4px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-extra-property.common-item-price-property {
+  padding: 5px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-extra-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-extra-icon {
+  width: 30px;
+  height: 30px;
+  min-width: 16px;
+  object-fit: contain;
+  cursor: default;
+  transition: opacity 0.2s ease;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-price-input-wrapper.common-item-extra-panel {
+  width: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 11px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content.common-item-weight-content .common-item-price-input-wrapper.common-item-extra-panel {
+  cursor: pointer;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-price-input-wrapper > input[type=number],
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-weight-display {
+  width: 34px !important;
+  min-height: 18px !important;
+  height: 18px !important;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  caret-color: #FFB75C;
+  font-size: 12px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  outline: none;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-price-input-wrapper > input[type=number]:focus,
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-weight-display:focus {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-price-input-wrapper > input[type=number]:focus-visible,
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-weight-display:focus-visible {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-price-input-wrapper.common-item-extra-panel:focus-within {
+  border-color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-weight-display {
+  cursor: pointer;
+  user-select: none;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-weight-display[data-weight-value="0"] {
+  background-image: linear-gradient(180deg, #5CFF7F 33.6%, #2E9E4D 66.67%) !important;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-weight-display[data-weight-value="2"] {
+  background-image: linear-gradient(180deg, #FF001E 33.6%, #8B0011 66.67%) !important;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-price-content .common-item-weight-display[data-weight-value="4"] {
+  background-image: linear-gradient(180deg, #B80049 33.6%, #8B0011 66.67%) !important;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-type-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  justify-items: center;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-type-selector-btn {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  border: 1.5px solid #c0863b;
+  border-radius: 12px;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  aspect-ratio: 1;
+  position: relative;
+  overflow: hidden;
+  outline: none !important;
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-type-selector-btn img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  opacity: 0.4;
+  transition: opacity 0.2s ease, filter 0.15s ease, transform 0.15s ease;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-type-selector-btn:hover img {
+  opacity: 0.6;
+  filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.5));
+  transform: scale(1.08);
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-type-selector-btn:active img {
+  transform: scale(0.95);
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-type-selector-btn[data-selected] {
+  border-color: #FFB75C;
+  border-width: 2px;
+  box-shadow: 0 0 12px rgba(255, 183, 92, 0.4), inset 0 0 8px rgba(255, 183, 92, 0.1);
+  background: linear-gradient(135deg, rgba(255, 183, 92, 0.08) 0%, rgba(255, 183, 92, 0.04) 100%);
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-type-selector-btn[data-selected] img {
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(255, 183, 92, 0.8));
+}
+.application.sheet.cardigan.item.item-type-comum .common-item-type-selector-btn[data-selected]:hover img {
+  filter: drop-shadow(0 0 12px rgb(255, 183, 92));
+  transform: scale(1.12);
+}
+
 /* Weapon form styles */
 .application.sheet.cardigan.item.item-type-arma {
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
@@ -23259,6 +23531,134 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   border-color: #FFB75C;
   box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
   transform: translateY(-1px);
+}
+
+.dialog.cardigan-weight-selection-dialog {
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  border: 4px solid #c0863b;
+  border-radius: 20px;
+  font-family: "Alatsi", sans-serif;
+}
+.dialog.cardigan-weight-selection-dialog .window-header {
+  background: initial !important;
+  border-bottom: initial !important;
+  backdrop-filter: blur(4px);
+  justify-content: center !important;
+}
+.dialog.cardigan-weight-selection-dialog .window-header .window-title {
+  padding: 2px 0 0 30px !important;
+  font-family: "Alatsi", sans-serif;
+  font-size: 28px;
+  text-align: center;
+  margin: 0;
+  text-transform: uppercase;
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.dialog.cardigan-weight-selection-dialog .window-content {
+  background: transparent;
+  border: none;
+  border-radius: 0 0 16px 16px;
+  padding: 0 1rem 1rem 1rem;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .dialog-content.standard-form {
+  gap: 0 !important;
+}
+.dialog.cardigan-weight-selection-dialog .window-content form.dialog-form.standard-form,
+.dialog.cardigan-weight-selection-dialog .window-content .weight-selection-form {
+  gap: 0;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .form-footer {
+  display: none;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .weight-options {
+  gap: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2px;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .weight-options .weight-option {
+  width: 100%;
+  min-height: 54px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(50, 145, 191, 0.82) 0%, rgba(13, 72, 104, 0.9) 58%, rgba(8, 56, 84, 0.95) 100%) !important;
+  box-shadow: inset 0 10px 22px rgba(122, 209, 255, 0.18), 0 8px 16px rgba(5, 25, 37, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  margin: 0;
+  line-height: 1;
+  text-shadow: none;
+  position: relative;
+  outline: none !important;
+  cursor: pointer;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .weight-options .weight-option .weight-option-number,
+.dialog.cardigan-weight-selection-dialog .window-content .weight-options .weight-option .weight-option-label {
+  display: inline-block;
+  width: max-content;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.15);
+  font-family: "Alatsi", sans-serif;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .weight-options .weight-option .weight-option-number {
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 28px;
+  min-width: 1ch;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .weight-options .weight-option .weight-option-label {
+  font-size: 24px;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .weight-options .weight-option[data-selected] {
+  border: 1px solid #FFB75C;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .weight-options .weight-option[data-action=weight-0] .weight-option-label {
+  background: linear-gradient(180deg, #5CFF7F 33.6%, #2E9E4D 66.67%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .weight-options .weight-option[data-action=weight-1] .weight-option-number {
+  padding-left: 3px;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .weight-options .weight-option[data-action=weight-1] .weight-option-label {
+  background: linear-gradient(180deg, #FFB200 33.6%, #784C00 78.67%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .weight-options .weight-option[data-action=weight-2] .weight-option-label {
+  background: linear-gradient(180deg, #FF001E 33.6%, #8B0011 66.67%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .weight-options .weight-option[data-action=weight-3] .weight-option-label {
+  background: linear-gradient(180deg, #B80049 33.6%, #8B0011 66.67%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dialog.cardigan-weight-selection-dialog .window-content .title-border {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: 7px;
+  margin: 0 auto 6px;
 }
 
 /* ----------------------------------------- */

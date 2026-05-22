@@ -792,7 +792,6 @@
     },
     "ItemComum": {
       "Title": "Common Item",
-      "Subtitle": "General equipment and miscellaneous items",
       "Category": "Category",
       "Usage": "Usage Instructions",
       "UsagePlaceholder": "Describe how this item is used...",

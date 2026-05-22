@@ -174,7 +174,12 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         // Tipo backpack foi removido - não deve mais chegar aqui
         break;
       case 'item-comum':
-        options.parts.push('attributesItemComum');
+        options.parts = ['header', 'tabs', 'attributesItemComum', 'description'];
+        options.position = {
+          ...options.position,
+          width: 400.444,
+          height: 440.444,
+        };
         break;
       case 'item-municao':
         options.parts.push('attributesItemMunicao');
@@ -512,6 +517,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           tab.label += 'Description';
           break;
         case 'attributesItemComum':
+          tab.id = 'attributes';
+          tab.label = 'Propriedades';
+          break;
         case 'attributesItemMunicao':
         case 'attributesItemConsumivel':
         case 'attributesEfeito':
@@ -3192,6 +3200,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     super._onRender(context, options);
 
     // Mirror the type-specific root-class pattern used by other systems.
+    this.element?.classList.toggle('item-type-comum', this.item?.type === 'item-comum');
     this.element?.classList.toggle('item-type-armadura', this.item?.type === 'armadura');
     this.element?.classList.toggle('item-type-arma', this.item?.type === 'arma');
 
