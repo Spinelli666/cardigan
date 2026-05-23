@@ -1014,7 +1014,6 @@
       "Tip": "Check your inventory for ingredients with similar names, or acquire the missing materials before crafting."
     },
     "ItemIngredient": {
-      "Subtitle": "Crafting materials, herbs, and components",
       "Type": "Ingredient Type",
       "Freshness": "Freshness",
       "Origin": "Origin", 

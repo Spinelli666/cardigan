@@ -3,9 +3,12 @@ import SkillEnhancementConfigDialog from '../applications/skill-enhancement-conf
 import SkillLinkedSkillsDialog from '../applications/skill-linked-skills-dialog.mjs';
 import RacialSkillsSelectionDialog from '../applications/racial-skills-selection-dialog.mjs';
 import { ArmorItemListeners } from './listeners/armor-item-listeners.mjs';
+import { CommonItemListeners } from './listeners/common-item-listeners.mjs';
 import { ArmorContext } from './parts/armor-context.mjs';
 import { ArmorSheetBehavior } from './parts/armor-sheet-behavior.mjs';
 import { AmmunitionSheetBehavior } from './parts/ammunition-sheet-behavior.mjs';
+import { IngredientSheetBehavior } from './parts/ingredient-sheet-behavior.mjs';
+import { SheetBaseBehavior } from './parts/sheet-base-behavior.mjs';
 import { WeaponAmmunitionBehavior } from './parts/weapon-ammunition-behavior.mjs';
 
 const { api, sheets } = foundry.applications;
@@ -169,6 +172,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     options.parts = ['header', 'tabs', 'description'];
     if (ArmorSheetBehavior.configureRenderOptions(this, options)) return;
     if (AmmunitionSheetBehavior.configureRenderOptions(this, options)) return;
+    if (IngredientSheetBehavior.configureRenderOptions(this, options)) return;
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
     // Control which parts show based on document subtype
@@ -186,9 +190,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'item-consumivel':
         options.parts.push('attributesItemConsumivel', 'modifiersItemConsumivel');
-        break;
-      case 'item-ingredient':
-        options.parts.push('attributesItemIngredient');
         break;
       case 'efeito':
         // Efeitos têm descrição e podem ter atributos básicos se necessário
@@ -488,7 +489,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const tabGroup = 'primary';
     // Default tab for first time it's rendered this session
     if (!this.tabGroups[tabGroup]) {
-      this.tabGroups[tabGroup] = ArmorSheetBehavior.resolveDefaultPrimaryTab(this);
+      this.tabGroups[tabGroup] = SheetBaseBehavior.resolveDefaultPrimaryTab(this);
     }
     return parts.reduce((tabs, partId) => {
       const tab = {
@@ -514,6 +515,12 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         return tabs;
       }
 
+      if (IngredientSheetBehavior.applyTabMetadata(partId, tab)) {
+        if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+        tabs[partId] = tab;
+        return tabs;
+      }
+
       switch (partId) {
         case 'header':
         case 'tabs':
@@ -530,7 +537,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'attributesEfeito':
         case 'attributesSkill':
         case 'attributesItemRecipe':
-        case 'attributesItemIngredient':
         case 'attributesRace':
           tab.id = 'attributes';
           tab.label += 'Details';
@@ -592,6 +598,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   _setupIngredientListeners() {
+    if (this.item.type !== 'item-recipe') return;
+
     
     // Find add ingredient button
     const addButton = this.element.querySelector('[data-action="addIngredient"]');
@@ -3113,32 +3121,19 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     // Mirror the type-specific root-class pattern used by other systems.
     this.element?.classList.toggle('item-type-comum', this.item?.type === 'item-comum');
+    IngredientSheetBehavior.applyRootClass(this);
     AmmunitionSheetBehavior.applyRootClass(this);
     this.element?.classList.toggle('item-type-armadura', this.item?.type === 'armadura');
     this.element?.classList.toggle('item-type-arma', this.item?.type === 'arma');
 
-    // Remove specific header controls for armor items only.
+    // Remove specific header controls for selected item sheet types.
     // Run immediately and on next frame in case controls are attached after initial render.
-    ArmorSheetBehavior.applyHeaderCleanup(this);
-    requestAnimationFrame(() => ArmorSheetBehavior.applyHeaderCleanup(this));
-    
-    console.log("[ITEM-SHEET] _onRender CONSOLIDATED called for item type:", this.item.type);
-    console.log("[ITEM-SHEET] Binding drag-drop handlers, count:", this.#dragDrop.length);
-    console.log("[ITEM-SHEET] this.element exists:", !!this.element);
+    SheetBaseBehavior.applyHeaderCleanup(this);
+    requestAnimationFrame(() => SheetBaseBehavior.applyHeaderCleanup(this));
     
     // === DRAG-DROP BINDING (from first _onRender) ===
-    // Check if drop zone exists (for recipes)
-    if (this.item.type === 'item-recipe') {
-      const dropZone = this.element.querySelector('[data-drop-zone="resultItems"]');
-    }
-    
-    this.#dragDrop.forEach((d, index) => {
-      console.log(`[ITEM-SHEET] Binding drag-drop handler ${index + 1}:`, {
-        dragSelector: d.dragSelector,
-        dropSelector: d.dropSelector
-      });
+    this.#dragDrop.forEach((d) => {
       d.bind(this.element);
-      console.log(`[ITEM-SHEET] Handler ${index + 1} bound successfully`);
     });
     
     // Setup mutually exclusive checkboxes for damage abilities
@@ -3186,7 +3181,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup energy modifier toggle visibility for consumable items
     this._setupEnergyModifierToggle();
     
-    // Setup armor bonus toggle visibility for consumable items  
+    // Setup armor bonus toggle visibility for consumable items
+    CommonItemListeners.initialize(this);
     ArmorItemListeners.initialize(this);
     
     // Setup status ailments toggle visibility for consumable items
