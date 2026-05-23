@@ -68,7 +68,7 @@ export class ArmorItemListeners {
    * @param {CardiganSystemItemSheet} sheet - The item sheet instance
    */
   static setupCommonItemWeightSelector(sheet) {
-    if (sheet.item.type !== 'item-comum') return;
+    if (!['item-comum', 'item-municao'].includes(sheet.item.type)) return;
 
     const weightInput = sheet.element?.querySelector('.common-item-weight-display');
     const weightPanel = sheet.element?.querySelector('[data-common-item-extra-panel="weight"]');
@@ -88,12 +88,18 @@ export class ArmorItemListeners {
       weightInput.dataset.weightValue = weightNumber;
     };
 
-    const options = [
-      { weight: 'leve', number: '0', label: 'LEVE' },
-      { weight: 'medio', number: '1', label: 'MÉDIO' },
-      { weight: 'pesado', number: '2', label: 'PESADO' },
-      { weight: 'muito-pesado', number: '4', label: 'M. PESADO' }
-    ];
+    const options = sheet.item.type === 'item-municao'
+      ? [
+          { weight: 'leve', number: '0', label: 'LEVE' },
+          { weight: 'medio', number: '1', label: 'MÉDIO' },
+          { weight: 'pesado', number: '2', label: 'PESADO' }
+        ]
+      : [
+          { weight: 'leve', number: '0', label: 'LEVE' },
+          { weight: 'medio', number: '1', label: 'MÉDIO' },
+          { weight: 'pesado', number: '2', label: 'PESADO' },
+          { weight: 'muito-pesado', number: '4', label: 'M. PESADO' }
+        ];
 
     const openWeightDialog = async (event) => {
       event.preventDefault();

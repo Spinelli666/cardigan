@@ -97,7 +97,8 @@
         }
 
         &[data-selected] {
-          border: 1px solid #FFB75C;
+          border: 2px solid #FFB75C;
+          box-shadow: 0 0 12px rgba(255, 183, 92, 0.4), inset 0 0 8px rgba(255, 183, 92, 0.1);
         }
       }
 

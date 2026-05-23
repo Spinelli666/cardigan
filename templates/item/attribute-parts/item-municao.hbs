@@ -4,50 +4,52 @@
   data-group='primary'
   data-tab='attributes'
 >
-  <div class="item-municao-header">
-    <p class="item-subtitle">{{localize "CARDIGAN.ItemMunicao.Subtitle"}}</p>
-  </div>
-
-  <div class="backpack-form-section">
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.Common.Quantity"}}</label>
-      <div class="form-fields">
-        <input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="0"/>
-        <span class="unit">{{localize "CARDIGAN.ItemMunicao.Units"}}</span>
+  <div class="ammunition-item-top-fields">
+    <div class="ammunition-item-price-content">
+      <div class="common-item-price-content">
+        <div class="common-item-extra-property common-item-price-property">
+          <div class="common-item-extra-content">
+            <img class="common-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-coins.svg" alt="{{localize 'CARDIGAN.Price'}}" data-tooltip="Preço" data-tooltip-class='cardigan-tooltip' />
+            <div class="common-item-price-input-wrapper common-item-extra-panel" data-common-item-extra-panel="price">
+              <input type="number" name="system.price" value="{{system.price}}" min="0" placeholder="0"/>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.Weight"}}</label>
-      <select name="system.weight">
-        <option value="leve" {{selected system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
-        <option value="medio" {{selected system.weight "medio"}}>{{localize "CARDIGAN.WeightMedium"}}</option>
-        <option value="pesado" {{selected system.weight "pesado"}}>{{localize "CARDIGAN.WeightHeavy"}}</option>
-      </select>
+    <div class="ammunition-item-price-content ammunition-item-weight-content">
+      <div class="common-item-price-content common-item-weight-content">
+        <div class="common-item-extra-property common-item-price-property">
+          <div class="common-item-extra-content">
+            <img class="common-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weight.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-tooltip="Peso" data-tooltip-class='cardigan-tooltip' />
+            <div class="common-item-price-input-wrapper common-item-extra-panel" data-common-item-extra-panel="weight">
+              <input type="text" class="common-item-weight-display" value="-" placeholder="-" readonly/>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.Common.Price"}}</label>
-      <div class="form-fields">
-        <input type="number" name="system.price" value="{{system.price}}" data-dtype="Number" min="0" step="0.1"/>
-        <span class="unit">{{localize "CARDIGAN.Currency.Gold"}}</span>
+    <div class="ammunition-item-price-content ammunition-item-special-content">
+      <div class="common-item-price-content">
+        <div class="common-item-extra-property common-item-price-property ammunition-special-property">
+          <div class="ammunition-special-options">
+            <label class="ammunition-special-option {{#if system.isFirearmAmmo}}is-active{{/if}}" data-tooltip="{{localize 'CARDIGAN.ItemMunicao.IsFirearmAmmo'}}" data-tooltip-class='cardigan-tooltip'>
+              <input type="checkbox" class="ammunition-icon-checkbox" name="system.isFirearmAmmo" {{checked system.isFirearmAmmo}} data-dtype="Boolean"/>
+              <img class="ammunition-special-icon" src="systems/cardigan/assets/images/decorative/icons/icon-firearm-ammu.svg" alt="{{localize 'CARDIGAN.ItemMunicao.IsFirearmAmmo'}}"/>
+            </label>
+
+            <label class="ammunition-special-option {{#if system.isSpecialAmmo}}is-active{{/if}}" data-tooltip="{{localize 'CARDIGAN.ItemMunicao.IsSpecialAmmo'}}" data-tooltip-class='cardigan-tooltip'>
+              <input type="checkbox" class="ammunition-icon-checkbox" name="system.isSpecialAmmo" {{checked system.isSpecialAmmo}} data-dtype="Boolean"/>
+              <img class="ammunition-special-icon" src="systems/cardigan/assets/images/weapons/special-ammunition.webp" alt="{{localize 'CARDIGAN.ItemMunicao.IsSpecialAmmo'}}"/>
+            </label>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="backpack-form-section">
-    <div class="form-group">
-      <label class="checkbox">
-        <input type="checkbox" name="system.isFirearmAmmo" {{checked system.isFirearmAmmo}} data-dtype="Boolean"/>
-        {{localize "CARDIGAN.ItemMunicao.IsFirearmAmmo"}}
-      </label>
-    </div>
-    
-    <div class="form-group">
-      <label class="checkbox">
-        <input type="checkbox" name="system.isSpecialAmmo" {{checked system.isSpecialAmmo}} data-dtype="Boolean"/>
-        {{localize "CARDIGAN.ItemMunicao.IsSpecialAmmo"}}
-      </label>
-    </div>
-  </div>
+  <input type="hidden" name="system.weight" value="{{system.weight}}" data-dtype="String"/>
+  <input type="hidden" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="0"/>
 </section>

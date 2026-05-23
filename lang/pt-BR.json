@@ -806,8 +806,8 @@
       "Title": "Ammunition",
       "Subtitle": "Arrows, bullets, bolts and other projectiles",
       "Units": "units",
-      "IsFirearmAmmo": "Firearm Ammunition?",
-      "IsSpecialAmmo": "Special Ammunition?"
+      "IsFirearmAmmo": "Munição de Arma de Fogo",
+      "IsSpecialAmmo": "Munição Especial"
     },
     "ItemConsumivel": {
       "Title": "Consumable",

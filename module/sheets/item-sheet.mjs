@@ -5,6 +5,8 @@ import RacialSkillsSelectionDialog from '../applications/racial-skills-selection
 import { ArmorItemListeners } from './listeners/armor-item-listeners.mjs';
 import { ArmorContext } from './parts/armor-context.mjs';
 import { ArmorSheetBehavior } from './parts/armor-sheet-behavior.mjs';
+import { AmmunitionSheetBehavior } from './parts/ammunition-sheet-behavior.mjs';
+import { WeaponAmmunitionBehavior } from './parts/weapon-ammunition-behavior.mjs';
 
 const { api, sheets } = foundry.applications;
 
@@ -166,6 +168,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Not all parts always render
     options.parts = ['header', 'tabs', 'description'];
     if (ArmorSheetBehavior.configureRenderOptions(this, options)) return;
+    if (AmmunitionSheetBehavior.configureRenderOptions(this, options)) return;
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
     // Control which parts show based on document subtype
@@ -180,9 +183,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           width: 400.444,
           height: 440.444,
         };
-        break;
-      case 'item-municao':
-        options.parts.push('attributesItemMunicao');
         break;
       case 'item-consumivel':
         options.parts.push('attributesItemConsumivel', 'modifiersItemConsumivel');
@@ -508,6 +508,12 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         return tabs;
       }
 
+      if (AmmunitionSheetBehavior.applyTabMetadata(partId, tab)) {
+        if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+        tabs[partId] = tab;
+        return tabs;
+      }
+
       switch (partId) {
         case 'header':
         case 'tabs':
@@ -520,7 +526,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           tab.id = 'attributes';
           tab.label = 'Propriedades';
           break;
-        case 'attributesItemMunicao':
         case 'attributesItemConsumivel':
         case 'attributesEfeito':
         case 'attributesSkill':
@@ -646,99 +651,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           strengthCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
         }
       });
-    }
-  }
-
-  /**
-   * Setup conditional visibility for weapon ammunition
-   * @private
-   */
-  _setupConditionalAmmunition() {
-    const rangedCheckbox = this.element.querySelector('input[name="system.ranged"]');
-    const isFirearmCheckbox = this.element.querySelector('input[name="system.isFirearm"]');
-    const firearmSection = this.element.querySelector('.firearm-section');
-    const ammunitionSection = this.element.querySelector('.ammunition-section');
-
-    if (!rangedCheckbox || !isFirearmCheckbox || !firearmSection || !ammunitionSection) return;
-
-    // Function to update visibility based on checkboxes
-    const updateVisibility = () => {
-      const isRanged = rangedCheckbox.checked;
-      const isFirearm = isFirearmCheckbox.checked;
-
-      // Show/hide firearm and ammunition sections based on ranged status
-      firearmSection.style.display = isRanged ? 'block' : 'none';
-      ammunitionSection.style.display = isRanged ? 'block' : 'none';
-
-      // Re-render ammunition fields based on firearm status
-      if (isRanged) {
-        this._updateAmmunitionFields(isFirearm);
-      }
-    };
-
-    // Set up event listeners
-    rangedCheckbox.addEventListener('change', updateVisibility);
-    isFirearmCheckbox.addEventListener('change', updateVisibility);
-
-    // Initial setup
-    updateVisibility();
-  }
-
-  /**
-   * Update ammunition fields based on firearm status
-   * @private
-   */
-  _updateAmmunitionFields(isFirearm) {
-    const ammunitionSection = this.element.querySelector('.ammunition-section');
-    if (!ammunitionSection) return;
-
-    const label = ammunitionSection.querySelector('label');
-    const currentInput = ammunitionSection.querySelector('input[name="system.ammunition.current"]');
-    
-    // Remove existing container content
-    const existingContainer = ammunitionSection.querySelector('.ammunition-container, input[name="system.ammunition.current"]:not([type="hidden"])');
-    if (existingContainer) {
-      existingContainer.remove();
-    }
-
-    if (isFirearm) {
-      // Create firearm ammunition display (current/max)
-      const container = document.createElement('div');
-      container.className = 'ammunition-container';
-      container.style.cssText = 'display: flex; align-items: center; gap: 5px;';
-      
-      const currentField = document.createElement('input');
-      currentField.type = 'number';
-      currentField.name = 'system.ammunition.current';
-      currentField.value = this.document.system.ammunition.current;
-      currentField.min = '0';
-      currentField.max = this.document.system.ammunition.max;
-      currentField.style.width = '60px';
-      
-      const separator = document.createElement('span');
-      separator.textContent = '/';
-      
-      const maxField = document.createElement('input');
-      maxField.type = 'number';
-      maxField.name = 'system.ammunition.max';
-      maxField.value = this.document.system.ammunition.max;
-      maxField.min = '0';
-      maxField.style.width = '60px';
-      
-      container.appendChild(currentField);
-      container.appendChild(separator);
-      container.appendChild(maxField);
-      label.parentNode.appendChild(container);
-    } else {
-      // Create non-firearm ammunition display (current only)
-      const currentField = document.createElement('input');
-      currentField.type = 'number';
-      currentField.name = 'system.ammunition.current';
-      currentField.value = this.document.system.ammunition.current;
-      currentField.min = '0';
-      currentField.style.width = '80px';
-      
-      label.parentNode.appendChild(currentField);
     }
   }
 
@@ -3201,6 +3113,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     // Mirror the type-specific root-class pattern used by other systems.
     this.element?.classList.toggle('item-type-comum', this.item?.type === 'item-comum');
+    AmmunitionSheetBehavior.applyRootClass(this);
     this.element?.classList.toggle('item-type-armadura', this.item?.type === 'armadura');
     this.element?.classList.toggle('item-type-arma', this.item?.type === 'arma');
 
@@ -3232,7 +3145,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     this._setupMutuallyExclusiveCheckboxes();
     
     // Setup conditional visibility for weapon ammunition
-    this._setupConditionalAmmunition();
+    WeaponAmmunitionBehavior.setupConditionalAmmunition(this);
     
     // Manual setup for ingredient buttons (fallback)
     this._setupIngredientListeners();
