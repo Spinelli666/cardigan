@@ -430,21 +430,6 @@
     </div>
   </div>
 
-  {{! Armor Bonus System - Temporary Armor Bonus? }}
-  <div class="armor-bonus-toggle">
-    <label class="checkbox-label">
-      <input type="checkbox" name="system.hasArmorBonus" {{checked item.system.hasArmorBonus}} data-dtype="Boolean" data-armor-bonus-toggle />
-      {{localize "CARDIGAN.ItemConsumivel.HasArmorBonus"}}
-    </label>
-  </div>
-
-  <div class="armor-bonus-system {{#unless item.system.hasArmorBonus}}hidden{{/unless}}" data-armor-bonus-section>
-    <div class="form-group armor-bonus-amount">
-      <label for="system.armorBonusAmount">{{localize "CARDIGAN.ItemConsumivel.ArmorBonusAmount"}}</label>
-      <input type="number" name="system.armorBonusAmount" value="{{item.system.armorBonusAmount}}" data-dtype="Number" min="0" max="99" />
-    </div>
-  </div>
-
   {{! Status Ailments System - Status Ailments? }}
   <div class="status-ailments-toggle">
     <label class="checkbox-label">
@@ -611,36 +596,6 @@
       <input type="checkbox" name="system.hasEffects" {{checked item.system.hasEffects}} data-dtype="Boolean" data-effects-toggle />
       {{localize "CARDIGAN.ItemConsumivel.HasEffects"}}
     </label>
-  </div>
-
-  {{! Movement Boost System }}
-  <div class="movement-boost-toggle">
-    <label class="checkbox-label">
-      <input type="checkbox" name="system.hasMovementBoost" {{checked item.system.hasMovementBoost}} data-dtype="Boolean" data-movement-boost-toggle />
-      {{localize "CARDIGAN.ItemConsumivel.HasMovementBoost"}}
-    </label>
-  </div>
-
-  <div class="movement-boost-system {{#unless item.system.hasMovementBoost}}hidden{{/unless}}" data-movement-boost-section>
-    <div class="form-group movement-boost-amount">
-      <label for="system.movementBoostAmount">{{localize "CARDIGAN.ItemConsumivel.MovementBoostAmount"}}</label>
-      <input type="number" name="system.movementBoostAmount" value="{{item.system.movementBoostAmount}}" data-dtype="Number" min="1" max="10" />
-    </div>
-  </div>
-
-  {{! Critical Hit Boost System }}
-  <div class="critical-hit-boost-toggle">
-    <label class="checkbox-label">
-      <input type="checkbox" name="system.hasCriticalHitBoost" {{checked item.system.hasCriticalHitBoost}} data-dtype="Boolean" data-critical-hit-boost-toggle />
-      {{localize "CARDIGAN.ItemConsumivel.HasCriticalHitBoost"}}
-    </label>
-  </div>
-
-  <div class="critical-hit-boost-system {{#unless item.system.hasCriticalHitBoost}}hidden{{/unless}}" data-critical-hit-boost-section>
-    <div class="form-group critical-hit-boost-amount">
-      <label for="system.criticalHitBoostAmount">{{localize "CARDIGAN.ItemConsumivel.CriticalHitBoostAmount"}}</label>
-      <input type="number" name="system.criticalHitBoostAmount" value="{{item.system.criticalHitBoostAmount}}" data-dtype="Number" min="1" max="5" />
-    </div>
   </div>
 
   {{! Effects System - Similar to Skill Bonuses }}

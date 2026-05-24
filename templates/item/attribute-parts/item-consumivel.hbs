@@ -4,63 +4,96 @@
   data-group='primary'
   data-tab='attributes'
 >
-  <div class="item-consumivel-header">
-    <p class="item-subtitle">{{localize "CARDIGAN.ItemConsumivel.Subtitle"}}</p>
-  </div>
+  <div class="consumable-item-top-grid">
+    <div class="consumable-item-left-grid">
+      <div class="consumable-item-properties-content">
+        <div class="consumable-item-type-selector-grid">
+          <button type="button" class="consumable-item-type-selector-btn" data-profession="general" data-tooltip="{{localize 'CARDIGAN.ItemIngredient.Professions.General'}}" data-tooltip-class='cardigan-tooltip' {{#if (eq system.profession "general")}}data-selected{{/if}}>
+            <img src="systems/cardigan/assets/images/profession/icon-profession.webp" alt="{{localize 'CARDIGAN.ItemIngredient.Professions.General'}}" title="{{localize 'CARDIGAN.ItemIngredient.Professions.General'}}" />
+          </button>
+          <button type="button" class="consumable-item-type-selector-btn" data-profession="alchemy" data-tooltip="{{localize 'CARDIGAN.ItemIngredient.Professions.Alchemy'}}" data-tooltip-class='cardigan-tooltip' {{#if (eq system.profession "alchemy")}}data-selected{{/if}}>
+            <img src="systems/cardigan/assets/images/profession/icon-alchemy.svg" alt="{{localize 'CARDIGAN.ItemIngredient.Professions.Alchemy'}}" title="{{localize 'CARDIGAN.ItemIngredient.Professions.Alchemy'}}" />
+          </button>
+          <button type="button" class="consumable-item-type-selector-btn" data-profession="blacksmithing" data-tooltip="{{localize 'CARDIGAN.ItemIngredient.Professions.Blacksmithing'}}" data-tooltip-class='cardigan-tooltip' {{#if (eq system.profession "blacksmithing")}}data-selected{{/if}}>
+            <img src="systems/cardigan/assets/images/profession/icon-blacksmithing.svg" alt="{{localize 'CARDIGAN.ItemIngredient.Professions.Blacksmithing'}}" title="{{localize 'CARDIGAN.ItemIngredient.Professions.Blacksmithing'}}" />
+          </button>
+          <button type="button" class="consumable-item-type-selector-btn" data-profession="culinary" data-tooltip="{{localize 'CARDIGAN.ItemIngredient.Professions.Culinary'}}" data-tooltip-class='cardigan-tooltip' {{#if (eq system.profession "culinary")}}data-selected{{/if}}>
+            <img src="systems/cardigan/assets/images/profession/icon-culinary.svg" alt="{{localize 'CARDIGAN.ItemIngredient.Professions.Culinary'}}" title="{{localize 'CARDIGAN.ItemIngredient.Professions.Culinary'}}" />
+          </button>
+          <button type="button" class="consumable-item-type-selector-btn" data-profession="tailoring" data-tooltip="{{localize 'CARDIGAN.ItemIngredient.Professions.Tailoring'}}" data-tooltip-class='cardigan-tooltip' {{#if (eq system.profession "tailoring")}}data-selected{{/if}}>
+            <img src="systems/cardigan/assets/images/profession/icon-tailoring.svg" alt="{{localize 'CARDIGAN.ItemIngredient.Professions.Tailoring'}}" title="{{localize 'CARDIGAN.ItemIngredient.Professions.Tailoring'}}" />
+          </button>
+          <button type="button" class="consumable-item-type-selector-btn" data-profession="tecnomagic" data-tooltip="{{localize 'CARDIGAN.ItemIngredient.Professions.Tecnomagic'}}" data-tooltip-class='cardigan-tooltip' {{#if (eq system.profession "tecnomagic")}}data-selected{{/if}}>
+            <img src="systems/cardigan/assets/images/profession/icon-technomagic.svg" alt="{{localize 'CARDIGAN.ItemIngredient.Professions.Tecnomagic'}}" title="{{localize 'CARDIGAN.ItemIngredient.Professions.Tecnomagic'}}" />
+          </button>
+        </div>
+      </div>
 
-  <div class="backpack-form-section">
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.Common.Quantity"}}</label>
-      <div class="form-fields">
-        <input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="1"/>
-        <span class="unit">{{localize "CARDIGAN.ItemConsumivel.Units"}}</span>
+      <div class="consumable-item-left-row consumable-item-left-row-armor">
+        <div class="consumable-item-price-content consumable-item-left-property consumable-item-armor-content">
+          <div class="consumable-item-extra-property consumable-item-price-property">
+            <div class="consumable-item-extra-content">
+              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-armor.svg" alt="{{localize 'CARDIGAN.Armor'}}" data-tooltip="Bônus de Armadura" data-tooltip-class='cardigan-tooltip' />
+              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="armor">
+                <input type="number" name="system.armorBonusAmount" value="{{system.armorBonusAmount}}" data-dtype="Number" min="0" step="1" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="consumable-item-left-row consumable-item-left-row-top">
+        <div class="consumable-item-price-content consumable-item-left-property consumable-item-weight-content">
+          <div class="consumable-item-extra-property consumable-item-price-property">
+            <div class="consumable-item-extra-content">
+              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weight.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-tooltip="Peso" data-tooltip-class='cardigan-tooltip' />
+              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="weight">
+                <input type="text" class="consumable-item-weight-display" value="-" placeholder="-" readonly/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="consumable-item-price-content consumable-item-left-property consumable-item-price-left-property">
+          <div class="consumable-item-extra-property consumable-item-price-property">
+            <div class="consumable-item-extra-content">
+              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-coins.svg" alt="{{localize 'CARDIGAN.Price'}}" data-tooltip="Preço" data-tooltip-class='cardigan-tooltip' />
+              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="price">
+                <input type="number" name="system.price" value="{{system.price}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="consumable-item-left-row consumable-item-left-row-bottom">
+        <div class="consumable-item-price-content consumable-item-left-property consumable-item-movement-content">
+          <div class="consumable-item-extra-property consumable-item-price-property">
+            <div class="consumable-item-extra-content">
+              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-movement.svg" alt="{{localize 'CARDIGAN.MovementBonus'}}" data-tooltip="Bônus de Movimento" data-tooltip-class='cardigan-tooltip' />
+              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="movement">
+                <input type="number" name="system.bonusDeslocamento.bonus" value="{{system.bonusDeslocamento.bonus}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="consumable-item-price-content consumable-item-left-property consumable-item-critical-content">
+          <div class="consumable-item-extra-property consumable-item-price-property">
+            <div class="consumable-item-extra-content">
+              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-critical.svg" alt="{{localize 'CARDIGAN.ItemConsumivel.CriticalHitBoostAmount'}}" data-tooltip="Bônus de Crítico" data-tooltip-class='cardigan-tooltip' />
+              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="critical-hit">
+                <input type="number" name="system.criticalHitBoostAmount" value="{{system.criticalHitBoostAmount}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.Weight"}}</label>
-      <select name="system.weight">
-        <option value="leve" {{selected system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
-        <option value="medio" {{selected system.weight "medio"}}>{{localize "CARDIGAN.WeightMedium"}}</option>
-        <option value="pesado" {{selected system.weight "pesado"}}>{{localize "CARDIGAN.WeightHeavy"}}</option>
-        <option value="muito-pesado" {{selected system.weight "muito-pesado"}}>{{localize "CARDIGAN.WeightVeryHeavy"}}</option>
-      </select>
+    <div class="consumable-item-right-grid">
+      <p>TESTE DO GRID DIREITO</p>
     </div>
   </div>
 
-  <div class="backpack-form-section">
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.ItemIngredient.Profession"}}</label>
-      <div class="form-fields">
-        <select name="system.profession" data-dtype="String">
-          <option value="general" {{#if (eq system.profession "general")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.General"}}
-          </option>
-          <option value="alchemy" {{#if (eq system.profession "alchemy")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.Alchemy"}}
-          </option>
-          <option value="blacksmithing" {{#if (eq system.profession "blacksmithing")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.Blacksmithing"}}
-          </option>
-          <option value="culinary" {{#if (eq system.profession "culinary")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.Culinary"}}
-          </option>
-          <option value="tailoring" {{#if (eq system.profession "tailoring")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.Tailoring"}}
-          </option>
-          <option value="tecnomagic" {{#if (eq system.profession "tecnomagic")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.Tecnomagic"}}
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.Common.Price"}}</label>
-      <div class="form-fields">
-        <input type="number" name="system.price" value="{{system.price}}" data-dtype="Number" min="0"/>
-        <span class="unit">{{localize "CARDIGAN.Currency.Gold"}}</span>
-      </div>
-    </div>
-  </div>
+  <input type="hidden" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="1"/>
 </section>

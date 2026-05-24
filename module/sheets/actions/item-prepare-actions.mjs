@@ -132,7 +132,31 @@ export class ItemPrepareActions {
     
     context.backpack = sortedBackpack;
     context.proficiencies = proficiencies.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.efeitos = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    const sortedEffects = efeitos.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+
+    // Deduplicate consumable effects by source item, preferring tracking effects.
+    // This hides legacy duplicates such as "Item Name" and "Efeito de Item Name".
+    const groupedEffects = new Map();
+
+    for (const effect of sortedEffects) {
+      const tracking = effect.system?.consumableTracking;
+      const sourceItemId = tracking?.originalItemId || effect.system?.sourceItemId || '';
+      const isTrackingEffect = !!tracking?.isTrackingEffect;
+      const isTemporaryEffect = !!(effect.system?.isTemporaryHealth || effect.system?.isTemporaryEnergy || effect.system?.isTemporaryArmor);
+
+      const key = sourceItemId
+        ? `consumable:${sourceItemId}`
+        : `item:${effect.id}`;
+
+      const priority = isTrackingEffect ? 3 : isTemporaryEffect ? 2 : 1;
+      const existing = groupedEffects.get(key);
+
+      if (!existing || priority > existing.priority) {
+        groupedEffects.set(key, { effect, priority });
+      }
+    }
+
+    context.efeitos = Array.from(groupedEffects.values()).map((entry) => entry.effect);
     context.recipes = recipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     
     // Find race item if exists

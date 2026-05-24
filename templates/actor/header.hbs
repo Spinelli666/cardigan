@@ -88,7 +88,7 @@
               value='{{system.details.movement}}'
               data-dtype='Number'
               min='0'
-              class='movement-input'
+              class='movement-input dynamic-field'
             />
           </div>
           
@@ -103,7 +103,7 @@
               name='system.details.criticalHit'
               value='{{system.details.criticalHit}}'
               data-dtype='Number'
-              class='crit-input'
+              class='crit-input dynamic-field'
             />
           </div>
         </div>
@@ -142,10 +142,9 @@
           {{! Armor Bonus }}
           <input
             type='number'
-            name='system.status.armorBonus'
             value='{{system.status.armorBonus}}'
             data-dtype='Number'
-            class='armor-bonus dynamic-field'
+            class='armor-bonus armor-bonus-input dynamic-field'
             data-tooltip='CARDIGAN.Tooltip.ArmorBonus' 
             data-tooltip-class='cardigan-tooltip'
           />

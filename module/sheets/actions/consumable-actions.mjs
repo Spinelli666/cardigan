@@ -174,6 +174,8 @@ export class ConsumableActions {
         }
       }
 
+      const appliedAttributeModifiers = [];
+
       console.log("[CONSUME] Checking health modifier:", {
         hasHealthModifier: item.system.hasHealthModifier,
         healthModifierDice: item.system.healthModifierDice,
@@ -217,11 +219,19 @@ export class ConsumableActions {
         armorBonusAmount: item.system.armorBonusAmount
       });
 
-      if (item.system.hasArmorBonus && item.system.armorBonusAmount > 0) {
+      const armorAmount = Number(item.system?.armorBonusAmount ?? 0);
+      const armorEnabled = item.system?.hasArmorBonus ?? (armorAmount > 0);
+
+      if (armorEnabled && armorAmount > 0) {
         console.log("[CONSUME] Processing armor bonus for item:", item.name);
         const armorBonusResult = await ConsumableActions.processArmorBonus(item, sheet);
         if (armorBonusResult) {
           messages.push(armorBonusResult.message);
+          appliedAttributeModifiers.push({
+            type: 'armorBonus',
+            amount: armorAmount,
+            label: `Armor Bonus +${armorAmount}`
+          });
           console.log("[CONSUME] Armor bonus processed, message added:", armorBonusResult.message);
         } else {
           console.log("[CONSUME] Armor bonus processing returned null");
@@ -328,22 +338,27 @@ export class ConsumableActions {
         console.log("[CONSUME] Water not configured or not enabled");
       }
 
-      const appliedAttributeModifiers = [];
-
       console.log("[CONSUME] Checking movement boost:", {
         hasMovementBoost: item.system.hasMovementBoost,
-        movementBoostAmount: item.system.movementBoostAmount
+        movementBoostAmount: item.system.movementBoostAmount,
+        bonusDeslocamento: item.system.bonusDeslocamento
       });
 
-      if (item.system.hasMovementBoost && item.system.movementBoostAmount > 0) {
+      const movementEnabled =
+        item.system?.bonusDeslocamento?.enabled ?? item.system?.hasMovementBoost ?? false;
+      const movementAmount = Number(
+        item.system?.bonusDeslocamento?.bonus ?? item.system?.movementBoostAmount ?? 0
+      );
+
+      if (movementEnabled && movementAmount > 0) {
         console.log("[CONSUME] Processing movement boost for item:", item.name);
         const movementResult = await ConsumableActions.processMovementBoost(item, sheet);
         if (movementResult) {
           messages.push(movementResult.message);
           appliedAttributeModifiers.push({
             type: 'movement',
-            amount: item.system.movementBoostAmount,
-            label: `Movement +${item.system.movementBoostAmount}`
+            amount: movementAmount,
+            label: `Movement +${movementAmount}`
           });
           console.log("[CONSUME] Movement boost processed, message added:", movementResult.message);
         } else {
@@ -358,15 +373,19 @@ export class ConsumableActions {
         criticalHitBoostAmount: item.system.criticalHitBoostAmount
       });
 
-      if (item.system.hasCriticalHitBoost && item.system.criticalHitBoostAmount > 0) {
+      const criticalHitEnabled =
+        item.system?.hasCriticalHitBoost ?? Number(item.system?.criticalHitBoostAmount ?? 0) > 0;
+      const criticalHitAmount = Number(item.system?.criticalHitBoostAmount ?? 0);
+
+      if (criticalHitEnabled && criticalHitAmount > 0) {
         console.log("[CONSUME] Processing critical hit boost for item:", item.name);
         const criticalHitResult = await ConsumableActions.processCriticalHitBoost(item, sheet);
         if (criticalHitResult) {
           messages.push(criticalHitResult.message);
           appliedAttributeModifiers.push({
             type: 'criticalHit',
-            amount: item.system.criticalHitBoostAmount,
-            label: `Critical Hit -${item.system.criticalHitBoostAmount}`
+            amount: criticalHitAmount,
+            label: `Critical Hit -${criticalHitAmount}`
           });
           console.log("[CONSUME] Critical hit boost processed, message added:", criticalHitResult.message);
         } else {
@@ -842,7 +861,7 @@ export class ConsumableActions {
           description = `Critical hit effects from consuming ${originalItem.name}`;
           break;
         default:
-          itemName += ' (Consumed)';
+          itemName = originalItem.name;
           break;
       }
 
@@ -877,6 +896,8 @@ export class ConsumableActions {
             effectDescriptions.push(`• Movement: +${modifier.amount}`);
           } else if (modifier.type === 'criticalHit') {
             effectDescriptions.push(`• Critical Hit: -${modifier.amount} (improved)`);
+          } else if (modifier.type === 'armorBonus') {
+            effectDescriptions.push(`• Armor Bonus: +${modifier.amount}`);
           }
         }
       }
@@ -888,8 +909,10 @@ export class ConsumableActions {
       const trackingItemData = {
         name: itemName,
         type: 'efeito',
+        img: originalItem.img,
         system: {
           description: description,
+          rodadas: 'infinito',
           efeitoType: 'positivo',
           consumableTracking: {
             isTrackingEffect: true,
@@ -1005,9 +1028,7 @@ export class ConsumableActions {
           'system.status.healthBonus': newHealthBonus
         });
 
-        const trackingEffectName = modifierType === 'add'
-          ? `${item.name} (consumed)`
-          : `${item.name} (consumed)`;
+        const trackingEffectName = item.name;
 
         const trackingDescription = modifierType === 'add'
           ? `Health Bonus: +${rollTotal} (${formula})`
@@ -1017,6 +1038,7 @@ export class ConsumableActions {
           name: trackingEffectName,
           type: "efeito",
           system: {
+            rodadas: 'infinito',
             description: trackingDescription,
             healthBonusValue: healthBonus,
             sourceItemId: item.id,
@@ -1179,9 +1201,7 @@ export class ConsumableActions {
           'system.status.energyBonus': newEnergyBonus
         });
 
-        const trackingEffectName = modifierType === 'add'
-          ? `${item.name} (consumed)`
-          : `${item.name} (consumed)`;
+        const trackingEffectName = item.name;
 
         const trackingDescription = modifierType === 'add'
           ? `Energy Bonus: +${rollTotal} (${formula})`
@@ -1191,6 +1211,7 @@ export class ConsumableActions {
           name: trackingEffectName,
           type: "efeito",
           system: {
+            rodadas: 'infinito',
             description: trackingDescription,
             energyBonusValue: energyBonus,
             sourceItemId: item.id,
@@ -1257,12 +1278,14 @@ export class ConsumableActions {
     try {
       console.log("[ARMOR BONUS] Processing armor bonus for item:", item.name);
 
-      if (!item.system.hasArmorBonus || !item.system.armorBonusAmount || item.system.armorBonusAmount <= 0) {
+      const bonusAmount = Number(item.system?.armorBonusAmount ?? 0);
+      const armorEnabled = item.system?.hasArmorBonus ?? (bonusAmount > 0);
+
+      if (!armorEnabled || bonusAmount <= 0) {
         console.log("[ARMOR BONUS] No armor bonus configured or amount is 0");
         return null;
       }
 
-      const bonusAmount = item.system.armorBonusAmount;
       let message = "";
       let updateResult = null;
 
@@ -1275,29 +1298,8 @@ export class ConsumableActions {
         'system.status.armorBonus': newArmorBonus
       });
 
-      const trackingEffectName = `${item.name} (consumed)`;
-      const trackingDescription = `Armor Bonus: +${bonusAmount}`;
-
-      const effectItemData = {
-        name: trackingEffectName,
-        type: "efeito",
-        system: {
-          description: trackingDescription,
-          armorBonusValue: bonusAmount,
-          sourceItemId: item.id,
-          sourceItemName: item.name,
-          isTemporaryArmor: true
-        }
-      };
-
-      console.log("[ARMOR BONUS] Creating effect item with data:", effectItemData);
-
-      const createdItems = await sheet.document.createEmbeddedDocuments("Item", [effectItemData]);
-      console.log("[ARMOR BONUS] Created effect item:", createdItems[0]);
-      console.log("[ARMOR BONUS] Created item system data:", createdItems[0].system);
-
       message = `Temporary Armor Bonus added: +${bonusAmount} - Added to Armor Bonus`;
-      console.log("[ARMOR BONUS] Temporary armor tracking effect created with armorBonusValue:", bonusAmount);
+      console.log("[ARMOR BONUS] Armor bonus applied to actor status (tracking handled by unified consumable effect):", bonusAmount);
 
       console.log("[ARMOR BONUS] Update result:", updateResult);
 
@@ -1857,12 +1859,17 @@ export class ConsumableActions {
       console.log("[MOVEMENT] Actor system structure:", sheet.document.system);
       console.log("[MOVEMENT] Actor details:", sheet.document.system.details);
 
-      if (!item.system.hasMovementBoost || !item.system.movementBoostAmount) {
+      const movementEnabled =
+        item.system?.bonusDeslocamento?.enabled ?? item.system?.hasMovementBoost ?? false;
+      const amount = Number(
+        item.system?.bonusDeslocamento?.bonus ?? item.system?.movementBoostAmount ?? 0
+      );
+
+      if (!movementEnabled || !amount) {
         console.log("[MOVEMENT] No movement boost configured");
         return null;
       }
 
-      const amount = item.system.movementBoostAmount;
       const currentMovementManual = sheet.document.system.details.movementManual || 0;
       const newMovementManual = currentMovementManual + amount;
 
@@ -1910,12 +1917,15 @@ export class ConsumableActions {
       console.log("[CRITICAL HIT] Actor system structure:", sheet.document.system);
       console.log("[CRITICAL HIT] Actor details:", sheet.document.system.details);
 
-      if (!item.system.hasCriticalHitBoost || !item.system.criticalHitBoostAmount) {
+      const criticalHitEnabled =
+        item.system?.hasCriticalHitBoost ?? Number(item.system?.criticalHitBoostAmount ?? 0) > 0;
+      const amount = Number(item.system?.criticalHitBoostAmount ?? 0);
+
+      if (!criticalHitEnabled || !amount) {
         console.log("[CRITICAL HIT] No critical hit boost configured");
         return null;
       }
 
-      const amount = item.system.criticalHitBoostAmount;
       const currentCriticalHitManual = sheet.document.system.details.criticalHitManual || 0;
       const newCriticalHitManual = currentCriticalHitManual - amount;
 

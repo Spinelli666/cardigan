@@ -18,12 +18,14 @@ export class CommonItemListeners {
    * @param {CardiganSystemItemSheet} sheet - The item sheet instance
    */
   static setupProfessionSelectorButtons(sheet) {
-    if (!['item-comum', 'item-ingredient'].includes(sheet.item.type)) return;
+    if (!['item-comum', 'item-ingredient', 'item-consumivel'].includes(sheet.item.type)) return;
 
-    const grid = sheet.element?.querySelector('.common-item-type-selector-grid');
+    const grid =
+      sheet.element?.querySelector('.common-item-type-selector-grid') ||
+      sheet.element?.querySelector('.consumable-item-type-selector-grid');
     if (!grid) return;
 
-    const buttons = grid.querySelectorAll('.common-item-type-selector-btn');
+    const buttons = grid.querySelectorAll('.common-item-type-selector-btn, .consumable-item-type-selector-btn');
     buttons.forEach((button) => {
       button.addEventListener('click', async (event) => {
         event.preventDefault();
@@ -42,10 +44,14 @@ export class CommonItemListeners {
    * @param {CardiganSystemItemSheet} sheet - The item sheet instance
    */
   static setupWeightSelector(sheet) {
-    if (!['item-comum', 'item-municao', 'item-ingredient'].includes(sheet.item.type)) return;
+    if (!['item-comum', 'item-municao', 'item-ingredient', 'item-consumivel'].includes(sheet.item.type)) return;
 
-    const weightInput = sheet.element?.querySelector('.common-item-weight-display');
-    const weightPanel = sheet.element?.querySelector('[data-common-item-extra-panel="weight"]');
+    const weightInput =
+      sheet.element?.querySelector('.common-item-weight-display') ||
+      sheet.element?.querySelector('.consumable-item-weight-display');
+    const weightPanel =
+      sheet.element?.querySelector('[data-common-item-extra-panel="weight"]') ||
+      sheet.element?.querySelector('[data-consumable-item-extra-panel="weight"]');
     if (!weightInput || !weightPanel) return;
 
     const weightToNumber = {

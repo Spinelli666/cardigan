@@ -55,6 +55,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       toxicity: new fields.NumberField({ initial: null, min: 0, max: 5, integer: true }),
       healthBonus: new fields.NumberField({ initial: 0, integer: true }),
       energyBonus: new fields.NumberField({ initial: 0, integer: true }),
+      armorBonusManual: new fields.NumberField({ initial: 0, integer: true }),
       armorBonus: new fields.NumberField({ initial: 0, integer: true })
     });
 

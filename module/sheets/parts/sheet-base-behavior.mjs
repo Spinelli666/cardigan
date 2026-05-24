@@ -10,7 +10,7 @@ export class SheetBaseBehavior {
    * @returns {string}
    */
   static resolveDefaultPrimaryTab(sheet) {
-    const attributesFirstTypes = ['armadura', 'arma', 'item-comum', 'item-municao', 'item-ingredient'];
+    const attributesFirstTypes = ['armadura', 'arma', 'item-comum', 'item-municao', 'item-ingredient', 'item-consumivel'];
     return attributesFirstTypes.includes(sheet.document?.type) ? 'attributes' : 'description';
   }
 
@@ -19,7 +19,7 @@ export class SheetBaseBehavior {
    * @param {CardiganSystemItemSheet} sheet - The item sheet instance
    */
   static applyHeaderCleanup(sheet) {
-    if (!['armadura', 'arma', 'item-comum', 'item-municao', 'item-ingredient'].includes(sheet.item?.type)) return;
+    if (!['armadura', 'arma', 'item-comum', 'item-municao', 'item-ingredient', 'item-consumivel'].includes(sheet.item?.type)) return;
 
     const header = sheet.element?.querySelector('.window-header');
     if (!header) return;

@@ -189,7 +189,12 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         };
         break;
       case 'item-consumivel':
-        options.parts.push('attributesItemConsumivel', 'modifiersItemConsumivel');
+        options.parts = ['header', 'tabs', 'attributesItemConsumivel', 'modifiersItemConsumivel', 'description'];
+        options.position = {
+          ...options.position,
+          width: 400.444,
+          height: 388.445,
+        };
         break;
       case 'efeito':
         // Efeitos têm descrição e podem ter atributos básicos se necessário
@@ -527,13 +532,16 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           return tabs;
         case 'description':
           tab.id = 'description';
-          tab.label += 'Description';
+          tab.label = 'DESCRIÇÃO';
           break;
         case 'attributesItemComum':
           tab.id = 'attributes';
           tab.label = 'Propriedades';
           break;
         case 'attributesItemConsumivel':
+          tab.id = 'attributes';
+          tab.label = 'PROPRIEDADES';
+          break;
         case 'attributesEfeito':
         case 'attributesSkill':
         case 'attributesItemRecipe':
@@ -555,7 +563,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           break;
         case 'modifiersItemConsumivel':
           tab.id = 'modifiers';
-          tab.label += 'Modifiers';
+          tab.label = 'MODIFICADORES';
           break;
         case 'effects':
           tab.id = 'effects';
@@ -2674,7 +2682,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     const currentIngredients = item.system.toObject().requiredIngredients || [];
     const newIngredient = {
-      name: 'New Ingredient',
+      name: 'Novo Ingrediente',
       quantity: 1,
       img: 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg'
     };
@@ -3121,6 +3129,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
     // Mirror the type-specific root-class pattern used by other systems.
     this.element?.classList.toggle('item-type-comum', this.item?.type === 'item-comum');
+    this.element?.classList.toggle('item-type-consumivel', this.item?.type === 'item-consumivel');
     IngredientSheetBehavior.applyRootClass(this);
     AmmunitionSheetBehavior.applyRootClass(this);
     this.element?.classList.toggle('item-type-armadura', this.item?.type === 'armadura');

@@ -432,6 +432,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
 
     schema.armorBonusAmount = new fields.NumberField({
       required: false,
+      nullable: true,
       initial: 0,
       min: 0,
       integer: true,
@@ -566,6 +567,21 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       label: "CARDIGAN.ItemConsumivel.WaterModifierAmount"
     });
 
+    // Movement bonus object (same structure used by armor)
+    schema.bonusDeslocamento = new fields.SchemaField({
+      enabled: new fields.BooleanField({
+        required: true,
+        initial: true,
+      }),
+      bonus: new fields.NumberField({
+        required: true,
+        initial: 0,
+        min: 0,
+        max: 10,
+        integer: true,
+      }),
+    });
+
     // Movement boost system
     schema.hasMovementBoost = new fields.BooleanField({
       required: true,
@@ -591,8 +607,8 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
 
     schema.criticalHitBoostAmount = new fields.NumberField({
       required: false,
-      initial: 1,
-      min: 1,
+      initial: 0,
+      min: 0,
       max: 5,
       integer: true,
       label: "CARDIGAN.ItemConsumivel.CriticalHitBoostAmount"
@@ -731,6 +747,10 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
   /** Prepare derived data: cleans arrays, calculates modifier count, sets UI flags */
   prepareDerivedData() {
     super.prepareDerivedData();
+
+    this._syncLegacyMovementFields();
+    this._syncLegacyCriticalHitBoostFields();
+    this._syncLegacyArmorBonusFields();
     
     // Clean empty entries from arrays
     this._cleanArrayFields();
@@ -740,6 +760,48 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     
     // Set derived flags for UI conditionals
     this._setDerivedFlags();
+  }
+
+  /** Keep compatibility between legacy movement fields and bonusDeslocamento object. */
+  _syncLegacyMovementFields() {
+    const legacyEnabled = Boolean(this.hasMovementBoost);
+    const legacyAmount = Number(this.movementBoostAmount ?? 0);
+
+    if (!this.bonusDeslocamento || typeof this.bonusDeslocamento !== 'object') {
+      this.bonusDeslocamento = {
+        enabled: legacyEnabled,
+        bonus: Number.isFinite(legacyAmount) ? Math.max(0, legacyAmount) : 0,
+      };
+    }
+
+    const nextBonusRaw = Number(this.bonusDeslocamento.bonus ?? legacyAmount);
+    const nextBonus = Number.isFinite(nextBonusRaw) ? Math.max(0, nextBonusRaw) : 0;
+    const nextEnabled = nextBonus > 0;
+
+    this.bonusDeslocamento.enabled = nextEnabled;
+    this.bonusDeslocamento.bonus = nextBonus;
+
+    // Mirror to legacy fields used by existing logic paths.
+    this.hasMovementBoost = nextEnabled;
+    this.movementBoostAmount = nextBonus;
+  }
+
+  /** Keep hasCriticalHitBoost in sync with criticalHitBoostAmount. */
+  _syncLegacyCriticalHitBoostFields() {
+    const amountRaw = Number(this.criticalHitBoostAmount ?? 0);
+    const amount = Number.isFinite(amountRaw) ? Math.max(0, amountRaw) : 0;
+
+    this.criticalHitBoostAmount = amount;
+    this.hasCriticalHitBoost = amount > 0;
+  }
+
+  /** Keep hasArmorBonus in sync with armorBonusAmount. */
+  _syncLegacyArmorBonusFields() {
+    const amountRaw = Number(this.armorBonusAmount ?? 0);
+    const amount = Number.isFinite(amountRaw) ? Math.max(0, amountRaw) : 0;
+
+    this.armorBonusAmount = amount;
+    this.hasArmorBonus = amount > 0;
   }
 
   /** Remove empty/invalid entries from array fields (skill bonuses, effects, etc.) */

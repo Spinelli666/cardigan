@@ -703,6 +703,64 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         await actor.update(abilityUpdates);
         console.log("[RACIAL DELETION] Ability points reset to 0");
       }
+
+      // If deleting a consumable tracking effect, also remove sibling temporary effects
+      // created from the same consumable source to avoid double deletion in the effects table.
+      if (doc.type === "efeito" && doc.system.consumableTracking?.isTrackingEffect) {
+        const actor = doc.parent;
+        const sourceItemId = doc.system.consumableTracking?.originalItemId;
+
+        if (actor && sourceItemId) {
+          const siblingTemporaryEffects = actor.items.filter((item) =>
+            item.type === "efeito" &&
+            item.id !== doc.id &&
+            item.system?.sourceItemId === sourceItemId &&
+            (item.system?.isTemporaryHealth || item.system?.isTemporaryEnergy || item.system?.isTemporaryArmor)
+          );
+
+          if (siblingTemporaryEffects.length > 0) {
+            console.log("[TRACKING DELETE] Removing sibling temporary effects:", {
+              trackingEffect: doc.name,
+              sourceItemId,
+              siblings: siblingTemporaryEffects.map((item) => ({
+                id: item.id,
+                name: item.name,
+                isTemporaryHealth: !!item.system?.isTemporaryHealth,
+                isTemporaryEnergy: !!item.system?.isTemporaryEnergy,
+                isTemporaryArmor: !!item.system?.isTemporaryArmor
+              }))
+            });
+
+            const updateData = {};
+
+            for (const sibling of siblingTemporaryEffects) {
+              if (sibling.system?.isTemporaryHealth && sibling.system?.healthBonusValue) {
+                const currentHealthBonus = updateData['system.status.healthBonus'] ?? actor.system.status.healthBonus ?? 0;
+                const calculatedHealthBonus = currentHealthBonus - sibling.system.healthBonusValue;
+                updateData['system.status.healthBonus'] = Math.max(0, calculatedHealthBonus);
+              }
+
+              if (sibling.system?.isTemporaryEnergy && sibling.system?.energyBonusValue) {
+                const currentEnergyBonus = updateData['system.status.energyBonus'] ?? actor.system.status.energyBonus ?? 0;
+                const calculatedEnergyBonus = currentEnergyBonus - sibling.system.energyBonusValue;
+                updateData['system.status.energyBonus'] = Math.max(0, calculatedEnergyBonus);
+              }
+
+              if (sibling.system?.isTemporaryArmor && sibling.system?.armorBonusValue) {
+                const currentArmorBonus = updateData['system.status.armorBonus'] ?? actor.system.status.armorBonus ?? 0;
+                const calculatedArmorBonus = currentArmorBonus - sibling.system.armorBonusValue;
+                updateData['system.status.armorBonus'] = Math.max(0, calculatedArmorBonus);
+              }
+            }
+
+            if (Object.keys(updateData).length > 0) {
+              await actor.update(updateData);
+            }
+
+            await actor.deleteEmbeddedDocuments('Item', siblingTemporaryEffects.map((item) => item.id));
+          }
+        }
+      }
       
       // Check if it's a temporary health effect and adjust Health Bonus before deletion
       if (doc.type === "efeito" && doc.system.isTemporaryHealth && doc.system.healthBonusValue) {
@@ -823,6 +881,17 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
               currentManual: currentCriticalHitManual,
               amountToRevert: modifier.amount,
               newManual: newCriticalHitManual
+            });
+          } else if (modifier.type === 'armorBonus') {
+            const currentArmorBonus = actor.system.status.armorBonus || 0;
+            const calculatedArmorBonus = currentArmorBonus - modifier.amount;
+            const newArmorBonus = Math.max(0, calculatedArmorBonus);
+            updateData['system.status.armorBonus'] = newArmorBonus;
+
+            console.log("[ARMOR BONUS] Reverting armor bonus from tracking effect:", {
+              currentBonus: currentArmorBonus,
+              amountToRevert: modifier.amount,
+              newBonus: newArmorBonus
             });
           }
         }
@@ -2286,7 +2355,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       // Calculate movement: a cada 2 pontos de Destreza = +1 movimento
       const dexterityMovement = Math.floor(totalDexterity / 2);
       const armorMovementBonus = this.actor._armorMovementBonus || 0;
-      const autoMovementValue = dexterityMovement + armorMovementBonus;
+      const raceMovementBonus = this.actor._raceMovementBonus || 0;
+      const autoMovementValue = dexterityMovement + armorMovementBonus + raceMovementBonus;
       const manualMovementValue = system.details.movementManual || 0;
       const newMovement = autoMovementValue + manualMovementValue;
       
@@ -3819,7 +3889,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         hiddenSelector: 'input.energy-bonus-hidden',
         type: 'energyBonus'
       },
-      { selector: 'input[name="system.status.armorBonus"].dynamic-field', type: 'armorBonus' }
+      { selector: 'input.armor-bonus-input.dynamic-field', type: 'armorBonus' }
     ];
     
     bonusFields.forEach(({ selector, hiddenSelector, type }) => {
@@ -3863,6 +3933,21 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Get active temporary armor bonus currently granted by consumable effects.
+   * @returns {number}
+   * @private
+   */
+  #getActiveConsumableArmorBonus() {
+    return this.actor.items.reduce((total, item) => {
+      if (item.type !== 'efeito') return total;
+      if (!item.system?.isTemporaryArmor) return total;
+
+      const bonus = Number(item.system?.armorBonusValue || 0);
+      return total + bonus;
+    }, 0);
+  }
+
+  /**
    * Sync visible bonus field value from manual + equipment bonuses
    * @param {HTMLInputElement} field
    * @param {string} bonusType
@@ -3888,17 +3973,26 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   #handleBonusFieldFocus(event, bonusType, hiddenField = null) {
     const field = event.target;
-    const manualValue = Number(this.actor.system.status?.[bonusType] || 0);
+    const storedValue = Number(this.actor.system.status?.[bonusType] || 0);
     const equipmentBonus = hiddenField ? this.#getEquipmentStatusBonus(bonusType) : 0;
 
     // Para campos com hidden (health/energy), editar o valor manual.
     // Para os demais, mantém comportamento padrão.
-    const valueForEditing = hiddenField ? manualValue : (manualValue + equipmentBonus);
+    let valueForEditing = hiddenField ? storedValue : (storedValue + equipmentBonus);
+
+    if (bonusType === 'armorBonus' && !hiddenField) {
+      const storedManual = this.actor.system.status?.armorBonusManual;
+      const manualValue = Number.isFinite(Number(storedManual)) ? Number(storedManual) : storedValue;
+      const temporaryBonus = Math.max(0, storedValue - manualValue);
+
+      valueForEditing = manualValue;
+      field.dataset.armorTemporaryBonus = temporaryBonus;
+    }
 
     field.value = valueForEditing === 0 ? '' : valueForEditing;
     field.dataset.currentValue = valueForEditing;
     
-    console.log(`[${bonusType.toUpperCase()} FOCUS] Editing manual: ${manualValue}, Equipment: ${equipmentBonus}`);
+    console.log(`[${bonusType.toUpperCase()} FOCUS] Editing value: ${valueForEditing}, Stored: ${storedValue}, Equipment: ${equipmentBonus}`);
     field.select();
   }
 
@@ -3910,25 +4004,44 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     const field = event.target;
     const userInput = Number(field.value) || 0;
     const equipmentBonus = hiddenField ? this.#getEquipmentStatusBonus(bonusType) : 0;
-    const manualValue = userInput;
+    let storedValue = userInput;
+
+    if (bonusType === 'armorBonus' && !hiddenField) {
+      const temporaryBonus = Number(field.dataset.armorTemporaryBonus) || 0;
+      storedValue = userInput + temporaryBonus;
+
+      const displayValue = storedValue + equipmentBonus;
+      field.value = displayValue;
+      field.dataset.currentValue = displayValue;
+
+      this.actor.update({
+        'system.status.armorBonusManual': userInput,
+        'system.status.armorBonus': storedValue
+      }).catch(error => {
+        console.error('[CARDIGAN] Erro ao atualizar armorBonus:', error);
+      });
+
+      console.log(`[${bonusType.toUpperCase()} BLUR] Total: ${displayValue}, Manual: ${userInput}, Temporary: ${temporaryBonus}, Equipment: ${equipmentBonus}`);
+      return;
+    }
 
     // Mostrar total e persistir apenas manual
-    const displayValue = manualValue + equipmentBonus;
+    const displayValue = storedValue + equipmentBonus;
     field.value = displayValue;
     field.dataset.currentValue = displayValue;
 
     if (hiddenField) {
-      hiddenField.value = manualValue;
+      hiddenField.value = storedValue;
     }
     
     // Salvar o valor
     this.actor.update({
-      [`system.status.${bonusType}`]: manualValue
+      [`system.status.${bonusType}`]: storedValue
     }).catch(error => {
       console.error(`[CARDIGAN] Erro ao atualizar ${bonusType}:`, error);
     });
     
-    console.log(`[${bonusType.toUpperCase()} BLUR] Total: ${displayValue}, Manual: ${manualValue}, Equipment: ${equipmentBonus}`);
+    console.log(`[${bonusType.toUpperCase()} BLUR] Total: ${displayValue}, Stored: ${storedValue}, Input: ${userInput}, Equipment: ${equipmentBonus}`);
   }
 
   /**

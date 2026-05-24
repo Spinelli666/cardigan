@@ -214,7 +214,7 @@ export class HeaderListeners {
    * @param {Actor} actor - The actor document
    */
   static addCriticalHitListeners(element, actor) {
-    const criticalHitField = element.querySelector('input[name="system.details.criticalHit"].dynamic-field');
+    const criticalHitField = element.querySelector('input[name="system.details.criticalHit"]');
     
     if (criticalHitField) {
       // Event listener for focus (show manual value)
@@ -230,6 +230,28 @@ export class HeaderListeners {
       console.log('[CARDIGAN] Critical Hit dynamic field listener added');
     }
   }
+
+  /**
+   * Sum critical hit improvements currently granted by consumable tracking effects.
+   * @param {Actor} actor - The actor document
+   * @returns {number}
+   */
+  static getActiveConsumableCriticalHitBonus(actor) {
+    return actor.items.reduce((total, item) => {
+      if (item.type !== 'efeito') return total;
+
+      const tracking = item.system?.consumableTracking;
+      if (!tracking?.isTrackingEffect) return total;
+
+      const criticalBonus = (tracking.appliedAttributeModifiers || []).reduce((acc, modifier) => {
+        if (modifier?.type !== 'criticalHit') return acc;
+        const amount = Number(modifier.amount) || 0;
+        return acc + amount;
+      }, 0);
+
+      return total + criticalBonus;
+    }, 0);
+  }
   
   /**
    * Handler for when user clicks critical hit field (focus)
@@ -239,15 +261,18 @@ export class HeaderListeners {
   static handleCriticalHitFocus(event, actor) {
     const field = event.target;
     const system = actor.system;
-    
-    // Get stored manual value or 0 if doesn't exist
-    const manualValue = system.details.criticalHitManual || 0;
-    
-    // Show only manual value
-    field.value = manualValue === 0 ? '' : manualValue;
-    field.dataset.manualValue = manualValue;
-    
-    console.log(`[CRITICAL HIT FOCUS] Manual: ${manualValue}`);
+
+    // criticalHitManual stores editable manual value plus active consumable improvements.
+    // For editing, show only the editable manual portion.
+    const criticalHitManual = Number(system.details.criticalHitManual || 0);
+    const consumableBonus = this.getActiveConsumableCriticalHitBonus(actor);
+    const editableManual = criticalHitManual + consumableBonus;
+
+    field.value = editableManual === 0 ? '' : editableManual;
+    field.dataset.manualValue = editableManual;
+    field.dataset.consumableBonus = consumableBonus;
+
+    console.log(`[CRITICAL HIT FOCUS] Editable Manual: ${editableManual}, Consumable Bonus: ${consumableBonus}, Stored Manual: ${criticalHitManual}`);
     field.select();
   }
   
@@ -260,6 +285,7 @@ export class HeaderListeners {
     const field = event.target;
     const userInput = Number(field.value) || 0;
     const system = actor.system;
+    const consumableBonus = Number(field.dataset.consumableBonus) || this.getActiveConsumableCriticalHitBonus(actor);
     
     // Calculate automatic value based on Dexterity
     const dexterity = system.abilities.dexterity.value || 0;
@@ -268,8 +294,11 @@ export class HeaderListeners {
     const dexterityCriticalEffect = Math.floor(totalDexterity / 3);
     const autoValue = Math.max(1, 20 - dexterityCriticalEffect);
     
-    // Total value is automatic + manual
-    const totalValue = autoValue + userInput;
+    // Persist criticalHitManual with editable manual value minus active consumable bonus.
+    const criticalHitManual = userInput - consumableBonus;
+
+    // Total value is automatic + effective manual critical value
+    const totalValue = autoValue + criticalHitManual;
     
     // Show total value in field
     field.value = totalValue;
@@ -277,13 +306,13 @@ export class HeaderListeners {
     
     // Save manual and total values
     actor.update({
-      'system.details.criticalHitManual': userInput,
+      'system.details.criticalHitManual': criticalHitManual,
       'system.details.criticalHit': totalValue
     }).catch(error => {
       console.error('[CARDIGAN] Erro ao atualizar criticalHit:', error);
     });
     
-    console.log(`[CRITICAL HIT BLUR] Manual: ${userInput}, Auto: ${autoValue}, Total: ${totalValue}`);
+    console.log(`[CRITICAL HIT BLUR] Editable Manual: ${userInput}, Consumable Bonus: ${consumableBonus}, Stored Manual: ${criticalHitManual}, Auto: ${autoValue}, Total: ${totalValue}`);
   }
   
   /**
@@ -292,7 +321,7 @@ export class HeaderListeners {
    * @param {Actor} actor - The actor document
    */
   static addMovementListeners(element, actor) {
-    const movementField = element.querySelector('input[name="system.details.movement"].dynamic-field');
+    const movementField = element.querySelector('input[name="system.details.movement"]');
     
     if (movementField) {
       // Event listener for focus (show manual value)
@@ -308,6 +337,28 @@ export class HeaderListeners {
       console.log('[CARDIGAN] Movement dynamic field listener added');
     }
   }
+
+  /**
+   * Sum movement bonuses currently granted by consumable tracking effects.
+   * @param {Actor} actor - The actor document
+   * @returns {number}
+   */
+  static getActiveConsumableMovementBonus(actor) {
+    return actor.items.reduce((total, item) => {
+      if (item.type !== 'efeito') return total;
+
+      const tracking = item.system?.consumableTracking;
+      if (!tracking?.isTrackingEffect) return total;
+
+      const movementBonus = (tracking.appliedAttributeModifiers || []).reduce((acc, modifier) => {
+        if (modifier?.type !== 'movement') return acc;
+        const amount = Number(modifier.amount) || 0;
+        return acc + amount;
+      }, 0);
+
+      return total + movementBonus;
+    }, 0);
+  }
   
   /**
    * Handler for when user clicks movement field (focus)
@@ -317,15 +368,18 @@ export class HeaderListeners {
   static handleMovementFocus(event, actor) {
     const field = event.target;
     const system = actor.system;
-    
-    // Get stored manual value or 0 if doesn't exist
-    const manualValue = system.details.movementManual || 0;
-    
-    // Show only manual value
-    field.value = manualValue === 0 ? '' : manualValue;
-    field.dataset.manualValue = manualValue;
-    
-    console.log(`[MOVEMENT FOCUS] Manual: ${manualValue}`);
+
+    // movementManual stores both editable manual value and active consumable bonuses.
+    // In focus mode, show only the editable manual portion.
+    const movementManual = Number(system.details.movementManual || 0);
+    const consumableBonus = this.getActiveConsumableMovementBonus(actor);
+    const editableManual = movementManual - consumableBonus;
+
+    field.value = editableManual === 0 ? '' : editableManual;
+    field.dataset.manualValue = editableManual;
+    field.dataset.consumableBonus = consumableBonus;
+
+    console.log(`[MOVEMENT FOCUS] Editable Manual: ${editableManual}, Consumable Bonus: ${consumableBonus}, Stored Manual: ${movementManual}`);
     field.select();
   }
   
@@ -338,6 +392,7 @@ export class HeaderListeners {
     const field = event.target;
     const userInput = Number(field.value) || 0;
     const system = actor.system;
+    const consumableBonus = Number(field.dataset.consumableBonus) || this.getActiveConsumableMovementBonus(actor);
     
     // Calculate automatic value based on Dexterity
     const dexterity = system.abilities.dexterity.value || 0;
@@ -345,14 +400,18 @@ export class HeaderListeners {
     const totalDexterity = dexterity + dexterityTotalBonus;
     const dexterityMovement = Math.floor(totalDexterity / 2);
     
-    // Calculate armor movement bonus
+    // Calculate armor and race movement bonuses
     const armorMovementBonus = actor._armorMovementBonus || 0;
+    const raceMovementBonus = actor._raceMovementBonus || 0;
     
-    // Automatic value is Dexterity + Armors
-    const autoValue = dexterityMovement + armorMovementBonus;
+    // Automatic value is Dexterity + Armors + Race
+    const autoValue = dexterityMovement + armorMovementBonus + raceMovementBonus;
     
-    // Total value is automatic + manual
-    const totalValue = autoValue + userInput;
+    // Persist movementManual with editable manual value + active consumable bonus.
+    const movementManual = userInput + consumableBonus;
+
+    // Total value is automatic + effective manual movement
+    const totalValue = autoValue + movementManual;
     
     // Show total value in field
     field.value = totalValue;
@@ -360,12 +419,12 @@ export class HeaderListeners {
     
     // Save manual and total values
     actor.update({
-      'system.details.movementManual': userInput,
+      'system.details.movementManual': movementManual,
       'system.details.movement': totalValue
     }).catch(error => {
       console.error('[CARDIGAN] Erro ao atualizar movement:', error);
     });
     
-    console.log(`[MOVEMENT BLUR] Manual: ${userInput}, Auto: ${autoValue} (Dex: ${dexterityMovement} + Armor: ${armorMovementBonus}), Total: ${totalValue}`);
+    console.log(`[MOVEMENT BLUR] Editable Manual: ${userInput}, Consumable Bonus: ${consumableBonus}, Stored Manual: ${movementManual}, Auto: ${autoValue} (Dex: ${dexterityMovement} + Armor: ${armorMovementBonus} + Race: ${raceMovementBonus}), Total: ${totalValue}`);
   }
 }
