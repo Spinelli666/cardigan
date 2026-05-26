@@ -224,13 +224,13 @@ export class ConsumableActions {
 
       if (armorEnabled && armorAmount > 0) {
         console.log("[CONSUME] Processing armor bonus for item:", item.name);
-        const armorBonusResult = await ConsumableActions.processArmorBonus(item, sheet);
+        const armorBonusResult = await ConsumableActions.processArmorBonus(item, sheet, quantity);
         if (armorBonusResult) {
           messages.push(armorBonusResult.message);
           appliedAttributeModifiers.push({
             type: 'armorBonus',
-            amount: armorAmount,
-            label: `Armor Bonus +${armorAmount}`
+            amount: armorBonusResult.amount,
+            label: `Armor Bonus +${armorBonusResult.amount}`
           });
           console.log("[CONSUME] Armor bonus processed, message added:", armorBonusResult.message);
         } else {
@@ -247,9 +247,18 @@ export class ConsumableActions {
         sanityModifierAmount: item.system.sanityModifierAmount
       });
 
-      if (item.system.hasStatusAilments && item.system.hasSanityModifier && item.system.sanityModifierAmount > 0) {
+      const sanityAmount = Number(item.system?.sanityModifierAmount ?? 0);
+      const sanityType = item.system?.sanityModifierType;
+      const sanityHasValidType = sanityType === 'increase' || sanityType === 'decrease';
+      const sanityEnabled =
+        Boolean(item.system?.hasStatusAilments) &&
+        Boolean(item.system?.hasSanityModifier) &&
+        sanityAmount > 0 &&
+        sanityHasValidType;
+
+      if (sanityEnabled) {
         console.log("[CONSUME] Processing status ailments for item:", item.name);
-        const statusAilmentsResult = await ConsumableActions.processStatusAilments(item, sheet);
+        const statusAilmentsResult = await ConsumableActions.processStatusAilments(item, sheet, quantity);
         if (statusAilmentsResult) {
           messages.push(statusAilmentsResult.message);
           console.log("[CONSUME] Status ailments processed, message added:", statusAilmentsResult.message);
@@ -268,7 +277,7 @@ export class ConsumableActions {
 
       if (item.system.hasToxicityModifier && item.system.toxicityModifierAmount > 0) {
         console.log("[CONSUME] Processing toxicity for item:", item.name);
-        const toxicityResult = await ConsumableActions.processToxicity(item, sheet);
+        const toxicityResult = await ConsumableActions.processToxicity(item, sheet, quantity);
         if (toxicityResult) {
           messages.push(toxicityResult.message);
           console.log("[CONSUME] Toxicity processed, message added:", toxicityResult.message);
@@ -287,7 +296,7 @@ export class ConsumableActions {
 
       if (item.system.hasFractureModifier && item.system.fractureModifierAmount > 0) {
         console.log("[CONSUME] Processing fracture for item:", item.name);
-        const fractureResult = await ConsumableActions.processFracture(item, sheet);
+        const fractureResult = await ConsumableActions.processFracture(item, sheet, quantity);
         if (fractureResult) {
           messages.push(fractureResult.message);
           console.log("[CONSUME] Fracture processed, message added:", fractureResult.message);
@@ -305,9 +314,18 @@ export class ConsumableActions {
         foodModifierAmount: item.system.foodModifierAmount
       });
 
-      if (item.system.hasFoodAndWater && item.system.hasFoodModifier && item.system.foodModifierAmount > 0) {
+      const foodAmount = Number(item.system?.foodModifierAmount ?? 0);
+      const foodType = item.system?.foodModifierType;
+      const foodHasValidType = foodType === 'increase' || foodType === 'decrease';
+      const foodEnabled =
+        Boolean(item.system?.hasFoodAndWater) &&
+        Boolean(item.system?.hasFoodModifier) &&
+        foodAmount > 0 &&
+        foodHasValidType;
+
+      if (foodEnabled) {
         console.log("[CONSUME] Processing food for item:", item.name);
-        const foodResult = await ConsumableActions.processFood(item, sheet);
+        const foodResult = await ConsumableActions.processFood(item, sheet, quantity);
         if (foodResult) {
           messages.push(foodResult.message);
           console.log("[CONSUME] Food processed, message added:", foodResult.message);
@@ -325,9 +343,18 @@ export class ConsumableActions {
         waterModifierAmount: item.system.waterModifierAmount
       });
 
-      if (item.system.hasFoodAndWater && item.system.hasWaterModifier && item.system.waterModifierAmount > 0) {
+      const waterAmount = Number(item.system?.waterModifierAmount ?? 0);
+      const waterType = item.system?.waterModifierType;
+      const waterHasValidType = waterType === 'increase' || waterType === 'decrease';
+      const waterEnabled =
+        Boolean(item.system?.hasFoodAndWater) &&
+        Boolean(item.system?.hasWaterModifier) &&
+        waterAmount > 0 &&
+        waterHasValidType;
+
+      if (waterEnabled) {
         console.log("[CONSUME] Processing water for item:", item.name);
-        const waterResult = await ConsumableActions.processWater(item, sheet);
+        const waterResult = await ConsumableActions.processWater(item, sheet, quantity);
         if (waterResult) {
           messages.push(waterResult.message);
           console.log("[CONSUME] Water processed, message added:", waterResult.message);
@@ -352,13 +379,13 @@ export class ConsumableActions {
 
       if (movementEnabled && movementAmount > 0) {
         console.log("[CONSUME] Processing movement boost for item:", item.name);
-        const movementResult = await ConsumableActions.processMovementBoost(item, sheet);
+        const movementResult = await ConsumableActions.processMovementBoost(item, sheet, quantity);
         if (movementResult) {
           messages.push(movementResult.message);
           appliedAttributeModifiers.push({
             type: 'movement',
-            amount: movementAmount,
-            label: `Movement +${movementAmount}`
+            amount: movementResult.amount,
+            label: `Movement +${movementResult.amount}`
           });
           console.log("[CONSUME] Movement boost processed, message added:", movementResult.message);
         } else {
@@ -379,13 +406,13 @@ export class ConsumableActions {
 
       if (criticalHitEnabled && criticalHitAmount > 0) {
         console.log("[CONSUME] Processing critical hit boost for item:", item.name);
-        const criticalHitResult = await ConsumableActions.processCriticalHitBoost(item, sheet);
+        const criticalHitResult = await ConsumableActions.processCriticalHitBoost(item, sheet, quantity);
         if (criticalHitResult) {
           messages.push(criticalHitResult.message);
           appliedAttributeModifiers.push({
             type: 'criticalHit',
-            amount: criticalHitAmount,
-            label: `Critical Hit -${criticalHitAmount}`
+            amount: criticalHitResult.amount,
+            label: `Critical Hit -${criticalHitResult.amount}`
           });
           console.log("[CONSUME] Critical hit boost processed, message added:", criticalHitResult.message);
         } else {
@@ -422,7 +449,7 @@ export class ConsumableActions {
       }
 
       if (appliedEffects.length > 0 || appliedSkillBonuses.length > 0 || appliedAttributeModifiers.length > 0) {
-        await ConsumableActions.createTrackingEffectItem(item, rollType, appliedEffects, appliedSkillBonuses, appliedAttributeModifiers, sheet);
+        await ConsumableActions.createTrackingEffectItem(item, rollType, appliedEffects, appliedSkillBonuses, appliedAttributeModifiers, sheet, quantity);
       }
 
       const newQuantity = Math.max(0, (item.system.quantity || 0) - quantity);
@@ -845,9 +872,11 @@ export class ConsumableActions {
    * @param {Array} appliedSkillBonuses
    * @param {Array} appliedAttributeModifiers
    * @param {CardiganSystemActorSheet} sheet
+   * @param {number} quantity
    */
-  static async createTrackingEffectItem(originalItem, rollType, appliedEffects = [], appliedSkillBonuses = [], appliedAttributeModifiers = [], sheet) {
+  static async createTrackingEffectItem(originalItem, rollType, appliedEffects = [], appliedSkillBonuses = [], appliedAttributeModifiers = [], sheet, quantity = 1) {
     try {
+      const consumedQuantity = Math.max(1, Number(quantity) || 1);
       let itemName = originalItem.name;
       let description = `Effects from consuming ${originalItem.name}`;
 
@@ -906,6 +935,38 @@ export class ConsumableActions {
         description += '<br><br>' + effectDescriptions.join('<br>');
       }
 
+      const existingTrackingCandidates = sheet.document.items
+        .filter((i) => {
+          if (i.type !== 'efeito') return false;
+
+          const tracking = i.system?.consumableTracking;
+          if (!tracking?.isTrackingEffect) return false;
+          if (tracking.originalItemId !== originalItem.id) return false;
+
+          const existingRollType = tracking.rollType || 'normal';
+          return existingRollType === rollType;
+        })
+        .sort((a, b) => (a.sort || 0) - (b.sort || 0));
+
+      const existingTrackingItem = existingTrackingCandidates[0];
+
+      if (existingTrackingItem) {
+        const currentConsumedQuantity = Number(existingTrackingItem.system?.consumableTracking?.consumedQuantity || 0);
+
+        await existingTrackingItem.update({
+          name: itemName,
+          img: originalItem.img,
+          'system.description': description,
+          'system.consumableTracking.originalItemName': originalItem.name,
+          'system.consumableTracking.consumedQuantity': currentConsumedQuantity + consumedQuantity,
+          'system.consumableTracking.appliedEffects': appliedEffects,
+          'system.consumableTracking.appliedSkillBonuses': appliedSkillBonuses,
+          'system.consumableTracking.appliedAttributeModifiers': appliedAttributeModifiers,
+        });
+
+        return existingTrackingItem;
+      }
+
       const trackingItemData = {
         name: itemName,
         type: 'efeito',
@@ -918,6 +979,7 @@ export class ConsumableActions {
             isTrackingEffect: true,
             originalItemName: originalItem.name,
             originalItemId: originalItem.id,
+            consumedQuantity: consumedQuantity,
             rollType: rollType,
             appliedEffects: appliedEffects,
             appliedSkillBonuses: appliedSkillBonuses,
@@ -1273,12 +1335,15 @@ export class ConsumableActions {
    * Process armor bonus effects when consuming an item
    * @param {Item} item
    * @param {CardiganSystemActorSheet} sheet
+   * @param {number} quantity
    */
-  static async processArmorBonus(item, sheet) {
+  static async processArmorBonus(item, sheet, quantity = 1) {
     try {
       console.log("[ARMOR BONUS] Processing armor bonus for item:", item.name);
 
-      const bonusAmount = Number(item.system?.armorBonusAmount ?? 0);
+      const baseAmount = Number(item.system?.armorBonusAmount ?? 0);
+      const consumedQuantity = Math.max(1, Number(quantity) || 1);
+      const bonusAmount = baseAmount * consumedQuantity;
       const armorEnabled = item.system?.hasArmorBonus ?? (bonusAmount > 0);
 
       if (!armorEnabled || bonusAmount <= 0) {
@@ -1298,13 +1363,13 @@ export class ConsumableActions {
         'system.status.armorBonus': newArmorBonus
       });
 
-      message = `Temporary Armor Bonus added: +${bonusAmount} - Added to Armor Bonus`;
+      message = `Temporary Armor Bonus added: +${bonusAmount} (${baseAmount} x ${consumedQuantity}) - Added to Armor Bonus`;
       console.log("[ARMOR BONUS] Armor bonus applied to actor status (tracking handled by unified consumable effect):", bonusAmount);
 
       console.log("[ARMOR BONUS] Update result:", updateResult);
 
       console.log("[ARMOR BONUS] Armor bonus processed successfully");
-      return { message };
+      return { message, amount: bonusAmount };
 
     } catch (error) {
       console.error("[ARMOR BONUS] Error processing armor bonus:", error);
@@ -1315,9 +1380,10 @@ export class ConsumableActions {
   /**
    * Process status ailments effects when consuming an item
    * @param {Item} item
-   * @param {CardiganSystemActorSheet} sheet
+  * @param {CardiganSystemActorSheet} sheet
+  * @param {number} quantity
    */
-  static async processStatusAilments(item, sheet) {
+  static async processStatusAilments(item, sheet, quantity = 1) {
     try {
       console.log("[STATUS AILMENTS] Processing status ailments for item:", item.name);
       console.log("[STATUS AILMENTS] Item configuration:", {
@@ -1327,13 +1393,16 @@ export class ConsumableActions {
         sanityModifierAmount: item.system.sanityModifierAmount
       });
 
-      if (!item.system.hasStatusAilments || !item.system.hasSanityModifier || !item.system.sanityModifierAmount) {
+      const modifierType = item.system.sanityModifierType;
+      const baseAmount = Number(item.system.sanityModifierAmount ?? 0);
+      const consumedQuantity = Math.max(1, Number(quantity) || 1);
+      const amount = baseAmount * consumedQuantity;
+      const hasValidType = modifierType === "increase" || modifierType === "decrease";
+
+      if (!item.system.hasStatusAilments || !item.system.hasSanityModifier || amount <= 0 || !hasValidType) {
         console.log("[STATUS AILMENTS] No status ailments configured - missing requirements");
         return null;
       }
-
-      const modifierType = item.system.sanityModifierType;
-      const amount = item.system.sanityModifierAmount;
       let message = "";
 
       console.log("[STATUS AILMENTS] Processing sanity modifier:", {
@@ -1365,7 +1434,7 @@ export class ConsumableActions {
         if (currentSanity === 0) {
           message = `Sanity is already at 0 and cannot be decreased further`;
           console.log("[STATUS AILMENTS] Sanity already at minimum");
-          return { message };
+          return { message, changed: false, amount: 0, modifierType };
         }
 
         newSanity = Math.max(currentSanity - amount, 0);
@@ -1416,7 +1485,12 @@ export class ConsumableActions {
 
       console.log("[STATUS AILMENTS] Update result:", updateResult);
       console.log("[STATUS AILMENTS] Status ailments processed successfully");
-      return { message };
+      return {
+        message,
+        changed: newSanity !== currentSanity,
+        amount: Math.abs(newSanity - currentSanity),
+        modifierType,
+      };
 
     } catch (error) {
       console.error("[STATUS AILMENTS] Error processing status ailments:", error);
@@ -1427,9 +1501,10 @@ export class ConsumableActions {
   /**
    * Process toxicity modifications for consumable items
    * @param {Item} item
-   * @param {CardiganSystemActorSheet} sheet
+  * @param {CardiganSystemActorSheet} sheet
+  * @param {number} quantity
    */
-  static async processToxicity(item, sheet) {
+  static async processToxicity(item, sheet, quantity = 1) {
     try {
       console.log("[TOXICITY] Processing toxicity for item:", item.name);
       console.log("[TOXICITY] Item configuration:", {
@@ -1444,7 +1519,9 @@ export class ConsumableActions {
       }
 
       const modifierType = item.system.toxicityModifierType;
-      const amount = item.system.toxicityModifierAmount;
+      const baseAmount = Number(item.system.toxicityModifierAmount ?? 0);
+      const consumedQuantity = Math.max(1, Number(quantity) || 1);
+      const amount = baseAmount * consumedQuantity;
       let message = "";
       let chatMessage = "";
 
@@ -1533,9 +1610,10 @@ export class ConsumableActions {
   /**
    * Process fracture modifications for consumable items
    * @param {Item} item
-   * @param {CardiganSystemActorSheet} sheet
+  * @param {CardiganSystemActorSheet} sheet
+  * @param {number} quantity
    */
-  static async processFracture(item, sheet) {
+  static async processFracture(item, sheet, quantity = 1) {
     try {
       console.log("[FRACTURE] Processing fracture for item:", item.name);
       console.log("[FRACTURE] Item configuration:", {
@@ -1544,13 +1622,17 @@ export class ConsumableActions {
         fractureModifierAmount: item.system.fractureModifierAmount
       });
 
-      if (!item.system.hasFractureModifier || !item.system.fractureModifierAmount) {
+      const modifierType = item.system.fractureModifierType;
+      const baseAmount = Number(item.system.fractureModifierAmount ?? 0);
+      const consumedQuantity = Math.max(1, Number(quantity) || 1);
+      const amount = baseAmount * consumedQuantity;
+      const hasValidType = modifierType === "increase" || modifierType === "decrease";
+
+      if (!item.system.hasFractureModifier || amount <= 0 || !hasValidType) {
         console.log("[FRACTURE] No fracture modifier configured - missing requirements");
         return null;
       }
 
-      const modifierType = item.system.fractureModifierType;
-      const amount = item.system.fractureModifierAmount;
       let message = "";
       let chatMessage = "";
 
@@ -1639,9 +1721,10 @@ export class ConsumableActions {
   /**
    * Process food modifications for consumable items
    * @param {Item} item
-   * @param {CardiganSystemActorSheet} sheet
+  * @param {CardiganSystemActorSheet} sheet
+  * @param {number} quantity
    */
-  static async processFood(item, sheet) {
+  static async processFood(item, sheet, quantity = 1) {
     try {
       console.log("[FOOD] Processing food for item:", item.name);
       console.log("[FOOD] Item configuration:", {
@@ -1650,13 +1733,16 @@ export class ConsumableActions {
         foodModifierAmount: item.system.foodModifierAmount
       });
 
-      if (!item.system.hasFoodModifier || !item.system.foodModifierAmount) {
+      const modifierType = item.system.foodModifierType;
+      const baseAmount = Number(item.system.foodModifierAmount ?? 0);
+      const consumedQuantity = Math.max(1, Number(quantity) || 1);
+      const amount = baseAmount * consumedQuantity;
+      const hasValidType = modifierType === "increase" || modifierType === "decrease";
+
+      if (!item.system.hasFoodAndWater || !item.system.hasFoodModifier || amount <= 0 || !hasValidType) {
         console.log("[FOOD] No food modifier configured - missing requirements");
         return null;
       }
-
-      const modifierType = item.system.foodModifierType;
-      const amount = item.system.foodModifierAmount;
       let message = "";
       let chatMessage = "";
 
@@ -1745,9 +1831,10 @@ export class ConsumableActions {
   /**
    * Process water modifications for consumable items
    * @param {Item} item
-   * @param {CardiganSystemActorSheet} sheet
+  * @param {CardiganSystemActorSheet} sheet
+  * @param {number} quantity
    */
-  static async processWater(item, sheet) {
+  static async processWater(item, sheet, quantity = 1) {
     try {
       console.log("[WATER] Processing water for item:", item.name);
       console.log("[WATER] Item configuration:", {
@@ -1756,13 +1843,16 @@ export class ConsumableActions {
         waterModifierAmount: item.system.waterModifierAmount
       });
 
-      if (!item.system.hasWaterModifier || !item.system.waterModifierAmount) {
+      const modifierType = item.system.waterModifierType;
+      const baseAmount = Number(item.system.waterModifierAmount ?? 0);
+      const consumedQuantity = Math.max(1, Number(quantity) || 1);
+      const amount = baseAmount * consumedQuantity;
+      const hasValidType = modifierType === "increase" || modifierType === "decrease";
+
+      if (!item.system.hasFoodAndWater || !item.system.hasWaterModifier || amount <= 0 || !hasValidType) {
         console.log("[WATER] No water modifier configured - missing requirements");
         return null;
       }
-
-      const modifierType = item.system.waterModifierType;
-      const amount = item.system.waterModifierAmount;
       let message = "";
       let chatMessage = "";
 
@@ -1851,9 +1941,10 @@ export class ConsumableActions {
   /**
    * Process movement boost for consumable items
    * @param {Item} item
-   * @param {CardiganSystemActorSheet} sheet
+  * @param {CardiganSystemActorSheet} sheet
+  * @param {number} quantity
    */
-  static async processMovementBoost(item, sheet) {
+  static async processMovementBoost(item, sheet, quantity = 1) {
     try {
       console.log("[MOVEMENT] Processing movement boost for item:", item.name);
       console.log("[MOVEMENT] Actor system structure:", sheet.document.system);
@@ -1861,9 +1952,11 @@ export class ConsumableActions {
 
       const movementEnabled =
         item.system?.bonusDeslocamento?.enabled ?? item.system?.hasMovementBoost ?? false;
-      const amount = Number(
+      const baseAmount = Number(
         item.system?.bonusDeslocamento?.bonus ?? item.system?.movementBoostAmount ?? 0
       );
+      const consumedQuantity = Math.max(1, Number(quantity) || 1);
+      const amount = baseAmount * consumedQuantity;
 
       if (!movementEnabled || !amount) {
         console.log("[MOVEMENT] No movement boost configured");
@@ -1895,7 +1988,7 @@ export class ConsumableActions {
       });
 
       return {
-        message: `Movement increased by ${amount}`,
+        message: `Movement increased by ${amount} (${baseAmount} x ${consumedQuantity})`,
         type: 'movement',
         amount: amount
       };
@@ -1909,9 +2002,10 @@ export class ConsumableActions {
   /**
    * Process critical hit boost for consumable items
    * @param {Item} item
-   * @param {CardiganSystemActorSheet} sheet
+  * @param {CardiganSystemActorSheet} sheet
+  * @param {number} quantity
    */
-  static async processCriticalHitBoost(item, sheet) {
+  static async processCriticalHitBoost(item, sheet, quantity = 1) {
     try {
       console.log("[CRITICAL HIT] Processing critical hit boost for item:", item.name);
       console.log("[CRITICAL HIT] Actor system structure:", sheet.document.system);
@@ -1919,7 +2013,9 @@ export class ConsumableActions {
 
       const criticalHitEnabled =
         item.system?.hasCriticalHitBoost ?? Number(item.system?.criticalHitBoostAmount ?? 0) > 0;
-      const amount = Number(item.system?.criticalHitBoostAmount ?? 0);
+      const baseAmount = Number(item.system?.criticalHitBoostAmount ?? 0);
+      const consumedQuantity = Math.max(1, Number(quantity) || 1);
+      const amount = baseAmount * consumedQuantity;
 
       if (!criticalHitEnabled || !amount) {
         console.log("[CRITICAL HIT] No critical hit boost configured");
@@ -1951,7 +2047,7 @@ export class ConsumableActions {
       });
 
       return {
-        message: `Critical Hit improved by ${amount}`,
+        message: `Critical Hit improved by ${amount} (${baseAmount} x ${consumedQuantity})`,
         type: 'criticalHit',
         amount: amount
       };

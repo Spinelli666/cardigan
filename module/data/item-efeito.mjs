@@ -61,6 +61,11 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
         blank: true,
         initial: '',
       }),
+      consumedQuantity: new fields.NumberField({
+        required: false,
+        integer: true,
+        initial: 1,
+      }),
       rollType: new fields.StringField({
         required: false,
         blank: true,
@@ -150,6 +155,7 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
           isTrackingEffect: options.consumableTracking?.isTrackingEffect || false,
           originalItemName: options.consumableTracking?.originalItemName || '',
           originalItemId: options.consumableTracking?.originalItemId || '',
+          consumedQuantity: options.consumableTracking?.consumedQuantity || 1,
           rollType: options.consumableTracking?.rollType || 'normal',
           appliedEffects: options.consumableTracking?.appliedEffects || [],
           appliedSkillBonuses: options.consumableTracking?.appliedSkillBonuses || [],

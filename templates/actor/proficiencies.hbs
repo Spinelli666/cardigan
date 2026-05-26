@@ -491,6 +491,19 @@
                 </h4>
               </div>
 
+              {{#if efeito.system.consumableTracking.isTrackingEffect}}
+              <div class='item-quantity effect-consumed-quantity' data-tooltip='Quantidade consumida' data-tooltip-class='cardigan-tooltip'>
+                <input
+                  type='number'
+                  value='{{efeito.system.consumableTracking.consumedQuantity}}'
+                  min='0'
+                  data-dtype='Number'
+                  readonly
+                  aria-label='Quantidade consumida'
+                />
+              </div>
+              {{/if}}
+
               <div class='effect-rounds'>
                 <img src="systems/cardigan/assets/images/decorative/icons/icon-clock.svg" alt="Rodadas" class="rounds-icon" width="16" height="16">
                 <span class="rounds-value">{{#if efeito.system.rodadas}}{{#if (eq efeito.system.rodadas "infinito")}}<div class="rounds-infinite-icon"></div>{{else}}{{efeito.system.rodadas}}{{/if}}{{else}}0{{/if}}</span>

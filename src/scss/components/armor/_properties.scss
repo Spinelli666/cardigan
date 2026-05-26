@@ -46,6 +46,10 @@
     &.armor-special-properties-row .armor-extra-icon {
       cursor: pointer;
       transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 1;
+      }
     }
 
     &.armor-protection-property .armor-extra-icon {
@@ -116,6 +120,10 @@
         &.is-active {
           opacity: 1;
         }
+      }
+
+      .armor-extra-property:hover .armor-extra-content {
+        opacity: 1;
       }
     }
 

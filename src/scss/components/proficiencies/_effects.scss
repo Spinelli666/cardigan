@@ -79,6 +79,51 @@
     }
   }
 
+  .item-quantity.effect-consumed-quantity {
+    margin-right: 10px;
+    flex: 0 0 35px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+    border: none;
+    border-radius: 7px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+
+    input[type='number'] {
+      height: 22px;
+      width: 100%;
+      padding: 0;
+      text-align: center;
+      border: none;
+      border-radius: 0;
+      background: none;
+      box-shadow: none;
+      color: #FFB75C;
+      text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+      background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      pointer-events: none;
+      cursor: default;
+
+      &:focus,
+      &:hover,
+      &:active {
+        border: none;
+        border-radius: 0;
+        background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        box-shadow: none;
+        outline: none;
+      }
+    }
+  }
+
   .effects-content-wrapper {
     display: flex;
     flex-direction: column;

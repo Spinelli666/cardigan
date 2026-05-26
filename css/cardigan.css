@@ -2049,6 +2049,420 @@
   align-items: center;
   width: 100%;
 }
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-special-properties-row {
+  margin-top: 2px;
+  width: 69% !important;
+  padding: 5px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-special-properties-row .consumable-item-special-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.45;
+  transition: opacity 0.2s ease;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-special-properties-row .consumable-item-special-content:hover {
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-special-properties-row .consumable-item-special-property:hover .consumable-item-special-content {
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-special-properties-row.is-fracture-active .consumable-item-special-property:first-child .consumable-item-special-content {
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-special-properties-row.is-toxicity-active .consumable-item-special-property:nth-child(2) .consumable-item-special-content {
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-special-properties-row.is-sanity-active .consumable-item-special-property:nth-child(3) .consumable-item-special-content {
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-special-properties-row.is-hunger-active .consumable-item-special-property:nth-child(4) .consumable-item-special-content {
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-special-properties-row.is-thirst-active .consumable-item-special-property:nth-child(5) .consumable-item-special-content {
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-special-properties-row .consumable-item-special-icon {
+  width: 20px;
+  height: 20px;
+  min-width: 16px;
+  object-fit: contain;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-special-properties-row .consumable-item-special-icon:hover {
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row {
+  margin-top: 0;
+  width: 69% !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row.is-collapsed {
+  display: none !important;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-content {
+  gap: 9.2px;
+  width: 100%;
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-content {
+  gap: 9.2px;
+  width: 100%;
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-sanity-content {
+  gap: 9.2px;
+  width: 100%;
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-hunger-content {
+  gap: 9.2px;
+  width: 100%;
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-thirst-content {
+  gap: 9.2px;
+  width: 100%;
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-property.is-collapsed,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-property.is-collapsed,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-sanity-property.is-collapsed,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-hunger-property.is-collapsed,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-thirst-property.is-collapsed {
+  display: none !important;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-property,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-property,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-sanity-property,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-hunger-property,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-thirst-property,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-property .consumable-item-special-content,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-property .consumable-item-special-content,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-sanity-property .consumable-item-special-content,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-hunger-property .consumable-item-special-content,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-thirst-property .consumable-item-special-content,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-property .consumable-item-fracture-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-property .consumable-item-toxicity-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-sanity-property .consumable-item-sanity-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-hunger-property .consumable-item-hunger-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-thirst-property .consumable-item-thirst-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-property .consumable-item-fracture-button,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-property .consumable-item-fracture-button,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-sanity-property .consumable-item-fracture-button,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-hunger-property .consumable-item-fracture-button,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-thirst-property .consumable-item-fracture-button,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-property .consumable-item-fracture-range,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-property .consumable-item-toxicity-range,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-sanity-property .consumable-item-sanity-range,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-hunger-property .consumable-item-hunger-range,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-thirst-property .consumable-item-thirst-range {
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-icon {
+  cursor: default;
+  width: 20px;
+  height: 20px;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-icon {
+  cursor: default;
+  width: 20px;
+  height: 20px;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-sanity-icon {
+  cursor: default;
+  width: 20px;
+  height: 20px;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-hunger-icon {
+  cursor: default;
+  width: 20px;
+  height: 20px;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-thirst-icon {
+  cursor: default;
+  width: 20px;
+  height: 20px;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-button {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  color: #fff2de;
+  font-family: "Alatsi", sans-serif;
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-button:hover {
+  filter: brightness(1.06);
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-button-wrapper.consumable-item-extra-panel {
+  width: 25px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-button-wrapper.consumable-item-extra-panel.is-selected {
+  border-color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-button-wrapper.consumable-item-extra-panel {
+  width: 25px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-button-wrapper.consumable-item-extra-panel.is-selected {
+  border-color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-check-label {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-checkbox {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-symbol {
+  font-family: "Alatsi", sans-serif;
+  font-size: 10px;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-price-input-wrapper.consumable-item-extra-panel.consumable-item-fracture-range-wrapper {
+  width: 42px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-price-input-wrapper.consumable-item-extra-panel.consumable-item-fracture-range-wrapper:focus-within {
+  border-color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-price-input-wrapper.consumable-item-extra-panel.consumable-item-toxicity-range-wrapper {
+  width: 42px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-price-input-wrapper.consumable-item-extra-panel.consumable-item-toxicity-range-wrapper:focus-within {
+  border-color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-price-input-wrapper.consumable-item-extra-panel.consumable-item-sanity-range-wrapper {
+  width: 42px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-price-input-wrapper.consumable-item-extra-panel.consumable-item-sanity-range-wrapper:focus-within {
+  border-color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-price-input-wrapper.consumable-item-extra-panel.consumable-item-hunger-range-wrapper {
+  width: 42px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-price-input-wrapper.consumable-item-extra-panel.consumable-item-hunger-range-wrapper:focus-within {
+  border-color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-price-input-wrapper.consumable-item-extra-panel.consumable-item-thirst-range-wrapper {
+  width: 42px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-price-input-wrapper.consumable-item-extra-panel.consumable-item-thirst-range-wrapper:focus-within {
+  border-color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-increase-symbol {
+  background-image: linear-gradient(180deg, #5CFF7F 33.6%, #2E9E4D 66.67%) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-decrease-symbol {
+  background-image: linear-gradient(180deg, #FF001E 33.6%, #8B0011 66.67%) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-increase-symbol {
+  background-image: linear-gradient(180deg, #5CFF7F 33.6%, #2E9E4D 66.67%) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-decrease-symbol {
+  background-image: linear-gradient(180deg, #FF001E 33.6%, #8B0011 66.67%) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-sanity-increase-symbol {
+  background-image: linear-gradient(180deg, #5CFF7F 33.6%, #2E9E4D 66.67%) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-sanity-decrease-symbol {
+  background-image: linear-gradient(180deg, #FF001E 33.6%, #8B0011 66.67%) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-hunger-increase-symbol,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-thirst-increase-symbol {
+  background-image: linear-gradient(180deg, #5CFF7F 33.6%, #2E9E4D 66.67%) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-hunger-decrease-symbol,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-thirst-decrease-symbol {
+  background-image: linear-gradient(180deg, #FF001E 33.6%, #8B0011 66.67%) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-fracture-range {
+  width: 34px;
+  min-height: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  font-family: "Alatsi", sans-serif;
+  font-size: 12px;
+  box-shadow: none;
+  pointer-events: auto;
+  caret-color: #FFB75C;
+  outline: none;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-toxicity-range {
+  width: 34px;
+  min-height: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  font-family: "Alatsi", sans-serif;
+  font-size: 12px;
+  box-shadow: none;
+  pointer-events: auto;
+  caret-color: #FFB75C;
+  outline: none;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-sanity-range {
+  width: 34px;
+  min-height: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  font-family: "Alatsi", sans-serif;
+  font-size: 12px;
+  box-shadow: none;
+  pointer-events: auto;
+  caret-color: #FFB75C;
+  outline: none;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-hunger-range,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-fracture-properties-row .consumable-item-thirst-range {
+  width: 34px;
+  min-height: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  font-family: "Alatsi", sans-serif;
+  font-size: 12px;
+  box-shadow: none;
+  pointer-events: auto;
+  caret-color: #FFB75C;
+  outline: none;
+}
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-price-content {
   margin-top: 8.4px;
   display: flex;
@@ -2611,6 +3025,9 @@
   cursor: pointer;
   transition: opacity 0.2s ease;
 }
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties.armor-special-properties-row .armor-extra-icon:hover {
+  opacity: 1;
+}
 .application.sheet.cardigan.item.item-type-armadura .armor-extra-properties.armor-protection-property .armor-extra-icon {
   width: 18px;
 }
@@ -2721,6 +3138,9 @@
   transition: opacity 0.2s ease;
 }
 .application.sheet.cardigan.item.item-type-armadura .armor-extra-properties.armor-special-properties-row .armor-extra-content.is-active {
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-armadura .armor-extra-properties.armor-special-properties-row .armor-extra-property:hover .armor-extra-content {
   opacity: 1;
 }
 .application.sheet.cardigan.item.item-type-armadura .armor-extra-properties .armor-extra-content > input[type=number],
@@ -4267,6 +4687,46 @@
   -webkit-mask-size: contain;
   mask-size: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+.cardigan .proficiencies-effects-container .item-quantity.effect-consumed-quantity {
+  margin-right: 10px;
+  flex: 0 0 35px;
+  width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: none;
+  border-radius: 7px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.cardigan .proficiencies-effects-container .item-quantity.effect-consumed-quantity input[type=number] {
+  height: 22px;
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: #FFB75C;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  pointer-events: none;
+  cursor: default;
+}
+.cardigan .proficiencies-effects-container .item-quantity.effect-consumed-quantity input[type=number]:focus, .cardigan .proficiencies-effects-container .item-quantity.effect-consumed-quantity input[type=number]:hover, .cardigan .proficiencies-effects-container .item-quantity.effect-consumed-quantity input[type=number]:active {
+  border: none;
+  border-radius: 0;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  box-shadow: none;
+  outline: none;
 }
 .cardigan .proficiencies-effects-container .effects-content-wrapper {
   display: flex;

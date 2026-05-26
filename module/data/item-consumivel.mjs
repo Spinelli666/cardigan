@@ -507,8 +507,8 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
 
     schema.fractureModifierAmount = new fields.NumberField({
       required: false,
-      initial: 1,
-      min: 1,
+      initial: 0,
+      min: 0,
       max: 5,
       integer: true,
       label: "CARDIGAN.ItemConsumivel.FractureModifierAmount"

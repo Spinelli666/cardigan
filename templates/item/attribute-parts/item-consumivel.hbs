@@ -43,6 +43,30 @@
       </div>
 
       <div class="consumable-item-left-row consumable-item-left-row-top">
+        <div class="consumable-item-price-content consumable-item-left-property consumable-item-movement-content">
+          <div class="consumable-item-extra-property consumable-item-price-property">
+            <div class="consumable-item-extra-content">
+              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-movement.svg" alt="{{localize 'CARDIGAN.MovementBonus'}}" data-tooltip="Bônus de Movimento" data-tooltip-class='cardigan-tooltip' />
+              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="movement">
+                <input type="number" name="system.bonusDeslocamento.bonus" value="{{system.bonusDeslocamento.bonus}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="consumable-item-price-content consumable-item-left-property consumable-item-critical-content">
+          <div class="consumable-item-extra-property consumable-item-price-property">
+            <div class="consumable-item-extra-content">
+              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-critical.svg" alt="{{localize 'CARDIGAN.ItemConsumivel.CriticalHitBoostAmount'}}" data-tooltip="Bônus de Crítico" data-tooltip-class='cardigan-tooltip' />
+              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="critical-hit">
+                <input type="number" name="system.criticalHitBoostAmount" value="{{system.criticalHitBoostAmount}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="consumable-item-left-row consumable-item-left-row-bottom">
         <div class="consumable-item-price-content consumable-item-left-property consumable-item-weight-content">
           <div class="consumable-item-extra-property consumable-item-price-property">
             <div class="consumable-item-extra-content">
@@ -66,25 +90,236 @@
         </div>
       </div>
 
-      <div class="consumable-item-left-row consumable-item-left-row-bottom">
-        <div class="consumable-item-price-content consumable-item-left-property consumable-item-movement-content">
-          <div class="consumable-item-extra-property consumable-item-price-property">
-            <div class="consumable-item-extra-content">
-              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-movement.svg" alt="{{localize 'CARDIGAN.MovementBonus'}}" data-tooltip="Bônus de Movimento" data-tooltip-class='cardigan-tooltip' />
-              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="movement">
-                <input type="number" name="system.bonusDeslocamento.bonus" value="{{system.bonusDeslocamento.bonus}}" min="0" placeholder="0"/>
-              </div>
-            </div>
+      <div class="armor-extra-properties armor-special-properties-row consumable-item-special-properties-row">
+        <div class="armor-extra-property consumable-item-special-property">
+          <div class="armor-extra-content consumable-item-special-content">
+            <img class="armor-extra-icon consumable-item-special-icon" src="systems/cardigan/assets/images/decorative/icons/icon-fracture.svg" alt="Fratura" data-tooltip="Fratura" data-tooltip-class='cardigan-tooltip' data-consumable-fracture-toggle role="button" tabindex="0" aria-expanded="false" />
           </div>
         </div>
 
-        <div class="consumable-item-price-content consumable-item-left-property consumable-item-critical-content">
-          <div class="consumable-item-extra-property consumable-item-price-property">
-            <div class="consumable-item-extra-content">
-              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-critical.svg" alt="{{localize 'CARDIGAN.ItemConsumivel.CriticalHitBoostAmount'}}" data-tooltip="Bônus de Crítico" data-tooltip-class='cardigan-tooltip' />
-              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="critical-hit">
-                <input type="number" name="system.criticalHitBoostAmount" value="{{system.criticalHitBoostAmount}}" min="0" placeholder="0"/>
-              </div>
+        <div class="armor-extra-property consumable-item-special-property">
+          <div class="armor-extra-content consumable-item-special-content">
+            <img class="armor-extra-icon consumable-item-special-icon" src="systems/cardigan/assets/images/decorative/icons/icon-toxic.svg" alt="Toxicidade" data-tooltip="Toxicidade" data-tooltip-class='cardigan-tooltip' data-consumable-toxicity-toggle role="button" tabindex="0" aria-expanded="false" />
+          </div>
+        </div>
+
+        <div class="armor-extra-property consumable-item-special-property">
+          <div class="armor-extra-content consumable-item-special-content">
+            <img class="armor-extra-icon consumable-item-special-icon" src="systems/cardigan/assets/images/decorative/icons/icon-sanity.svg" alt="Sanidade" data-tooltip="Sanidade" data-tooltip-class='cardigan-tooltip' data-consumable-sanity-toggle role="button" tabindex="0" aria-expanded="false" />
+          </div>
+        </div>
+
+        <div class="armor-extra-property consumable-item-special-property">
+          <div class="armor-extra-content consumable-item-special-content">
+            <img class="armor-extra-icon consumable-item-special-icon" src="systems/cardigan/assets/images/decorative/icons/icon-hunger.svg" alt="Fome" data-tooltip="Fome" data-tooltip-class='cardigan-tooltip' data-consumable-hunger-toggle role="button" tabindex="0" aria-expanded="false" />
+          </div>
+        </div>
+
+        <div class="armor-extra-property consumable-item-special-property">
+          <div class="armor-extra-content consumable-item-special-content">
+            <img class="armor-extra-icon consumable-item-special-icon" src="systems/cardigan/assets/images/decorative/icons/icon-thirst.svg" alt="Sede" data-tooltip="Sede" data-tooltip-class='cardigan-tooltip' data-consumable-thirst-toggle role="button" tabindex="0" aria-expanded="false" />
+          </div>
+        </div>
+      </div>
+
+      <div class="armor-extra-properties armor-special-properties-row consumable-item-special-properties-row consumable-item-fracture-properties-row is-collapsed" data-consumable-fracture-panel>
+        <div class="armor-extra-property consumable-item-special-property consumable-item-fracture-property is-collapsed" data-consumable-fracture-section>
+          <div class="armor-extra-content consumable-item-special-content consumable-item-fracture-content">
+            <img class="armor-extra-icon consumable-item-special-icon consumable-item-fracture-icon" src="systems/cardigan/assets/images/decorative/icons/icon-fracture.svg" alt="Fratura" data-tooltip="Fratura" data-tooltip-class='cardigan-tooltip' />
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-fracture-decrease-wrapper" data-tooltip="Retirar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Retirar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-fracture-decrease"
+                  data-fracture-modifier-type="decrease"
+                  {{#if (and system.hasFractureModifier (eq system.fractureModifierType "decrease"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-fracture-decrease-symbol">-</span>
+              </label>
+            </div>
+            <div class="consumable-item-price-input-wrapper consumable-item-extra-panel consumable-item-fracture-range-wrapper">
+              <input
+                type="number"
+                class="consumable-item-fracture-range"
+                name="system.fractureModifierAmount"
+                value="{{system.fractureModifierAmount}}"
+                min="0"
+                max="5"
+                step="1"
+                data-dtype="Number"
+                aria-label="Valor de fratura"
+              />
+            </div>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-fracture-increase-wrapper" data-tooltip="Adicionar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Adicionar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-fracture-increase"
+                  data-fracture-modifier-type="increase"
+                  {{#if (and system.hasFractureModifier (eq system.fractureModifierType "increase"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-fracture-increase-symbol">+</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="armor-extra-property consumable-item-special-property consumable-item-toxicity-property is-collapsed" data-consumable-toxicity-section>
+          <div class="armor-extra-content consumable-item-special-content consumable-item-toxicity-content">
+            <img class="armor-extra-icon consumable-item-special-icon consumable-item-toxicity-icon" src="systems/cardigan/assets/images/decorative/icons/icon-toxic.svg" alt="Toxicidade" data-tooltip="Toxicidade" data-tooltip-class='cardigan-tooltip' />
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-toxicity-decrease-wrapper" data-tooltip="Retirar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Retirar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-toxicity-decrease"
+                  data-toxicity-modifier-type="decrease"
+                  {{#if (and system.hasToxicityModifier (eq system.toxicityModifierType "decrease"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-toxicity-decrease-symbol">-</span>
+              </label>
+            </div>
+            <div class="consumable-item-price-input-wrapper consumable-item-extra-panel consumable-item-toxicity-range-wrapper">
+              <input
+                type="number"
+                class="consumable-item-fracture-range consumable-item-toxicity-range"
+                name="system.toxicityModifierAmount"
+                value="{{system.toxicityModifierAmount}}"
+                min="0"
+                max="5"
+                step="1"
+                data-dtype="Number"
+                aria-label="Valor de toxicidade"
+              />
+            </div>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-toxicity-increase-wrapper" data-tooltip="Adicionar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Adicionar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-toxicity-increase"
+                  data-toxicity-modifier-type="increase"
+                  {{#if (and system.hasToxicityModifier (eq system.toxicityModifierType "increase"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-toxicity-increase-symbol">+</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="armor-extra-property consumable-item-special-property consumable-item-sanity-property is-collapsed" data-consumable-sanity-section>
+          <div class="armor-extra-content consumable-item-special-content consumable-item-sanity-content">
+            <img class="armor-extra-icon consumable-item-special-icon consumable-item-sanity-icon" src="systems/cardigan/assets/images/decorative/icons/icon-sanity.svg" alt="Sanidade" data-tooltip="Sanidade" data-tooltip-class='cardigan-tooltip' />
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-sanity-decrease-wrapper" data-tooltip="Retirar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Retirar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-sanity-decrease"
+                  data-sanity-modifier-type="decrease"
+                  {{#if (and system.hasSanityModifier (eq system.sanityModifierType "decrease"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-sanity-decrease-symbol">-</span>
+              </label>
+            </div>
+            <div class="consumable-item-price-input-wrapper consumable-item-extra-panel consumable-item-sanity-range-wrapper">
+              <input
+                type="number"
+                class="consumable-item-fracture-range consumable-item-sanity-range"
+                name="system.sanityModifierAmount"
+                value="{{system.sanityModifierAmount}}"
+                min="0"
+                max="5"
+                step="1"
+                data-dtype="Number"
+                aria-label="Valor de sanidade"
+              />
+            </div>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-sanity-increase-wrapper" data-tooltip="Adicionar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Adicionar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-sanity-increase"
+                  data-sanity-modifier-type="increase"
+                  {{#if (and system.hasSanityModifier (eq system.sanityModifierType "increase"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-sanity-increase-symbol">+</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="armor-extra-property consumable-item-special-property consumable-item-hunger-property is-collapsed" data-consumable-hunger-section>
+          <div class="armor-extra-content consumable-item-special-content consumable-item-hunger-content">
+            <img class="armor-extra-icon consumable-item-special-icon consumable-item-hunger-icon" src="systems/cardigan/assets/images/decorative/icons/icon-hunger.svg" alt="Fome" data-tooltip="Fome" data-tooltip-class='cardigan-tooltip' />
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-hunger-decrease-wrapper" data-tooltip="Retirar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Retirar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-hunger-decrease"
+                  data-hunger-modifier-type="decrease"
+                  {{#if (and system.hasFoodModifier (eq system.foodModifierType "decrease"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-hunger-decrease-symbol">-</span>
+              </label>
+            </div>
+            <div class="consumable-item-price-input-wrapper consumable-item-extra-panel consumable-item-hunger-range-wrapper">
+              <input
+                type="number"
+                class="consumable-item-fracture-range consumable-item-hunger-range"
+                name="system.foodModifierAmount"
+                value="{{system.foodModifierAmount}}"
+                min="0"
+                max="3"
+                step="1"
+                data-dtype="Number"
+                aria-label="Valor de fome"
+              />
+            </div>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-hunger-increase-wrapper" data-tooltip="Adicionar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Adicionar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-hunger-increase"
+                  data-hunger-modifier-type="increase"
+                  {{#if (and system.hasFoodModifier (eq system.foodModifierType "increase"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-hunger-increase-symbol">+</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="armor-extra-property consumable-item-special-property consumable-item-thirst-property is-collapsed" data-consumable-thirst-section>
+          <div class="armor-extra-content consumable-item-special-content consumable-item-thirst-content">
+            <img class="armor-extra-icon consumable-item-special-icon consumable-item-thirst-icon" src="systems/cardigan/assets/images/decorative/icons/icon-thirst.svg" alt="Sede" data-tooltip="Sede" data-tooltip-class='cardigan-tooltip' />
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-thirst-decrease-wrapper" data-tooltip="Retirar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Retirar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-thirst-decrease"
+                  data-thirst-modifier-type="decrease"
+                  {{#if (and system.hasWaterModifier (eq system.waterModifierType "decrease"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-thirst-decrease-symbol">-</span>
+              </label>
+            </div>
+            <div class="consumable-item-price-input-wrapper consumable-item-extra-panel consumable-item-thirst-range-wrapper">
+              <input
+                type="number"
+                class="consumable-item-fracture-range consumable-item-thirst-range"
+                name="system.waterModifierAmount"
+                value="{{system.waterModifierAmount}}"
+                min="0"
+                max="3"
+                step="1"
+                data-dtype="Number"
+                aria-label="Valor de sede"
+              />
+            </div>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-thirst-increase-wrapper" data-tooltip="Adicionar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Adicionar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-thirst-increase"
+                  data-thirst-modifier-type="increase"
+                  {{#if (and system.hasWaterModifier (eq system.waterModifierType "increase"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-thirst-increase-symbol">+</span>
+              </label>
             </div>
           </div>
         </div>
