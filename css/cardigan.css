@@ -2010,12 +2010,53 @@
   justify-content: center;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-left-grid {
-  flex: 1 1 0;
   min-width: 0;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid {
-  flex: 0 0 auto;
   align-self: flex-start;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill > p {
+  margin: 0 0 !important;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  transform: translateX(var(--tabs-offset-x, -1px));
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-icon {
+  width: 20px;
+  height: 20px;
+  min-width: 16px;
+  object-fit: contain;
+  opacity: 0.45;
+  transition: opacity 0.2s ease;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-toggle:hover .consumable-item-check-skill-icon {
+  opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-checkbox:checked + .consumable-item-check-skill-icon {
+  opacity: 1;
 }
 @media (max-width: 900px) {
   .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid {
@@ -2051,7 +2092,7 @@
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-special-properties-row {
   margin-top: 2px;
-  width: 69% !important;
+  width: 100% !important;
   padding: 5px;
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
   border-radius: 10px;
