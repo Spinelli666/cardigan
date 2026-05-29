@@ -190,6 +190,27 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       label: "CARDIGAN.ItemConsumivel.SkillCheckAdvantage"
     });
 
+    // Whether skill check has enhanced advantage
+    schema.skillCheckEnhancedAdvantage = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.SkillCheckAdvantage"
+    });
+
+    // Whether skill check has disadvantage
+    schema.skillCheckDisadvantage = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.SkillCheckAdvantage"
+    });
+
+    // Whether skill check has enhanced disadvantage
+    schema.skillCheckEnhancedDisadvantage = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.SkillCheckAdvantage"
+    });
+
     // Critical failure effects system
     schema.hasCriticalFailureEffects = new fields.BooleanField({
       required: true,

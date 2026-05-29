@@ -11,12 +11,107 @@ export class CommonItemListeners {
   static initialize(sheet) {
     this.setupProfessionSelectorButtons(sheet);
     this.setupWeightSelector(sheet);
+    this.setupSkillAbilityDropdown(sheet);
     this.setupFractureToggle(sheet);
     this.setupFractureModifierSelector(sheet);
     this.setupToxicityModifierSelector(sheet);
     this.setupSanityModifierSelector(sheet);
     this.setupHungerModifierSelector(sheet);
     this.setupThirstModifierSelector(sheet);
+  }
+
+  /**
+   * Setup custom skill ability dropdown for consumable items.
+   * @param {CardiganSystemItemSheet} sheet - The item sheet instance
+   */
+  static setupSkillAbilityDropdown(sheet) {
+    if (sheet.item.type !== 'item-consumivel') return;
+
+    const wrappers = Array.from(sheet.element?.querySelectorAll('[data-consumable-skill-ability]') ?? []);
+    if (!wrappers.length) return;
+
+    wrappers.forEach((wrapper) => {
+      const hiddenInput = wrapper.querySelector('.consumable-item-skill-ability-input');
+      const trigger = wrapper.querySelector('[data-consumable-skill-ability-trigger]');
+      const label = wrapper.querySelector('[data-consumable-skill-ability-label]');
+      const menu = wrapper.querySelector('[data-consumable-skill-ability-menu]');
+      const options = Array.from(wrapper.querySelectorAll('[data-consumable-skill-ability-option]'));
+
+      if (!hiddenInput || !trigger || !label || !menu || !options.length) return;
+
+      const labelsByValue = options.reduce((acc, option) => {
+        acc[option.dataset.value] = option.textContent?.trim() ?? '';
+        return acc;
+      }, {});
+
+      const getCurrentValue = () => hiddenInput.value || 'accuracy';
+
+      const syncSelection = () => {
+        const currentValue = getCurrentValue();
+        label.textContent = labelsByValue[currentValue] || 'Precisão';
+        options.forEach((option) => {
+          option.classList.toggle('is-selected', option.dataset.value === currentValue);
+        });
+      };
+
+      const closeMenu = () => {
+        menu.classList.add('is-collapsed');
+        trigger.setAttribute('aria-expanded', 'false');
+      };
+
+      const openMenu = () => {
+        menu.classList.remove('is-collapsed');
+        trigger.setAttribute('aria-expanded', 'true');
+      };
+
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const isOpen = !menu.classList.contains('is-collapsed');
+        if (isOpen) {
+          closeMenu();
+          return;
+        }
+
+        openMenu();
+
+        const onOutsideClick = (outsideEvent) => {
+          if (!wrapper.contains(outsideEvent.target)) {
+            closeMenu();
+            document.removeEventListener('click', onOutsideClick, true);
+          }
+        };
+
+        document.addEventListener('click', onOutsideClick, true);
+      });
+
+      options.forEach((option) => {
+        option.addEventListener('click', async (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          const nextValue = option.dataset.value;
+          if (!nextValue) return;
+
+          if (hiddenInput.value !== nextValue) {
+            hiddenInput.value = nextValue;
+            await sheet.item.update({ 'system.skillCheckAbility': nextValue });
+          }
+
+          syncSelection();
+          closeMenu();
+        });
+      });
+
+      wrapper.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeMenu();
+        }
+      });
+
+      syncSelection();
+    });
   }
 
   /**

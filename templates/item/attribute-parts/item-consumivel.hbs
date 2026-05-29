@@ -328,14 +328,92 @@
     <div class="consumable-item-right-grid">
       <div class="consumable-item-check-skill">
         <p>TESTE DE PERÍCIA</p>
-        <label class="consumable-item-check-skill-toggle armor-extra-content consumable-item-special-content" aria-label="Ativar teste de perícia">
-          <input type="checkbox" class="consumable-item-check-skill-checkbox" />
+        <label class="consumable-item-check-skill-toggle armor-extra-content consumable-item-special-content" aria-label="Ativar teste de perícia" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
+          <input type="checkbox" name="system.hasSkillCheck" {{checked system.hasSkillCheck}} data-dtype="Boolean" data-skill-check-toggle class="consumable-item-check-skill-checkbox" />
           <img
             class="consumable-item-check-skill-icon armor-extra-icon consumable-item-special-icon"
             src="systems/cardigan/assets/images/decorative/icons/icon-equip.svg"
             alt="Ativar teste de perícia"
           />
         </label>
+      </div>
+      <img class="consumable-item-check-skill-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+      <div class="consumable-item-skill-test-system skill-check-system {{#unless system.hasSkillCheck}}hidden{{/unless}}" data-skill-check-section>
+        <div class="form-group skill-selection" data-consumable-skill-ability>
+          <input type="hidden" name="system.skillCheckAbility" value="{{system.skillCheckAbility}}" data-dtype="String" class="consumable-item-skill-ability-input" />
+          <button type="button" class="consumable-item-skill-ability-trigger" data-consumable-skill-ability-trigger aria-haspopup="listbox" aria-expanded="false">
+            <span class="consumable-item-skill-ability-label" data-consumable-skill-ability-label>Precisão</span>
+          </button>
+          <div class="consumable-item-skill-ability-menu is-collapsed" data-consumable-skill-ability-menu role="listbox">
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="accuracy">Precisão</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="evasion">Evasão</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="strength">Força</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="dexterity">Destreza</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="stamina">Vigor</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="stealth">Furtividade</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="persuasion">Persuasão</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="intelligence">Inteligência</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="psionics">Psionismo</button>
+          </div>
+        </div>
+        <div class="consumable-item-skill-test-advantage-controls">
+          <label class="consumable-item-skill-test-advantage-toggle" aria-label="Desvantagem aprimorada" data-tooltip="Desvantagem Aprimorada" data-tooltip-class='cardigan-tooltip'>
+            <input
+              type="checkbox"
+              name="system.skillCheckEnhancedDisadvantage"
+              {{checked system.skillCheckEnhancedDisadvantage}}
+              data-dtype="Boolean"
+              class="consumable-item-skill-test-advantage-checkbox"
+            />
+            <img
+              class="consumable-item-skill-test-advantage-icon"
+              src="systems/cardigan/assets/images/decorative/icons/icon-enhanced-disadvantage.svg"
+              alt="Desvantagem aprimorada"
+            />
+          </label>
+          <label class="consumable-item-skill-test-advantage-toggle" aria-label="Desvantagem" data-tooltip="Desvantagem" data-tooltip-class='cardigan-tooltip'>
+            <input
+              type="checkbox"
+              name="system.skillCheckDisadvantage"
+              {{checked system.skillCheckDisadvantage}}
+              data-dtype="Boolean"
+              class="consumable-item-skill-test-advantage-checkbox"
+            />
+            <img
+              class="consumable-item-skill-test-advantage-icon"
+              src="systems/cardigan/assets/images/decorative/icons/icon-disadvantage.svg"
+              alt="Desvantagem"
+            />
+          </label>
+          <label class="consumable-item-skill-test-advantage-toggle" aria-label="Vantagem" data-tooltip="Vantagem" data-tooltip-class='cardigan-tooltip'>
+            <input
+              type="checkbox"
+              name="system.skillCheckAdvantage"
+              {{checked system.skillCheckAdvantage}}
+              data-dtype="Boolean"
+              class="consumable-item-skill-test-advantage-checkbox"
+            />
+            <img
+              class="consumable-item-skill-test-advantage-icon"
+              src="systems/cardigan/assets/images/decorative/icons/icon-advantage.svg"
+              alt="Vantagem"
+            />
+          </label>
+          <label class="consumable-item-skill-test-advantage-toggle" aria-label="Vantagem aprimorada" data-tooltip="Vantagem Aprimorada" data-tooltip-class='cardigan-tooltip'>
+            <input
+              type="checkbox"
+              name="system.skillCheckEnhancedAdvantage"
+              {{checked system.skillCheckEnhancedAdvantage}}
+              data-dtype="Boolean"
+              class="consumable-item-skill-test-advantage-checkbox"
+            />
+            <img
+              class="consumable-item-skill-test-advantage-icon"
+              src="systems/cardigan/assets/images/decorative/icons/icon-enhanced-advantage.svg"
+              alt="Vantagem aprimorada"
+            />
+          </label>
+        </div>
       </div>
     </div>
   </div>
