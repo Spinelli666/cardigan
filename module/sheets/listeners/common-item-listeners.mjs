@@ -12,6 +12,7 @@ export class CommonItemListeners {
     this.setupProfessionSelectorButtons(sheet);
     this.setupWeightSelector(sheet);
     this.setupSkillAbilityDropdown(sheet);
+    this.setupSkillTestAddButton(sheet);
     this.setupFractureToggle(sheet);
     this.setupFractureModifierSelector(sheet);
     this.setupToxicityModifierSelector(sheet);
@@ -111,6 +112,48 @@ export class CommonItemListeners {
       });
 
       syncSelection();
+    });
+  }
+
+  /**
+   * Setup add button dialog for consumable skill test section.
+   * @param {CardiganSystemItemSheet} sheet - The item sheet instance
+   */
+  static setupSkillTestAddButton(sheet) {
+    if (sheet.item.type !== 'item-consumivel') return;
+
+    const addButton = sheet.element?.querySelector('.consumable-item-skill-test-add-button');
+    if (!addButton) return;
+
+    addButton.addEventListener('click', async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const templatePath = 'systems/cardigan/templates/dialogs/skill-test-add-dialog.hbs';
+      const content = await foundry.applications.handlebars.renderTemplate(templatePath, {});
+
+      const dialog = new foundry.applications.api.DialogV2({
+        window: {
+          title: ''
+        },
+        classes: ['cardigan-skill-test-add-dialog'],
+        content,
+        buttons: [
+          {
+            action: 'close',
+            label: 'Fechar',
+            callback: () => dialog.close()
+          }
+        ],
+        rejectClose: false,
+        modal: false,
+        position: {
+          width: 280,
+          height: 'auto'
+        }
+      });
+
+      dialog.render(true);
     });
   }
 

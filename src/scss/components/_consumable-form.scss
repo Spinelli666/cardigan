@@ -280,6 +280,7 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           height: 25px;
           line-height: 23px;
           font-size: 10px;
+          font-family: "Alatsi", sans-serif;
           border: 1px solid #FFB75C !important;
           padding: 0 28px 0 5px;
           text-align: left;
@@ -317,6 +318,7 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           left: 0;
           width: 100%;
           z-index: 20;
+          font-family: "Alatsi", sans-serif;
           border: 1px solid #FFB75C;
           background: transparent !important;
           border-radius: 5px;
@@ -340,6 +342,7 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           color: #FFB75C;
           padding: 4px 5px;
           font-size: 10px;
+          font-family: "Alatsi", sans-serif;
           line-height: 1.35;
           cursor: pointer;
 
@@ -355,6 +358,32 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           align-items: center;
           justify-content: center;
           gap: 5px;
+        }
+
+        .consumable-item-skill-test-add-button {
+          min-width: 115px;
+          height: 24px;
+          border: 1px solid #FFB75C;
+          border-radius: 12px;
+          background: linear-gradient(180deg, rgba(255, 183, 92, 0.2) 0%, rgba(38, 91, 126, 0.2) 100%);
+          color: #FFB75C;
+          font-size: 10px;
+          font-family: "Alatsi", sans-serif;
+          line-height: 1;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: #FFB75C;
+            color: #265b7e;
+            box-shadow: 0 0 8px rgba(255, 183, 92, 0.25);
+          }
+
+          &:focus,
+          &:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 1px #FFB75C;
+          }
         }
 
         .consumable-item-skill-test-advantage-toggle {

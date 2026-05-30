@@ -27,14 +27,25 @@
         </button>
       </div>
     </div>
-  </div>
 
-  <div class="common-item-price-content common-item-weight-content">
-    <div class="common-item-extra-property common-item-price-property">
-      <div class="common-item-extra-content">
-        <img class="common-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weight.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-tooltip="Peso" data-tooltip-class='cardigan-tooltip' />
-        <div class="common-item-price-input-wrapper common-item-extra-panel" data-common-item-extra-panel="weight">
-          <input type="text" class="common-item-weight-display" value="-" placeholder="-" readonly/>
+    <div class="common-item-price-content">
+      <div class="common-item-extra-property common-item-price-property">
+        <div class="common-item-extra-content">
+          <img class="common-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-coins.svg" alt="{{localize 'CARDIGAN.Price'}}" data-tooltip="Preço" data-tooltip-class='cardigan-tooltip' />
+          <div class="common-item-price-input-wrapper common-item-extra-panel" data-common-item-extra-panel="price">
+            <input type="number" name="system.price" value="{{system.price}}" min="0" placeholder="0"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="common-item-price-content common-item-weight-content">
+      <div class="common-item-extra-property common-item-price-property">
+        <div class="common-item-extra-content">
+          <img class="common-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weight.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-tooltip="Peso" data-tooltip-class='cardigan-tooltip' />
+          <div class="common-item-price-input-wrapper common-item-extra-panel" data-common-item-extra-panel="weight">
+            <input type="text" class="common-item-weight-display" value="-" placeholder="-" readonly/>
+          </div>
         </div>
       </div>
     </div>

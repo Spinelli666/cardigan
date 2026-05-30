@@ -15,7 +15,8 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
 .application.sheet.cardigan.item.item-type-ingredient {
   min-width: 400.444px !important;
   width: 400.444px !important;
-  min-height: 388.445px !important;
+  height: 440.445px !important;
+  min-height: 440.445px !important;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -139,6 +140,7 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
   .ingredient-item-top-fields {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     margin-top: 10px;
     margin-bottom: 10px;
   }
@@ -190,13 +192,12 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
     }
 
     &.common-item-weight-content {
-      margin-bottom: 8px;
-
       .common-item-price-input-wrapper.common-item-extra-panel {
         cursor: pointer;
       }
     }
 
+    .common-item-price-input-wrapper > input[type='number'],
     .common-item-weight-display {
       width: 34px !important;
       min-height: 18px !important;
@@ -213,8 +214,6 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
       text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
       text-align: center;
       outline: none;
-      cursor: pointer;
-      user-select: none;
 
       &:focus {
         outline: none !important;
@@ -232,6 +231,15 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
         border: none;
         box-shadow: none;
       }
+    }
+
+    .common-item-price-input-wrapper.common-item-extra-panel:focus-within {
+      border-color: #FFB75C;
+    }
+
+    .common-item-weight-display {
+      cursor: pointer;
+      user-select: none;
 
       &[data-weight-value='0'] {
         background-image: linear-gradient(180deg, #5CFF7F 33.6%, #2E9E4D 66.67%) !important;
@@ -244,10 +252,6 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
       &[data-weight-value='4'] {
         background-image: linear-gradient(180deg, #B80049 33.6%, #8B0011 66.67%) !important;
       }
-    }
-
-    .common-item-price-input-wrapper.common-item-extra-panel:focus-within {
-      border-color: #FFB75C;
     }
   }
 

@@ -126,7 +126,7 @@
         <div class="armor-extra-property consumable-item-special-property consumable-item-fracture-property is-collapsed" data-consumable-fracture-section>
           <div class="armor-extra-content consumable-item-special-content consumable-item-fracture-content">
             <img class="armor-extra-icon consumable-item-special-icon consumable-item-fracture-icon" src="systems/cardigan/assets/images/decorative/icons/icon-fracture.svg" alt="Fratura" data-tooltip="Fratura" data-tooltip-class='cardigan-tooltip' />
-            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-fracture-decrease-wrapper" data-tooltip="Retirar" data-tooltip-class='cardigan-tooltip'>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-fracture-decrease-wrapper" data-tooltip="Remover" data-tooltip-class='cardigan-tooltip'>
               <label class="consumable-item-fracture-check-label" aria-label="Retirar">
                 <input
                   type="checkbox"
@@ -166,7 +166,7 @@
         <div class="armor-extra-property consumable-item-special-property consumable-item-toxicity-property is-collapsed" data-consumable-toxicity-section>
           <div class="armor-extra-content consumable-item-special-content consumable-item-toxicity-content">
             <img class="armor-extra-icon consumable-item-special-icon consumable-item-toxicity-icon" src="systems/cardigan/assets/images/decorative/icons/icon-toxic.svg" alt="Toxicidade" data-tooltip="Toxicidade" data-tooltip-class='cardigan-tooltip' />
-            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-toxicity-decrease-wrapper" data-tooltip="Retirar" data-tooltip-class='cardigan-tooltip'>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-toxicity-decrease-wrapper" data-tooltip="Remover" data-tooltip-class='cardigan-tooltip'>
               <label class="consumable-item-fracture-check-label" aria-label="Retirar">
                 <input
                   type="checkbox"
@@ -206,7 +206,7 @@
         <div class="armor-extra-property consumable-item-special-property consumable-item-sanity-property is-collapsed" data-consumable-sanity-section>
           <div class="armor-extra-content consumable-item-special-content consumable-item-sanity-content">
             <img class="armor-extra-icon consumable-item-special-icon consumable-item-sanity-icon" src="systems/cardigan/assets/images/decorative/icons/icon-sanity.svg" alt="Sanidade" data-tooltip="Sanidade" data-tooltip-class='cardigan-tooltip' />
-            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-sanity-decrease-wrapper" data-tooltip="Retirar" data-tooltip-class='cardigan-tooltip'>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-sanity-decrease-wrapper" data-tooltip="Remover" data-tooltip-class='cardigan-tooltip'>
               <label class="consumable-item-fracture-check-label" aria-label="Retirar">
                 <input
                   type="checkbox"
@@ -246,7 +246,7 @@
         <div class="armor-extra-property consumable-item-special-property consumable-item-hunger-property is-collapsed" data-consumable-hunger-section>
           <div class="armor-extra-content consumable-item-special-content consumable-item-hunger-content">
             <img class="armor-extra-icon consumable-item-special-icon consumable-item-hunger-icon" src="systems/cardigan/assets/images/decorative/icons/icon-hunger.svg" alt="Fome" data-tooltip="Fome" data-tooltip-class='cardigan-tooltip' />
-            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-hunger-decrease-wrapper" data-tooltip="Retirar" data-tooltip-class='cardigan-tooltip'>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-hunger-decrease-wrapper" data-tooltip="Remover" data-tooltip-class='cardigan-tooltip'>
               <label class="consumable-item-fracture-check-label" aria-label="Retirar">
                 <input
                   type="checkbox"
@@ -286,7 +286,7 @@
         <div class="armor-extra-property consumable-item-special-property consumable-item-thirst-property is-collapsed" data-consumable-thirst-section>
           <div class="armor-extra-content consumable-item-special-content consumable-item-thirst-content">
             <img class="armor-extra-icon consumable-item-special-icon consumable-item-thirst-icon" src="systems/cardigan/assets/images/decorative/icons/icon-thirst.svg" alt="Sede" data-tooltip="Sede" data-tooltip-class='cardigan-tooltip' />
-            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-thirst-decrease-wrapper" data-tooltip="Retirar" data-tooltip-class='cardigan-tooltip'>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-thirst-decrease-wrapper" data-tooltip="Remover" data-tooltip-class='cardigan-tooltip'>
               <label class="consumable-item-fracture-check-label" aria-label="Retirar">
                 <input
                   type="checkbox"
@@ -326,19 +326,20 @@
       </div>
     </div>
     <div class="consumable-item-right-grid">
-      <div class="consumable-item-check-skill">
-        <p>TESTE DE PERÍCIA</p>
-        <label class="consumable-item-check-skill-toggle armor-extra-content consumable-item-special-content" aria-label="Ativar teste de perícia" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
-          <input type="checkbox" name="system.hasSkillCheck" {{checked system.hasSkillCheck}} data-dtype="Boolean" data-skill-check-toggle class="consumable-item-check-skill-checkbox" />
-          <img
-            class="consumable-item-check-skill-icon armor-extra-icon consumable-item-special-icon"
-            src="systems/cardigan/assets/images/decorative/icons/icon-equip.svg"
-            alt="Ativar teste de perícia"
-          />
-        </label>
-      </div>
-      <img class="consumable-item-check-skill-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
-      <div class="consumable-item-skill-test-system skill-check-system {{#unless system.hasSkillCheck}}hidden{{/unless}}" data-skill-check-section>
+      <div class="consumable-item-check-skill-wrapper">
+        <div class="consumable-item-check-skill">
+          <p>TESTE DE PERÍCIA</p>
+          <label class="consumable-item-check-skill-toggle armor-extra-content consumable-item-special-content" aria-label="Ativar teste de perícia" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
+            <input type="checkbox" name="system.hasSkillCheck" {{checked system.hasSkillCheck}} data-dtype="Boolean" data-skill-check-toggle class="consumable-item-check-skill-checkbox" />
+            <img
+              class="consumable-item-check-skill-icon armor-extra-icon consumable-item-special-icon"
+              src="systems/cardigan/assets/images/decorative/icons/icon-equip.svg"
+              alt="Ativar teste de perícia"
+            />
+          </label>
+        </div>
+        <img class="consumable-item-check-skill-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+        <div class="consumable-item-skill-test-system skill-check-system {{#unless system.hasSkillCheck}}hidden{{/unless}}" data-skill-check-section>
         <div class="form-group skill-selection" data-consumable-skill-ability>
           <input type="hidden" name="system.skillCheckAbility" value="{{system.skillCheckAbility}}" data-dtype="String" class="consumable-item-skill-ability-input" />
           <button type="button" class="consumable-item-skill-ability-trigger" data-consumable-skill-ability-trigger aria-haspopup="listbox" aria-expanded="false">
@@ -414,6 +415,7 @@
             />
           </label>
         </div>
+        <button type="button" class="consumable-item-skill-test-add-button">Adicionar</button>
       </div>
     </div>
   </div>
