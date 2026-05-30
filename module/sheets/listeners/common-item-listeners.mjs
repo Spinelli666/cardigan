@@ -125,6 +125,102 @@ export class CommonItemListeners {
     const addButton = sheet.element?.querySelector('.consumable-item-skill-test-add-button');
     if (!addButton) return;
 
+    const addedContentContainer = sheet.element?.querySelector('.consumable-item-skill-test-added-content');
+
+    const getPersistedEffects = async () => {
+      const effectsFromSystem = sheet.item.system?.skillTestAddedEffects;
+      if (Array.isArray(effectsFromSystem)) return effectsFromSystem;
+
+      const effectsFromFlag = await sheet.item.getFlag('cardigan', 'skillTestAddedEffects');
+      return Array.isArray(effectsFromFlag) ? effectsFromFlag : [];
+    };
+
+    const renderAddedEffectsOnForm = (effects = []) => {
+      if (!addedContentContainer) return;
+      addedContentContainer.innerHTML = '';
+
+      if (!effects.length) {
+        addedContentContainer.classList.add('hidden');
+        return;
+      }
+
+      addedContentContainer.classList.remove('hidden');
+
+      effects.forEach((effect) => {
+        const entry = document.createElement('div');
+        entry.className = 'consumable-item-skill-test-added-entry';
+
+        const item = document.createElement('div');
+        item.className = 'consumable-item-skill-test-added-item';
+
+        const flags = document.createElement('div');
+        flags.className = 'consumable-item-skill-test-added-flags';
+
+        const icon = document.createElement('img');
+        icon.className = 'consumable-item-skill-test-added-icon';
+        icon.src = effect.img || 'icons/svg/aura.svg';
+        icon.alt = effect.name || 'Efeito';
+
+        const name = document.createElement('span');
+        name.className = 'consumable-item-skill-test-added-name';
+        name.textContent = effect.name || 'Efeito sem nome';
+
+        const rounds = document.createElement('span');
+        rounds.className = 'consumable-item-skill-test-added-rounds';
+
+        const clock = document.createElement('img');
+        clock.className = 'consumable-item-skill-test-added-clock';
+        clock.src = 'systems/cardigan/assets/images/decorative/icons/icon-clock.svg';
+        clock.alt = 'Rodadas';
+
+        const roundsValue = document.createElement('span');
+        roundsValue.className = 'consumable-item-skill-test-added-rounds-value';
+        if (effect.rounds === 'infinito' || effect.rounds === '∞') {
+          const infiniteIcon = document.createElement('div');
+          infiniteIcon.className = 'rounds-infinite-icon';
+          roundsValue.appendChild(infiniteIcon);
+        } else {
+          roundsValue.textContent = effect.rounds || '0';
+        }
+
+        rounds.appendChild(clock);
+        rounds.appendChild(roundsValue);
+
+        item.appendChild(icon);
+        item.appendChild(name);
+        item.appendChild(rounds);
+
+        if (effect.criticalFailure) {
+          const criticalFailureIcon = document.createElement('img');
+          criticalFailureIcon.className = 'consumable-item-skill-test-added-flag-icon';
+          criticalFailureIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-critical-failure.svg';
+          criticalFailureIcon.alt = 'Falha crítica';
+          criticalFailureIcon.dataset.tooltip = 'Falha Crítica';
+          criticalFailureIcon.dataset.tooltipClass = 'cardigan-tooltip';
+          flags.appendChild(criticalFailureIcon);
+        }
+
+        if (effect.criticalHit) {
+          const criticalHitIcon = document.createElement('img');
+          criticalHitIcon.className = 'consumable-item-skill-test-added-flag-icon';
+          criticalHitIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-critical-hit.svg';
+          criticalHitIcon.alt = 'Acerto crítico';
+          criticalHitIcon.dataset.tooltip = 'Acerto Crítico';
+          criticalHitIcon.dataset.tooltipClass = 'cardigan-tooltip';
+          flags.appendChild(criticalHitIcon);
+        }
+
+        entry.appendChild(item);
+        entry.appendChild(flags);
+        addedContentContainer.appendChild(entry);
+      });
+    };
+
+    void (async () => {
+      const persistedEffects = await getPersistedEffects();
+      renderAddedEffectsOnForm(persistedEffects);
+    })();
+
     addButton.addEventListener('click', async (event) => {
       event.preventDefault();
       event.stopPropagation();
@@ -148,23 +244,24 @@ export class CommonItemListeners {
         rejectClose: false,
         modal: false,
         position: {
-          width: 560,
+          width: 580,
           height: 460
         }
       });
 
       await dialog.render(true);
 
-      const selectedEffects = [];
+      const selectedEffects = foundry.utils.deepClone(await getPersistedEffects());
       const effectsListContainer = dialog.element?.querySelector('[data-skill-test-effects-list]');
 
       const renderSelectedEffects = () => {
         if (!effectsListContainer) return;
         effectsListContainer.innerHTML = '';
 
-        selectedEffects.forEach((effect) => {
+        selectedEffects.forEach((effect, index) => {
           const item = document.createElement('div');
           item.className = 'skill-test-add-effect-item';
+          item.dataset.effectIndex = String(index);
 
           const row = document.createElement('div');
           row.className = 'skill-test-add-effect-row';
@@ -190,37 +287,70 @@ export class CommonItemListeners {
           clock.alt = 'Rodadas';
 
           const roundsValue = document.createElement('span');
-          roundsValue.textContent = effect.rounds || '0';
+          roundsValue.className = 'rounds-value';
+          if (effect.rounds === 'infinito' || effect.rounds === '∞') {
+            const infiniteIcon = document.createElement('div');
+            infiniteIcon.className = 'rounds-infinite-icon';
+            roundsValue.appendChild(infiniteIcon);
+          } else {
+            roundsValue.textContent = effect.rounds || '0';
+          }
 
           const flags = document.createElement('div');
           flags.className = 'skill-test-add-effect-flags';
 
+          const removeButton = document.createElement('button');
+          removeButton.type = 'button';
+          removeButton.className = 'skill-test-add-effect-remove-button';
+          removeButton.setAttribute('aria-label', `Remover ${effect.name || 'efeito'}`);
+          removeButton.dataset.tooltip = 'Excluir';
+          removeButton.dataset.tooltipClass = 'cardigan-tooltip';
+
+          const removeIcon = document.createElement('img');
+          removeIcon.className = 'skill-test-add-effect-remove-icon';
+          removeIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-delete.svg';
+          removeIcon.alt = 'Remover efeito';
+
           const criticalFailureLabel = document.createElement('label');
           criticalFailureLabel.className = 'skill-test-add-effect-flag';
+          criticalFailureLabel.dataset.tooltip = 'Falha Crítica';
+          criticalFailureLabel.dataset.tooltipClass = 'cardigan-tooltip';
 
           const criticalFailureInput = document.createElement('input');
           criticalFailureInput.type = 'checkbox';
           criticalFailureInput.className = 'skill-test-add-effect-flag-input';
+          criticalFailureInput.checked = Boolean(effect.criticalFailure);
 
           const criticalFailureIcon = document.createElement('img');
           criticalFailureIcon.className = 'skill-test-add-effect-flag-icon';
           criticalFailureIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-critical-failure.svg';
           criticalFailureIcon.alt = 'Falha crítica';
 
+          criticalFailureInput.addEventListener('change', () => {
+            effect.criticalFailure = criticalFailureInput.checked;
+          });
+
           criticalFailureLabel.appendChild(criticalFailureInput);
           criticalFailureLabel.appendChild(criticalFailureIcon);
 
           const criticalHitLabel = document.createElement('label');
           criticalHitLabel.className = 'skill-test-add-effect-flag';
+          criticalHitLabel.dataset.tooltip = 'Acerto Crítico';
+          criticalHitLabel.dataset.tooltipClass = 'cardigan-tooltip';
 
           const criticalHitInput = document.createElement('input');
           criticalHitInput.type = 'checkbox';
           criticalHitInput.className = 'skill-test-add-effect-flag-input';
+          criticalHitInput.checked = Boolean(effect.criticalHit);
 
           const criticalHitIcon = document.createElement('img');
           criticalHitIcon.className = 'skill-test-add-effect-flag-icon';
           criticalHitIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-critical-hit.svg';
           criticalHitIcon.alt = 'Acerto crítico';
+
+          criticalHitInput.addEventListener('change', () => {
+            effect.criticalHit = criticalHitInput.checked;
+          });
 
           criticalHitLabel.appendChild(criticalHitInput);
           criticalHitLabel.appendChild(criticalHitIcon);
@@ -235,6 +365,15 @@ export class CommonItemListeners {
           row.appendChild(rounds);
           item.appendChild(row);
           item.appendChild(flags);
+          removeButton.appendChild(removeIcon);
+          item.appendChild(removeButton);
+
+          removeButton.addEventListener('click', () => {
+            const effectIndex = Number(item.dataset.effectIndex);
+            if (Number.isNaN(effectIndex)) return;
+            selectedEffects.splice(effectIndex, 1);
+            renderSelectedEffects();
+          });
 
           effectsListContainer.appendChild(item);
         });
@@ -251,7 +390,13 @@ export class CommonItemListeners {
           await EffectsCompendiumSelectionDialog.show(actor, {
             createOnActor: false,
             onEffectsAdded: async (effects) => {
-              selectedEffects.push(...effects);
+              selectedEffects.push(
+                ...effects.map((effect) => ({
+                  ...effect,
+                  criticalFailure: Boolean(effect.criticalFailure),
+                  criticalHit: Boolean(effect.criticalHit)
+                }))
+              );
               renderSelectedEffects();
             }
           });
@@ -261,8 +406,30 @@ export class CommonItemListeners {
         }
       };
 
-      const triggerButtons = dialog.element?.querySelectorAll('.skill-test-add-effects-add-button, .skill-test-add-submit-button') ?? [];
-      triggerButtons.forEach((button) => button.addEventListener('click', openEffectsDialog));
+      const addEffectsButton = dialog.element?.querySelector('.skill-test-add-effects-add-button');
+      addEffectsButton?.addEventListener('click', openEffectsDialog);
+
+      const submitButton = dialog.element?.querySelector('.skill-test-add-submit-button');
+      submitButton?.addEventListener('click', async (submitEvent) => {
+        submitEvent.preventDefault();
+        submitEvent.stopPropagation();
+
+        const payload = selectedEffects.map((effect) => ({
+          uuid: effect.uuid,
+          name: effect.name,
+          img: effect.img,
+          rounds: effect.rounds || '0',
+          criticalFailure: Boolean(effect.criticalFailure),
+          criticalHit: Boolean(effect.criticalHit)
+        }));
+
+        await sheet.item.update({ 'system.skillTestAddedEffects': payload });
+        await sheet.item.setFlag('cardigan', 'skillTestAddedEffects', payload);
+        renderAddedEffectsOnForm(payload);
+        dialog.close();
+      });
+
+      renderSelectedEffects();
     });
   }
 

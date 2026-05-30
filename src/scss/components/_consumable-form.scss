@@ -13,8 +13,8 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
 }
 
 .application.sheet.cardigan.item.item-type-consumivel {
-  min-width: 400.444px !important;
-  width: 400.444px !important;
+  min-width: 430.444px !important;
+  width: 430.444px !important;
   min-height: 770.223px !important;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
@@ -163,11 +163,17 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
       // flex: 0 0 auto;
       align-self: flex-start;
 
+      .consumable-item-check-skill-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
       .consumable-item-check-skill {
         display: flex;
         align-items: center;
         gap: 4px;
-        justify-content:flex-end;
+        justify-content:center;
       }
 
       .consumable-item-check-skill > p {
@@ -217,7 +223,7 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
         width: 160px;
         max-width: 100%;
         height: 5px;
-        margin-top: 2px;
+        margin: 2px auto 0;
       }
 
       .consumable-item-skill-test-system {
@@ -384,6 +390,115 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
             outline: none;
             box-shadow: 0 0 0 1px #FFB75C;
           }
+        }
+
+        .consumable-item-skill-test-added-content {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          margin-top: 2px;
+          padding: 6px;
+          border: 1px solid #FFB75C;
+          border-radius: 10px;
+          background: linear-gradient(180deg, rgba(50, 145, 191, 0.22) 0%, rgba(13, 72, 104, 0.3) 58%, rgba(8, 56, 84, 0.35) 100%);
+          box-shadow: inset 0 10px 22px rgba(122, 209, 255, 0.12), 0 8px 16px rgba(5, 25, 37, 0.22);
+        }
+
+        .consumable-item-skill-test-added-item {
+          width: 100%;
+          display: grid;
+          grid-template-columns: 18px minmax(0, 1fr) auto;
+          align-items: center;
+          gap: 6px;
+          padding: 4px 6px;
+          border: 1px solid rgba(255, 183, 92, 0.28);
+          border-radius: 8px;
+          background: linear-gradient(90deg, rgba(255, 183, 92, 0.12) 0%, rgba(67, 170, 218, 0.12) 100%);
+        }
+
+        .consumable-item-skill-test-added-entry {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .consumable-item-skill-test-added-icon {
+          width: 18px;
+          height: 18px;
+          object-fit: contain;
+          flex-shrink: 0;
+        }
+
+        .consumable-item-skill-test-added-name {
+          min-width: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: 10px;
+          text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+          @include gradient-text(linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%));
+        }
+
+        .consumable-item-skill-test-added-rounds {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          flex-shrink: 0;
+        }
+
+        .consumable-item-skill-test-added-clock {
+          width: 12px;
+          height: 12px;
+          object-fit: contain;
+          flex-shrink: 0;
+        }
+
+        .consumable-item-skill-test-added-rounds-value {
+          min-width: 14px;
+          text-align: center;
+          font-size: 10px;
+          font-weight: 600;
+          text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+          @include gradient-text(linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%));
+
+          &:has(.rounds-infinite-icon) {
+            min-width: auto;
+          }
+
+          .rounds-infinite-icon {
+            vertical-align: middle;
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            background: linear-gradient(180deg, #FFB75C 20%, #996E37 70%);
+            -webkit-mask: url('/systems/cardigan/assets/images/decorative/icons/icon-infinite.svg') no-repeat center;
+            mask: url('/systems/cardigan/assets/images/decorative/icons/icon-infinite.svg') no-repeat center;
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+          }
+        }
+
+        .consumable-item-skill-test-added-flag-icon {
+          width: 16px;
+          height: 16px;
+          object-fit: contain;
+          opacity: 0.9;
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+        }
+
+        .consumable-item-skill-test-added-flags {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 4px;
+          border-radius: 8px;
+          background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          min-width: 22px;
         }
 
         .consumable-item-skill-test-advantage-toggle {

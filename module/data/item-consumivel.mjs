@@ -211,6 +211,19 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       label: "CARDIGAN.ItemConsumivel.SkillCheckAdvantage"
     });
 
+    // Effects configured by skill-test add dialog (critical hit / critical failure).
+    schema.skillTestAddedEffects = new fields.ArrayField(
+      new fields.SchemaField({
+        uuid: new fields.StringField({ required: true }),
+        name: new fields.StringField({ required: true }),
+        img: new fields.StringField({ required: false, initial: '' }),
+        rounds: new fields.StringField({ required: false, initial: '0' }),
+        criticalFailure: new fields.BooleanField({ required: true, initial: false }),
+        criticalHit: new fields.BooleanField({ required: true, initial: false })
+      }),
+      { initial: [] }
+    );
+
     // Critical failure effects system
     schema.hasCriticalFailureEffects = new fields.BooleanField({
       required: true,
@@ -859,6 +872,13 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     if (Array.isArray(this.criticalHitEffects)) {
       this.criticalHitEffects = this.criticalHitEffects.filter(
         effect => effect.id && effect.name
+      );
+    }
+
+    // Clean configured skill-test effects
+    if (Array.isArray(this.skillTestAddedEffects)) {
+      this.skillTestAddedEffects = this.skillTestAddedEffects.filter(
+        effect => effect.uuid && effect.name
       );
     }
 

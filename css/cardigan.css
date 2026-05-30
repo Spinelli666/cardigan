@@ -1882,8 +1882,8 @@
 
 /* Consumable item form styles */
 .application.sheet.cardigan.item.item-type-consumivel {
-  min-width: 400.444px !important;
-  width: 400.444px !important;
+  min-width: 430.444px !important;
+  width: 430.444px !important;
   min-height: 770.223px !important;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
@@ -2019,11 +2019,16 @@
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid {
   align-self: flex-start;
 }
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill {
   display: flex;
   align-items: center;
   gap: 4px;
-  justify-content: flex-end;
+  justify-content: center;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill > p {
   margin: 0 0 !important;
@@ -2066,7 +2071,7 @@
   width: 160px;
   max-width: 100%;
   height: 5px;
-  margin-top: 2px;
+  margin: 2px auto 0;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system {
   margin-top: 6px;
@@ -2211,6 +2216,109 @@
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-add-button:focus, .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-add-button:focus-visible {
   outline: none;
   box-shadow: 0 0 0 1px #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 2px;
+  padding: 6px;
+  border: 1px solid #FFB75C;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(50, 145, 191, 0.22) 0%, rgba(13, 72, 104, 0.3) 58%, rgba(8, 56, 84, 0.35) 100%);
+  box-shadow: inset 0 10px 22px rgba(122, 209, 255, 0.12), 0 8px 16px rgba(5, 25, 37, 0.22);
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border: 1px solid rgba(255, 183, 92, 0.28);
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.12) 0%, rgba(67, 170, 218, 0.12) 100%);
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-name {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 10px;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-clock {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds-value {
+  min-width: 14px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds-value:has(.rounds-infinite-icon) {
+  min-width: auto;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds-value .rounds-infinite-icon {
+  vertical-align: middle;
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  background: linear-gradient(180deg, #FFB75C 20%, #996E37 70%);
+  -webkit-mask: url("/systems/cardigan/assets/images/decorative/icons/icon-infinite.svg") no-repeat center;
+  mask: url("/systems/cardigan/assets/images/decorative/icons/icon-infinite.svg") no-repeat center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-flag-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  opacity: 0.9;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-flags {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 8px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  min-width: 22px;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-toggle {
   display: inline-flex;
@@ -15917,7 +16025,6 @@
     grid-template-columns: 1fr;
   }
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-toggle,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-toggle {
   margin: 1rem 0;
   padding: 0.75rem;
@@ -15925,7 +16032,6 @@
   border: 1px solid rgba(255, 152, 0, 0.3);
   border-radius: 6px;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-toggle .checkbox-label,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-toggle .checkbox-label {
   display: flex;
   align-items: center;
@@ -15936,14 +16042,12 @@
   cursor: pointer;
   margin: 0;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-toggle .checkbox-label input[type=checkbox],
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-toggle .checkbox-label input[type=checkbox] {
   margin: 0;
   transform: scale(1.3);
   cursor: pointer;
   accent-color: #FF9800;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system {
   background: rgba(255, 152, 0, 0.05);
   border: 1px solid rgba(255, 152, 0, 0.2);
@@ -15951,13 +16055,9 @@
   padding: 1rem;
   margin: 0.5rem 0;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system.hidden,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system.hidden {
   display: none;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-effects-header,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-header,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-effects-header,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-header {
   display: flex;
   justify-content: space-between;
@@ -15966,21 +16066,11 @@
   padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(255, 152, 0, 0.3);
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-effects-header label,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-header label,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-effects-header label,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-header label {
   color: #FF9800;
   font-weight: 600;
   font-size: 1rem;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-effects-header .add-critical-failure-effect-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-effects-header .add-critical-failure-skill-loss-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-header .add-critical-failure-effect-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-header .add-critical-failure-skill-loss-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-effects-header .add-critical-failure-effect-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-effects-header .add-critical-failure-skill-loss-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-header .add-critical-failure-effect-btn,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-header .add-critical-failure-skill-loss-btn {
   background: #FF9800;
   color: #1a1a1a;
@@ -15996,73 +16086,15 @@
   font-size: 1.2rem;
   transition: all 0.2s ease;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-effects-header .add-critical-failure-effect-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-effects-header .add-critical-failure-skill-loss-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-header .add-critical-failure-effect-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-header .add-critical-failure-skill-loss-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-effects-header .add-critical-failure-effect-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-effects-header .add-critical-failure-skill-loss-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-header .add-critical-failure-effect-btn:hover,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-header .add-critical-failure-skill-loss-btn:hover {
   background: #FFB74D;
   transform: scale(1.1);
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-effects-list,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-list,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-effects-list,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-list {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-effect-row,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-effect-row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  background: rgba(255, 152, 0, 0.08);
-  border: 1px solid rgba(255, 152, 0, 0.2);
-  border-radius: 4px;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-effect-row select,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-effect-row select {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid rgba(255, 152, 0, 0.4);
-  background: rgba(0, 0, 0, 0.3);
-  color: var(--cardigan-c-beige);
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-effect-row select:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-effect-row select:focus {
-  border-color: #FF9800;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-effect-row .remove-critical-failure-effect-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-effect-row .remove-critical-failure-effect-btn {
-  background: rgba(244, 67, 54, 0.8);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: all 0.2s ease;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-effect-row .remove-critical-failure-effect-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-effect-row .remove-critical-failure-effect-btn:hover {
-  background: #f44336;
-  transform: scale(1.1);
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row {
   display: flex;
   align-items: flex-end;
@@ -16072,33 +16104,24 @@
   border: 1px solid rgba(255, 152, 0, 0.2);
   border-radius: 4px;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls {
   flex: 1;
   display: flex;
   gap: 1rem;
   align-items: flex-end;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability label,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value label,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability label,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value label {
   color: #FF9800;
   font-size: 0.85rem;
   font-weight: 500;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability select,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability input,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value select,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value input,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability select,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability input,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value select,
@@ -16110,10 +16133,6 @@
   border-radius: 4px;
   font-size: 0.9rem;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability select:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability input:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value select:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value input:focus,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability select:focus,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability input:focus,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value select:focus,
@@ -16122,19 +16141,15 @@
   outline: none;
   box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability {
   flex: 2;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value {
   flex: 1;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value input,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value input {
   width: 100%;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .remove-critical-failure-skill-loss-btn,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .remove-critical-failure-skill-loss-btn {
   background: rgba(244, 67, 54, 0.8);
   color: white;
@@ -16151,14 +16166,10 @@
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .critical-failure-skill-loss-row .remove-critical-failure-skill-loss-btn:hover,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .remove-critical-failure-skill-loss-btn:hover {
   background: #f44336;
   transform: scale(1.1);
 }
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .no-critical-failure-effects-message,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-effects-system .no-critical-failure-skill-loss-message,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .no-critical-failure-effects-message,
 .cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .no-critical-failure-skill-loss-message {
   text-align: center;
   color: rgba(255, 152, 0, 0.6);
@@ -16168,7 +16179,6 @@
   border: 1px dashed rgba(255, 152, 0, 0.3);
   border-radius: 4px;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-toggle,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-toggle {
   margin: 1rem 0;
   padding: 0.75rem;
@@ -16176,7 +16186,6 @@
   border: 1px solid rgba(76, 175, 80, 0.3);
   border-radius: 6px;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-toggle .checkbox-label,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-toggle .checkbox-label {
   display: flex;
   align-items: center;
@@ -16187,14 +16196,12 @@
   cursor: pointer;
   margin: 0;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-toggle .checkbox-label input[type=checkbox],
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-toggle .checkbox-label input[type=checkbox] {
   margin: 0;
   transform: scale(1.3);
   cursor: pointer;
   accent-color: #4CAF50;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system {
   background: rgba(76, 175, 80, 0.05);
   border: 1px solid rgba(76, 175, 80, 0.2);
@@ -16202,13 +16209,9 @@
   padding: 1rem;
   margin: 0.5rem 0;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system.hidden,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system.hidden {
   display: none;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-effects-header,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-header,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-effects-header,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-header {
   display: flex;
   justify-content: space-between;
@@ -16217,21 +16220,11 @@
   padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(76, 175, 80, 0.3);
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-effects-header label,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-header label,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-effects-header label,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-header label {
   color: #4CAF50;
   font-weight: 600;
   font-size: 1rem;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-effects-header .add-critical-hit-effect-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-effects-header .add-critical-hit-skill-bonus-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-header .add-critical-hit-effect-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-header .add-critical-hit-skill-bonus-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-effects-header .add-critical-hit-effect-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-effects-header .add-critical-hit-skill-bonus-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-header .add-critical-hit-effect-btn,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-header .add-critical-hit-skill-bonus-btn {
   background: #4CAF50;
   color: white;
@@ -16247,73 +16240,15 @@
   font-size: 1.2rem;
   transition: all 0.2s ease;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-effects-header .add-critical-hit-effect-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-effects-header .add-critical-hit-skill-bonus-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-header .add-critical-hit-effect-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-header .add-critical-hit-skill-bonus-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-effects-header .add-critical-hit-effect-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-effects-header .add-critical-hit-skill-bonus-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-header .add-critical-hit-effect-btn:hover,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-header .add-critical-hit-skill-bonus-btn:hover {
   background: #66BB6A;
   transform: scale(1.1);
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-effects-list,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-list,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-effects-list,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-list {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-effect-row,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-effect-row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  background: rgba(76, 175, 80, 0.08);
-  border: 1px solid rgba(76, 175, 80, 0.2);
-  border-radius: 4px;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-effect-row select,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-effect-row select {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid rgba(76, 175, 80, 0.4);
-  background: rgba(0, 0, 0, 0.3);
-  color: var(--cardigan-c-beige);
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-effect-row select:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-effect-row select:focus {
-  border-color: #4CAF50;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-effect-row .remove-critical-hit-effect-btn,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-effect-row .remove-critical-hit-effect-btn {
-  background: rgba(244, 67, 54, 0.8);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: all 0.2s ease;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-effect-row .remove-critical-hit-effect-btn:hover,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-effect-row .remove-critical-hit-effect-btn:hover {
-  background: #f44336;
-  transform: scale(1.1);
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row {
   display: flex;
   align-items: flex-end;
@@ -16323,33 +16258,24 @@
   border: 1px solid rgba(76, 175, 80, 0.2);
   border-radius: 4px;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls {
   flex: 1;
   display: flex;
   gap: 1rem;
   align-items: flex-end;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability label,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value label,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability label,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value label {
   color: #4CAF50;
   font-size: 0.85rem;
   font-weight: 500;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability select,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability input,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value select,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value input,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability select,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability input,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value select,
@@ -16361,10 +16287,6 @@
   border-radius: 4px;
   font-size: 0.9rem;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability select:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability input:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value select:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value input:focus,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability select:focus,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability input:focus,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value select:focus,
@@ -16373,19 +16295,15 @@
   outline: none;
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability {
   flex: 2;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value {
   flex: 1;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value input,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value input {
   width: 100%;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .remove-critical-hit-skill-bonus-btn,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .remove-critical-hit-skill-bonus-btn {
   background: rgba(244, 67, 54, 0.8);
   color: white;
@@ -16402,13 +16320,10 @@
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .critical-hit-skill-bonus-row .remove-critical-hit-skill-bonus-btn:hover,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .remove-critical-hit-skill-bonus-btn:hover {
   background: #f44336;
   transform: scale(1.1);
 }
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .no-critical-hit-effects-message,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-effects-system .no-critical-hit-skill-bonus-message,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .no-critical-hit-effects-message,
 .cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .no-critical-hit-skill-bonus-message {
   text-align: center;
@@ -25352,24 +25267,27 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-secondary-section {
   flex: 1 1 0;
   min-height: 180px;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-section {
+  flex: 1.25 1 0;
+  padding: 3px;
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-secondary-section {
+  flex: 0.75 1 0;
   border: 1px solid rgba(255, 183, 92, 0.35);
   border-radius: 14px;
   background: linear-gradient(180deg, rgba(50, 145, 191, 0.22) 0%, rgba(13, 72, 104, 0.3) 58%, rgba(8, 56, 84, 0.35) 100%);
   box-shadow: inset 0 10px 22px rgba(122, 209, 255, 0.12), 0 8px 16px rgba(5, 25, 37, 0.22);
 }
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-section {
-  flex: 1.25 1 0;
-  padding: 14px;
-}
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-secondary-section {
-  flex: 0.75 1 0;
-}
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  margin-left: 18px;
+  margin-left: 8px;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-header p {
   text-transform: uppercase;
@@ -25388,15 +25306,48 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   width: 200px;
   max-width: 100%;
   height: 6px;
-  margin: 4px auto 0;
+  margin: 2px auto 0;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button-container {
+  margin-top: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button {
+  width: 44px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: url("/systems/cardigan/assets/images/decorative/background-button-effects.webp") center/90% 60% no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  outline: none;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button .add-effect-icon {
+  width: 11px;
+  height: 11px;
+  transition: transform 0.2s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button:hover .add-effect-icon {
+  transform: scale(1.15);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-list {
-  margin-top: 10px;
-  min-height: 112px;
+  margin-top: -7px;
+  min-height: 180px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 8px;
+  gap: 4px;
+  border: 1px solid #FFB75C;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(50, 145, 191, 0.22) 0%, rgba(13, 72, 104, 0.3) 58%, rgba(8, 56, 84, 0.35) 100%);
+  box-shadow: inset 0 10px 22px rgba(122, 209, 255, 0.12), 0 8px 16px rgba(5, 25, 37, 0.22);
+  padding: 6px;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-row {
   display: grid;
@@ -25410,7 +25361,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 8px;
 }
@@ -25427,7 +25378,11 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   flex-shrink: 0;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-name {
-  color: #FFB75C;
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-size: 12px;
   line-height: 1;
   white-space: nowrap;
@@ -25438,7 +25393,38 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: #FFB75C;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-rounds .rounds-value {
+  font-size: 14px;
+  font-weight: 600;
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  min-width: 20px;
+  text-align: center;
+  padding-right: 2px;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-rounds .rounds-value:has(.rounds-infinite-icon) {
+  padding-right: 0;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-rounds .rounds-value .rounds-infinite-icon {
+  vertical-align: middle;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(180deg, #FFB75C 20%, #996E37 70%);
+  -webkit-mask: url("/systems/cardigan/assets/images/decorative/icons/icon-infinite.svg") no-repeat center;
+  mask: url("/systems/cardigan/assets/images/decorative/icons/icon-infinite.svg") no-repeat center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-rounds .skill-test-add-effect-clock {
+  flex-shrink: 0;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-rounds {
   font-size: 12px;
   line-height: 1;
   flex-shrink: 0;
@@ -25454,11 +25440,40 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   gap: 8px;
   justify-self: end;
   flex-shrink: 0;
+  padding: 5px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-remove-button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  outline: none;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-remove-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  opacity: 0.75;
+  transition: opacity 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-remove-button:hover .skill-test-add-effect-remove-icon {
+  opacity: 1;
+  transform: scale(1.08);
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-flag {
   position: relative;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -25470,8 +25485,8 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   pointer-events: none;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-flag-icon {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
   opacity: 0.45;
   transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
@@ -25482,31 +25497,6 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   opacity: 1;
   filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.8));
   transform: scale(1.08);
-}
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
-  min-height: 28px;
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1/1;
-  border: 1px solid #FFB75C;
-  border-radius: 8px;
-  background: linear-gradient(180deg, rgba(255, 183, 92, 0.22) 0%, rgba(38, 91, 126, 0.22) 100%);
-  color: #FFB75C;
-  font-family: "Alatsi", sans-serif;
-  font-size: 18px;
-  line-height: 1;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button:hover {
-  background: #FFB75C;
-  color: #265b7e;
-  box-shadow: 0 0 8px rgba(255, 183, 92, 0.25);
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-actions {
   display: flex;

@@ -359,7 +359,6 @@
 
   // Critical Failure System (inside skill-check-system)
   .skill-check-system {
-    .critical-failure-effects-toggle,
     .critical-failure-skill-loss-toggle {
       margin: 1rem 0;
       padding: 0.75rem;
@@ -386,7 +385,6 @@
       }
     }
 
-    .critical-failure-effects-system,
     .critical-failure-skill-loss-system {
     background: rgba(255, 152, 0, 0.05);
     border: 1px solid rgba(255, 152, 0, 0.2);
@@ -398,7 +396,6 @@
       display: none;
     }
 
-    .critical-failure-effects-header,
     .critical-failure-skill-loss-header {
       display: flex;
       justify-content: space-between;
@@ -413,7 +410,6 @@
         font-size: 1rem;
       }
 
-      .add-critical-failure-effect-btn,
       .add-critical-failure-skill-loss-btn {
         background: #FF9800;
         color: #1a1a1a;
@@ -436,58 +432,10 @@
       }
     }
 
-    .critical-failure-effects-list,
     .critical-failure-skill-loss-list {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
-    }
-
-    .critical-failure-effect-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem;
-      background: rgba(255, 152, 0, 0.08);
-      border: 1px solid rgba(255, 152, 0, 0.2);
-      border-radius: 4px;
-
-      select {
-        flex: 1;
-        padding: 0.5rem;
-        border: 1px solid rgba(255, 152, 0, 0.4);
-        background: rgba(0, 0, 0, 0.3);
-        color: $c-beige;
-        border-radius: 4px;
-        font-size: 0.9rem;
-
-        &:focus {
-          border-color: #FF9800;
-          outline: none;
-          box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
-        }
-      }
-
-      .remove-critical-failure-effect-btn {
-        background: rgba(244, 67, 54, 0.8);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 1.1rem;
-        transition: all 0.2s ease;
-
-        &:hover {
-          background: #f44336;
-          transform: scale(1.1);
-        }
-      }
     }
 
     .critical-failure-skill-loss-row {
@@ -570,7 +518,6 @@
       }
     }
 
-      .no-critical-failure-effects-message,
       .no-critical-failure-skill-loss-message {
         text-align: center;
         color: rgba(255, 152, 0, 0.6);
@@ -583,7 +530,6 @@
     }
 
     // Critical Hit System (inside skill-check-system) - Green/Gold theme
-    .critical-hit-effects-toggle,
     .critical-hit-skill-bonus-toggle {
       margin: 1rem 0;
       padding: 0.75rem;
@@ -610,7 +556,6 @@
       }
     }
 
-    .critical-hit-effects-system,
     .critical-hit-skill-bonus-system {
       background: rgba(76, 175, 80, 0.05);
       border: 1px solid rgba(76, 175, 80, 0.2);
@@ -622,7 +567,6 @@
         display: none;
       }
 
-      .critical-hit-effects-header,
       .critical-hit-skill-bonus-header {
         display: flex;
         justify-content: space-between;
@@ -637,7 +581,6 @@
           font-size: 1rem;
         }
 
-        .add-critical-hit-effect-btn,
         .add-critical-hit-skill-bonus-btn {
           background: #4CAF50;
           color: white;
@@ -660,58 +603,10 @@
         }
       }
 
-      .critical-hit-effects-list,
       .critical-hit-skill-bonus-list {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
-      }
-
-      .critical-hit-effect-row {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem;
-        background: rgba(76, 175, 80, 0.08);
-        border: 1px solid rgba(76, 175, 80, 0.2);
-        border-radius: 4px;
-
-        select {
-          flex: 1;
-          padding: 0.5rem;
-          border: 1px solid rgba(76, 175, 80, 0.4);
-          background: rgba(0, 0, 0, 0.3);
-          color: $c-beige;
-          border-radius: 4px;
-          font-size: 0.9rem;
-
-          &:focus {
-            border-color: #4CAF50;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
-          }
-        }
-
-        .remove-critical-hit-effect-btn {
-          background: rgba(244, 67, 54, 0.8);
-          color: white;
-          border: none;
-          border-radius: 50%;
-          width: 24px;
-          height: 24px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          font-weight: 600;
-          font-size: 1.1rem;
-          transition: all 0.2s ease;
-
-          &:hover {
-            background: #f44336;
-            transform: scale(1.1);
-          }
-        }
       }
 
       .critical-hit-skill-bonus-row {

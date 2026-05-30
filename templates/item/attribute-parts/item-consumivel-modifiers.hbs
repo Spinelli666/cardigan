@@ -5,40 +5,6 @@
   data-tab='modifiers'
 >
   <div class="skill-check-system {{#unless item.system.hasSkillCheck}}hidden{{/unless}}" data-skill-check-section>
-    {{! Critical Failure Effects System }}
-    <div class="critical-failure-effects-toggle">
-      <label class="checkbox-label">
-        <input type="checkbox" name="system.hasCriticalFailureEffects" {{checked item.system.hasCriticalFailureEffects}} data-dtype="Boolean" data-critical-failure-effects-toggle />
-        {{localize "CARDIGAN.ItemConsumivel.HasCriticalFailureEffects"}}
-      </label>
-    </div>
-
-    <div class="critical-failure-effects-system {{#unless item.system.hasCriticalFailureEffects}}hidden{{/unless}}" data-critical-failure-effects-section>
-      <div class="form-group critical-failure-effects">
-        <button type="button" data-action="configureCriticalFailureEffects" >
-          <i class="fas fa-cog"></i> {{localize "CARDIGAN.ItemConsumivel.ConfigureEffects"}}
-        </button>
-        
-        {{#if item.system.criticalFailureEffects.length}}
-        <div class="selected-effects">
-          <h4>{{localize "CARDIGAN.ItemConsumivel.SelectedEffects"}}</h4>
-          <div class="effects-list">
-            {{#each item.system.criticalFailureEffects}}
-            <div class="effect-item">
-              <img src="{{img}}" alt="{{name}}" width="24" height="24">
-              <span>{{name}}</span>
-            </div>
-            {{/each}}
-          </div>
-        </div>
-        {{else}}
-        <div class="no-effects">
-          <em>{{localize "CARDIGAN.NoEffectsSelected"}}</em>
-        </div>
-        {{/if}}
-      </div>
-    </div>
-
     {{! Critical Failure Skill Loss System }}
     <div class="critical-failure-skill-loss-toggle">
       <label class="checkbox-label">
@@ -87,40 +53,6 @@
             {{localize "CARDIGAN.NoSkillLossAdded"}}
           </div>
         {{/unless}}
-      </div>
-    </div>
-
-    {{! Critical Hit Effects System }}
-    <div class="critical-hit-effects-toggle">
-      <label class="checkbox-label">
-        <input type="checkbox" name="system.hasCriticalHitEffects" {{checked item.system.hasCriticalHitEffects}} data-dtype="Boolean" data-critical-hit-effects-toggle />
-        {{localize "CARDIGAN.ItemConsumivel.HasCriticalHitEffects"}}
-      </label>
-    </div>
-
-    <div class="critical-hit-effects-system {{#unless item.system.hasCriticalHitEffects}}hidden{{/unless}}" data-critical-hit-effects-section>
-      <div class="form-group critical-hit-effects">
-        <button type="button" data-action="configureCriticalHitEffects" >
-          <i class="fas fa-cog"></i> {{localize "CARDIGAN.ItemConsumivel.ConfigureEffects"}}
-        </button>
-        
-        {{#if item.system.criticalHitEffects.length}}
-        <div class="selected-effects">
-          <h4>{{localize "CARDIGAN.ItemConsumivel.SelectedEffects"}}</h4>
-          <div class="effects-list">
-            {{#each item.system.criticalHitEffects}}
-            <div class="effect-item">
-              <img src="{{img}}" alt="{{name}}" width="24" height="24">
-              <span>{{name}}</span>
-            </div>
-            {{/each}}
-          </div>
-        </div>
-        {{else}}
-        <div class="no-effects">
-          <em>{{localize "CARDIGAN.NoEffectsSelected"}}</em>
-        </div>
-        {{/if}}
       </div>
     </div>
 

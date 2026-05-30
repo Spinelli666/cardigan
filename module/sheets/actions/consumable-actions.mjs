@@ -100,6 +100,11 @@ export class ConsumableActions {
         rollResult = await ConsumableActions.processSkillCheck(item, sheet);
       }
 
+      const configuredSkillTestEffects = await ConsumableActions.getConfiguredSkillTestEffects(item);
+      if (rollResult && configuredSkillTestEffects.length > 0) {
+        await ConsumableActions.applyConfiguredSkillTestEffects(configuredSkillTestEffects, rollResult, sheet);
+      }
+
       let rollType = 'normal';
       if (rollResult) {
         if (rollResult.isCriticalFailure) {
@@ -488,25 +493,44 @@ export class ConsumableActions {
     try {
       const ability = item.system.skillCheckAbility;
       const hasAdvantage = item.system.skillCheckAdvantage;
+      const hasDisadvantage = item.system.skillCheckDisadvantage;
+      const hasEnhancedAdvantage = item.system.skillCheckEnhancedAdvantage;
+      const hasEnhancedDisadvantage = item.system.skillCheckEnhancedDisadvantage;
 
       const abilityData = sheet.document.system.abilities[ability];
       const abilityValue = abilityData.value || 0;
       const abilityBonus = abilityData.totalBonus || 0;
       const totalModifier = abilityValue + abilityBonus;
 
-      const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+      const { CongeladoEffect } = await import('../../effects/effects/congelado.mjs');
       const congeladoPenalty = CongeladoEffect.getSkillPenalty(sheet.document);
       const finalModifier = totalModifier + congeladoPenalty;
 
       let rollFormula;
       let flavorText;
+      const localizedAbility = game.i18n.localize(`CARDIGAN.Ability.${ability.charAt(0).toUpperCase() + ability.slice(1)}.long`);
+      const advantageLevel = hasEnhancedAdvantage ? 2 : (hasAdvantage ? 1 : 0);
+      const disadvantageLevel = hasEnhancedDisadvantage ? 2 : (hasDisadvantage ? 1 : 0);
 
-      if (hasAdvantage) {
-        rollFormula = `2d20kh1 + ${finalModifier}`;
-        flavorText = `${item.name} - ${game.i18n.localize(`CARDIGAN.Ability.${ability.charAt(0).toUpperCase() + ability.slice(1)}.long`)} Check (Advantage)`;
+      if (advantageLevel > disadvantageLevel) {
+        if (advantageLevel === 2) {
+          rollFormula = `3d20kh1 + ${finalModifier}`;
+          flavorText = `${item.name} - ${localizedAbility} Check (Vantagem Aprimorada)`;
+        } else {
+          rollFormula = `2d20kh1 + ${finalModifier}`;
+          flavorText = `${item.name} - ${localizedAbility} Check (Vantagem)`;
+        }
+      } else if (disadvantageLevel > advantageLevel) {
+        if (disadvantageLevel === 2) {
+          rollFormula = `3d20kl1 + ${finalModifier}`;
+          flavorText = `${item.name} - ${localizedAbility} Check (Desvantagem Aprimorada)`;
+        } else {
+          rollFormula = `2d20kl1 + ${finalModifier}`;
+          flavorText = `${item.name} - ${localizedAbility} Check (Desvantagem)`;
+        }
       } else {
         rollFormula = `1d20 + ${finalModifier}`;
-        flavorText = `${item.name} - ${game.i18n.localize(`CARDIGAN.Ability.${ability.charAt(0).toUpperCase() + ability.slice(1)}.long`)} Check`;
+        flavorText = `${item.name} - ${localizedAbility} Check`;
       }
 
       if (congeladoPenalty !== 0) {
@@ -516,16 +540,8 @@ export class ConsumableActions {
       const roll = await Roll.create(rollFormula, sheet.document.getRollData());
       await roll.evaluate();
 
-      const isCriticalFailure = ConsumableActions.checkCriticalFailure(roll, hasAdvantage);
-      const isCriticalHit = ConsumableActions.checkCriticalHit(roll, hasAdvantage);
-
-      if (isCriticalFailure) {
-        await ConsumableActions.processCriticalFailure(item, roll, sheet);
-      }
-
-      if (isCriticalHit) {
-        await ConsumableActions.processCriticalHit(item, roll, sheet);
-      }
+      const isCriticalFailure = ConsumableActions.checkCriticalFailure(roll);
+      const isCriticalHit = ConsumableActions.checkCriticalHit(roll);
 
       const rollData = {
         speaker: ChatMessage.getSpeaker({ actor: sheet.document }),
@@ -551,7 +567,7 @@ export class ConsumableActions {
         total: roll.total,
         formula: rollFormula,
         ability: ability,
-        hasAdvantage: hasAdvantage,
+        hasAdvantage: advantageLevel > disadvantageLevel,
         isCriticalFailure: isCriticalFailure,
         isCriticalHit: isCriticalHit
       };
@@ -566,10 +582,9 @@ export class ConsumableActions {
   /**
    * Check if a roll resulted in a critical failure
    * @param {Roll} roll
-   * @param {boolean} hasAdvantage
    * @returns {boolean}
    */
-  static checkCriticalFailure(roll, hasAdvantage) {
+  static checkCriticalFailure(roll) {
     try {
       if (!roll) return false;
 
@@ -581,17 +596,64 @@ export class ConsumableActions {
       const d20Die = roll.dice.find(die => die.faces === 20);
       if (!d20Die || !d20Die.results || d20Die.results.length === 0) return false;
 
-      if (hasAdvantage) {
-        if (d20Die.results.length < 2) return false;
-        const results = d20Die.results.map(r => r?.result).filter(r => r !== undefined);
-        return results.length >= 2 && results.every(result => result === 1);
-      } else {
+      const results = d20Die.results.map(r => r?.result).filter(r => r !== undefined);
+      if (results.length <= 1) {
         const firstResult = d20Die.results[0];
         return firstResult && firstResult.result === 1;
       }
+
+      return results.every(result => result === 1);
     } catch (error) {
       console.warn("Error checking critical failure:", error);
       return false;
+    }
+  }
+
+  /**
+   * Load configured effects from skill test add dialog.
+   * @param {Item} item
+   * @returns {Promise<Array>}
+   */
+  static async getConfiguredSkillTestEffects(item) {
+    const effectsFromSystem = item.system?.skillTestAddedEffects;
+    if (Array.isArray(effectsFromSystem)) return effectsFromSystem;
+
+    const effectsFromFlag = await item.getFlag('cardigan', 'skillTestAddedEffects');
+    return Array.isArray(effectsFromFlag) ? effectsFromFlag : [];
+  }
+
+  /**
+   * Apply configured effects only when critical condition matches the checked flag.
+   * @param {Array} configuredEffects
+   * @param {Object} rollResult
+   * @param {CardiganSystemActorSheet} sheet
+   */
+  static async applyConfiguredSkillTestEffects(configuredEffects, rollResult, sheet) {
+    if (!rollResult?.isCriticalHit && !rollResult?.isCriticalFailure) return;
+
+    for (const configuredEffect of configuredEffects) {
+      if (!configuredEffect?.uuid) continue;
+
+      const applyByCriticalHit = rollResult.isCriticalHit && configuredEffect.criticalHit;
+      const applyByCriticalFailure = rollResult.isCriticalFailure && configuredEffect.criticalFailure;
+      if (!applyByCriticalHit && !applyByCriticalFailure) continue;
+
+      const sourceDocument = await fromUuid(configuredEffect.uuid);
+      if (!sourceDocument) continue;
+
+      const effectName = sourceDocument.name || configuredEffect.name;
+      const alreadyActive = sheet.document.items.find((ownedItem) =>
+        ownedItem.type === 'efeito' &&
+        ownedItem.name === effectName &&
+        !ownedItem.system?.consumableTracking?.isTrackingEffect
+      );
+      if (alreadyActive) continue;
+
+      const itemData = foundry.utils.deepClone(sourceDocument.toObject());
+      if (!itemData.system) itemData.system = {};
+      itemData.system.rodadas = configuredEffect.rounds || '0';
+
+      await sheet.document.createEmbeddedDocuments('Item', [itemData]);
     }
   }
 
