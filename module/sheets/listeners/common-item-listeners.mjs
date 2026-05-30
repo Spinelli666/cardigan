@@ -148,12 +148,121 @@ export class CommonItemListeners {
         rejectClose: false,
         modal: false,
         position: {
-          width: 280,
-          height: 'auto'
+          width: 560,
+          height: 460
         }
       });
 
-      dialog.render(true);
+      await dialog.render(true);
+
+      const selectedEffects = [];
+      const effectsListContainer = dialog.element?.querySelector('[data-skill-test-effects-list]');
+
+      const renderSelectedEffects = () => {
+        if (!effectsListContainer) return;
+        effectsListContainer.innerHTML = '';
+
+        selectedEffects.forEach((effect) => {
+          const item = document.createElement('div');
+          item.className = 'skill-test-add-effect-item';
+
+          const row = document.createElement('div');
+          row.className = 'skill-test-add-effect-row';
+
+          const main = document.createElement('div');
+          main.className = 'skill-test-add-effect-main';
+
+          const icon = document.createElement('img');
+          icon.className = 'skill-test-add-effect-icon';
+          icon.src = effect.img || 'icons/svg/aura.svg';
+          icon.alt = effect.name || 'Efeito';
+
+          const name = document.createElement('span');
+          name.className = 'skill-test-add-effect-name';
+          name.textContent = effect.name || 'Efeito sem nome';
+
+          const rounds = document.createElement('span');
+          rounds.className = 'skill-test-add-effect-rounds';
+
+          const clock = document.createElement('img');
+          clock.className = 'skill-test-add-effect-clock';
+          clock.src = 'systems/cardigan/assets/images/decorative/icons/icon-clock.svg';
+          clock.alt = 'Rodadas';
+
+          const roundsValue = document.createElement('span');
+          roundsValue.textContent = effect.rounds || '0';
+
+          const flags = document.createElement('div');
+          flags.className = 'skill-test-add-effect-flags';
+
+          const criticalFailureLabel = document.createElement('label');
+          criticalFailureLabel.className = 'skill-test-add-effect-flag';
+
+          const criticalFailureInput = document.createElement('input');
+          criticalFailureInput.type = 'checkbox';
+          criticalFailureInput.className = 'skill-test-add-effect-flag-input';
+
+          const criticalFailureIcon = document.createElement('img');
+          criticalFailureIcon.className = 'skill-test-add-effect-flag-icon';
+          criticalFailureIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-critical-failure.svg';
+          criticalFailureIcon.alt = 'Falha crítica';
+
+          criticalFailureLabel.appendChild(criticalFailureInput);
+          criticalFailureLabel.appendChild(criticalFailureIcon);
+
+          const criticalHitLabel = document.createElement('label');
+          criticalHitLabel.className = 'skill-test-add-effect-flag';
+
+          const criticalHitInput = document.createElement('input');
+          criticalHitInput.type = 'checkbox';
+          criticalHitInput.className = 'skill-test-add-effect-flag-input';
+
+          const criticalHitIcon = document.createElement('img');
+          criticalHitIcon.className = 'skill-test-add-effect-flag-icon';
+          criticalHitIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-critical-hit.svg';
+          criticalHitIcon.alt = 'Acerto crítico';
+
+          criticalHitLabel.appendChild(criticalHitInput);
+          criticalHitLabel.appendChild(criticalHitIcon);
+
+          main.appendChild(icon);
+          main.appendChild(name);
+          rounds.appendChild(clock);
+          rounds.appendChild(roundsValue);
+          flags.appendChild(criticalFailureLabel);
+          flags.appendChild(criticalHitLabel);
+          row.appendChild(main);
+          row.appendChild(rounds);
+          item.appendChild(row);
+          item.appendChild(flags);
+
+          effectsListContainer.appendChild(item);
+        });
+      };
+
+      const openEffectsDialog = async (submitEvent) => {
+        submitEvent.preventDefault();
+        submitEvent.stopPropagation();
+
+        try {
+          const { default: EffectsCompendiumSelectionDialog } = await import('../../applications/effects-compendium-selection-dialog.mjs');
+          const actor = sheet.item?.actor ?? sheet.item?.parent ?? null;
+
+          await EffectsCompendiumSelectionDialog.show(actor, {
+            createOnActor: false,
+            onEffectsAdded: async (effects) => {
+              selectedEffects.push(...effects);
+              renderSelectedEffects();
+            }
+          });
+        } catch (error) {
+          console.error('[CARDIGAN ERROR] Error opening effects-compendium-selection-dialog:', error);
+          ui.notifications.error(`Erro ao abrir dialog de efeitos: ${error.message}`);
+        }
+      };
+
+      const triggerButtons = dialog.element?.querySelectorAll('.skill-test-add-effects-add-button, .skill-test-add-submit-button') ?? [];
+      triggerButtons.forEach((button) => button.addEventListener('click', openEffectsDialog));
     });
   }
 

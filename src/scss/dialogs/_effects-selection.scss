@@ -33,16 +33,17 @@
       padding: 2px 0 0 35px !important;
       font-family: 'Alatsi', sans-serif;
       font-size: 22px;
-      font-weight: bold;
       text-align: center;
-      margin: 0;
       letter-spacing: 1px;
       text-transform: uppercase;
-      text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.15);
-      background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+      margin: 0 0 !important;
+      font-style: normal;
+      text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+      transform: translateX(var(--tabs-offset-x, -1px));
+      background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+      background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
     
     .header-control,

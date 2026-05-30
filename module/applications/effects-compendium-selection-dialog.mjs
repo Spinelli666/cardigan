@@ -11,6 +11,8 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
   constructor(options = {}) {
     super(options);
     this.actor = options.actor;
+    this.onEffectsAdded = options.onEffectsAdded;
+    this.createOnActor = options.createOnActor !== false;
   }
 
   /** @override */
@@ -41,6 +43,8 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
   };
 
   actor;
+  onEffectsAdded;
+  createOnActor;
 
   /** @override */
   async _prepareContext(options) {
@@ -59,37 +63,59 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
    */
   async _getEffectsFromCompendium() {
     const pack = game.packs.get('cardigan.efeitos-cardigan');
+    const mappedEffects = [];
+
+    // 1) Effects from system compendium
     if (!pack) {
       console.warn('[CARDIGAN] Compendium "efeitos-cardigan" not found');
-      return [];
-    }
-
-    const documents = await pack.getDocuments();
-    
-    // Sort effects: positivos first, then negativos, then alphabetically
-    return documents
-      .filter(doc => doc.type === 'efeito')
-      .sort((a, b) => {
-        const typeA = a.system.efeitoType || '';
-        const typeB = b.system.efeitoType || '';
-        
-        // Sort by type first (positivo before negativo)
-        if (typeA === 'positivo' && typeB !== 'positivo') return -1;
-        if (typeA !== 'positivo' && typeB === 'positivo') return 1;
-        
-        // Then alphabetically by name
-        return a.name.localeCompare(b.name, 'pt-BR');
-      })
-      .map(doc => ({
+    } else {
+      const compendiumDocs = await pack.getDocuments();
+      mappedEffects.push(...compendiumDocs.filter(doc => doc.type === 'efeito').map(doc => ({
         id: doc.id,
         uuid: doc.uuid,
         name: doc.name,
         img: doc.img,
         system: {
-          efeitoType: doc.system.efeitoType,
-          description: doc.system.description
+          efeitoType: doc.system?.efeitoType,
+          description: doc.system?.description
+        }
+      })));
+    }
+
+    // 2) Effects created in world (Create Entry)
+    const worldEffects = (game.items ?? [])
+      .filter(item => item.type === 'efeito')
+      .map(item => ({
+        id: item.id,
+        uuid: item.uuid,
+        name: item.name,
+        img: item.img,
+        system: {
+          efeitoType: item.system?.efeitoType,
+          description: item.system?.description
         }
       }));
+
+    mappedEffects.push(...worldEffects);
+
+    // Keep unique entries by UUID to avoid duplicates.
+    const seen = new Set();
+    const uniqueEffects = mappedEffects.filter(effect => {
+      if (!effect?.uuid || seen.has(effect.uuid)) return false;
+      seen.add(effect.uuid);
+      return true;
+    });
+
+    // Sort effects: positivos first, then others, then alphabetically.
+    return uniqueEffects.sort((a, b) => {
+      const typeA = a.system?.efeitoType || '';
+      const typeB = b.system?.efeitoType || '';
+
+      if (typeA === 'positivo' && typeB !== 'positivo') return -1;
+      if (typeA !== 'positivo' && typeB === 'positivo') return 1;
+
+      return (a.name || '').localeCompare(b.name || '', 'pt-BR');
+    });
   }
 
   /* -------------------------------------------- */
@@ -196,32 +222,44 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
       return;
     }
 
-    // Create items from selected effects
-    const itemsToCreate = [];
-    for (const uuid of selectedUUIDs) {
-      const doc = await fromUuid(uuid);
-      if (doc) {
-        const itemData = doc.toObject();
-        
-        // Get the rounds value for this effect
-        const effectItem = this.element.querySelector(`.effect-item[data-effect-uuid="${uuid}"]`);
-        if (effectItem) {
-          const rounds = effectItem.dataset.rounds || '0';
-          // Convert ∞ to 'infinito' string to match schema choices
-          const roundsValue = rounds === '∞' ? 'infinito' : rounds;
-          
-          // Add rounds to the effect data
-          if (!itemData.system) itemData.system = {};
-          itemData.system.rodadas = roundsValue;
-        }
-        
-        itemsToCreate.push(itemData);
-      }
+    const selectedEffects = Array.from(selectedItems).map((effectItem) => {
+      const rounds = effectItem.dataset.rounds || '0';
+      return {
+        uuid: effectItem.dataset.effectUuid,
+        name: effectItem.querySelector('.effect-name')?.textContent?.trim() ?? '',
+        img: effectItem.querySelector('.effect-icon')?.getAttribute('src') ?? '',
+        rounds,
+        roundsValue: rounds === '∞' ? 'infinito' : rounds,
+      };
+    }).filter(effect => !!effect.uuid);
+
+    if (typeof this.onEffectsAdded === 'function') {
+      await this.onEffectsAdded(selectedEffects);
     }
 
-    if (itemsToCreate.length > 0) {
-      await this.actor.createEmbeddedDocuments('Item', itemsToCreate);
-      ui.notifications.info(`${itemsToCreate.length} efeito(s) adicionado(s)`);
+    if (this.createOnActor) {
+      if (!this.actor || this.actor.documentName !== 'Actor') {
+        ui.notifications.warn('Ator inválido para adicionar efeitos.');
+        this.close();
+        return;
+      }
+
+      // Create items from selected effects
+      const itemsToCreate = [];
+      for (const effect of selectedEffects) {
+        const doc = await fromUuid(effect.uuid);
+        if (!doc) continue;
+
+        const itemData = doc.toObject();
+        if (!itemData.system) itemData.system = {};
+        itemData.system.rodadas = effect.roundsValue;
+        itemsToCreate.push(itemData);
+      }
+
+      if (itemsToCreate.length > 0) {
+        await this.actor.createEmbeddedDocuments('Item', itemsToCreate);
+        ui.notifications.info(`${itemsToCreate.length} efeito(s) adicionado(s)`);
+      }
     }
 
     this.close();
@@ -240,11 +278,12 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
 
   /**
    * Static method to show the dialog
-   * @param {Actor} actor - The actor to add effects to
+   * @param {Actor|null} actor - The actor to add effects to
+   * @param {object} options - Additional options
    * @returns {Promise<EffectsCompendiumSelectionDialog>}
    */
-  static async show(actor) {
-    const dialog = new this({ actor });
+  static async show(actor, options = {}) {
+    const dialog = new this({ actor, ...options });
     dialog.render(true);
     return dialog;
   }
