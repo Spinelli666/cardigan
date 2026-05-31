@@ -893,6 +893,28 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
               amountToRevert: modifier.amount,
               newBonus: newArmorBonus
             });
+          } else if (modifier.type === 'abilityBaseValue' && modifier.ability) {
+            const currentAbilityBaseValue = actor.system.abilities?.[modifier.ability]?.baseValue || 0;
+            const revertedAbilityBaseValue = Math.max(0, currentAbilityBaseValue - Number(modifier.amount || 0));
+            updateData[`system.abilities.${modifier.ability}.baseValue`] = revertedAbilityBaseValue;
+
+            console.log("[ABILITY BASE VALUE] Reverting ability base value modifier from tracking effect:", {
+              ability: modifier.ability,
+              currentBaseValue: currentAbilityBaseValue,
+              amountToRevert: modifier.amount,
+              newBaseValue: revertedAbilityBaseValue
+            });
+          } else if (modifier.type === 'abilityValue' && modifier.ability) {
+            const currentAbilityValue = actor.system.abilities?.[modifier.ability]?.value || 0;
+            const revertedAbilityValue = Math.max(0, currentAbilityValue - Number(modifier.amount || 0));
+            updateData[`system.abilities.${modifier.ability}.value`] = revertedAbilityValue;
+
+            console.log("[ABILITY VALUE] Reverting ability value modifier from tracking effect:", {
+              ability: modifier.ability,
+              currentValue: currentAbilityValue,
+              amountToRevert: modifier.amount,
+              newValue: revertedAbilityValue
+            });
           }
         }
         

@@ -105,6 +105,8 @@ export class ConsumableActions {
         await ConsumableActions.applyConfiguredSkillTestEffects(configuredSkillTestEffects, rollResult, sheet);
       }
 
+      const configuredSkillTestSkills = await ConsumableActions.getConfiguredSkillTestSkills(item);
+
       let rollType = 'normal';
       if (rollResult) {
         if (rollResult.isCriticalFailure) {
@@ -117,6 +119,23 @@ export class ConsumableActions {
       const appliedEffects = [];
       const appliedSkillBonuses = [];
       const messages = [];
+      const appliedAttributeModifiers = [];
+
+      if (rollResult && configuredSkillTestSkills.length > 0) {
+        const configuredSkillsResult = await ConsumableActions.applyConfiguredSkillTestSkills(
+          configuredSkillTestSkills,
+          rollResult,
+          sheet
+        );
+
+        if (configuredSkillsResult.appliedModifiers.length > 0) {
+          appliedAttributeModifiers.push(...configuredSkillsResult.appliedModifiers);
+        }
+
+        if (configuredSkillsResult.messages.length > 0) {
+          messages.push(...configuredSkillsResult.messages);
+        }
+      }
 
       const effects = item.system.effects || [];
       for (const effect of effects) {
@@ -178,8 +197,6 @@ export class ConsumableActions {
           messages.push(`Applied temporary skill bonuses: ${bonusMessages.join(', ')}`);
         }
       }
-
-      const appliedAttributeModifiers = [];
 
       console.log("[CONSUME] Checking health modifier:", {
         hasHealthModifier: item.system.hasHealthModifier,
@@ -623,6 +640,16 @@ export class ConsumableActions {
   }
 
   /**
+   * Load configured skill modifiers from skill test add dialog.
+   * @param {Item} item
+   * @returns {Promise<Array>}
+   */
+  static async getConfiguredSkillTestSkills(item) {
+    const skillsFromFlag = await item.getFlag('cardigan', 'skillTestAddedSkills');
+    return Array.isArray(skillsFromFlag) ? skillsFromFlag : [];
+  }
+
+  /**
    * Apply configured effects only when critical condition matches the checked flag.
    * @param {Array} configuredEffects
    * @param {Object} rollResult
@@ -630,6 +657,16 @@ export class ConsumableActions {
    */
   static async applyConfiguredSkillTestEffects(configuredEffects, rollResult, sheet) {
     if (!rollResult?.isCriticalHit && !rollResult?.isCriticalFailure) return;
+
+    const normalizeRoundsValue = (rounds) => {
+      if (rounds === '∞' || rounds === 'infinito') return 'infinito';
+
+      const parsedRounds = Number.parseInt(rounds, 10);
+      if (Number.isNaN(parsedRounds)) return '0';
+
+      const clampedRounds = Math.max(0, Math.min(5, parsedRounds));
+      return String(clampedRounds);
+    };
 
     for (const configuredEffect of configuredEffects) {
       if (!configuredEffect?.uuid) continue;
@@ -651,10 +688,83 @@ export class ConsumableActions {
 
       const itemData = foundry.utils.deepClone(sourceDocument.toObject());
       if (!itemData.system) itemData.system = {};
-      itemData.system.rodadas = configuredEffect.rounds || '0';
+      itemData.system.rodadas = normalizeRoundsValue(configuredEffect.rounds);
 
       await sheet.document.createEmbeddedDocuments('Item', [itemData]);
     }
+  }
+
+  /**
+  * Apply configured skill modifiers when critical condition matches checked flags.
+  * Modifies system.abilities.<key>.baseValue and returns tracking modifiers for rollback.
+   * @param {Array} configuredSkills
+   * @param {Object} rollResult
+   * @param {CardiganSystemActorSheet} sheet
+   * @returns {Promise<{appliedModifiers: Array, messages: Array}>}
+   */
+  static async applyConfiguredSkillTestSkills(configuredSkills, rollResult, sheet) {
+    if (!rollResult?.isCriticalHit && !rollResult?.isCriticalFailure) {
+      return { appliedModifiers: [], messages: [] };
+    }
+
+    const actor = sheet.document;
+    const updateData = {};
+    const appliedModifiers = [];
+    const messages = [];
+
+    const abilityLongKeys = {
+      accuracy: 'CARDIGAN.Ability.Accuracy.long',
+      evasion: 'CARDIGAN.Ability.Evasion.long',
+      strength: 'CARDIGAN.Ability.Strength.long',
+      dexterity: 'CARDIGAN.Ability.Dexterity.long',
+      stamina: 'CARDIGAN.Ability.Stamina.long',
+      stealth: 'CARDIGAN.Ability.Stealth.long',
+      persuasion: 'CARDIGAN.Ability.Persuasion.long',
+      intelligence: 'CARDIGAN.Ability.Intelligence.long',
+      psionics: 'CARDIGAN.Ability.Psionics.long'
+    };
+
+    for (const configuredSkill of configuredSkills) {
+      if (!configuredSkill || typeof configuredSkill.key !== 'string') continue;
+
+      const applyByCriticalHit = rollResult.isCriticalHit && configuredSkill.criticalHit;
+      const applyByCriticalFailure = rollResult.isCriticalFailure && configuredSkill.criticalFailure;
+      if (!applyByCriticalHit && !applyByCriticalFailure) continue;
+
+      if (configuredSkill.modifierType !== 'increase' && configuredSkill.modifierType !== 'decrease') continue;
+
+      const parsedValue = Number.parseInt(configuredSkill.skillValue, 10);
+      if (Number.isNaN(parsedValue) || parsedValue <= 0) continue;
+
+      const abilityKey = configuredSkill.key;
+      const abilityData = actor.system?.abilities?.[abilityKey];
+      if (!abilityData) continue;
+
+      const delta = configuredSkill.modifierType === 'increase' ? parsedValue : -parsedValue;
+      const currentValue = updateData[`system.abilities.${abilityKey}.baseValue`] ?? abilityData.baseValue ?? 0;
+      const newValue = currentValue + delta;
+      const appliedAmount = newValue - currentValue;
+      if (appliedAmount === 0) continue;
+
+      updateData[`system.abilities.${abilityKey}.baseValue`] = newValue;
+
+      const localizedAbility = game.i18n.localize(abilityLongKeys[abilityKey] || abilityKey);
+      const sign = appliedAmount >= 0 ? '+' : '';
+      messages.push(`${localizedAbility}: ${sign}${appliedAmount}`);
+
+      appliedModifiers.push({
+        type: 'abilityBaseValue',
+        ability: abilityKey,
+        amount: appliedAmount,
+        label: `${localizedAbility} ${sign}${appliedAmount}`
+      });
+    }
+
+    if (Object.keys(updateData).length > 0) {
+      await actor.update(updateData);
+    }
+
+    return { appliedModifiers, messages };
   }
 
   /**
@@ -939,20 +1049,17 @@ export class ConsumableActions {
   static async createTrackingEffectItem(originalItem, rollType, appliedEffects = [], appliedSkillBonuses = [], appliedAttributeModifiers = [], sheet, quantity = 1) {
     try {
       const consumedQuantity = Math.max(1, Number(quantity) || 1);
-      let itemName = originalItem.name;
+      const itemName = originalItem.name;
       let description = `Effects from consuming ${originalItem.name}`;
 
       switch (rollType) {
         case 'critical-failure':
-          itemName += ' (Critical Failure)';
           description = `Critical failure effects from consuming ${originalItem.name}`;
           break;
         case 'critical-hit':
-          itemName += ' (Critical Hit)';
           description = `Critical hit effects from consuming ${originalItem.name}`;
           break;
         default:
-          itemName = originalItem.name;
           break;
       }
 
@@ -1014,6 +1121,66 @@ export class ConsumableActions {
 
       if (existingTrackingItem) {
         const currentConsumedQuantity = Number(existingTrackingItem.system?.consumableTracking?.consumedQuantity || 0);
+        const existingAttributeModifiers = Array.isArray(existingTrackingItem.system?.consumableTracking?.appliedAttributeModifiers)
+          ? existingTrackingItem.system.consumableTracking.appliedAttributeModifiers
+          : [];
+        const mergedAttributeModifiersMap = new Map();
+
+        for (const modifier of existingAttributeModifiers) {
+          const key = `${modifier.type || ''}:${modifier.ability || ''}`;
+          mergedAttributeModifiersMap.set(key, {
+            ...modifier,
+            amount: Number(modifier.amount || 0)
+          });
+        }
+
+        for (const modifier of appliedAttributeModifiers) {
+          const key = `${modifier.type || ''}:${modifier.ability || ''}`;
+          const current = mergedAttributeModifiersMap.get(key);
+          if (current) {
+            current.amount += Number(modifier.amount || 0);
+            if (modifier.label) current.label = modifier.label;
+            mergedAttributeModifiersMap.set(key, current);
+          } else {
+            mergedAttributeModifiersMap.set(key, {
+              ...modifier,
+              amount: Number(modifier.amount || 0)
+            });
+          }
+        }
+
+        const mergedAttributeModifiers = Array.from(mergedAttributeModifiersMap.values())
+          .filter((modifier) => Number(modifier.amount || 0) !== 0);
+
+        const existingSkillBonuses = Array.isArray(existingTrackingItem.system?.consumableTracking?.appliedSkillBonuses)
+          ? existingTrackingItem.system.consumableTracking.appliedSkillBonuses
+          : [];
+        const mergedSkillBonusesMap = new Map();
+
+        for (const bonus of existingSkillBonuses) {
+          const key = `${bonus.ability || ''}`;
+          mergedSkillBonusesMap.set(key, {
+            ...bonus,
+            value: Number(bonus.value || bonus.bonus || 0)
+          });
+        }
+
+        for (const bonus of appliedSkillBonuses) {
+          const key = `${bonus.ability || ''}`;
+          const current = mergedSkillBonusesMap.get(key);
+          if (current) {
+            current.value += Number(bonus.value || bonus.bonus || 0);
+            mergedSkillBonusesMap.set(key, current);
+          } else {
+            mergedSkillBonusesMap.set(key, {
+              ...bonus,
+              value: Number(bonus.value || bonus.bonus || 0)
+            });
+          }
+        }
+
+        const mergedSkillBonuses = Array.from(mergedSkillBonusesMap.values())
+          .filter((bonus) => Number(bonus.value || bonus.bonus || 0) !== 0);
 
         await existingTrackingItem.update({
           name: itemName,
@@ -1022,8 +1189,8 @@ export class ConsumableActions {
           'system.consumableTracking.originalItemName': originalItem.name,
           'system.consumableTracking.consumedQuantity': currentConsumedQuantity + consumedQuantity,
           'system.consumableTracking.appliedEffects': appliedEffects,
-          'system.consumableTracking.appliedSkillBonuses': appliedSkillBonuses,
-          'system.consumableTracking.appliedAttributeModifiers': appliedAttributeModifiers,
+          'system.consumableTracking.appliedSkillBonuses': mergedSkillBonuses,
+          'system.consumableTracking.appliedAttributeModifiers': mergedAttributeModifiers,
         });
 
         return existingTrackingItem;

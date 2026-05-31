@@ -1,0 +1,18 @@
+<img
+  class="skill-test-abilities-selection-title-border"
+  src="systems/cardigan/assets/images/decorative/border.webp"
+  alt="Borda decorativa"
+/>
+
+<div class="dialog-content standard-form skill-test-abilities-selection-dialog-content">
+  <div class="skill-test-abilities-selection-grid effects-grid">
+    {{#each skills as |skill|}}
+      <label class="skill-test-abilities-selection-item effect-item {{#if skill.selected}}selected{{/if}}" data-skill-key="{{skill.key}}">
+        <input class="skill-test-abilities-selection-checkbox" type="checkbox" value="{{skill.key}}" {{#if skill.selected}}checked{{/if}}>
+        <div class="skill-test-abilities-selection-content effect-content">
+          <span class="skill-test-abilities-selection-name effect-name">{{skill.label}}</span>
+        </div>
+      </label>
+    {{/each}}
+  </div>
+</div>

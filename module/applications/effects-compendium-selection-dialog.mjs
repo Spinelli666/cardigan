@@ -23,7 +23,8 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
     window: {
       title: "Selecionar Efeitos",
       resizable: true,
-      minimizable: false
+      minimizable: false,
+      positioned: true
     },
     position: {
       width: 940,
@@ -284,7 +285,7 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
    */
   static async show(actor, options = {}) {
     const dialog = new this({ actor, ...options });
-    dialog.render(true);
+    await dialog.render({ force: true });
     return dialog;
   }
 }

@@ -1884,7 +1884,7 @@
 .application.sheet.cardigan.item.item-type-consumivel {
   min-width: 430.444px !important;
   width: 430.444px !important;
-  min-height: 770.223px !important;
+  height: 671.556px !important;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -2240,6 +2240,14 @@
   border-radius: 8px;
   background: linear-gradient(90deg, rgba(255, 183, 92, 0.12) 0%, rgba(67, 170, 218, 0.12) 100%);
 }
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+  padding: 6px 10px;
+}
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-entry {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -2257,12 +2265,22 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 10px;
+  font-size: 11px;
   text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
   background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-item .consumable-item-skill-test-added-name {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.15;
+  font-size: 11px;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds {
   display: inline-flex;
@@ -2301,6 +2319,32 @@
   -webkit-mask-size: contain;
   mask-size: contain;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-value {
+  flex: 0 0 auto;
+  min-width: 32px;
+  text-align: right;
+  font-size: 11px;
+  line-height: 1;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-value-decrease {
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-value-increase {
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-flag-icon {
   width: 16px;
@@ -15769,58 +15813,6 @@
 .cardigan .tab.modifiers .skill-check-toggle .checkbox-label:hover {
   color: #f5f5dc;
 }
-.cardigan .tab.modifiers .skill-check-system {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: rgba(33, 150, 243, 0.1);
-  border-radius: 6px;
-  border: 1px solid rgba(33, 150, 243, 0.3);
-}
-.cardigan .tab.modifiers .skill-check-system.hidden {
-  display: none;
-}
-.cardigan .tab.modifiers .skill-check-system .form-group {
-  margin-bottom: 1rem;
-}
-.cardigan .tab.modifiers .skill-check-system .form-group:last-child {
-  margin-bottom: 0;
-}
-.cardigan .tab.modifiers .skill-check-system .form-group label {
-  display: block;
-  color: var(--cardigan-c-beige);
-  font-size: 0.95rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-.cardigan .tab.modifiers .skill-check-system .form-group select {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid rgba(var(--cardigan-c-beige), 0.3);
-  background: rgba(0, 0, 0, 0.3);
-  color: var(--cardigan-c-beige);
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-.cardigan .tab.modifiers .skill-check-system .form-group select:focus {
-  border-color: #2196F3;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
-}
-.cardigan .tab.modifiers .skill-check-system .form-group.advantage-toggle .checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--cardigan-c-beige);
-  font-size: 0.9rem;
-  cursor: pointer;
-  margin: 0;
-}
-.cardigan .tab.modifiers .skill-check-system .form-group.advantage-toggle .checkbox-label input[type=checkbox] {
-  margin: 0;
-  transform: scale(1.2);
-  cursor: pointer;
-  accent-color: #2196F3;
-}
 .cardigan .tab.modifiers .effects-toggle {
   margin-bottom: 1.5rem;
   padding: 1rem;
@@ -16024,315 +16016,6 @@
   .cardigan .tab.modifiers .status-grid {
     grid-template-columns: 1fr;
   }
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-toggle {
-  margin: 1rem 0;
-  padding: 0.75rem;
-  background: rgba(255, 152, 0, 0.1);
-  border: 1px solid rgba(255, 152, 0, 0.3);
-  border-radius: 6px;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-toggle .checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #FF9800;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  margin: 0;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-toggle .checkbox-label input[type=checkbox] {
-  margin: 0;
-  transform: scale(1.3);
-  cursor: pointer;
-  accent-color: #FF9800;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system {
-  background: rgba(255, 152, 0, 0.05);
-  border: 1px solid rgba(255, 152, 0, 0.2);
-  border-radius: 6px;
-  padding: 1rem;
-  margin: 0.5rem 0;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system.hidden {
-  display: none;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(255, 152, 0, 0.3);
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-header label {
-  color: #FF9800;
-  font-weight: 600;
-  font-size: 1rem;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-header .add-critical-failure-skill-loss-btn {
-  background: #FF9800;
-  color: #1a1a1a;
-  border: none;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1.2rem;
-  transition: all 0.2s ease;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-header .add-critical-failure-skill-loss-btn:hover {
-  background: #FFB74D;
-  transform: scale(1.1);
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: rgba(255, 152, 0, 0.08);
-  border: 1px solid rgba(255, 152, 0, 0.2);
-  border-radius: 4px;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls {
-  flex: 1;
-  display: flex;
-  gap: 1rem;
-  align-items: flex-end;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability label,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value label {
-  color: #FF9800;
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability select,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability input,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value select,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value input {
-  padding: 0.5rem;
-  border: 1px solid rgba(255, 152, 0, 0.4);
-  background: rgba(0, 0, 0, 0.3);
-  color: var(--cardigan-c-beige);
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability select:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability input:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value select:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value input:focus {
-  border-color: #FF9800;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-ability {
-  flex: 2;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value {
-  flex: 1;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .skill-loss-controls .skill-loss-value input {
-  width: 100%;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .remove-critical-failure-skill-loss-btn {
-  background: rgba(244, 67, 54, 0.8);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .critical-failure-skill-loss-row .remove-critical-failure-skill-loss-btn:hover {
-  background: #f44336;
-  transform: scale(1.1);
-}
-.cardigan .tab.modifiers .skill-check-system .critical-failure-skill-loss-system .no-critical-failure-skill-loss-message {
-  text-align: center;
-  color: rgba(255, 152, 0, 0.6);
-  font-style: italic;
-  padding: 1rem;
-  background: rgba(255, 152, 0, 0.05);
-  border: 1px dashed rgba(255, 152, 0, 0.3);
-  border-radius: 4px;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-toggle {
-  margin: 1rem 0;
-  padding: 0.75rem;
-  background: rgba(76, 175, 80, 0.1);
-  border: 1px solid rgba(76, 175, 80, 0.3);
-  border-radius: 6px;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-toggle .checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #4CAF50;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  margin: 0;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-toggle .checkbox-label input[type=checkbox] {
-  margin: 0;
-  transform: scale(1.3);
-  cursor: pointer;
-  accent-color: #4CAF50;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system {
-  background: rgba(76, 175, 80, 0.05);
-  border: 1px solid rgba(76, 175, 80, 0.2);
-  border-radius: 6px;
-  padding: 1rem;
-  margin: 0.5rem 0;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system.hidden {
-  display: none;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(76, 175, 80, 0.3);
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-header label {
-  color: #4CAF50;
-  font-weight: 600;
-  font-size: 1rem;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-header .add-critical-hit-skill-bonus-btn {
-  background: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1.2rem;
-  transition: all 0.2s ease;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-header .add-critical-hit-skill-bonus-btn:hover {
-  background: #66BB6A;
-  transform: scale(1.1);
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: rgba(76, 175, 80, 0.08);
-  border: 1px solid rgba(76, 175, 80, 0.2);
-  border-radius: 4px;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls {
-  flex: 1;
-  display: flex;
-  gap: 1rem;
-  align-items: flex-end;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability label,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value label {
-  color: #4CAF50;
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability select,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability input,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value select,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value input {
-  padding: 0.5rem;
-  border: 1px solid rgba(76, 175, 80, 0.4);
-  background: rgba(0, 0, 0, 0.3);
-  color: var(--cardigan-c-beige);
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability select:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability input:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value select:focus,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value input:focus {
-  border-color: #4CAF50;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-ability {
-  flex: 2;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value {
-  flex: 1;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .skill-bonus-controls .skill-bonus-value input {
-  width: 100%;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .remove-critical-hit-skill-bonus-btn {
-  background: rgba(244, 67, 54, 0.8);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .critical-hit-skill-bonus-row .remove-critical-hit-skill-bonus-btn:hover {
-  background: #f44336;
-  transform: scale(1.1);
-}
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .no-critical-hit-effects-message,
-.cardigan .tab.modifiers .skill-check-system .critical-hit-skill-bonus-system .no-critical-hit-skill-bonus-message {
-  text-align: center;
-  color: rgba(76, 175, 80, 0.6);
-  font-style: italic;
-  padding: 1rem;
-  background: rgba(76, 175, 80, 0.05);
-  border: 1px dashed rgba(76, 175, 80, 0.3);
-  border-radius: 4px;
 }
 .cardigan .tab.modifiers .temporary-skill-bonus-toggle {
   margin-bottom: 1.5rem;
@@ -25232,6 +24915,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 
 .dialog.cardigan-skill-test-add-dialog {
+  width: 750px;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -25264,32 +24948,27 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   gap: 14px;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-section,
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-secondary-section {
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-section {
   flex: 1 1 0;
   min-height: 180px;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-section {
-  flex: 1.25 1 0;
+  flex: 0.85 1 0;
   padding: 3px;
-  border: none;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
 }
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-secondary-section {
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-section {
   flex: 0.75 1 0;
-  border: 1px solid rgba(255, 183, 92, 0.35);
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(50, 145, 191, 0.22) 0%, rgba(13, 72, 104, 0.3) 58%, rgba(8, 56, 84, 0.35) 100%);
-  box-shadow: inset 0 10px 22px rgba(122, 209, 255, 0.12), 0 8px 16px rgba(5, 25, 37, 0.22);
+  padding: 3px;
 }
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-header {
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-header,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-header {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: 8px;
 }
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-header p {
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-header p,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-header p {
   text-transform: uppercase;
   font-style: normal;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -25301,20 +24980,23 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   font-size: 24px;
   margin: 0;
 }
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-border {
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-border,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-border {
   display: block;
   width: 200px;
   max-width: 100%;
   height: 6px;
   margin: 2px auto 0;
 }
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button-container {
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button-container,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-add-button-container {
   margin-top: 2px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button {
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-add-button {
   width: 44px;
   height: 20px;
   padding: 0;
@@ -25326,17 +25008,23 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   cursor: pointer;
   outline: none;
 }
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button .add-effect-icon {
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button .add-effect-icon,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button .add-test-icon,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-add-button .add-effect-icon,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-add-button .add-test-icon {
   width: 11px;
   height: 11px;
   transition: transform 0.2s ease;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button:hover .add-effect-icon {
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button:hover .add-effect-icon, .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button:hover .add-test-icon,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-add-button:hover .add-effect-icon,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-add-button:hover .add-test-icon {
   transform: scale(1.15);
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-list {
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-list,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-list {
   margin-top: -7px;
   min-height: 180px;
   display: flex;
@@ -25396,7 +25084,6 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-rounds .rounds-value {
   font-size: 14px;
-  font-weight: 600;
   text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
   background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
   -webkit-background-clip: text;
@@ -25444,6 +25131,146 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-name-container {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 183, 92, 0.28);
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.12) 0%, rgba(67, 170, 218, 0.12) 100%);
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-button-wrapper {
+  width: 25px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-button-wrapper.is-selected {
+  border-color: #FFB75C;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-check-label {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-checkbox {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-symbol {
+  font-family: "Alatsi", sans-serif;
+  font-size: 10px;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-increase-symbol {
+  background-image: linear-gradient(180deg, #5CFF7F 33.6%, #2E9E4D 66.67%) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-decrease-symbol {
+  background-image: linear-gradient(180deg, #FF001E 33.6%, #8B0011 66.67%) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-input-wrapper {
+  width: 42px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-input-wrapper:focus-within {
+  border-color: #FFB75C;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-range-input {
+  width: 34px !important;
+  min-height: 18px !important;
+  height: 18px !important;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  caret-color: #FFB75C;
+  font-size: 12px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  outline: none;
+  font-family: "Alatsi", sans-serif;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-range-input:focus {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-range-input:focus-visible {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-range-input::-webkit-outer-spin-button,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-range-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-range-input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-item .skill-test-add-effect-remove-button {
+  margin-left: 8px;
+}
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-name {
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 12px;
+  line-height: 1;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-remove-button {
   width: 24px;
@@ -25521,6 +25348,194 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .dialog.cardigan-skill-test-add-dialog .form-footer {
   display: none;
+}
+
+.application.dialog.cardigan-skill-test-abilities-selection-dialog,
+.dialog.cardigan-skill-test-abilities-selection-dialog {
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  border: 4px solid #c0863b;
+  border-radius: 20px;
+  font-family: "Alatsi", sans-serif;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header {
+  background: initial !important;
+  border-bottom: initial !important;
+  backdrop-filter: blur(4px);
+  justify-content: center !important;
+  padding-top: 10px;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header::before,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header::before {
+  transform: rotate(45deg) scaleX(-1) scaleY(-1);
+  bottom: -15px;
+  left: -80px;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header::after,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header::after {
+  transform: rotate(-45deg) scaleY(-1);
+  bottom: -15px;
+  right: -80px;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .window-title,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .window-title {
+  padding: 2px 0 0 35px !important;
+  font-family: "Alatsi", sans-serif;
+  font-size: 22px;
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0 0 !important;
+  font-style: normal;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  transform: translateX(var(--tabs-offset-x, -1px));
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header button.header-control,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header button.header-control {
+  position: relative;
+  right: 10px;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control i.fa-xmark, .application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control.fa-xmark,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header button.header-control i.fa-xmark,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header button.header-control.fa-xmark,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control i.fa-xmark,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control.fa-xmark,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header button.header-control i.fa-xmark,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header button.header-control.fa-xmark {
+  color: #FFB75C !important;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-content,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-content {
+  padding: 0 !important;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-dialog-content,
+.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-dialog-content {
+  padding: 0 !important;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-title-border,
+.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-title-border {
+  max-width: 100%;
+  display: block;
+  width: 255px;
+  height: 7px;
+  margin: 0 auto 5px;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-grid,
+.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+  padding: 10px 20px;
+  max-height: 390px;
+  overflow-y: auto;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-item,
+.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-item {
+  position: relative;
+  border: 2px solid #FFB75C;
+  border-radius: 8px;
+  padding: 12px;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-item:hover,
+.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-item:hover {
+  background: linear-gradient(90deg, rgb(255, 183, 92) 0%, rgb(67, 170, 218) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(67, 170, 218, 0.3);
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-item.selected,
+.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-item.selected {
+  background: linear-gradient(90deg, rgb(255, 183, 92) 0%, rgb(67, 170, 218) 100%);
+  border-color: #FFB75C;
+  box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
+  transform: translateY(-2px);
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-checkbox,
+.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-content,
+.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  user-select: none;
+  min-width: 0;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-name,
+.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-name {
+  font-family: "Alatsi", sans-serif;
+  font-size: 16px;
+  color: #FFB75C;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.35);
+  white-space: normal;
+  word-break: break-word;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .form-footer,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog footer,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .dialog-buttons,
+.dialog.cardigan-skill-test-abilities-selection-dialog .form-footer,
+.dialog.cardigan-skill-test-abilities-selection-dialog footer,
+.dialog.cardigan-skill-test-abilities-selection-dialog .dialog-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0 14px;
+  border-top: none;
+  background: transparent;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .form-footer button,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .form-footer .dialog-button,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog footer button,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog footer .dialog-button,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .dialog-buttons button,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .dialog-buttons .dialog-button,
+.dialog.cardigan-skill-test-abilities-selection-dialog .form-footer button,
+.dialog.cardigan-skill-test-abilities-selection-dialog .form-footer .dialog-button,
+.dialog.cardigan-skill-test-abilities-selection-dialog footer button,
+.dialog.cardigan-skill-test-abilities-selection-dialog footer .dialog-button,
+.dialog.cardigan-skill-test-abilities-selection-dialog .dialog-buttons button,
+.dialog.cardigan-skill-test-abilities-selection-dialog .dialog-buttons .dialog-button {
+  min-width: 140px;
+  height: 34px;
+  margin: 0 235px !important;
+  border: 1px solid #FFB75C;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 183, 92, 0.22) 0%, rgba(38, 91, 126, 0.22) 100%);
+  color: #FFB75C;
+  font-family: "Alatsi", sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .form-footer button:hover,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .form-footer .dialog-button:hover,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog footer button:hover,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog footer .dialog-button:hover,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .dialog-buttons button:hover,
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .dialog-buttons .dialog-button:hover,
+.dialog.cardigan-skill-test-abilities-selection-dialog .form-footer button:hover,
+.dialog.cardigan-skill-test-abilities-selection-dialog .form-footer .dialog-button:hover,
+.dialog.cardigan-skill-test-abilities-selection-dialog footer button:hover,
+.dialog.cardigan-skill-test-abilities-selection-dialog footer .dialog-button:hover,
+.dialog.cardigan-skill-test-abilities-selection-dialog .dialog-buttons button:hover,
+.dialog.cardigan-skill-test-abilities-selection-dialog .dialog-buttons .dialog-button:hover {
+  background: #FFB75C;
+  color: #265b7e;
+  box-shadow: 0 0 8px rgba(255, 183, 92, 0.25);
 }
 
 /* ----------------------------------------- */

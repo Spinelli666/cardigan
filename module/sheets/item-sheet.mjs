@@ -1928,6 +1928,47 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Setup mutually exclusive skill check advantage controls for consumables
+   * @private
+   */
+  _setupSkillCheckAdvantageControls() {
+    const controls = this.element.querySelectorAll('.consumable-item-skill-test-advantage-controls .consumable-item-skill-test-advantage-checkbox');
+    if (controls.length === 0) return;
+
+    const syncCheckedState = (activeInput) => {
+      controls.forEach((input) => {
+        if (!(input instanceof HTMLInputElement)) return;
+        const shouldBeChecked = input === activeInput;
+        input.checked = shouldBeChecked;
+        const label = input.closest('.consumable-item-skill-test-advantage-toggle');
+        if (label) {
+          label.classList.toggle('is-selected', shouldBeChecked);
+        }
+      });
+    };
+
+    controls.forEach((input) => {
+      if (!(input instanceof HTMLInputElement)) return;
+
+      const label = input.closest('.consumable-item-skill-test-advantage-toggle');
+      if (label) {
+        label.classList.toggle('is-selected', input.checked);
+      }
+
+      input.addEventListener('change', () => {
+        if (input.checked) {
+          syncCheckedState(input);
+        } else {
+          const anyChecked = Array.from(controls).some((control) => control !== input && control.checked);
+          if (!anyChecked && label) {
+            label.classList.remove('is-selected');
+          }
+        }
+      });
+    });
+  }
+
+  /**
    * Setup effects toggle visibility for consumable items
    * @private
    */
@@ -2999,7 +3040,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     // Setup skill check toggle visibility for consumable items
     this._setupSkillCheckToggle();
-    
+    this._setupSkillCheckAdvantageControls();
+
     // Setup effects toggle visibility for consumable items
     this._setupEffectsToggle();
     

@@ -85,7 +85,9 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
       appliedAttributeModifiers: new fields.ArrayField(
         new fields.SchemaField({
           type: new fields.StringField({ required: false, blank: true }), // 'movement', 'criticalHit'
+          ability: new fields.StringField({ required: false, blank: true, initial: '' }),
           amount: new fields.NumberField({ required: false, integer: true, initial: 0 }),
+          label: new fields.StringField({ required: false, blank: true, initial: '' }),
         }),
         { required: false, initial: [] }
       ),

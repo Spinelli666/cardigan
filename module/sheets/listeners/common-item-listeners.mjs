@@ -135,11 +135,70 @@ export class CommonItemListeners {
       return Array.isArray(effectsFromFlag) ? effectsFromFlag : [];
     };
 
-    const renderAddedEffectsOnForm = (effects = []) => {
+    const getPersistedSkills = async () => {
+      const skillsFromFlag = await sheet.item.getFlag('cardigan', 'skillTestAddedSkills');
+      return Array.isArray(skillsFromFlag) ? skillsFromFlag : [];
+    };
+
+    const skillOptions = [
+      { key: 'accuracy', label: 'Precisão' },
+      { key: 'evasion', label: 'Evasão' },
+      { key: 'strength', label: 'Força' },
+      { key: 'dexterity', label: 'Destreza' },
+      { key: 'stamina', label: 'Vigor' },
+      { key: 'persuasion', label: 'Persuasão' },
+      { key: 'intelligence', label: 'Inteligência' },
+      { key: 'stealth', label: 'Furtividade' }
+    ];
+
+    const normalizeSelectedSkills = (skills = []) => {
+      if (!Array.isArray(skills)) return [];
+      return skills
+        .map((entry) => {
+          if (typeof entry === 'string') {
+            return {
+              key: entry,
+              skillValue: 0,
+              modifierType: null,
+              criticalFailure: false,
+              criticalHit: false
+            };
+          }
+
+          if (entry && typeof entry === 'object' && typeof entry.key === 'string') {
+            const parsedValue = Number.parseInt(entry.skillValue, 10);
+            const modifierType = entry.modifierType === 'increase' || entry.modifierType === 'decrease'
+              ? entry.modifierType
+              : null;
+            return {
+              key: entry.key,
+              skillValue: Number.isNaN(parsedValue) ? 0 : Math.max(0, Math.min(99, parsedValue)),
+              modifierType,
+              criticalFailure: Boolean(entry.criticalFailure),
+              criticalHit: Boolean(entry.criticalHit)
+            };
+          }
+
+          return null;
+        })
+        .filter(Boolean);
+    };
+
+    const normalizeRoundsValue = (rounds) => {
+      if (rounds === '∞' || rounds === 'infinito') return 'infinito';
+
+      const parsedRounds = Number.parseInt(rounds, 10);
+      if (Number.isNaN(parsedRounds)) return '0';
+
+      const clampedRounds = Math.max(0, Math.min(5, parsedRounds));
+      return String(clampedRounds);
+    };
+
+    const renderAddedContentOnForm = (effects = [], skills = []) => {
       if (!addedContentContainer) return;
       addedContentContainer.innerHTML = '';
 
-      if (!effects.length) {
+      if (!effects.length && !skills.length) {
         addedContentContainer.classList.add('hidden');
         return;
       }
@@ -214,23 +273,83 @@ export class CommonItemListeners {
         entry.appendChild(flags);
         addedContentContainer.appendChild(entry);
       });
+
+      skills.forEach((skill) => {
+        const skillData = skillOptions.find((option) => option.key === skill.key);
+        if (!skillData) return;
+
+        const entry = document.createElement('div');
+        entry.className = 'consumable-item-skill-test-added-entry';
+
+        const item = document.createElement('div');
+        item.className = 'consumable-item-skill-test-added-item consumable-item-skill-test-added-skill-item';
+
+        const flags = document.createElement('div');
+        flags.className = 'consumable-item-skill-test-added-flags';
+
+        const name = document.createElement('span');
+        name.className = 'consumable-item-skill-test-added-name';
+        name.textContent = skillData.label;
+
+        const value = document.createElement('span');
+        value.className = `consumable-item-skill-test-added-skill-value consumable-item-skill-test-added-skill-value-${skill.modifierType || 'none'}`;
+        const modifierPrefix = skill.modifierType === 'decrease' ? '-' : skill.modifierType === 'increase' ? '+' : '';
+        value.textContent = `${modifierPrefix}${skill.skillValue ?? 0}`;
+
+        item.appendChild(name);
+        item.appendChild(value);
+
+        if (skill.criticalFailure) {
+          const criticalFailureIcon = document.createElement('img');
+          criticalFailureIcon.className = 'consumable-item-skill-test-added-flag-icon';
+          criticalFailureIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-critical-failure.svg';
+          criticalFailureIcon.alt = 'Falha crítica';
+          criticalFailureIcon.dataset.tooltip = 'Falha Crítica';
+          criticalFailureIcon.dataset.tooltipClass = 'cardigan-tooltip';
+          flags.appendChild(criticalFailureIcon);
+        }
+
+        if (skill.criticalHit) {
+          const criticalHitIcon = document.createElement('img');
+          criticalHitIcon.className = 'consumable-item-skill-test-added-flag-icon';
+          criticalHitIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-critical-hit.svg';
+          criticalHitIcon.alt = 'Acerto crítico';
+          criticalHitIcon.dataset.tooltip = 'Acerto Crítico';
+          criticalHitIcon.dataset.tooltipClass = 'cardigan-tooltip';
+          flags.appendChild(criticalHitIcon);
+        }
+
+        entry.appendChild(item);
+        entry.appendChild(flags);
+        addedContentContainer.appendChild(entry);
+      });
     };
 
     void (async () => {
       const persistedEffects = await getPersistedEffects();
-      renderAddedEffectsOnForm(persistedEffects);
+      const persistedSkills = normalizeSelectedSkills(await getPersistedSkills());
+      renderAddedContentOnForm(persistedEffects, persistedSkills);
     })();
 
     addButton.addEventListener('click', async (event) => {
       event.preventDefault();
       event.stopPropagation();
 
+      if (sheet._skillTestAddDialog?.element) {
+        if (typeof sheet._skillTestAddDialog.bringToFront === 'function') {
+          sheet._skillTestAddDialog.bringToFront();
+        }
+        return;
+      }
+
       const templatePath = 'systems/cardigan/templates/dialogs/skill-test-add-dialog.hbs';
       const content = await foundry.applications.handlebars.renderTemplate(templatePath, {});
 
-      const dialog = new foundry.applications.api.DialogV2({
+      const dialog = sheet._skillTestAddDialog = new foundry.applications.api.DialogV2({
         window: {
-          title: ''
+          title: '',
+          frame: true,
+          positioned: true
         },
         classes: ['cardigan-skill-test-add-dialog'],
         content,
@@ -244,15 +363,278 @@ export class CommonItemListeners {
         rejectClose: false,
         modal: false,
         position: {
-          width: 580,
+          width: 750,
           height: 460
         }
       });
 
-      await dialog.render(true);
+      dialog.addEventListener('close', () => {
+        if (sheet._skillTestAddDialog === dialog) sheet._skillTestAddDialog = null;
+      }, { once: true });
+
+      await dialog.render({ force: true });
+      if (typeof dialog.bringToFront === 'function') {
+        dialog.bringToFront();
+      }
 
       const selectedEffects = foundry.utils.deepClone(await getPersistedEffects());
       const effectsListContainer = dialog.element?.querySelector('[data-skill-test-effects-list]');
+      const skillsListContainer = dialog.element?.querySelector('[data-skill-test-list]');
+      const persistedSkills = foundry.utils.deepClone(await getPersistedSkills());
+
+      const selectedSkills = normalizeSelectedSkills(persistedSkills);
+
+      const renderSelectedSkills = () => {
+        if (!skillsListContainer) return;
+        skillsListContainer.innerHTML = '';
+
+        selectedSkills.forEach((skillEntry, skillIndex) => {
+          const skillData = skillOptions.find((option) => option.key === skillEntry.key);
+          if (!skillData) return;
+
+          const item = document.createElement('div');
+          item.className = 'skill-test-add-skill-item';
+
+          const nameContainer = document.createElement('div');
+          nameContainer.className = 'skill-test-add-skill-name-container';
+
+          const name = document.createElement('span');
+          name.className = 'skill-test-add-skill-name';
+          name.textContent = skillData.label;
+
+          const flags = document.createElement('div');
+          flags.className = 'skill-test-add-effect-flags';
+
+          const controls = document.createElement('div');
+          controls.className = 'skill-test-add-skill-controls';
+
+          const decreaseWrapper = document.createElement('div');
+          decreaseWrapper.className = 'skill-test-add-skill-button-wrapper skill-test-add-skill-decrease-wrapper';
+          decreaseWrapper.dataset.tooltip = 'Remover';
+          decreaseWrapper.dataset.tooltipClass = 'cardigan-tooltip';
+
+          const decreaseLabel = document.createElement('label');
+          decreaseLabel.className = 'skill-test-add-skill-check-label';
+
+          const decreaseCheckbox = document.createElement('input');
+          decreaseCheckbox.type = 'checkbox';
+          decreaseCheckbox.className = 'skill-test-add-skill-checkbox';
+
+          const decreaseSymbol = document.createElement('span');
+          decreaseSymbol.className = 'skill-test-add-skill-symbol skill-test-add-skill-decrease-symbol';
+          decreaseSymbol.textContent = '-';
+
+          const inputWrapper = document.createElement('div');
+          inputWrapper.className = 'skill-test-add-skill-input-wrapper skill-test-add-skill-range-wrapper';
+
+          const valueInput = document.createElement('input');
+          valueInput.type = 'number';
+          valueInput.className = 'skill-test-add-skill-range-input';
+          valueInput.min = '0';
+          valueInput.max = '99';
+          valueInput.step = '1';
+          valueInput.value = String(skillEntry.skillValue ?? 0);
+
+          const increaseWrapper = document.createElement('div');
+          increaseWrapper.className = 'skill-test-add-skill-button-wrapper skill-test-add-skill-increase-wrapper';
+          increaseWrapper.dataset.tooltip = 'Adicionar';
+          increaseWrapper.dataset.tooltipClass = 'cardigan-tooltip';
+
+          const increaseLabel = document.createElement('label');
+          increaseLabel.className = 'skill-test-add-skill-check-label';
+
+          const increaseCheckbox = document.createElement('input');
+          increaseCheckbox.type = 'checkbox';
+          increaseCheckbox.className = 'skill-test-add-skill-checkbox';
+
+          const increaseSymbol = document.createElement('span');
+          increaseSymbol.className = 'skill-test-add-skill-symbol skill-test-add-skill-increase-symbol';
+          increaseSymbol.textContent = '+';
+
+          const criticalFailureLabel = document.createElement('label');
+          criticalFailureLabel.className = 'skill-test-add-effect-flag';
+          criticalFailureLabel.dataset.tooltip = 'Falha Crítica';
+          criticalFailureLabel.dataset.tooltipClass = 'cardigan-tooltip';
+
+          const criticalFailureInput = document.createElement('input');
+          criticalFailureInput.type = 'checkbox';
+          criticalFailureInput.className = 'skill-test-add-effect-flag-input';
+          criticalFailureInput.checked = Boolean(skillEntry.criticalFailure);
+
+          const criticalFailureIcon = document.createElement('img');
+          criticalFailureIcon.className = 'skill-test-add-effect-flag-icon';
+          criticalFailureIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-critical-failure.svg';
+          criticalFailureIcon.alt = 'Falha crítica';
+
+          const criticalHitLabel = document.createElement('label');
+          criticalHitLabel.className = 'skill-test-add-effect-flag';
+          criticalHitLabel.dataset.tooltip = 'Acerto Crítico';
+          criticalHitLabel.dataset.tooltipClass = 'cardigan-tooltip';
+
+          const criticalHitInput = document.createElement('input');
+          criticalHitInput.type = 'checkbox';
+          criticalHitInput.className = 'skill-test-add-effect-flag-input';
+          criticalHitInput.checked = Boolean(skillEntry.criticalHit);
+
+          const criticalHitIcon = document.createElement('img');
+          criticalHitIcon.className = 'skill-test-add-effect-flag-icon';
+          criticalHitIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-critical-hit.svg';
+          criticalHitIcon.alt = 'Acerto crítico';
+
+          const removeButton = document.createElement('button');
+          removeButton.type = 'button';
+          removeButton.className = 'skill-test-add-effect-remove-button';
+          removeButton.setAttribute('aria-label', `Remover ${skillData.label}`);
+          removeButton.dataset.tooltip = 'Excluir';
+          removeButton.dataset.tooltipClass = 'cardigan-tooltip';
+
+          const removeIcon = document.createElement('img');
+          removeIcon.className = 'skill-test-add-effect-remove-icon';
+          removeIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-delete.svg';
+          removeIcon.alt = 'Remover perícia';
+
+          criticalFailureInput.addEventListener('change', () => {
+            skillEntry.criticalFailure = criticalFailureInput.checked;
+          });
+
+          criticalHitInput.addEventListener('change', () => {
+            skillEntry.criticalHit = criticalHitInput.checked;
+          });
+
+          const clampSkillValue = (value) => {
+            const parsed = Number.parseInt(value, 10);
+            if (Number.isNaN(parsed)) return 0;
+            return Math.max(0, Math.min(99, parsed));
+          };
+
+          const syncSkillValue = (value) => {
+            const normalized = clampSkillValue(value);
+            skillEntry.skillValue = normalized;
+            valueInput.value = String(normalized);
+          };
+
+          const syncModifierType = (modifierType) => {
+            const normalized = modifierType === 'decrease' || modifierType === 'increase' ? modifierType : null;
+            skillEntry.modifierType = normalized;
+
+            decreaseCheckbox.checked = normalized === 'decrease';
+            increaseCheckbox.checked = normalized === 'increase';
+            decreaseWrapper.classList.toggle('is-selected', decreaseCheckbox.checked);
+            increaseWrapper.classList.toggle('is-selected', increaseCheckbox.checked);
+          };
+
+          syncModifierType(skillEntry.modifierType);
+
+          decreaseCheckbox.addEventListener('change', () => {
+            syncModifierType(decreaseCheckbox.checked ? 'decrease' : null);
+          });
+
+          increaseCheckbox.addEventListener('change', () => {
+            syncModifierType(increaseCheckbox.checked ? 'increase' : null);
+          });
+
+          valueInput.addEventListener('change', () => {
+            syncSkillValue(valueInput.value);
+          });
+
+          criticalFailureLabel.appendChild(criticalFailureInput);
+          criticalFailureLabel.appendChild(criticalFailureIcon);
+          criticalHitLabel.appendChild(criticalHitInput);
+          criticalHitLabel.appendChild(criticalHitIcon);
+
+          decreaseLabel.appendChild(decreaseCheckbox);
+          decreaseLabel.appendChild(decreaseSymbol);
+          decreaseWrapper.appendChild(decreaseLabel);
+          inputWrapper.appendChild(valueInput);
+          increaseLabel.appendChild(increaseCheckbox);
+          increaseLabel.appendChild(increaseSymbol);
+          increaseWrapper.appendChild(increaseLabel);
+
+          controls.appendChild(decreaseWrapper);
+          controls.appendChild(inputWrapper);
+          controls.appendChild(increaseWrapper);
+
+          flags.appendChild(criticalFailureLabel);
+          flags.appendChild(criticalHitLabel);
+          removeButton.appendChild(removeIcon);
+
+          removeButton.addEventListener('click', () => {
+            selectedSkills.splice(skillIndex, 1);
+            renderSelectedSkills();
+          });
+
+          nameContainer.appendChild(name);
+          item.appendChild(nameContainer);
+          item.appendChild(controls);
+          item.appendChild(flags);
+          item.appendChild(removeButton);
+          skillsListContainer.appendChild(item);
+        });
+      };
+
+      const openSkillsDialog = async (submitEvent) => {
+        submitEvent.preventDefault();
+        submitEvent.stopPropagation();
+
+        const templatePath = 'systems/cardigan/templates/dialogs/skill-test-abilities-selection.hbs';
+        const content = await foundry.applications.handlebars.renderTemplate(templatePath, {
+          skills: skillOptions.map((option) => ({
+            key: option.key,
+            label: option.label,
+            selected: false
+          }))
+        });
+
+        const selectionDialog = new foundry.applications.api.DialogV2({
+          window: {
+            title: 'Selecionar Perícias',
+            positioned: true
+          },
+          classes: ['cardigan-skill-test-abilities-selection-dialog'],
+          content,
+          buttons: [
+            {
+              action: 'confirm',
+              label: 'Adicionar',
+              default: true,
+              callback: (event, button, skillDialog) => {
+                const selected = Array.from(skillDialog.element.querySelectorAll('input[type="checkbox"]:checked'))
+                  .map((input) => input.value);
+
+                selectedSkills.push(...selected.map((key) => ({
+                  key,
+                  skillValue: 0,
+                  modifierType: null,
+                  criticalFailure: false,
+                  criticalHit: false
+                })));
+                renderSelectedSkills();
+              }
+            }
+          ],
+          rejectClose: false,
+          modal: false,
+          position: {
+            width: 620,
+            height: 500
+          }
+        });
+
+        await selectionDialog.render({ force: true });
+        selectionDialog.element?.querySelectorAll('.skill-test-abilities-selection-item').forEach((item) => {
+          const input = item.querySelector('input[type="checkbox"]');
+          if (!(input instanceof HTMLInputElement)) return;
+
+          item.classList.toggle('selected', input.checked);
+          input.addEventListener('change', () => {
+            item.classList.toggle('selected', input.checked);
+          });
+        });
+
+        if (typeof selectionDialog.bringToFront === 'function') {
+          selectionDialog.bringToFront();
+        }
+      };
 
       const renderSelectedEffects = () => {
         if (!effectsListContainer) return;
@@ -409,27 +791,59 @@ export class CommonItemListeners {
       const addEffectsButton = dialog.element?.querySelector('.skill-test-add-effects-add-button');
       addEffectsButton?.addEventListener('click', openEffectsDialog);
 
+      const addSkillsButton = dialog.element?.querySelector('.skill-test-add-test-add-button');
+      addSkillsButton?.addEventListener('click', openSkillsDialog);
+
       const submitButton = dialog.element?.querySelector('.skill-test-add-submit-button');
       submitButton?.addEventListener('click', async (submitEvent) => {
         submitEvent.preventDefault();
         submitEvent.stopPropagation();
 
+        const effectsWithoutFlags = selectedEffects
+          .filter((effect) => !effect.criticalFailure && !effect.criticalHit)
+          .map((effect) => effect.name || 'Efeito sem nome');
+
+        if (effectsWithoutFlags.length) {
+          ui.notifications.warn(`Selecione Falha Crítica ou Acerto Crítico para os efeitos: ${effectsWithoutFlags.join(', ')}.`);
+          return;
+        }
+
+        const skillsWithoutFlags = selectedSkills
+          .filter((skill) => !skill.criticalFailure && !skill.criticalHit)
+          .map((skill) => skillOptions.find((option) => option.key === skill.key)?.label || 'Perícia sem nome');
+
+        if (skillsWithoutFlags.length) {
+          ui.notifications.warn(`Selecione Falha Crítica ou Acerto Crítico para as perícias: ${skillsWithoutFlags.join(', ')}.`);
+          return;
+        }
+
+        const skillsWithoutModifierType = selectedSkills
+          .filter((skill) => skill.modifierType !== 'decrease' && skill.modifierType !== 'increase')
+          .map((skill) => skillOptions.find((option) => option.key === skill.key)?.label || 'Perícia sem nome');
+
+        if (skillsWithoutModifierType.length) {
+          ui.notifications.warn(`Selecione Remover ou Adicionar para as perícias: ${skillsWithoutModifierType.join(', ')}.`);
+          return;
+        }
+
         const payload = selectedEffects.map((effect) => ({
           uuid: effect.uuid,
           name: effect.name,
           img: effect.img,
-          rounds: effect.rounds || '0',
+          rounds: normalizeRoundsValue(effect.roundsValue ?? effect.rounds),
           criticalFailure: Boolean(effect.criticalFailure),
           criticalHit: Boolean(effect.criticalHit)
         }));
 
         await sheet.item.update({ 'system.skillTestAddedEffects': payload });
         await sheet.item.setFlag('cardigan', 'skillTestAddedEffects', payload);
-        renderAddedEffectsOnForm(payload);
+        await sheet.item.setFlag('cardigan', 'skillTestAddedSkills', selectedSkills);
+        renderAddedContentOnForm(payload, selectedSkills);
         dialog.close();
       });
 
       renderSelectedEffects();
+      renderSelectedSkills();
     });
   }
 
@@ -505,15 +919,23 @@ export class CommonItemListeners {
       event.preventDefault();
       event.stopPropagation();
 
+      if (sheet._weightDialog?.element) {
+        if (typeof sheet._weightDialog.bringToFront === 'function') {
+          sheet._weightDialog.bringToFront();
+        }
+        return;
+      }
+
       const templatePath = 'systems/cardigan/templates/dialogs/common-item-weight.hbs';
       const content = await foundry.applications.handlebars.renderTemplate(templatePath, {
         options,
         titleBorderPath: 'systems/cardigan/assets/images/decorative/border.webp'
       });
 
-      const dialog = new foundry.applications.api.DialogV2({
+      const dialog = sheet._weightDialog = new foundry.applications.api.DialogV2({
         window: {
-          title: 'PESO'
+          title: 'PESO',
+          positioned: true
         },
         content,
         buttons: [
@@ -532,7 +954,14 @@ export class CommonItemListeners {
         classes: ['cardigan-weight-selection-dialog']
       });
 
-      await dialog.render(true);
+      dialog.addEventListener('close', () => {
+        if (sheet._weightDialog === dialog) sheet._weightDialog = null;
+      }, { once: true });
+
+      await dialog.render({ force: true });
+      if (typeof dialog.bringToFront === 'function') {
+        dialog.bringToFront();
+      }
 
       const optionButtons = dialog.element?.querySelectorAll('.weight-option') ?? [];
       optionButtons.forEach((button) => {

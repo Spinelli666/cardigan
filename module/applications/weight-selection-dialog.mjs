@@ -260,7 +260,7 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
         resolve,
         reject
       });
-      dialog.render(true);
+      dialog.render({ force: true });
     });
   }
 }
