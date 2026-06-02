@@ -2007,30 +2007,36 @@
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid {
   display: flex;
   flex-direction: row;
-  gap: 12px;
+  gap: 45px;
   margin-bottom: 15px;
   margin-top: 10px;
-  align-items: start;
   justify-content: center;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-left-grid {
   min-width: 0;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-skill-bonuses {
+  flex: 0 0 auto;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child {
   align-self: flex-start;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-wrapper {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-wrapper,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-check-skill-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-check-skill {
   display: flex;
   align-items: center;
   gap: 4px;
   justify-content: center;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill > p {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill > p,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-check-skill > p {
   margin: 0 0 !important;
   font-size: 16px;
   font-style: normal;
@@ -2041,18 +2047,21 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-toggle {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-toggle,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-check-skill-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-checkbox {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-checkbox,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-check-skill-checkbox {
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-icon {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-check-skill-icon {
   width: 17px;
   height: 17px;
   min-width: 16px;
@@ -2060,20 +2069,24 @@
   opacity: 0.45;
   transition: opacity 0.2s ease;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-toggle:hover .consumable-item-check-skill-icon {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-toggle:hover .consumable-item-check-skill-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-check-skill-toggle:hover .consumable-item-check-skill-icon {
   opacity: 1;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-checkbox:checked + .consumable-item-check-skill-icon {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-checkbox:checked + .consumable-item-check-skill-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-check-skill-checkbox:checked + .consumable-item-check-skill-icon {
   opacity: 1;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-border {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-check-skill-border,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-check-skill-border {
   display: block;
   width: 160px;
   max-width: 100%;
   height: 5px;
   margin: 2px auto 0;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system {
   margin-top: 6px;
   display: flex;
   flex-direction: column;
@@ -2081,13 +2094,15 @@
   align-items: center;
   gap: 5px;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection {
   margin: 0;
   position: relative;
   display: inline-flex;
   width: 115px;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection::before {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection::before,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection::before {
   content: "";
   position: absolute;
   top: 1px;
@@ -2099,7 +2114,8 @@
   pointer-events: none;
   border-radius: 0px 2px 2px 0px;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection::after {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection::after,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection::after {
   content: "▼";
   position: absolute;
   right: 7px;
@@ -2111,13 +2127,18 @@
   z-index: 1;
   transition: color 0.2s ease;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection:hover::before, .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection:focus-within::before {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection:hover::before, .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection:focus-within::before,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection:hover::before,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection:focus-within::before {
   background: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection:hover::after, .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection:focus-within::after {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection:hover::after, .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection:focus-within::after,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection:hover::after,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection:focus-within::after {
   color: #265b7e;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-trigger {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-trigger,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-trigger {
   box-sizing: border-box;
   display: block;
   width: 100%;
@@ -2132,20 +2153,24 @@
   text-align: left;
   cursor: pointer;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-trigger:hover {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-trigger:hover,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-trigger:hover {
   border-color: #FFB75C !important;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-trigger:focus {
-  border-color: #FFB75C !important;
-  outline: none;
-  box-shadow: none;
-}
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-trigger:focus-visible {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-trigger:focus,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-trigger:focus {
   border-color: #FFB75C !important;
   outline: none;
   box-shadow: none;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-label {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-trigger:focus-visible,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-trigger:focus-visible {
+  border-color: #FFB75C !important;
+  outline: none;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-label,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-label {
   display: block;
   color: #FFB75C;
   line-height: 23px;
@@ -2153,7 +2178,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-menu {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-menu,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-menu {
   position: absolute;
   top: calc(100% + 1px);
   left: 0;
@@ -2165,10 +2191,12 @@
   border-radius: 5px;
   overflow: hidden;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-menu.is-collapsed {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-menu.is-collapsed,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-menu.is-collapsed {
   display: none;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-option {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-option,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-option {
   display: flex;
   justify-content: flex-start;
   width: 100%;
@@ -2185,17 +2213,21 @@
   line-height: 1.35;
   cursor: pointer;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-option:hover, .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-option.is-selected {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-option:hover, .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-option.is-selected,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-option:hover,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-option.is-selected {
   background: #FFB75C;
   color: #265b7e;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-controls {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-controls,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-advantage-controls {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-add-button {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-add-button,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-add-button {
   min-width: 115px;
   height: 24px;
   border: 1px solid #FFB75C;
@@ -2208,16 +2240,20 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-add-button:hover {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-add-button:hover,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-add-button:hover {
   background: #FFB75C;
   color: #265b7e;
   box-shadow: 0 0 8px rgba(255, 183, 92, 0.25);
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-add-button:focus, .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-add-button:focus-visible {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-add-button:focus, .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-add-button:focus-visible,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-add-button:focus,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-add-button:focus-visible {
   outline: none;
   box-shadow: 0 0 0 1px #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-content {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-content,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-content {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -2229,7 +2265,8 @@
   background: linear-gradient(180deg, rgba(50, 145, 191, 0.22) 0%, rgba(13, 72, 104, 0.3) 58%, rgba(8, 56, 84, 0.35) 100%);
   box-shadow: inset 0 10px 22px rgba(122, 209, 255, 0.12), 0 8px 16px rgba(5, 25, 37, 0.22);
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-item {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-item,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-item {
   width: 100%;
   display: grid;
   grid-template-columns: 18px minmax(0, 1fr) auto;
@@ -2240,7 +2277,8 @@
   border-radius: 8px;
   background: linear-gradient(90deg, rgba(255, 183, 92, 0.12) 0%, rgba(67, 170, 218, 0.12) 100%);
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-item {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-item,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2248,19 +2286,22 @@
   min-width: 0;
   padding: 6px 10px;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-entry {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-entry,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-entry {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 8px;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-icon {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-icon {
   width: 18px;
   height: 18px;
   object-fit: contain;
   flex-shrink: 0;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-name {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-name,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-name {
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -2272,7 +2313,8 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-item .consumable-item-skill-test-added-name {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-item .consumable-item-skill-test-added-name,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-item .consumable-item-skill-test-added-name {
   display: block;
   flex: 1 1 auto;
   min-width: 0;
@@ -2282,19 +2324,22 @@
   line-height: 1.15;
   font-size: 11px;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   flex-shrink: 0;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-clock {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-clock,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-clock {
   width: 12px;
   height: 12px;
   object-fit: contain;
   flex-shrink: 0;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds-value {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds-value,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds-value {
   min-width: 14px;
   text-align: center;
   font-size: 10px;
@@ -2305,10 +2350,12 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds-value:has(.rounds-infinite-icon) {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds-value:has(.rounds-infinite-icon),
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds-value:has(.rounds-infinite-icon) {
   min-width: auto;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds-value .rounds-infinite-icon {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds-value .rounds-infinite-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds-value .rounds-infinite-icon {
   vertical-align: middle;
   display: inline-block;
   width: 13px;
@@ -2320,7 +2367,8 @@
   mask-size: contain;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-value {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-value,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-value {
   flex: 0 0 auto;
   min-width: 32px;
   text-align: right;
@@ -2332,28 +2380,32 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-value-decrease {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-value-decrease,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-value-decrease {
   text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
   background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-value-increase {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-value-increase,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-value-increase {
   text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
   background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-flag-icon {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-flag-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-flag-icon {
   width: 16px;
   height: 16px;
   object-fit: contain;
   opacity: 0.9;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-flags {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-flags,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-flags {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2364,7 +2416,8 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
   min-width: 22px;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-toggle {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-toggle,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-advantage-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2378,23 +2431,27 @@
   border-radius: 8px;
   transition: all 0.2s ease;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-toggle:hover {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-toggle:hover,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-advantage-toggle:hover {
   border-color: #FFB75C;
   box-shadow: 0 0 8px rgba(255, 183, 92, 0.35), inset 0 0 5px rgba(255, 183, 92, 0.08);
   background: linear-gradient(135deg, rgba(255, 183, 92, 0.08) 0%, rgba(255, 183, 92, 0.04) 100%);
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-toggle:has(.consumable-item-skill-test-advantage-checkbox:checked) {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-toggle:has(.consumable-item-skill-test-advantage-checkbox:checked),
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-advantage-toggle:has(.consumable-item-skill-test-advantage-checkbox:checked) {
   border-color: #FFB75C;
   border-width: 2px;
   box-shadow: 0 0 10px rgba(255, 183, 92, 0.4), inset 0 0 6px rgba(255, 183, 92, 0.1);
   background: linear-gradient(135deg, rgba(255, 183, 92, 0.08) 0%, rgba(255, 183, 92, 0.04) 100%);
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-checkbox {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-checkbox,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-advantage-checkbox {
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-icon {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-advantage-icon {
   width: 10px;
   height: 10px;
   object-fit: contain;
@@ -2403,17 +2460,138 @@
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-toggle:hover .consumable-item-skill-test-advantage-icon,
-.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-checkbox:checked + .consumable-item-skill-test-advantage-icon {
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-checkbox:checked + .consumable-item-skill-test-advantage-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-advantage-toggle:hover .consumable-item-skill-test-advantage-icon,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-advantage-checkbox:checked + .consumable-item-skill-test-advantage-icon {
   opacity: 1;
   filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.8));
   transform: scale(1.08);
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses {
+  width: 100%;
+  min-width: 150px;
+  max-width: 150px;
+  border: 1px solid #FFB75C;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table {
+  width: 100%;
+  margin: 0 !important;
+  border-collapse: collapse;
+  background: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table .consumable-skill-bonus-row {
+  border-bottom: 1px solid #FFB75C;
+  background: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table .consumable-skill-bonus-row > th,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table .consumable-skill-bonus-row > td {
+  padding-top: 1.2px !important;
+  padding-bottom: 1.2px !important;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table .consumable-skill-bonus-row:last-child {
+  border-bottom: none;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table th,
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table td {
+  padding: 0 11px;
+  vertical-align: middle;
+  background: transparent;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table th {
+  width: 72%;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 2.4;
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table td {
+  width: 28%;
+  text-align: right;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table input[type=number] {
+  width: 44px;
+  min-height: 18px;
+  height: 18px;
+  font-size: 10px;
+  line-height: 1;
+  text-align: center;
+  border: 1px solid rgba(201, 199, 184, 0.35);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--cardigan-c-beige, #f4f1e8);
+  padding: 0 2px;
+  margin: 0;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table .consumable-skill-bonus-input-wrapper {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1px solid rgba(255, 183, 92, 0.2);
+  border-radius: 9px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table .consumable-skill-bonus-input-wrapper:focus-within {
+  border-color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table .consumable-skill-bonus-input-wrapper input[type=number] {
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  caret-color: #FFB75C;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  font-size: 12px;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  border-radius: 6px;
+  min-height: 20px !important;
+  height: 22px !important;
+  width: 22px !important;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table .consumable-skill-bonus-input-wrapper input[type=number]:focus {
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-skill-bonuses .consumable-skill-bonuses-table .consumable-skill-bonus-input-wrapper input[type=number]:focus-visible {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-bottom-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-bottom-grid .consumable-item-bottom-column {
+  flex: 1 1 0;
+  min-height: 40px;
 }
 @media (max-width: 900px) {
   .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid {
     flex-direction: column;
     align-items: center;
   }
-  .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid {
+  .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-skill-bonuses {
     width: min(100%, 340px);
     transform: none;
   }

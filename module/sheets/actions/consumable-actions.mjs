@@ -137,6 +137,23 @@ export class ConsumableActions {
         }
       }
 
+      const configuredConsumableSkillBonuses = await ConsumableActions.getConfiguredConsumableSkillBonuses(item);
+      if (configuredConsumableSkillBonuses.length > 0) {
+        const consumableSkillBonusesResult = await ConsumableActions.applyConfiguredConsumableSkillBonuses(
+          configuredConsumableSkillBonuses,
+          sheet,
+          quantity
+        );
+
+        if (consumableSkillBonusesResult.appliedModifiers.length > 0) {
+          appliedAttributeModifiers.push(...consumableSkillBonusesResult.appliedModifiers);
+        }
+
+        if (consumableSkillBonusesResult.messages.length > 0) {
+          messages.push(...consumableSkillBonusesResult.messages);
+        }
+      }
+
       const effects = item.system.effects || [];
       for (const effect of effects) {
         if (!effect.effectId || (!effect.apply && !effect.remove)) continue;
@@ -650,6 +667,18 @@ export class ConsumableActions {
   }
 
   /**
+   * Load configured consumable skill bonuses from the consumable bonuses table.
+   * @param {Item} item
+   * @returns {Promise<Array>}
+   */
+  static async getConfiguredConsumableSkillBonuses(item) {
+    const bonusesFromFlag = await item.getFlag('cardigan', 'consumableSkillBonuses');
+    if (Array.isArray(bonusesFromFlag)) return bonusesFromFlag;
+    if (bonusesFromFlag && typeof bonusesFromFlag === 'object') return Object.values(bonusesFromFlag);
+    return [];
+  }
+
+  /**
    * Apply configured effects only when critical condition matches the checked flag.
    * @param {Array} configuredEffects
    * @param {Object} rollResult
@@ -731,16 +760,14 @@ export class ConsumableActions {
       const applyByCriticalFailure = rollResult.isCriticalFailure && configuredSkill.criticalFailure;
       if (!applyByCriticalHit && !applyByCriticalFailure) continue;
 
-      if (configuredSkill.modifierType !== 'increase' && configuredSkill.modifierType !== 'decrease') continue;
-
-      const parsedValue = Number.parseInt(configuredSkill.skillValue, 10);
-      if (Number.isNaN(parsedValue) || parsedValue <= 0) continue;
+      const parsedValue = Number.parseInt(configuredSkill.skillValue ?? configuredSkill.value, 10);
+      if (Number.isNaN(parsedValue) || parsedValue === 0) continue;
 
       const abilityKey = configuredSkill.key;
       const abilityData = actor.system?.abilities?.[abilityKey];
       if (!abilityData) continue;
 
-      const delta = configuredSkill.modifierType === 'increase' ? parsedValue : -parsedValue;
+      const delta = parsedValue;
       const currentValue = updateData[`system.abilities.${abilityKey}.baseValue`] ?? abilityData.baseValue ?? 0;
       const newValue = currentValue + delta;
       const appliedAmount = newValue - currentValue;
@@ -754,6 +781,76 @@ export class ConsumableActions {
 
       appliedModifiers.push({
         type: 'abilityBaseValue',
+        ability: abilityKey,
+        amount: appliedAmount,
+        label: `${localizedAbility} ${sign}${appliedAmount}`
+      });
+    }
+
+    if (Object.keys(updateData).length > 0) {
+      await actor.update(updateData);
+    }
+
+    return { appliedModifiers, messages };
+  }
+
+  /**
+   * Apply configured consumable skill bonuses from table rows.
+    * Modifies system.abilities.<key>.baseBonus so the proficiency bonus-container reflects changes.
+   * @param {Array} configuredBonuses
+   * @param {CardiganSystemActorSheet} sheet
+   * @param {number} quantity
+   * @returns {Promise<{appliedModifiers: Array, messages: Array}>}
+   */
+  static async applyConfiguredConsumableSkillBonuses(configuredBonuses, sheet, quantity = 1) {
+    if (!Array.isArray(configuredBonuses) || configuredBonuses.length === 0) {
+      return { appliedModifiers: [], messages: [] };
+    }
+
+    const actor = sheet.document;
+    const updateData = {};
+    const appliedModifiers = [];
+    const messages = [];
+    const consumedQuantity = Math.max(1, Number(quantity) || 1);
+
+    const abilityLongKeys = {
+      accuracy: 'CARDIGAN.Ability.Accuracy.long',
+      evasion: 'CARDIGAN.Ability.Evasion.long',
+      strength: 'CARDIGAN.Ability.Strength.long',
+      dexterity: 'CARDIGAN.Ability.Dexterity.long',
+      stamina: 'CARDIGAN.Ability.Stamina.long',
+      stealth: 'CARDIGAN.Ability.Stealth.long',
+      persuasion: 'CARDIGAN.Ability.Persuasion.long',
+      intelligence: 'CARDIGAN.Ability.Intelligence.long',
+      psionics: 'CARDIGAN.Ability.Psionics.long'
+    };
+
+    for (const configuredBonus of configuredBonuses) {
+      if (!configuredBonus || typeof configuredBonus.skill !== 'string') continue;
+
+      const abilityKey = configuredBonus.skill.trim();
+      if (!abilityKey) continue;
+
+      const parsedBonus = Number.parseInt(configuredBonus.bonus, 10);
+      if (Number.isNaN(parsedBonus) || parsedBonus === 0) continue;
+
+      const abilityData = actor.system?.abilities?.[abilityKey];
+      if (!abilityData) continue;
+
+      const delta = parsedBonus * consumedQuantity;
+      const currentValue = updateData[`system.abilities.${abilityKey}.baseBonus`] ?? abilityData.baseBonus ?? 0;
+      const newValue = currentValue + delta;
+      const appliedAmount = newValue - currentValue;
+      if (appliedAmount === 0) continue;
+
+      updateData[`system.abilities.${abilityKey}.baseBonus`] = newValue;
+
+      const localizedAbility = game.i18n.localize(abilityLongKeys[abilityKey] || abilityKey);
+      const sign = appliedAmount >= 0 ? '+' : '';
+      messages.push(`${localizedAbility}: ${sign}${appliedAmount}`);
+
+      appliedModifiers.push({
+        type: 'abilityBaseBonus',
         ability: abilityKey,
         amount: appliedAmount,
         label: `${localizedAbility} ${sign}${appliedAmount}`

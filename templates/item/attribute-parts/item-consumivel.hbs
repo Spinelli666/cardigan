@@ -325,7 +325,34 @@
         </div>
       </div>
     </div>
-    <div class="consumable-item-right-grid">
+
+    <div class="consumable-skill-bonuses">
+      <table class="consumable-skill-bonuses-table">
+        <tbody>
+          {{#each consumableSkillBonusRows as |row|}}
+            <tr class="consumable-skill-bonus-row">
+              <th scope="row">{{row.label}}</th>
+              <td>
+                <input type="hidden" name="flags.cardigan.consumableSkillBonuses.{{row.index}}.skill" value="{{row.key}}" />
+                <div class="consumable-skill-bonus-input-wrapper {{#if (eq row.index 0)}}consumable-skill-bonus-input-wrapper--accuracy{{/if}}">
+                  <input
+                    type="number"
+                    name="flags.cardigan.consumableSkillBonuses.{{row.index}}.bonus"
+                    value="{{row.value}}"
+                    data-dtype="Number"
+                    placeholder="0"
+                  />
+                </div>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="consumable-item-bottom-grid">
+    <div class="consumable-item-bottom-column">
       <div class="consumable-item-check-skill-wrapper">
         <div class="consumable-item-check-skill">
           <p>TESTE DE PERÍCIA</p>
@@ -419,6 +446,8 @@
         <div class="consumable-item-skill-test-added-content"></div>
       </div>
     </div>
+    <div class="consumable-item-bottom-column"></div>
+    <div class="consumable-item-bottom-column"></div>
   </div>
 
   <input type="hidden" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="1"/>

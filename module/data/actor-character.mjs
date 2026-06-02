@@ -36,6 +36,10 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
             initial: 0,
             integer: true
           }),
+          baseBonus: new fields.NumberField({
+            initial: 0,
+            integer: true
+          }),
           baseValue: new fields.NumberField({
             initial: 0,
             integer: true
@@ -227,11 +231,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     }
 
     for (const key in this.abilities) {
+      const baseBonus = this.abilities[key].baseBonus || 0;
       const manualBonus = this.abilities[key].manualBonus || 0;
       const weaponBonus = weaponBonuses[key] || 0;
       
       this.abilities[key].weaponBonus = weaponBonus;
-      this.abilities[key].totalBonus = manualBonus + weaponBonus;
+      this.abilities[key].totalBonus = baseBonus + manualBonus + weaponBonus;
     }
 
     for (const key in this.abilities) {

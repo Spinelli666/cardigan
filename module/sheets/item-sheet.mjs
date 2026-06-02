@@ -255,9 +255,13 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         ArmorContext.prepareAttributesData(context, this.item);
         break;
       }
+      case 'attributesItemConsumivel':
+        // Necessary for preserving active tab on re-render
+        context.tab = context.tabs[partId];
+        context.consumableSkillBonusRows = this._prepareConsumableSkillBonusRows();
+        break;
       case 'attributesItemComum':
       case 'attributesItemMunicao':
-      case 'attributesItemConsumivel':
       case 'attributesEfeito':
       case 'attributesArma':
       case 'attributesSkill':
@@ -326,6 +330,48 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         break;
     }
     return context;
+  }
+
+  /**
+   * Prepare ordered skill bonus rows for consumable sheet table.
+   * @returns {Array<{key:string,label:string,index:number,value:number}>}
+   * @private
+   */
+  _prepareConsumableSkillBonusRows() {
+    const skillOrder = [
+      { key: 'accuracy', label: 'PRECISÃO' },
+      { key: 'evasion', label: 'EVASÃO' },
+      { key: 'strength', label: 'FORÇA' },
+      { key: 'dexterity', label: 'DESTREZA' },
+      { key: 'stamina', label: 'VIGOR' },
+      { key: 'stealth', label: 'FURTIVIDADE' },
+      { key: 'persuasion', label: 'PERSUASÃO' },
+      { key: 'intelligence', label: 'INTELIGÊNCIA' },
+      { key: 'psionics', label: 'PSIONISMO' }
+    ];
+
+    const existingBonuses = this.item.getFlag('cardigan', 'consumableSkillBonuses');
+    const bonusList = Array.isArray(existingBonuses)
+      ? existingBonuses
+      : (existingBonuses && typeof existingBonuses === 'object'
+        ? Object.values(existingBonuses)
+        : []);
+
+    const bonusBySkill = bonusList.reduce((acc, entry) => {
+      if (!entry || typeof entry.skill !== 'string') return acc;
+      const key = entry.skill.trim();
+      if (!key) return acc;
+
+      const numericBonus = Number(entry.bonus ?? 0);
+      acc[key] = Number.isFinite(numericBonus) ? numericBonus : 0;
+      return acc;
+    }, {});
+
+    return skillOrder.map((row, index) => ({
+      ...row,
+      index,
+      value: bonusBySkill[row.key] ?? 0,
+    }));
   }
 
   /**

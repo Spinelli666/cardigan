@@ -147,10 +147,9 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
   .consumable-item-top-grid {
     display: flex;
     flex-direction: row;
-    gap: 12px;
+    gap: 45px;
     margin-bottom: 15px;
     margin-top: 10px;
-    align-items: start;
     justify-content: center;
 
     > .consumable-item-left-grid {
@@ -159,7 +158,12 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
       // transform: translateX(-12px);
     }
 
-    > .consumable-item-right-grid {
+    > .consumable-skill-bonuses {
+      flex: 0 0 auto;
+    }
+
+    > .consumable-item-right-grid,
+    ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child {
       // flex: 0 0 auto;
       align-self: flex-start;
 
@@ -600,12 +604,147 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
     }
   }
 
+  .consumable-skill-bonuses {
+    width: 100%;
+    min-width: 150px;
+    max-width: 150px;
+    border: 1px solid #FFB75C;
+    border-radius: 10px;
+    background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .consumable-skill-bonuses .consumable-skill-bonuses-table {
+    width: 100%;
+    margin: 0 !important;
+    border-collapse: collapse;
+    background: transparent;
+
+    .consumable-skill-bonus-row {
+      border-bottom: 1px solid #FFB75C;
+      background: transparent;
+
+      > th,
+      > td {
+        padding-top: 1.2px !important;
+        padding-bottom: 1.2px !important;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    th,
+    td {
+      padding: 0 11px;
+      vertical-align: middle;
+      background: transparent;
+    }
+
+    th {
+      width: 72%;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 2.4;
+      text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+      background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    td {
+      width: 28%;
+      text-align: right;
+    }
+
+    input[type='number'] {
+      width: 44px;
+      min-height: 18px;
+      height: 18px;
+      font-size: 10px;
+      line-height: 1;
+      text-align: center;
+      border: 1px solid rgba(201, 199, 184, 0.35);
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.22);
+      color: var(--cardigan-c-beige, #f4f1e8);
+      padding: 0 2px;
+      margin: 0;
+    }
+
+    .consumable-skill-bonus-input-wrapper {
+      background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+      border: 1px solid rgba(255, 183, 92, 0.2);
+      border-radius: 9px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+      align-items: center;
+      display: flex;
+      justify-content: center;
+
+      &:focus-within {
+        border-color: #FFB75C;
+      }
+    }
+
+    .consumable-skill-bonus-input-wrapper input[type='number'] {
+      background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      caret-color: #FFB75C;
+      outline: none;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      font-size: 12px;
+      text-shadow: 0 0 1px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      border-radius: 6px;
+      min-height: 20px !important;
+      height: 22px !important;
+      width: 22px !important;
+
+      &:focus {
+        background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        outline: none !important;
+        border: none;
+        box-shadow: none;
+      }
+
+      &:focus-visible {
+        outline: none !important;
+        border: none;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .consumable-item-bottom-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    margin-top: 8px;
+
+    .consumable-item-bottom-column {
+      flex: 1 1 0;
+      min-height: 40px;
+    }
+  }
+
   @media (max-width: 900px) {
     .consumable-item-top-grid {
       flex-direction: column;
       align-items: center;
 
-      > .consumable-item-right-grid {
+      > .consumable-skill-bonuses {
         width: min(100%, 340px);
         transform: none;
       }

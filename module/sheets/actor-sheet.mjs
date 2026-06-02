@@ -895,7 +895,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
             });
           } else if (modifier.type === 'abilityBaseValue' && modifier.ability) {
             const currentAbilityBaseValue = actor.system.abilities?.[modifier.ability]?.baseValue || 0;
-            const revertedAbilityBaseValue = Math.max(0, currentAbilityBaseValue - Number(modifier.amount || 0));
+            const revertedAbilityBaseValue = currentAbilityBaseValue - Number(modifier.amount || 0);
             updateData[`system.abilities.${modifier.ability}.baseValue`] = revertedAbilityBaseValue;
 
             console.log("[ABILITY BASE VALUE] Reverting ability base value modifier from tracking effect:", {
@@ -904,9 +904,31 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
               amountToRevert: modifier.amount,
               newBaseValue: revertedAbilityBaseValue
             });
+          } else if (modifier.type === 'abilityManualBonus' && modifier.ability) {
+            const currentAbilityManualBonus = actor.system.abilities?.[modifier.ability]?.manualBonus || 0;
+            const revertedAbilityManualBonus = currentAbilityManualBonus - Number(modifier.amount || 0);
+            updateData[`system.abilities.${modifier.ability}.manualBonus`] = revertedAbilityManualBonus;
+
+            console.log("[ABILITY MANUAL BONUS] Reverting ability manual bonus modifier from tracking effect:", {
+              ability: modifier.ability,
+              currentManualBonus: currentAbilityManualBonus,
+              amountToRevert: modifier.amount,
+              newManualBonus: revertedAbilityManualBonus
+            });
+          } else if (modifier.type === 'abilityBaseBonus' && modifier.ability) {
+            const currentAbilityBaseBonus = actor.system.abilities?.[modifier.ability]?.baseBonus || 0;
+            const revertedAbilityBaseBonus = currentAbilityBaseBonus - Number(modifier.amount || 0);
+            updateData[`system.abilities.${modifier.ability}.baseBonus`] = revertedAbilityBaseBonus;
+
+            console.log("[ABILITY BASE BONUS] Reverting ability base bonus modifier from tracking effect:", {
+              ability: modifier.ability,
+              currentBaseBonus: currentAbilityBaseBonus,
+              amountToRevert: modifier.amount,
+              newBaseBonus: revertedAbilityBaseBonus
+            });
           } else if (modifier.type === 'abilityValue' && modifier.ability) {
             const currentAbilityValue = actor.system.abilities?.[modifier.ability]?.value || 0;
-            const revertedAbilityValue = Math.max(0, currentAbilityValue - Number(modifier.amount || 0));
+            const revertedAbilityValue = currentAbilityValue - Number(modifier.amount || 0);
             updateData[`system.abilities.${modifier.ability}.value`] = revertedAbilityValue;
 
             console.log("[ABILITY VALUE] Reverting ability value modifier from tracking effect:", {
@@ -3878,7 +3900,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       console.log(`[ABILITY BLUR] ${ability}.value - Manual: ${userInput}, Total: ${totalValue}`);
     } else if (fieldType === 'totalBonus') {
       // Campo bônus - calcular total
-      const calculatedBonus = abilityData.weaponBonus || 0;
+      const calculatedBonus =
+        (abilityData.baseBonus || 0) +
+        (abilityData.weaponBonus || 0) +
+        (abilityData.armorBonus || 0);
       const totalBonus = calculatedBonus + userInput;
       
       field.value = totalBonus;

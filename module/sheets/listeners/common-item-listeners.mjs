@@ -159,21 +159,16 @@ export class CommonItemListeners {
             return {
               key: entry,
               skillValue: 0,
-              modifierType: null,
               criticalFailure: false,
               criticalHit: false
             };
           }
 
           if (entry && typeof entry === 'object' && typeof entry.key === 'string') {
-            const parsedValue = Number.parseInt(entry.skillValue, 10);
-            const modifierType = entry.modifierType === 'increase' || entry.modifierType === 'decrease'
-              ? entry.modifierType
-              : null;
+            const parsedValue = Number.parseInt(entry.skillValue ?? entry.value, 10);
             return {
               key: entry.key,
-              skillValue: Number.isNaN(parsedValue) ? 0 : Math.max(0, Math.min(99, parsedValue)),
-              modifierType,
+              skillValue: Number.isNaN(parsedValue) ? 0 : Math.max(-99, Math.min(99, parsedValue)),
               criticalFailure: Boolean(entry.criticalFailure),
               criticalHit: Boolean(entry.criticalHit)
             };
@@ -292,9 +287,10 @@ export class CommonItemListeners {
         name.textContent = skillData.label;
 
         const value = document.createElement('span');
-        value.className = `consumable-item-skill-test-added-skill-value consumable-item-skill-test-added-skill-value-${skill.modifierType || 'none'}`;
-        const modifierPrefix = skill.modifierType === 'decrease' ? '-' : skill.modifierType === 'increase' ? '+' : '';
-        value.textContent = `${modifierPrefix}${skill.skillValue ?? 0}`;
+        value.className = 'consumable-item-skill-test-added-skill-value';
+        const numericValue = Number(skill.skillValue ?? skill.value ?? 0);
+        const modifierPrefix = numericValue > 0 ? '+' : '';
+        value.textContent = `${modifierPrefix}${numericValue}`;
 
         item.appendChild(name);
         item.appendChild(value);
@@ -408,48 +404,16 @@ export class CommonItemListeners {
           const controls = document.createElement('div');
           controls.className = 'skill-test-add-skill-controls';
 
-          const decreaseWrapper = document.createElement('div');
-          decreaseWrapper.className = 'skill-test-add-skill-button-wrapper skill-test-add-skill-decrease-wrapper';
-          decreaseWrapper.dataset.tooltip = 'Remover';
-          decreaseWrapper.dataset.tooltipClass = 'cardigan-tooltip';
-
-          const decreaseLabel = document.createElement('label');
-          decreaseLabel.className = 'skill-test-add-skill-check-label';
-
-          const decreaseCheckbox = document.createElement('input');
-          decreaseCheckbox.type = 'checkbox';
-          decreaseCheckbox.className = 'skill-test-add-skill-checkbox';
-
-          const decreaseSymbol = document.createElement('span');
-          decreaseSymbol.className = 'skill-test-add-skill-symbol skill-test-add-skill-decrease-symbol';
-          decreaseSymbol.textContent = '-';
-
           const inputWrapper = document.createElement('div');
           inputWrapper.className = 'skill-test-add-skill-input-wrapper skill-test-add-skill-range-wrapper';
 
           const valueInput = document.createElement('input');
           valueInput.type = 'number';
           valueInput.className = 'skill-test-add-skill-range-input';
-          valueInput.min = '0';
+          valueInput.min = '-99';
           valueInput.max = '99';
           valueInput.step = '1';
           valueInput.value = String(skillEntry.skillValue ?? 0);
-
-          const increaseWrapper = document.createElement('div');
-          increaseWrapper.className = 'skill-test-add-skill-button-wrapper skill-test-add-skill-increase-wrapper';
-          increaseWrapper.dataset.tooltip = 'Adicionar';
-          increaseWrapper.dataset.tooltipClass = 'cardigan-tooltip';
-
-          const increaseLabel = document.createElement('label');
-          increaseLabel.className = 'skill-test-add-skill-check-label';
-
-          const increaseCheckbox = document.createElement('input');
-          increaseCheckbox.type = 'checkbox';
-          increaseCheckbox.className = 'skill-test-add-skill-checkbox';
-
-          const increaseSymbol = document.createElement('span');
-          increaseSymbol.className = 'skill-test-add-skill-symbol skill-test-add-skill-increase-symbol';
-          increaseSymbol.textContent = '+';
 
           const criticalFailureLabel = document.createElement('label');
           criticalFailureLabel.className = 'skill-test-add-effect-flag';
@@ -504,7 +468,7 @@ export class CommonItemListeners {
           const clampSkillValue = (value) => {
             const parsed = Number.parseInt(value, 10);
             if (Number.isNaN(parsed)) return 0;
-            return Math.max(0, Math.min(99, parsed));
+            return Math.max(-99, Math.min(99, parsed));
           };
 
           const syncSkillValue = (value) => {
@@ -512,26 +476,6 @@ export class CommonItemListeners {
             skillEntry.skillValue = normalized;
             valueInput.value = String(normalized);
           };
-
-          const syncModifierType = (modifierType) => {
-            const normalized = modifierType === 'decrease' || modifierType === 'increase' ? modifierType : null;
-            skillEntry.modifierType = normalized;
-
-            decreaseCheckbox.checked = normalized === 'decrease';
-            increaseCheckbox.checked = normalized === 'increase';
-            decreaseWrapper.classList.toggle('is-selected', decreaseCheckbox.checked);
-            increaseWrapper.classList.toggle('is-selected', increaseCheckbox.checked);
-          };
-
-          syncModifierType(skillEntry.modifierType);
-
-          decreaseCheckbox.addEventListener('change', () => {
-            syncModifierType(decreaseCheckbox.checked ? 'decrease' : null);
-          });
-
-          increaseCheckbox.addEventListener('change', () => {
-            syncModifierType(increaseCheckbox.checked ? 'increase' : null);
-          });
 
           valueInput.addEventListener('change', () => {
             syncSkillValue(valueInput.value);
@@ -542,17 +486,9 @@ export class CommonItemListeners {
           criticalHitLabel.appendChild(criticalHitInput);
           criticalHitLabel.appendChild(criticalHitIcon);
 
-          decreaseLabel.appendChild(decreaseCheckbox);
-          decreaseLabel.appendChild(decreaseSymbol);
-          decreaseWrapper.appendChild(decreaseLabel);
           inputWrapper.appendChild(valueInput);
-          increaseLabel.appendChild(increaseCheckbox);
-          increaseLabel.appendChild(increaseSymbol);
-          increaseWrapper.appendChild(increaseLabel);
 
-          controls.appendChild(decreaseWrapper);
           controls.appendChild(inputWrapper);
-          controls.appendChild(increaseWrapper);
 
           flags.appendChild(criticalFailureLabel);
           flags.appendChild(criticalHitLabel);
@@ -604,7 +540,6 @@ export class CommonItemListeners {
                 selectedSkills.push(...selected.map((key) => ({
                   key,
                   skillValue: 0,
-                  modifierType: null,
                   criticalFailure: false,
                   criticalHit: false
                 })));
@@ -814,15 +749,6 @@ export class CommonItemListeners {
 
         if (skillsWithoutFlags.length) {
           ui.notifications.warn(`Selecione Falha Crítica ou Acerto Crítico para as perícias: ${skillsWithoutFlags.join(', ')}.`);
-          return;
-        }
-
-        const skillsWithoutModifierType = selectedSkills
-          .filter((skill) => skill.modifierType !== 'decrease' && skill.modifierType !== 'increase')
-          .map((skill) => skillOptions.find((option) => option.key === skill.key)?.label || 'Perícia sem nome');
-
-        if (skillsWithoutModifierType.length) {
-          ui.notifications.warn(`Selecione Remover ou Adicionar para as perícias: ${skillsWithoutModifierType.join(', ')}.`);
           return;
         }
 
