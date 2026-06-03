@@ -1974,6 +1974,27 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Setup life and energy toggle visibility for consumable items
+   * @private
+   */
+  _setupLifeEnergyToggle() {
+    const toggle = this.element.querySelector('[data-life-energy-toggle]');
+    const lifeEnergySection = this.element.querySelector('[data-life-energy-section]');
+
+    if (!toggle || !lifeEnergySection) return;
+
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+
+      if (isChecked) {
+        lifeEnergySection.classList.remove('hidden');
+      } else {
+        lifeEnergySection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
    * Setup mutually exclusive skill check advantage controls for consumables
    * @private
    */
@@ -3087,6 +3108,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup skill check toggle visibility for consumable items
     this._setupSkillCheckToggle();
     this._setupSkillCheckAdvantageControls();
+    this._setupLifeEnergyToggle();
 
     // Setup effects toggle visibility for consumable items
     this._setupEffectsToggle();

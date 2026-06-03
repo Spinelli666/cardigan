@@ -366,7 +366,9 @@
           </label>
         </div>
         <img class="consumable-item-check-skill-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
-        <div class="consumable-item-skill-test-system {{#unless system.hasSkillCheck}}hidden{{/unless}}" data-skill-check-section>
+      </div>
+
+      <div class="consumable-item-skill-test-system {{#unless system.hasSkillCheck}}hidden{{/unless}}" data-skill-check-section>
         <div class="form-group skill-selection" data-consumable-skill-ability>
           <input type="hidden" name="system.skillCheckAbility" value="{{system.skillCheckAbility}}" data-dtype="String" class="consumable-item-skill-ability-input" />
           <button type="button" class="consumable-item-skill-ability-trigger" data-consumable-skill-ability-trigger aria-haspopup="listbox" aria-expanded="false">
@@ -442,11 +444,45 @@
             />
           </label>
         </div>
-        <button type="button" class="consumable-item-skill-test-add-button">Adicionar</button>
+        <div class="consumable-item-skill-test-add-button-container">
+          <button type="button" class="consumable-item-skill-test-add-button" aria-label="Adicionar" data-tooltip="Adicionar" data-tooltip-class="cardigan-tooltip">
+            <img
+              src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg"
+              alt="Adicionar"
+              class="consumable-item-skill-test-add-icon"
+            />
+          </button>
+        </div>
         <div class="consumable-item-skill-test-added-content"></div>
       </div>
     </div>
-    <div class="consumable-item-bottom-column"></div>
+    <div class="consumable-item-bottom-column">
+      <div class="consumable-item-check-skill-wrapper">
+        <div class="consumable-item-check-skill">
+          <p>VIDA & ENERGIA</p>
+          <label class="consumable-item-check-skill-toggle armor-extra-content consumable-item-special-content" aria-label="Ativar vida e energia" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
+            <input type="checkbox" name="system.hasLifeEnergySection" {{checked system.hasLifeEnergySection}} data-dtype="Boolean" data-life-energy-toggle class="consumable-item-check-skill-checkbox" />
+            <img
+              class="consumable-item-check-skill-icon armor-extra-icon consumable-item-special-icon"
+              src="systems/cardigan/assets/images/decorative/icons/icon-equip.svg"
+              alt="Ativar vida e energia"
+            />
+          </label>
+        </div>
+        <img class="consumable-item-check-skill-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+      </div>
+      <div class="consumable-item-life-energy-system {{#unless system.hasLifeEnergySection}}hidden{{/unless}}" data-life-energy-section>
+        <div class="consumable-item-life-energy-add-button-container">
+          <button type="button" class="consumable-item-life-energy-add-button" aria-label="Adicionar" data-tooltip="Adicionar" data-tooltip-class="cardigan-tooltip">
+            <img
+              src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg"
+              alt="Adicionar"
+              class="consumable-item-life-energy-add-icon"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="consumable-item-bottom-column"></div>
   </div>
 
