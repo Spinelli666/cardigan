@@ -13,6 +13,7 @@ export class CommonItemListeners {
     this.setupWeightSelector(sheet);
     this.setupSkillAbilityDropdown(sheet);
     this.setupSkillTestAddButton(sheet);
+    this.setupLifeEnergyAddButton(sheet);
     this.setupFractureToggle(sheet);
     this.setupFractureModifierSelector(sheet);
     this.setupToxicityModifierSelector(sheet);
@@ -45,6 +46,49 @@ export class CommonItemListeners {
         return acc;
       }, {});
 
+      const originalParent = menu.parentElement;
+      const originalNextSibling = menu.nextSibling;
+      let outsideClickHandler = null;
+      let repositionHandler = null;
+
+      const detachOutsideListener = () => {
+        if (outsideClickHandler) {
+          document.removeEventListener('click', outsideClickHandler, true);
+          outsideClickHandler = null;
+        }
+      };
+
+      const detachRepositionHandlers = () => {
+        if (repositionHandler) {
+          window.removeEventListener('resize', repositionHandler);
+          window.removeEventListener('scroll', repositionHandler, true);
+          repositionHandler = null;
+        }
+      };
+
+      const restoreMenuToWrapper = () => {
+        if (!originalParent) return;
+        if (menu.parentElement !== originalParent) {
+          originalParent.insertBefore(menu, originalNextSibling);
+        }
+
+        menu.classList.remove('consumable-item-skill-ability-menu-portal');
+        menu.style.position = '';
+        menu.style.top = '';
+        menu.style.left = '';
+        menu.style.width = '';
+        menu.style.zIndex = '';
+      };
+
+      const positionMenuAsPortal = () => {
+        const rect = trigger.getBoundingClientRect();
+        menu.style.position = 'fixed';
+        menu.style.top = `${Math.round(rect.bottom + 1)}px`;
+        menu.style.left = `${Math.round(rect.left)}px`;
+        menu.style.width = `${Math.round(rect.width)}px`;
+        menu.style.zIndex = '10000';
+      };
+
       const getCurrentValue = () => hiddenInput.value || 'accuracy';
 
       const syncSelection = () => {
@@ -58,11 +102,28 @@ export class CommonItemListeners {
       const closeMenu = () => {
         menu.classList.add('is-collapsed');
         trigger.setAttribute('aria-expanded', 'false');
+        detachOutsideListener();
+        detachRepositionHandlers();
+        restoreMenuToWrapper();
       };
 
       const openMenu = () => {
+        if (menu.parentElement !== document.body) {
+          document.body.appendChild(menu);
+        }
+
+        menu.classList.add('consumable-item-skill-ability-menu-portal');
+        positionMenuAsPortal();
         menu.classList.remove('is-collapsed');
         trigger.setAttribute('aria-expanded', 'true');
+
+        repositionHandler = () => {
+          if (menu.classList.contains('is-collapsed')) return;
+          positionMenuAsPortal();
+        };
+
+        window.addEventListener('resize', repositionHandler);
+        window.addEventListener('scroll', repositionHandler, true);
       };
 
       trigger.addEventListener('click', (event) => {
@@ -77,14 +138,14 @@ export class CommonItemListeners {
 
         openMenu();
 
-        const onOutsideClick = (outsideEvent) => {
-          if (!wrapper.contains(outsideEvent.target)) {
+        outsideClickHandler = (outsideEvent) => {
+          const clickTarget = outsideEvent.target;
+          if (!wrapper.contains(clickTarget) && !menu.contains(clickTarget)) {
             closeMenu();
-            document.removeEventListener('click', onOutsideClick, true);
           }
         };
 
-        document.addEventListener('click', onOutsideClick, true);
+        document.addEventListener('click', outsideClickHandler, true);
       });
 
       options.forEach((option) => {
@@ -771,6 +832,243 @@ export class CommonItemListeners {
       renderSelectedEffects();
       renderSelectedSkills();
     });
+  }
+
+  /**
+   * Setup add button dialog for consumable life and energy section.
+   * @param {CardiganSystemItemSheet} sheet - The item sheet instance
+   */
+  static setupLifeEnergyAddButton(sheet) {
+    if (sheet.item.type !== 'item-consumivel') return;
+
+    const addButtonContainer = sheet.element?.querySelector('.consumable-item-life-energy-add-button-container');
+    const addButton = sheet.element?.querySelector('.consumable-item-life-energy-add-button');
+    if (!addButtonContainer && !addButton) return;
+
+    const openDialog = async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (sheet._lifeEnergyAddDialog?.element) {
+        if (typeof sheet._lifeEnergyAddDialog.bringToFront === 'function') {
+          sheet._lifeEnergyAddDialog.bringToFront();
+        }
+        return;
+      }
+
+      const templatePath = 'systems/cardigan/templates/dialogs/life-energy-add-dialog.hbs';
+      const content = await foundry.applications.handlebars.renderTemplate(templatePath, {});
+
+      const dialog = sheet._lifeEnergyAddDialog = new foundry.applications.api.DialogV2({
+        window: {
+          title: 'Vida & Energia',
+          frame: true,
+          positioned: true
+        },
+        classes: ['cardigan-life-energy-add-dialog'],
+        content,
+        buttons: [
+          {
+            action: 'noop',
+            label: 'ok',
+            callback: () => {}
+          }
+        ],
+        rejectClose: false,
+        modal: false,
+        position: {
+          width: 620,
+          height: 'auto'
+        }
+      });
+
+      dialog.addEventListener('close', () => {
+        if (sheet._lifeEnergyAddDialog === dialog) sheet._lifeEnergyAddDialog = null;
+      }, { once: true });
+
+      await dialog.render({ force: true });
+      if (typeof dialog.bringToFront === 'function') {
+        dialog.bringToFront();
+      }
+
+      const lifeEnergyChecks = Array.from(dialog.element?.querySelectorAll('.life-energy-add-checkbox') ?? []);
+
+      const syncLifeEnergyWrappers = () => {
+        lifeEnergyChecks.forEach((checkbox) => {
+          checkbox.closest('.life-energy-add-button-wrapper')?.classList.toggle('is-selected', checkbox.checked);
+        });
+      };
+
+      syncLifeEnergyWrappers();
+
+      lifeEnergyChecks.forEach((checkbox) => {
+        checkbox.addEventListener('change', () => {
+          const targetGroup = checkbox.dataset.lifeEnergyTarget;
+          if (!targetGroup) {
+            syncLifeEnergyWrappers();
+            return;
+          }
+
+          if (checkbox.checked) {
+            lifeEnergyChecks.forEach((otherCheckbox) => {
+              if (otherCheckbox !== checkbox && otherCheckbox.dataset.lifeEnergyTarget === targetGroup) {
+                otherCheckbox.checked = false;
+              }
+            });
+          }
+
+          syncLifeEnergyWrappers();
+        });
+      });
+
+      const diceWrappers = Array.from(dialog.element?.querySelectorAll('[data-life-energy-dice-selection]') ?? []);
+
+      diceWrappers.forEach((wrapper) => {
+        const hiddenInput = wrapper.querySelector('[data-life-energy-dice-input]');
+        const trigger = wrapper.querySelector('[data-life-energy-dice-trigger]');
+        const label = wrapper.querySelector('[data-life-energy-dice-label]');
+        const menu = wrapper.querySelector('[data-life-energy-dice-menu]');
+        const options = Array.from(wrapper.querySelectorAll('[data-life-energy-dice-option]'));
+
+        if (!hiddenInput || !trigger || !label || !menu || !options.length) return;
+
+        const originalParent = menu.parentElement;
+        const originalNextSibling = menu.nextSibling;
+        let outsideClickHandler = null;
+        let repositionHandler = null;
+
+        const detachOutsideListener = () => {
+          if (outsideClickHandler) {
+            document.removeEventListener('click', outsideClickHandler, true);
+            outsideClickHandler = null;
+          }
+        };
+
+        const detachRepositionHandlers = () => {
+          if (repositionHandler) {
+            window.removeEventListener('resize', repositionHandler);
+            window.removeEventListener('scroll', repositionHandler, true);
+            repositionHandler = null;
+          }
+        };
+
+        const restoreMenuToWrapper = () => {
+          if (!originalParent) return;
+          if (menu.parentElement !== originalParent) {
+            originalParent.insertBefore(menu, originalNextSibling);
+          }
+
+          menu.classList.remove('life-energy-add-dice-menu-portal');
+
+          menu.style.position = '';
+          menu.style.top = '';
+          menu.style.left = '';
+          menu.style.width = '';
+          menu.style.zIndex = '';
+        };
+
+        const positionMenuAsPortal = () => {
+          const rect = trigger.getBoundingClientRect();
+          menu.style.position = 'fixed';
+          menu.style.top = `${Math.round(rect.bottom + 1)}px`;
+          menu.style.left = `${Math.round(rect.left)}px`;
+          menu.style.width = `${Math.round(rect.width)}px`;
+          menu.style.zIndex = '10000';
+        };
+
+        const closeMenu = () => {
+          menu.classList.add('is-collapsed');
+          trigger.setAttribute('aria-expanded', 'false');
+          detachOutsideListener();
+          detachRepositionHandlers();
+          restoreMenuToWrapper();
+        };
+
+        const openMenu = () => {
+          if (menu.parentElement !== document.body) {
+            document.body.appendChild(menu);
+          }
+
+          menu.classList.add('life-energy-add-dice-menu-portal');
+
+          positionMenuAsPortal();
+          menu.classList.remove('is-collapsed');
+          trigger.setAttribute('aria-expanded', 'true');
+
+          repositionHandler = () => {
+            if (menu.classList.contains('is-collapsed')) return;
+            positionMenuAsPortal();
+          };
+
+          window.addEventListener('resize', repositionHandler);
+          window.addEventListener('scroll', repositionHandler, true);
+        };
+
+        const syncSelection = () => {
+          const currentValue = hiddenInput.value || '1d20';
+          label.textContent = currentValue;
+          options.forEach((option) => {
+            option.classList.toggle('is-selected', option.dataset.value === currentValue);
+          });
+        };
+
+        syncSelection();
+
+        trigger.addEventListener('click', (clickEvent) => {
+          clickEvent.preventDefault();
+          clickEvent.stopPropagation();
+
+          const isOpen = !menu.classList.contains('is-collapsed');
+          if (isOpen) {
+            closeMenu();
+            return;
+          }
+
+          openMenu();
+
+          outsideClickHandler = (outsideEvent) => {
+            const clickTarget = outsideEvent.target;
+            if (!wrapper.contains(clickTarget) && !menu.contains(clickTarget)) {
+              closeMenu();
+            }
+          };
+
+          document.addEventListener('click', outsideClickHandler, true);
+        });
+
+        options.forEach((option) => {
+          option.addEventListener('click', (optionEvent) => {
+            optionEvent.preventDefault();
+            optionEvent.stopPropagation();
+
+            const value = option.dataset.value;
+            if (!value) return;
+
+            hiddenInput.value = value;
+            syncSelection();
+            closeMenu();
+          });
+        });
+
+        wrapper.addEventListener('keydown', (keyEvent) => {
+          if (keyEvent.key === 'Escape') closeMenu();
+        });
+
+        dialog.addEventListener('close', () => {
+          closeMenu();
+        }, { once: true });
+      });
+
+      const submitButton = dialog.element?.querySelector('.life-energy-add-submit-button');
+      submitButton?.addEventListener('click', (submitEvent) => {
+        submitEvent.preventDefault();
+        submitEvent.stopPropagation();
+        dialog.close();
+      });
+    };
+
+    addButtonContainer?.addEventListener('click', openDialog);
+    addButton?.addEventListener('click', openDialog);
   }
 
   /**

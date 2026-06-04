@@ -2113,10 +2113,6 @@
   margin-top: 6px;
   width: 100%;
   min-height: 48px;
-  border: 1px solid #FFB75C;
-  border-radius: 10px;
-  background: linear-gradient(180deg, rgba(50, 145, 191, 0.22) 0%, rgba(13, 72, 104, 0.3) 58%, rgba(8, 56, 84, 0.35) 100%);
-  box-shadow: inset 0 10px 22px rgba(122, 209, 255, 0.12), 0 8px 16px rgba(5, 25, 37, 0.22);
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-life-energy-system .consumable-item-life-energy-add-button-container,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-life-energy-system .consumable-item-life-energy-add-button-container,
@@ -3347,6 +3343,36 @@
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-type-selector-btn[data-selected]:hover img {
   filter: drop-shadow(0 0 12px rgb(255, 183, 92));
   transform: scale(1.12);
+}
+
+.consumable-item-skill-ability-menu.consumable-item-skill-ability-menu-portal {
+  border: 1px solid #FFB75C;
+  border-radius: 5px;
+  background: #265b7e;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  font-family: "Alatsi", sans-serif;
+}
+.consumable-item-skill-ability-menu.consumable-item-skill-ability-menu-portal .consumable-item-skill-ability-option {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+  box-shadow: none;
+  background: #265b7e;
+  color: #FFB75C;
+  padding: 4px 5px;
+  font-size: 10px;
+  font-family: "Alatsi", sans-serif;
+  line-height: 1.35;
+  cursor: pointer;
+}
+.consumable-item-skill-ability-menu.consumable-item-skill-ability-menu-portal .consumable-item-skill-ability-option:hover, .consumable-item-skill-ability-menu.consumable-item-skill-ability-menu-portal .consumable-item-skill-ability-option.is-selected {
+  background: #FFB75C;
+  color: #265b7e;
 }
 
 /* Weapon form styles */
@@ -25680,6 +25706,311 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   background: #FFB75C;
   color: #265b7e;
   box-shadow: 0 0 8px rgba(255, 183, 92, 0.25);
+}
+
+.dialog.cardigan-life-energy-add-dialog {
+  width: 620px;
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  border: 4px solid #c0863b;
+  border-radius: 20px;
+  font-family: "Alatsi", sans-serif;
+}
+.dialog.cardigan-life-energy-add-dialog .window-header {
+  background: initial !important;
+  border-bottom: initial !important;
+  backdrop-filter: blur(4px);
+  justify-content: end !important;
+}
+.dialog.cardigan-life-energy-add-dialog .window-header .window-title {
+  display: none;
+}
+.dialog.cardigan-life-energy-add-dialog .window-content {
+  background: transparent;
+  border: none;
+  font-family: "Alatsi", sans-serif;
+  padding: 8px 12px 16px;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-sections {
+  display: flex;
+  gap: 14px;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-section {
+  flex: 1 1 0;
+  min-height: 220px;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-header p {
+  text-transform: uppercase;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #ffb75c 36.54%, #996e37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 24px;
+  margin: 0;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-border {
+  display: block;
+  width: 200px;
+  max-width: 100%;
+  height: 6px;
+  margin: 2px auto 6px;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-content {
+  min-height: 180px;
+  border: 1px solid #ffb75c;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(50, 145, 191, 0.22) 0%, rgba(13, 72, 104, 0.3) 58%, rgba(8, 56, 84, 0.35) 100%);
+  box-shadow: inset 0 10px 22px rgba(122, 209, 255, 0.12), 0 8px 16px rgba(5, 25, 37, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-modifier-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-button-wrapper {
+  width: 25px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-button-wrapper.is-selected {
+  border-color: #ffb75c;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-check-label {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-checkbox {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-symbol {
+  font-family: "Alatsi", sans-serif;
+  font-size: 10px;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-button-wrapper.is-selected .life-energy-add-symbol {
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 4px rgba(255, 183, 92, 0.7));
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-increase-symbol {
+  background-image: linear-gradient(180deg, #5CFF7F 33.6%, #2E9E4D 66.67%) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-decrease-symbol {
+  background-image: linear-gradient(180deg, #FF001E 33.6%, #8B0011 66.67%) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-icon {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-selection {
+  margin: 0;
+  position: relative;
+  display: inline-flex;
+  width: 86px;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-selection::before {
+  content: "";
+  position: absolute;
+  top: 0.9px;
+  right: 0.5px;
+  width: 20px;
+  height: calc(100% - 2px);
+  background: transparent;
+  transition: background 0.2s ease;
+  pointer-events: none;
+  border-radius: 0 2px 2px 0;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-selection::after {
+  content: "▼";
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 9px;
+  color: #ffb75c;
+  pointer-events: none;
+  z-index: 1;
+  transition: color 0.2s ease;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-selection:hover::before, .dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-selection:focus-within::before {
+  background: #ffb75c;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-selection:hover::after, .dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-selection:focus-within::after {
+  color: #265b7e;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-trigger {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  background: transparent;
+  color: #ffb75c;
+  height: 24px;
+  line-height: 22px;
+  font-size: 10px;
+  font-family: "Alatsi", sans-serif;
+  border: 1px solid #ffb75c !important;
+  padding: 0 24px 0 6px;
+  text-align: left;
+  cursor: pointer;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-trigger:focus {
+  border-color: #ffb75c !important;
+  outline: none;
+  box-shadow: none;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-label {
+  display: block;
+  color: #ffb75c;
+  line-height: 22px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-menu {
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 0;
+  width: 100%;
+  z-index: 20;
+  font-family: "Alatsi", sans-serif;
+  border: 1px solid #ffb75c;
+  background: transparent !important;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-menu.is-collapsed {
+  display: none;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-option {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+  box-shadow: none;
+  background: #265b7e;
+  color: #ffb75c;
+  padding: 4px 6px;
+  font-size: 10px;
+  font-family: "Alatsi", sans-serif;
+  line-height: 1.35;
+  cursor: pointer;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-option:hover, .dialog.cardigan-life-energy-add-dialog .life-energy-add-dice-option.is-selected {
+  background: #ffb75c;
+  color: #265b7e;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-actions {
+  display: flex;
+  justify-content: center;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-submit-button {
+  min-width: 140px;
+  height: 34px;
+  border: 1px solid #ffb75c;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 183, 92, 0.22) 0%, rgba(38, 91, 126, 0.22) 100%);
+  color: #ffb75c;
+  font-family: "Alatsi", sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-submit-button:hover {
+  background: #ffb75c;
+  color: #265b7e;
+  box-shadow: 0 0 8px rgba(255, 183, 92, 0.25);
+}
+.dialog.cardigan-life-energy-add-dialog .form-footer {
+  display: none;
+}
+@media (max-width: 680px) {
+  .dialog.cardigan-life-energy-add-dialog .life-energy-add-sections {
+    flex-direction: column;
+  }
+}
+
+.life-energy-add-dice-menu.life-energy-add-dice-menu-portal {
+  border: 1px solid #ffb75c;
+  border-radius: 8px;
+  background: #265b7e;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+.life-energy-add-dice-menu.life-energy-add-dice-menu-portal .life-energy-add-dice-option {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+  box-shadow: none;
+  background: #265b7e;
+  color: #ffb75c;
+  padding: 4px 6px;
+  font-size: 10px;
+  font-family: "Alatsi", sans-serif;
+  line-height: 1.35;
+  cursor: pointer;
+}
+.life-energy-add-dice-menu.life-energy-add-dice-menu-portal .life-energy-add-dice-option:hover, .life-energy-add-dice-menu.life-energy-add-dice-menu-portal .life-energy-add-dice-option.is-selected {
+  background: #ffb75c;
+  color: #265b7e;
 }
 
 /* ----------------------------------------- */
