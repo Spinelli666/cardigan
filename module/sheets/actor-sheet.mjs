@@ -366,6 +366,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Adicionar event listeners do header (status, critical hit, movement)
     HeaderListeners.initialize(this.element, this.actor);
+
+    // Limitar XP atual entre 0 e 100 durante a digitação
+    this.#addExperienceListeners();
     
     // Adicionar event listeners para campos de durabilidade
     this.#addDurabilityListeners();
@@ -411,6 +414,9 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Ajustar font-size do input name baseado no número de caracteres
     this.#adjustNameInputFontSize();
+
+    // Ajustar font-size do input de XP para 3 dígitos
+    this.#setupExperienceInputFontSize();
     
     // Prevenir submit do formulário ao pressionar Enter em inputs
     this.#preventEnterSubmit();
@@ -1825,6 +1831,53 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       // Usar apenas 'blur' para evitar processamento excessivo
       input.addEventListener('blur', this.#handleQuantityChange.bind(this));
     });
+  }
+
+  /**
+   * Ajusta o tamanho da fonte do input de XP com base na quantidade de dígitos.
+   */
+  #setupExperienceInputFontSize() {
+    const xpInput = this.element?.querySelector("input[name='system.experience.current']");
+    if (!(xpInput instanceof HTMLInputElement)) return;
+
+    const syncXPFontSize = () => {
+      const parsedValue = Number.parseInt(xpInput.value, 10);
+      const digits = Number.isNaN(parsedValue)
+        ? String(xpInput.value || '').replace(/\D/g, '').length
+        : String(Math.abs(parsedValue)).length;
+
+      xpInput.classList.toggle('is-three-digits', digits >= 3);
+    };
+
+    syncXPFontSize();
+    xpInput.addEventListener('input', syncXPFontSize);
+    xpInput.addEventListener('change', syncXPFontSize);
+    xpInput.addEventListener('blur', syncXPFontSize);
+  }
+
+  /**
+   * Adiciona event listeners para o campo de XP atual do header.
+   */
+  #addExperienceListeners() {
+    const xpInput = this.element?.querySelector("input[name='system.experience.current']");
+    if (!(xpInput instanceof HTMLInputElement)) return;
+
+    const clampXPValue = () => {
+      if (xpInput.value === '') return;
+
+      const parsedValue = Number.parseInt(xpInput.value, 10);
+      if (Number.isNaN(parsedValue)) {
+        xpInput.value = '0';
+        return;
+      }
+
+      const clampedValue = Math.max(0, Math.min(100, parsedValue));
+      xpInput.value = String(clampedValue);
+    };
+
+    clampXPValue();
+    xpInput.addEventListener('input', clampXPValue);
+    xpInput.addEventListener('blur', clampXPValue);
   }
 
   /**

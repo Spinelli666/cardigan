@@ -6,39 +6,39 @@
     <aside class='header-left'>
         {{! XP e Level Container }}
         <div class='xp-level-container'>
-          <div class='icon-arrow-wrapper'>
-            {{! Wizard/Level Up Icon - Always visible }}
-            {{#if (lte system.attributes.level.value 0)}}
-            <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
-                 alt='Criar Personagem' 
-                 class='wizard-icon pulsing' 
-                 data-action='openCharacterWizard' 
-                 data-tooltip='CARDIGAN.Tooltip.CreateCharacter' 
-                 data-tooltip-class='cardigan-tooltip'
-            />
-            {{else if (gte system.experience.current system.experience.nextLevel)}}
-            <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
-                 alt='Level Up!' 
-                 class='wizard-icon pulsing' 
-                 data-action='openLevelUpWizard'
-                 data-tooltip='CARDIGAN.Tooltip.LevelUP' 
-                 data-tooltip-class='cardigan-tooltip'
-            />
-            {{else}}
-            <img src='systems/cardigan/assets/images/decorative/icons/icon-level-xp.svg' 
-                 alt='Level & XP' 
-                 class='wizard-icon'
-                 data-tooltip='CARDIGAN.Tooltip.LevelXP' 
-                 data-tooltip-class='cardigan-tooltip'
-            />
-            {{/if}}
-            
-            {{! Triangle Arrow Icon }}
-            <i class="fa-solid fa-caret-right triangle-arrow"></i>
-          </div>
-          
           {{! Level Input }}
           <div class='level-container'>
+            <div class='icon-arrow-wrapper'>
+              {{! Wizard/Level Up Icon - Always visible }}
+              {{#if (lte system.attributes.level.value 0)}}
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-level.svg' 
+                alt='Criar Personagem' 
+                class='wizard-icon pulsing' 
+                data-action='openCharacterWizard' 
+                data-tooltip='CARDIGAN.Tooltip.CreateCharacter' 
+                data-tooltip-class='cardigan-tooltip'
+              />
+              {{else if (gte system.experience.current system.experience.nextLevel)}}
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-level.svg' 
+                alt='Level Up!' 
+                class='wizard-icon pulsing' 
+                data-action='openLevelUpWizard'
+                data-tooltip='CARDIGAN.Tooltip.LevelUP' 
+                data-tooltip-class='cardigan-tooltip'
+              />
+              {{else}}
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-level.svg' 
+                alt='Level & XP' 
+                class='wizard-icon'
+                data-tooltip='Nível' 
+                data-tooltip-class='cardigan-tooltip'
+              />
+              {{/if}}
+
+              {{! Triangle Arrow Icon }}
+              <i class="fa-solid fa-caret-right triangle-arrow"></i>
+            </div>
+
             <input
               type='number'
               name='system.attributes.level.value'
@@ -51,23 +51,19 @@
           
           {{! XP Input }}
           <div class='xp-container' >
+            <div class='icon-arrow-wrapper'>
+              <img src='systems/cardigan/assets/images/decorative/icons/icon-xp.svg' alt='XP' class='xp-label' data-tooltip='Expericência' data-tooltip-class='cardigan-tooltip' />
+              <i class="fa-solid fa-caret-right triangle-arrow"></i>
+            </div>
+
             <input
               type='number'
               name='system.experience.current'
               value='{{system.experience.current}}'
               data-dtype='Number'
               min='0'
+              max='100'
               class='status-current'
-            />
-            <img src='systems/cardigan/assets/images/decorative/field-divider.svg' alt='/' class='status-separator' />
-            <input
-              type='number'
-              name='system.experience.nextLevel'
-              value='{{system.experience.nextLevel}}'
-              data-dtype='Number'
-              min='0'
-              class='status-next'
-              readonly
             />
           </div>
         </div>
