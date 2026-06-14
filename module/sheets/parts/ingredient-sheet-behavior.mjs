@@ -14,11 +14,9 @@ export class IngredientSheetBehavior {
     if (sheet.document?.type !== 'item-ingredient') return false;
 
     options.parts = ['header', 'tabs', 'attributesItemIngredient', 'description'];
-    options.position = {
-      ...options.position,
-      width: 400.444,
-      height: 388.445,
-    };
+    options.position ??= {};
+    options.position.width = 400.444;
+    options.position.height = 388.445;
     return true;
   }
 

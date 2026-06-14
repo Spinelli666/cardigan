@@ -1019,8 +1019,8 @@
 
 /* Common item form styles */
 .application.sheet.cardigan.item.item-type-comum {
-  min-width: 400.444px !important;
-  width: 400.444px !important;
+  min-width: 400.444px;
+  width: 400.444px;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -1291,10 +1291,10 @@
 
 /* Ingredient item form styles */
 .application.sheet.cardigan.item.item-type-ingredient {
-  min-width: 400.444px !important;
-  width: 400.444px !important;
-  height: 440.445px !important;
-  min-height: 440.445px !important;
+  min-width: 400.444px;
+  width: 400.444px;
+  height: 440.445px;
+  min-height: 440.445px;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -1565,8 +1565,8 @@
 
 /* Ammunition item form styles */
 .application.sheet.cardigan.item.item-type-municao {
-  min-width: 400.444px !important;
-  width: 400.444px !important;
+  min-width: 400.444px;
+  width: 400.444px;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -1882,9 +1882,9 @@
 
 /* Consumable item form styles */
 .application.sheet.cardigan.item.item-type-consumivel {
-  min-width: 450.444px !important;
-  width: 450.444px !important;
-  height: 671.556px !important;
+  min-width: 450.444px;
+  width: 450.444px;
+  height: 671.556px;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -3547,8 +3547,8 @@
 /* Armor sheet header root styling must stay outside .cardigan scope */
 /* Armor Item Sheet Styles */
 .application.sheet.cardigan.item.item-type-armadura {
-  min-width: 400.444px !important;
-  width: 400.444px !important;
+  min-width: 400.444px;
+  width: 400.444px;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
   border-radius: 20px;

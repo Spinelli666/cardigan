@@ -182,19 +182,15 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         break;
       case 'item-comum':
         options.parts = ['header', 'tabs', 'attributesItemComum', 'description'];
-        options.position = {
-          ...options.position,
-          width: 400.444,
-          height: 440.444,
-        };
+        options.position ??= {};
+        options.position.width = 400.444;
+        options.position.height = 440.444;
         break;
       case 'item-consumivel':
         options.parts = ['header', 'tabs', 'attributesItemConsumivel', 'modifiersItemConsumivel', 'description'];
-        options.position = {
-          ...options.position,
-          width: 400.444,
-          height: 388.445,
-        };
+        options.position ??= {};
+        options.position.width = 400.444;
+        options.position.height = 671.556;
         break;
       case 'efeito':
         // Efeitos têm descrição e podem ter atributos básicos se necessário
@@ -643,6 +639,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     if (this._descriptionImageObserver) {
       this._descriptionImageObserver.disconnect();
       this._descriptionImageObserver = null;
+    }
+    // Clear stale activeWindow reference so bringToFront increments _maxZ on reopen
+    if (ui.activeWindow === this) {
+      ui.activeWindow = null;
     }
     return super._onClose?.(options);
   }
@@ -3076,6 +3076,14 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     AmmunitionSheetBehavior.applyRootClass(this);
     this.element?.classList.toggle('item-type-armadura', this.item?.type === 'armadura');
     this.element?.classList.toggle('item-type-arma', this.item?.type === 'arma');
+
+    // On first render (includes reopen after close), Foundry's bringToFront may skip
+    // the z-index increment when #frontApp/ui.activeWindow still stale-point to this
+    // instance from a previous session. Nulling ui.activeWindow breaks that guard.
+    if (options.isFirstRender) {
+      if (ui.activeWindow === this) ui.activeWindow = null;
+      this.bringToFront();
+    }
 
     // Remove specific header controls for selected item sheet types.
     // Run immediately and on next frame in case controls are attached after initial render.

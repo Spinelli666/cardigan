@@ -13,10 +13,10 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
 }
 
 .application.sheet.cardigan.item.item-type-ingredient {
-  min-width: 400.444px !important;
-  width: 400.444px !important;
-  height: 440.445px !important;
-  min-height: 440.445px !important;
+  min-width: 400.444px;
+  width: 400.444px;
+  height: 440.445px;
+  min-height: 440.445px;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
   border-radius: 20px;

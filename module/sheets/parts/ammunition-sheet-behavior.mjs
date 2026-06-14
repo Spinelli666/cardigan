@@ -14,10 +14,8 @@ export class AmmunitionSheetBehavior {
     if (sheet.document?.type !== 'item-municao') return false;
 
     options.parts = ['header', 'tabs', 'attributesItemMunicao', 'description'];
-    options.position = {
-      ...options.position,
-      height: 415.222,
-    };
+    options.position ??= {};
+    options.position.height = 415.222;
 
     return true;
   }

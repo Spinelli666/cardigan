@@ -325,7 +325,7 @@ Hooks.on('updateItem', function (item, updates, options, userId) {
   
   itemSheets.forEach(sheet => {
     // Force immediate re-render with fresh data
-    sheet.render(true); // true forces full re-render
+    sheet.render(false); // re-render with fresh data, without forcing bringToFront
   });
 });
 

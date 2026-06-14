@@ -28,11 +28,9 @@ export class ArmorSheetBehavior {
     if (sheet.document?.type !== 'armadura') return false;
 
     options.parts = ['header', 'tabs', 'attributesArmadura', 'description'];
-    options.position = {
-      ...options.position,
-      width: 400.444,
-      height: 520.333,
-    };
+    options.position ??= {};
+    options.position.width = 400.444;
+    options.position.height = 520.333;
 
     return true;
   }
