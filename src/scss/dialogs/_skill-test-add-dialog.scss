@@ -6,6 +6,7 @@
   font-family: "Alatsi", sans-serif;
 
   .window-header {
+    margin-top: -12px;
     background: initial !important;
     border-bottom: initial !important;
     backdrop-filter: blur(4px);
@@ -13,6 +14,24 @@
 
     .window-title {
       display: none;
+    }
+
+    .header-control.fa-xmark {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      position: relative;
+      top: 9px;
+      outline: none;
+      color: #CF954C;
+
+      &:hover {
+        background: none;
+        outline: none;
+      }
+    }
+
+    &:hover .header-control.fa-xmark {
+      opacity: 1;
     }
 
   }
@@ -40,7 +59,6 @@
   .skill-test-add-effects-section,
   .skill-test-add-test-section {
     flex: 1 1 0;
-    min-height: 180px;
   }
 
   .skill-test-add-effects-section {
@@ -122,7 +140,6 @@
   .skill-test-add-effects-list,
   .skill-test-add-test-list {
     margin-top: -7px;
-    min-height: 180px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

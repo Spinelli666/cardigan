@@ -421,7 +421,7 @@ export class CommonItemListeners {
         modal: false,
         position: {
           width: 750,
-          height: 460
+          height: 'auto'
         }
       });
 
@@ -430,6 +430,11 @@ export class CommonItemListeners {
       }, { once: true });
 
       await dialog.render({ force: true });
+      const closeBtn = dialog.element?.querySelector('.header-control.fa-xmark');
+      if (closeBtn) {
+        closeBtn.dataset.tooltip = 'Fechar Janela';
+        closeBtn.dataset.tooltipClass = 'cardigan-tooltip';
+      }
       if (typeof dialog.bringToFront === 'function') {
         dialog.bringToFront();
       }

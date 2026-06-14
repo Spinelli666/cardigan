@@ -295,7 +295,11 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
       }
 
       .consumable-item-skill-test-system {
-        margin-top: 6px;
+        padding: 10px;
+        background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+        margin: 6px 100px 10px 100px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -412,7 +416,7 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           border-radius: 0;
           margin: 0;
           box-shadow: none;
-          background: #265b7e;
+          background: #001925;
           color: #FFB75C;
           padding: 4px 5px;
           font-size: 10px;
@@ -423,7 +427,7 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           &:hover,
           &.is-selected {
             background: #FFB75C;
-            color: #265b7e;
+            color: #001925;
           }
         }
 
@@ -487,9 +491,9 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           align-items: center;
           gap: 6px;
           padding: 4px 6px;
-          border: 1px solid rgba(255, 183, 92, 0.28);
+          border: 1.5px solid rgba(255, 183, 92, 0.2);
           border-radius: 8px;
-          background: linear-gradient(90deg, rgba(255, 183, 92, 0.12) 0%, rgba(67, 170, 218, 0.12) 100%);
+          background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
         }
 
         .consumable-item-skill-test-added-skill-item {
@@ -539,8 +543,12 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
         .consumable-item-skill-test-added-rounds {
           display: inline-flex;
           align-items: center;
-          gap: 4px;
+          gap: 0;
           flex-shrink: 0;
+
+          &:has(.rounds-infinite-icon) {
+            gap: 2px;
+          }
         }
 
         .consumable-item-skill-test-added-clock {
@@ -616,6 +624,7 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           justify-content: center;
           gap: 6px;
           padding: 4px;
+          border: 1.5px solid rgba(255, 183, 92, 0.2);
           border-radius: 8px;
           background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
@@ -1582,7 +1591,7 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
     border-radius: 0;
     margin: 0;
     box-shadow: none;
-    background: #265b7e;
+    background: #001925;
     color: #FFB75C;
     padding: 4px 5px;
     font-size: 10px;
@@ -1593,7 +1602,7 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
     &:hover,
     &.is-selected {
       background: #FFB75C;
-      color: #265b7e;
+      color: #001925;
     }
   }
 }

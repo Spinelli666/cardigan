@@ -2165,7 +2165,11 @@
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:nth-child(2) .consumable-item-skill-test-system {
-  margin-top: 6px;
+  padding: 10px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  margin: 6px 100px 10px 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2298,7 +2302,7 @@
   border-radius: 0;
   margin: 0;
   box-shadow: none;
-  background: #265b7e;
+  background: #001925;
   color: #FFB75C;
   padding: 4px 5px;
   font-size: 10px;
@@ -2312,7 +2316,7 @@
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:nth-child(2) .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-option:hover,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:nth-child(2) .consumable-item-skill-test-system .skill-selection .consumable-item-skill-ability-option.is-selected {
   background: #FFB75C;
-  color: #265b7e;
+  color: #001925;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-advantage-controls,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-advantage-controls,
@@ -2382,9 +2386,9 @@
   align-items: center;
   gap: 6px;
   padding: 4px 6px;
-  border: 1px solid rgba(255, 183, 92, 0.28);
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
   border-radius: 8px;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.12) 0%, rgba(67, 170, 218, 0.12) 100%);
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-item,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-item,
@@ -2443,8 +2447,13 @@
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:nth-child(2) .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 0;
   flex-shrink: 0;
+}
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds:has(.rounds-infinite-icon),
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds:has(.rounds-infinite-icon),
+.application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:nth-child(2) .consumable-item-skill-test-system .consumable-item-skill-test-added-rounds:has(.rounds-infinite-icon) {
+  gap: 2px;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-clock,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-clock,
@@ -2535,6 +2544,7 @@
   justify-content: center;
   gap: 6px;
   padding: 4px;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
   border-radius: 8px;
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
@@ -3383,7 +3393,7 @@
   border-radius: 0;
   margin: 0;
   box-shadow: none;
-  background: #265b7e;
+  background: #001925;
   color: #FFB75C;
   padding: 4px 5px;
   font-size: 10px;
@@ -3393,7 +3403,7 @@
 }
 .consumable-item-skill-ability-menu.consumable-item-skill-ability-menu-portal .consumable-item-skill-ability-option:hover, .consumable-item-skill-ability-menu.consumable-item-skill-ability-menu-portal .consumable-item-skill-ability-option.is-selected {
   background: #FFB75C;
-  color: #265b7e;
+  color: #001925;
 }
 
 /* Weapon form styles */
@@ -25119,6 +25129,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   font-family: "Alatsi", sans-serif;
 }
 .dialog.cardigan-skill-test-add-dialog .window-header {
+  margin-top: -12px;
   background: initial !important;
   border-bottom: initial !important;
   backdrop-filter: blur(4px);
@@ -25126,6 +25137,21 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .dialog.cardigan-skill-test-add-dialog .window-header .window-title {
   display: none;
+}
+.dialog.cardigan-skill-test-add-dialog .window-header .header-control.fa-xmark {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  position: relative;
+  top: 9px;
+  outline: none;
+  color: #CF954C;
+}
+.dialog.cardigan-skill-test-add-dialog .window-header .header-control.fa-xmark:hover {
+  background: none;
+  outline: none;
+}
+.dialog.cardigan-skill-test-add-dialog .window-header:hover .header-control.fa-xmark {
+  opacity: 1;
 }
 .dialog.cardigan-skill-test-add-dialog .window-content {
   background: transparent;
@@ -25147,7 +25173,6 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-section,
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-test-section {
   flex: 1 1 0;
-  min-height: 180px;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-section {
   flex: 0.85 1 0;
@@ -25223,7 +25248,6 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-list,
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-test-list {
   margin-top: -7px;
-  min-height: 180px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

@@ -768,19 +768,19 @@ export class ConsumableActions {
       if (!abilityData) continue;
 
       const delta = parsedValue;
-      const currentValue = updateData[`system.abilities.${abilityKey}.baseValue`] ?? abilityData.baseValue ?? 0;
+      const currentValue = updateData[`system.abilities.${abilityKey}.baseBonus`] ?? abilityData.baseBonus ?? 0;
       const newValue = currentValue + delta;
       const appliedAmount = newValue - currentValue;
       if (appliedAmount === 0) continue;
 
-      updateData[`system.abilities.${abilityKey}.baseValue`] = newValue;
+      updateData[`system.abilities.${abilityKey}.baseBonus`] = newValue;
 
       const localizedAbility = game.i18n.localize(abilityLongKeys[abilityKey] || abilityKey);
       const sign = appliedAmount >= 0 ? '+' : '';
       messages.push(`${localizedAbility}: ${sign}${appliedAmount}`);
 
       appliedModifiers.push({
-        type: 'abilityBaseValue',
+        type: 'abilityBaseBonus',
         ability: abilityKey,
         amount: appliedAmount,
         label: `${localizedAbility} ${sign}${appliedAmount}`
