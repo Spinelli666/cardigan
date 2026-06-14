@@ -420,7 +420,7 @@ export class CommonItemListeners {
         rejectClose: false,
         modal: false,
         position: {
-          width: 750,
+          width: 'auto',
           height: 'auto'
         }
       });
@@ -616,12 +616,26 @@ export class CommonItemListeners {
           rejectClose: false,
           modal: false,
           position: {
-            width: 620,
-            height: 500
+            width: 370,
+            height: 'auto'
           }
         });
 
         await selectionDialog.render({ force: true });
+
+        const closeBtn = selectionDialog.element?.querySelector('.header-control.fa-xmark');
+        if (closeBtn) {
+          closeBtn.dataset.tooltip = 'Fechar Janela';
+          closeBtn.dataset.tooltipClass = 'cardigan-tooltip';
+        }
+
+        const windowContent = selectionDialog.element?.querySelector('.window-content');
+        const dialogWrapper = windowContent?.querySelector(':scope > .dialog-content.standard-form');
+        if (dialogWrapper && windowContent) {
+          while (dialogWrapper.firstChild) windowContent.insertBefore(dialogWrapper.firstChild, dialogWrapper);
+          dialogWrapper.remove();
+        }
+
         selectionDialog.element?.querySelectorAll('.skill-test-abilities-selection-item').forEach((item) => {
           const input = item.querySelector('input[type="checkbox"]');
           if (!(input instanceof HTMLInputElement)) return;

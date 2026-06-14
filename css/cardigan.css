@@ -2389,6 +2389,7 @@
   border: 1.5px solid rgba(255, 183, 92, 0.2);
   border-radius: 8px;
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-item,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-added-skill-item,
@@ -25122,7 +25123,6 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 
 .dialog.cardigan-skill-test-add-dialog {
-  width: 750px;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -25144,11 +25144,12 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   position: relative;
   top: 9px;
   outline: none;
-  color: #CF954C;
+  color: #FFB75C;
 }
 .dialog.cardigan-skill-test-add-dialog .window-header .header-control.fa-xmark:hover {
   background: none;
   outline: none;
+  color: rgba(207, 148, 76, 0.8549019608);
 }
 .dialog.cardigan-skill-test-add-dialog .window-header:hover .header-control.fa-xmark {
   opacity: 1;
@@ -25170,17 +25171,12 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   display: flex;
   gap: 14px;
 }
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-section,
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-section {
-  flex: 1 1 0;
-}
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-section {
-  flex: 0.85 1 0;
   padding: 3px;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-test-section {
-  flex: 0.75 1 0;
   padding: 3px;
+  width: 280px;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-header,
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-test-header {
@@ -25208,7 +25204,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   width: 200px;
   max-width: 100%;
   height: 6px;
-  margin: 2px auto 0;
+  margin: -2px auto 0;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button-container,
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-test-add-button-container {
@@ -25219,6 +25215,8 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-add-button,
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-test-add-button {
+  position: relative;
+  top: -0.5px;
   width: 44px;
   height: 20px;
   padding: 0;
@@ -25245,6 +25243,14 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   transform: scale(1.15);
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-body,
+.dialog.cardigan-skill-test-add-dialog .skill-test-add-test-body {
+  margin-top: 4px;
+  padding: 0px 10px 10px 10px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effects-list,
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-test-list {
   margin-top: -7px;
@@ -25264,9 +25270,10 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   align-items: center;
   gap: 10px;
   padding: 7px 10px;
-  border: 1px solid rgba(255, 183, 92, 0.28);
-  border-radius: 10px;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.12) 0%, rgba(67, 170, 218, 0.12) 100%);
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 8px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-item {
   display: grid;
@@ -25301,7 +25308,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-rounds {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 2px;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-rounds .rounds-value {
   font-size: 14px;
@@ -25310,9 +25317,8 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  min-width: 20px;
+  min-width: 17px;
   text-align: center;
-  padding-right: 2px;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-effect-rounds .rounds-value:has(.rounds-infinite-icon) {
   padding-right: 0;
@@ -25349,9 +25355,10 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   justify-self: end;
   flex-shrink: 0;
   padding: 5px;
-  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 8px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-item {
   display: flex;
@@ -25360,18 +25367,23 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   gap: 5px;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-name-container {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1 1 auto;
   min-width: 0;
   padding: 7px 10px;
-  border: 1px solid rgba(255, 183, 92, 0.28);
-  border-radius: 10px;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.12) 0%, rgba(67, 170, 218, 0.12) 100%);
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 8px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-controls {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
-  margin-left: 8px;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-button-wrapper {
   width: 25px;
@@ -25427,13 +25439,13 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-input-wrapper {
   width: 42px;
-  height: 22px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
   border: 1.5px solid rgba(255, 183, 92, 0.2);
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-input-wrapper:focus-within {
@@ -25451,7 +25463,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   caret-color: #FFB75C;
-  font-size: 12px;
+  font-size: 14px;
   text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
   text-align: center;
   outline: none;
@@ -25480,9 +25492,6 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-range-input[type=number] {
   appearance: textfield;
   -moz-appearance: textfield;
-}
-.dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-item .skill-test-add-effect-remove-button {
-  margin-left: 8px;
 }
 .dialog.cardigan-skill-test-add-dialog .skill-test-add-skill-name {
   text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
@@ -25615,29 +25624,38 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control,
-.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header button.header-control,
-.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control,
-.dialog.cardigan-skill-test-abilities-selection-dialog .window-header button.header-control {
-  position: relative;
-  right: 10px;
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control.fa-xmark,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control.fa-xmark {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  outline: none;
+  color: #FFB75C;
 }
-.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control i.fa-xmark, .application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control.fa-xmark,
-.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header button.header-control i.fa-xmark,
-.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header button.header-control.fa-xmark,
-.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control i.fa-xmark,
-.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control.fa-xmark,
-.dialog.cardigan-skill-test-abilities-selection-dialog .window-header button.header-control i.fa-xmark,
-.dialog.cardigan-skill-test-abilities-selection-dialog .window-header button.header-control.fa-xmark {
-  color: #FFB75C !important;
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control.fa-xmark:hover,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control.fa-xmark:hover {
+  background: none;
+  outline: none;
+  color: rgba(207, 148, 76, 0.8549019608);
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header:hover .header-control.fa-xmark,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header:hover .header-control.fa-xmark {
+  opacity: 1;
 }
 .application.dialog.cardigan-skill-test-abilities-selection-dialog .window-content,
 .dialog.cardigan-skill-test-abilities-selection-dialog .window-content {
   padding: 0 !important;
 }
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-content form.dialog-form.standard-form,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-content form.dialog-form.standard-form {
+  gap: 0;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-content .dialog-content.standard-form,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-content .dialog-content.standard-form {
+  gap: 0 !important;
+}
 .application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-dialog-content,
 .dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-dialog-content {
-  padding: 0 !important;
+  padding: 0 40px !important;
 }
 .application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-title-border,
 .dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-title-border {
@@ -25649,38 +25667,42 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-grid,
 .dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-grid {
+  padding: 10px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 12px;
-  padding: 10px 20px;
+  grid-template-columns: repeat(2, 122px);
+  justify-content: center;
+  justify-items: center;
+  gap: 8px;
   max-height: 390px;
   overflow-y: auto;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 }
 .application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-item,
 .dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-item {
+  width: 120px;
   position: relative;
-  border: 2px solid #FFB75C;
-  border-radius: 8px;
   padding: 12px;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  border: 2px solid rgba(255, 183, 92, 0.2);
+  border-radius: 8px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 .application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-item:hover,
 .dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-item:hover {
-  background: linear-gradient(90deg, rgb(255, 183, 92) 0%, rgb(67, 170, 218) 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(67, 170, 218, 0.3);
+  border-color: #FFB75C;
 }
 .application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-item.selected,
 .dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-item.selected {
-  background: linear-gradient(90deg, rgb(255, 183, 92) 0%, rgb(67, 170, 218) 100%);
   border-color: #FFB75C;
   box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
-  transform: translateY(-2px);
 }
 .application.dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-checkbox,
 .dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-checkbox {
@@ -25700,8 +25722,11 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 .dialog.cardigan-skill-test-abilities-selection-dialog .skill-test-abilities-selection-name {
   font-family: "Alatsi", sans-serif;
   font-size: 16px;
-  color: #FFB75C;
-  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   white-space: normal;
   word-break: break-word;
 }

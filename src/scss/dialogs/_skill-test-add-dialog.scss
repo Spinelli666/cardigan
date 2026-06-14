@@ -1,5 +1,4 @@
 .dialog.cardigan-skill-test-add-dialog {
-  width: 750px;
   background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -22,11 +21,12 @@
       position: relative;
       top: 9px;
       outline: none;
-      color: #CF954C;
+      color: #FFB75C;
 
       &:hover {
         background: none;
         outline: none;
+        color: #cf944cda;
       }
     }
 
@@ -56,19 +56,13 @@
     gap: 14px;
   }
 
-  .skill-test-add-effects-section,
-  .skill-test-add-test-section {
-    flex: 1 1 0;
-  }
-
   .skill-test-add-effects-section {
-    flex: 0.85 1 0;
     padding: 3px;
   }
 
   .skill-test-add-test-section {
-    flex: 0.75 1 0;
     padding: 3px;
+    width: 280px;
   }
 
   .skill-test-add-effects-header,
@@ -98,7 +92,7 @@
     width: 200px;
     max-width: 100%;
     height: 6px;
-    margin: 2px auto 0;
+    margin: -2px auto 0;
   }
 
   .skill-test-add-effects-add-button-container,
@@ -111,6 +105,8 @@
 
   .skill-test-add-effects-add-button,
   .skill-test-add-test-add-button {
+    position: relative;
+    top: -0.5px;
     width: 44px;
     height: 20px;
     padding: 0;
@@ -137,6 +133,15 @@
     }
   }
 
+  .skill-test-add-effects-body,
+  .skill-test-add-test-body {
+    margin-top: 4px;
+    padding: 0px 10px 10px 10px;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  }
+
   .skill-test-add-effects-list,
   .skill-test-add-test-list {
     margin-top: -7px;
@@ -157,9 +162,10 @@
     align-items: center;
     gap: 10px;
     padding: 7px 10px;
-    border: 1px solid rgba(255, 183, 92, 0.28);
-    border-radius: 10px;
-    background: linear-gradient(90deg, rgba(255, 183, 92, 0.12) 0%, rgba(67, 170, 218, 0.12) 100%);
+    border: 1.5px solid rgba(255, 183, 92, 0.2);
+    border-radius: 8px;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
   }
 
   .skill-test-add-effect-item {
@@ -199,7 +205,7 @@
   .skill-test-add-effect-rounds {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 2px;
   }
 
   .skill-test-add-effect-rounds .rounds-value {
@@ -209,9 +215,8 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    min-width: 20px;
+    min-width: 17px;
     text-align: center;
-    padding-right: 2px;
 
     &:has(.rounds-infinite-icon) {
       padding-right: 0;
@@ -254,9 +259,10 @@
     justify-self: end;
     flex-shrink: 0;
     padding: 5px;
-    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+    border: 1.5px solid rgba(255, 183, 92, 0.2);
+    border-radius: 8px;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
   }
 
   .skill-test-add-skill-item {
@@ -267,19 +273,24 @@
   }
 
   .skill-test-add-skill-name-container {
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex: 1 1 auto;
     min-width: 0;
     padding: 7px 10px;
-    border: 1px solid rgba(255, 183, 92, 0.28);
-    border-radius: 10px;
-    background: linear-gradient(90deg, rgba(255, 183, 92, 0.12) 0%, rgba(67, 170, 218, 0.12) 100%);
+    border: 1.5px solid rgba(255, 183, 92, 0.2);
+    border-radius: 8px;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
   }
 
   .skill-test-add-skill-controls {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 4px;
-    margin-left: 8px;
   }
 
   .skill-test-add-skill-button-wrapper {
@@ -343,13 +354,13 @@
 
   .skill-test-add-skill-input-wrapper {
     width: 42px;
-    height: 22px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
     border: 1.5px solid rgba(255, 183, 92, 0.2);
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 
     &:focus-within {
@@ -369,7 +380,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     caret-color: #FFB75C;
-    font-size: 12px;
+    font-size: 14px;
     text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
     text-align: center;
     outline: none;
@@ -402,10 +413,6 @@
   .skill-test-add-skill-range-input[type='number'] {
     appearance: textfield;
     -moz-appearance: textfield;
-  }
-
-  .skill-test-add-skill-item .skill-test-add-effect-remove-button {
-    margin-left: 8px;
   }
 
   .skill-test-add-skill-name {
@@ -550,24 +557,38 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .header-control,
-    button.header-control {
-      position: relative;
-      right: 10px;
+    .header-control.fa-xmark {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      outline: none;
+      color: #FFB75C;
 
-      i.fa-xmark,
-      &.fa-xmark {
-        color: #FFB75C !important;
+      &:hover {
+        background: none;
+        outline: none;
+        color: #cf944cda;
       }
+    }
+
+    &:hover .header-control.fa-xmark {
+      opacity: 1;
     }
   }
 
   .window-content {
     padding: 0 !important;
+
+    form.dialog-form.standard-form {
+      gap: 0;
+    }
+
+    .dialog-content.standard-form {
+      gap: 0 !important;
+    }
   }
 
   .skill-test-abilities-selection-dialog-content {
-    padding: 0 !important;
+    padding: 0 40px !important;
   }
 
   .skill-test-abilities-selection-title-border {
@@ -579,37 +600,41 @@
   }
 
   .skill-test-abilities-selection-grid {
+    padding: 10px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 12px;
-    padding: 10px 20px;
+    grid-template-columns: repeat(2, 122px);
+    justify-content: center;
+    justify-items: center;
+    gap: 8px;
     max-height: 390px;
     overflow-y: auto;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
   }
 
   .skill-test-abilities-selection-item {
+    width: 120px;
     position: relative;
-    border: 2px solid #FFB75C;
-    border-radius: 8px;
     padding: 12px;
-    background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+    border: 2px solid rgba(255, 183, 92, 0.2);
+    border-radius: 8px;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
 
     &:hover {
-      background: linear-gradient(90deg, rgba(255, 183, 92, 1) 0%, rgba(67, 170, 218, 1) 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(67, 170, 218, 0.3);
+      border-color: #FFB75C;
     }
 
     &.selected {
-      background: linear-gradient(90deg, rgba(255, 183, 92, 1) 0%, rgba(67, 170, 218, 1) 100%);
       border-color: #FFB75C;
       box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
-      transform: translateY(-2px);
     }
   }
 
@@ -630,8 +655,11 @@
   .skill-test-abilities-selection-name {
     font-family: 'Alatsi', sans-serif;
     font-size: 16px;
-    color: #FFB75C;
-    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     white-space: normal;
     word-break: break-word;
   }
