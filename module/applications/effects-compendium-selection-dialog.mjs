@@ -27,7 +27,7 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
       positioned: true
     },
     position: {
-      width: 940,
+      width: 630,
       height: 580
     },
     actions: {
@@ -126,7 +126,13 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
   /** @override */
   _onRender(context, options) {
     super._onRender(context, options);
-    
+
+    const closeBtn = this.element?.querySelector('.header-control.fa-xmark');
+    if (closeBtn) {
+      closeBtn.dataset.tooltip = 'Fechar Janela';
+      closeBtn.dataset.tooltipClass = 'cardigan-tooltip';
+    }
+
     // Add search functionality
     const searchInput = this.element.querySelector('.effect-search-input');
     const clearButton = this.element.querySelector('.clear-search-button');
@@ -198,7 +204,7 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
         // Update dataset and button
         item.dataset.rounds = nextRounds;
         if (nextRounds === '∞') {
-          button.innerHTML = '<img src="systems/cardigan/assets/images/decorative/icons/icon-infinite.svg" alt="Infinito" class="icon-infinite" width="10" height="10">';
+          button.innerHTML = '<div class="rounds-infinite-icon"></div>';
         } else {
           button.textContent = nextRounds;
         }

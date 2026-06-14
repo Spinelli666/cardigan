@@ -2,7 +2,7 @@
   <img src="systems/cardigan/assets/images/decorative/border.webp" class="title-border" alt="">
   
   <div class="search-bar">
-    <i class="fas fa-search"></i>
+    <img src="systems/cardigan/assets/images/decorative/icons/icon-search.svg" alt="" class="search-icon">
     <input 
       type="text" 
       class="effect-search-input" 
@@ -14,28 +14,32 @@
     </button>
   </div>
 
-  <div class="effects-grid">
-    {{#each effects as |effect|}}
-      <div class="effect-item" data-effect-uuid="{{effect.uuid}}" data-rounds="0">
-        <div class="rounds-counter">
-          <img src="systems/cardigan/assets/images/decorative/icons/icon-clock.svg" alt="Rodadas" class="icon-clock" width="25" height="25">
-          <button type="button" class="rounds-button" data-effect-uuid="{{effect.uuid}}">0</button>
-        </div>
-        <div class="effect-content">
-          <div class="effect-icon-wrapper">
-            <img src="{{effect.img}}" alt="{{effect.name}}" class="effect-icon" />
+  <div class="effects-grid-wrapper">
+    <div class="effects-grid">
+      {{#each effects as |effect|}}
+        <div class="effect-item" data-effect-uuid="{{effect.uuid}}" data-rounds="0">
+          <div class="rounds-counter">
+            <img src="systems/cardigan/assets/images/decorative/icons/icon-clock.svg" alt="Rodadas" class="icon-clock" width="20" height="20" data-tooltip="Rodadas" data-tooltip-class="cardigan-tooltip">
+            <div class="rounds-button-wrapper">
+              <button type="button" class="rounds-button" data-effect-uuid="{{effect.uuid}}">0</button>
+            </div>
           </div>
-          <div class="effect-info">
-            <span class="effect-name">{{effect.name}}</span>
-            {{#if effect.system.efeitoType}}
-              <span class="effect-type effect-type-{{effect.system.efeitoType}}">
-                {{#if (eq effect.system.efeitoType "positivo")}}Positivo{{else}}Negativo{{/if}}
-              </span>
-            {{/if}}
+          <div class="effect-content">
+            <div class="effect-icon-wrapper">
+              <img src="{{effect.img}}" alt="{{effect.name}}" class="effect-icon" />
+            </div>
+            <div class="effect-info">
+              <span class="effect-name">{{effect.name}}</span>
+              {{#if effect.system.efeitoType}}
+                <span class="effect-type effect-type-{{effect.system.efeitoType}}">
+                  {{#if (eq effect.system.efeitoType "positivo")}}Positivo{{else}}Negativo{{/if}}
+                </span>
+              {{/if}}
+            </div>
           </div>
         </div>
-      </div>
-    {{/each}}
+      {{/each}}
+    </div>
   </div>
 
   {{#unless effects}}
