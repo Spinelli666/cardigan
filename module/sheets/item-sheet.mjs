@@ -1995,6 +1995,27 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Setup effects system toggle visibility for consumable items
+   * @private
+   */
+  _setupEffectsSystemToggle() {
+    const toggle = this.element.querySelector('[data-effects-system-toggle]');
+    const effectsSystemSection = this.element.querySelector('[data-effects-system-section]');
+
+    if (!toggle || !effectsSystemSection) return;
+
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+
+      if (isChecked) {
+        effectsSystemSection.classList.remove('hidden');
+      } else {
+        effectsSystemSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
    * Setup mutually exclusive skill check advantage controls for consumables
    * @private
    */
@@ -3117,6 +3138,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     this._setupSkillCheckToggle();
     this._setupSkillCheckAdvantageControls();
     this._setupLifeEnergyToggle();
+    this._setupEffectsSystemToggle();
 
     // Setup effects toggle visibility for consumable items
     this._setupEffectsToggle();

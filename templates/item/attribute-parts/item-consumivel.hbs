@@ -473,7 +473,28 @@
         </div>
       </div>
     </div>
-    <div class="consumable-item-bottom-column"></div>
+    <div class="consumable-item-bottom-column">
+      <div class="consumable-item-check-effects-wrapper">
+        <div class="consumable-item-check-skill">
+          <label class="consumable-item-check-skill-toggle armor-extra-content consumable-item-special-content" aria-label="Ativar efeitos" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
+            <input type="checkbox" name="system.hasEffectsSection" {{checked system.hasEffectsSection}} data-dtype="Boolean" data-effects-system-toggle class="consumable-item-check-skill-checkbox" />
+            <p>EFEITOS</p>
+          </label>
+        </div>
+        <img class="consumable-item-check-skill-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+      </div>
+      <div class="consumable-item-effects-system {{#unless system.hasEffectsSection}}hidden{{/unless}}" data-effects-system-section>
+        <div class="consumable-item-effects-add-button-container">
+          <button type="button" class="consumable-item-effects-add-button" aria-label="Adicionar" data-tooltip="Adicionar" data-tooltip-class="cardigan-tooltip">
+            <img
+              src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg"
+              alt="Adicionar"
+              class="consumable-item-effects-add-icon"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <input type="hidden" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="1"/>

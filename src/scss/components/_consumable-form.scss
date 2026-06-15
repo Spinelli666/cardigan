@@ -56,8 +56,7 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
   }
 
   .tab.attributes.active {
-    padding-left: 5px !important;
-    scrollbar-width: thin;
+    scrollbar-width: none;
     scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);
     scrollbar-gutter: stable;
   }
@@ -154,7 +153,7 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
   .consumable-item-top-grid {
     display: flex;
     flex-direction: row;
-    gap: 45px;
+    gap: 70px;
     margin-bottom: 15px;
     margin-top: 10px;
     justify-content: center;
@@ -171,11 +170,13 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
 
     > .consumable-item-right-grid,
     ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child,
-    ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:nth-child(2) {
+    ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:nth-child(2),
+    ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:nth-child(3) {
       // flex: 0 0 auto;
       align-self: flex-start;
 
-      .consumable-item-check-skill-wrapper {
+      .consumable-item-check-skill-wrapper,
+      .consumable-item-check-effects-wrapper {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -257,8 +258,10 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
       }
 
       .consumable-item-life-energy-system {
-        margin-top: 6px;
-        width: 100%;
+        background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+        margin: 6px 5px 0;
         min-height: 48px;
 
         .consumable-item-life-energy-add-button-container {
@@ -288,6 +291,46 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           }
 
           &:hover .consumable-item-life-energy-add-icon {
+            transform: scale(1.15);
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+          }
+        }
+      }
+
+      .consumable-item-effects-system {
+        background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+        margin: 6px 5px 0;
+        min-height: 48px;
+
+        .consumable-item-effects-add-button-container {
+          margin-top: 2px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .consumable-item-effects-add-button {
+          width: 44px;
+          height: 20px;
+          padding: 0;
+          border: none;
+          background: url('/systems/cardigan/assets/images/decorative/background-button-effects.webp') center / 90% 60% no-repeat;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          outline: none;
+
+          .consumable-item-effects-add-icon {
+            width: 11px;
+            height: 11px;
+            transition: transform 0.2s ease;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+          }
+
+          &:hover .consumable-item-effects-add-icon {
             transform: scale(1.15);
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
           }
@@ -814,7 +857,6 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
     flex-wrap: wrap;
     gap: 10px;
     width: 100%;
-    margin-top: 8px;
 
     .consumable-item-bottom-column {
       flex: 1 1 0;

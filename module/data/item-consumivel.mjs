@@ -318,6 +318,13 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       label: "CARDIGAN.ItemConsumivel.HasLifeEnergySection"
     });
 
+    // Visual toggle for the Attributes tab effects block
+    schema.hasEffectsSection = new fields.BooleanField({
+      required: true,
+      initial: false,
+      label: "CARDIGAN.ItemConsumivel.HasEffectsSection"
+    });
+
     schema.temporarySkillBonus = new fields.ArrayField(
       new fields.SchemaField({
         ability: new fields.StringField({

@@ -96,8 +96,7 @@
   &.skills,
   &.professions,
   &.biography {
-    padding-left: 5px !important;
-    scrollbar-width: thin;
+    scrollbar-width: none !important;
     scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);
     scrollbar-gutter: stable;
   }
