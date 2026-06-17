@@ -65,19 +65,36 @@
   }
 
   .life-energy-add-content {
+    padding: 10px;
     min-height: 180px;
-    border: 1px solid #ffb75c;
-    border-radius: 14px;
-    background: linear-gradient(180deg, rgba(50, 145, 191, 0.22) 0%, rgba(13, 72, 104, 0.3) 58%, rgba(8, 56, 84, 0.35) 100%);
-    box-shadow: inset 0 10px 22px rgba(122, 209, 255, 0.12), 0 8px 16px rgba(5, 25, 37, 0.22);
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  }
+
+  .life-energy-add-body {
+    padding: 10px;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
     flex-direction: column;
     gap: 10px;
+    border: 1px solid #FFB75C;
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(50, 145, 191, 0.22) 0%, rgba(13, 72, 104, 0.3) 58%, rgba(8, 56, 84, 0.35) 100%);
+    box-shadow: inset 0 10px 22px rgba(122, 209, 255, 0.12), 0 8px 16px rgba(5, 25, 37, 0.22);
+  }
+
+  .life-energy-add-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    gap: 8px;
   }
 
   .life-energy-add-modifier-controls {
+    height: 35px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -89,13 +106,13 @@
 
   .life-energy-add-button-wrapper {
     width: 25px;
-    height: 20px;
+    height: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
     border: 1.5px solid rgba(255, 183, 92, 0.2);
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
     overflow: hidden;
 
@@ -125,8 +142,10 @@
   }
 
   .life-energy-add-symbol {
+    position: relative;
+    top: -1.1px;
     font-family: 'Alatsi', sans-serif;
-    font-size: 10px;
+    font-size: 14px;
     line-height: 1;
     user-select: none;
     pointer-events: none;
@@ -155,38 +174,346 @@
   .life-energy-add-dice-row {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
+    padding: 5px;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  }
+
+  .life-energy-add-temp-title {
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+
+    p {
+      margin: 0;
+      font-size: 15px;
+      white-space: nowrap;
+      text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+      background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  .life-energy-add-temp-title-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .life-energy-add-temp-title-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .life-energy-add-temp-title-icon {
+    width: 17px;
+    height: 17px;
+    object-fit: contain;
+    opacity: 0.5;
+    transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
+
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
+
+  .life-energy-add-temp-title-checkbox:checked + .life-energy-add-temp-title-icon {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.8));
+  }
+
+  .life-energy-add-temp-check {
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+
+    p {
+      margin: 0;
+      font-size: 15px;
+      white-space: nowrap;
+      text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+      background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  .life-energy-add-skill-selection-wrapper {
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .life-energy-add-skill-selection {
+    margin: 0;
+    position: relative;
+    display: inline-flex;
+    width: 115px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      right: 0.5px;
+      width: 22px;
+      height: calc(100% - 0px);
+      background: transparent;
+      transition: background 0.2s ease;
+      pointer-events: none;
+      border-radius: 0 2px 2px 0;
+    }
+
+    &::after {
+      content: "▼";
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 9px;
+      color: #FFB75C;
+      pointer-events: none;
+      z-index: 1;
+      transition: color 0.2s ease;
+    }
+
+    &:hover::before,
+    &:focus-within::before {
+      background: #FFB75C;
+    }
+
+    &:hover::after,
+    &:focus-within::after {
+      color: #265b7e;
+    }
+  }
+
+  .life-energy-add-skill-trigger {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    background: transparent;
+    color: #FFB75C;
+    height: 25px !important;
+    min-height: 25px !important;
+    line-height: 23px;
+    font-size: 10px;
+    font-family: "Alatsi", sans-serif;
+    border: 1px solid #FFB75C !important;
+    padding: 0 28px 0 5px;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      border-color: #FFB75C !important;
+    }
+
+    &:focus {
+      border-color: #FFB75C !important;
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:focus-visible {
+      border-color: #FFB75C !important;
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .life-energy-add-skill-label {
+    display: block;
+    color: #FFB75C;
+    line-height: 23px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .life-energy-add-skill-menu {
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    width: 100%;
+    z-index: 20;
+    font-family: "Alatsi", sans-serif;
+    border: 1px solid #FFB75C;
+    background: transparent !important;
+    border-radius: 5px;
+    overflow: hidden;
+
+    &.is-collapsed {
+      display: none;
+    }
+  }
+
+  .life-energy-add-skill-option {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    text-align: left;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none;
+    background: #001925;
+    color: #FFB75C;
+    padding: 4px 5px;
+    font-size: 10px;
+    font-family: "Alatsi", sans-serif;
+    line-height: 1.35;
+    cursor: pointer;
+
+    &:hover,
+    &.is-selected {
+      background: #FFB75C;
+      color: #001925;
+    }
+  }
+
+  .life-energy-add-skill-double-wrapper {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+    border: 1.5px solid rgba(255, 183, 92, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+
+    &:has(.life-energy-add-skill-double-checkbox:checked) {
+      border-color: #FFB75C;
+    }
+  }
+
+  .life-energy-add-skill-double-label {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .life-energy-add-skill-double-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .life-energy-add-skill-double-symbol {
+    font-family: 'Alatsi', sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    user-select: none;
+    pointer-events: none;
+    opacity: 0.5;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .life-energy-add-skill-double-wrapper:hover .life-energy-add-skill-double-symbol {
+    transform: scale(1.15);
+  }
+
+  .life-energy-add-skill-double-checkbox:checked ~ .life-energy-add-skill-double-symbol {
+    opacity: 1;
   }
 
   .life-energy-add-dice-inputs-row {
-    width: 190px;
+    width: auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6px;
+    align-self: center;
+  }
+
+  .life-energy-add-dice-input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .life-energy-add-dice-input-title {
+    margin: 0;
+    font-size: 15px;
+    text-transform: uppercase;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .life-energy-add-dice-input-column {
-    width: 100%;
+    width: 93px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+    border: 1.5px solid rgba(255, 183, 92, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+
+    &:focus-within {
+      border-color: #FFB75C;
+    }
   }
 
   .life-energy-add-dice-quantity-input,
   .life-energy-add-dice-bonus-input {
-    width: 100%;
-    height: 24px;
-    padding: 0 6px;
-    border: 1px solid #ffb75c;
-    border-radius: 8px;
-    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
-    color: #ffb75c;
-    font-family: "Alatsi", sans-serif;
-    font-size: 10px;
+    width: 93px !important;
+    min-height: 20px !important;
+    height: 25px !important;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    caret-color: #FFB75C;
+    font-size: 14px;
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
     text-align: center;
     outline: none;
-    box-shadow: none;
+    font-family: "Alatsi", sans-serif;
 
     &:focus {
-      border-color: #ffb75c;
-      box-shadow: 0 0 0 1px rgba(255, 183, 92, 0.35);
+      outline: none !important;
+      border: none;
+      box-shadow: none;
+      background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
     }
   }
 
@@ -214,7 +541,7 @@
       top: 0.9px;
       right: 0.5px;
       width: 20px;
-      height: calc(100% - 2px);
+      height: calc(100% - 1px);
       background: transparent;
       transition: background 0.2s ease;
       pointer-events: none;
@@ -251,8 +578,9 @@
     width: 100%;
     background: transparent;
     color: #ffb75c;
-    height: 24px;
-    line-height: 22px;
+    height: 25px !important;
+    min-height: 25px !important;
+    line-height: 23px;
     font-size: 10px;
     font-family: "Alatsi", sans-serif;
     border: 1px solid #ffb75c !important;
@@ -270,7 +598,7 @@
   .life-energy-add-dice-label {
     display: block;
     color: #ffb75c;
-    line-height: 22px;
+    line-height: 23px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -353,11 +681,12 @@
 }
 
 .life-energy-add-dice-menu.life-energy-add-dice-menu-portal {
-  border: 1px solid #ffb75c;
-  border-radius: 8px;
+  border: 1px solid #FFB75C;
+  border-radius: 5px;
   background: #265b7e;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
   overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  font-family: "Alatsi", sans-serif;
 
   .life-energy-add-dice-option {
     display: flex;
@@ -368,9 +697,9 @@
     border-radius: 0;
     margin: 0;
     box-shadow: none;
-    background: #265b7e;
-    color: #ffb75c;
-    padding: 4px 6px;
+    background: #001925;
+    color: #FFB75C;
+    padding: 4px 5px;
     font-size: 10px;
     font-family: "Alatsi", sans-serif;
     line-height: 1.35;
@@ -378,8 +707,41 @@
 
     &:hover,
     &.is-selected {
-      background: #ffb75c;
-      color: #265b7e;
+      background: #FFB75C;
+      color: #001925;
+    }
+  }
+}
+
+.life-energy-add-skill-menu.life-energy-add-skill-menu-portal {
+  border: 1px solid #FFB75C;
+  border-radius: 5px;
+  background: #265b7e;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  font-family: "Alatsi", sans-serif;
+
+  .life-energy-add-skill-option {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    text-align: left;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none;
+    background: #001925;
+    color: #FFB75C;
+    padding: 4px 5px;
+    font-size: 10px;
+    font-family: "Alatsi", sans-serif;
+    line-height: 1.35;
+    cursor: pointer;
+
+    &:hover,
+    &.is-selected {
+      background: #FFB75C;
+      color: #001925;
     }
   }
 }

@@ -1078,6 +1078,100 @@ export class CommonItemListeners {
         }, { once: true });
       });
 
+      const skillsLifeCheckbox = dialog.element?.querySelector('[data-life-energy-skills-life]');
+      const skillsLifeWrapper = dialog.element?.querySelector('[data-life-energy-skill-selection-life]');
+      const skillsEnergyCheckbox = dialog.element?.querySelector('[data-life-energy-skills-energy]');
+      const skillsEnergyWrapper = dialog.element?.querySelector('[data-life-energy-skill-selection-energy]');
+
+      const setupSkillToggle = (checkbox, wrapper) => {
+        if (!checkbox || !wrapper) return;
+        checkbox.addEventListener('change', () => {
+          wrapper.classList.toggle('hidden', !checkbox.checked);
+        });
+      };
+
+      setupSkillToggle(skillsLifeCheckbox, skillsLifeWrapper);
+      setupSkillToggle(skillsEnergyCheckbox, skillsEnergyWrapper);
+
+      dialog.element?.querySelectorAll('[data-life-energy-skill-ability-life], [data-life-energy-skill-ability-energy]').forEach((selectionWrapper) => {
+        const hiddenInput = selectionWrapper.querySelector('[data-life-energy-skill-input]');
+        const trigger = selectionWrapper.querySelector('[data-life-energy-skill-trigger]');
+        const labelEl = selectionWrapper.querySelector('[data-life-energy-skill-label]');
+        const menu = selectionWrapper.querySelector('[data-life-energy-skill-menu]');
+        const options = Array.from(selectionWrapper.querySelectorAll('[data-life-energy-skill-option]'));
+
+        if (!hiddenInput || !trigger || !labelEl || !menu || !options.length) return;
+
+        const skillOriginalParent = menu.parentElement;
+        const skillOriginalNextSibling = menu.nextSibling;
+        let skillOutsideClickHandler = null;
+
+        const restoreSkillMenu = () => {
+          if (skillOriginalParent && menu.parentElement !== skillOriginalParent) {
+            skillOriginalParent.insertBefore(menu, skillOriginalNextSibling);
+          }
+          menu.classList.remove('life-energy-add-skill-menu-portal');
+          menu.style.position = '';
+          menu.style.top = '';
+          menu.style.left = '';
+          menu.style.width = '';
+          menu.style.zIndex = '';
+          menu.classList.add('is-collapsed');
+          if (skillOutsideClickHandler) {
+            document.removeEventListener('click', skillOutsideClickHandler, true);
+            skillOutsideClickHandler = null;
+          }
+        };
+
+        const positionSkillMenu = () => {
+          const triggerRect = trigger.getBoundingClientRect();
+          menu.style.position = 'fixed';
+          menu.style.top = `${triggerRect.bottom + 1}px`;
+          menu.style.left = `${triggerRect.left}px`;
+          menu.style.width = `${triggerRect.width}px`;
+          menu.style.zIndex = '99999';
+        };
+
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          if (!menu.classList.contains('is-collapsed')) {
+            restoreSkillMenu();
+            return;
+          }
+
+          document.body.appendChild(menu);
+          menu.classList.add('life-energy-add-skill-menu-portal');
+          positionSkillMenu();
+          menu.classList.remove('is-collapsed');
+
+          skillOutsideClickHandler = (evt) => {
+            if (!menu.contains(evt.target) && !trigger.contains(evt.target)) {
+              restoreSkillMenu();
+            }
+          };
+          requestAnimationFrame(() => {
+            document.addEventListener('click', skillOutsideClickHandler, true);
+          });
+        });
+
+        options.forEach((option) => {
+          option.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            hiddenInput.value = option.dataset.value;
+            labelEl.textContent = option.textContent;
+            options.forEach((o) => o.classList.toggle('is-selected', o === option));
+            restoreSkillMenu();
+          });
+        });
+
+        dialog.addEventListener('close', () => {
+          restoreSkillMenu();
+        }, { once: true });
+      });
+
       const submitButton = dialog.element?.querySelector('.life-energy-add-submit-button');
       submitButton?.addEventListener('click', (submitEvent) => {
         submitEvent.preventDefault();
