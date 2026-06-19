@@ -25024,6 +25024,12 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   border-color: #FFB75C;
   box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
 }
+.cardigan.dialog.effects-selection .effect-item.selected .effect-icon-wrapper {
+  border-color: #FFB75C;
+}
+.cardigan.dialog.effects-selection .effect-item.selected .rounds-button-wrapper {
+  border-color: #FFB75C;
+}
 .cardigan.dialog.effects-selection .rounds-counter {
   position: absolute;
   top: 50%;
@@ -26002,10 +26008,24 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   flex: 1 1 0;
   min-height: 220px;
 }
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-section-life .life-energy-add-header {
+  gap: 4px;
+  padding-right: 16px;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-section-energy .life-energy-add-header {
+  gap: 0;
+  padding-right: 12px;
+}
 .dialog.cardigan-life-energy-add-dialog .life-energy-add-header {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.dialog.cardigan-life-energy-add-dialog .life-energy-add-header .life-energy-add-header-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 .dialog.cardigan-life-energy-add-dialog .life-energy-add-header p {
   text-transform: uppercase;

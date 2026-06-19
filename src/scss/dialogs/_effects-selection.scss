@@ -186,6 +186,14 @@
     &.selected {
       border-color: #FFB75C;
       box-shadow: 0 0 12px rgba(255, 183, 92, 0.5);
+
+      .effect-icon-wrapper {
+        border-color: #FFB75C;
+      }
+
+      .rounds-button-wrapper {
+        border-color: #FFB75C;
+      }
     }
   }
 

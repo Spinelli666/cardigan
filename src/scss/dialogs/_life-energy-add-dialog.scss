@@ -39,10 +39,27 @@
     min-height: 220px;
   }
 
+  .life-energy-add-section-life .life-energy-add-header {
+    gap: 4px;
+    padding-right: 16px;
+  }
+
+  .life-energy-add-section-energy .life-energy-add-header {
+    gap: 0;
+    padding-right: 12px;
+  }
+
   .life-energy-add-header {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .life-energy-add-header-icon {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
 
     p {
       text-transform: uppercase;
