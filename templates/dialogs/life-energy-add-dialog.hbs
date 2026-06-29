@@ -1,0 +1,231 @@
+<form class="dialog-form standard-form life-energy-add-form">
+  <div class="life-energy-add-sections">
+    <div class="life-energy-add-section life-energy-add-section-life">
+      <div class="life-energy-add-header">
+        <img class="life-energy-add-header-icon" src="systems/cardigan/assets/images/decorative/icons/icon-health.svg" alt="Vida" />
+        <p>Vida</p>
+      </div>
+      <img class="life-energy-add-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+      <div class="life-energy-add-content" data-life-energy-life-content>
+        <div class="life-energy-add-body">
+          <div class="life-energy-add-top-row">
+            <div class="life-energy-add-dice-row" data-life-energy-dice>
+              <img class="life-energy-add-dice-icon" src="systems/cardigan/assets/images/decorative/icons/icon-d20.svg" alt="Dado" data-tooltip="Tipo de Dado" data-tooltip-class='cardigan-tooltip' />
+              <div class="life-energy-add-dice-selection" data-life-energy-dice-selection>
+                <input type="hidden" class="life-energy-add-dice-input" value="d20" data-life-energy-dice-input />
+                <button type="button" class="life-energy-add-dice-trigger" data-life-energy-dice-trigger aria-haspopup="listbox" aria-expanded="false">
+                  <span class="life-energy-add-dice-label" data-life-energy-dice-label>d20</span>
+                </button>
+                <div class="life-energy-add-dice-menu is-collapsed" data-life-energy-dice-menu role="listbox">
+                  <button type="button" class="life-energy-add-dice-option is-selected" data-life-energy-dice-option data-value="d20">d20</button>
+                  <button type="button" class="life-energy-add-dice-option" data-life-energy-dice-option data-value="d12">d12</button>
+                  <button type="button" class="life-energy-add-dice-option" data-life-energy-dice-option data-value="d10">d10</button>
+                  <button type="button" class="life-energy-add-dice-option" data-life-energy-dice-option data-value="d8">d8</button>
+                  <button type="button" class="life-energy-add-dice-option" data-life-energy-dice-option data-value="d6">d6</button>
+                  <button type="button" class="life-energy-add-dice-option" data-life-energy-dice-option data-value="d4">d4</button>
+                </div>
+              </div>
+            </div>
+            <div class="life-energy-add-modifier-controls">
+              <div class="life-energy-add-button-wrapper" data-tooltip="Remover" data-tooltip-class='cardigan-tooltip'>
+                <label class="life-energy-add-check-label" aria-label="Retirar vida">
+                  <input
+                    type="checkbox"
+                    class="life-energy-add-checkbox life-energy-add-life-decrease"
+                    data-life-energy-target="life"
+                    data-life-energy-modifier-type="decrease"
+                  />
+                  <span class="life-energy-add-symbol life-energy-add-decrease-symbol">-</span>
+                </label>
+              </div>
+              <div class="life-energy-add-button-wrapper" data-tooltip="Adicionar" data-tooltip-class='cardigan-tooltip'>
+                <label class="life-energy-add-check-label" aria-label="Adicionar vida">
+                  <input
+                    type="checkbox"
+                    class="life-energy-add-checkbox life-energy-add-life-increase"
+                    data-life-energy-target="life"
+                    data-life-energy-modifier-type="increase"
+                  />
+                  <span class="life-energy-add-symbol life-energy-add-increase-symbol">+</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="life-energy-add-dice-inputs-row">
+            <div class="life-energy-add-dice-input-group">
+              <p class="life-energy-add-dice-input-title">Quantidade</p>
+              <div class="life-energy-add-dice-input-column">
+                <input type="number" class="life-energy-add-dice-quantity-input" name="lifeEnergy.life.diceQuantity" value="1" min="1" step="1" placeholder="Dados" aria-label="Quantidade de Dado" data-tooltip="Quantidade de Dados" data-tooltip-class='cardigan-tooltip' />
+              </div>
+            </div>
+            <div class="life-energy-add-dice-input-group">
+              <p class="life-energy-add-dice-input-title">Bônus</p>
+              <div class="life-energy-add-dice-input-column">
+                <input type="number" class="life-energy-add-dice-bonus-input" name="lifeEnergy.life.bonus" value="0" step="1" placeholder="Bônus" aria-label="Bônus" />
+              </div>
+            </div>
+          </div>
+
+          <div class="life-energy-add-temp-title">
+            <p>VIDA TEMPORÁRIA</p>
+            <label class="life-energy-add-temp-title-toggle" aria-label="Vida Temporária" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
+              <input type="checkbox" class="life-energy-add-temp-title-checkbox" data-life-energy-temp-life />
+              <img class="life-energy-add-temp-title-icon" src="systems/cardigan/assets/images/decorative/icons/icon-equip.svg" alt="Ativar" />
+            </label>
+          </div>
+
+          <div class="life-energy-add-temp-check">
+            <p>PERÍCIA</p>
+            <label class="life-energy-add-temp-title-toggle" aria-label="Perícia" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
+              <input type="checkbox" class="life-energy-add-temp-title-checkbox" data-life-energy-skills-life />
+              <img class="life-energy-add-temp-title-icon" src="systems/cardigan/assets/images/decorative/icons/icon-equip.svg" alt="Ativar" />
+            </label>
+          </div>
+
+          <div class="life-energy-add-skill-selection-wrapper hidden" data-life-energy-skill-selection-life>
+            <div class="life-energy-add-skill-selection" data-life-energy-skill-ability-life>
+              <input type="hidden" class="life-energy-add-skill-input" value="accuracy" data-life-energy-skill-input />
+              <button type="button" class="life-energy-add-skill-trigger" data-life-energy-skill-trigger aria-haspopup="listbox" aria-expanded="false">
+                <span class="life-energy-add-skill-label" data-life-energy-skill-label>Precisão</span>
+              </button>
+              <div class="life-energy-add-skill-menu is-collapsed" data-life-energy-skill-menu role="listbox">
+                <button type="button" class="life-energy-add-skill-option is-selected" data-life-energy-skill-option data-value="accuracy">Precisão</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="evasion">Evasão</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="strength">Força</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="dexterity">Destreza</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="stamina">Vigor</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="stealth">Furtividade</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="persuasion">Persuasão</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="intelligence">Inteligência</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="psionics">Psionismo</button>
+              </div>
+            </div>
+            <div class="life-energy-add-skill-double-wrapper" data-tooltip="Dobro" data-tooltip-class='cardigan-tooltip'>
+              <label class="life-energy-add-skill-double-label">
+                <input type="checkbox" class="life-energy-add-skill-double-checkbox" data-life-energy-skill-double-life />
+                <span class="life-energy-add-skill-double-symbol">x2</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="life-energy-add-section life-energy-add-section-energy">
+      <div class="life-energy-add-header">
+        <img class="life-energy-add-header-icon" src="systems/cardigan/assets/images/decorative/icons/icon-energy.svg" alt="Energia" />
+        <p>Energia</p>
+      </div>
+      <img class="life-energy-add-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+      <div class="life-energy-add-content" data-life-energy-energy-content>
+        <div class="life-energy-add-body">
+          <div class="life-energy-add-top-row">
+            <div class="life-energy-add-dice-row" data-life-energy-dice>
+              <img class="life-energy-add-dice-icon" src="systems/cardigan/assets/images/decorative/icons/icon-d20.svg" alt="Dado" data-tooltip="Tipo de Dado" data-tooltip-class='cardigan-tooltip' />
+              <div class="life-energy-add-dice-selection" data-life-energy-dice-selection>
+                <input type="hidden" class="life-energy-add-dice-input" value="d20" data-life-energy-dice-input />
+                <button type="button" class="life-energy-add-dice-trigger" data-life-energy-dice-trigger aria-haspopup="listbox" aria-expanded="false">
+                  <span class="life-energy-add-dice-label" data-life-energy-dice-label>d20</span>
+                </button>
+                <div class="life-energy-add-dice-menu is-collapsed" data-life-energy-dice-menu role="listbox">
+                  <button type="button" class="life-energy-add-dice-option is-selected" data-life-energy-dice-option data-value="d20">d20</button>
+                  <button type="button" class="life-energy-add-dice-option" data-life-energy-dice-option data-value="d12">d12</button>
+                  <button type="button" class="life-energy-add-dice-option" data-life-energy-dice-option data-value="d10">d10</button>
+                  <button type="button" class="life-energy-add-dice-option" data-life-energy-dice-option data-value="d8">d8</button>
+                  <button type="button" class="life-energy-add-dice-option" data-life-energy-dice-option data-value="d6">d6</button>
+                  <button type="button" class="life-energy-add-dice-option" data-life-energy-dice-option data-value="d4">d4</button>
+                </div>
+              </div>
+            </div>
+            <div class="life-energy-add-modifier-controls">
+              <div class="life-energy-add-button-wrapper" data-tooltip="Remover" data-tooltip-class='cardigan-tooltip'>
+                <label class="life-energy-add-check-label" aria-label="Retirar energia">
+                  <input
+                    type="checkbox"
+                    class="life-energy-add-checkbox life-energy-add-energy-decrease"
+                    data-life-energy-target="energy"
+                    data-life-energy-modifier-type="decrease"
+                  />
+                  <span class="life-energy-add-symbol life-energy-add-decrease-symbol">-</span>
+                </label>
+              </div>
+              <div class="life-energy-add-button-wrapper" data-tooltip="Adicionar" data-tooltip-class='cardigan-tooltip'>
+                <label class="life-energy-add-check-label" aria-label="Adicionar energia">
+                  <input
+                    type="checkbox"
+                    class="life-energy-add-checkbox life-energy-add-energy-increase"
+                    data-life-energy-target="energy"
+                    data-life-energy-modifier-type="increase"
+                  />
+                  <span class="life-energy-add-symbol life-energy-add-increase-symbol">+</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="life-energy-add-dice-inputs-row">
+            <div class="life-energy-add-dice-input-group">
+              <p class="life-energy-add-dice-input-title">Quantidade</p>
+              <div class="life-energy-add-dice-input-column">
+                <input type="number" class="life-energy-add-dice-quantity-input" name="lifeEnergy.energy.diceQuantity" value="1" min="1" step="1" placeholder="Quantidade de Dado" aria-label="Quantidade de Dado" data-tooltip="Quantidade de Dados" data-tooltip-class='cardigan-tooltip' />
+              </div>
+            </div>
+            <div class="life-energy-add-dice-input-group">
+              <p class="life-energy-add-dice-input-title">Bônus</p>
+              <div class="life-energy-add-dice-input-column">
+                <input type="number" class="life-energy-add-dice-bonus-input" name="lifeEnergy.energy.bonus" value="0" step="1" placeholder="Bônus" aria-label="Bônus" />
+              </div>
+            </div>
+          </div>
+
+          <div class="life-energy-add-temp-title">
+            <p>ENERGIA TEMPORÁRIA</p>
+            <label class="life-energy-add-temp-title-toggle" aria-label="Energia Temporária" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
+              <input type="checkbox" class="life-energy-add-temp-title-checkbox" data-life-energy-temp-energy />
+              <img class="life-energy-add-temp-title-icon" src="systems/cardigan/assets/images/decorative/icons/icon-equip.svg" alt="Ativar" />
+            </label>
+          </div>
+
+          <div class="life-energy-add-temp-check">
+            <p>PERÍCIA</p>
+            <label class="life-energy-add-temp-title-toggle" aria-label="Perícia" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
+              <input type="checkbox" class="life-energy-add-temp-title-checkbox" data-life-energy-skills-energy />
+              <img class="life-energy-add-temp-title-icon" src="systems/cardigan/assets/images/decorative/icons/icon-equip.svg" alt="Ativar" />
+            </label>
+          </div>
+
+          <div class="life-energy-add-skill-selection-wrapper hidden" data-life-energy-skill-selection-energy>
+            <div class="life-energy-add-skill-selection" data-life-energy-skill-ability-energy>
+              <input type="hidden" class="life-energy-add-skill-input" value="accuracy" data-life-energy-skill-input />
+              <button type="button" class="life-energy-add-skill-trigger" data-life-energy-skill-trigger aria-haspopup="listbox" aria-expanded="false">
+                <span class="life-energy-add-skill-label" data-life-energy-skill-label>Precisão</span>
+              </button>
+              <div class="life-energy-add-skill-menu is-collapsed" data-life-energy-skill-menu role="listbox">
+                <button type="button" class="life-energy-add-skill-option is-selected" data-life-energy-skill-option data-value="accuracy">Precisão</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="evasion">Evasão</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="strength">Força</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="dexterity">Destreza</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="stamina">Vigor</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="stealth">Furtividade</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="persuasion">Persuasão</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="intelligence">Inteligência</button>
+                <button type="button" class="life-energy-add-skill-option" data-life-energy-skill-option data-value="psionics">Psionismo</button>
+              </div>
+            </div>
+            <div class="life-energy-add-skill-double-wrapper" data-tooltip="Dobro" data-tooltip-class='cardigan-tooltip'>
+              <label class="life-energy-add-skill-double-label">
+                <input type="checkbox" class="life-energy-add-skill-double-checkbox" data-life-energy-skill-double-energy />
+                <span class="life-energy-add-skill-double-symbol">x2</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="life-energy-add-actions">
+    <button type="button" class="life-energy-add-submit-button">Adicionar</button>
+  </div>
+</form>

@@ -9,26 +9,28 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
     super(options);
     this.resolve = null;
     this.hideAttackMode = options.hideAttackMode || false;
+    this.hideHandSelection = options.hideHandSelection || false;
+    this.hideJointRoll = options.hideJointRoll || false;
+    this.hideAttackModeBorder = options.hideAttackModeBorder || false;
   }
 
   static DEFAULT_OPTIONS = {
     id: "advantage-selection-dialog",
-    classes: ["cardigan", "advantage-selection-dialog"],
+    classes: ["cardigan", "dialog", "advantage-selection-dialog"],
     tag: "dialog",
     window: {
-      title: "Tipo de Rolagem",
-      icon: "fas fa-dice-d20",
+      title: "Tipo de Teste",
       contentClasses: ["standard-form"],
       minimizable: false,
       resizable: false,
       positioned: true
     },
     position: {
-      width: 600,
+      width: 455,
       height: "auto"
     },
     actions: {
-      selectRoll: this._onSelectRoll
+      rollTest: this._onRollTest
     }
   };
 
@@ -54,67 +56,58 @@ export class AdvantageSelectionDialog extends HandlebarsApplicationMixin(Applica
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     context.hideAttackMode = this.hideAttackMode;
+    context.hideHandSelection = this.hideHandSelection;
+    context.hideJointRoll = this.hideJointRoll;
+    context.hideAttackModeBorder = this.hideAttackModeBorder;
     return context;
   }
 
   _onRender(context, options) {
     super._onRender(context, options);
 
-    // Add mutual exclusivity to checkboxes
-    const conjuntoCheckbox = this.element.querySelector('#attack-conjunto');
-    const individualCheckbox = this.element.querySelector('#attack-individual');
+    // Allow deselecting radio buttons by clicking again
+    const radioButtons = this.element.querySelectorAll('input[name="rollModifier"]');
+    let lastSelected = null;
 
-    if (conjuntoCheckbox && individualCheckbox) {
-      conjuntoCheckbox.addEventListener('change', () => {
-        if (conjuntoCheckbox.checked) {
-          individualCheckbox.checked = false;
-        } else if (!individualCheckbox.checked) {
-          individualCheckbox.checked = true;
+    radioButtons.forEach(radio => {
+      radio.addEventListener('click', (event) => {
+        if (lastSelected === radio) {
+          radio.checked = false;
+          lastSelected = null;
+        } else {
+          lastSelected = radio;
         }
-      });
-
-      individualCheckbox.addEventListener('change', () => {
-        if (individualCheckbox.checked) {
-          conjuntoCheckbox.checked = false;
-        } else if (!conjuntoCheckbox.checked) {
-          conjuntoCheckbox.checked = true;
-        }
-      });
-    }
-
-    // Add click handlers to roll buttons
-    this.element.querySelectorAll('[data-roll-type]').forEach(button => {
-      button.addEventListener('click', (event) => {
-        event.preventDefault();
-        const rollType = button.dataset.rollType;
-        this._selectRoll(rollType);
       });
     });
   }
 
   /**
-   * Handle roll type selection
+   * Handle roll test button click
    * @param {Event} event
    * @param {HTMLElement} target
    * @private
    */
-  static async _onSelectRoll(event, target) {
-    const rollType = target.dataset.rollType || target.closest('[data-roll-type]')?.dataset.rollType;
-    if (rollType) {
-      this._selectRoll(rollType);
-    }
-  }
-
-  /**
-   * Select a roll type and resolve the promise
-   * @param {string} rollType - The selected roll type
-   * @private
-   */
-  _selectRoll(rollType) {
-    const attackMode = this.element.querySelector('input[name="attackType"]:checked')?.value || 'individual';
+  static async _onRollTest(event, target) {
+    // Get selected roll modifier (if any)
+    const selectedModifier = this.element.querySelector('input[name="rollModifier"]:checked');
+    const rollType = selectedModifier ? selectedModifier.value : 'normal';
+    
+    // Get attack mode: 'conjunto' if checked, 'individual' if not
+    const conjuntoCheckbox = this.element.querySelector('#attack-conjunto');
+    const attackMode = conjuntoCheckbox?.checked ? 'conjunto' : 'individual';
+    
+    // Get manual modifier
+    const manualModifierInput = this.element.querySelector('#manual-modifier');
+    const manualModifier = parseInt(manualModifierInput?.value || 0);
+    
+    // Get hand selection checkboxes (correct IDs from template)
+    const primaryHandCheckbox = this.element.querySelector('#attack-hand-primary');
+    const secondaryHandCheckbox = this.element.querySelector('#attack-hand-secondary');
+    const primaryHand = primaryHandCheckbox?.checked || false;
+    const secondaryHand = secondaryHandCheckbox?.checked || false;
     
     if (this.resolve) {
-      this.resolve({ rollType, attackMode });
+      this.resolve({ rollType, attackMode, manualModifier, primaryHand, secondaryHand });
     }
     this.close();
   }

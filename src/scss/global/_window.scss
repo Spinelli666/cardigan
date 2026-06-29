@@ -8,7 +8,7 @@
   border-radius: 14px;
   background: transparent !important;
   
-  // REMOVIDO: container-type cria novo stacking context que isola z-index do tooltip
+  // REMOVIDO: container-type cria novo stacking context que isola z-index
   // container-type: size;
   // container-name: actor-sheet;
 
@@ -101,6 +101,56 @@
 
 .window-app {
   font-family: $font-primary;
+}
+
+// ========================================
+// 🎨 DIVIDERS DECORATIVOS NO WINDOW-HEADER
+// ========================================
+
+.application.cardigan .window-header {
+  position: relative;
+  overflow: visible;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 20%;
+    width: 23%;
+    height: 70px;
+    background-image: url('../assets/images/decorative/divider.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    transform: rotate(0deg) scaleX(-1);
+    z-index: 10;
+    opacity: 0.8;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    right: 20%;
+    width: 23%;
+    height: 70px;
+    background-image: url('../assets/images/decorative/divider.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    transform: rotate(0deg);
+    z-index: 10;
+    opacity: 0.8;
+  }
+}
+
+.application.cardigan.minimized .window-header {
+  &::before,
+  &::after {
+    display: none;
+  }
 }
 
 .rollable {

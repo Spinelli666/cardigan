@@ -36,6 +36,10 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
             initial: 0,
             integer: true
           }),
+          baseBonus: new fields.NumberField({
+            initial: 0,
+            integer: true
+          }),
           baseValue: new fields.NumberField({
             initial: 0,
             integer: true
@@ -55,6 +59,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       toxicity: new fields.NumberField({ initial: null, min: 0, max: 5, integer: true }),
       healthBonus: new fields.NumberField({ initial: 0, integer: true }),
       energyBonus: new fields.NumberField({ initial: 0, integer: true }),
+      armorBonusManual: new fields.NumberField({ initial: 0, integer: true }),
       armorBonus: new fields.NumberField({ initial: 0, integer: true })
     });
 
@@ -83,13 +88,13 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       additionalNotes: new fields.StringField({ initial: "" }),
       showAdditionalNotes: new fields.BooleanField({ initial: true }),
       showEffectsTab: new fields.BooleanField({ initial: true }),
+      showBackpackContainer: new fields.BooleanField({ initial: false }),
       showWeaponsTable: new fields.BooleanField({ initial: true }),
       showCulinaryTable: new fields.BooleanField({ initial: false }),
       showTailoringTable: new fields.BooleanField({ initial: false }),
       showTecnomagicTable: new fields.BooleanField({ initial: false }),
       showBlacksmithingTable: new fields.BooleanField({ initial: false }),
       showAlchemyTable: new fields.BooleanField({ initial: false }),
-      showCarpentryTable: new fields.BooleanField({ initial: false }),
       showSkillsAndarilhoTable: new fields.BooleanField({ initial: false }),
       showSkillsGuerreiroTable: new fields.BooleanField({ initial: false }),
       showSkillsLadinoTable: new fields.BooleanField({ initial: false }),
@@ -226,11 +231,12 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     }
 
     for (const key in this.abilities) {
+      const baseBonus = this.abilities[key].baseBonus || 0;
       const manualBonus = this.abilities[key].manualBonus || 0;
       const weaponBonus = weaponBonuses[key] || 0;
       
       this.abilities[key].weaponBonus = weaponBonus;
-      this.abilities[key].totalBonus = manualBonus + weaponBonus;
+      this.abilities[key].totalBonus = baseBonus + manualBonus + weaponBonus;
     }
 
     for (const key in this.abilities) {
@@ -299,53 +305,15 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
    * @private
    */
   _prepareStatusResources() {
-    // Hunger status messages lookup table
-    const HUNGER_MESSAGES = {
-      0: "",
-      1: "O personagem está ficando com fome. [1 de Fome]",
-      2: "O personagem está ficando com mais fome. [2 de Fome]",
-      3: "O personagem está faminto! [3 de Fome]"
-    };
-
-    // Thirst status messages lookup table
-    const THIRST_MESSAGES = {
-      0: "",
-      1: "O personagem está ficando com sede. [1 de Sede]",
-      2: "O personagem está ficando com mais sede. [2 de Sede]",
-      3: "O personagem está sedento! [3 de Sede]"
-    };
-
-    // Sanity status messages lookup table
-    const SANITY_MESSAGES = {
-      0: "",
-      1: "Ansioso, você está estressado, tenso e desconfiado.",
-      2: "Paranoico, você está desesperado, neurótico e pessimista.",
-      3: "Violento, você inconsequente, você está hostil e insensível.",
-      4: "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.",
-      5: "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição."
-    };
-
-    // Toxicity status messages lookup table
-    const TOXICITY_MESSAGES = {
-      0: "",
-      1: "Levemente intoxicado, você sente náusea e tontura.",
-      2: "Intoxicação moderada, você está enjoado e com visão turva.",
-      3: "Severamente intoxicado, você está vomitando e com dores intensas.",
-      4: "Intoxicação crítica, você está delirando e perdendo consciência.",
-      5: "Envenenamento fatal, você está à beira da morte por toxinas."
-    };
-
-    // Get current status levels
     const hungerLevel = this.status?.hunger ?? 0;
     const thirstLevel = this.status?.thirst ?? 0;
     const sanityLevel = this.status?.sanity ?? 0;
     const toxicityLevel = this.status?.toxicity ?? 0;
 
-    // Set status messages using lookup tables
-    this.status.hungerMessage = HUNGER_MESSAGES[hungerLevel] ?? "";
-    this.status.thirstMessage = THIRST_MESSAGES[thirstLevel] ?? "";
-    this.status.sanityMessage = SANITY_MESSAGES[sanityLevel] ?? "";
-    this.status.toxicityMessage = TOXICITY_MESSAGES[toxicityLevel] ?? "";
+    this.status.hungerMessage = hungerLevel > 0 ? game.i18n.localize(`CARDIGAN.Actor.Status.Hunger.${hungerLevel}`) : "";
+    this.status.thirstMessage = thirstLevel > 0 ? game.i18n.localize(`CARDIGAN.Actor.Status.Thirst.${thirstLevel}`) : "";
+    this.status.sanityMessage = sanityLevel > 0 ? game.i18n.localize(`CARDIGAN.Actor.Status.Sanity.${sanityLevel}`) : "";
+    this.status.toxicityMessage = toxicityLevel > 0 ? game.i18n.localize(`CARDIGAN.Actor.Status.Toxicity.${toxicityLevel}`) : "";
   }
 
   /**
@@ -363,7 +331,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const levelHealthBonus = Math.max(0, Math.min(level, 10) - 1) * 5;
     const levelEnergyBonus = Math.max(0, Math.min(level, 10) - 1) * 1;
     
-    // Fracture reduction (rule: each Fracture point reduces HP and Energy by 5)
+    // Fracture reduction (rule: each Fracture point reduces HP by 5, no longer reduces Energy)
     const fractureLevel = this.status?.fracture ?? 0;
     const fractureReduction = fractureLevel * 5;
     
@@ -383,12 +351,13 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
     const raceArmorBonus = this._raceArmorBonus ?? 0;
     
     // Calculate maximum values
+    const totalStrength = this._getTotalAbility('strength');
+    const strengthArmorBonus = Math.floor(totalStrength / 2);
     this.health.max = Math.max(0, staminaHealthBonus + levelHealthBonus - fractureReduction + healthBonus + armorHealthBonus + raceHealthBonus);
-    this.power.max = Math.max(0, staminaEnergyBonus + levelEnergyBonus - fractureReduction + energyBonus + armorEnergyBonus + racePowerBonus);
-    this.armor.max = Math.max(0, armorBonus + armorProtectionBonus + raceArmorBonus);
+    this.power.max = Math.max(0, staminaEnergyBonus + levelEnergyBonus + energyBonus + armorEnergyBonus + racePowerBonus);
+    this.armor.max = Math.max(0, armorBonus + armorProtectionBonus + raceArmorBonus + strengthArmorBonus);
     
     // Backpack capacity (rule: 15 base + Strength/2 + armor bonus)
-    const totalStrength = this._getTotalAbility('strength');
     const baseBackpackCapacity = 15 + Math.floor(totalStrength / 2);
     const armorBackpackBonus = this._armorBackpackSpaceBonus || 0;
     this.backpack.max = baseBackpackCapacity + armorBackpackBonus;

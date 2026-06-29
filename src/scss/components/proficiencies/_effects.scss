@@ -21,32 +21,105 @@
       .effects-toggle-icon {
         width: 50px;
         height: 50px;
+        filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
+        transition: filter 0.15s ease, transform 0.15s ease;
         cursor: pointer;
-        transition: transform 0.2s ease;
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
         
-        &:hover {
-          transform: scale(1.1);
-        }
+      &:hover {
+        filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.7));
+        transform: scale(1.1);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
       }
     }
+  }
 
-    .effect-controls {
-      display: flex;
-      align-items: center;
+  .effect-rounds {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    margin-right: 10px;
+    
+    .rounds-icon {
+      flex-shrink: 0;
+    }
+    
+    .rounds-value {
+      font-size: 14px;
+      font-weight: 600;
+      text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+      background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      min-width: 20px;
+      text-align: center;
+      padding-right: 2px;
 
-      .effect-control {
-        padding: 4px 8px;
-        font-size: 11px;
-        color: white;
+      // Remove padding when infinite icon is present
+      &:has(.rounds-infinite-icon) {
+        padding-right: 0;
+      }
+
+      .rounds-infinite-icon {
+        vertical-align: middle;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(180deg, #FFB75C 20%, #996E37 70%);
+        -webkit-mask: url('/systems/cardigan/assets/images/decorative/icons/icon-infinite.svg') no-repeat center;
+        mask: url('/systems/cardigan/assets/images/decorative/icons/icon-infinite.svg') no-repeat center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      }
+    }
+  }
+
+  .item-quantity.effect-consumed-quantity {
+    margin-right: 10px;
+    flex: 0 0 35px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+    border: none;
+    border-radius: 7px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+
+    input[type='number'] {
+      height: 22px;
+      width: 100%;
+      padding: 0;
+      text-align: center;
+      border: none;
+      border-radius: 0;
+      background: none;
+      box-shadow: none;
+      color: #FFB75C;
+      text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+      background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      pointer-events: none;
+      cursor: default;
+
+      &:focus,
+      &:hover,
+      &:active {
         border: none;
-        border-radius: 3px;
-        text-decoration: none;
-        cursor: pointer;
-
-        i {
-          margin-right: 4px;
-        }
+        border-radius: 0;
+        background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        box-shadow: none;
+        outline: none;
       }
     }
   }
@@ -66,8 +139,8 @@
       align-items: center;
 
     .add-effect-icon {
-      width: 10px;
-      height: 10px;
+      width: 11px;
+      height: 11px;
       cursor: pointer;
       transition: transform 0.2s ease;
       filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
@@ -84,9 +157,6 @@
     padding: 8px;
     margin: 0px 20px;
     width: calc(100% - 110px);
-    max-height: 120px;
-    overflow-y: auto;
-    overflow-x: visible;
     border: 1px solid #FFB75C;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -111,11 +181,54 @@
       flex: 0 0 20px;
       align-items: center;
       justify-content: center;
+      position: relative;
 
       img {
         width: 19px;
         height: 19px;
         border-radius: 3px;
+        transition: opacity 0.2s ease;
+        
+        &.effect-image-clickable {
+          cursor: pointer;
+        }
+      }
+
+      // Chat icon (invisível por padrão, usa mask igual às perícias)
+      .chat-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 19px;
+        height: 19px;
+        opacity: 0;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        pointer-events: none;
+        
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(180deg, #FFB75C, #996E37);
+          -webkit-mask: url('../assets/images/decorative/icons/icon-chat.svg') center/contain no-repeat;
+          mask: url('../assets/images/decorative/icons/icon-chat.svg') center/contain no-repeat;
+        }
+      }
+
+      // Efeito no hover
+      &:hover {
+        img.effect-image-clickable {
+          opacity: 0;
+        }
+        
+        .chat-icon {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1.15);
+        }
       }
     }
 

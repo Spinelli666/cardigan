@@ -1,6 +1,35 @@
-# 🔬 Investigações Futuras - Refatoração actor-character.mjs
+# 🔬 Investigações Futuras - Sistema Cardigan
 
-Este arquivo documenta questões técnicas que **NÃO bloqueiam** a refatoração atual (Etapas 0-5), mas devem ser investigadas em sprints futuros para melhorias adicionais.
+Este arquivo documenta questões técnicas e melhorias arquiteturais identificadas através de análise profunda do sistema e comparação com sistemas de referência (dnd5e, pf2e, daggerheart, olddragon2e).
+
+---
+
+## 🧩 Backlog de Extrações Cirúrgicas (`actor-sheet.mjs`) — 28/03/2026
+
+### ✅ Já extraído
+- `module/sheets/actions/ammunition-actions.mjs`
+  - Gestão de munição, diálogo reativo e listeners de atualização.
+- `module/sheets/actions/weapon-actions.mjs`
+  - Fluxo de ataque com arma e detecção de críticos.
+- `module/sheets/actions/equipment-actions.mjs`
+  - Equipar/desequipar arma+armadura (ações da tabela e fluxo de contexto).
+- `module/sheets/actions/consumable-actions.mjs`
+  - Consumo de itens, skill-check/crit, tracking effect e processadores de modificadores.
+
+### 🎯 Próximas extrações recomendadas (ordem sugerida)
+1. **Modal de abilities + derived stats**
+  - ciclo de abertura/fechamento do modal e sincronização de campos.
+2. **Context menu completo**
+  - `_getContextOptions`, `_onAction`, exibição em chat e handlers correlatos.
+3. **Drag & drop completo**
+  - handlers de drag/drop, sort e criação por drop.
+4. **Listeners de campos dinâmicos**
+  - blocos `#add*Listeners` e `#handle*`.
+
+### 📌 Observações de segurança para continuidade
+- Manter abordagem de **wrappers no `actor-sheet`** para preservar compatibilidade com `DEFAULT_OPTIONS.actions` e integrações externas.
+- Extrair por blocos coesos e validar erros após cada etapa.
+- Evitar mudança de comportamento no mesmo commit da extração.
 
 ---
 
@@ -27,7 +56,364 @@ Criado `ToxicidadeEffect` seguindo o padrão estabelecido por `ExaustaoEffect` e
 - ✅ Código testável e manutenível
 - ✅ Previne operações concorrentes com Set de sync
 
+---
 
+## 🎯 REFATORAÇÃO PRINCIPAL: Actor Sheet Modularização
+
+### 📊 Análise de Impacto
+
+**Problema Crítico Identificado:**
+- `actor-sheet.mjs`: **9.631 linhas** (MONOLÍTICO)
+- `skill-manager.mjs`: **2.029 linhas** (GRANDE)
+- `cardigan.mjs`: **3.822 linhas** (ACEITÁVEL, mas pode melhorar)
+
+**Comparação com Sistemas de Referência:**
+```
+Sistema         | CharacterSheet | NPCSheet | BaseSheet
+----------------|----------------|----------|----------
+dnd5e           | ~1.350 linhas  | ~800     | ~2.100
+pf2e            | ~940 linhas    | ~600     | ~1.800
+daggerheart     | ~1.014 linhas  | ~450     | ~500
+CARDIGAN ATUAL  | 9.631 linhas   | N/A      | N/A      ❌
+```
+
+### 📋 Plano de Refatoração em Fases
+
+#### **FASE 1: Separar Actor Sheet (PRIORIDADE MÁXIMA)** 🔴
+
+**Objetivo:** Reduzir `actor-sheet.mjs` de 9.631 → ~2.000 linhas (77% redução)
+
+**Estrutura Proposta:**
+```
+module/sheets/
+  actor/
+    api/
+      base-actor-sheet.mjs        (~500 linhas)
+        • Drag/Drop handlers
+        • Context menu base
+        • Item management comum
+        • Event delegation patterns
+    
+    character-sheet.mjs            (~600 linhas)
+      • Herda de base-actor-sheet
+      • Lógica específica de personagem
+      • _preparePartContext por aba
+    
+    npc-sheet.mjs                  (~300 linhas)
+      • Herda de base-actor-sheet
+      • Lógica simplificada de NPC
+    
+    helpers/
+      combat-helpers.mjs           (~400 linhas)
+        • _onAttackWithWeapon
+        • _onManageAmmunition
+        • Weapon equip/unequip logic
+        • Damage calculations
+      
+      equipment-helpers.mjs        (~400 linhas)
+        • _prepareEquipmentContext
+        • _prepareArmorSystem
+        • Inventory management
+        • Trade/merchant logic
+      
+      profession-helpers.mjs       (~300 linhas)
+        • _prepareProfessionsContext
+        • Recipe crafting
+        • Profession filtering
+        • Skill crafting bonuses
+      
+      ability-helpers.mjs          (~400 lineas)
+        • _prepareAbilities
+        • _calculateWeaponSkillBonuses
+        • _updateAbilityTotals
+        • Race bonus calculations
+```
+
+**Padrões a Adotar (do dnd5e):**
+
+```javascript
+// ❌ PADRÃO ATUAL (tudo em um arquivo)
+export class CardiganSystemActorSheet extends ActorSheetV2 {
+  async _prepareContext(options) {
+    // 500+ linhas de preparação
+    // Proficiencies, items, effects, todos juntos
+  }
+  
+  async _onAttackWithWeapon(event, target) {
+    // 200+ linhas de lógica de ataque
+  }
+  
+  async _onCookRecipe(event, target) {
+    // 150+ linhas de lógica de culinária
+  }
+  // ... mais 50+ métodos
+}
+
+// ✅ PADRÃO PROPOSTO (inspirado em dnd5e)
+// base-actor-sheet.mjs
+export class BaseActorSheet extends ActorSheetV2 {
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    context.config = CONFIG.CARDIGAN;
+    context.editable = this.isEditable;
+    return context;
+  }
+  
+  async _preparePartContext(partId, context, options) {
+    // Delega para métodos específicos
+    switch (partId) {
+      case "equipment": return this._prepareEquipmentContext(context);
+      case "skills": return this._prepareSkillsContext(context);
+      case "professions": return this._prepareProfessionsContext(context);
+      default: return context;
+    }
+  }
+}
+
+// character-sheet.mjs
+export class CharacterSheet extends BaseActorSheet {
+  async _prepareEquipmentContext(context) {
+    // Usa helper
+    return EquipmentHelpers.prepareInventory(this.actor, context);
+  }
+  
+  async _prepareSkillsContext(context) {
+    // Lógica específica de character skills
+    return context;
+  }
+}
+
+// helpers/combat-helpers.mjs
+export class CombatHelpers {
+  static async handleWeaponAttack(actor, weapon, target) {
+    // Lógica isolada e testável
+  }
+  
+  static calculateDamage(weapon, bonuses) {
+    // Cálculo puro, sem side effects
+  }
+}
+```
+
+**Benefícios Esperados:**
+- ✅ **Manutenibilidade:** Cada arquivo com responsabilidade única
+- ✅ **Testabilidade:** Helpers podem ser testados isoladamente
+- ✅ **Reusabilidade:** Base sheet usado por character e NPC
+- ✅ **Legibilidade:** 500 linhas por arquivo vs 9.631
+- ✅ **Colaboração:** Múltiplos devs podem trabalhar em paralelo
+
+---
+
+#### **FASE 2: Refatorar Template Organization** 🟡
+
+**Problema:** Templates grandes sem partials reutilizáveis
+
+**Estrutura Proposta:**
+```
+templates/actor/
+  tabs/
+    character-equipment.hbs
+    character-skills.hbs
+    character-professions.hbs
+    character-biography.hbs
+  
+  partials/
+    item-row.hbs                 # Linha de item genérica
+    proficiency-row.hbs          # Linha de proficiência
+    skill-card.hbs               # Card de skill
+    effect-badge.hbs             # Badge de efeito (inspirado em pf2e)
+    ability-score.hbs            # Exibição de atributo
+    resource-bar.hbs             # Barra de recurso (vida, energia)
+    armor-slot.hbs               # Slot de armadura
+    weapon-slot.hbs              # Slot de arma
+```
+
+**Pattern do dnd5e:**
+```handlebars
+{{!-- ❌ ATUAL: Tudo inline --}}
+<div class="item">
+  <img src="{{item.img}}" />
+  <div class="name">{{item.name}}</div>
+  <!-- 50+ linhas de HTML repetido -->
+</div>
+
+{{!-- ✅ PROPOSTO: Usar partials --}}
+{{> "cardigan.item-row" item=weapon type="weapon"}}
+{{> "cardigan.item-row" item=armor type="armor"}}
+{{> "cardigan.resource-bar" resource=health icon="heart"}}
+```
+
+---
+
+#### **FASE 3: Skill Manager Refactor** 🟡
+
+**Objetivo:** Reduzir `skill-manager.mjs` de 2.029 → ~1.200 linhas (40% redução)
+
+**Estrutura Proposta:**
+```
+module/skills/
+  api/
+    base-profession.mjs          (~150 linhas)
+      • Interface comum para profissões
+      • Métodos de crafting base
+    
+    base-racial-skill.mjs        (~150 linhas)
+      • Interface para skills raciais
+      • Aplicação de bônus base
+  
+  skill-registry.mjs             (~300 linhas)
+    • Registro centralizado de skills
+    • Lazy loading de profissões
+    • Cache de skills carregadas
+  
+  skill-manager.mjs              (~500 linhas)
+    • Coordenação de alto nível
+    • Delegates para registry/professions
+  
+  professions/
+    culinary.mjs
+    tailoring.mjs
+    tecnomagic.mjs
+    # ... cada com ~100-150 linhas
+  
+  racial-skills/
+    norsca.mjs
+    # ... cada com ~50-100 linhas
+```
+
+**Pattern do pf2e (sistema modular):**
+```javascript
+// ❌ ATUAL: Tudo em skill-manager
+export class SkillManager {
+  async initializeCulinarySkills() { /* 200 linhas */ }
+  async initializeTailoringSkills() { /* 200 linhas */ }
+  // ... 10+ métodos similares
+}
+
+// ✅ PROPOSTO: Base classes
+// api/base-profession.mjs
+export class BaseProfession {
+  constructor(id, config) {
+    this.id = id;
+    this.config = config;
+  }
+  
+  async initialize() {
+    // Template method
+  }
+  
+  async craft(actor, recipe) {
+    // Lógica comum de crafting
+  }
+}
+
+// professions/culinary.mjs
+export class CulinaryProfession extends BaseProfession {
+  constructor() {
+    super('culinary', {
+      compendium: 'cardigan.skills-cardigan',
+      category: 'culinary',
+      icon: 'fa-utensils'
+    });
+  }
+  
+  async craft(actor, recipe) {
+    // Lógica específica de culinária
+    return super.craft(actor, recipe);
+  }
+}
+```
+
+---
+
+#### **FASE 4: Weapon Properties Base Class** 🟢
+
+**Problema:** 20+ arquivos com lógica duplicada de aplicação de efeitos
+
+**Solução:**
+```javascript
+// weapon-properties/base-weapon-property.mjs
+export class BaseWeaponProperty {
+  static id = "";
+  static name = "";
+  static description = "";
+  static effectType = ""; // "bleeding", "burning", etc.
+  
+  /**
+   * Apply property effect to target
+   * @param {Actor} target - Target actor
+   * @param {Item} weapon - Weapon item
+   * @param {Object} options - Additional options
+   */
+  async applyEffect(target, weapon, options = {}) {
+    // Template method pattern
+    if (!this.canApply(target, weapon, options)) return;
+    
+    await this._createEffect(target, weapon);
+    await this._notifyPlayers(target, weapon);
+  }
+  
+  canApply(target, weapon, options) {
+    // Override in subclasses
+    return true;
+  }
+  
+  async _createEffect(target, weapon) {
+    // Padrão comum de criação de efeito
+  }
+  
+  async _notifyPlayers(target, weapon) {
+    // Padrão comum de notificação via socket
+  }
+}
+
+// properties/ferir.mjs
+export class Ferir extends BaseWeaponProperty {
+  static id = "ferir";
+  static name = "Ferir";
+  static effectType = "bleeding";
+  
+  canApply(target, weapon, options) {
+    // Lógica específica: só aplica em acerto crítico
+    return options.criticalHit === true;
+  }
+  
+  async _createEffect(target, weapon) {
+    // Usa EffectManager.applyEffect com tipo "bleeding"
+    await game.cardigan.effectManager.applyEffect(target, this.effectType, {
+      source: weapon.name
+    });
+  }
+}
+```
+
+**Redução estimada:** ~20% de código em weapon properties
+
+---
+
+#### **FASE 5: Documentation & JSDoc** 🟢
+
+**Pattern do pf2e (TypeScript JSDoc):**
+```javascript
+/**
+ * Calculate armor totals including protection, durability and bonuses
+ * @param {ActorCharacter} actor - The character actor
+ * @returns {ArmorSystemData} Calculated armor data
+ * @typedef {Object} ArmorSystemData
+ * @property {number} protection - Total protection value
+ * @property {number} durability - Current armor durability
+ * @property {Object} bonuses - Health, energy, movement bonuses
+ */
+function _calculateArmorTotals(actor) {
+  // ...
+}
+```
+
+**Adicionar em:**
+- Todos os data models
+- Helpers principais
+- Weapon properties
+- Effect classes
 
 ---
 

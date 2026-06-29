@@ -1,12 +1,13 @@
 // Import document classes.
 import { CardiganSystemActor } from './documents/actor.mjs';
 import { CardiganSystemItem } from './documents/item.mjs';
+import { CardiganChatMessage } from './documents/chat-message.mjs';
 // Import sheet classes.
 import { CardiganSystemActorSheet } from './sheets/actor-sheet.mjs';
 import { CardiganSystemItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
 import { CARDIGAN, registerHandlebarsHelpers, buildRollFormula } from './helpers/config.mjs';
-import CardiganTooltips from './helpers/tooltips.mjs';
+import { ChatMessageHelper } from './helpers/chat-messages.mjs';
 // Import DataModel classes
 import * as models from './data/_module.mjs';
 // Import Skills System
@@ -17,17 +18,23 @@ import { initializeEffects } from './effects/index.mjs';
 import { initializeRaces } from './races/index.mjs';
 // Import Weapon Properties System
 import { initializeWeaponProperties } from './weapon-properties/index.mjs';
+// Import Tooltips System
+import CardiganTooltipManager from './tooltips/tooltip-manager.mjs';
+// Import Hooks
+import { registerWhisperPlaceholderHook } from './hooks/whisper-placeholder.mjs';
+// Import Socket listeners
+import { registerInitSocketListeners, registerReadySocketListeners } from './socket.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
-
 // Add key classes to the global scope so they can be more easily used
 // by downstream developers
 globalThis.cardigan = {
   documents: {
     CardiganSystemActor,
     CardiganSystemItem,
+    CardiganChatMessage,
   },
   applications: {
     CardiganSystemActorSheet,
@@ -60,6 +67,7 @@ Hooks.once('init', function () {
 
   // Define custom Document and DataModel classes
   CONFIG.Actor.documentClass = CardiganSystemActor;
+  CONFIG.ChatMessage.documentClass = CardiganChatMessage;
 
   // Note that you don't need to declare a DataModel
   // for the base actor/item classes - they are included
@@ -120,119 +128,13 @@ Hooks.once('init', function () {
     return str.toLowerCase();
   });
 
-  // Socket listener para notificações de evasão, dano e resultado de ataque (registrado no init)
-  game.socket.on("system.cardigan", async (data) => {
-    if (data.action === "notifyGMEvasion" && game.user.isGM) {
-      createGMEvasionNotification(data.payload);
-    } else if (data.action === "notifyDamage") {
-      showDamageNotification(data.payload);
-    } else if (data.action === "notifyArmorDurability") {
-      showArmorDurabilityNotification(data.payload);
-    } else if (data.action === "notifyAttacker" && !game.user.isGM) {
-      // Only show to the attacker's owner
-      if (data.payload.attackerOwnerId === game.user.id) {
-        createAttackerResultDialog(data.payload);
-      }
-    } else if (data.action === "applyDamage") {
-      // Apply damage to actor - only if user owns the actor or is GM
-      const actor = game.actors.get(data.payload.actorId);
-      if (actor && (actor.isOwner || game.user.isGM)) {
-        actor.update({ 'system.health.value': data.payload.newHP });
-      }
-    } else if (data.action === "closeAttackDialog") {
-      // Close attack dialog by ID
-      closeAttackDialogForAttacker(data.payload);
-    } else if (data.action === "openNewAttackDialog") {
-      // Close old dialog and open new one with updated values
-      if (data.payload.attackerOwnerId === game.user.id) {
-        closeAttackDialogForAttacker({ dialogId: data.payload.oldDialogId });
-        createAttackerResultDialog(data.payload);
-      }
-    } else if (data.type === "applyBleeding" && game.user.isGM) {
-      // Handle bleeding application - only GM can execute
-      const targetActor = game.actors.get(data.targetActorId);
-      if (targetActor) {
-        const { Ferir } = await import('./weapon-properties/properties/ferir.mjs');
-        await Ferir.applyBleedingEffect(targetActor, data.weaponName);
-      } else {
-        console.error('[FERIR] Target actor not found:', data.targetActorId);
-      }
-    } else if (data.type === "notifyBleeding") {
-      // Notify defender's owner about bleeding effect
-      if (data.userId === game.user.id) {
-        ui.notifications.info(`🩸 Você recebeu Sangramento de ${data.weaponName}!`);
-      }
-    } else if (data.type === "applyWeakened" && game.user.isGM) {
-      // Handle weakened application - only GM can execute
-      const targetActor = game.actors.get(data.targetActorId);
-      if (targetActor) {
-        const { Traspassar } = await import('./weapon-properties/properties/traspassar.mjs');
-        await Traspassar.applyWeakenedEffect(targetActor, data.weaponName);
-      } else {
-        console.error('[TRASPASSAR] Target actor not found:', data.targetActorId);
-      }
-    } else if (data.type === "notifyWeakened") {
-      // Notify defender's owner about weakened effect
-      if (data.userId === game.user.id) {
-        ui.notifications.info(`💪 Você ficou Enfraquecido por ${data.weaponName}!`);
-      }
-    } else if (data.type === "applyProne" && game.user.isGM) {
-      // Handle prone application - only GM can execute
-      const targetActor = game.actors.get(data.targetActorId);
-      if (targetActor) {
-        const { Contundente } = await import('./weapon-properties/properties/contundente.mjs');
-        await Contundente.applyProneEffect(targetActor, data.weaponName);
-      } else {
-        console.error('[CONTUNDENTE] Target actor not found:', data.targetActorId);
-      }
-    } else if (data.type === "notifyProne") {
-      // Notify defender's owner about prone effect
-      if (data.userId === game.user.id) {
-        ui.notifications.info(`🔽 Você ficou Caído por ${data.weaponName}!`);
-      }
-    } else if (data.type === "applyBurning" && game.user.isGM) {
-      // Handle burning application - only GM can execute
-      const targetActor = game.actors.get(data.targetActorId);
-      if (targetActor) {
-        const { Incendiar } = await import('./weapon-properties/properties/incendiar.mjs');
-        await Incendiar.applyBurningEffect(targetActor, data.weaponName);
-      } else {
-        console.error('[INCENDIAR] Target actor not found:', data.targetActorId);
-      }
-    } else if (data.type === "notifyBurning") {
-      // Notify defender's owner about burning effect
-      if (data.userId === game.user.id) {
-        ui.notifications.info(`🔥 Você ficou Incendiado por ${data.weaponName}!`);
-      }
-    } else if (data.type === "applyShocked" && game.user.isGM) {
-      // Handle shocked application - only GM can execute
-      const targetActor = game.actors.get(data.targetActorId);
-      if (targetActor) {
-        const { Eletrocutar } = await import('./weapon-properties/properties/eletrocutar.mjs');
-        await Eletrocutar.applyShockedEffect(targetActor, data.weaponName);
-      } else {
-        console.error('[ELETROCUTAR] Target actor not found:', data.targetActorId);
-      }
-    } else if (data.type === "notifyShocked") {
-      // Notify defender's owner about shocked effect
-      if (data.userId === game.user.id) {
-        ui.notifications.info(`⚡ Você ficou Eletrocutado por ${data.weaponName}!`);
-      }
-    } else if (data.type === "applyFracture" && game.user.isGM) {
-      // Handle fracture application - only GM can execute
-      const targetActor = game.actors.get(data.targetActorId);
-      if (targetActor) {
-        const { Impacto } = await import('./weapon-properties/properties/impacto.mjs');
-        await Impacto.applyFractureEffect(targetActor, data.weaponName);
-      } else {
-        console.error('[IMPACTO] Target actor not found:', data.targetActorId);
-      }
-    } else if (data.type === "notifyFracture") {
-      // Notify defender's owner about fracture increment
-      if (data.userId === game.user.id) {
-        ui.notifications.info(`🦴 Você sofreu Fratura por ${data.weaponName}! (${data.oldFracture} → ${data.newFracture})`);
-      }
-    }
+  // Socket listeners for combat notifications, evasion, damage, armor durability, weapon property effects
+  registerInitSocketListeners({
+    createGMEvasionNotification,
+    showDamageNotification,
+    showArmorDurabilityNotification,
+    createAttackerResultDialog,
+    closeAttackDialogForAttacker,
   });
 
   // Register helper for "lt" (less than) comparison
@@ -244,9 +146,6 @@ Hooks.once('init', function () {
   Handlebars.registerHelper('selected', function (value, expectedValue) {
     return value === expectedValue ? 'selected' : '';
   });
-
-  // Configure tooltips
-  game.cardigan.tooltips = new CardiganTooltips();
 
   // Initialize Skills System
   initializeSkillsSystem().catch(error => {
@@ -426,7 +325,7 @@ Hooks.on('updateItem', function (item, updates, options, userId) {
   
   itemSheets.forEach(sheet => {
     // Force immediate re-render with fresh data
-    sheet.render(true); // true forces full re-render
+    sheet.render(false); // re-render with fresh data, without forcing bringToFront
   });
 });
 
@@ -839,16 +738,20 @@ async function createAttackerResultDialog(data) {
           
           // Import and show advantage selection dialog
           const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
-          const result = await AdvantageSelectionDialog.show();
+          const result = await AdvantageSelectionDialog.show({ 
+            hideHandSelection: true,
+            hideJointRoll: true,  // Hide joint roll for evasion tests
+            hideAttackModeBorder: true  // Hide border for evasion tests
+          });
           if (!result) return false; // User cancelled
           
-          const { rollType } = result;
+          const { rollType, manualModifier = 0 } = result;
           
           // Get roll data from attacker
           const rollData = attackerActor.getRollData();
           
-          // Determine formula based on roll type
-          const formula = buildRollFormula(rollType, "@accuracy.total");
+          // Determine formula based on roll type (including manual modifier)
+          const formula = buildRollFormula(rollType, "@accuracy.total", manualModifier);
           let rollDescription = "";
           
           switch (rollType) {
@@ -913,25 +816,18 @@ async function createAttackerResultDialog(data) {
             }
           }
           
-          // Create flavor text
-          const flavor = `
-            <div style="text-align: center;">
-              <strong>🔄 Re-rolagem de Ataque de ${attackerName}</strong> - ${rollDescription}<br>
-            </div>
-          `;
-          
-          // Use player's roll mode setting
-          const rollMode = game.settings.get('core', 'rollMode');
-          
           // Get defender token for flags
           const defenderActor = game.actors.get(actorId);
           const defenderToken = game.scenes.current?.tokens.find(t => t.actorId === actorId);
-          
-          // Create message data with flags for evasion button system
-          const messageData = {
-            speaker: { alias: attackerName },
-            flavor: flavor,
-            rolls: [roll],
+
+          // Create chat message using custom template
+          await ChatMessageHelper.createRollMessage({
+            actor: attackerActor,
+            roll: roll,
+            label: 'PRECISÃO',
+            rollType: rollType,
+            rollDescription: rollDescription,
+            rollMode: game.settings.get('core', 'rollMode'),
             flags: {
               cardigan: {
                 criticalSuccess: criticalSuccess,
@@ -940,7 +836,7 @@ async function createAttackerResultDialog(data) {
                   targets: [{ tokenId: defenderToken?.id, actorId: actorId }],
                   damage: attackDamage,
                   attackerId: attackerActor.id,
-                  attackerCriticalHit: criticalSuccess,  // Add attacker critical for damage calculation
+                  attackerCriticalHit: criticalSuccess,
                   isReroll: true,
                   dialogId: dialogId,
                   oldDialogId: dialogId,
@@ -953,13 +849,7 @@ async function createAttackerResultDialog(data) {
                 }
               }
             }
-          };
-          
-          // Apply roll mode
-          ChatMessage.applyRollMode(messageData, rollMode);
-          
-          // Create the chat message (this will trigger the existing hook that adds evasion button)
-          await ChatMessage.create(messageData);
+          });
           
           // Keep dialog open
           return false;
@@ -1739,11 +1629,11 @@ async function createGMEvasionNotification(data) {
           // Import advantage selection dialog
           const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
           const result = await AdvantageSelectionDialog.show({ 
-            hideAttackMode: rollChoice === "evasion" 
+            hideHandSelection: rollChoice === "evasion" 
           });
           if (!result) return false; // User cancelled
           
-          const { rollType } = result;
+          const { rollType, manualModifier = 0 } = result;
           
           // Determine which actor to use based on roll choice
           let rollingActorId, rollingActorName;
@@ -1774,7 +1664,7 @@ async function createGMEvasionNotification(data) {
           // Determine formula based on roll type and choice
           const attribute = rollChoice === "evasion" ? "@abilities.evasion.total" : "@abilities.accuracy.total";
           const attributeName = rollChoice === "evasion" ? "Evasão" : "Precisão";
-          const formula = buildRollFormula(rollType, attribute);
+          const formula = buildRollFormula(rollType, attribute, manualModifier);
           let rollDescription = "";
           
           switch (rollType) {
@@ -1840,13 +1730,6 @@ async function createGMEvasionNotification(data) {
             }
           }
           
-          // Create flavor text
-          const flavor = `
-            <div style="text-align: center;">
-              <strong>🔄 Re-rolagem de ${attributeName} de ${rollingActorName}</strong> - ${rollDescription}<br>
-            </div>
-          `;
-          
           // Create message flags
           const messageFlags = {
             cardigan: {
@@ -1898,20 +1781,16 @@ async function createGMEvasionNotification(data) {
             }
           }
           
-          // Create message data
-          const messageData = {
-            speaker: { alias: rollingActorName },
-            flavor: flavor,
-            rolls: [roll],
+          // Create chat message using custom template
+          await ChatMessageHelper.createRollMessage({
+            actor: actor,
+            roll: roll,
+            label: attributeName.toUpperCase(),
+            rollType: rollType,
+            rollDescription: rollDescription,
+            rollMode: "gmroll",
             flags: messageFlags
-          };
-          
-          // Use GM roll mode
-          const rollMode = "gmroll";
-          ChatMessage.applyRollMode(messageData, rollMode);
-          
-          // Create the chat message
-          await ChatMessage.create(messageData);
+          });
           
           // Keep dialog open
           return false;
@@ -2002,7 +1881,9 @@ async function createGMEvasionNotification(data) {
         
         // Show tooltip
         requestAnimationFrame(() => {
-          tooltipElement.classList.add('visible');
+          if (tooltipElement) {
+            tooltipElement.classList.add('visible');
+          }
         });
       });
       
@@ -2894,97 +2775,37 @@ globalThis.handleExecuteMerchantTradeTransfer = handleExecuteMerchantTradeTransf
 /* -------------------------------------------- */
 
 Hooks.once('ready', function () {
+  // Initialize Cardigan tooltip system
+  CardiganTooltipManager.initialize();
+  
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => createDocMacro(data, slot));
   
-  // Initialize tooltips observer
-  game.cardigan.tooltips.observe();
-  
-  // Register trade system socket listeners
-  game.socket.on('system.cardigan', async (data) => {
-    console.log('[CARDIGAN SOCKET] Received:', data);
-    
-    switch (data.action) {
-      case 'tradeRequest':
-        await handleTradeRequest(data.data);
-        break;
-      case 'tradeAccepted':
-        await handleTradeAccepted(data.data);
-        break;
-      case 'tradeRejected':
-        handleTradeRejected(data.data);
-        break;
-      case 'tradeUpdate':
-        handleTradeUpdate(data.data);
-        break;
-      case 'tradeConfirm':
-        await handleTradeConfirm(data.data);
-        break;
-      case 'tradeUndo':
-        handleTradeUndo(data.data);
-        break;
-      case 'tradeCancel':
-        handleTradeCancel(data.data);
-        break;
-      case 'tradeComplete':
-        handleTradeComplete(data.data);
-        break;
-      case 'executeTradeTransfer':
-        if (game.user.isGM) {
-          await handleExecuteTradeTransfer(data.data);
-        }
-        break;
-      
-      // Merchant trade system
-      case 'merchantTradeRequest':
-        await handleMerchantTradeRequest(data.data);
-        break;
-      case 'merchantTradeAccepted':
-        await handleMerchantTradeAccepted(data.data);
-        break;
-      case 'merchantTradeRejected':
-        handleMerchantTradeRejected(data.data);
-        break;
-      case 'merchantTradeUpdate':
-        handleMerchantTradeUpdate(data.data);
-        break;
-      case 'merchantTradeConfirm':
-        await handleMerchantTradeConfirm(data.data);
-        break;
-      case 'merchantTradeUndo':
-        handleMerchantTradeUndo(data.data);
-        break;
-      case 'merchantTradeCancel':
-        handleMerchantTradeCancel(data.data);
-        break;
-      case 'merchantTradeComplete':
-        handleMerchantTradeComplete(data.data);
-        break;
-      case 'executeMerchantTradeTransfer':
-        if (game.user.isGM) {
-          await handleExecuteMerchantTradeTransfer(data.data);
-        }
-        break;
-      
-      // Existing combat system handlers
-      case 'createGMEvasionNotification':
-        if (game.user.isGM) {
-          await createGMEvasionNotification(data.data);
-        }
-        break;
-      case 'createAttackerResultDialog':
-        await createAttackerResultDialog(data.data);
-        break;
-      case 'closeAttackDialogForAttacker':
-        closeAttackDialogForAttacker(data.data);
-        break;
-      case 'showDamageNotification':
-        showDamageNotification(data.data);
-        break;
-      case 'showArmorDurabilityNotification':
-        showArmorDurabilityNotification(data.data);
-        break;
-    }
+  // Socket listeners for trade system and secondary combat events
+  registerReadySocketListeners({
+    handleTradeRequest,
+    handleTradeAccepted,
+    handleTradeRejected,
+    handleTradeUpdate,
+    handleTradeConfirm,
+    handleTradeUndo,
+    handleTradeCancel,
+    handleTradeComplete,
+    handleExecuteTradeTransfer,
+    handleMerchantTradeRequest,
+    handleMerchantTradeAccepted,
+    handleMerchantTradeRejected,
+    handleMerchantTradeUpdate,
+    handleMerchantTradeConfirm,
+    handleMerchantTradeUndo,
+    handleMerchantTradeCancel,
+    handleMerchantTradeComplete,
+    handleExecuteMerchantTradeTransfer,
+    createGMEvasionNotification,
+    createAttackerResultDialog,
+    closeAttackDialogForAttacker,
+    showDamageNotification,
+    showArmorDurabilityNotification,
   });
 });
 
@@ -3102,6 +2923,19 @@ Hooks.on('renderChatMessageHTML', (chatMessage, html) => {
   }
 });
 
+/* -------------------------------------------- */
+/*  Dice Formula Rich Tooltips Hook             */
+/* -------------------------------------------- */
+
+// Hook to attach rich tooltips to dice formula results
+Hooks.on('renderChatMessageHTML', (chatMessage, html) => {
+  // Import tooltip manager dynamically to avoid circular dependencies
+  import('./tooltips/tooltip-manager.mjs').then(module => {
+    const TooltipManager = module.default;
+    TooltipManager.attachDiceFormulaTooltips(html);
+  });
+});
+
 /**
  * Add toggle functionality to skill description buttons in chat
  */
@@ -3133,9 +2967,37 @@ Hooks.on('renderChatMessageHTML', (chatMessage, html) => {
   });
 });
 
+/**
+ * Add toggle functionality to effect title buttons in chat
+ */
+Hooks.on('renderChatMessageHTML', (message, html) => {
+  const toggleButtons = html.querySelectorAll('.toggle-effect-description');
+  if (toggleButtons.length === 0) return;
+
+  toggleButtons.forEach(button => {
+    const effectId = button.dataset.effectId;
+    const descElement = html.querySelector(`.effect-description[data-effect-id="${effectId}"]`);
+
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (!descElement) return;
+
+      const isHidden = descElement.style.display === 'none' || !descElement.style.display;
+
+      // Toggle visibility
+      descElement.style.display = isHidden ? 'block' : 'none';
+    });
+  });
+});
+
 /* -------------------------------------------- */
 /*  Evasion System Hooks                        */
 /* -------------------------------------------- */
+
+// Register whisper placeholder hook (see module/hooks/whisper-placeholder.mjs)
+registerWhisperPlaceholderHook();
 
 /**
  * Add evasion buttons to attack chat messages
@@ -3155,7 +3017,6 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
   // Create evasion buttons container
   const evasionSection = document.createElement('div');
   evasionSection.className = 'cardigan-evasion-section';
-  evasionSection.style.cssText = 'margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.1);';
 
   // Check if current user can defend (owns any of the targets)
   let canDefend = false;
@@ -3180,27 +3041,71 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
 
   // Create single evasion button
   const buttonContainer = document.createElement('div');
-  buttonContainer.style.cssText = 'margin-top: 4px; text-align: center;';
+  buttonContainer.className = 'cardigan-chat-action-section';
 
   const button = document.createElement('button');
-  button.className = 'cardigan-evasion-button';
+  button.className = 'cardigan-evasion-button cardigan-chat-action-button';
   button.dataset.messageId = message.id;
   button.dataset.tokenId = userTarget.data.tokenId;
   button.dataset.actorId = userTarget.data.actorId;
   button.dataset.attackTotal = attackTotal;
   button.dataset.attackDamage = attackDamage;
-  button.style.cssText = 'padding: 4px 12px; background: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;';
-  button.textContent = 'Rolar Evasão';
+  button.dataset.tooltip = 'Testar EVASÃO';
+  button.dataset.tooltipClass = 'cardigan-chat-tooltip';
+  button.textContent = '';
+  const evasionIcon = document.createElement('img');
+  evasionIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-d20-message.svg';
+  evasionIcon.alt = '';
+  evasionIcon.className = 'action-button-icon';
+  button.appendChild(evasionIcon);
   
   button.addEventListener('click', () => handleEvasionClick(button));
+  const evasionDividerLeft = document.createElement('img');
+  evasionDividerLeft.src = 'systems/cardigan/assets/images/decorative/divider.webp';
+  evasionDividerLeft.alt = '';
+  evasionDividerLeft.className = 'action-button-divider action-button-divider--left';
+  buttonContainer.appendChild(evasionDividerLeft);
   buttonContainer.appendChild(button);
+  const evasionDivider = document.createElement('img');
+  evasionDivider.src = 'systems/cardigan/assets/images/decorative/divider.webp';
+  evasionDivider.alt = '';
+  evasionDivider.className = 'action-button-divider';
+  buttonContainer.appendChild(evasionDivider);
   evasionSection.appendChild(buttonContainer);
 
-  // Add evasion section to message - html is now HTMLElement, not jQuery
+  // Add border decoration + evasion section to message
   const messageContent = html.querySelector('.message-content');
   if (messageContent) {
+    const borderImg = document.createElement('img');
+    borderImg.src = 'systems/cardigan/assets/images/decorative/border-chat-message.webp';
+    borderImg.alt = '';
+    borderImg.className = 'chat-border-decoration';
+    messageContent.appendChild(borderImg);
     messageContent.appendChild(evasionSection);
   }
+});
+
+/**
+ * Add toggle functionality to effect chat messages
+ */
+Hooks.on('renderChatMessageHTML', (message, html) => {
+  // Validate html parameter
+  if (!html || !html[0]) return;
+  
+  // Check if this is an effect message
+  const effectMessage = html[0].querySelector('.cardigan-effect-chat-message');
+  if (!effectMessage) return;
+
+  const effectTitle = effectMessage.querySelector('.effect-title[data-action="toggle-description"]');
+  const effectDescription = effectMessage.querySelector('.effect-description');
+  
+  if (!effectTitle || !effectDescription) return;
+
+  // Add click event listener to toggle description
+  effectTitle.addEventListener('click', (event) => {
+    event.preventDefault();
+    effectDescription.classList.toggle('collapsed');
+  });
 });
 
 /**
@@ -3218,7 +3123,6 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
   // Create precision button container
   const precisionSection = document.createElement('div');
   precisionSection.className = 'cardigan-precision-section';
-  precisionSection.style.cssText = 'margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.1);';
 
   // Check if current user can attack (owns the attacker)
   const attackerToken = game.scenes.current?.tokens.get(precisionData.tokenId);
@@ -3231,24 +3135,45 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
 
   // Create precision button
   const buttonContainer = document.createElement('div');
-  buttonContainer.style.cssText = 'margin-top: 4px; text-align: center;';
+  buttonContainer.className = 'cardigan-chat-action-section';
 
   const button = document.createElement('button');
-  button.className = 'cardigan-precision-button';
+  button.className = 'cardigan-precision-button cardigan-chat-action-button';
   button.dataset.messageId = message.id;
   button.dataset.tokenId = precisionData.tokenId;
   button.dataset.actorId = precisionData.actorId;
   button.dataset.evasionTotal = evasionTotal;
-  button.style.cssText = 'padding: 4px 12px; background: #2196F3; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;';
-  button.textContent = 'Rolar Precisão';
+  button.dataset.tooltip = 'Testar PRECISÃO';
+  button.dataset.tooltipClass = 'cardigan-chat-tooltip';
+  button.textContent = '';
+  const precisionIcon = document.createElement('img');
+  precisionIcon.src = 'systems/cardigan/assets/images/decorative/icons/icon-d20-message.svg';
+  precisionIcon.alt = '';
+  precisionIcon.className = 'action-button-icon';
+  button.appendChild(precisionIcon);
   
   button.addEventListener('click', () => handlePrecisionClick(button));
+  const precisionDividerLeft = document.createElement('img');
+  precisionDividerLeft.src = 'systems/cardigan/assets/images/decorative/divider.webp';
+  precisionDividerLeft.alt = '';
+  precisionDividerLeft.className = 'action-button-divider action-button-divider--left';
+  buttonContainer.appendChild(precisionDividerLeft);
   buttonContainer.appendChild(button);
+  const precisionDivider = document.createElement('img');
+  precisionDivider.src = 'systems/cardigan/assets/images/decorative/divider.webp';
+  precisionDivider.alt = '';
+  precisionDivider.className = 'action-button-divider';
+  buttonContainer.appendChild(precisionDivider);
   precisionSection.appendChild(buttonContainer);
 
-  // Add precision section to message
+  // Add border decoration + precision section to message
   const messageContent = html.querySelector('.message-content');
   if (messageContent) {
+    const borderImg = document.createElement('img');
+    borderImg.src = 'systems/cardigan/assets/images/decorative/border-chat-message.webp';
+    borderImg.alt = '';
+    borderImg.className = 'chat-border-decoration';
+    messageContent.appendChild(borderImg);
     messageContent.appendChild(precisionSection);
   }
 });
@@ -3304,11 +3229,15 @@ async function handleEvasionClick(button) {
   // Import the advantage selection dialog
   const { AdvantageSelectionDialog } = await import('./applications/advantage-selection-dialog.mjs');
   
-  // Show advantage selection dialog (without attack mode checkboxes for evasion)
-  const result = await AdvantageSelectionDialog.show({ hideAttackMode: true });
+  // Show advantage selection dialog (without hand selection checkboxes for evasion)
+  const result = await AdvantageSelectionDialog.show({ 
+    hideHandSelection: true,
+    hideJointRoll: true,  // Hide joint roll for evasion tests
+    hideAttackModeBorder: true  // Hide border for evasion tests
+  });
   if (!result) return; // User cancelled
 
-  const { rollType } = result;
+  const { rollType, manualModifier = 0 } = result;
 
   // Disable button to prevent double-clicks
   button.disabled = true;
@@ -3319,8 +3248,8 @@ async function handleEvasionClick(button) {
     // Get roll data from actor (includes all bonuses and modifiers)
     const rollData = actor.getRollData();
 
-    // Determine formula based on roll type
-    const formula = buildRollFormula(rollType, "@evasion.total");
+    // Determine formula based on roll type (including manual modifier)
+    const formula = buildRollFormula(rollType, "@evasion.total", manualModifier);
     let rollDescription = "";
     
     switch (rollType) {
@@ -3389,34 +3318,24 @@ async function handleEvasionClick(button) {
     const damageTaken = success ? 0 : attackDamage;
     const remainingHP = Math.max(0, currentHP - damageTaken);
 
-    // Create flavor text
-    const flavor = `
-      <div style="text-align: center;">
-        <strong>Evasão de ${token.name}</strong> - ${rollDescription}<br>
-      </div>
-    `;
-
-    // Use player's roll mode setting (GM can choose blind manually)
-    const rollMode = game.settings.get('core', 'rollMode');
-
-    // Create message data with critical flags
-    const messageData = {
-      speaker: { alias: token.name },
-      flavor: flavor,
-      rolls: [roll],
+    // Send to chat using helper
+    const chatMessage = await ChatMessageHelper.createRollMessage({
+      actor: token.actor,
+      roll: roll,
+      label: 'EVASÃO',
+      rollType: rollType,
+      rollDescription: ChatMessageHelper.getRollTypeDescription(rollType),
+      handIndicator: null,
+      modifiers: [],
+      primaryHand: false,
+      secondaryHand: false,
       flags: {
         cardigan: {
           criticalSuccess: criticalSuccess,
           criticalFailure: criticalFailure
         }
       }
-    };
-
-    // Apply roll mode using Foundry's official API method
-    ChatMessage.applyRollMode(messageData, rollMode);
-    
-    // Create the chat message
-    const chatMessage = await ChatMessage.create(messageData);
+    });
 
     // Wait for Dice So Nice animation to complete before notifying GM
     if (game.dice3d) {
@@ -3696,13 +3615,13 @@ async function handlePrecisionClick(button) {
       return;
     }
 
-    const { rollType } = result;
+    const { rollType, manualModifier = 0 } = result;
 
     // Import buildRollFormula helper
     const { buildRollFormula } = await import('./helpers/config.mjs');
     
-    // Build roll formula
-    const formula = buildRollFormula(rollType, `@abilities.accuracy.total`);
+    // Build roll formula (including manual modifier)
+    const formula = buildRollFormula(rollType, `@abilities.accuracy.total`, manualModifier);
     const rollData = actor.getRollData();
 
     // Check for Congelado effect and apply skill penalty
@@ -3762,17 +3681,20 @@ async function handlePrecisionClick(button) {
       }
     }
 
-    // Create chat message with roll
-    const flavor = `
-      <div style="text-align: center;">
-        <strong>🎯 Re-rolagem de Precisão de ${actor.name}</strong>
-      </div>
-    `;
-
-    await ChatMessage.create({
-      speaker: ChatMessage.getSpeaker({ actor }),
-      flavor: flavor,
-      rolls: [roll],
+    // Create chat message using custom template
+    const rollDescriptionMap = {
+      'advantage': 'Rolagem com Vantagem',
+      'disadvantage': 'Rolagem com Desvantagem',
+      'enhanced-advantage': 'Rolagem com Vantagem Aprimorada',
+      'enhanced-disadvantage': 'Rolagem com Desvantagem Aprimorada',
+      'normal': 'Rolagem Normal'
+    };
+    await ChatMessageHelper.createRollMessage({
+      actor: actor,
+      roll: roll,
+      label: 'PRECISÃO',
+      rollType: rollType,
+      rollDescription: rollDescriptionMap[rollType] || 'Rolagem Normal',
       flags: {
         cardigan: {
           criticalSuccess: precisionCriticalHit,

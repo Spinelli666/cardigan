@@ -7,18 +7,37 @@
 @import 'utils/colors';
 @import 'utils/mixins';
 @import 'utils/variables';
-@import 'utils/tooltips';
 
-// Tooltip components
-@import 'components/tooltips/proficiency-tooltips';
 
 /* Global styles */
 @import 'global/window';
 @import 'global/grid';
 @import 'global/flex';
-@import 'global/tooltips';
+
 @import 'global/chat';
 @import 'global/token-hud';
+
+
+/* Chat message components - outside .cardigan scope */
+@import 'components/chat/effect-message';
+@import 'components/chat/action-buttons';
+@import 'components/chat-rolls';
+
+/* Common item form styles */
+@import 'components/common-item-form';
+
+/* Ingredient item form styles */
+@import 'components/ingredient-form';
+
+/* Ammunition item form styles */
+@import 'components/ammunition-form';
+
+/* Consumable item form styles */
+@import 'components/consumable-form';
+
+/* Weapon form styles */
+@import 'components/weapon-form';
+
 
 /* ProseMirror - Comportamento padrão do Foundry VTT */
 /* Sem customizações - deixando o editor funcionar naturalmente */
@@ -50,11 +69,20 @@
   .tab {
     flex: 1;
     min-height: 0;
-    // background: linear-gradient(180deg, rgba(9, 21, 29, 0.19) 31.35%, rgba(118, 212, 255, 0.19) 99.96%);
     background: linear-gradient(180deg, rgba(118, 212, 255, 0.19) 43.81%, rgba(9, 21, 29, 0.19) 99.96%);
     font-family: 'Alatsi', sans-serif !important;
   }
 }
+
+/* Item sheet specific layout - Remove padding from window-content */
+.cardigan.item {
+  .window-content {
+    padding: 0 !important;
+  }
+}
+
+/* Armor sheet header root styling must stay outside .cardigan scope */
+@import 'components/armor';
 
 /* Styles limited to cardigan sheets */
 .cardigan {
@@ -71,6 +99,7 @@
   @import 'components/navigation/tabs';
   @import 'components/resource';
   @import 'components/items';
+  @import 'components/item-efeito';
   @import 'components/effects';
   @import 'components/proficiencies/index';
   @import 'components/equipment';
@@ -114,9 +143,10 @@
 @import 'dialogs/merchant-trade-dialog';
 @import 'dialogs/character-creation-wizard';
 @import 'dialogs/level-up-wizard';
+@import 'dialogs/effects-selection';
+@import 'dialogs/common-item-weight-dialog';
+@import 'dialogs/skill-test-add-dialog';
+@import 'dialogs/life-energy-add-dialog';
 
-/* Enhancement tooltip styles (global) */
-@import 'components/enhancement-tooltips';
-
-/* Attack button tooltip styles (global) */
-@import 'components/attack-tooltips';
+// Tooltip components - DEVE SER O ÚLTIMO para ter precedência
+@import 'components/tooltips/tooltips';

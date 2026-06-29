@@ -57,7 +57,7 @@ export default class CardiganSystemRace extends CardiganSystemItemBase {
       new SchemaField({
         id: new StringField({ required: true }),
         name: new StringField({ required: true }),
-        img: new StringField({ required: false, initial: 'icons/svg/item-bag.svg' }),
+        img: new StringField({ required: false, initial: 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg' }),
         uuid: new StringField({ required: false }) // UUID is optional, will be resolved if not provided
       }),
       {
@@ -91,7 +91,7 @@ export default class CardiganSystemRace extends CardiganSystemItemBase {
     return {
       name: name,
       type: 'race',
-      img: options.img || 'icons/svg/item-bag.svg',
+      img: options.img || 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
       system: {
         description: options.description || '',
         movementBonus: options.movementBonus || 0,

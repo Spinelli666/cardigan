@@ -2,19 +2,33 @@
   "DOCUMENT": {
     "DeleteWarning": "Tem certeza que quer excluir?",
     "New": {
-      "arma": "New Weapon",
-      "armadura": "New Armor",
-      "item-municao": "New Ammunition",
-      "item-comum": "New Item",
-      "item-consumivel": "New Consumable",
-      "item-ingredient": "New Ingredient",
-      "item-recipe": "New Recipe",
-      "skill": "New Skill",
-      "efeito": "New Effect",
-      "race": "New Race"
+      "arma": "Nova Arma",
+      "armadura": "Nova Armadura",
+      "item-municao": "Nova Munição",
+      "item-comum": "Novo Item",
+      "item-consumivel": "Novo Consumível",
+      "item-ingredient": "Novo Ingrediente",
+      "item-recipe": "Nova Receita",
+      "skill": "Nova Habilidade",
+      "efeito": "Novo Efeito",
+      "race": "Nova Raça"
     }
   },
   "CARDIGAN": {
+    "Document": {
+      "New": {
+        "arma": "Nova Arma",
+        "armadura": "Nova Armadura",
+        "item-municao": "Nova Munição",
+        "item-comum": "Novo Item",
+        "item-consumivel": "Novo Consumível",
+        "item-ingredient": "Novo Ingrediente",
+        "item-recipe": "Nova Receita",
+        "skill": "Nova Habilidade",
+        "efeito": "Novo Efeito",
+        "race": "Nova Raça"
+      }
+    },
     "Common": {
       "Save": "Save",
       "Cancel": "Cancel",
@@ -29,7 +43,7 @@
       "Confirm": "Confirm",
       "Yes": "Yes",
       "No": "No",
-      "Description": "Description",
+      "Description": "Descrição",
       "Name": "Name",
       "Cost": "Cost",
       "Type": "Type",
@@ -38,7 +52,7 @@
       "Quantity": "Quantity",
       "Weight": "Weight",
       "Price": "Price",
-      "Details": "Details",
+      "Details": "Detalhes",
       "Effects": "Effects",
       "Properties": "Properties",
       "Requirements": "Requirements",
@@ -71,46 +85,54 @@
     "Ability": {
       "Accuracy": {
         "long": "PRE",
-        "abbr": "acc"
+        "abbr": "acc",
+        "full": "PRECISÃO"
       },
       "Evasion": {
         "long": "EVA", 
-        "abbr": "eva"
+        "abbr": "eva",
+        "full": "EVASÃO"
       },
       "Strength": {
         "long": "FOR",
-        "abbr": "str"
+        "abbr": "str",
+        "full": "FORÇA"
       },
       "Dexterity": {
         "long": "DES",
-        "abbr": "dex"
+        "abbr": "dex",
+        "full": "DESTREZA"
       },
       "Stamina": {
         "long": "VIG",
-        "abbr": "sta"
+        "abbr": "sta",
+        "full": "VIGOR"
       },
       "Stealth": {
         "long": "FUR",
-        "abbr": "ste"
+        "abbr": "ste",
+        "full": "FURTIVIDADE"
       },
       "Persuasion": {
         "long": "PER",
-        "abbr": "per"
+        "abbr": "per",
+        "full": "PERSUASÃO"
       },
       "Intelligence": {
         "long": "INT",
-        "abbr": "int"
+        "abbr": "int",
+        "full": "INTELIGÊNCIA"
       },
       "Psionics": {
         "long": "PSI",
-        "abbr": "psi"
+        "abbr": "psi",
+        "full": "PSIONISMO"
       }
     },
     "SheetLabels": {
       "Actor": "CardiganSystem Actor Sheet",
       "Item": "CardiganSystem Item Sheet"
     },
-    "Optional": "Optional",
     "base": {
       "FIELDS": {
         "biography": {
@@ -189,11 +211,10 @@
       },
       "Tabs": {
         "Biography": "Biografia",
-        "Features": "Perícias",
+        "Proficiencies": "Perícias",
         "Skills": "Habilidades",
-        "Backpack": "Habilidades",
-        "Equipamentos": "Equipamentos",
-        "Profissoes": "Profissões"
+        "Equipment": "Equipamentos",
+        "Professions": "Profissões"
       },
       "Character": {
         "FIELDS": {
@@ -210,6 +231,32 @@
         },
         "xp": {
           "label": "XP"
+        }
+      },
+      "Status": {
+        "Hunger": {
+          "1": "O personagem está ficando com fome. [1 de Fome]",
+          "2": "O personagem está ficando com mais fome. [2 de Fome]",
+          "3": "O personagem está faminto! [3 de Fome]"
+        },
+        "Thirst": {
+          "1": "O personagem está ficando com sede. [1 de Sede]",
+          "2": "O personagem está ficando com mais sede. [2 de Sede]",
+          "3": "O personagem está sedento! [3 de Sede]"
+        },
+        "Sanity": {
+          "1": "Ansioso, você está estressado, tenso e desconfiado.",
+          "2": "Paranoico, você está desesperado, neurótico e pessimista.",
+          "3": "Violento, você inconsequente, você está hostil e insensível.",
+          "4": "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.",
+          "5": "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição."
+        },
+        "Toxicity": {
+          "1": "Levemente intoxicado, você sente náusea e tontura.",
+          "2": "Intoxicação moderada, você está enjoado e com visão turva.",
+          "3": "Severamente intoxicado, você está vomitando e com dores intensas.",
+          "4": "Intoxicação crítica, você está delirando e perdendo consciência.",
+          "5": "Envenenamento fatal, você está à beira da morte por toxinas."
         }
       }
     },
@@ -228,10 +275,16 @@
       }
     },
     "Item": {
+      "New": "New {type}",
+      "Title": "{type} Sheet",
+      "Subtitle": "{name}",
+      "RecoveredUsage": "{name} recovered {value} uses.",
+      "LostUsage": "{name} lost {value} uses.",
       "Tabs": {
-        "Description": "Description",
-        "Attributes": "Details",
-        "Details": "Details",
+        "Description": "Descrição",
+        "Properties": "Propriedades",
+        "Attributes": "Detalhes",
+        "Details": "Detalhes",
         "Effects": "Effects",
         "Modifiers": "Modifiers",
         "Ingredients": "Ingredients",
@@ -373,12 +426,15 @@
       },
       "Efeito": {
         "Types": {
-          "Positivo": "Positive",
-          "Negativo": "Negative"
+          "Positivo": "Positivo",
+          "Negativo": "Negativo"
         },
         "FIELDS": {
           "efeitoType": {
-            "label": "Effect Type"
+            "label": "Tipos de Efeitos"
+          },
+          "rodadas": {
+            "label": "Rodadas"
           }
         }
       },
@@ -395,8 +451,7 @@
           "tailoring": "Tailoring",
           "tecnomagic": "Tecnomagic",
           "blacksmithing": "Blacksmithing",
-          "alchemy": "Alchemy",
-          "carpentry": "Carpentry"
+          "alchemy": "Alchemy"
         },
         "ingredients": {
           "label": "Ingredients",
@@ -484,24 +539,14 @@
       "ShowEquipment": "Show Equipment"
     },
     "Hunger": {
-      "label": "Hunger",
-      "messages": {
-        "normal": "The character is not hungry.",
-        "low": "The character is getting hungry.",
-        "critical": "The character is starving!"
-      }
+      "label": "Hunger"
     },
     "Thirst": {
-      "label": "Thirst",
-      "messages": {
-        "normal": "The character is not thirsty.",
-        "low": "The character is getting thirsty.",
-        "critical": "The character is dehydrated!"
-      }
+      "label": "Thirst"
     },
     "Fracture": {
       "label": "Fracture",
-      "description": "Each point of Fracture reduces maximum health and energy by 5."
+      "description": "Each point of Fracture reduces maximum health by 5."
     },
     "GiftOfLife": {
       "label": "Gift of Life",
@@ -524,26 +569,12 @@
     "Sanity": {
       "label": "Sanity",
       "description": "Sanity radio buttons (0-5).",
-      "reset": "Reset Sanity",
-      "messages": {
-        "level1": "Ansioso, você está estressado, tenso e desconfiado.",
-        "level2": "Paranoico, você está desesperado, neurótico e pessimista.",
-        "level3": "Violento, você inconsequente, você está hostil e insensível.",
-        "level4": "Vilanesco, você está completamente insano, todos são inimigos e odiáveis.",
-        "level5": "Perdido, o narrador assume seu personagem para guiá-lo à auto-destruição."
-      }
+      "reset": "Reset Sanity"
     },
     "Toxicity": {
       "label": "Toxicity",
       "description": "Toxicity radio buttons (0-5).",
-      "reset": "Reset Toxicity",
-      "messages": {
-        "level1": "Levemente intoxicado, você sente náusea e tontura.",
-        "level2": "Intoxicação moderada, você está enjoado e com visão turva.",
-        "level3": "Severamente intoxicado, você está vomitando e com dores intensas.",
-        "level4": "Intoxicação crítica, você está delirando e perdendo consciência.",
-        "level5": "Envenenamento fatal, você está à beira da morte por toxinas."
-      }
+      "reset": "Reset Toxicity"
     },
     "AddWeapon": "Add Weapon",
     "EditItem": "Edit Item", 
@@ -576,7 +607,7 @@
     "DamageTotal": "Total Damage",
     "CriticalHitDamageDoubled": "CRITICAL HIT! Damage doubled!",
     "CriticalFailureDurabilityLoss": "CRITICAL FAILURE! Weapon durability reduced!",
-    "DurabilityReduced": "Durability",
+    "DurabilityReduced": "Durabilidade",
     "AmmunitionConsumed": "Ammunition consumed",
     "WeaponNotEquipped": "This weapon is not equipped.",
     "WeaponBroken": "This weapon is broken and cannot be used to attack!",
@@ -595,15 +626,9 @@
     "Light": "Light",
     "Heavy": "Heavy",
     "Price": "Price",
-    "Durability": "Durability",
+    "Durability": "Durabilidade",
     "ItemName": "Item Name",
-    "ShowWeapons": "Show Weapons",
-    "UnequipWeapon": "Unequip Weapon",
-    "EquipWeapon": "Equip Weapon",
-    "Unequip": "Unequip",
-    "Equip": "Equip",
-    "UseConsumable": "Use Consumable",
-    "Consumable": "Consumable",
+    "ShowWeapons": "Equipamentos",
     "Effects": "Effects",
     "AddEffect": "Add Effect",
     "RemoveEffect": "Remove Effect",
@@ -613,12 +638,11 @@
     "NoEffectsAdded": "No effects added yet. Click + to add an effect.",
     "NoEffectsSelected": "No effects selected. Click Configure to select effects.",
     "ShowBackpack": "Show Backpack",
-    "BackpackTable": "Backpack Table",
     "Backpack": "Backpack",
     "BackpackCapacity": "Backpack Capacity",
-    "BackpackFull": "Backpack is full! Cannot add more items.",
+    "BackpackFull": "Mochila está cheia! Não pode adicionar mais itens.",
     "BackpackType": "Backpack Type",
-    "AddBackpack": "Add Item",
+    "AddBackpack": "Adicionar Itens",
     "RecipesTable": "Culinary Table",
     "Recipes": "Culinary Recipes",
     "AddRecipe": "Add Culinary Recipe",
@@ -627,25 +651,23 @@
     "RecipeResult": "Result",
     "RecipeDifficulty": "Difficulty",
     "CookRecipe": "Cook Recipe",
-    "ShowCulinaryTable": "",
+    "ShowCulinaryTable": "Show Culinary Table",
     "CulinaryTable": "Culinary Table",
     "AddCulinaryRecipe": "Add Culinary Recipe",
-    "ShowTailoringTable": "",
-    "ShowTecnomagicTable": "",
-    "ShowBlacksmithingTable": "",
-    "ShowAlchemyTable": "",
-    "ShowCarpentryTable": "",
-    "ShowSkillsAndarilhoTable": "",
-    "ShowSkillsGuerreiroTable": "",
-    "ShowSkillsLadinoTable": "",
-    "ShowSkillsFeiticeiroTable": "",
-    "ShowSkillsRaciaisTable": "",
-    "ShowSkillsUnicasTable": "",
+    "ShowTailoringTable": "Show Tailoring Table",
+    "ShowTecnomagicTable": "Show Tecnomagic Table",
+    "ShowBlacksmithingTable": "Show Blacksmithing Table",
+    "ShowAlchemyTable": "Show Alchemy Table",
+    "ShowSkillsAndarilhoTable": "Show Andarilho Skills",
+    "ShowSkillsGuerreiroTable": "Show Guerreiro Skills",
+    "ShowSkillsLadinoTable": "Show Ladino Skills",
+    "ShowSkillsFeiticeiroTable": "Show Feiticeiro Skills",
+    "ShowSkillsRaciaisTable": "Show Raciais Skills",
+    "ShowSkillsUnicasTable": "Show Únicas Skills",
     "TailoringTable": "Tailoring Table",
     "TecnomagicTable": "Tecnomagic Table",
     "BlacksmithingTable": "Blacksmithing Table",
     "AlchemyTable": "Alchemy Table",
-    "CarpentryTable": "Carpentry Table",
     "AndarilhoSkillsTable": "Andarilho Skills",
     "GuerreiroSkillsTable": "Guerreiro Skills",
     "LadinoSkillsTable": "Ladino Skills",
@@ -656,7 +678,6 @@
     "AddTecnomagicRecipe": "Add Tecnomagic Recipe",
     "AddBlacksmithingRecipe": "Add Blacksmithing Recipe",
     "AddAlchemyRecipe": "Add Alchemy Recipe",
-    "AddCarpentryRecipe": "Add Carpentry Recipe",
     "CraftItem": "Craft Item",
     "CraftFromRecipe": "Craft from Recipe",
     "SelectItemType": "Select Item Type",
@@ -733,7 +754,6 @@
       "Pernas": "Legs",
       "Pes": "Feet"
     },
-    "ArmorTable": "Equipped Armor",
     "ArmorProtection": "Protection",
     "ArmorTypeLabel": "Armor Type",
     "ArmorBasicInfo": "Basic Information",
@@ -741,13 +761,12 @@
     "WeaponEquipment": "Hand & Equipment",
     "CombatStats": "Combat Statistics",
     "SpecialProperties": "Special Properties",
-    "EquipArmor": "Equip Armor",
-    "UnequipArmor": "Unequip Armor",
     "Protection": "Protection",
     "WeaponProtection": "Protection",
     "ProtectionValue": "Protection Value",
     "ColdResistance": "Cold Resistance",
     "Stylish": "Stylish",
+    "Single": "Single",
     "AttributeBonuses": "Attribute Bonuses",
     "Life": "Life",
     "Energy": "Energy", 
@@ -773,7 +792,6 @@
     },
     "ItemComum": {
       "Title": "Common Item",
-      "Subtitle": "General equipment and miscellaneous items",
       "Category": "Category",
       "Usage": "Usage Instructions",
       "UsagePlaceholder": "Describe how this item is used...",
@@ -788,8 +806,8 @@
       "Title": "Ammunition",
       "Subtitle": "Arrows, bullets, bolts and other projectiles",
       "Units": "units",
-      "IsFirearmAmmo": "Firearm Ammunition?",
-      "IsSpecialAmmo": "Special Ammunition?"
+      "IsFirearmAmmo": "Munição de Arma de Fogo",
+      "IsSpecialAmmo": "Munição Especial"
     },
     "ItemConsumivel": {
       "Title": "Consumable",
@@ -996,7 +1014,6 @@
       "Tip": "Check your inventory for ingredients with similar names, or acquire the missing materials before crafting."
     },
     "ItemIngredient": {
-      "Subtitle": "Crafting materials, herbs, and components",
       "Type": "Ingredient Type",
       "Freshness": "Freshness",
       "Origin": "Origin", 
@@ -1019,15 +1036,12 @@
       },
       "Profession": "Profession",
       "Professions": {
-        "General": "General Use",
-        "Alchemy": "Alchemy",
-        "Blacksmithing": "Blacksmithing",
-        "Carpentry": "Carpentry",
-        "Culinary": "Culinary Arts",
-        "Tailoring": "Tailoring",
-        "Tecnomagic": "Tecnomagic",
-        "Enchanting": "Enchanting",
-        "Herbalism": "Herbalism"
+        "General": "GENÉRICO",
+        "Alchemy": "ALQUIMIA",
+        "Blacksmithing": "FERRARIA",
+        "Culinary": "CULINÁRIA",
+        "Tailoring": "COSTURA",
+        "Tecnomagic": "TECNOMAGIA"
       }
     },
     "Skill": {
@@ -1076,6 +1090,63 @@
     "AddSkill": "Add Skill",
     "RollSkill": "Roll Skill",
     "PassiveSkill": "Passive Skill",
+    "Tooltip": {
+      "CreateCharacter": "Criar Personagem",
+      "LevelUP": "Subir de Nível",
+      "LevelXP": "Nível & XP",
+      "Armor": "Armadura",
+      "ArmorBonus": "Armadura Temporária",
+      "Movement": "Deslocamento",
+      "CriticalHit": "Acerto Crítico",
+      "DeathSentence": "Sentença de Morte",
+      "GiftOfLife": "Dádiva da Vida",
+      "TestDestiny": "Teste do Destino",
+      "Fracture": "Fratura",
+      "Sanity": "Sanidade",
+      "Toxicity": "Toxidade",
+      "Hunger": "Fome",
+      "Thirst": "Sede",
+      "Rest": "Descanso",
+      "Health": "Vida",
+      "HealthBonus": "Vida Temporária",
+      "Money": "Moedas",
+      "Negotiate": "Negociar",
+      "Backpack": "Inventário",
+      "Weight": "Peso",
+      "Energy": "Energia",
+      "EnergyBonus": "Energia Temporária",
+      "ClickToLock": "Clique para fixar tooltip",
+      "Effects": "Efeitos",
+      "AddEffects": "Adicionar Efeitos",
+      "Proficiency": {
+        "CurrentValue": "Valor Atual",
+        "Bonus": "Bônus",
+        "Total": "Total",
+        "Accuracy.Description": "Precisão em ataques, capacidade de acertar o alvo com armas e habilidades ofensivas.",
+        "Evasion.Description": "Capacidade de esquivar-se de ataques, evitar dano através de reflexos rápidos e movimentação ágil.",
+        "Strength.Description": "Força física bruta, capacidade de levantar peso e causar dano em combate corpo a corpo.",
+        "Dexterity.Description": "Agilidade, reflexos, coordenação motora fina e precisão com armas à distância.",
+        "Stamina.Description": "Resistência física, capacidade de suportar dano, doenças e condições adversas.",
+        "Stealth.Description": "Capacidade de mover-se furtivamente, esconder-se nas sombras e evitar detecção.",
+        "Persuasion.Description": "Carisma, capacidade de influenciar, enganar, intimidar ou negociar com outros.",
+        "Intelligence.Description": "Capacidade de raciocínio, memória, conhecimento e compreensão de informações complexas.",
+        "Psionics.Description": "Poder mental, capacidade de manifestar habilidades psiônicas e resistir a ataques mentais."
+      },
+      "HandSecondary": "Mão Secundária",
+      "HandPrimary": "Mão Primária",
+      "JointRoll": "Rolagem Conjunta",
+      "JointRollTargets": "Alvos da Rolagem Conjunta",
+      "CharacterName": "Personagem",
+      "Modifier": "Modificador",
+      "EnhancedDisadvantage": "Desvantagem Aprimorada",
+      "Disadvantage": "Desvantagem",
+      "RollTest": "Rolar Teste",
+      "Use": "Utilizar",
+      "Equip": "Equipar",
+      "Unequip": "Desequipar",
+      "Advantage": "Vantagem",
+      "EnhancedAdvantage": "Vantagem Aprimorada"
+    },
     "Dialogs": {
       "SkillEffectsSelection": {
         "Title": "Selecionar Efeitos para Skill",
@@ -1085,20 +1156,20 @@
   },
   "TYPES": {
     "Actor": {
-      "character": "Character",
+      "character": "Personagem",
       "npc": "NPC"
     },
     "Item": {
-      "item-comum": "Common Item",
-      "item-municao": "Ammunition",
-      "item-consumivel": "Consumable",
-      "item-ingredient": "Ingredient",
-      "item-recipe": "Recipe",
+      "item-comum": "Item Comum",
+      "item-municao": "Munição",
+      "item-consumivel": "Consumível",
+      "item-ingredient": "Ingrediente",
+      "item-recipe": "Receita",
       "race": "Raça",
       "efeito": "Efeito",
-      "arma": "Weapon",
-      "armadura": "Armor",
-      "skill": "Skill"
+      "arma": "Arma",
+      "armadura": "Armadura",
+      "skill": "Habilidade"
     }
   }
 }

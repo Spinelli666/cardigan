@@ -64,7 +64,7 @@ export default class CardiganSystemActorBase extends foundry.abstract
     
     // Experience points
     schema.experience = new fields.SchemaField({
-      current: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+      current: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 100 }),
       nextLevel: new fields.NumberField({ ...requiredInteger, initial: 100, min: 0 }),
     });
     

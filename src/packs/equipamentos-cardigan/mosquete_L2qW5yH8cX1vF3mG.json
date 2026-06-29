@@ -20,7 +20,13 @@
       "useDexterity": true,
       "total": "20"
     },
-    "properties": ["perfurar", "pente", "recarga", "ferir", "impacto"],
+    "properties": [
+      "perfurar",
+      "pente",
+      "recarga",
+      "ferir",
+      "impacto"
+    ],
     "rightHand": false,
     "leftHand": false,
     "weight": "pesado",
@@ -35,7 +41,8 @@
     "protection": {
       "enabled": false,
       "value": 0
-    }
+    },
+    "quantity": 1
   },
   "effects": [],
   "flags": {},

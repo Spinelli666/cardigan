@@ -4,6 +4,34 @@
  */
 export class CardiganSystemItem extends Item {
   /**
+   * Get the default artwork for an item based on its type.
+   * This method is called by Foundry when creating or displaying items without artwork.
+   * @param {object} itemData - The item data object containing at least a 'type' property
+   * @returns {object} Object with 'img' property containing the default image path
+   */
+  static getDefaultArtwork(itemData = {}) {
+    const { type } = itemData;
+    
+    // Map of item types to their default images
+    const defaultImages = {
+      'item-comum': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'item-municao': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'item-consumivel': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'item-ingredient': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'item-recipe': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'efeito': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'arma': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'armadura': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'skill': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'race': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
+      'backpack': 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg'
+    };
+    
+    const img = defaultImages[type] ?? 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg';
+    return { img };
+  }
+
+  /**
    * Augment the basic Item data model with additional dynamic data.
    */
   prepareData() {
@@ -353,40 +381,6 @@ export class CardiganSystemItem extends Item {
   }
 
   /**
-   * Render a rich tooltip for this item.
-   * @param {object} [enrichmentOptions={}]  Options for text enrichment.
-   * @returns {Promise<{content: string, classes: string[]}>}
-   */
-  async richTooltip(enrichmentOptions = {}) {
-    // Get the description from the item
-    let description = '';
-    if (this.system?.description) {
-      // Enrich the description using TextEditor.enrichHTML
-      description = await foundry.applications.ux.TextEditor.enrichHTML(this.system.description, {
-        secrets: this.isOwner,
-        relativeTo: this,
-        ...enrichmentOptions
-      });
-    }
-
-    // Build the tooltip content with rich HTML formatting
-    const content = `
-      <div class="item-tooltip">
-        <div class="header">
-          <h3>${this.name}</h3>
-          ${this.system.type?.label ? `<div class="subtitle">${this.system.type.label}</div>` : ''}
-        </div>
-        ${description ? `<div class="content">${description}</div>` : ''}
-      </div>
-    `;
-
-    return {
-      content,
-      classes: ['cardigan-tooltip', 'item-tooltip']
-    };
-  }
-
-  /**
    * Perform preliminary operations before an Item document is deleted.
    * @param {object} options - Additional options which modify the deletion request
    * @param {User} user      - The User requesting the document deletion
@@ -550,6 +544,31 @@ export class CardiganSystemItem extends Item {
    */
   async _preUpdate(changed, options, user) {
     await super._preUpdate(changed, options, user);
+
+    // Enforce durability consistency for equipment items
+    if (this.type === 'arma' || this.type === 'armadura') {
+      const incomingCurrent = foundry.utils.getProperty(changed, 'system.durability.current');
+      const incomingMax = foundry.utils.getProperty(changed, 'system.durability.max');
+
+      if (incomingCurrent !== undefined || incomingMax !== undefined) {
+        const existingCurrent = this.system?.durability?.current ?? 0;
+        const existingMax = this.system?.durability?.max ?? 1;
+
+        let nextMax = incomingMax !== undefined ? Number(incomingMax) : Number(existingMax);
+        if (!Number.isFinite(nextMax)) nextMax = Number(existingMax) || 1;
+        nextMax = Math.max(1, Math.floor(nextMax));
+
+        let nextCurrent = incomingCurrent !== undefined ? Number(incomingCurrent) : Number(existingCurrent);
+        if (!Number.isFinite(nextCurrent)) nextCurrent = Number(existingCurrent) || 0;
+        nextCurrent = Math.max(0, Math.floor(nextCurrent));
+
+        // current can never exceed max (prevents states like 4/3)
+        if (nextCurrent > nextMax) nextCurrent = nextMax;
+
+        foundry.utils.setProperty(changed, 'system.durability.max', nextMax);
+        foundry.utils.setProperty(changed, 'system.durability.current', nextCurrent);
+      }
+    }
     
     // If this is a weapon (arma) and skillBonuses are being changed
     if (this.type === 'arma' && changed.system?.skillBonuses !== undefined) {
@@ -566,6 +585,17 @@ export class CardiganSystemItem extends Item {
    */
   async _onUpdate(changed, options, userId) {
     await super._onUpdate(changed, options, userId);
+
+    // Keep actor equipment durability displays synchronized when this item changes.
+    if (this.actor && (this.type === 'arma' || this.type === 'armadura')) {
+      const durabilityCurrentChanged = foundry.utils.hasProperty(changed, 'system.durability.current');
+      const durabilityMaxChanged = foundry.utils.hasProperty(changed, 'system.durability.max');
+
+      if (durabilityCurrentChanged || durabilityMaxChanged) {
+        const actorSheet = this.actor.sheet;
+        if (actorSheet?.rendered) actorSheet.render(false);
+      }
+    }
     
     // If weapon skill bonuses changed and this item has a parent actor
     if (this._weaponSkillBonusesChanged && this.actor) {

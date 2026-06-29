@@ -320,7 +320,7 @@ export class BaseSkill {
           const filterStyle = isAcquired ? '' : 'filter: grayscale(100%); opacity: 0.4;';
           const emoji = enhancementEmojis[i] || '⭐';
           
-          // Get the enhancement name and description for tooltip
+          // Get the enhancement name and description
           const enhancementName = enhancement.name || `Enhancement ${i + 1}`;
           const statusText = isAcquired ? '✓ Acquired' : '✗ Not Acquired';
           
@@ -988,6 +988,8 @@ export class BaseSkill {
       // Show advantage selection dialog
       const advantageType = await AdvantageSelectionDialog.show();
       if (!advantageType) return; // User cancelled
+      
+      const { rollType, attackMode, manualModifier = 0 } = advantageType;
 
       // Check for Congelado effect and get penalty
       const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
@@ -1001,6 +1003,11 @@ export class BaseSkill {
         if (congeladoPenalty !== 0) {
           finalFormula += ` ${congeladoPenalty}`;
           finalFlavor += ` [Congelado ${congeladoPenalty}]`;
+        }
+        // Apply manual modifier if present
+        if (manualModifier !== 0) {
+          finalFormula += ` + ${manualModifier}`;
+          finalFlavor += ` [Mod ${manualModifier > 0 ? '+' : ''}${manualModifier}]`;
         }
         
         const roll = new Roll(finalFormula, rollData);
@@ -1067,6 +1074,8 @@ export class BaseSkill {
       // Show advantage selection dialog
       const advantageType = await AdvantageSelectionDialog.show();
       if (!advantageType) return; // User cancelled
+      
+      const { rollType, attackMode, manualModifier = 0 } = advantageType;
 
       // Check for Congelado effect and get penalty
       const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
@@ -1080,6 +1089,11 @@ export class BaseSkill {
         if (congeladoPenalty !== 0) {
           finalFormula += ` ${congeladoPenalty}`;
           finalFlavor += ` [Congelado ${congeladoPenalty}]`;
+        }
+        // Apply manual modifier if present
+        if (manualModifier !== 0) {
+          finalFormula += ` + ${manualModifier}`;
+          finalFlavor += ` [Mod ${manualModifier > 0 ? '+' : ''}${manualModifier}]`;
         }
         
         const roll = new Roll(finalFormula, rollData);
@@ -1311,6 +1325,9 @@ export class BaseSkill {
     } else if (weapon.system.damage.useDexterity && actor.system.abilities?.dexterity) {
       abilityModifier = actor.system.abilities.dexterity.value || 0;  
       abilityName = "Destreza";
+    } else if (weapon.system.damage.usePsionics && actor.system.abilities?.psionics) {
+      abilityModifier = actor.system.abilities.psionics.value || 0;
+      abilityName = "Psionismo";
     }
 
     // Format breakdown

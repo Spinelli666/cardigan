@@ -1,0 +1,12 @@
+<form class="dialog-form standard-form weight-selection-form">
+  <img src="{{titleBorderPath}}" class="title-border" alt="">
+
+  <div class="weight-options">
+    {{#each options}}
+      <button type="button" class="weight-option" data-action="weight-{{@index}}" data-weight="{{weight}}">
+        <span class="weight-option-number">{{number}}</span>
+        <span class="weight-option-label">{{label}}</span>
+      </button>
+    {{/each}}
+  </div>
+</form>

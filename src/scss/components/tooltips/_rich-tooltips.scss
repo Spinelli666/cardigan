@@ -1,0 +1,267 @@
+/* ----------------------------------------- */
+/*  Rich Proficiency Tooltips                */
+/* ----------------------------------------- */
+
+/* Header do tooltip */
+.proficiency-tooltip .tooltip-header {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-bottom: 12px;
+}
+
+.proficiency-tooltip .tooltip-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 60px;
+  right: 60px;
+  height: 8px;
+  background-image: url('../assets/images/decorative/border.webp');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.proficiency-tooltip .tooltip-title {
+  margin: 0;
+  padding-top: 4px;
+  font-family: 'Alatsi', sans-serif;
+  font-size: 20px;
+  line-height: 1.3;
+  background: linear-gradient(180deg, #FFB75C 33.6%, #996E37 66.67%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.proficiency-tooltip .divider-left {
+  position: absolute;
+  top: -8px;
+  left: -7px;
+  width: 20%;
+  height: auto;
+  opacity: 0.8;
+  transform: rotate(224deg);
+}
+
+.proficiency-tooltip .divider-right {
+  position: absolute;
+  top: -8px;
+  right: -7px;
+  width: 20%;
+  height: auto;
+  opacity: 0.8;
+  transform: rotate(134deg) scaleX(-1);
+}
+
+/* Description */
+.proficiency-tooltip .tooltip-description {
+  margin: 0px 20px 0px 20px;
+  padding: 2px 8px;
+  font-family: 'Alatsi', sans-serif;
+  font-size: 10.5px;
+  line-height: 1.4;
+  border-radius: 13px;
+  border: 1px solid #FFB75C;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* Locked tooltip specifics */
+body .locked-tooltip.proficiency-tooltip.cardigan-tooltip {
+  max-width: 350px !important;
+  min-width: 250px !important;
+  height: 220px !important;
+  padding: 0px !important;
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.80) 8.69%, rgba(35, 85, 102, 0.80) 51.12%, rgba(25, 53, 66, 0.80) 86.06%) !important;
+  border: 3px solid #c0863b !important;
+  border-radius: 10px !important;
+  box-shadow: 0 0 30px rgba(255, 183, 92, 0.4), 
+              0 4px 12px rgba(0, 0, 0, 0.6) !important;
+  animation: tooltipFadeIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Centralização horizontal do tooltip */
+.locked-tooltip.tooltip-centered {
+  transform: translateX(-50%);
+  animation: tooltipFadeIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Quando tooltip é invertido (acima do elemento), ajusta o transform */
+.locked-tooltip.tooltip-flipped {
+  transform: translate(-50%, -100%);
+  animation: tooltipFadeInFlipped 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Animação para tooltip normal (abaixo) */
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+/* Animação para tooltip invertido (acima) */
+@keyframes tooltipFadeInFlipped {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% + 10px)) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -100%) scale(1);
+  }
+}
+
+/* Make proficiency labels clickable */
+.proficiency-clickable-label {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.proficiency-clickable-label:hover {
+  color: #FFB75C;
+  text-shadow: 0 0 8px rgba(255, 183, 92, 0.5);
+}
+
+.proficiency-clickable-label:active {
+  transform: scale(0.98);
+}
+
+/* ----------------------------------------- */
+/*  Rich Effect Tooltips                     */
+/* ----------------------------------------- */
+
+/* Effect tooltip container */
+body .locked-tooltip.effect-tooltip.cardigan-tooltip {
+  max-width: 350px !important;
+  min-width: 250px !important;
+  height: auto !important;
+  min-height: 150px !important;
+  padding: 0px !important;
+  background: linear-gradient(180deg, rgba(71, 155, 181, 0.80) 8.69%, rgba(35, 85, 102, 0.80) 51.12%, rgba(25, 53, 66, 0.80) 86.06%) !important;
+  border: 3px solid #c0863b !important;
+  border-radius: 10px !important;
+  box-shadow: 0 0 30px rgba(255, 183, 92, 0.4), 
+              0 4px 12px rgba(0, 0, 0, 0.6) !important;
+  animation: tooltipFadeIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.effect-tooltip .tooltip-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px auto 8px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #c9934a;
+  padding: 12px;
+  background: #2D353A;
+  box-shadow: 0 0 20px rgba(201, 147, 74, 0.6),
+              0 4px 12px rgba(0, 0, 0, 0.7),
+              inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.effect-tooltip .tooltip-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.effect-tooltip .tooltip-header {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 12px;
+}
+
+.effect-tooltip .tooltip-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 60px;
+  right: 60px;
+  height: 8px;
+  background-image: url('../assets/images/decorative/border.webp');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.effect-tooltip .tooltip-title {
+  margin: 0;
+  padding-top: 3px;
+  font-family: 'Alatsi', sans-serif;
+  font-size: 20px;
+  background: linear-gradient(180deg, #FFB75C 33.6%, #996E37 66.67%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  text-transform: uppercase;
+}
+
+.effect-tooltip .tooltip-description {
+  margin: 0px 20px 20px 20px;
+  padding: 2px 8px;
+  font-family: 'Alatsi', sans-serif;
+  font-size: 10.5px;
+  line-height: 1.4;
+  border-radius: 13px;
+  border: 1px solid #FFB75C;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  text-transform: none !important;
+
+  p {
+    text-align: center !important;
+  }
+}
+
+.effect-tooltip .divider-left {
+  position: absolute;
+  top: -8px;
+  left: -7px;
+  width: 20%;
+  height: auto;
+  opacity: 0.8;
+  transform: rotate(224deg);
+}
+
+.effect-tooltip .divider-right {
+  position: absolute;
+  top: -8px;
+  right: -7px;
+  width: 20%;
+  height: auto;
+  opacity: 0.8;
+  transform: rotate(134deg) scaleX(-1);
+}
+
+/* Make effect names clickable */
+.clickable-effect {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.clickable-effect:hover {
+  color: #FFB75C !important;
+  text-shadow: 0 0 8px rgba(255, 183, 92, 0.5) !important;
+}
+
+.clickable-effect:active {
+  transform: scale(0.98);
+}

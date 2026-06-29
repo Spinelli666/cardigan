@@ -107,7 +107,7 @@ export function registerHandlebarsHelpers() {
     
     let content = '';
     
-    // Add weapon type icons (using Unicode symbols for plain text tooltips)
+    // Add weapon type icons
     let typeIcons = '';
     if (weapon.system.melee && weapon.system.ranged) {
       typeIcons = '⚔️/🏹'; // Melee and ranged
@@ -123,7 +123,7 @@ export function registerHandlebarsHelpers() {
     const weightIcon = '🎒'; // Backpack icon
     const weightText = weapon.system.weight === 'leve' ? 'Leve' : 'Pesado';
     
-    // Build the complete tooltip content with icons above the name
+    // Build the complete content with icons above the name
     content = `${typeIcons} ${weightIcon} ${weightText}\n${weapon.name}`;
     
     // Add description if available
@@ -158,7 +158,7 @@ export function registerHandlebarsHelpers() {
     const weightText = weapon.system.weight === 'leve' ? 'Leve' : 'Pesado';
     const weightHTML = '<i class="fas fa-backpack"></i><span>' + weightText + '</span>';
     
-    // Build complete tooltip HTML
+    // Build complete HTML
     let html = '<div class="weapon-tooltip">';
     html += '<div class="weapon-image"><img src="' + weapon.img + '" alt="' + weapon.name + '" /></div>';
     html += '<div class="weapon-name-line"><strong>' + weapon.name + '</strong></div>';
@@ -215,7 +215,7 @@ export function registerHandlebarsHelpers() {
       if (armor.system.stylish) specialPropertiesHTML += '✨';
     }
     
-    // Build complete tooltip HTML
+    // Build complete HTML
     let html = '<div class="armor-tooltip">';
     html += '<div class="armor-image"><img src="' + armor.img + '" alt="' + armor.name + '" /></div>';
     html += '<div class="armor-name-line"><strong>' + armor.name + '</strong></div>';
@@ -279,6 +279,15 @@ export function registerHandlebarsHelpers() {
    * @param {Object} options - Handlebars options object containing context
    * @returns {boolean} - True if player has enough of the ingredient
    */
+  /**
+   * Check if a roll result is a single digit (1-9)
+   * @param {number|string} value - The roll result value
+   * @returns {boolean} - True if the value has only one digit
+   */
+  Handlebars.registerHelper('isSingleDigit', function(value) {
+    return String(value).replace('-', '').length === 1;
+  });
+
   Handlebars.registerHelper('hasEnoughIngredient', function(ingredientName, requiredQuantity, options) {
     // Get the actor from the template context
     const actor = options.data.root.actor;
@@ -313,19 +322,20 @@ export function registerHandlebarsHelpers() {
  * @param {string} attribute - Attribute to add to formula (e.g., "@precision.total", "@evasion.total")
  * @returns {string} The complete roll formula
  */
-export function buildRollFormula(rollType, attribute) {
+export function buildRollFormula(rollType, attribute, manualModifier = 0) {
+  const modifier = manualModifier !== 0 ? ` + ${manualModifier}` : '';
   switch (rollType) {
     case 'advantage':
-      return `2d20kh + ${attribute}`;
+      return `2d20kh + ${attribute}${modifier}`;
     case 'disadvantage':
-      return `2d20kl + ${attribute}`;
+      return `2d20kl + ${attribute}${modifier}`;
     case 'enhanced-advantage':
-      return `3d20kh + ${attribute}`;
+      return `3d20kh + ${attribute}${modifier}`;
     case 'enhanced-disadvantage':
-      return `3d20kl + ${attribute}`;
+      return `3d20kl + ${attribute}${modifier}`;
     case 'normal':
     default:
-      return `1d20 + ${attribute}`;
+      return `1d20 + ${attribute}${modifier}`;
   }
 }
 

@@ -4,7 +4,8 @@
   data-group='primary'
   data-tab='proficiencies'
 >
-  <img src='systems/cardigan/assets/images/decorative/divider.webp' class='proficiencies-divider-top' alt='Divider' />
+  <img src='systems/cardigan/assets/images/decorative/divider.webp' class='proficiencies-divider-top-left' alt='Divider' />
+  <img src='systems/cardigan/assets/images/decorative/divider.webp' class='proficiencies-divider-top-right' alt='Divider' />
   <section class='main proficiencies-tab-main'>
     {{! Proficiencies }}
     <div class='proficiencies'>
@@ -39,12 +40,11 @@
           </div>
           <div class='proficiency-label-wrapper'>
             <label 
-              class='proficiency-clickable-label' 
-              data-tooltip='PRECISÃO'
-              data-tooltip-class='cardigan-proficiency-tooltip'
-              data-tooltip-direction='DOWN'
-              data-tooltip-title='PRECISÃO'
-              data-tooltip-description='<p style="text-align: justify">Sempre que realizar testes de <em>Precisão, Evasão, Força e Destreza</em>, você recebe <strong><code>5🩸</code></strong> de Dano Físico. Fora de Combate este efeito ocorre a cada <strong>10</strong> minutos. Pode ser removido com <strong>Bandagem Curativa</strong> e <strong>Conjunto Cirúrgico</strong>.</p>'>
+              class='proficiency-clickable-label'
+              data-tooltip='CARDIGAN.Ability.Accuracy.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='accuracy'>
               {{localize "CARDIGAN.Ability.Accuracy.long"}}
             </label>
           </div>
@@ -78,11 +78,10 @@
           <div class='proficiency-label-wrapper'>
             <label
               class='proficiency-clickable-label'
-              data-tooltip='EVASÃO'
-              data-tooltip-class='cardigan-proficiency-tooltip'
-              data-tooltip-direction='DOWN'
-              data-tooltip-title='EVASÃO'
-              data-tooltip-description='Usado para esquivar de ataques, reduzir dano e testes de agilidade'>
+              data-tooltip='CARDIGAN.Ability.Evasion.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='evasion'>
               {{localize "CARDIGAN.Ability.Evasion.long"}}
             </label>
           </div>
@@ -121,12 +120,11 @@
           </div>
           <div class='proficiency-label-wrapper'>
             <label 
-              class='proficiency-clickable-label' 
-              data-tooltip='FORÇA'
-              data-tooltip-class='cardigan-proficiency-tooltip'
-              data-tooltip-direction='DOWN'
-              data-tooltip-title='FORÇA'
-              data-tooltip-description='<p style="text-align: justify">Sempre que realizar testes de <em>Precisão, Evasão, Força e Destreza</em>, você recebe <strong><code>5🩸</code></strong> de Dano Físico. Fora de Combate este efeito ocorre a cada <strong>10</strong> minutos. Pode ser removido com ::systems/cardigan/assets/images/alchemy/bandage.webp:: <strong>Bandagem Curativa</strong> e ::systems/cardigan/assets/images/alchemy/surgical-kit.webp:: <strong>Conjunto Cirúrgico</strong>.</p>'>
+              class='proficiency-clickable-label'
+              data-tooltip='CARDIGAN.Ability.Strength.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='strength'>
               {{localize "CARDIGAN.Ability.Strength.long"}}
             </label>
           </div>
@@ -162,11 +160,10 @@
           <div class='proficiency-label-wrapper'>
             <label
               class='proficiency-clickable-label'
-              data-tooltip='DESTREZA'
-              data-tooltip-class='cardigan-proficiency-tooltip'
-              data-tooltip-direction='DOWN'
-              data-tooltip-title='DESTREZA'
-              data-tooltip-description='Usado para ações que exigem precisão manual, reflexos e coordenação motora'>
+              data-tooltip='CARDIGAN.Ability.Dexterity.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='dexterity'>
               {{localize "CARDIGAN.Ability.Dexterity.long"}}
             </label>
           </div>
@@ -202,11 +199,10 @@
           <div class='proficiency-label-wrapper'>
             <label
               class='proficiency-clickable-label'
-              data-tooltip='VIGOR'
-              data-tooltip-class='cardigan-proficiency-tooltip'
-              data-tooltip-direction='DOWN'
-              data-tooltip-title='VIGOR'
-              data-tooltip-description='Usado para resistir a fadiga, venenos, doenças e efeitos de resistência física'>
+              data-tooltip='CARDIGAN.Ability.Stamina.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='stamina'>
               {{localize "CARDIGAN.Ability.Stamina.long"}}
             </label>
           </div>
@@ -242,11 +238,10 @@
           <div class='proficiency-label-wrapper'>
             <label
               class='proficiency-clickable-label'
-              data-tooltip='FURTIVIDADE'
-              data-tooltip-class='cardigan-proficiency-tooltip'
-              data-tooltip-direction='DOWN'
-              data-tooltip-title='FURTIVIDADE'
-              data-tooltip-description='Usado para mover-se silenciosamente, esconder-se e agir sem ser detectado'>
+              data-tooltip='CARDIGAN.Ability.Stealth.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='stealth'>
               {{localize "CARDIGAN.Ability.Stealth.long"}}
             </label>
           </div>
@@ -282,11 +277,10 @@
           <div class='proficiency-label-wrapper'>
             <label
               class='proficiency-clickable-label'
-              data-tooltip='PERSUASÃO'
-              data-tooltip-class='cardigan-proficiency-tooltip'
-              data-tooltip-direction='DOWN'
-              data-tooltip-title='PERSUASÃO'
-              data-tooltip-description='Usado para influenciar pessoas, negociar, enganar e interações sociais'>
+              data-tooltip='CARDIGAN.Ability.Persuasion.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='persuasion'>
               {{localize "CARDIGAN.Ability.Persuasion.long"}}
             </label>
           </div>
@@ -322,11 +316,10 @@
           <div class='proficiency-label-wrapper'>
             <label
               class='proficiency-clickable-label'
-              data-tooltip='INTELIGÊNCIA'
-              data-tooltip-class='cardigan-proficiency-tooltip'
-              data-tooltip-direction='DOWN'
-              data-tooltip-title='INTELIGÊNCIA'
-              data-tooltip-description='Usado para raciocínio lógico, conhecimento, investigação e resolução de problemas'>
+              data-tooltip='CARDIGAN.Ability.Intelligence.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='intelligence'>
               {{localize "CARDIGAN.Ability.Intelligence.long"}}
             </label>
           </div>
@@ -362,11 +355,10 @@
           <div class='proficiency-label-wrapper'>
             <label
               class='proficiency-clickable-label'
-              data-tooltip='PSIONISMO'
-              data-tooltip-class='cardigan-proficiency-tooltip'
-              data-tooltip-direction='DOWN'
-              data-tooltip-title='PSIONISMO'
-              data-tooltip-description='Usado para habilidades psíquicas, telepatia, telecinese e poderes mentais'>
+              data-tooltip='CARDIGAN.Ability.Psionics.full'
+              data-tooltip-class='cardigan-tooltip'
+              data-tooltip-type='proficiency'
+              data-ability='psionics'>
               {{localize "CARDIGAN.Ability.Psionics.long"}}
             </label>
           </div>
@@ -379,7 +371,7 @@
     {{! Effects Container }}
     <div class='proficiencies-effects-container'>
       <div class="effects-header">
-        <div class="effects-toggle" data-cardigan-tooltip="Efeitos">
+        <div class="effects-toggle" >
           <input
             type="checkbox"
             name="system.details.showEffectsTab"
@@ -392,6 +384,8 @@
             alt="Toggle Effects" 
             class="effects-toggle-icon"
             data-action="toggleEffectsSection"
+            data-tooltip='CARDIGAN.Tooltip.Effects' 
+            data-tooltip-class='cardigan-tooltip'
           />
         </div>
         {{#if system.details.showEffectsTab}}
@@ -402,15 +396,12 @@
       
       {{#if system.details.showEffectsTab}}
         <div class="effects-content-wrapper">
-          <div class="add-effect-button-container">
+          <div class="add-effect-button-container" data-tooltip='CARDIGAN.Tooltip.AddEffects' data-tooltip-class='cardigan-tooltip'>
             <img 
               src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg" 
               alt="Add Effect" 
               class="add-effect-icon"
-              data-cardigan-tooltip="Adicionar Efeito"
-              data-action="createDoc"
-              data-document-class="Item"
-              data-type="efeito"
+              data-action="openEffectsSelection"
             />
           </div>
           {{! Unified Effects List - ActiveEffects and Items together }}
@@ -423,17 +414,28 @@
               data-document-class='ActiveEffect'
             >
               <div class='effect-image'>
-                <img src='{{effect.img}}' alt='{{effect.name}}' width='24' height='24' />
+                <img 
+                  src='{{effect.img}}' 
+                  alt='{{effect.name}}' 
+                  width='24' 
+                  height='24'
+                  data-action="sendEffectToChat"
+                  data-effect-name="{{effect.name}}"
+                  data-effect-description="{{effect.flags.cardigan.description}}"
+                  data-effect-img="{{effect.img}}"
+                  class="effect-image-clickable"
+                />
+                <div class="chat-icon"></div>
               </div>
               
               <div class='effect-name'>
-                <h4 
-                  data-tooltip="{{effect.name}}{{#if effect.flags.cardigan.descriptionPlainText}}<br><em>{{effect.flags.cardigan.descriptionPlainText}}</em>{{/if}}"
-                  data-tooltip-direction="UP"
-                  data-tooltip-class="cardigan-tooltip"
+                <h4               
                   data-action="showEffectInChat"
                   data-effect-name="{{effect.name}}"
                   data-effect-description="{{effect.flags.cardigan.description}}"
+                  data-effect-img="{{effect.img}}"
+                  data-tooltip-type="effect"
+                  data-effect-type="active"
                   class="clickable-effect"
                 >
                   {{effect.name}}
@@ -459,20 +461,52 @@
               data-drag="true"
             >
               <div class='effect-image'>
-                <img src='{{efeito.img}}' alt='{{efeito.name}}' width='24' height='24' />
+                <img 
+                  src='{{efeito.img}}' 
+                  alt='{{efeito.name}}' 
+                  width='24' 
+                  height='24'
+                  data-action="sendEffectToChat"
+                  data-effect-name="{{efeito.name}}"
+                  data-effect-description="{{efeito.system.description}}"
+                  data-effect-img="{{efeito.img}}"
+                  data-effect-rounds="{{efeito.system.rodadas}}"
+                  class="effect-image-clickable"
+                />
+                <div class="chat-icon"></div>
               </div>
               
               <div class='effect-name'>
                 <h4 
-                  data-tooltip-class="cardigan-tooltip effect-tooltip"
                   data-action="showEffectInChat"
                   data-effect-name="{{efeito.name}}"
                   data-effect-description="{{efeito.system.description}}"
+                  data-effect-img="{{efeito.img}}"
+                  data-tooltip-type="effect"
+                  data-effect-type="item"
                   class="clickable-effect effect-item"
                   data-item-uuid="{{efeito.uuid}}"
                 >
                   {{efeito.name}}
                 </h4>
+              </div>
+
+              {{#if efeito.system.consumableTracking.isTrackingEffect}}
+              <div class='item-quantity effect-consumed-quantity' data-tooltip='Quantidade consumida' data-tooltip-class='cardigan-tooltip'>
+                <input
+                  type='number'
+                  value='{{efeito.system.consumableTracking.consumedQuantity}}'
+                  min='0'
+                  data-dtype='Number'
+                  readonly
+                  aria-label='Quantidade consumida'
+                />
+              </div>
+              {{/if}}
+
+              <div class='effect-rounds'>
+                <img src="systems/cardigan/assets/images/decorative/icons/icon-clock.svg" alt="Rodadas" class="rounds-icon" width="16" height="16">
+                <span class="rounds-value">{{#if efeito.system.rodadas}}{{#if (eq efeito.system.rodadas "infinito")}}<div class="rounds-infinite-icon"></div>{{else}}{{efeito.system.rodadas}}{{/if}}{{else}}0{{/if}}</span>
               </div>
 
               <div class='effect-controls flexrow'>
@@ -497,5 +531,4 @@
       {{/if}}
     </div>
   </div>
-  <img src='systems/cardigan/assets/images/decorative/divider.webp' class='proficiencies-divider-bottom' alt='Divider' />
 </section>

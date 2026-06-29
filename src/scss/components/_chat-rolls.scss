@@ -1,0 +1,338 @@
+// Chat Roll Messages Styling
+// Custom styling for all roll messages (proficiency, attacks, evasion)
+// Matching the same visual style as effect-message.scss
+
+.cardigan-roll-chat-message {
+  display: flex;
+  flex-direction: column;
+
+  // Actor Header (same style as effect-message)
+  .actor-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    // When special action is active, use horizontal layout
+    &.special-action {
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 3px;
+
+      // Apenas na rolagem em conjunto
+      &:has(.joint-roll-header-icon) {
+        margin-right: 10px;
+      } // Espaço entre as imagens (aumente ou diminua conforme necessário)
+
+      .actor-avatar,
+      .target-avatar {
+        width: 75px;
+        height: 75px;
+      }
+
+      .attack-icon {
+        width: 35px;
+        height: 35px;
+        right: 0;
+      }
+    }
+
+    .actor-avatar {
+      width: 90px;
+      height: 90px;
+    }
+
+    .actor-name {
+      margin: 0;
+      font-family: 'Alatsi', sans-serif;
+      font-size: 20px;
+      background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      text-transform: uppercase;
+    }
+
+    // Attack icon (shown when special action is active)
+    .attack-icon {
+      width: 50px;
+      height: 50px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+      position: relative;
+      top: -9px;
+    }
+
+    // Joint roll icon in header (shown when joint roll is active)
+    .joint-roll-header-icon {
+      width: 60px;
+      height: 55px;
+      padding: 6px;
+      border: 2px solid #c0863b;
+      border-radius: 24px;
+      background: linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      position: relative;
+      top: -9px;
+      left: 4px;
+    }
+
+    // Target avatar (shown when single target with hand selected)
+    .target-avatar {
+      width: 90px;
+      height: 90px;
+    }
+  }
+
+  // Attack (normal) and Joint Roll
+  .actor-header.special-action + .roll-content {
+    margin-top: -25px;
+  }
+
+  // Roll Content
+  .roll-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -10px;
+    
+    .roll-chat-icon {
+      height: 60px;
+      width: 285px;
+      object-fit: contain;
+    }
+    
+    .roll-title {
+      margin-top: -13px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 4px;
+
+      .roll-subtitle {
+        margin: 3px 0 0 0;
+        font-family: 'Alatsi', sans-serif;
+        font-size: 12px;
+        background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        text-transform: uppercase;
+      }
+
+      strong {
+        margin: 0;
+        font-family: 'Alatsi', sans-serif;
+        font-size: 18px;
+        background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        text-transform: uppercase;
+      }
+
+      // Joint Roll Indicator
+      .joint-roll-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 4px;
+
+        .joint-roll-icon {
+          width: 30px;
+          height: 27px;
+          padding: 4px;
+          border: 2px solid #c0863b;
+          border-radius: 8px;
+          background: linear-gradient(360deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+      }
+    }
+
+    // Dice Wrapper - envolve advantage, dice-result e disadvantage em coluna
+    .dice-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .advantage-container,
+      .disadvantage-container {
+        padding: 2px 3px;
+        border-radius: 8px;
+        background: linear-gradient(270deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .advantage-container {
+          position: absolute;
+          margin-top: 5px;
+      }
+
+      .disadvantage-container {
+          margin-top: -15px;
+      }
+
+      .advantage-icon,
+      .disadvantage-icon {
+        width: 15px;
+        height: 15px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+      }
+    }
+
+    // Dice Result Container (vertical layout)
+    .dice-result-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+      border-radius: 8px;
+      border: 2px solid #c0863b;
+      padding: 16px 22px;
+
+      &.single-digit {
+        padding: 16px 27px;
+      }
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      margin-bottom: -10px;
+
+      .dice-result-number {
+        font-family: 'Alatsi', sans-serif;
+        font-size: 35px;
+        font-weight: bold;
+        background: linear-gradient(180deg, #FFB75C 20%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+
+        &.critical-success {
+          background: linear-gradient(180deg, #5CFF7F 33.6%, #2E9E4D 66.67%) !important;
+          -webkit-background-clip: text !important;
+          -webkit-text-fill-color: transparent !important;
+          background-clip: text !important;
+        }
+
+        &.critical-failure {
+          background: linear-gradient(180deg, #FF001E 33.6%, #8B0011 66.67%) !important;
+          -webkit-background-clip: text !important;
+          -webkit-text-fill-color: transparent !important;
+          background-clip: text !important;
+        }
+      }
+    }
+
+    // Hand/Weapon Indicator
+    .hand-indicator {
+      text-align: center;
+      padding: 4px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 0.9em;
+      font-family: 'Alatsi', sans-serif;
+      margin: 6px auto;
+      display: inline-block;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      text-transform: uppercase;
+
+      &.primary-hand {
+        background: linear-gradient(135deg, #4a90e2 0%, #2563a8 100%);
+        color: #ffffff;
+      }
+
+      &.secondary-hand {
+        background: linear-gradient(135deg, #e24a90 0%, #a82563 100%);
+        color: #ffffff;
+      }
+
+      &.unarmed {
+        background: linear-gradient(135deg, #999 0%, #666 100%);
+        color: #ffffff;
+        font-style: italic;
+      }
+    }
+
+  }
+}
+
+/* Foundry message-header for roll messages only */
+.chat-message:has(.cardigan-roll-chat-message) .message-header.flexrow {
+  position: absolute;
+  // right: 15px;
+}
+
+/* Foundry chat-message padding for roll messages only */
+.chat-message.message.flexcol:has(.cardigan-roll-chat-message) {
+  padding: 2px 8px 8px 8px;
+  
+  // Hide message sender name (same as effect-message)
+  .message-sender {
+    display: none !important;
+  }
+}
+
+/* ========================================= */
+/*  Chat Roll Messages - Dividers          */
+/* ========================================= */
+
+// Adiciona dividers decorativos nas mensagens de roll
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-roll-message {
+  .message-header {
+    position: relative;
+
+    // First divider (left side)
+    .message-divider-1 {
+      position: absolute;
+      bottom: 0;
+      left: 221px;
+      width: 23%;
+      height: 70px;
+      object-fit: contain;
+      pointer-events: none;
+      transform: rotate(138deg) scaleX(-1);
+      top: -12px;
+      opacity: 0.6;
+    }
+
+    // Second divider (right side)
+    .message-divider-2 {
+      position: absolute;
+      bottom: 0;
+      right: 221px;
+      width: 23%;
+      height: 70px;
+      object-fit: contain;
+      pointer-events: none;
+      transform: rotate(224deg);
+      top: -12px;
+      opacity: 0.6;
+    }
+  }
+}
+// Border decoration added dynamically when evasion/precision buttons are present
+.chat-border-decoration {
+  width: 100%;
+  max-width: 285px;
+  margin-top: 20px;
+  display: block;
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
+}
+// Whisper placeholder - "?" shown to non-recipients
+.cardigan-whisper-placeholder {
+  // Fallback spacing when no actor-header (old messages without stored flags)
+  &:not(:has(.actor-header)) .roll-content {
+    margin-top: 20px;
+  }
+
+  .dice-result-number.whisper-question-mark {
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+  }
+}

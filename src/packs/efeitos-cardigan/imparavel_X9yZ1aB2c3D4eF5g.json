@@ -6,7 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/imparavel.webp",
   "system": {
     "description": "<p style=\"text-align: justify;\">Não é afetado por efeitos que restrinjam suas ações, como: <em>Enraizado, Atordoado, Caído, Congelado, Petrificado, Encantado</em>. Receber este efeito não remove qualquer outro listado.</p>",
-    "efeitoType": "positivo"
+    "efeitoType": "positivo",
+    "rodadas": "0"
   },
   "effects": [],
   "folder": "FszDz3GuPvOHfi8w",

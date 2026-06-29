@@ -1,0 +1,178 @@
+{{!-- 
+Template para itens do tipo armadura com aba Detail
+--}}
+
+<section class="tab attributes {{tab.cssClass}}" data-group="primary" data-tab="attributes">
+
+    {{!-- Top grid: properties (left) and description (right) --}}
+    <div class="armor-top-grid">
+      <div class="armor-properties">
+        
+        <div class="armor-properties-content">
+          {{!-- Grid of armor type selection buttons (3x2 layout) --}}
+          <div class="armor-type-selector-grid">
+            {{!-- First row: head, charm, chest --}}
+            <button type="button" class="armor-type-selector-btn" data-armor-type="cabeca" data-tooltip="Cabeça" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "cabeca")}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/armor/head.webp" alt="{{localize 'CARDIGAN.ArmorType.Cabeca'}}" title="{{localize 'CARDIGAN.ArmorType.Cabeca'}}" />
+            </button>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="acessorios" data-tooltip="Acessórios" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "acessorios")}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/armor/charm.webp" alt="{{localize 'CARDIGAN.ArmorType.Acessorios'}}" title="{{localize 'CARDIGAN.ArmorType.Acessorios'}}" />
+            </button>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="torso" data-tooltip="Torso" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "torso")}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/armor/chest.webp" alt="{{localize 'CARDIGAN.ArmorType.Torso'}}" title="{{localize 'CARDIGAN.ArmorType.Torso'}}" />
+            </button>
+            
+            {{!-- Second row: gauntlets, leggings, boots --}}
+            <button type="button" class="armor-type-selector-btn" data-armor-type="bracos" data-tooltip="Braços" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "bracos")}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/armor/gauntlets.webp" alt="{{localize 'CARDIGAN.ArmorType.Bracos'}}" title="{{localize 'CARDIGAN.ArmorType.Bracos'}}" />
+            </button>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="pernas" data-tooltip="Pernas" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "pernas")}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/armor/leggings.webp" alt="{{localize 'CARDIGAN.ArmorType.Pernas'}}" title="{{localize 'CARDIGAN.ArmorType.Pernas'}}" />
+            </button>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="pes" data-tooltip="Pés" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "pes")}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/armor/boots.webp" alt="{{localize 'CARDIGAN.ArmorType.Pes'}}" title="{{localize 'CARDIGAN.ArmorType.Pes'}}" />
+            </button>
+          </div>
+        </div>
+
+        <div class="armor-extra-properties">
+          <div class="armor-extra-property armor-protection-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-armor.svg" alt="{{localize 'CARDIGAN.ArmorProtection'}}" data-tooltip="Proteção" data-tooltip-class='cardigan-tooltip' />
+              <div class="armor-protection-input-wrapper armor-extra-panel" data-armor-extra-panel="protection">
+                <input type="number" name="system.protecao" value="{{item.system.protecao}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-durability-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-durability.svg" alt="{{localize 'CARDIGAN.Durability'}}" data-tooltip="Durabilidade" data-tooltip-class='cardigan-tooltip' />
+              <div class="durability-container durability-container--expanded armor-extra-panel" data-armor-extra-panel="durability">
+                <input class="durability-value-input" type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}"/>
+                <img src="systems/cardigan/assets/images/decorative/field-divider.svg" alt="/" class="durability-divider"/>
+                <input class="durability-value-input" type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="armor-extra-properties armor-life-energy-properties">
+          <div class="armor-extra-property armor-life-bonus-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-health.svg" alt="{{localize 'CARDIGAN.Life'}}" data-tooltip="Vida" data-tooltip-class='cardigan-tooltip' />
+              <div class="life-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="lifeBonus">
+                <input type="number" name="system.bonusVida" value="{{item.system.bonusVida}}" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-energy-bonus-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-energy.svg" alt="{{localize 'CARDIGAN.Energy'}}" data-tooltip="Energia" data-tooltip-class='cardigan-tooltip' />
+              <div class="energy-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="energyBonus">
+                <input type="number" name="system.bonusEnergia" value="{{item.system.bonusEnergia}}" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="armor-extra-properties armor-economy-properties">
+          <div class="armor-extra-property movement-bonus">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-movement.svg" alt="{{localize 'CARDIGAN.MovementBonus'}}" data-tooltip="Bônus de Movimento" data-tooltip-class='cardigan-tooltip' />
+              <div class="movement-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="movement">
+                <input type="hidden" name="system.bonusDeslocamento.enabled" value="{{armorMovementBonus.enabled}}" data-dtype="Boolean"/>
+                <input type="number" name="system.bonusDeslocamento.bonus" value="{{armorMovementBonus.bonus}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-cold-resistance-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weather.svg" alt="{{localize 'CARDIGAN.ColdResistance'}}" data-tooltip="Resistência ao Frio" data-tooltip-class='cardigan-tooltip' />
+              <div class="cold-resistance-input-wrapper armor-extra-panel" data-armor-extra-panel="coldResistance">
+                <input type="number" name="system.coldResistance" value="{{item.system.coldResistance}}" min="0" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
+          <input type="hidden" name="system.quantity" value="{{item.system.quantity}}" data-dtype="Number"/>
+        </div>
+
+        <div class="armor-extra-properties armor-movement-backpack-properties">
+          <div class="armor-extra-property backpack-space-bonus">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-backpack.svg" alt="{{localize 'CARDIGAN.BackpackSpace'}}" data-tooltip="Espaço na Mochila" data-tooltip-class='cardigan-tooltip' />
+              <div class="backpack-space-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="backpack">
+                <input type="hidden" name="system.bonusEspacoMochila.enabled" value="{{armorBackpackSpaceBonus.enabled}}" data-dtype="Boolean"/>
+                <input type="number" name="system.bonusEspacoMochila.bonus" value="{{armorBackpackSpaceBonus.bonus}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-price-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-coins.svg" alt="{{localize 'CARDIGAN.Price'}}" data-tooltip="Preço" data-tooltip-class='cardigan-tooltip' />
+              <div class="armor-price-input-wrapper armor-extra-panel" data-armor-extra-panel="price">
+                <input type="number" name="system.price" value="{{item.system.price}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="armor-extra-properties armor-special-properties-row">
+          <div class="armor-extra-property armor-single-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-single-equipped.svg" alt="{{localize 'CARDIGAN.Single'}}" data-armor-checkbox-toggle="system.single" data-tooltip="Único" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-weight-heavy-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-armor-checkbox-toggle="system.weight" data-armor-toggle-on-value="pesado" data-armor-toggle-off-value="leve" data-tooltip="Pesado" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-stylish-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-stylish.svg" alt="{{localize 'CARDIGAN.Stylish'}}" data-armor-checkbox-toggle="system.stylish" data-tooltip="Estiloso" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-magical-artifact-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-paranormal-artifact.svg" alt="{{localize 'CARDIGAN.MagicalArtifact'}}" data-armor-checkbox-toggle="system.magicalArtifact" data-tooltip="Artefato Mágico" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="armor-skill-bonuses">
+        <table class="armor-skill-bonuses-table">
+          <tbody>
+            {{#each armorSkillBonusRows as |row|}}
+              <tr class="armor-skill-bonus-row">
+                <th scope="row">{{row.label}}</th>
+                <td>
+                  <input type="hidden" name="system.skillBonuses.{{row.index}}.skill" value="{{row.key}}" />
+                  <div class="armor-skill-bonus-input-wrapper {{#if (eq row.index 0)}}armor-skill-bonus-input-wrapper--accuracy{{/if}}">
+                    <input
+                      type="number"
+                      name="system.skillBonuses.{{row.index}}.bonus"
+                      value="{{row.value}}"
+                      data-dtype="Number"
+                      placeholder="0"
+                    />
+                  </div>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+</section>

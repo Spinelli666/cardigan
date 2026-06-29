@@ -20,7 +20,10 @@
       "useDexterity": true,
       "total": "10"
     },
-    "properties": ["certeiro", "discreto"],
+    "properties": [
+      "certeiro",
+      "discreto"
+    ],
     "rightHand": false,
     "leftHand": false,
     "weight": "leve",
@@ -35,7 +38,8 @@
     "protection": {
       "enabled": false,
       "value": 0
-    }
+    },
+    "quantity": 1
   },
   "effects": [],
   "flags": {},

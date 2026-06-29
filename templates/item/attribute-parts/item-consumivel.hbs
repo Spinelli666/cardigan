@@ -4,66 +4,499 @@
   data-group='primary'
   data-tab='attributes'
 >
-  <div class="item-consumivel-header">
-    <p class="item-subtitle">{{localize "CARDIGAN.ItemConsumivel.Subtitle"}}</p>
-  </div>
+  <div class="consumable-item-top-grid">
+    <div class="consumable-item-left-grid">
+      <div class="consumable-item-properties-content">
+        <div class="consumable-item-type-selector-grid">
+          <button type="button" class="consumable-item-type-selector-btn" data-profession="general" data-tooltip="{{localize 'CARDIGAN.ItemIngredient.Professions.General'}}" data-tooltip-class='cardigan-tooltip' {{#if (eq system.profession "general")}}data-selected{{/if}}>
+            <img src="systems/cardigan/assets/images/profession/icon-profession.webp" alt="{{localize 'CARDIGAN.ItemIngredient.Professions.General'}}" title="{{localize 'CARDIGAN.ItemIngredient.Professions.General'}}" />
+          </button>
+          <button type="button" class="consumable-item-type-selector-btn" data-profession="alchemy" data-tooltip="{{localize 'CARDIGAN.ItemIngredient.Professions.Alchemy'}}" data-tooltip-class='cardigan-tooltip' {{#if (eq system.profession "alchemy")}}data-selected{{/if}}>
+            <img src="systems/cardigan/assets/images/profession/icon-alchemy.svg" alt="{{localize 'CARDIGAN.ItemIngredient.Professions.Alchemy'}}" title="{{localize 'CARDIGAN.ItemIngredient.Professions.Alchemy'}}" />
+          </button>
+          <button type="button" class="consumable-item-type-selector-btn" data-profession="blacksmithing" data-tooltip="{{localize 'CARDIGAN.ItemIngredient.Professions.Blacksmithing'}}" data-tooltip-class='cardigan-tooltip' {{#if (eq system.profession "blacksmithing")}}data-selected{{/if}}>
+            <img src="systems/cardigan/assets/images/profession/icon-blacksmithing.svg" alt="{{localize 'CARDIGAN.ItemIngredient.Professions.Blacksmithing'}}" title="{{localize 'CARDIGAN.ItemIngredient.Professions.Blacksmithing'}}" />
+          </button>
+          <button type="button" class="consumable-item-type-selector-btn" data-profession="culinary" data-tooltip="{{localize 'CARDIGAN.ItemIngredient.Professions.Culinary'}}" data-tooltip-class='cardigan-tooltip' {{#if (eq system.profession "culinary")}}data-selected{{/if}}>
+            <img src="systems/cardigan/assets/images/profession/icon-culinary.svg" alt="{{localize 'CARDIGAN.ItemIngredient.Professions.Culinary'}}" title="{{localize 'CARDIGAN.ItemIngredient.Professions.Culinary'}}" />
+          </button>
+          <button type="button" class="consumable-item-type-selector-btn" data-profession="tailoring" data-tooltip="{{localize 'CARDIGAN.ItemIngredient.Professions.Tailoring'}}" data-tooltip-class='cardigan-tooltip' {{#if (eq system.profession "tailoring")}}data-selected{{/if}}>
+            <img src="systems/cardigan/assets/images/profession/icon-tailoring.svg" alt="{{localize 'CARDIGAN.ItemIngredient.Professions.Tailoring'}}" title="{{localize 'CARDIGAN.ItemIngredient.Professions.Tailoring'}}" />
+          </button>
+          <button type="button" class="consumable-item-type-selector-btn" data-profession="tecnomagic" data-tooltip="{{localize 'CARDIGAN.ItemIngredient.Professions.Tecnomagic'}}" data-tooltip-class='cardigan-tooltip' {{#if (eq system.profession "tecnomagic")}}data-selected{{/if}}>
+            <img src="systems/cardigan/assets/images/profession/icon-technomagic.svg" alt="{{localize 'CARDIGAN.ItemIngredient.Professions.Tecnomagic'}}" title="{{localize 'CARDIGAN.ItemIngredient.Professions.Tecnomagic'}}" />
+          </button>
+        </div>
+      </div>
 
-  <div class="backpack-form-section">
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.Common.Quantity"}}</label>
-      <div class="form-fields">
-        <input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="1"/>
-        <span class="unit">{{localize "CARDIGAN.ItemConsumivel.Units"}}</span>
+      <div class="consumable-item-left-row consumable-item-left-row-armor">
+        <div class="consumable-item-price-content consumable-item-left-property consumable-item-armor-content">
+          <div class="consumable-item-extra-property consumable-item-price-property">
+            <div class="consumable-item-extra-content">
+              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-armor.svg" alt="{{localize 'CARDIGAN.Armor'}}" data-tooltip="Bônus de Armadura" data-tooltip-class='cardigan-tooltip' />
+              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="armor">
+                <input type="number" name="system.armorBonusAmount" value="{{system.armorBonusAmount}}" data-dtype="Number" min="0" step="1" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="consumable-item-left-row consumable-item-left-row-top">
+        <div class="consumable-item-price-content consumable-item-left-property consumable-item-movement-content">
+          <div class="consumable-item-extra-property consumable-item-price-property">
+            <div class="consumable-item-extra-content">
+              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-movement.svg" alt="{{localize 'CARDIGAN.MovementBonus'}}" data-tooltip="Bônus de Movimento" data-tooltip-class='cardigan-tooltip' />
+              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="movement">
+                <input type="number" name="system.bonusDeslocamento.bonus" value="{{system.bonusDeslocamento.bonus}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="consumable-item-price-content consumable-item-left-property consumable-item-critical-content">
+          <div class="consumable-item-extra-property consumable-item-price-property">
+            <div class="consumable-item-extra-content">
+              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-critical.svg" alt="{{localize 'CARDIGAN.ItemConsumivel.CriticalHitBoostAmount'}}" data-tooltip="Bônus de Crítico" data-tooltip-class='cardigan-tooltip' />
+              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="critical-hit">
+                <input type="number" name="system.criticalHitBoostAmount" value="{{system.criticalHitBoostAmount}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="consumable-item-left-row consumable-item-left-row-bottom">
+        <div class="consumable-item-price-content consumable-item-left-property consumable-item-weight-content">
+          <div class="consumable-item-extra-property consumable-item-price-property">
+            <div class="consumable-item-extra-content">
+              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weight.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-tooltip="Peso" data-tooltip-class='cardigan-tooltip' />
+              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="weight">
+                <input type="text" class="consumable-item-weight-display" value="-" placeholder="-" readonly/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="consumable-item-price-content consumable-item-left-property consumable-item-price-left-property">
+          <div class="consumable-item-extra-property consumable-item-price-property">
+            <div class="consumable-item-extra-content">
+              <img class="consumable-item-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-coins.svg" alt="{{localize 'CARDIGAN.Price'}}" data-tooltip="Preço" data-tooltip-class='cardigan-tooltip' />
+              <div class="consumable-item-price-input-wrapper consumable-item-extra-panel" data-consumable-item-extra-panel="price">
+                <input type="number" name="system.price" value="{{system.price}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="armor-extra-properties armor-special-properties-row consumable-item-special-properties-row">
+        <div class="armor-extra-property consumable-item-special-property">
+          <div class="armor-extra-content consumable-item-special-content">
+            <img class="armor-extra-icon consumable-item-special-icon" src="systems/cardigan/assets/images/decorative/icons/icon-fracture.svg" alt="Fratura" data-tooltip="Fratura" data-tooltip-class='cardigan-tooltip' data-consumable-fracture-toggle role="button" tabindex="0" aria-expanded="false" />
+          </div>
+        </div>
+
+        <div class="armor-extra-property consumable-item-special-property">
+          <div class="armor-extra-content consumable-item-special-content">
+            <img class="armor-extra-icon consumable-item-special-icon" src="systems/cardigan/assets/images/decorative/icons/icon-toxic.svg" alt="Toxicidade" data-tooltip="Toxicidade" data-tooltip-class='cardigan-tooltip' data-consumable-toxicity-toggle role="button" tabindex="0" aria-expanded="false" />
+          </div>
+        </div>
+
+        <div class="armor-extra-property consumable-item-special-property">
+          <div class="armor-extra-content consumable-item-special-content">
+            <img class="armor-extra-icon consumable-item-special-icon" src="systems/cardigan/assets/images/decorative/icons/icon-sanity.svg" alt="Sanidade" data-tooltip="Sanidade" data-tooltip-class='cardigan-tooltip' data-consumable-sanity-toggle role="button" tabindex="0" aria-expanded="false" />
+          </div>
+        </div>
+
+        <div class="armor-extra-property consumable-item-special-property">
+          <div class="armor-extra-content consumable-item-special-content">
+            <img class="armor-extra-icon consumable-item-special-icon" src="systems/cardigan/assets/images/decorative/icons/icon-hunger.svg" alt="Fome" data-tooltip="Fome" data-tooltip-class='cardigan-tooltip' data-consumable-hunger-toggle role="button" tabindex="0" aria-expanded="false" />
+          </div>
+        </div>
+
+        <div class="armor-extra-property consumable-item-special-property">
+          <div class="armor-extra-content consumable-item-special-content">
+            <img class="armor-extra-icon consumable-item-special-icon" src="systems/cardigan/assets/images/decorative/icons/icon-thirst.svg" alt="Sede" data-tooltip="Sede" data-tooltip-class='cardigan-tooltip' data-consumable-thirst-toggle role="button" tabindex="0" aria-expanded="false" />
+          </div>
+        </div>
+      </div>
+
+      <div class="armor-extra-properties armor-special-properties-row consumable-item-special-properties-row consumable-item-fracture-properties-row is-collapsed" data-consumable-fracture-panel>
+        <div class="armor-extra-property consumable-item-special-property consumable-item-fracture-property is-collapsed" data-consumable-fracture-section>
+          <div class="armor-extra-content consumable-item-special-content consumable-item-fracture-content">
+            <img class="armor-extra-icon consumable-item-special-icon consumable-item-fracture-icon" src="systems/cardigan/assets/images/decorative/icons/icon-fracture.svg" alt="Fratura" data-tooltip="Fratura" data-tooltip-class='cardigan-tooltip' />
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-fracture-decrease-wrapper" data-tooltip="Remover" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Retirar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-fracture-decrease"
+                  data-fracture-modifier-type="decrease"
+                  {{#if (and system.hasFractureModifier (eq system.fractureModifierType "decrease"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-fracture-decrease-symbol">-</span>
+              </label>
+            </div>
+            <div class="consumable-item-price-input-wrapper consumable-item-extra-panel consumable-item-fracture-range-wrapper">
+              <input
+                type="number"
+                class="consumable-item-fracture-range"
+                name="system.fractureModifierAmount"
+                value="{{system.fractureModifierAmount}}"
+                min="0"
+                max="5"
+                step="1"
+                data-dtype="Number"
+                aria-label="Valor de fratura"
+              />
+            </div>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-fracture-increase-wrapper" data-tooltip="Adicionar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Adicionar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-fracture-increase"
+                  data-fracture-modifier-type="increase"
+                  {{#if (and system.hasFractureModifier (eq system.fractureModifierType "increase"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-fracture-increase-symbol">+</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="armor-extra-property consumable-item-special-property consumable-item-toxicity-property is-collapsed" data-consumable-toxicity-section>
+          <div class="armor-extra-content consumable-item-special-content consumable-item-toxicity-content">
+            <img class="armor-extra-icon consumable-item-special-icon consumable-item-toxicity-icon" src="systems/cardigan/assets/images/decorative/icons/icon-toxic.svg" alt="Toxicidade" data-tooltip="Toxicidade" data-tooltip-class='cardigan-tooltip' />
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-toxicity-decrease-wrapper" data-tooltip="Remover" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Retirar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-toxicity-decrease"
+                  data-toxicity-modifier-type="decrease"
+                  {{#if (and system.hasToxicityModifier (eq system.toxicityModifierType "decrease"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-toxicity-decrease-symbol">-</span>
+              </label>
+            </div>
+            <div class="consumable-item-price-input-wrapper consumable-item-extra-panel consumable-item-toxicity-range-wrapper">
+              <input
+                type="number"
+                class="consumable-item-fracture-range consumable-item-toxicity-range"
+                name="system.toxicityModifierAmount"
+                value="{{system.toxicityModifierAmount}}"
+                min="0"
+                max="5"
+                step="1"
+                data-dtype="Number"
+                aria-label="Valor de toxicidade"
+              />
+            </div>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-toxicity-increase-wrapper" data-tooltip="Adicionar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Adicionar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-toxicity-increase"
+                  data-toxicity-modifier-type="increase"
+                  {{#if (and system.hasToxicityModifier (eq system.toxicityModifierType "increase"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-toxicity-increase-symbol">+</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="armor-extra-property consumable-item-special-property consumable-item-sanity-property is-collapsed" data-consumable-sanity-section>
+          <div class="armor-extra-content consumable-item-special-content consumable-item-sanity-content">
+            <img class="armor-extra-icon consumable-item-special-icon consumable-item-sanity-icon" src="systems/cardigan/assets/images/decorative/icons/icon-sanity.svg" alt="Sanidade" data-tooltip="Sanidade" data-tooltip-class='cardigan-tooltip' />
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-sanity-decrease-wrapper" data-tooltip="Remover" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Retirar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-sanity-decrease"
+                  data-sanity-modifier-type="decrease"
+                  {{#if (and system.hasSanityModifier (eq system.sanityModifierType "decrease"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-sanity-decrease-symbol">-</span>
+              </label>
+            </div>
+            <div class="consumable-item-price-input-wrapper consumable-item-extra-panel consumable-item-sanity-range-wrapper">
+              <input
+                type="number"
+                class="consumable-item-fracture-range consumable-item-sanity-range"
+                name="system.sanityModifierAmount"
+                value="{{system.sanityModifierAmount}}"
+                min="0"
+                max="5"
+                step="1"
+                data-dtype="Number"
+                aria-label="Valor de sanidade"
+              />
+            </div>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-sanity-increase-wrapper" data-tooltip="Adicionar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Adicionar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-sanity-increase"
+                  data-sanity-modifier-type="increase"
+                  {{#if (and system.hasSanityModifier (eq system.sanityModifierType "increase"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-sanity-increase-symbol">+</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="armor-extra-property consumable-item-special-property consumable-item-hunger-property is-collapsed" data-consumable-hunger-section>
+          <div class="armor-extra-content consumable-item-special-content consumable-item-hunger-content">
+            <img class="armor-extra-icon consumable-item-special-icon consumable-item-hunger-icon" src="systems/cardigan/assets/images/decorative/icons/icon-hunger.svg" alt="Fome" data-tooltip="Fome" data-tooltip-class='cardigan-tooltip' />
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-hunger-decrease-wrapper" data-tooltip="Remover" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Retirar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-hunger-decrease"
+                  data-hunger-modifier-type="decrease"
+                  {{#if (and system.hasFoodModifier (eq system.foodModifierType "decrease"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-hunger-decrease-symbol">-</span>
+              </label>
+            </div>
+            <div class="consumable-item-price-input-wrapper consumable-item-extra-panel consumable-item-hunger-range-wrapper">
+              <input
+                type="number"
+                class="consumable-item-fracture-range consumable-item-hunger-range"
+                name="system.foodModifierAmount"
+                value="{{system.foodModifierAmount}}"
+                min="0"
+                max="3"
+                step="1"
+                data-dtype="Number"
+                aria-label="Valor de fome"
+              />
+            </div>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-hunger-increase-wrapper" data-tooltip="Adicionar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Adicionar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-hunger-increase"
+                  data-hunger-modifier-type="increase"
+                  {{#if (and system.hasFoodModifier (eq system.foodModifierType "increase"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-hunger-increase-symbol">+</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="armor-extra-property consumable-item-special-property consumable-item-thirst-property is-collapsed" data-consumable-thirst-section>
+          <div class="armor-extra-content consumable-item-special-content consumable-item-thirst-content">
+            <img class="armor-extra-icon consumable-item-special-icon consumable-item-thirst-icon" src="systems/cardigan/assets/images/decorative/icons/icon-thirst.svg" alt="Sede" data-tooltip="Sede" data-tooltip-class='cardigan-tooltip' />
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-thirst-decrease-wrapper" data-tooltip="Remover" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Retirar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-thirst-decrease"
+                  data-thirst-modifier-type="decrease"
+                  {{#if (and system.hasWaterModifier (eq system.waterModifierType "decrease"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-thirst-decrease-symbol">-</span>
+              </label>
+            </div>
+            <div class="consumable-item-price-input-wrapper consumable-item-extra-panel consumable-item-thirst-range-wrapper">
+              <input
+                type="number"
+                class="consumable-item-fracture-range consumable-item-thirst-range"
+                name="system.waterModifierAmount"
+                value="{{system.waterModifierAmount}}"
+                min="0"
+                max="3"
+                step="1"
+                data-dtype="Number"
+                aria-label="Valor de sede"
+              />
+            </div>
+            <div class="consumable-item-fracture-button-wrapper consumable-item-extra-panel consumable-item-thirst-increase-wrapper" data-tooltip="Adicionar" data-tooltip-class='cardigan-tooltip'>
+              <label class="consumable-item-fracture-check-label" aria-label="Adicionar">
+                <input
+                  type="checkbox"
+                  class="consumable-item-fracture-checkbox consumable-item-thirst-increase"
+                  data-thirst-modifier-type="increase"
+                  {{#if (and system.hasWaterModifier (eq system.waterModifierType "increase"))}}checked{{/if}}
+                />
+                <span class="consumable-item-fracture-symbol consumable-item-thirst-increase-symbol">+</span>
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.Weight"}}</label>
-      <select name="system.weight">
-        <option value="leve" {{selected system.weight "leve"}}>{{localize "CARDIGAN.WeightLight"}}</option>
-        <option value="medio" {{selected system.weight "medio"}}>{{localize "CARDIGAN.WeightMedium"}}</option>
-        <option value="pesado" {{selected system.weight "pesado"}}>{{localize "CARDIGAN.WeightHeavy"}}</option>
-        <option value="muito-pesado" {{selected system.weight "muito-pesado"}}>{{localize "CARDIGAN.WeightVeryHeavy"}}</option>
-      </select>
+    <div class="consumable-skill-bonuses">
+      <table class="consumable-skill-bonuses-table">
+        <tbody>
+          {{#each consumableSkillBonusRows as |row|}}
+            <tr class="consumable-skill-bonus-row">
+              <th scope="row">{{row.label}}</th>
+              <td>
+                <input type="hidden" name="flags.cardigan.consumableSkillBonuses.{{row.index}}.skill" value="{{row.key}}" />
+                <div class="consumable-skill-bonus-input-wrapper {{#if (eq row.index 0)}}consumable-skill-bonus-input-wrapper--accuracy{{/if}}">
+                  <input
+                    type="number"
+                    name="flags.cardigan.consumableSkillBonuses.{{row.index}}.bonus"
+                    value="{{row.value}}"
+                    data-dtype="Number"
+                    placeholder="0"
+                  />
+                </div>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <div class="backpack-form-section">
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.ItemIngredient.Profession"}}</label>
-      <div class="form-fields">
-        <select name="system.profession" data-dtype="String">
-          <option value="general" {{#if (eq system.profession "general")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.General"}}
-          </option>
-          <option value="alchemy" {{#if (eq system.profession "alchemy")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.Alchemy"}}
-          </option>
-          <option value="blacksmithing" {{#if (eq system.profession "blacksmithing")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.Blacksmithing"}}
-          </option>
-          <option value="carpentry" {{#if (eq system.profession "carpentry")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.Carpentry"}}
-          </option>
-          <option value="culinary" {{#if (eq system.profession "culinary")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.Culinary"}}
-          </option>
-          <option value="tailoring" {{#if (eq system.profession "tailoring")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.Tailoring"}}
-          </option>
-          <option value="tecnomagic" {{#if (eq system.profession "tecnomagic")}}selected{{/if}}>
-            {{localize "CARDIGAN.ItemIngredient.Professions.Tecnomagic"}}
-          </option>
-        </select>
+  <div class="consumable-item-bottom-grid">
+    <div class="consumable-item-bottom-column">
+      <div class="consumable-item-check-skill-wrapper">
+        <div class="consumable-item-check-skill">
+          <label class="consumable-item-check-skill-toggle armor-extra-content consumable-item-special-content" aria-label="Ativar teste de perícia" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
+            <input type="checkbox" name="system.hasSkillCheck" {{checked system.hasSkillCheck}} data-dtype="Boolean" data-skill-check-toggle class="consumable-item-check-skill-checkbox" />
+            <p>TESTE DE PERÍCIA</p>
+          </label>
+        </div>
+        <img class="consumable-item-check-skill-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+      </div>
+
+      <div class="consumable-item-skill-test-system {{#unless system.hasSkillCheck}}hidden{{/unless}}" data-skill-check-section>
+        <div class="form-group skill-selection" data-consumable-skill-ability>
+          <input type="hidden" name="system.skillCheckAbility" value="{{system.skillCheckAbility}}" data-dtype="String" class="consumable-item-skill-ability-input" />
+          <button type="button" class="consumable-item-skill-ability-trigger" data-consumable-skill-ability-trigger aria-haspopup="listbox" aria-expanded="false">
+            <span class="consumable-item-skill-ability-label" data-consumable-skill-ability-label>Precisão</span>
+          </button>
+          <div class="consumable-item-skill-ability-menu is-collapsed" data-consumable-skill-ability-menu role="listbox">
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="accuracy">Precisão</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="evasion">Evasão</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="strength">Força</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="dexterity">Destreza</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="stamina">Vigor</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="stealth">Furtividade</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="persuasion">Persuasão</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="intelligence">Inteligência</button>
+            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="psionics">Psionismo</button>
+          </div>
+        </div>
+        <div class="consumable-item-skill-test-advantage-controls">
+          <label class="consumable-item-skill-test-advantage-toggle" aria-label="Desvantagem aprimorada" data-tooltip="Desvantagem Aprimorada" data-tooltip-class='cardigan-tooltip'>
+            <input
+              type="checkbox"
+              name="system.skillCheckEnhancedDisadvantage"
+              {{checked system.skillCheckEnhancedDisadvantage}}
+              data-dtype="Boolean"
+              class="consumable-item-skill-test-advantage-checkbox"
+            />
+            <img
+              class="consumable-item-skill-test-advantage-icon"
+              src="systems/cardigan/assets/images/decorative/icons/icon-enhanced-disadvantage.svg"
+              alt="Desvantagem aprimorada"
+            />
+          </label>
+          <label class="consumable-item-skill-test-advantage-toggle" aria-label="Desvantagem" data-tooltip="Desvantagem" data-tooltip-class='cardigan-tooltip'>
+            <input
+              type="checkbox"
+              name="system.skillCheckDisadvantage"
+              {{checked system.skillCheckDisadvantage}}
+              data-dtype="Boolean"
+              class="consumable-item-skill-test-advantage-checkbox"
+            />
+            <img
+              class="consumable-item-skill-test-advantage-icon"
+              src="systems/cardigan/assets/images/decorative/icons/icon-disadvantage.svg"
+              alt="Desvantagem"
+            />
+          </label>
+          <label class="consumable-item-skill-test-advantage-toggle" aria-label="Vantagem" data-tooltip="Vantagem" data-tooltip-class='cardigan-tooltip'>
+            <input
+              type="checkbox"
+              name="system.skillCheckAdvantage"
+              {{checked system.skillCheckAdvantage}}
+              data-dtype="Boolean"
+              class="consumable-item-skill-test-advantage-checkbox"
+            />
+            <img
+              class="consumable-item-skill-test-advantage-icon"
+              src="systems/cardigan/assets/images/decorative/icons/icon-advantage.svg"
+              alt="Vantagem"
+            />
+          </label>
+          <label class="consumable-item-skill-test-advantage-toggle" aria-label="Vantagem aprimorada" data-tooltip="Vantagem Aprimorada" data-tooltip-class='cardigan-tooltip'>
+            <input
+              type="checkbox"
+              name="system.skillCheckEnhancedAdvantage"
+              {{checked system.skillCheckEnhancedAdvantage}}
+              data-dtype="Boolean"
+              class="consumable-item-skill-test-advantage-checkbox"
+            />
+            <img
+              class="consumable-item-skill-test-advantage-icon"
+              src="systems/cardigan/assets/images/decorative/icons/icon-enhanced-advantage.svg"
+              alt="Vantagem aprimorada"
+            />
+          </label>
+        </div>
+        <div class="consumable-item-skill-test-add-button-container">
+          <button type="button" class="consumable-item-skill-test-add-button" aria-label="Adicionar" data-tooltip="Adicionar" data-tooltip-class="cardigan-tooltip">
+            <img
+              src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg"
+              alt="Adicionar"
+              class="consumable-item-skill-test-add-icon"
+            />
+          </button>
+        </div>
+        <div class="consumable-item-skill-test-added-content"></div>
       </div>
     </div>
-
-    <div class="form-group">
-      <label>{{localize "CARDIGAN.Common.Price"}}</label>
-      <div class="form-fields">
-        <input type="number" name="system.price" value="{{system.price}}" data-dtype="Number" min="0"/>
-        <span class="unit">{{localize "CARDIGAN.Currency.Gold"}}</span>
+    <div class="consumable-item-bottom-column">
+      <div class="consumable-item-check-skill-wrapper">
+        <div class="consumable-item-check-skill">
+          <label class="consumable-item-check-skill-toggle armor-extra-content consumable-item-special-content" aria-label="Ativar vida e energia" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
+            <input type="checkbox" name="system.hasLifeEnergySection" {{checked system.hasLifeEnergySection}} data-dtype="Boolean" data-life-energy-toggle class="consumable-item-check-skill-checkbox" />
+            <p>VIDA & ENERGIA</p>
+          </label>
+        </div>
+        <img class="consumable-item-check-skill-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+      </div>
+      <div class="consumable-item-life-energy-system {{#unless system.hasLifeEnergySection}}hidden{{/unless}}" data-life-energy-section>
+        <div class="consumable-item-life-energy-add-button-container">
+          <button type="button" class="consumable-item-life-energy-add-button" aria-label="Adicionar" data-tooltip="Adicionar" data-tooltip-class="cardigan-tooltip">
+            <img
+              src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg"
+              alt="Adicionar"
+              class="consumable-item-life-energy-add-icon"
+            />
+          </button>
+        </div>
+        <div class="consumable-item-life-energy-added-content"></div>
+      </div>
+    </div>
+    <div class="consumable-item-bottom-column">
+      <div class="consumable-item-check-effects-wrapper">
+        <div class="consumable-item-check-skill">
+          <label class="consumable-item-check-skill-toggle armor-extra-content consumable-item-special-content" aria-label="Ativar efeitos" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
+            <input type="checkbox" name="system.hasEffectsSection" {{checked system.hasEffectsSection}} data-dtype="Boolean" data-effects-system-toggle class="consumable-item-check-skill-checkbox" />
+            <p>EFEITOS</p>
+          </label>
+        </div>
+        <img class="consumable-item-check-skill-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+      </div>
+      <div class="consumable-item-effects-system {{#unless system.hasEffectsSection}}hidden{{/unless}}" data-effects-system-section>
+        <div class="consumable-item-effects-add-button-container">
+          <button type="button" class="consumable-item-effects-add-button" aria-label="Adicionar" data-tooltip="Adicionar" data-tooltip-class="cardigan-tooltip">
+            <img
+              src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg"
+              alt="Adicionar"
+              class="consumable-item-effects-add-icon"
+            />
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
+  <input type="hidden" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="1"/>
 </section>

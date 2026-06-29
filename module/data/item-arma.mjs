@@ -42,7 +42,6 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
 
     return {
       ...super.defineSchema(),
-      weaponType: new fields.StringField({ required: false, blank: true, initial: "" }),
       melee: new fields.BooleanField({ required: true, initial: false }),
       ranged: new fields.BooleanField({ required: true, initial: false }),
       isFirearm: new fields.BooleanField({ required: true, initial: false }),
@@ -69,6 +68,7 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
         value: new fields.StringField({ ...requiredString, initial: "0" }),
         useStrength: new fields.BooleanField({ required: true, initial: false }),
         useDexterity: new fields.BooleanField({ required: true, initial: false }),
+        usePsionics: new fields.BooleanField({ required: true, initial: false }),
         total: new fields.StringField({ required: true, blank: true, initial: "0" })
       }),
       properties: new fields.ArrayField(
@@ -94,10 +94,17 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
           return value;
         }
       }),
+      quantity: new fields.NumberField({
+        required: true,
+        nullable: false,
+        integer: true,
+        initial: 1,
+        min: 1
+      }),
       price: new fields.NumberField({ required: true, nullable: false, initial: 0, min: 0 }),
       durability: new fields.SchemaField({
-        current: new fields.NumberField({ required: true, nullable: false, initial: CardiganSystemArma.DURABILITY_MAX, min: 0, max: CardiganSystemArma.DURABILITY_MAX, integer: true }),
-        max: new fields.NumberField({ required: true, nullable: false, initial: CardiganSystemArma.DURABILITY_MAX, min: CardiganSystemArma.DURABILITY_MAX, max: CardiganSystemArma.DURABILITY_MAX, integer: true })
+        current: new fields.NumberField({ required: true, nullable: false, initial: CardiganSystemArma.DURABILITY_MAX, min: 0, integer: true }),
+        max: new fields.NumberField({ required: true, nullable: false, initial: CardiganSystemArma.DURABILITY_MAX, min: 1, integer: true })
       }),
       skillBonuses: new fields.ArrayField(
         new fields.SchemaField({
@@ -161,6 +168,8 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
       abilityBonus = actor.system.abilities.strength.value || 0;
     } else if (this.damage.useDexterity && actor.system.abilities?.dexterity) {
       abilityBonus = actor.system.abilities.dexterity.value || 0;
+    } else if (this.damage.usePsionics && actor.system.abilities?.psionics) {
+      abilityBonus = actor.system.abilities.psionics.value || 0;
     }
 
     // Calculate total damage with bonuses
@@ -187,13 +196,12 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
     }
   }
 
-  /** Create melee weapon (STR bonus) - options: {weight, properties, price, weaponType} */
+  /** Create melee weapon (STR bonus) - options: {weight, properties, price} */
   static createMeleeWeapon(name, damage, options = {}) {
     return {
       name,
       type: 'arma',
       system: {
-        weaponType: options.weaponType || '',
         melee: true,
         ranged: false,
         isFirearm: false,
@@ -226,13 +234,12 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
     };
   }
 
-  /** Create ranged weapon (DEX bonus) - options: {weight, properties, price, weaponType} */
+  /** Create ranged weapon (DEX bonus) - options: {weight, properties, price} */
   static createRangedWeapon(name, damage, magazine, options = {}) {
     return {
       name,
       type: 'arma',
       system: {
-        weaponType: options.weaponType || '',
         melee: false,
         ranged: true,
         isFirearm: false,
@@ -265,13 +272,12 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
     };
   }
 
-  /** Create firearm (DEX bonus, isFirearm=true) - options: {weight, properties, price, weaponType} */
+  /** Create firearm (DEX bonus, isFirearm=true) - options: {weight, properties, price} */
   static createFirearm(name, damage, magazine, options = {}) {
     return {
       name,
       type: 'arma',
       system: {
-        weaponType: options.weaponType || '',
         melee: false,
         ranged: true,
         isFirearm: true,

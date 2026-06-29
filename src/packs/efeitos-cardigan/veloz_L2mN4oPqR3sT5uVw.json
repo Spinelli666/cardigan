@@ -6,7 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/veloz.webp",
   "system": {
     "description": "<p style=\"text-align: justify;\">Recebe uma Ação de ::systems/cardigan/assets/images/types-actions/movement-action.webp::<strong>Deslocamento</strong> adicional.</p>",
-    "efeitoType": "positivo"
+    "efeitoType": "positivo",
+    "rodadas": "0"
   },
   "folder": "FszDz3GuPvOHfi8w",
   "flags": {},

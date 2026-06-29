@@ -11,8 +11,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
     "tailoring": "CARDIGAN.Item.ItemRecipe.recipeType.tailoring",
     "tecnomagic": "CARDIGAN.Item.ItemRecipe.recipeType.tecnomagic",
     "blacksmithing": "CARDIGAN.Item.ItemRecipe.recipeType.blacksmithing",
-    "alchemy": "CARDIGAN.Item.ItemRecipe.recipeType.alchemy",
-    "carpentry": "CARDIGAN.Item.ItemRecipe.recipeType.carpentry"
+    "alchemy": "CARDIGAN.Item.ItemRecipe.recipeType.alchemy"
   };
 
   static DIFFICULTY_CHOICES = {
@@ -102,7 +101,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
         img: new fields.StringField({
           required: false,
           blank: true,
-          initial: "icons/svg/item-bag.svg",
+          initial: "systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg",
           label: "CARDIGAN.Item.ItemRecipe.IngredientImage"
         })
       }),
@@ -132,7 +131,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
         img: new fields.StringField({
           required: false,
           blank: true,
-          initial: "icons/svg/item-bag.svg",
+          initial: "systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg",
           label: "CARDIGAN.Item.ItemRecipe.ResultItemImage"
         }),
         quantity: new fields.NumberField({
@@ -169,7 +168,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
             img: new fields.StringField({
               required: false,
               blank: true,
-              initial: "icons/svg/item-bag.svg",
+              initial: "systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg",
               label: "CARDIGAN.Item.ItemRecipe.IngredientImage"
             })
           }),

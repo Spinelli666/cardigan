@@ -1,18 +1,13 @@
 {{!-- 
 Template para itens do tipo arma com sistema de propriedades dinâmicas
 --}}
-<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="attributes">
+<section class="tab item-type-arma {{tab.cssClass}}" data-group="primary" data-tab="attributes">
   <div class="weapon-details-form">
     
     {{!-- Basic Information --}}
     <fieldset class="weapon-section">
       <legend>{{localize "CARDIGAN.WeaponBasicInfo"}}</legend>
       
-      <div class="form-group">
-        <label for="system.weaponType">{{localize "CARDIGAN.WeaponType"}}</label>
-        <input type="text" name="system.weaponType" value="{{item.system.weaponType}}" placeholder="Espada, Escudo, Arco-Flecha"/>
-      </div>
-
       <div class="form-group weapon-categories" style="display: flex; gap: 15px; align-items: center;">
         <label style="display: flex; align-items: center; gap: 5px;">
           <input type="checkbox" name="system.melee" {{checked item.system.melee}}/>
@@ -60,22 +55,6 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
       </div>
     </fieldset>
 
-    {{!-- Hand & Equipment --}}
-    <fieldset class="weapon-section">
-      <legend>{{localize "CARDIGAN.WeaponEquipment"}}</legend>
-      
-      <div class="form-group" style="display: flex; gap: 15px;">
-        <label style="display: flex; align-items: center; gap: 5px;">
-          <input type="checkbox" name="system.rightHand" {{checked item.system.rightHand}}/>
-          {{localize "CARDIGAN.RightHand"}}
-        </label>
-        <label style="display: flex; align-items: center; gap: 5px;">
-          <input type="checkbox" name="system.leftHand" {{checked item.system.leftHand}}/>
-          {{localize "CARDIGAN.LeftHand"}}
-        </label>
-      </div>
-    </fieldset>
-
     {{!-- Combat Stats --}}
     <fieldset class="weapon-section">
       <legend>{{localize "CARDIGAN.CombatStats"}}</legend>
@@ -94,6 +73,10 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
           <label style="display: flex; align-items: center; gap: 5px;">
             <input type="checkbox" name="system.damage.useDexterity" {{checked item.system.damage.useDexterity}} data-mutually-exclusive="damage-ability"/>
             {{localize "CARDIGAN.Ability.Dexterity.abbr"}}
+          </label>
+          <label style="display: flex; align-items: center; gap: 5px;">
+            <input type="checkbox" name="system.damage.usePsionics" {{checked item.system.damage.usePsionics}} data-mutually-exclusive="damage-ability"/>
+            {{localize "CARDIGAN.Ability.Psionics.abbr"}}
           </label>
         </div>
         <div class="form-group">
@@ -227,6 +210,11 @@ Template para itens do tipo arma com sistema de propriedades dinâmicas
         </div>
       </div>
     </fieldset>
+
+    {{!-- Hidden fields - not visible to players --}}
+    <input type="hidden" name="system.quantity" value="{{item.system.quantity}}" data-dtype="Number"/>
+    <input type="hidden" name="system.rightHand" {{checked item.system.rightHand}}/>
+    <input type="hidden" name="system.leftHand" {{checked item.system.leftHand}}/>
 
   </div>
 </section>

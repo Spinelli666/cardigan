@@ -82,7 +82,7 @@ export class SkillLinkedSkillsDialog extends foundry.applications.api.Handlebars
         .map(skill => ({
           id: skill.id,
           name: skill.name,
-          img: skill.img || 'icons/svg/item-bag.svg',
+          img: skill.img || 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg',
           selected: this.selectedSkills.some(selected => selected.id === skill.id),
           skillClass: skill.system.skillClass || 'andarilho',
           uuid: skill.uuid

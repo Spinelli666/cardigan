@@ -2,6 +2,14 @@ import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import SkillEnhancementConfigDialog from '../applications/skill-enhancement-config-dialog.mjs';
 import SkillLinkedSkillsDialog from '../applications/skill-linked-skills-dialog.mjs';
 import RacialSkillsSelectionDialog from '../applications/racial-skills-selection-dialog.mjs';
+import { ArmorItemListeners } from './listeners/armor-item-listeners.mjs';
+import { CommonItemListeners } from './listeners/common-item-listeners.mjs';
+import { ArmorContext } from './parts/armor-context.mjs';
+import { ArmorSheetBehavior } from './parts/armor-sheet-behavior.mjs';
+import { AmmunitionSheetBehavior } from './parts/ammunition-sheet-behavior.mjs';
+import { IngredientSheetBehavior } from './parts/ingredient-sheet-behavior.mjs';
+import { SheetBaseBehavior } from './parts/sheet-base-behavior.mjs';
+import { WeaponAmmunitionBehavior } from './parts/weapon-ammunition-behavior.mjs';
 
 const { api, sheets } = foundry.applications;
 
@@ -110,16 +118,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
 
   /** @override */
   static PARTS = {
-    header: {
-      template: 'systems/cardigan/templates/item/header.hbs',
-    },
-    tabs: {
-      // Foundry-provided generic template
-      template: 'templates/generic/tab-navigation.hbs',
-    },
-    description: {
-      template: 'systems/cardigan/templates/item/description.hbs',
-    },
+    header: { template: 'systems/cardigan/templates/item/header.hbs' },
+    tabs: { template: 'templates/generic/tab-navigation.hbs' },
+    description: { template: 'systems/cardigan/templates/item/description.hbs' },
     attributesItemComum: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-comum.hbs',
     },
@@ -139,7 +140,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       template: 'systems/cardigan/templates/item/attribute-parts/arma.hbs',
     },
     attributesArmadura: {
-      template: 'systems/cardigan/templates/item/attribute-parts/armadura.hbs',
+      template: 'systems/cardigan/templates/item/attribute-parts/armor.hbs',
     },
     attributesSkill: {
       template: 'systems/cardigan/templates/item/attribute-parts/skill.hbs',
@@ -169,6 +170,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     super._configureRenderOptions(options);
     // Not all parts always render
     options.parts = ['header', 'tabs', 'description'];
+    if (ArmorSheetBehavior.configureRenderOptions(this, options)) return;
+    if (AmmunitionSheetBehavior.configureRenderOptions(this, options)) return;
+    if (IngredientSheetBehavior.configureRenderOptions(this, options)) return;
     // Don't show the other tabs if only limited view
     if (this.document.limited) return;
     // Control which parts show based on document subtype
@@ -177,23 +181,24 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         // Tipo backpack foi removido - não deve mais chegar aqui
         break;
       case 'item-comum':
-        options.parts.push('attributesItemComum');
-        break;
-      case 'item-municao':
-        options.parts.push('attributesItemMunicao');
+        options.parts = ['header', 'tabs', 'attributesItemComum', 'description'];
+        options.position ??= {};
+        options.position.width = 400.444;
+        options.position.height = 440.444;
         break;
       case 'item-consumivel':
-        options.parts.push('attributesItemConsumivel', 'modifiersItemConsumivel');
-        break;
-      case 'item-ingredient':
-        options.parts.push('attributesItemIngredient');
+        options.parts = ['header', 'tabs', 'attributesItemConsumivel', 'modifiersItemConsumivel', 'description'];
+        options.position ??= {};
+        options.position.width = 400.444;
+        options.position.height = 671.556;
         break;
       case 'efeito':
         // Efeitos têm descrição e podem ter atributos básicos se necessário
         options.parts.push('attributesEfeito');
         break;
       case 'arma':
-        options.parts.push('attributesArma');
+        // Weapon: PROPRIEDADES tab first, then DESCRIÇÃO
+        options.parts = ['header', 'tabs', 'attributesArma', 'description'];
         break;
       case 'armadura':
         options.parts.push('attributesArmadura');
@@ -239,15 +244,25 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   /** @override */
   async _preparePartContext(partId, context) {
     switch (partId) {
+      case 'attributesArmadura': {
+        // Necessary for preserving active tab on re-render
+        context.tab = context.tabs[partId];
+
+        ArmorContext.prepareAttributesData(context, this.item);
+        break;
+      }
+      case 'attributesItemConsumivel':
+        // Necessary for preserving active tab on re-render
+        context.tab = context.tabs[partId];
+        context.consumableSkillBonusRows = this._prepareConsumableSkillBonusRows();
+        break;
       case 'attributesItemComum':
       case 'attributesItemMunicao':
-      case 'attributesItemConsumivel':
       case 'attributesEfeito':
       case 'attributesArma':
-      case 'attributesArmadura':
+      case 'attributesSkill':
       case 'attributesItemRecipe':
       case 'attributesItemIngredient':
-      case 'attributesSkill':
       case 'attributesRace':
         // Necessary for preserving active tab on re-render
         context.tab = context.tabs[partId];
@@ -314,12 +329,81 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
+   * Prepare ordered skill bonus rows for consumable sheet table.
+   * @returns {Array<{key:string,label:string,index:number,value:number}>}
+   * @private
+   */
+  _prepareConsumableSkillBonusRows() {
+    const skillOrder = [
+      { key: 'accuracy', label: 'PRECISÃO' },
+      { key: 'evasion', label: 'EVASÃO' },
+      { key: 'strength', label: 'FORÇA' },
+      { key: 'dexterity', label: 'DESTREZA' },
+      { key: 'stamina', label: 'VIGOR' },
+      { key: 'stealth', label: 'FURTIVIDADE' },
+      { key: 'persuasion', label: 'PERSUASÃO' },
+      { key: 'intelligence', label: 'INTELIGÊNCIA' },
+      { key: 'psionics', label: 'PSIONISMO' }
+    ];
+
+    const existingBonuses = this.item.getFlag('cardigan', 'consumableSkillBonuses');
+    const bonusList = Array.isArray(existingBonuses)
+      ? existingBonuses
+      : (existingBonuses && typeof existingBonuses === 'object'
+        ? Object.values(existingBonuses)
+        : []);
+
+    const bonusBySkill = bonusList.reduce((acc, entry) => {
+      if (!entry || typeof entry.skill !== 'string') return acc;
+      const key = entry.skill.trim();
+      if (!key) return acc;
+
+      const numericBonus = Number(entry.bonus ?? 0);
+      acc[key] = Number.isFinite(numericBonus) ? numericBonus : 0;
+      return acc;
+    }, {});
+
+    return skillOrder.map((row, index) => ({
+      ...row,
+      index,
+      value: bonusBySkill[row.key] ?? 0,
+    }));
+  }
+
+  /**
    * Process form data BEFORE validation and submission
    * This is called BEFORE _prepareSubmitData and validation
    * @override
    */
   _processFormData(event, form, formData) {
     const submitData = super._processFormData(event, form, formData);
+    const fallbackImg = 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg';
+    const currentItemImg = typeof this.item.img === 'string' ? this.item.img.trim() : '';
+    const hasValidExtension = (value) => /\.(webp|png|jpe?g|gif|svg|avif|webm)(?:[?#].*)?$/i.test(value);
+    const isDataImage = (value) => /^data:image\/[a-z0-9.+-]+;base64,/i.test(value);
+    const isValidImagePath = (value) => {
+      if (typeof value !== 'string') return false;
+      const trimmed = value.trim();
+      if (!trimmed) return false;
+      return hasValidExtension(trimmed) || isDataImage(trimmed);
+    };
+
+    // Preserve custom/valid images. Only normalize when the path is truly invalid.
+    const submittedHasImg = Object.prototype.hasOwnProperty.call(submitData, 'img');
+    if (submittedHasImg) {
+      const submittedImg = typeof submitData.img === 'string' ? submitData.img.trim() : '';
+      if (isValidImagePath(submittedImg)) {
+        submitData.img = submittedImg;
+      } else if (isValidImagePath(currentItemImg)) {
+        submitData.img = currentItemImg;
+      } else {
+        submitData.img = fallbackImg;
+      }
+    } else if (!isValidImagePath(currentItemImg)) {
+      // No image field in this submit (e.g. editing durability), but current item image is
+      // invalid for validation. Provide fallback only in this case.
+      submitData.img = fallbackImg;
+    }
     
     // CRITICAL FIX: For recipe items, prevent empty resultItems from causing validation errors
     if (this.item.type === 'item-recipe') {
@@ -343,6 +427,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @override
    */
   async _onChangeForm(formConfig, event) {
+    const armorDurabilityHandled = await ArmorSheetBehavior.handleDurabilityChange(this, event);
+    if (armorDurabilityHandled) return;
+
     // CRITICAL: Clean up empty resultItems BEFORE calling super (which validates)
     if (this.item.type === 'item-recipe') {
       const currentResultItems = this.item.system?.resultItems;
@@ -399,7 +486,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
               resultItem.requiredIngredients[parseInt(ingredientIndex)] = {
                 name: "Novo Ingrediente",
                 quantity: 1,
-                img: "icons/svg/item-bag.svg"
+                img: "systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg"
               };
             }
             
@@ -448,7 +535,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // If you have sub-tabs this is necessary to change
     const tabGroup = 'primary';
     // Default tab for first time it's rendered this session
-    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'description';
+    if (!this.tabGroups[tabGroup]) {
+      this.tabGroups[tabGroup] = SheetBaseBehavior.resolveDefaultPrimaryTab(this);
+    }
     return parts.reduce((tabs, partId) => {
       const tab = {
         cssClass: '',
@@ -460,26 +549,51 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         // Run through localization
         label: 'CARDIGAN.Item.Tabs.',
       };
+
+      if (ArmorSheetBehavior.applyTabMetadata(partId, tab)) {
+        if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+        tabs[partId] = tab;
+        return tabs;
+      }
+
+      if (AmmunitionSheetBehavior.applyTabMetadata(partId, tab)) {
+        if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+        tabs[partId] = tab;
+        return tabs;
+      }
+
+      if (IngredientSheetBehavior.applyTabMetadata(partId, tab)) {
+        if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+        tabs[partId] = tab;
+        return tabs;
+      }
+
       switch (partId) {
         case 'header':
         case 'tabs':
           return tabs;
         case 'description':
           tab.id = 'description';
-          tab.label += 'Description';
+          tab.label = 'DESCRIÇÃO';
           break;
         case 'attributesItemComum':
-        case 'attributesItemMunicao':
+          tab.id = 'attributes';
+          tab.label = 'Propriedades';
+          break;
         case 'attributesItemConsumivel':
+          tab.id = 'attributes';
+          tab.label = 'PROPRIEDADES';
+          break;
         case 'attributesEfeito':
-        case 'attributesArma':
-        case 'attributesArmadura':
         case 'attributesSkill':
         case 'attributesItemRecipe':
-        case 'attributesItemIngredient':
         case 'attributesRace':
           tab.id = 'attributes';
           tab.label += 'Details';
+          break;
+        case 'attributesArma':
+          tab.id = 'attributes';
+          tab.label = 'Propriedades';
           break;
         case 'enhancementsSkill':
           tab.id = 'enhancements';
@@ -491,7 +605,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           break;
         case 'modifiersItemConsumivel':
           tab.id = 'modifiers';
-          tab.label += 'Modifiers';
+          tab.label = 'MODIFICADORES';
           break;
         case 'effects':
           tab.id = 'effects';
@@ -526,6 +640,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       this._descriptionImageObserver.disconnect();
       this._descriptionImageObserver = null;
     }
+    // Clear stale activeWindow reference so bringToFront increments _maxZ on reopen
+    if (ui.activeWindow === this) {
+      ui.activeWindow = null;
+    }
     return super._onClose?.(options);
   }
 
@@ -534,6 +652,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   _setupIngredientListeners() {
+    if (this.item.type !== 'item-recipe') return;
+
     
     // Find add ingredient button
     const addButton = this.element.querySelector('[data-action="addIngredient"]');
@@ -593,99 +713,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
           strengthCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
         }
       });
-    }
-  }
-
-  /**
-   * Setup conditional visibility for weapon ammunition
-   * @private
-   */
-  _setupConditionalAmmunition() {
-    const rangedCheckbox = this.element.querySelector('input[name="system.ranged"]');
-    const isFirearmCheckbox = this.element.querySelector('input[name="system.isFirearm"]');
-    const firearmSection = this.element.querySelector('.firearm-section');
-    const ammunitionSection = this.element.querySelector('.ammunition-section');
-
-    if (!rangedCheckbox || !isFirearmCheckbox || !firearmSection || !ammunitionSection) return;
-
-    // Function to update visibility based on checkboxes
-    const updateVisibility = () => {
-      const isRanged = rangedCheckbox.checked;
-      const isFirearm = isFirearmCheckbox.checked;
-
-      // Show/hide firearm and ammunition sections based on ranged status
-      firearmSection.style.display = isRanged ? 'block' : 'none';
-      ammunitionSection.style.display = isRanged ? 'block' : 'none';
-
-      // Re-render ammunition fields based on firearm status
-      if (isRanged) {
-        this._updateAmmunitionFields(isFirearm);
-      }
-    };
-
-    // Set up event listeners
-    rangedCheckbox.addEventListener('change', updateVisibility);
-    isFirearmCheckbox.addEventListener('change', updateVisibility);
-
-    // Initial setup
-    updateVisibility();
-  }
-
-  /**
-   * Update ammunition fields based on firearm status
-   * @private
-   */
-  _updateAmmunitionFields(isFirearm) {
-    const ammunitionSection = this.element.querySelector('.ammunition-section');
-    if (!ammunitionSection) return;
-
-    const label = ammunitionSection.querySelector('label');
-    const currentInput = ammunitionSection.querySelector('input[name="system.ammunition.current"]');
-    
-    // Remove existing container content
-    const existingContainer = ammunitionSection.querySelector('.ammunition-container, input[name="system.ammunition.current"]:not([type="hidden"])');
-    if (existingContainer) {
-      existingContainer.remove();
-    }
-
-    if (isFirearm) {
-      // Create firearm ammunition display (current/max)
-      const container = document.createElement('div');
-      container.className = 'ammunition-container';
-      container.style.cssText = 'display: flex; align-items: center; gap: 5px;';
-      
-      const currentField = document.createElement('input');
-      currentField.type = 'number';
-      currentField.name = 'system.ammunition.current';
-      currentField.value = this.document.system.ammunition.current;
-      currentField.min = '0';
-      currentField.max = this.document.system.ammunition.max;
-      currentField.style.width = '60px';
-      
-      const separator = document.createElement('span');
-      separator.textContent = '/';
-      
-      const maxField = document.createElement('input');
-      maxField.type = 'number';
-      maxField.name = 'system.ammunition.max';
-      maxField.value = this.document.system.ammunition.max;
-      maxField.min = '0';
-      maxField.style.width = '60px';
-      
-      container.appendChild(currentField);
-      container.appendChild(separator);
-      container.appendChild(maxField);
-      label.parentNode.appendChild(container);
-    } else {
-      // Create non-firearm ammunition display (current only)
-      const currentField = document.createElement('input');
-      currentField.type = 'number';
-      currentField.name = 'system.ammunition.current';
-      currentField.value = this.document.system.ammunition.current;
-      currentField.min = '0';
-      currentField.style.width = '80px';
-      
-      label.parentNode.appendChild(currentField);
     }
   }
 
@@ -862,7 +889,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     event.preventDefault();
     
     const item = this.item;
-    if (item.type !== 'arma' && item.type !== 'armadura') {
+    if (item.type !== 'arma') {
       return;
     }
 
@@ -884,7 +911,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   static async _removeWeaponProperty(event, target) {
     event.preventDefault();
     const item = this.item;
-    if (item.type !== 'arma' && item.type !== 'armadura') return;
+    if (item.type !== 'arma') return;
 
     const index = parseInt(target.dataset.index);
     if (isNaN(index)) return;
@@ -1014,7 +1041,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     event.preventDefault();
     
     const item = this.item;
-    if (item.type !== 'arma' && item.type !== 'armadura') {
+    if (item.type !== 'arma') {
       return;
     }
 
@@ -1027,8 +1054,13 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Always use 'accuracy' as default skill to ensure valid data
     const newSkillBonuses = [...filteredSkillBonuses, { skill: 'accuracy', bonus: 0 }];
     
-    
-    return this.submit({ updateData: { 'system.skillBonuses': newSkillBonuses } });
+    // Use direct update instead of form submit to avoid full document validation
+    const updateResult = await item.update({ 'system.skillBonuses': newSkillBonuses });
+    // Se o item pertence a um ator, dispara update() no ator para garantir recálculo igual arma
+    if (item.parent && typeof item.parent.update === 'function') {
+      await item.parent.update({});
+    }
+    return updateResult;
   }
 
   /**
@@ -1040,7 +1072,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   static async _removeSkillBonus(event, target) {
     event.preventDefault();
     const item = this.item;
-    if (item.type !== 'arma' && item.type !== 'armadura') return;
+    if (item.type !== 'arma') return;
 
     const index = parseInt(target.dataset.index);
     if (isNaN(index)) return;
@@ -1055,7 +1087,8 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       sb && typeof sb.skill === 'string' && sb.skill.trim() !== ''
     );
     
-    return this.submit({ updateData: { 'system.skillBonuses': finalSkillBonuses } });
+    // Use direct update instead of form submit to avoid full document validation
+    return item.update({ 'system.skillBonuses': finalSkillBonuses });
   }
 
   /**
@@ -1742,7 +1775,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       const newResultItem = {
         uuid: data.uuid,
         name: droppedItem.name,
-        img: droppedItem.img || "icons/svg/item-bag.svg",
+        img: droppedItem.img || "systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg",
         quantity: 1,
         isDefault: resultItems.length === 0, // First item is default
         customProperties: {}
@@ -1937,6 +1970,89 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       } else {
         skillCheckSection.classList.add('hidden');
       }
+    });
+  }
+
+  /**
+   * Setup life and energy toggle visibility for consumable items
+   * @private
+   */
+  _setupLifeEnergyToggle() {
+    const toggle = this.element.querySelector('[data-life-energy-toggle]');
+    const lifeEnergySection = this.element.querySelector('[data-life-energy-section]');
+
+    if (!toggle || !lifeEnergySection) return;
+
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+
+      if (isChecked) {
+        lifeEnergySection.classList.remove('hidden');
+      } else {
+        lifeEnergySection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup effects system toggle visibility for consumable items
+   * @private
+   */
+  _setupEffectsSystemToggle() {
+    const toggle = this.element.querySelector('[data-effects-system-toggle]');
+    const effectsSystemSection = this.element.querySelector('[data-effects-system-section]');
+
+    if (!toggle || !effectsSystemSection) return;
+
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+
+      if (isChecked) {
+        effectsSystemSection.classList.remove('hidden');
+      } else {
+        effectsSystemSection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup mutually exclusive skill check advantage controls for consumables
+   * @private
+   */
+  _setupSkillCheckAdvantageControls() {
+    const controls = this.element.querySelectorAll('.consumable-item-skill-test-advantage-controls .consumable-item-skill-test-advantage-checkbox');
+    if (controls.length === 0) return;
+
+    const syncCheckedState = (activeInput) => {
+      controls.forEach((input) => {
+        if (!(input instanceof HTMLInputElement)) return;
+        const shouldBeChecked = input === activeInput;
+        input.checked = shouldBeChecked;
+        const label = input.closest('.consumable-item-skill-test-advantage-toggle');
+        if (label) {
+          label.classList.toggle('is-selected', shouldBeChecked);
+        }
+      });
+    };
+
+    controls.forEach((input) => {
+      if (!(input instanceof HTMLInputElement)) return;
+
+      const label = input.closest('.consumable-item-skill-test-advantage-toggle');
+      if (label) {
+        label.classList.toggle('is-selected', input.checked);
+      }
+
+      input.addEventListener('change', () => {
+        if (input.checked) {
+          syncCheckedState(input);
+        } else {
+          const anyChecked = Array.from(controls).some((control) => control !== input && control.checked);
+          if (!anyChecked && label) {
+            label.classList.remove('is-selected');
+          }
+        }
+      });
     });
   }
 
@@ -2167,151 +2283,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Setup armor bonus toggle visibility for consumable items
-   * @private
-   */
-  _setupArmorBonusToggle() {
-    const toggle = this.element.querySelector('[data-armor-bonus-toggle]');
-    const armorBonusSection = this.element.querySelector('[data-armor-bonus-section]');
-    
-    if (!toggle || !armorBonusSection) return;
-    
-    // Add event listener for the toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        armorBonusSection.classList.remove('hidden');
-      } else {
-        armorBonusSection.classList.add('hidden');
-      }
-    });
-  }
-
-  /**
-   * Setup conditional fields for armor items (movement bonus and backpack space bonus)
-   * @private
-   */
-  _setupArmorConditionalFields() {
-    // Setup movement bonus conditional field
-    const movementCheckbox = this.element.querySelector('input[data-conditional-trigger="movement"]');
-    const movementValue = this.element.querySelector('.movement-value');
-    
-    if (movementCheckbox && movementValue) {
-      movementCheckbox.addEventListener('change', (event) => {
-        const isChecked = event.target.checked;
-        movementValue.style.display = isChecked ? 'block' : 'none';
-      });
-    }
-
-    // Setup backpack space bonus conditional field
-    const backpackCheckbox = this.element.querySelector('input[data-conditional-trigger="backpack"]');
-    const backpackValue = this.element.querySelector('.backpack-value');
-    
-    if (backpackCheckbox && backpackValue) {
-      backpackCheckbox.addEventListener('change', (event) => {
-        const isChecked = event.target.checked;
-        backpackValue.style.display = isChecked ? 'block' : 'none';
-      });
-    }
-  }
-
-  /**
-   * Setup status ailments toggle visibility for consumable items
-   * @private
-   */
-  _setupStatusAilmentsToggle() {
-    const toggle = this.element.querySelector('[data-status-ailments-toggle]');
-    const statusAilmentsSection = this.element.querySelector('[data-status-ailments-section]');
-    
-    if (!toggle || !statusAilmentsSection) return;
-    
-    // Add event listener for the toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        statusAilmentsSection.classList.remove('hidden');
-      } else {
-        statusAilmentsSection.classList.add('hidden');
-      }
-    });
-
-    // Setup sanity modifier toggle within status ailments section
-    this._setupSanityModifierToggle();
-    // Setup toxicity modifier toggle within status ailments section
-    this._setupToxicityModifierToggle();
-    // Setup fracture modifier toggle within status ailments section
-    this._setupFractureModifierToggle();
-  }
-
-  /**
-   * Setup sanity modifier toggle visibility
-   * @private
-   */
-  _setupSanityModifierToggle() {
-    const toggle = this.element.querySelector('[data-sanity-modifier-toggle]');
-    const sanityModifierSection = this.element.querySelector('[data-sanity-modifier-section]');
-    
-    if (!toggle || !sanityModifierSection) return;
-    
-    // Add event listener for the sanity modifier toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        sanityModifierSection.classList.remove('hidden');
-      } else {
-        sanityModifierSection.classList.add('hidden');
-      }
-    });
-  }
-
-  /**
-   * Setup toxicity modifier toggle visibility
-   * @private
-   */
-  _setupToxicityModifierToggle() {
-    const toggle = this.element.querySelector('[data-toxicity-modifier-toggle]');
-    const toxicityModifierSection = this.element.querySelector('[data-toxicity-modifier-section]');
-    
-    if (!toggle || !toxicityModifierSection) return;
-    
-    // Add event listener for the toxicity modifier toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        toxicityModifierSection.classList.remove('hidden');
-      } else {
-        toxicityModifierSection.classList.add('hidden');
-      }
-    });
-  }
-
-  /**
-   * Setup fracture modifier toggle visibility
-   * @private
-   */
-  _setupFractureModifierToggle() {
-    const toggle = this.element.querySelector('[data-fracture-modifier-toggle]');
-    const fractureModifierSection = this.element.querySelector('[data-fracture-modifier-section]');
-    
-    if (!toggle || !fractureModifierSection) return;
-    
-    // Add event listener for the fracture modifier toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        fractureModifierSection.classList.remove('hidden');
-      } else {
-        fractureModifierSection.classList.add('hidden');
-      }
-    });
-  }
-
-  /**
    * Creates drag & drop handlers for this application
    * @returns {foundry.applications.ux.DragDrop[]}     An array of DragDrop handlers
    * @private
@@ -2374,77 +2345,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         skillSection.classList.remove('hidden');
       } else {
         skillSection.classList.add('hidden');
-      }
-    });
-  }
-
-  /**
-   * Setup food and water toggle visibility
-   * @private
-   */
-  _setupFoodAndWaterToggle() {
-    const toggle = this.element.querySelector('[data-food-and-water-toggle]');
-    const foodAndWaterSection = this.element.querySelector('[data-food-and-water-section]');
-    
-    if (!toggle || !foodAndWaterSection) return;
-    
-    // Add event listener for the food and water toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        foodAndWaterSection.classList.remove('hidden');
-      } else {
-        foodAndWaterSection.classList.add('hidden');
-      }
-    });
-
-    // Setup food modifier toggle within food and water section
-    this._setupFoodModifierToggle();
-    // Setup water modifier toggle within food and water section
-    this._setupWaterModifierToggle();
-  }
-
-  /**
-   * Setup food modifier toggle visibility
-   * @private
-   */
-  _setupFoodModifierToggle() {
-    const toggle = this.element.querySelector('[data-food-modifier-toggle]');
-    const foodModifierSection = this.element.querySelector('[data-food-modifier-section]');
-    
-    if (!toggle || !foodModifierSection) return;
-    
-    // Add event listener for the food modifier toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        foodModifierSection.classList.remove('hidden');
-      } else {
-        foodModifierSection.classList.add('hidden');
-      }
-    });
-  }
-
-  /**
-   * Setup water modifier toggle visibility
-   * @private
-   */
-  _setupWaterModifierToggle() {
-    const toggle = this.element.querySelector('[data-water-modifier-toggle]');
-    const waterModifierSection = this.element.querySelector('[data-water-modifier-section]');
-    
-    if (!toggle || !waterModifierSection) return;
-    
-    // Add event listener for the water modifier toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        waterModifierSection.classList.remove('hidden');
-      } else {
-        waterModifierSection.classList.add('hidden');
       }
     });
   }
@@ -2703,7 +2603,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       newIngredients[index] = {
         ...newIngredients[index],
         name: ingredientName, // Keep the user input name
-        img: bestMatch.img || 'icons/svg/item-bag.svg'
+        img: bestMatch.img || 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg'
       };
       
       // Show notification about the source and profession match
@@ -2738,16 +2638,16 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const item = this.item;
     
     // Check if this is a recipe type
-    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe'];
     if (!recipeTypes.includes(item.type)) {
       return;
     }
 
     const currentIngredients = item.system.toObject().requiredIngredients || [];
     const newIngredient = {
-      name: 'New Ingredient',
+      name: 'Novo Ingrediente',
       quantity: 1,
-      img: 'icons/svg/item-bag.svg'
+      img: 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg'
     };
     
     const newIngredients = [...currentIngredients, newIngredient];
@@ -2769,7 +2669,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const item = this.item;
     
     // Check if this is a recipe type
-    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe'];
     if (!recipeTypes.includes(item.type)) {
       return;
     }
@@ -2800,7 +2700,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const item = this.item;
     
     // Check if this is a recipe type
-    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe'];
     if (!recipeTypes.includes(item.type)) return;
 
     const index = parseInt(target.dataset.index);
@@ -2886,7 +2786,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const newIngredient = {
       name: 'Novo Ingrediente',
       quantity: 1,
-      img: 'icons/svg/item-bag.svg' // Default fallback
+      img: 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg' // Default fallback
     };
     
     // Try to find matching item image
@@ -2968,7 +2868,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const item = this.item;
     
     // Check if this is a recipe type
-    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe'];
     if (!recipeTypes.includes(item.type)) return;
 
     const index = parseInt(target.dataset.index);
@@ -3005,7 +2905,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const professionMap = {
       'alchemy-recipe': 'alchemy',
       'blacksmithing-recipe': 'blacksmithing', 
-      'carpentry-recipe': 'carpentry',
       'culinary-recipe': 'culinary',
       'tailoring-recipe': 'tailoring',
       'tecnomagic-recipe': 'tecnomagic',
@@ -3045,7 +2944,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   _registerForAutoUpdates() {
-    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe', 'carpentry-recipe'];
+    const recipeTypes = ['item-recipe', 'culinary-recipe', 'tailoring-recipe', 'tecnomagic-recipe', 'blacksmithing-recipe', 'alchemy-recipe'];
     if (recipeTypes.includes(this.item.type)) {
       CardiganSystemItemSheet._openRecipeSheets.add(this);
     }
@@ -3075,7 +2974,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         const matchingItems = await CardiganSystemItemSheet._searchItemsByName(ingredient.name, false, recipeProfession);
         if (matchingItems.length > 0) {
           const bestMatch = matchingItems[0];
-          const newImg = bestMatch.img || 'icons/svg/item-bag.svg';
+          const newImg = bestMatch.img || 'systems/cardigan/assets/images/decorative/icons/icon-item-generic.svg';
           
           if (newImg !== ingredient.img) {
             newIngredients[i] = {
@@ -3190,31 +3089,38 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    */
   _onRender(context, options) {
     super._onRender(context, options);
-    
-    console.log("[ITEM-SHEET] _onRender CONSOLIDATED called for item type:", this.item.type);
-    console.log("[ITEM-SHEET] Binding drag-drop handlers, count:", this.#dragDrop.length);
-    console.log("[ITEM-SHEET] this.element exists:", !!this.element);
+
+    // Mirror the type-specific root-class pattern used by other systems.
+    this.element?.classList.toggle('item-type-comum', this.item?.type === 'item-comum');
+    this.element?.classList.toggle('item-type-consumivel', this.item?.type === 'item-consumivel');
+    IngredientSheetBehavior.applyRootClass(this);
+    AmmunitionSheetBehavior.applyRootClass(this);
+    this.element?.classList.toggle('item-type-armadura', this.item?.type === 'armadura');
+    this.element?.classList.toggle('item-type-arma', this.item?.type === 'arma');
+
+    // On first render (includes reopen after close), Foundry's bringToFront may skip
+    // the z-index increment when #frontApp/ui.activeWindow still stale-point to this
+    // instance from a previous session. Nulling ui.activeWindow breaks that guard.
+    if (options.isFirstRender) {
+      if (ui.activeWindow === this) ui.activeWindow = null;
+      this.bringToFront();
+    }
+
+    // Remove specific header controls for selected item sheet types.
+    // Run immediately and on next frame in case controls are attached after initial render.
+    SheetBaseBehavior.applyHeaderCleanup(this);
+    requestAnimationFrame(() => SheetBaseBehavior.applyHeaderCleanup(this));
     
     // === DRAG-DROP BINDING (from first _onRender) ===
-    // Check if drop zone exists (for recipes)
-    if (this.item.type === 'item-recipe') {
-      const dropZone = this.element.querySelector('[data-drop-zone="resultItems"]');
-    }
-    
-    this.#dragDrop.forEach((d, index) => {
-      console.log(`[ITEM-SHEET] Binding drag-drop handler ${index + 1}:`, {
-        dragSelector: d.dragSelector,
-        dropSelector: d.dropSelector
-      });
+    this.#dragDrop.forEach((d) => {
       d.bind(this.element);
-      console.log(`[ITEM-SHEET] Handler ${index + 1} bound successfully`);
     });
     
     // Setup mutually exclusive checkboxes for damage abilities
     this._setupMutuallyExclusiveCheckboxes();
     
     // Setup conditional visibility for weapon ammunition
-    this._setupConditionalAmmunition();
+    WeaponAmmunitionBehavior.setupConditionalAmmunition(this);
     
     // Manual setup for ingredient buttons (fallback)
     this._setupIngredientListeners();
@@ -3230,7 +3136,10 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     // Setup skill check toggle visibility for consumable items
     this._setupSkillCheckToggle();
-    
+    this._setupSkillCheckAdvantageControls();
+    this._setupLifeEnergyToggle();
+    this._setupEffectsSystemToggle();
+
     // Setup effects toggle visibility for consumable items
     this._setupEffectsToggle();
     
@@ -3255,17 +3164,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup energy modifier toggle visibility for consumable items
     this._setupEnergyModifierToggle();
     
-    // Setup armor bonus toggle visibility for consumable items  
-    this._setupArmorBonusToggle();
-    
-    // Setup conditional fields for armor items
-    this._setupArmorConditionalFields();
-    
-    // Setup status ailments toggle visibility for consumable items
-    this._setupStatusAilmentsToggle();
-    
-    // Setup food and water toggle visibility for consumable items
-    this._setupFoodAndWaterToggle();
+    // Setup armor bonus toggle visibility for consumable items
+    CommonItemListeners.initialize(this);
+    ArmorItemListeners.initialize(this);
     
     // Setup movement boost toggle visibility for consumable items
     this._setupMovementBoostToggle();

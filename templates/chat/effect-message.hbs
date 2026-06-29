@@ -1,0 +1,31 @@
+<div class='cardigan-effect-chat-message'>
+  {{! Actor Header }}
+  <div class='actor-header'>
+    <img src='{{actorImg}}' alt='{{actorName}}' class='actor-avatar' />
+    <h2 class='actor-name'>{{actorName}}</h2>
+  </div>
+
+  {{! Effect Header }}
+  <div class='effect-header'>
+    <div class="effect-chat-icon">
+        <img src='{{effectImg}}' alt='{{effectName}}' class='effect-icon' />
+    </div>
+    <p class='effect-subtitle'>SOB O EFEITO</p>
+    <button class='effect-title toggle-effect-description' data-effect-id='{{effectName}}' type='button'>
+      {{effectName}}
+    </button>
+    {{#if effectRounds}}
+    <div class='effect-rounds-chat'>
+      <img src="systems/cardigan/assets/images/decorative/icons/icon-clock.svg" alt="Rodadas" class="rounds-icon" width="16" height="16">
+      <span class="rounds-value">{{#if (eq effectRounds "infinito")}}<div class="rounds-infinite-icon"></div>{{else}}{{effectRounds}}{{/if}}</span>
+    </div>
+    {{/if}}
+  </div>
+
+  {{! Effect Description }}
+  {{#if effectDescription}}
+  <div class='effect-description' data-effect-id='{{effectName}}' style='display: none;'>
+    {{{effectDescription}}}
+  </div>
+  {{/if}}
+</div>

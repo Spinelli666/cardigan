@@ -1,0 +1,27 @@
+/**
+ * Item Efeito Styles
+ * Estilos específicos para o Item do tipo Efeito
+ */
+
+// Section principal da aba attributes do Item Efeito
+section[data-application-part="attributesEfeito"] {
+  margin-top: 20px;
+}
+
+// Form group container com layout horizontal
+.item-efeito-form-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 25px;
+  
+  label {
+    min-width: 150px;
+    margin: 0;
+  }
+  
+  select {
+    flex: 1;
+    margin-right: 215px;
+  }
+}

@@ -1,0 +1,66 @@
+{{! Chat Roll Message Template - Unified template for all roll types }}
+<div class='cardigan-roll-chat-message'>
+  {{! Actor Header }}
+  <div class='actor-header {{#if hasSpecialAction}}special-action{{/if}}'>
+    <img src='{{actorImg}}' alt='{{actorName}}' class='actor-avatar' {{#if hasSpecialAction}}data-tooltip="{{actorName}}" data-tooltip-class="cardigan-chat-tooltip"{{/if}} />
+    {{#if hasSpecialAction}}
+      {{! Show attack icon }}
+      <img src='systems/cardigan/assets/images/decorative/icons/icon-attack.svg' alt='Ataque' class='attack-icon' />
+      {{#if isJointRoll}}
+        {{! Joint roll: show joint attack icon }}
+        <img src='systems/cardigan/assets/images/decorative/icons/icon-joint-attack.svg' alt='Rolagem em Conjunto' class='joint-roll-header-icon' data-tooltip="{{{targetNames}}}" data-tooltip-class="cardigan-chat-tooltip" />
+      {{else if hasSingleTarget}}
+        {{! Single target: show target avatar }}
+        <img src='{{targetImg}}' alt='{{targetName}}' class='target-avatar' data-tooltip="{{targetName}}" data-tooltip-class="cardigan-chat-tooltip" />
+      {{/if}}
+    {{else}}
+      {{! Show actor name when no special action }}
+      <h2 class='actor-name'>{{actorName}}</h2>
+    {{/if}}
+  </div>
+
+  {{! Roll Content }}
+  <div class='roll-content'>
+    <img src='systems/cardigan/assets/images/decorative/back-icon-d20.webp' alt='Dado' class='roll-chat-icon' />
+    <div class='roll-title'>
+      <p class='roll-subtitle'>TESTE DE</p>
+      <strong>{{rollLabel}}</strong>
+    </div>
+
+    {{! Dice Result with Advantage/Disadvantage Icons }}
+    <div class='dice-wrapper'>
+      {{#if (or (eq rollTypeClass "advantage") (eq rollTypeClass "enhanced-advantage"))}}
+        <div class='advantage-container'>
+          {{#if (eq rollTypeClass "advantage")}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-advantage.svg' alt='Vantagem' class='advantage-icon' />
+          {{/if}}
+          {{#if (eq rollTypeClass "enhanced-advantage")}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-enhanced-advantage.svg' alt='Vantagem Aprimorada' class='advantage-icon' />
+          {{/if}}
+        </div>
+      {{/if}}
+
+      <div class='dice-result-container {{#if (isSingleDigit rollResult)}}single-digit{{/if}}'>
+        <div class='dice-result-number {{#if isCriticalSuccess}}critical-success{{/if}} {{#if isCriticalFailure}}critical-failure{{/if}}'
+             data-tooltip="{{{rollFormula}}}" 
+             data-tooltip-class="cardigan-chat-tooltip"
+             {{#if diceFormulaData}}
+             data-tooltip-type="dice-formula"
+             data-dice-formula='{{{diceFormulaData}}}'
+             {{/if}}>{{rollResult}}</div>
+      </div>
+
+      {{#if (or (eq rollTypeClass "disadvantage") (eq rollTypeClass "enhanced-disadvantage"))}}
+        <div class='disadvantage-container'>
+          {{#if (eq rollTypeClass "disadvantage")}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-disadvantage.svg' alt='Desvantagem' class='disadvantage-icon' />
+          {{/if}}
+          {{#if (eq rollTypeClass "enhanced-disadvantage")}}
+            <img src='systems/cardigan/assets/images/decorative/icons/icon-enhanced-disadvantage.svg' alt='Desvantagem Aprimorada' class='disadvantage-icon' />
+          {{/if}}
+        </div>
+      {{/if}}
+    </div>
+
+  </div>
+</div>

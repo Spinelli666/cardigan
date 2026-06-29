@@ -1,0 +1,120 @@
+.inventory-banner {
+  width: 100%;
+  min-height: 50px;
+  margin-bottom: 5px;
+  background: url('/systems/cardigan/assets/images/decorative/back-inventory.webp') no-repeat center top;
+  background-size: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .backpack-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    top: -16px;
+
+    .backpack-toggle-icon {
+      width: 65px;
+      height: 65px;
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
+      transition: filter 0.15s ease, transform 0.15s ease;
+      cursor: pointer;
+
+      &:hover {
+        filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.7));
+        transform: scale(1.05);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+
+  .status-display {
+    display: inline-flex;
+    align-items: center;
+    background: url('/systems/cardigan/assets/images/decorative/back-space.webp') no-repeat center center;
+    background-size: contain;
+    border: none;
+    width: 132px;
+    min-width: 132px;
+    max-width: 132px;
+    height: 20px;
+    justify-content: center;
+    position: relative;
+    top: -16px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+
+    &.backpack-full {
+      background-image: url('/systems/cardigan/assets/images/decorative/back-space.webp');
+    }
+  }
+
+  .status-current {
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 0.8rem;
+    color: white;
+    outline: none;
+    box-sizing: border-box;
+    position: relative;
+    left: 15px;
+    top: -0.3px;
+  }
+
+  .status-next {
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 0.8rem;
+    color: white;
+    outline: none;
+    box-sizing: border-box;
+    position: relative;
+    right: 15px;
+    top: -0.3px;
+  }
+
+  .status-current,
+  .status-next {
+    width: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+    flex: 0 0 38px;
+    appearance: textfield;
+    -moz-appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
+  .status-separator-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .backpack-warning {
+    font-size: 11px;
+    color: #e74c3c;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    position: relative;
+    top: -20px;
+
+    i {
+      font-size: 0.7rem;
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { BaseSkill } from './base-skill.mjs';
 import { buildRollFormula } from '../helpers/config.mjs';
+import { ChatMessageHelper } from '../helpers/chat-messages.mjs';
 
 /**
  * Skill Manager - Orchestrates all skill-related functionality
@@ -12,7 +13,6 @@ export class SkillManager {
    * @type {Map<string, BaseSkill>}
    */
   static #skillRegistry = new Map();
-
   /**
    * Check if a skill has any effects to apply (base effects OR active enhancement effects)
    * @param {Item} skill - The skill item
@@ -137,213 +137,6 @@ export class SkillManager {
 
 
   /**
-   * Setup dynamic tooltip handlers for buttons that need real-time updates (HTML version)
-   * @param {string} skillName - Name of the skill
-   * @param {BaseSkill} skillClass - The skill class
-   * @param {HTMLElement} html - The chat HTML element
-   * @private
-   */
-  static #setupDynamicTooltipsHTML(skillName, skillClass, html) {
-    const tooltipButtons = html.querySelectorAll('.cardigan-dynamic-tooltip');
-
-    tooltipButtons.forEach(button => {
-      // Remove any existing tooltip
-      button.removeAttribute('title');
-      button.removeAttribute('data-tooltip');
-      
-      // Remove existing listeners to avoid duplicates
-      button.removeEventListener('mouseenter', button._tooltipEnterHandler);
-      button.removeEventListener('mouseleave', button._tooltipLeaveHandler);
-      
-      let customTooltip = null;
-      
-      // Add hover event listeners for custom HTML tooltips
-      button._tooltipEnterHandler = async (event) => {
-        const actorId = event.target.getAttribute('data-actor-id');
-        const buttonSkillName = event.target.getAttribute('data-skill');
-        
-        if (actorId && buttonSkillName === skillName) {
-          try {
-            let tooltipHTML;
-            
-            // Check if this is a secondary attack button
-            if (event.target.classList.contains('cardigan-skill-attack-secondary-btn')) {
-              if (typeof skillClass._generateSecondaryWeaponTooltipHTML === 'function') {
-                tooltipHTML = await skillClass._generateSecondaryWeaponTooltipHTML(actorId);
-              } else if (typeof skillClass._generateSecondaryWeaponTooltip === 'function') {
-                // Fallback to text tooltip
-                const tooltipText = await skillClass._generateSecondaryWeaponTooltip(actorId);
-                event.target.setAttribute('title', tooltipText);
-                return;
-              } else {
-                return;
-              }
-            } else if (typeof skillClass._generateWeaponTooltipHTML === 'function') {
-              tooltipHTML = await skillClass._generateWeaponTooltipHTML(actorId);
-            } else if (typeof skillClass._generateWeaponTooltip === 'function') {
-              // Fallback to text tooltip
-              const tooltipText = await skillClass._generateWeaponTooltip(actorId);
-              event.target.setAttribute('title', tooltipText);
-              return;
-            } else {
-              return;
-            }
-            
-            // Create custom tooltip element
-            customTooltip = document.createElement('div');
-            customTooltip.className = 'cardigan-custom-tooltip';
-            customTooltip.innerHTML = tooltipHTML;
-            customTooltip.style.position = 'fixed';
-            customTooltip.style.zIndex = '10000';
-            customTooltip.style.pointerEvents = 'none';
-            
-            document.body.appendChild(customTooltip);
-            
-            // Position tooltip above button
-            const rect = event.target.getBoundingClientRect();
-            const tooltipRect = customTooltip.getBoundingClientRect();
-            
-            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
-            let top = rect.top - tooltipRect.height - 10;
-            
-            // Keep tooltip within viewport
-            if (left < 5) left = 5;
-            if (left + tooltipRect.width > window.innerWidth - 5) {
-              left = window.innerWidth - tooltipRect.width - 5;
-            }
-            if (top < 5) {
-              top = rect.bottom + 10; // Show below if no space above
-            }
-            
-            customTooltip.style.left = `${left}px`;
-            customTooltip.style.top = `${top}px`;
-            
-            // Store tooltip reference for cleanup
-            button._customTooltip = customTooltip;
-            
-          } catch (error) {
-            console.error('Error generating dynamic tooltip:', error);
-            event.target.setAttribute('title', 'Erro ao carregar tooltip');
-          }
-        }
-      };
-
-      button._tooltipLeaveHandler = (event) => {
-        // Remove custom tooltip
-        if (button._customTooltip) {
-          button._customTooltip.remove();
-          button._customTooltip = null;
-        }
-      };
-      
-      button.addEventListener('mouseenter', button._tooltipEnterHandler);
-      button.addEventListener('mouseleave', button._tooltipLeaveHandler);
-    });
-  }
-
-  /**
-   * Setup dynamic tooltip handlers for buttons that need real-time updates
-   * @param {HTMLElement} html - The chat HTML element
-   * @private
-   */
-  static #setupDynamicTooltips(html) {
-    const tooltipButtons = html.querySelectorAll('.cardigan-dynamic-tooltip');
-
-    tooltipButtons.forEach(button => {
-      // Remove any existing tooltip
-      button.removeAttribute('title');
-      button.removeAttribute('data-tooltip');
-      
-      let customTooltip = null;
-      
-      // Add hover event listeners
-      button.addEventListener('mouseenter', async (event) => {
-        const actorId = event.target.getAttribute('data-actor-id');
-        const skillName = event.target.getAttribute('data-skill');
-        
-        if (actorId && skillName) {
-          const skillClass = this.getSkill(skillName) || BaseSkill;
-          
-          try {
-            let tooltipHTML;
-            
-            // Check if this is a secondary attack button
-            if (event.target.classList.contains('cardigan-skill-attack-secondary-btn')) {
-              if (typeof skillClass._generateSecondaryWeaponTooltipHTML === 'function') {
-                tooltipHTML = await skillClass._generateSecondaryWeaponTooltipHTML(actorId);
-              } else if (typeof skillClass._generateSecondaryWeaponTooltip === 'function') {
-                // Fallback to text tooltip
-                const tooltipText = await skillClass._generateSecondaryWeaponTooltip(actorId);
-                event.target.setAttribute('title', tooltipText);
-                return;
-              } else {
-                return;
-              }
-            } else if (typeof skillClass._generateWeaponTooltipHTML === 'function') {
-              tooltipHTML = await skillClass._generateWeaponTooltipHTML(actorId);
-            } else if (typeof skillClass._generateWeaponTooltip === 'function') {
-              // Fallback to text tooltip
-              const tooltipText = await skillClass._generateWeaponTooltip(actorId);
-              event.target.setAttribute('title', tooltipText);
-              return;
-            } else {
-              return;
-            }
-            
-            // Create custom tooltip element
-            customTooltip = document.createElement('div');
-            customTooltip.className = 'cardigan-custom-tooltip';
-            customTooltip.innerHTML = tooltipHTML;
-            customTooltip.style.position = 'fixed';
-            customTooltip.style.zIndex = '10000';
-            customTooltip.style.pointerEvents = 'none';
-            
-            document.body.appendChild(customTooltip);
-            
-            // Position tooltip above button
-            const rect = event.target.getBoundingClientRect();
-            const tooltipRect = customTooltip.getBoundingClientRect();
-            
-            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
-            let top = rect.top - tooltipRect.height - 10;
-            
-            // Keep tooltip within viewport
-            if (left < 5) left = 5;
-            if (left + tooltipRect.width > window.innerWidth - 5) {
-              left = window.innerWidth - tooltipRect.width - 5;
-            }
-            if (top < 5) {
-              top = rect.bottom + 10; // Show below if no space above
-            }
-            
-            customTooltip.style.left = `${left}px`;
-            customTooltip.style.top = `${top}px`;
-            
-            // Store tooltip reference for cleanup
-            button._customTooltip = customTooltip;
-            
-          } catch (error) {
-            console.error('Error generating dynamic tooltip:', error);
-            event.target.setAttribute('title', 'Erro ao carregar tooltip');
-          }
-        }
-      });
-
-      // Clear tooltip on mouse leave
-      button.addEventListener('mouseleave', (event) => {
-        // Remove custom tooltip
-        if (button._customTooltip) {
-          button._customTooltip.remove();
-          button._customTooltip = null;
-        }
-      });
-    });
-  }
-
-
-
-  /**
-   * Handle chat message rendering to set up event listeners for skill buttons
    * @param {ChatMessage} message - The chat message being rendered
    * @param {HTMLElement} html - The HTML content of the message
    * @private
@@ -364,7 +157,6 @@ export class SkillManager {
           // Determine button type from class
           let buttonType = 'unknown';
           if (button.classList.contains('cardigan-skill-attack-btn')) buttonType = 'attack';
-          else if (button.classList.contains('cardigan-skill-attack-simple-btn')) buttonType = 'attack-simple';
           else if (button.classList.contains('cardigan-skill-attack-secondary-btn')) buttonType = 'attack-secondary';
           else if (button.classList.contains('cardigan-skill-energy-btn')) buttonType = 'energy';
           else if (button.classList.contains('cardigan-skill-d6-btn')) buttonType = 'd6';
@@ -389,11 +181,7 @@ export class SkillManager {
             };
             
             button.addEventListener('click', button._skillManagerHandler);
-            
-            // Set up dynamic tooltips for attack buttons
-            if (buttonType === 'attack' || buttonType === 'attack-secondary') {
-              this.#setupDynamicTooltipsHTML(skillName, skillClass || BaseSkill, html);
-            }
+
           } else {
             // Skill not registered - use default handlers
             button.removeEventListener('click', button._defaultSkillHandler);
@@ -410,9 +198,7 @@ export class SkillManager {
             
             button.addEventListener('click', button._defaultSkillHandler);
             
-            // Set up default tooltips for attack buttons
             if (buttonType === 'attack' || buttonType === 'attack-simple') {
-              // Setup dynamic tooltips with mouseenter events
               this.#setupDefaultDynamicTooltips(button, actorId, buttonType);
             }
           }
@@ -420,7 +206,7 @@ export class SkillManager {
       });
     }
     
-    // Set up enhancement emoji tooltips
+    // Set up enhancement emoji display
     this.#setupEnhancementTooltips(html);
   }
 
@@ -446,7 +232,7 @@ export class SkillManager {
           }
         );
         
-        // Create the tooltip content
+        // Create the content
         const tooltipContent = `
           <div class="enhancement-tooltip">
             <div class="enhancement-header">
@@ -459,7 +245,7 @@ export class SkillManager {
           </div>
         `;
         
-        // Set the tooltip using Foundry's tooltip system
+        // Set the display using Foundry's system
         emoji.dataset.tooltip = tooltipContent;
         emoji.dataset.tooltipClass = 'cardigan-enhancement-tooltip';
         emoji.dataset.tooltipDirection = 'UP';
@@ -654,7 +440,7 @@ export class SkillManager {
           const enhancementName = enhancement.name || `Aprimoramento ${i + 1}`;
           const statusText = isAcquired ? '✓ Adquirido' : '✗ Não Adquirido';
           
-          // Create enhancement data for tooltip (same as BaseSkill)
+          // Create enhancement data (same as BaseSkill)
           const enhancementData = {
             name: enhancementName,
             description: enhancement.description,
@@ -690,12 +476,8 @@ export class SkillManager {
       const skill = actor.items.find(item => item.type === 'skill' && item.name === skillName);
       const hasCustomEffects = this.hasAnyEffects(skill);
       
-      // Add default attack buttons for all skills (same style as Acerto Debilitante)
+      // Add default attack button for all skills (single unified attack button)
       content += `<div style="text-align: center; margin: 12px 0; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; align-items: center;">
-        <button class="cardigan-skill-attack-simple-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${skillName}"
-                style="display: inline-block; padding: 8px 16px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
-          <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque S
-        </button>
         <button class="cardigan-skill-attack-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${skillName}"
                 style="display: inline-block; padding: 8px 16px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
           <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque
@@ -754,13 +536,8 @@ export class SkillManager {
 
     switch (buttonType) {
       case 'attack':
-        // Primary hand attack
-        await this.#performDefaultPrimaryAttack(actor, skillName);
-        break;
-        
-      case 'attack-simple':
-        // Secondary hand attack
-        await this.#performDefaultSecondaryAttack(actor, skillName);
+        // Unified attack - hand selection via dialog checkboxes
+        await this.#performUnifiedSkillAttack(actor, skillName);
         break;
         
       case 'expand':
@@ -1010,10 +787,6 @@ export class SkillManager {
         const hasCustomEffects = this.hasAnyEffects(skill);
         
         content += `<div style="text-align: center; margin: 12px 0; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; align-items: center;">
-          <button class="cardigan-skill-attack-simple-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${skillName}"
-                  style="display: inline-block; padding: 8px 16px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
-            <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque S
-          </button>
           <button class="cardigan-skill-attack-btn cardigan-dynamic-tooltip" data-actor-id="${actorId}" data-skill="${skillName}"
                   style="display: inline-block; padding: 8px 16px; background: #4caf50; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">
             <i class="fas fa-dice-d20" style="margin-right: 4px;"></i>Ataque
@@ -1169,12 +942,24 @@ export class SkillManager {
       const result = await AdvantageSelectionDialog.show();
       if (!result) return; // User cancelled
 
-      const { rollType, attackMode } = result;
+      const { rollType, attackMode, manualModifier = 0, primaryHand, secondaryHand } = result;
+
+      // JOINT ROLL: Require selected tokens and hand selection
+      if (attackMode === 'conjunto') {
+        if (!canvas.tokens.controlled || canvas.tokens.controlled.length === 0) {
+          ui.notifications.warn('Por favor, selecione um ou mais tokens antes de fazer uma Rolagem em Conjunto.');
+          return;
+        }
+        if (!primaryHand && !secondaryHand) {
+          ui.notifications.warn('Por favor, selecione a Mão Primária ou a Mão Secundária para fazer uma Rolagem em Conjunto.');
+          return;
+        }
+      }
 
       // Get roll data
       const rollData = actor.getRollData();
       
-      const formula = buildRollFormula(rollType, "@accuracy.total");
+      const formula = buildRollFormula(rollType, "@accuracy.total", manualModifier);
       let rollDescription = "";
       
       switch (rollType) {
@@ -1507,12 +1292,24 @@ export class SkillManager {
       const result = await AdvantageSelectionDialog.show();
       if (!result) return; // User cancelled
 
-      const { rollType, attackMode } = result;
+      const { rollType, attackMode, manualModifier = 0, primaryHand, secondaryHand } = result;
+
+      // JOINT ROLL: Require multiple targets and hand selection
+      if (attackMode === 'conjunto') {
+        if (!game.user.targets || game.user.targets.size < 2) {
+          ui.notifications.warn('Por favor, selecione dois ou mais alvos antes de fazer uma Rolagem em Conjunto.');
+          return;
+        }
+        if (!primaryHand && !secondaryHand) {
+          ui.notifications.warn('Por favor, selecione a Mão Primária ou a Mão Secundária para fazer uma Rolagem em Conjunto.');
+          return;
+        }
+      }
 
       // Get roll data
       const rollData = actor.getRollData();
       
-      const formula = buildRollFormula(rollType, "@accuracy.total");
+      const formula = buildRollFormula(rollType, "@accuracy.total", manualModifier);
       let rollDescription = "";
       
       switch (rollType) {
@@ -1759,7 +1556,254 @@ export class SkillManager {
 
     } catch (error) {
       console.error(`Error performing default secondary attack for ${skillName}:`, error);
-      ui.notifications.error(`Erro ao realizar ataque secundário: ${error.message}`);
+      ui.notifications.error(`Erro ao realizar ataque: ${error.message}`);
+    }
+  }
+
+  /**
+   * Perform a unified attack for skills - weapon selection based on hand checkboxes
+   * @param {Actor} actor - The actor
+   * @param {string} skillName - The skill name
+   * @private
+   */
+  static async #performUnifiedSkillAttack(actor, skillName) {
+    try {
+      // Validate target selection
+      const selectedTargets = game.user.targets;
+      if (selectedTargets.size === 0) {
+        ui.notifications.warn("Por favor, selecione um ou mais alvos para atacar.");
+        return;
+      }
+
+      // Import the advantage selection dialog
+      const { AdvantageSelectionDialog } = await import('../applications/advantage-selection-dialog.mjs');
+      
+      // Show advantage selection dialog with hand checkboxes visible
+      const result = await AdvantageSelectionDialog.show();
+      if (!result) return; // User cancelled
+
+      const { rollType, attackMode, manualModifier = 0, primaryHand, secondaryHand } = result;
+
+      // JOINT ROLL: Require multiple targets and hand selection
+      if (attackMode === 'conjunto') {
+        if (!game.user.targets || game.user.targets.size < 2) {
+          ui.notifications.warn('Por favor, selecione dois ou mais alvos antes de fazer uma Rolagem em Conjunto.');
+          return;
+        }
+        if (!primaryHand && !secondaryHand) {
+          ui.notifications.warn('Por favor, selecione a Mão Primária ou a Mão Secundária para fazer uma Rolagem em Conjunto.');
+          return;
+        }
+      }
+
+      // Determine which weapon to use based on checkbox selection
+      let selectedWeapon = null;
+      let weaponSource = null; // 'primary', 'secondary', or 'unarmed'
+      
+      // Get all REAL weapons (not virtual unarmed attacks) that are equipped
+      const realWeapons = actor.items.filter(item => 
+        item.type === 'arma' && 
+        item.system.equipped && 
+        !item.system.isUnarmed &&
+        (item.system.rightHand || item.system.leftHand)
+      );
+
+      // Priority: Primary hand first, then secondary hand
+      if (primaryHand) {
+        // Use right hand weapon
+        selectedWeapon = realWeapons.find(weapon => weapon.system.rightHand);
+        weaponSource = 'primary';
+      } else if (secondaryHand) {
+        // Use left hand weapon
+        selectedWeapon = realWeapons.find(weapon => weapon.system.leftHand);
+        weaponSource = 'secondary';
+      } else {
+        // No checkbox selected - default to primary hand or unarmed
+        selectedWeapon = realWeapons.find(weapon => weapon.system.rightHand);
+        weaponSource = selectedWeapon ? 'primary' : 'unarmed';
+      }
+      
+      // Calculate weapon damage (base damage + ability modifiers)
+      let weaponDamage = 0;
+      if (selectedWeapon) {
+        const baseDamage = parseInt(selectedWeapon.system.damage?.value) || 0;
+        weaponDamage = baseDamage;
+        
+        // Add ability modifiers
+        if (selectedWeapon.system.damage?.useStrength) {
+          weaponDamage += actor.system.abilities.strength.value || 0;
+        }
+        if (selectedWeapon.system.damage?.useDexterity) {
+          weaponDamage += actor.system.abilities.dexterity.value || 0;
+        }
+      } else {
+        // No weapon equipped - calculate unarmed attack damage
+        const strengthValue = actor.system.abilities.strength.value || 0;
+        const strengthBonus = actor.system.abilities.strength.totalBonus || 0;
+        const totalStrength = strengthValue + strengthBonus;
+        weaponDamage = totalStrength > 0 ? totalStrength : 1; // Minimum 1 damage
+        weaponSource = 'unarmed';
+      }
+      
+      // Check ammunition for ranged weapons
+      if (selectedWeapon && selectedWeapon.system.ranged) {
+        const canAttack = await this.#checkAndConsumeAmmunition(actor, selectedWeapon);
+        if (!canAttack) return;
+      }
+
+      // Get roll data
+      const rollData = actor.getRollData();
+      
+      const formula = buildRollFormula(rollType, "@accuracy.total", manualModifier);
+      let rollDescription = "";
+      
+      switch (rollType) {
+        case 'advantage':
+          rollDescription = "Rolagem com Vantagem";
+          break;
+        case 'disadvantage':
+          rollDescription = "Rolagem com Desvantagem";
+          break;
+        case 'enhanced-advantage':
+          rollDescription = "Rolagem com Vantagem Aprimorada";
+          break;
+        case 'enhanced-disadvantage':
+          rollDescription = "Rolagem com Desvantagem Aprimorada";
+          break;
+        case 'normal':
+          rollDescription = "Rolagem Normal";
+          break;
+        default:
+          return;
+      }
+
+      // Add attack mode to description
+      const modeText = attackMode === 'conjunto' ? ' (Conjunto)' : ' (Individual)';
+      rollDescription += modeText;
+      
+      // Add weapon source indicator
+      let weaponIndicator = '';
+      if (weaponSource === 'primary') {
+        weaponIndicator = ' [Mão Primária]';
+      } else if (weaponSource === 'secondary') {
+        weaponIndicator = ' [Mão Secundária]';
+      } else if (weaponSource === 'unarmed') {
+        weaponIndicator = ' [Desarmado]';
+      }
+      rollDescription += weaponIndicator;
+
+      // Check for Congelado effect and apply skill penalty
+      const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+      const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
+      
+      // Collect modifiers for display
+      const modifiers = [];
+      
+      // Apply Congelado penalty to formula if present
+      if (congeladoPenalty !== 0) {
+        formula += ` ${congeladoPenalty}`;
+        modifiers.push(`Congelado ${congeladoPenalty}`);
+      }
+      
+      // Roll with critical detection
+      const roll = new Roll(formula, rollData);
+      await roll.evaluate();
+      
+      // Apply Sangramento effect for accuracy rolls
+      const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+      await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
+      
+      // Detect critical results using accuracy logic
+      const flags = this.#detectCriticalResults(roll, actor, 'accuracy');
+      
+      // Calculate final damage (double on critical hit)
+      const isCriticalHit = flags?.cardigan?.criticalHit || false;
+      const isCriticalFailure = flags?.cardigan?.criticalFailure || false;
+      const finalDamage = isCriticalHit ? weaponDamage * 2 : weaponDamage;
+      
+      // Show notification for critical results
+      if (isCriticalHit) {
+        const critThreshold = actor.system?.details?.criticalHit;
+        if (critThreshold) {
+          ui.notifications.info(`Acerto Crítico! (${roll.total} >= ${critThreshold})`);
+        } else {
+          ui.notifications.info(`Acerto Crítico!`);
+        }
+      } else if (isCriticalFailure) {
+        if (selectedWeapon && selectedWeapon.system.durability) {
+          const currentDurability = selectedWeapon.system.durability.current;
+          if (currentDurability > 0) {
+            const newDurability = Math.max(0, currentDurability - 1);
+            ui.notifications.warn(`Erro Crítico! ${selectedWeapon.name} perdeu durabilidade (${currentDurability} → ${newDurability})`);
+          } else {
+            ui.notifications.warn(`Erro Crítico!`);
+          }
+        } else {
+          ui.notifications.warn(`Erro Crítico!`);
+        }
+      }
+      
+      // Handle critical failure - reduce weapon durability
+      if (isCriticalFailure && selectedWeapon && selectedWeapon.system.durability) {
+        const currentDurability = selectedWeapon.system.durability.current;
+        if (currentDurability > 0) {
+          const newDurability = Math.max(0, currentDurability - 1);
+          await selectedWeapon.update({
+            'system.durability.current': newDurability
+          });
+        }
+      }
+      
+      // Collect target data for evasion buttons
+      const targetData = [];
+      selectedTargets.forEach(target => {
+        if (target.actor) {
+          targetData.push({
+            tokenId: target.id,
+            actorId: target.actor.id,
+            name: target.name
+          });
+        }
+      });
+
+      // Add target data to flags
+      if (targetData.length > 0) {
+        flags.cardigan = flags.cardigan || {};
+        flags.cardigan.attackTargets = {
+          targets: targetData,
+          attackerId: actor.id,
+          attackerName: actor.name,
+          skillName: skillName,
+          weaponId: selectedWeapon?._id || selectedWeapon?.id,
+          weaponName: selectedWeapon?.name,
+          weaponProperties: selectedWeapon?.system?.properties || [],
+          damage: weaponDamage,  // ALWAYS use BASE damage (not doubled) in flags
+          attackerCriticalHit: isCriticalHit  // Add critical hit flag
+        };
+      }
+
+      // Use player's roll mode setting
+      const rollMode = game.settings.get('core', 'rollMode');
+
+      // Send to chat using helper
+      await ChatMessageHelper.createRollMessage({
+        actor: actor,
+        roll: roll,
+        label: 'PRECISÃO',
+        rollType: rollType,
+        rollDescription: rollDescription,
+        handIndicator: null,
+        modifiers: modifiers,
+        flags: flags,
+        rollMode: rollMode,
+        isJointRoll: attackMode === 'conjunto',
+        primaryHand: primaryHand,
+        secondaryHand: secondaryHand
+      });
+
+    } catch (error) {
+      console.error(`Error performing unified skill attack for ${skillName}:`, error);
+      ui.notifications.error(`Erro ao realizar ataque: ${error.message}`);
     }
   }
 
@@ -2113,7 +2157,7 @@ export class SkillManager {
         damageBreakdown = baseDamage;
       }
       
-      // Format tooltip based on weapon type
+      // Format display based on weapon type
       if (weapon.system.isFirearm && weapon.system.ranged) {
         // Firearm: Nome - [current/max]
         const currentAmmo = weapon.system.loadedAmmo || 0;
@@ -2162,7 +2206,6 @@ export class SkillManager {
    * @private
    */
   static #setupDefaultDynamicTooltips(button, actorId, buttonType) {
-    // Remove any existing tooltip
     button.removeAttribute('title');
     button.removeAttribute('data-tooltip');
     
@@ -2172,25 +2215,24 @@ export class SkillManager {
     
     let customTooltip = null;
     
-    // Add hover event listeners for HTML tooltips
     button._defaultTooltipEnterHandler = async (event) => {
       try {
         const isSecondary = buttonType === 'attack-simple';
         let tooltipHTML;
         
-        // Use BaseSkill methods for HTML tooltips
+        // Use BaseSkill methods for HTML display
         if (isSecondary && typeof BaseSkill._generateSecondaryWeaponTooltipHTML === 'function') {
           tooltipHTML = await BaseSkill._generateSecondaryWeaponTooltipHTML(actorId);
         } else if (typeof BaseSkill._generateWeaponTooltipHTML === 'function') {
           tooltipHTML = await BaseSkill._generateWeaponTooltipHTML(actorId);
         } else {
-          // Fallback to text tooltip
+          // Fallback to text display
           const tooltipText = this.#setupDefaultWeaponTooltip(button, actorId, isSecondary);
           event.target.setAttribute('title', tooltipText);
           return;
         }
         
-        // Create custom tooltip element
+        // Create custom element
         customTooltip = document.createElement('div');
         customTooltip.className = 'cardigan-custom-tooltip';
         customTooltip.innerHTML = tooltipHTML;
@@ -2200,14 +2242,14 @@ export class SkillManager {
         
         document.body.appendChild(customTooltip);
         
-        // Position tooltip above button
+        // Position display above button
         const rect = event.target.getBoundingClientRect();
         const tooltipRect = customTooltip.getBoundingClientRect();
         
         let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
         let top = rect.top - tooltipRect.height - 10;
         
-        // Keep tooltip within viewport
+        // Keep display within viewport
         if (left < 5) left = 5;
         if (left + tooltipRect.width > window.innerWidth - 5) {
           left = window.innerWidth - tooltipRect.width - 5;
@@ -2219,7 +2261,7 @@ export class SkillManager {
         customTooltip.style.left = `${left}px`;
         customTooltip.style.top = `${top}px`;
         
-        // Store tooltip reference for cleanup
+        // Store reference for cleanup
         button._customTooltip = customTooltip;
         
       } catch (error) {
@@ -2230,7 +2272,7 @@ export class SkillManager {
     };
 
     button._defaultTooltipLeaveHandler = (event) => {
-      // Remove custom tooltip
+      // Remove custom display
       if (button._customTooltip) {
         button._customTooltip.remove();
         button._customTooltip = null;

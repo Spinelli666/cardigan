@@ -6,7 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/irado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Seu personagem será tomado de uma cólera furiosa e atacará tudo e todos ao redor descontroladamente, incluindo os aliados mais próximos, até o término do efeito.</p>",
-    "efeitoType": "negativo"
+    "efeitoType": "negativo",
+    "rodadas": "0"
   },
   "effects": [],
   "folder": "Kx8mN2QwRtY5UvBp",

@@ -23,6 +23,21 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
       choices: CONFIG.CARDIGAN.efeitoTypes,
     });
 
+    schema.rodadas = new fields.StringField({
+      required: true,
+      blank: false,
+      initial: '0',
+      choices: {
+        '0': '0',
+        '1': '1',
+        '2': '2',
+        '3': '3',
+        '4': '4',
+        '5': '5',
+        'infinito': 'ထ'
+      }
+    });
+
     schema.duration = new fields.NumberField({
       required: false,
       nullable: true,
@@ -46,6 +61,11 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
         blank: true,
         initial: '',
       }),
+      consumedQuantity: new fields.NumberField({
+        required: false,
+        integer: true,
+        initial: 1,
+      }),
       rollType: new fields.StringField({
         required: false,
         blank: true,
@@ -65,7 +85,9 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
       appliedAttributeModifiers: new fields.ArrayField(
         new fields.SchemaField({
           type: new fields.StringField({ required: false, blank: true }), // 'movement', 'criticalHit'
+          ability: new fields.StringField({ required: false, blank: true, initial: '' }),
           amount: new fields.NumberField({ required: false, integer: true, initial: 0 }),
+          label: new fields.StringField({ required: false, blank: true, initial: '' }),
         }),
         { required: false, initial: [] }
       ),
@@ -135,6 +157,7 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
           isTrackingEffect: options.consumableTracking?.isTrackingEffect || false,
           originalItemName: options.consumableTracking?.originalItemName || '',
           originalItemId: options.consumableTracking?.originalItemId || '',
+          consumedQuantity: options.consumableTracking?.consumedQuantity || 1,
           rollType: options.consumableTracking?.rollType || 'normal',
           appliedEffects: options.consumableTracking?.appliedEffects || [],
           appliedSkillBonuses: options.consumableTracking?.appliedSkillBonuses || [],
