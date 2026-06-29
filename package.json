@@ -1,7 +1,7 @@
 {
   "name": "cardigan",
-  "version": "3.0.0",
-  "description": "CSS compiler for the CardiganSystem system",
+  "version": "1.3.7",
+  "description": "Build tools for the Cardigan RPG system for Foundry VTT",
   "scripts": {
     "build": "sass src/scss/cardigan.scss css/cardigan.css --style=expanded --no-source-map",
     "watch": "sass src/scss/cardigan.scss css/cardigan.css --style=expanded --source-map --watch",
@@ -11,7 +11,7 @@
   "browserslist": [
     "last 3 versions"
   ],
-  "author": "Asacolips",
+  "author": "Spinelli666",
   "license": "MIT",
   "private": true,
   "devDependencies": {
