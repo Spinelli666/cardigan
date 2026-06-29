@@ -1762,7 +1762,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       console.log("[RECIPE] Dropped item:", droppedItem.name, droppedItem.type);
       
       // Get current result items
-      const resultItems = foundry.utils.duplicate(this.item.system.resultItems || []);
+      const resultItems = foundry.utils.deepClone(this.item.system.resultItems || []);
       
       // Check if item with same UUID already exists
       const existingIndex = resultItems.findIndex(r => r.uuid === data.uuid);
@@ -1820,7 +1820,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const index = parseInt(target.dataset.index);
     if (isNaN(index)) return;
     
-    const resultItems = foundry.utils.duplicate(item.system.resultItems || []);
+    const resultItems = foundry.utils.deepClone(item.system.resultItems || []);
     
     if (index < 0 || index >= resultItems.length) return;
     
