@@ -113,21 +113,6 @@ Hooks.once('init', function () {
     label: 'CARDIGAN.SheetLabels.Item',
   });
 
-  // If you need to add Handlebars helpers, here is a useful example:
-  Handlebars.registerHelper('concat', function () {
-    var outStr = '';
-    for (var arg in arguments) {
-      if (typeof arguments[arg] != 'object') {
-        outStr += arguments[arg];
-      }
-    }
-    return outStr;
-  });
-
-  Handlebars.registerHelper('toLowerCase', function (str) {
-    return str.toLowerCase();
-  });
-
   // Socket listeners for combat notifications, evasion, damage, armor durability, weapon property effects
   registerInitSocketListeners({
     createGMEvasionNotification,
@@ -135,16 +120,6 @@ Hooks.once('init', function () {
     showArmorDurabilityNotification,
     createAttackerResultDialog,
     closeAttackDialogForAttacker,
-  });
-
-  // Register helper for "lt" (less than) comparison
-  Handlebars.registerHelper('lt', function (a, b) {
-    return a < b;
-  });
-
-  // Register helper for "selected" attribute
-  Handlebars.registerHelper('selected', function (value, expectedValue) {
-    return value === expectedValue ? 'selected' : '';
   });
 
   // Initialize Skills System
@@ -324,130 +299,6 @@ Hooks.on('updateItem', function (item, updates, options, userId) {
     // Force immediate re-render with fresh data
     sheet.render(false); // re-render with fresh data, without forcing bringToFront
   });
-});
-
-/* -------------------------------------------- */
-/*  Handlebars Helpers                          */
-/* -------------------------------------------- */
-
-// If you need to add Handlebars helpers, here is a useful example:
-Handlebars.registerHelper('toLowerCase', function (str) {
-  return str.toLowerCase();
-});
-
-// Helper para comparação greater than or equal
-Handlebars.registerHelper('gte', function (a, b) {
-  return a >= b;
-});
-
-// Helper para comparação de igualdade
-Handlebars.registerHelper('eq', function (a, b) {
-  return a === b;
-});
-
-// Helper para selecionar opções em elementos select
-Handlebars.registerHelper('selected', function (current, expected) {
-  return current === expected ? 'selected' : '';
-});
-
-// Helper para marcar checkboxes
-Handlebars.registerHelper('checked', function (value) {
-  return value ? 'checked' : '';
-});
-
-// Helper para adição matemática
-Handlebars.registerHelper('add', function (a, b) {
-  return (a || 0) + (b || 0);
-});
-
-// Helper para multiplicação matemática
-Handlebars.registerHelper('multiply', function (a, b) {
-  return (a || 0) * (b || 0);
-});
-
-// Helper para verificar se há armas ranged na lista
-Handlebars.registerHelper('hasRangedWeapons', function(weapons) {
-  if (!weapons || !Array.isArray(weapons)) return false;
-  return weapons.some(weapon => weapon.system?.ranged === true);
-});
-
-// Helper para calcular espaços ocupados por um item individual
-Handlebars.registerHelper('calculateItemSpaces', function(weight, quantity) {
-  if (!weight || quantity <= 0) return 0;
-
-  switch (weight) {
-    case 'leve':
-      // 0 spaces, but +1 space per 10 items
-      return Math.floor(quantity / 10);
-    
-    case 'medio':
-      // 1 space each
-      return quantity;
-    
-    case 'pesado':
-      // 2 spaces each
-      return quantity * 2;
-    
-    case 'muito-pesado':
-      // 4 spaces each
-      return quantity * 4;
-    
-    default:
-      return 0;
-  }
-});
-
-// Helper para abreviar categorias de peso
-Handlebars.registerHelper('abbreviateWeight', function(weight) {
-  if (!weight) return '';
-
-  switch (weight) {
-    case 'leve':
-      return 'L';
-    case 'medio':
-      return 'M';
-    case 'pesado':
-      return 'P';
-    case 'muito-pesado':
-      return 'MP';
-    default:
-      return weight.toUpperCase();
-  }
-});
-
-// Helper para truncar texto
-Handlebars.registerHelper('truncate', function(str, length) {
-  if (!str) return '';
-  if (str.length <= length) return str;
-  return str.substring(0, length) + '...';
-});
-
-// Helper para verificar se um array inclui um valor
-Handlebars.registerHelper('includes', function(array, value) {
-  if (!array || !Array.isArray(array)) return false;
-  return array.includes(value);
-});
-
-// Helper para formatar skill action types com separador |
-Handlebars.registerHelper('formatSkillActionTypes', function(actionTypes) {
-  if (!actionTypes || !Array.isArray(actionTypes) || actionTypes.length === 0) {
-    return '';
-  }
-  
-  // Se tiver apenas um, retorna sem separador
-  if (actionTypes.length === 1) {
-    const type = actionTypes[0];
-    const localizationKey = CONFIG.CARDIGAN?.skillTypes?.[type] || type;
-    return game.i18n.localize(localizationKey);
-  }
-  
-  // Se tiver dois ou mais, junta com " | "
-  return actionTypes
-    .map(type => {
-      const localizationKey = CONFIG.CARDIGAN?.skillTypes?.[type] || type;
-      return game.i18n.localize(localizationKey);
-    })
-    .join(' | ');
 });
 
 // Import weapon property classes for combat effects

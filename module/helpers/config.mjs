@@ -314,6 +314,98 @@ export function registerHandlebarsHelpers() {
 
     return totalQuantity >= requiredQuantity;
   });
+
+  Handlebars.registerHelper('toLowerCase', function (str) {
+    return str.toLowerCase();
+  });
+
+  Handlebars.registerHelper('lt', function (a, b) {
+    return a < b;
+  });
+
+  Handlebars.registerHelper('gte', function (a, b) {
+    return a >= b;
+  });
+
+  Handlebars.registerHelper('eq', function (a, b) {
+    return a === b;
+  });
+
+  Handlebars.registerHelper('selected', function (current, expected) {
+    return current === expected ? 'selected' : '';
+  });
+
+  Handlebars.registerHelper('checked', function (value) {
+    return value ? 'checked' : '';
+  });
+
+  Handlebars.registerHelper('add', function (a, b) {
+    return (a || 0) + (b || 0);
+  });
+
+  Handlebars.registerHelper('multiply', function (a, b) {
+    return (a || 0) * (b || 0);
+  });
+
+  Handlebars.registerHelper('calculateItemSpaces', function(weight, quantity) {
+    if (!weight || quantity <= 0) return 0;
+    switch (weight) {
+      case 'leve':
+        return Math.floor(quantity / 10);
+      case 'medio':
+        return quantity;
+      case 'pesado':
+        return quantity * 2;
+      case 'muito-pesado':
+        return quantity * 4;
+      default:
+        return 0;
+    }
+  });
+
+  Handlebars.registerHelper('abbreviateWeight', function(weight) {
+    if (!weight) return '';
+    switch (weight) {
+      case 'leve':
+        return 'L';
+      case 'medio':
+        return 'M';
+      case 'pesado':
+        return 'P';
+      case 'muito-pesado':
+        return 'MP';
+      default:
+        return weight.toUpperCase();
+    }
+  });
+
+  Handlebars.registerHelper('truncate', function(str, length) {
+    if (!str) return '';
+    if (str.length <= length) return str;
+    return str.substring(0, length) + '...';
+  });
+
+  Handlebars.registerHelper('includes', function(array, value) {
+    if (!array || !Array.isArray(array)) return false;
+    return array.includes(value);
+  });
+
+  Handlebars.registerHelper('formatSkillActionTypes', function(actionTypes) {
+    if (!actionTypes || !Array.isArray(actionTypes) || actionTypes.length === 0) {
+      return '';
+    }
+    if (actionTypes.length === 1) {
+      const type = actionTypes[0];
+      const localizationKey = CONFIG.CARDIGAN?.skillTypes?.[type] || type;
+      return game.i18n.localize(localizationKey);
+    }
+    return actionTypes
+      .map(type => {
+        const localizationKey = CONFIG.CARDIGAN?.skillTypes?.[type] || type;
+        return game.i18n.localize(localizationKey);
+      })
+      .join(' | ');
+  });
 }
 
 /**
