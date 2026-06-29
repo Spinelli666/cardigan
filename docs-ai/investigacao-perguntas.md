@@ -42,10 +42,10 @@ Branch analisada: feat/refatoracao-css (403 commits no total, 0 tags)
 - O `README.md` e `CHANGELOG.md` devem ser reescritos, mas NÃO são blockers para refatoração.
 
 ### Próximas ações
-- [ ] Adicionar ao `.gitignore`: `packs/*/CURRENT`, `packs/*/LOG`, `packs/*/LOG.old`, `packs/*/MANIFEST-*`
-- [ ] Corrigir URLs placeholder no `system.json` (apontar para `https://github.com/Spinelli666/cardigan`)
-- [ ] Atualizar author em `package.json` de `"Asacolips"` para `"Spinelli666"`
-- [ ] Sincronizar versão `package.json` (3.0.0) com `system.json` (1.3.7) — usar 1.3.7 como canônica
+- [x] Adicionar ao `.gitignore`: `packs/*/CURRENT`, `packs/*/LOG`, `packs/*/LOG.old`, `packs/*/MANIFEST-*`
+- [x] Corrigir URLs placeholder no `system.json` (apontar para `https://github.com/Spinelli666/cardigan`)
+- [x] Atualizar author em `package.json` de `"Asacolips"` para `"Spinelli666"`
+- [x] Sincronizar versão `package.json` (3.0.0) com `system.json` (1.3.7) — usar 1.3.7 como canônica
 
 ---
 
@@ -140,9 +140,9 @@ Branch analisada: feat/refatoracao-css (403 commits no total, 0 tags)
 - O `render(boolean)` NÃO deve ser tocado agora — é uma mudança horizontal que afeta todo o projeto.
 
 ### Próximas ações
-- [ ] Substituir `foundry.utils.duplicate()` por `foundry.utils.deepClone()` (2 locais)
-- [ ] Consolidar dois `Hooks.once('setup')` em um (cardigan.mjs:237-264)
-- [ ] Consolidar dois `Hooks.once('ready')` em um (cardigan.mjs:2777-2891)
+- [x] Substituir `foundry.utils.duplicate()` por `foundry.utils.deepClone()` (2 locais)
+- [x] Consolidar dois `Hooks.once('setup')` em um (cardigan.mjs:237-264)
+- [x] Consolidar dois `Hooks.once('ready')` em um (cardigan.mjs:2777-2891)
 - [ ] Quando v13 beta disponível: testar sistema completo, focar em `render()` e `TextEditor`
 
 ---
@@ -386,7 +386,7 @@ game.cardigan = globalThis.cardigan;
 - A investigação dos `modifiers.*` requer teste em um mundo real.
 
 ### Próximas ações
-- [ ] Remover as 6 factory methods (142 linhas de código morto)
+- [x] Remover as 6 factory methods (142 linhas de código morto)
 - [ ] Verificar no mundo de teste se algum consumível usa `system.modifiers.statusEffects`
 - [ ] Se confirmado não usado, marcar `modifiers.statusEffects`, `modifiers.rollSystem`, `modifiers.usage` para remoção com migração de dados
 - [ ] NÃO unificar skill names (PT→EN) nesta fase — pertence à migração de idioma (não confirmada)
@@ -516,16 +516,16 @@ Classe monolítica com:
 
 Todas essas são reversíveis, não mudam comportamento, e não quebram nada:
 
-1. `.gitignore` — adicionar artefatos LevelDB de packs
-2. `package.json` — corrigir `author`, sincronizar `version` com `system.json`
-3. `system.json` — corrigir URLs placeholder
-4. `cardigan.mjs` — consolidar dois `Hooks.once('setup')` em um
-5. `cardigan.mjs` — consolidar dois `Hooks.once('ready')` em um
-6. `cardigan.mjs` — remover Handlebars helpers duplicados (manter apenas em `config.mjs`)
-7. `item-consumivel.mjs` — remover 6 factory methods (código morto)
+1. ~~`.gitignore` — adicionar artefatos LevelDB de packs~~ ✅
+2. ~~`package.json` — corrigir `author`, sincronizar `version` com `system.json`~~ ✅
+3. ~~`system.json` — corrigir URLs placeholder~~ ✅
+4. ~~`cardigan.mjs` — consolidar dois `Hooks.once('setup')` em um~~ ✅
+5. ~~`cardigan.mjs` — consolidar dois `Hooks.once('ready')` em um~~ ✅
+6. ~~`cardigan.mjs` — remover Handlebars helpers duplicados (manter apenas em `config.mjs`)~~ ✅
+7. ~~`item-consumivel.mjs` — remover 6 factory methods (código morto)~~ ✅
 8. `template.json` — renomear para `template.json.legacy` (testar antes)
-9. Deletar `lib/some-lib/` (placeholder vazio do boilerplate)
-10. `item-sheet.mjs:1765,1823` — substituir `foundry.utils.duplicate()` por `deepClone()`
+9. ~~Deletar `lib/some-lib/` (placeholder vazio do boilerplate)~~ ✅
+10. ~~`item-sheet.mjs:1765,1823` — substituir `foundry.utils.duplicate()` por `deepClone()`~~ ✅
 
 ## Plano de Commits Pequenos
 
