@@ -237,27 +237,24 @@ async function loadStatusEffects() {
 Hooks.once('setup', async () => {
   // Load status effects from compendium
   await loadStatusEffects();
-  
-  console.log('[CARDIGAN] Status effects configured:', CONFIG.statusEffects);
-})
 
-Hooks.once('setup', () => {
+  console.log('[CARDIGAN] Status effects configured:', CONFIG.statusEffects);
+
   // Enricher para imagens inline no ProseMirror
   // Uso: ::systems/cardigan/assets/images/exemplo.png::
   CONFIG.TextEditor.enrichers.push({
     pattern: /::([^:]+)::/gim,
     enricher: async (match, options) => {
       const imagePath = match[1].trim();
-      
-      // Cria elemento img com display inline
+
       const img = document.createElement("img");
       img.src = imagePath;
       img.style.display = "inline";
       img.style.verticalAlign = "middle";
-      img.style.maxHeight = "1.5em"; // Altura padrão do texto
-      img.style.maxWidth = "100px";  // Largura máxima razoável
-      img.alt = imagePath.split('/').pop(); // Nome do arquivo como alt
-      
+      img.style.maxHeight = "1.5em";
+      img.style.maxWidth = "100px";
+      img.alt = imagePath.split('/').pop();
+
       return img;
     }
   });
@@ -2874,21 +2871,6 @@ function rollItemMacro(itemUuid) {
     item.roll();
   });
 }
-
-/* -------------------------------------------- */
-/*  Ready Hook                                  */
-/* -------------------------------------------- */
-
-Hooks.once('ready', function () {
-  // Verify system is properly loaded
-  
-  // Test if we can create a backpack item
-  try {
-    const itemClass = getDocumentClass("Item");
-  } catch (error) {
-    console.error('[CARDIGAN] Error testing item creation:', error);
-  }
-});
 
 /* -------------------------------------------- */
 /*  Chat Message Hooks                          */
