@@ -110,14 +110,15 @@ Hooks.once('init', function () {
   // if the transfer property on the Active Effect is true.
   CONFIG.ActiveEffect.legacyTransferral = false;
 
-    // Register sheet application classes
-  foundry.documents.collections.Actors.unregisterSheet('core', foundry.appv1.sheets.ActorSheet);
-  foundry.documents.collections.Actors.registerSheet('cardigan', CardiganSystemActorSheet, {
+  // Register sheet application classes
+  const DocumentSheetConfig = foundry.applications.apps.DocumentSheetConfig;
+  DocumentSheetConfig.unregisterSheet(Actor, 'core', foundry.appv1.sheets.ActorSheet);
+  DocumentSheetConfig.registerSheet(Actor, 'cardigan', CardiganSystemActorSheet, {
     makeDefault: true,
     label: 'CARDIGAN.SheetLabels.Actor',
   });
-  foundry.documents.collections.Items.unregisterSheet('core', foundry.appv1.sheets.ItemSheet);
-  foundry.documents.collections.Items.registerSheet('cardigan', CardiganSystemItemSheet, {
+  DocumentSheetConfig.unregisterSheet(Item, 'core', foundry.appv1.sheets.ItemSheet);
+  DocumentSheetConfig.registerSheet(Item, 'cardigan', CardiganSystemItemSheet, {
     makeDefault: true,
     label: 'CARDIGAN.SheetLabels.Item',
   });
