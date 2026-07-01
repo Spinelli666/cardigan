@@ -2,7 +2,24 @@
 
 Este arquivo é um **resumo organizado e acionável** das investigações registradas em [`INVESTIGACOES_FUTURAS.md`](../INVESTIGACOES_FUTURAS.md) (raiz do projeto). Esse arquivo histórico contém o detalhamento completo, comparações com outros sistemas, exemplos de código e justificativas — **não foi alterado e deve ser consultado para contexto completo** antes de iniciar qualquer item abaixo marcado como tarefa grande.
 
-Última sincronização com `INVESTIGACOES_FUTURAS.md`: última atualização registrada lá foi 14/01/2026, com adição de 28/03/2026 (backlog de extrações do `actor-sheet.mjs`).
+Última sincronização com `INVESTIGACOES_FUTURAS.md`: última atualização registrada lá foi 14/01/2026, com adição de 28/03/2026 (backlog de extrações do `actor-sheet.mjs`). Atualizado em 30/06/2026 com conclusão da Fase 2 de `cardigan.mjs`.
+
+---
+
+## ✅ Concluído — Refatoração de `cardigan.mjs` (Fase 2) — 30/06/2026
+
+`cardigan.mjs` foi reduzido de ~3.584 para ~350 linhas (−90%) ao longo de 6 commits cirúrgicos, extraindo cada bloco funcional para um módulo dedicado:
+
+| Commit | Extração | Destino |
+|--------|----------|---------|
+| 1 | Macro hotbar | `module/helpers/macro.mjs` |
+| 2 | Trade P2P handlers | `module/trade/trade-handlers.mjs` |
+| 3 | Merchant trade handlers | `module/trade/merchant-trade-handlers.mjs` |
+| 4 | Combat dialogs (atacante/GM/durabilidade) | `module/combat/combat-dialogs.mjs` |
+| 5 | Evasion/precision click handlers | `module/combat/evasion-precision.mjs` |
+| 6 | Chat hooks (renderChatMessageHTML x6) | `module/hooks/chat-hooks.mjs` |
+
+O arquivo restante (~350 linhas) é puro bootstrap: imports, `globalThis.cardigan`, hooks `init`/`setup`/`ready`, e os hooks `preCreateActiveEffect`/`updateItem`. Ver estrutura atualizada em [arquitetura.md](arquitetura.md).
 
 ---
 
