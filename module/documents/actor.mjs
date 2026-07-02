@@ -74,9 +74,8 @@ export class CardiganSystemActor extends Actor {
 
   /** @override */
   prepareBaseData() {
-    // Data modifications in this step occur before processing embedded
-    // documents or derived data.
-    
+    super.prepareBaseData(); // required in v14: initializes tokenActiveEffectChanges and clears phase tracking
+
     // Para personagens, calcular valores base que ActiveEffects podem modificar
     if (this.type === 'character') {
       // Note: weapon skill bonuses are calculated in prepareDerivedData(),
