@@ -4503,13 +4503,6 @@
 .cardigan .sheet-header span, .cardigan .sheet-header label, .cardigan .sheet-header p, .cardigan .sheet-header div:not([class*=fa-]):not([class*=icon]) {
   font-family: "Alatsi", sans-serif !important;
 }
-.cardigan .sheet-header i[class*=fa-],
-.cardigan .sheet-header i[class*=fas],
-.cardigan .sheet-header i[class*=far],
-.cardigan .sheet-header i[class*=fab] {
-  font-family: "Font Awesome 6 Free" !important;
-  font-family: "Font Awesome 6 Pro" !important;
-}
 .cardigan.actor .sheet-header {
   flex-direction: column;
   z-index: 100;
