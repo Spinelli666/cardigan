@@ -2,6 +2,7 @@ import { BaseSkill } from './base-skill.mjs';
 import { checkAndConsumeAmmunition, detectCriticalResults, performDefaultPrimaryAttack, performDefaultSecondaryAttack, performUnifiedSkillAttack } from './skill-default-attacks.mjs';
 import { defaultSkillToChat, updateSkillChatMessage as updateSkillChatMessageFn, spendEnergyForUnregisteredSkill } from './skill-chat-message.mjs';
 import { expandDefaultSkill, setupDefaultDynamicTooltips } from './skill-expand-ui.mjs';
+import { onRenderChatMessageHTML } from './skill-chat-hooks.mjs';
 
 /**
  * Skill Manager - Orchestrates all skill-related functionality
@@ -59,7 +60,7 @@ export class SkillManager {
     }
 
     // Set up the chat message hook to handle skill buttons
-    Hooks.on('renderChatMessageHTML', this.#onRenderChatMessageHTML.bind(this));
+    Hooks.on('renderChatMessageHTML', (message, html) => onRenderChatMessageHTML(message, html, this));
 
   }
 
@@ -136,144 +137,6 @@ export class SkillManager {
   }
 
 
-
-  /**
-   * @param {ChatMessage} message - The chat message being rendered
-   * @param {HTMLElement} html - The HTML content of the message
-   * @private
-   */
-  static #onRenderChatMessageHTML(message, html) {
-    // Look for skill buttons in the rendered message (including apply effects button)
-    const skillButtons = html.querySelectorAll('[class*="cardigan-skill-"], .cardigan-apply-effects-btn');
-    
-    if (skillButtons.length > 0) {
-      // Set up event listeners for each skill button
-      skillButtons.forEach((button) => {
-        const skillName = button.dataset.skill;
-        const actorId = button.dataset.actorId;
-        
-        if (skillName && actorId) {
-          const skillClass = this.getSkill(skillName);
-          
-          // Determine button type from class
-          let buttonType = 'unknown';
-          if (button.classList.contains('cardigan-skill-attack-btn')) buttonType = 'attack';
-          else if (button.classList.contains('cardigan-skill-attack-secondary-btn')) buttonType = 'attack-secondary';
-          else if (button.classList.contains('cardigan-skill-energy-btn')) buttonType = 'energy';
-          else if (button.classList.contains('cardigan-skill-d6-btn')) buttonType = 'd6';
-          else if (button.classList.contains('cardigan-skill-expand-btn')) buttonType = 'expand';
-          else if (button.classList.contains('cardigan-apply-effects-btn')) buttonType = 'apply-effects';
-          else if (button.classList.contains('cardigan-skill-apply-effects-btn')) buttonType = 'apply-effects';
-          
-          if (skillClass) {
-            // Skill is registered - use its handler
-            // Remove any existing listeners to avoid duplicates
-            button.removeEventListener('click', button._skillManagerHandler);
-            
-            // Add click handler
-            button._skillManagerHandler = async (event) => {
-              event.preventDefault();
-              try {
-                await skillClass.handleButtonClick(buttonType, actorId, button);
-              } catch (error) {
-                console.error(`Error handling ${buttonType} button click for ${skillName}:`, error);
-                ui.notifications.error(`Erro ao executar ação da skill: ${error.message}`);
-              }
-            };
-            
-            button.addEventListener('click', button._skillManagerHandler);
-
-          } else {
-            // Skill not registered - use default handlers
-            button.removeEventListener('click', button._defaultSkillHandler);
-            
-            button._defaultSkillHandler = async (event) => {
-              event.preventDefault();
-              try {
-                await this.#handleDefaultButtonClick(buttonType, actorId, skillName, button);
-              } catch (error) {
-                console.error(`Error handling ${buttonType} button click for ${skillName}:`, error);
-                ui.notifications.error(`Erro ao executar ação: ${error.message}`);
-              }
-            };
-            
-            button.addEventListener('click', button._defaultSkillHandler);
-            
-            if (buttonType === 'attack' || buttonType === 'attack-simple') {
-              setupDefaultDynamicTooltips(button, actorId, buttonType);
-            }
-          }
-        }
-      });
-    }
-    
-    // Set up enhancement emoji display
-    this.#setupEnhancementTooltips(html);
-  }
-
-  /**
-   * Set up tooltips for enhancement emojis
-   * @param {HTMLElement} html - The HTML content of the message
-   * @private
-   */
-  static async #setupEnhancementTooltips(html) {
-    const enhancementEmojis = html.querySelectorAll('.enhancement-emoji[data-enhancement]');
-    
-    for (const emoji of enhancementEmojis) {
-      try {
-        const enhancementData = JSON.parse(emoji.dataset.enhancement);
-        
-        // Enrich the description HTML with UUIDs and other content
-        const enrichedDescription = await foundry.applications.ux.TextEditor.enrichHTML(
-          enhancementData.description,
-          {
-            secrets: false,
-            async: true,
-            relativeTo: await fromUuid(enhancementData.actorUuid)
-          }
-        );
-        
-        // Create the content
-        const tooltipContent = `
-          <div class="enhancement-tooltip">
-            <div class="enhancement-header">
-              <strong>${enhancementData.name}</strong>
-              <span class="enhancement-status ${enhancementData.acquired ? 'acquired' : 'not-acquired'}">${enhancementData.status}</span>
-            </div>
-            <div class="enhancement-description">
-              ${enrichedDescription}
-            </div>
-          </div>
-        `;
-        
-        // Set the display using Foundry's system
-        emoji.dataset.tooltip = tooltipContent;
-        emoji.dataset.tooltipClass = 'cardigan-enhancement-tooltip';
-        emoji.dataset.tooltipDirection = 'UP';
-      } catch (error) {
-        console.error('Error setting up enhancement tooltip:', error);
-      }
-    }
-  }
-
-  /**
-   * Get button selectors for a specific skill
-   * @param {string} skillName - Name of the skill
-   * @returns {Array<{selector: string, buttonType: string}>}
-   * @private
-   */
-  static #getButtonSelectorsForSkill(skillName) {
-    // Use only specific selectors to avoid duplicate event listeners
-    return [
-      { selector: `.cardigan-skill-attack-secondary-btn[data-skill="${skillName}"]`, buttonType: 'attack-secondary' },
-      { selector: `.cardigan-skill-attack-btn[data-skill="${skillName}"]`, buttonType: 'attack' },
-      { selector: `.cardigan-skill-energy-btn[data-skill="${skillName}"]`, buttonType: 'energy' },
-      { selector: `.cardigan-skill-d6-btn[data-skill="${skillName}"]`, buttonType: 'd6' },
-      { selector: `.cardigan-skill-expand-btn[data-skill="${skillName}"]`, buttonType: 'expand' },
-      { selector: `.cardigan-skill-apply-effects-btn[data-skill="${skillName}"]`, buttonType: 'apply-effects' },
-      { selector: `.cardigan-apply-effects-btn`, buttonType: 'apply-effects' }
-    ];
-  }
 
   /**
    * Handle skill-to-chat functionality
@@ -363,6 +226,10 @@ export class SkillManager {
 
   static async applyCustomEffectsForUnregisteredSkill(actor, skillName) {
     await this.#applyCustomEffectsForUnregisteredSkill(actor, skillName);
+  }
+
+  static async handleDefaultButtonClick(buttonType, actorId, skillName, button) {
+    await this.#handleDefaultButtonClick(buttonType, actorId, skillName, button);
   }
 
   /**
