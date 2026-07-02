@@ -2,7 +2,24 @@
 
 Este arquivo é um **resumo organizado e acionável** das investigações registradas em [`INVESTIGACOES_FUTURAS.md`](../INVESTIGACOES_FUTURAS.md) (raiz do projeto). Esse arquivo histórico contém o detalhamento completo, comparações com outros sistemas, exemplos de código e justificativas — **não foi alterado e deve ser consultado para contexto completo** antes de iniciar qualquer item abaixo marcado como tarefa grande.
 
-Última sincronização com `INVESTIGACOES_FUTURAS.md`: última atualização registrada lá foi 14/01/2026, com adição de 28/03/2026 (backlog de extrações do `actor-sheet.mjs`).
+Última sincronização com `INVESTIGACOES_FUTURAS.md`: última atualização registrada lá foi 14/01/2026, com adição de 28/03/2026 (backlog de extrações do `actor-sheet.mjs`). Atualizado em 30/06/2026 com conclusão da Fase 2 de `cardigan.mjs`. Atualizado em 01/07/2026 com conclusão da Fase 3 de `skill-manager.mjs`.
+
+---
+
+## ✅ Concluído — Refatoração de `cardigan.mjs` (Fase 2) — 30/06/2026
+
+`cardigan.mjs` foi reduzido de ~3.584 para ~350 linhas (−90%) ao longo de 6 commits cirúrgicos, extraindo cada bloco funcional para um módulo dedicado:
+
+| Commit | Extração | Destino |
+|--------|----------|---------|
+| 1 | Macro hotbar | `module/helpers/macro.mjs` |
+| 2 | Trade P2P handlers | `module/trade/trade-handlers.mjs` |
+| 3 | Merchant trade handlers | `module/trade/merchant-trade-handlers.mjs` |
+| 4 | Combat dialogs (atacante/GM/durabilidade) | `module/combat/combat-dialogs.mjs` |
+| 5 | Evasion/precision click handlers | `module/combat/evasion-precision.mjs` |
+| 6 | Chat hooks (renderChatMessageHTML x6) | `module/hooks/chat-hooks.mjs` |
+
+O arquivo restante (~350 linhas) é puro bootstrap: imports, `globalThis.cardigan`, hooks `init`/`setup`/`ready`, e os hooks `preCreateActiveEffect`/`updateItem`. Ver estrutura atualizada em [arquitetura.md](arquitetura.md).
 
 ---
 
@@ -43,12 +60,26 @@ Nenhuma ação pendente aqui — registrado apenas para histórico/contexto (ver
 
 ---
 
-## 🟡 Prioridade média — Outras refatorações planejadas (Fases 2-5)
+## ✅ Concluído — Refatoração de `skill-manager.mjs` (Fase 3) — 01/07/2026
+
+`skill-manager.mjs` foi reduzido de ~2.029 para ~309 linhas ao longo de 4 commits cirúrgicos, extraindo cada bloco funcional para um módulo dedicado:
+
+| Commit | Extração | Destino |
+|--------|----------|---------|
+| 1 | Funções de ataque padrão (`performUnifiedSkillAttack`, `performDefaultPrimaryAttack`, etc.) | `module/skills/skill-default-attacks.mjs` |
+| 2 | Funções de mensagens de chat (`defaultSkillToChat`, `updateSkillChatMessage`, `spendEnergyForUnregisteredSkill`) | `module/skills/skill-chat-message.mjs` |
+| 3 | Funções de expansão de UI e tooltips (`expandDefaultSkill`, `setupDefaultDynamicTooltips`, etc.) | `module/skills/skill-expand-ui.mjs` |
+| 4 | Hooks de chat (`onRenderChatMessageHTML`, `setupEnhancementTooltips`, `getButtonSelectorsForSkill`) | `module/skills/skill-chat-hooks.mjs` |
+
+O arquivo restante (~309 linhas) é puro orchestrator: registry, `initialize()`, `registerSkill`, `getSkill`, `generateSkillButtons`, `handleSkillToChat`, `updateSkillChatMessage`, `applyCustomEffectsForUnregisteredSkill` e seus wrappers públicos. A redução original planejada era para ~1.200 linhas via estrutura de profissões/racial-skills — a abordagem adotada foi mais radical (~85% redução) ao extrair por responsabilidade funcional em vez de por tipo de skill.
+
+---
+
+## 🟡 Prioridade média — Outras refatorações planejadas (Fases 2, 4, 5)
 
 Detalhes completos e exemplos de código em `INVESTIGACOES_FUTURAS.md`.
 
 - **Fase 2 — Templates Handlebars**: criar partials reutilizáveis (`item-row.hbs`, `proficiency-row.hbs`, `skill-card.hbs`, `effect-badge.hbs`, `ability-score.hbs`, `resource-bar.hbs`, `armor-slot.hbs`, `weapon-slot.hbs`) para reduzir HTML duplicado em `templates/actor/`.
-- **Fase 3 — `skill-manager.mjs`**: reduzir de ~2.029 para ~1.200 linhas, extraindo `api/base-profession.mjs`, `api/base-racial-skill.mjs`, `skill-registry.mjs`, e movendo profissões/skills raciais para `professions/*.mjs` e `racial-skills/*.mjs`.
 - **Fase 4 — Weapon Properties base class**: criar `weapon-properties/base-weapon-property.mjs` com template method (`applyEffect`, `canApply`, `_createEffect`, `_notifyPlayers`) para eliminar duplicação entre os 20+ arquivos de propriedades.
 - **Fase 5 — JSDoc**: adicionar JSDoc consistente em data models, helpers principais, weapon properties e effect classes (padrão pf2e).
 

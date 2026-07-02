@@ -2,10 +2,10 @@
 
 ## Entry point
 
-`module/cardigan.mjs` é o bootstrap do sistema. No hook `init`:
+`module/cardigan.mjs` é o bootstrap do sistema (~350 linhas). No hook `init`:
 - Registra `CONFIG.Actor.dataModels` / `CONFIG.Item.dataModels`.
-- Registra as sheets V2 de actor/item.
-- Registra os helpers do Handlebars.
+- Registra as sheets V2 de actor/item (via `DocumentSheetConfig`).
+- Registra os helpers do Handlebars (centralizados em `module/helpers/config.mjs`).
 - Define `CONFIG.ActiveEffect.legacyTransferral = false`.
 - Chama as funções `initialize*` dos subsistemas Skills/Effects/Races/Weapon-Properties.
 
@@ -13,9 +13,23 @@ No hook `setup`:
 - Carrega `CONFIG.statusEffects` a partir do compêndio `efeitos-cardigan`.
 - Registra um text enricher do ProseMirror para `::path/to/image::`.
 
+No hook `ready`:
+- Inicializa `CardiganTooltipManager`.
+- Registra `hotbarDrop` para criação de macros.
+- Registra socket listeners de trade e combate secundário via `registerReadySocketListeners`.
+
 Também expõe `globalThis.cardigan` / `game.cardigan` com documents, sheet classes e data models para uso externo.
 
-> **Nota:** `cardigan.mjs` é grande (3700+ linhas) porque também contém os diálogos de combate PvP (diálogos de resultado do atacante/GM, seleção de durabilidade de armadura, diálogos de troca). Ao procurar lógica de resolução de combate, comece por aqui.
+A lógica que anteriormente estava em `cardigan.mjs` foi extraída para módulos dedicados:
+
+- `module/helpers/macro.mjs` — `createDocMacro`, `rollItemMacro`
+- `module/trade/trade-handlers.mjs` — handlers do sistema de troca P2P
+- `module/trade/merchant-trade-handlers.mjs` — handlers do sistema de mercador
+- `module/combat/combat-dialogs.mjs` — diálogos de resultado do atacante/GM, seleção de durabilidade, notificações de dano
+- `module/combat/evasion-precision.mjs` — handlers de clique de evasão e precisão no chat
+- `module/hooks/chat-hooks.mjs` — hooks `renderChatMessageHTML` (cores de crítico, tooltips de dados, toggles de skill/efeito, botões de evasão/precisão)
+
+> **Ao procurar lógica de resolução de combate:** comece por `module/combat/`. Diálogos de trade ficam em `module/trade/`. Hooks de chat em `module/hooks/chat-hooks.mjs`.
 
 ## Data models (`module/data/`)
 
@@ -24,7 +38,7 @@ Cada tipo de Actor/Item tem uma subclasse `TypeDataModel` com `defineSchema()`, 
 - **Actor**: `character`, `npc`
 - **Item**: `item-comum`, `item-municao`, `item-consumivel`, `item-ingredient`, `item-recipe`, `race`, `efeito`, `arma`, `armadura`, `skill`
 
-`system.json` declara esses tipos via o campo moderno `documentTypes`. `template.json` ainda existe com o schema legado, mas as DataModel classes são a fonte de verdade dos campos reais.
+`system.json` declara esses tipos via o campo moderno `documentTypes`. As DataModel classes são a fonte de verdade dos campos reais (`template.json` foi depreciado e removido).
 
 ## Documents (`module/documents/`)
 
@@ -46,7 +60,7 @@ Quatro subsistemas paralelos seguem o mesmo padrão registry/factory: uma classe
 - `module/effects/` — `EffectManager` + `effects/effects/*.mjs` (efeitos de status como `Sangramento`, `Incendiado`, `Eletrocutado`, `Congelado`, `Petrificado`, `Lento`, `Envenenado`, etc.). Muitos registram seus próprios hooks do Foundry via `registerHooks()`.
 - `module/skills/` — `SkillManager` + implementações de skills.
 - `module/races/` — `RaceManager` + implementações de raças (ex.: `norsca.mjs`).
-- `module/weapon-properties/` — `WeaponPropertyManager` + propriedades (`ferir`, `traspassar`, `contundente`, `incendiar`, `eletrocutar`, `impacto`, `certeiro`, `vorpal`). São invocadas pelos diálogos de combate em `cardigan.mjs` em acertos críticos.
+- `module/weapon-properties/` — `WeaponPropertyManager` + propriedades (`ferir`, `traspassar`, `contundente`, `incendiar`, `eletrocutar`, `impacto`, `certeiro`, `vorpal`). São invocadas pelos diálogos de combate em `module/combat/combat-dialogs.mjs` em acertos críticos.
 
 Ao adicionar um novo efeito/skill/raça/propriedade de arma, siga o padrão existente: crie a classe na pasta `*/properties|effects|races` correspondente, exporte-a no `index.mjs` do subsistema, e registre-a em `initializeX()`.
 
@@ -60,11 +74,27 @@ A resolução de combate é orientada por sockets no canal `system.cardigan`:
 
 Diálogos/wizards independentes baseados em `DialogV2`: wizard de criação de personagem, wizard de level-up, diálogos de troca/mercador, crafting de receitas, diálogos de seleção de tipo de item/efeitos/skills, etc. Cada um geralmente tem um template em `templates/dialogs/` e um partial SCSS em `src/scss/dialogs/`.
 
+## Combate (`module/combat/`)
+
+- `combat-dialogs.mjs` — diálogos de resolução de combate PvP: resultado do atacante, notificação de dano ao GM, seleção de durabilidade de armadura, evasão do GM. Exports: `closeAttackDialogForAttacker`, `showDamageNotification`, `showArmorDurabilityNotification`, `createAttackerResultDialog`, `showArmorDurabilityDialog`, `createGMEvasionNotification`.
+- `evasion-precision.mjs` — handlers de clique nos botões de evasão e precisão que aparecem nas mensagens de chat de ataque. Exports: `handleEvasionClick`, `handlePrecisionClick`.
+
+## Trade (`module/trade/`)
+
+- `trade-handlers.mjs` — handlers do sistema de troca P2P entre jogadores (`handleTradeRequest`, `handleTradeAccepted`, etc.). Mantém `globalThis.cardiganActiveTradeDialogs`.
+- `merchant-trade-handlers.mjs` — handlers do sistema de comércio com NPC mercador (`handleMerchantTradeRequest`, etc.). Mantém `globalThis.cardiganActiveMerchantTrades`.
+
+## Hooks (`module/hooks/`)
+
+- `whisper-placeholder.mjs` — hook para substituição de placeholder em mensagens de sussurro.
+- `chat-hooks.mjs` — hooks `renderChatMessageHTML` registrados como side effect de import: cores de totais de crítico, tooltips ricos de fórmula de dado, toggles de descrição de skill e de título de efeito, botões de evasão em mensagens de ataque, botões de precisão em rerolls de evasão.
+
 ## Helpers (`module/helpers/`)
 
 - `config.mjs` — define `CONFIG.CARDIGAN` (abilities, abreviações de abilities, tipos/classes/ranks de skills, etc., todos mapeados para chaves de localização de `lang/pt-BR.json`), `registerHandlebarsHelpers()`, e `buildRollFormula()` para fórmulas de rolagem com vantagem/desvantagem.
 - `chat-messages.mjs` — `ChatMessageHelper.createRollMessage()` constrói os cards de chat de rolagem customizados (`templates/chat/roll-message.hbs`).
 - `effects.mjs` — helpers relacionados a efeitos.
+- `macro.mjs` — `createDocMacro` (hotbar drop) e `rollItemMacro` (execução via UUID).
 
 ## Tooltips (`module/tooltips/`)
 

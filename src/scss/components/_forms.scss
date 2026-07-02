@@ -16,15 +16,6 @@
   span, label, p, div:not([class*="fa-"]):not([class*="icon"]) {
     font-family: 'Alatsi', sans-serif !important;
   }
-  
-  // Garantir que ícones Font Awesome mantenham sua fonte
-  i[class*="fa-"], 
-  i[class*="fas"], 
-  i[class*="far"], 
-  i[class*="fab"] {
-    font-family: "Font Awesome 6 Free" !important;
-    font-family: "Font Awesome 6 Pro" !important;
-  }
 }
 
 // ============================================================================
