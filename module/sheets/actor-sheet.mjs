@@ -24,6 +24,7 @@ import { BackpackSearchActions } from './actions/backpack-search-actions.mjs';
 import { SheetScrollActions } from './actions/sheet-scroll-actions.mjs';
 import { ItemPrepareActions } from './actions/item-prepare-actions.mjs';
 import { RecipeActions } from './actions/recipe-actions.mjs';
+import { DragDropActions } from './actions/drag-drop-actions.mjs';
 import CardiganTooltipManager from '../tooltips/tooltip-manager.mjs';
 
 /**
@@ -1196,377 +1197,57 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     throw new Error('Could not find document from element');
   }
 
+
   /********************
    *
    * Drag and Drop
    *
    ********************/
 
-  /**
-   * Define whether a user is able to begin a dragstart workflow for a given element
-   * @param {string} selector       The candidate HTML selector for dragging
-   * @returns {boolean}             Can the current user drag this element?
-   * @protected
-   */
   _canDragStart(selector) {
-    // game.user fetches the current user
-    return this.isEditable;
+    return DragDropActions.canDragStart(this);
   }
 
-  /**
-   * Define whether a user is able to conclude a drag-and-drop workflow for a given element
-   * @param {string} selector       The candidate HTML selector for the drop target
-   * @returns {boolean}             Can the current user drop on this element?
-   * @protected
-   */
   _canDragDrop(selector) {
-    // game.user fetches the current user
-    return this.isEditable;
+    return DragDropActions.canDragDrop(this);
   }
 
-  /**
-   * Callback actions which occur at the beginning of a drag start workflow.
-   * @param {DragEvent} event       The originating DragEvent
-   * @protected
-   */
   _onDragStart(event) {
-    const li = event.currentTarget;
-    if ('link' in event.target.dataset) return;
-
-    let dragData = null;
-
-    // Active Effect
-    if (li.dataset.effectId) {
-      const effect = this.actor.effects.get(li.dataset.effectId);
-      dragData = effect.toDragData();
-    }
-
-    // Owned Item
-    else if (li.dataset.itemId) {
-      const item = this.actor.items.get(li.dataset.itemId);
-      dragData = item.toDragData();
-    }
-
-    // Set data transfer
-    event.dataTransfer.setData('text/plain', JSON.stringify(dragData));
+    return DragDropActions.onDragStart(event, this.actor);
   }
 
-  /**
-   * Callback actions which occur when a dragged element is over a drop target.
-   * @param {DragEvent} event       The originating DragEvent
-   * @protected
-   */
   _onDragOver(event) {}
 
-  /**
-   * Callback actions which occur when a dragged element is dropped on a target.
-   * @param {DragEvent} event       The originating DragEvent
-   * @protected
-   */
   async _onDrop(event) {
-    const data = foundry.applications.ux.TextEditor.getDragEventData(event);
-    const actor = this.actor;
-    const allowed = Hooks.call('dropActorSheetData', actor, this, data);
-    if (allowed === false) return;
-
-    // Handle different data types
-    switch (data.type) {
-      case 'ActiveEffect':
-        return this._onDropActiveEffect(event, data);
-      case 'Actor':
-        return this._onDropActor(event, data);
-      case 'Item':
-        return this._onDropItem(event, data);
-      case 'Folder':
-        return this._onDropFolder(event, data);
-    }
+    return DragDropActions.onDrop(event, this.actor, this);
   }
 
-  /**
-   * Handle the dropping of ActiveEffect data onto an Actor Sheet
-   * @param {DragEvent} event                  The concluding DragEvent which contains drop data
-   * @param {object} data                      The data transfer extracted from the event
-   * @returns {Promise<ActiveEffect|boolean>}  The created ActiveEffect object or false if it couldn't be created.
-   * @protected
-   */
   async _onDropActiveEffect(event, data) {
-    const aeCls = getDocumentClass('ActiveEffect');
-    const effect = await aeCls.fromDropData(data);
-    if (!this.actor.isOwner || !effect) return false;
-    if (effect.target === this.actor) return false;
-    return aeCls.create(effect.toObject(), { parent: this.actor });
+    return DragDropActions.onDropActiveEffect(event, data, this.actor);
   }
 
-  /**
-   * Handle dropping of an Actor data onto another Actor sheet
-   * @param {DragEvent} event            The concluding DragEvent which contains drop data
-   * @param {object} data                The data transfer extracted from the event
-   * @returns {Promise<object|boolean>}  A data object which describes the result of the drop, or false if the drop was
-   *                                     not permitted.
-   * @protected
-   */
   async _onDropActor(event, data) {
-    if (!this.actor.isOwner) return false;
+    return DragDropActions.onDropActor(event, data, this.actor);
   }
 
-  /**
-   * Handle dropping of an item reference or item data onto an Actor Sheet
-   * @param {DragEvent} event            The concluding DragEvent which contains drop data
-   * @param {object} data                The data transfer extracted from the event
-   * @returns {Promise<Item[]|boolean>}  The created or updated Item instances, or false if the drop was not
-   *                                     permitted.
-   * @protected
-   */
   async _onDropItem(event, data) {
-    if (!this.actor.isOwner) return false;
-    const item = await Item.implementation.fromDropData(data);
-
-    // Handle item sorting within the same Actor
-    if (this.actor.uuid === item.parent?.uuid) return this._onSortItem(event, item);
-
-    // Create the owned item
-    return this._onDropItemCreate(item, event);
+    return DragDropActions.onDropItem(event, data, this.actor);
   }
 
-  /**
-   * Handle dropping of a Folder on an Actor Sheet.
-   * The core sheet currently supports dropping a Folder of Items to create all items as owned items.
-   * @param {DragEvent} event     The concluding DragEvent which contains drop data
-   * @param {object} data         The data transfer extracted from the event
-   * @returns {Promise<Item[]>}
-   * @protected
-   */
   async _onDropFolder(event, data) {
-    if (!this.actor.isOwner) return [];
-    const folder = await Folder.implementation.fromDropData(data);
-    if (folder.type !== 'Item') return [];
-    const droppedItemData = await Promise.all(
-      folder.contents.map(async (item) => {
-        if (!(document instanceof Item)) item = await fromUuid(item.uuid);
-        return item.toObject();
-      })
-    );
-    return this._onDropItemCreate(droppedItemData, event);
+    return DragDropActions.onDropFolder(event, data, this.actor);
   }
 
-  /**
-   * Handle the final creation of dropped Item data on the Actor.
-   * This method is factored out to allow downstream classes the opportunity to override item creation behavior.
-   * @param {object[]|object} itemData     The item data requested for creation
-   * @param {DragEvent} event              The concluding DragEvent which provided the drop data
-   * @returns {Promise<Item[]>}
-   * @protected
-   */
   async _onDropItemCreate(itemData, event) {
-    itemData = itemData instanceof Array ? itemData : [itemData];
-    itemData = itemData.map((item) => {
-      if (item?.toObject instanceof Function) return item.toObject();
-      return foundry.utils.deepClone(item);
-    });
-    
-    // Special handling for race items - only one race allowed
-    const raceItems = itemData.filter(item => item.type === 'race');
-    if (raceItems.length > 0) {
-      // Remove any existing race item
-      const existingRace = this.actor.items.find(i => i.type === 'race');
-      if (existingRace) {
-        await existingRace.delete();
-        ui.notifications.info(`Raça anterior "${existingRace.name}" foi substituída`);
-      }
-      
-      // Add racial skills automatically
-      for (const raceItem of raceItems) {
-        const racialSkills = raceItem.system?.racialSkills || [];
-        
-        if (racialSkills.length > 0) {
-          console.log('[CARDIGAN] Adding racial skills:', racialSkills.length);
-          
-          // Create an array to hold skill items to add
-          const skillsToAdd = [];
-          
-          for (const skillRef of racialSkills) {
-            try {
-              // Try to get the skill from UUID
-              let skillDoc = null;
-              if (skillRef.uuid) {
-                skillDoc = await fromUuid(skillRef.uuid);
-              }
-              
-              // If not found by UUID, try to find in compendium by ID
-              if (!skillDoc && skillRef.id) {
-                const pack = game.packs.get("cardigan.skills-cardigan");
-                if (pack) {
-                  skillDoc = await pack.getDocument(skillRef.id);
-                }
-              }
-              
-              if (skillDoc) {
-                // Check if skill already exists on actor
-                const existingSkill = this.actor.items.find(i => 
-                  i.type === 'skill' && i.name === skillDoc.name
-                );
-                
-                if (!existingSkill) {
-                  skillsToAdd.push(skillDoc.toObject());
-                  console.log('[CARDIGAN] Will add racial skill:', skillDoc.name);
-                } else {
-                  console.log('[CARDIGAN] Skill already exists:', skillDoc.name);
-                }
-              } else {
-                console.warn('[CARDIGAN] Could not find skill:', skillRef.name || skillRef.id);
-              }
-            } catch (error) {
-              console.error('[CARDIGAN] Error loading racial skill:', error);
-            }
-          }
-          
-          // Add all racial skills
-          if (skillsToAdd.length > 0) {
-            await this.actor.createEmbeddedDocuments('Item', skillsToAdd);
-            ui.notifications.info(`${skillsToAdd.length} skill(s) racial(is) adicionada(s)`);
-          }
-        }
-      }
-    }
-    
-    const stackableTypes = new Set(['item-comum', 'item-municao', 'item-consumivel', 'item-ingredient', 'arma', 'armadura']);
-    const quantityUpdates = [];
-    const itemsToCreate = [];
-
-    for (const data of itemData) {
-      if (!stackableTypes.has(data?.type)) {
-        itemsToCreate.push(data);
-        continue;
-      }
-
-      if (!data.system || typeof data.system !== 'object') {
-        data.system = {};
-      }
-
-      const minQuantity = ['arma', 'armadura'].includes(data.type) ? 1 : 0;
-      const quantityToAdd = Math.max(minQuantity, Number(data.system.quantity ?? 1) || 0);
-      data.system.quantity = quantityToAdd;
-
-      const existingItem = this.actor.items.find((item) => {
-        if (item.type !== data.type) return false;
-        if (item.name !== data.name) return false;
-        return this.#canStackDroppedItem(item, data);
-      });
-
-      if (!existingItem) {
-        itemsToCreate.push(data);
-        continue;
-      }
-
-      const currentQuantity = Number(existingItem.system?.quantity ?? (minQuantity || 1)) || 0;
-      const newQuantity = Math.max(minQuantity, currentQuantity + quantityToAdd);
-
-      quantityUpdates.push({
-        _id: existingItem.id,
-        'system.quantity': newQuantity
-      });
-    }
-
-    let updatedItems = [];
-    if (quantityUpdates.length > 0) {
-      await this.actor.updateEmbeddedDocuments('Item', quantityUpdates);
-      updatedItems = quantityUpdates
-        .map((update) => this.actor.items.get(update._id))
-        .filter(Boolean);
-    }
-
-    const createdItems = itemsToCreate.length > 0
-      ? await this.actor.createEmbeddedDocuments('Item', itemsToCreate)
-      : [];
-
-    return [...updatedItems, ...createdItems];
+    return DragDropActions.onDropItemCreate(itemData, event, this.actor);
   }
 
-  /**
-   * Determine whether a dropped item can stack with an existing owned item.
-   * @param {Item} existingItem
-   * @param {object} droppedItemData
-   * @returns {boolean}
-   */
-  #canStackDroppedItem(existingItem, droppedItemData) {
-    if (!existingItem || !droppedItemData) return false;
-
-    // Never stack equipped gear
-    if (existingItem.type === 'arma') {
-      if (existingItem.system?.isUnarmed) return false;
-      if (existingItem.system?.rightHand || existingItem.system?.leftHand || existingItem.system?.equipped) return false;
-    }
-
-    if (existingItem.type === 'armadura' && existingItem.system?.equipped) {
-      return false;
-    }
-
-    // Prefer matching compendium sourceId when available
-    const existingSourceId = existingItem.flags?.core?.sourceId;
-    const droppedSourceId = droppedItemData.flags?.core?.sourceId;
-
-    if (existingSourceId && droppedSourceId) {
-      return existingSourceId === droppedSourceId;
-    }
-
-    return true;
-  }
-
-  /**
-   * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings
-   * @param {Event} event
-   * @param {Item} item
-   * @private
-   */
   _onSortItem(event, item) {
-    // Get the drag source and drop target
-    const items = this.actor.items;
-    const source = items.get(item.id);
-    const dropTarget = event.target.closest('[data-item-id]');
-    if (!dropTarget) return;
-    const target = items.get(dropTarget.dataset.itemId);
-
-    // Don't sort on yourself
-    if (source.id === target.id) return;
-
-    // Identify sibling items based on type and parent
-    const siblings = items.filter((i) => {
-      return i.type === source.type && i.parent === source.parent;
-    });
-
-    // Perform the sort
-    const sortUpdates = SortingHelpers.performIntegerSort(source, {
-      target,
-      siblings,
-    });
-    const updateData = sortUpdates.map((u) => {
-      const update = u.update;
-      update._id = u.target._id;
-      return update;
-    });
-
-    // Perform the update
-    return this.actor.updateEmbeddedDocuments('Item', updateData);
+    return DragDropActions.onSortItem(event, item, this.actor);
   }
 
-  /**
-   * Creates drag & drop handlers for this application
-   * @returns {foundry.applications.ux.DragDrop[]}     An array of DragDrop handlers
-   * @private
-   */
   #createDragDropHandlers() {
-    return this.options.dragDrop.map((d) => {
-      d.permissions = {
-        dragstart: this._canDragStart.bind(this),
-        drop: this._canDragDrop.bind(this),
-      };
-      d.callbacks = {
-        dragstart: this._onDragStart.bind(this),
-        dragover: this._onDragOver.bind(this),
-        drop: this._onDrop.bind(this),
-      };
-      return new foundry.applications.ux.DragDrop(d);
-    });
+    return DragDropActions.createHandlers(this);
   }
 
   /********************
