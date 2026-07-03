@@ -11,6 +11,7 @@ import { EquipmentFieldListeners } from './listeners/equipment-field-listeners.m
 import { StatFieldListeners } from './listeners/stat-field-listeners.mjs';
 import { ProficiencyListeners } from './listeners/proficiency-listeners.mjs';
 import { EnhancementListeners } from './listeners/enhancement-listeners.mjs';
+import { MiscListeners } from './listeners/misc-listeners.mjs';
 import { ProficienciesActions } from './actions/proficiencies-actions.mjs';
 import { MoneyTradeActions } from './actions/money-trade-actions.mjs';
 import { InventoryActions } from './actions/inventory-actions.mjs';
@@ -396,13 +397,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     StatFieldListeners.addValueFieldsListeners(this.element, this.actor);
     
     // Ajustar font-size do input name baseado no número de caracteres
-    this.#adjustNameInputFontSize();
+    MiscListeners.setupNameInputFontSize(this.element, this);
 
     // Ajustar font-size do input de XP para 3 dígitos
     StatFieldListeners.setupExperienceInputFontSize(this.element);
     
     // Prevenir submit do formulário ao pressionar Enter em inputs
-    this.#preventEnterSubmit();
+    MiscListeners.preventEnterSubmit(this.element);
     
     // Setup context menu for weapons
     this.#setupContextMenu();
@@ -2853,115 +2854,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   async _unequipArmor(armor) {
     return EquipmentActions.unequipArmorFromContext(armor, this);
-  }
-
-  /**
-   * Adjust font-size of name input based on actual text width
-   * Features: debounce, caching, ResizeObserver, adaptive steps
-   * @private
-   */
-  #adjustNameInputFontSize() {
-    const nameInput = this.element.querySelector('.character-name-input') || 
-                     this.element.querySelector('input[name="name"]');
-    
-    if (!nameInput) {
-      console.warn('[NAME INPUT] Name input not found in DOM');
-      return;
-    }
-
-    // Cache for performance optimization
-    let lastValue = nameInput.value;
-    let lastFontSize = 15;
-    let debounceTimer = null;
-
-    const adjustFontSize = () => {
-      const currentValue = nameInput.value;
-      
-      // Skip if value unchanged (cache optimization)
-      if (currentValue === lastValue && lastFontSize) {
-        return;
-      }
-      
-      const maxWidth = 95;     // Maximum width in pixels
-      const minFontSize = 10;  // Minimum font-size
-      const maxFontSize = 15;  // Maximum font-size
-      let fontSize = maxFontSize;
-      
-      // Set initial max font-size
-      nameInput.style.setProperty('--name-font-size', `${fontSize}px`);
-      
-      // Adaptive step sizing for faster convergence
-      while (nameInput.scrollWidth > maxWidth && fontSize > minFontSize) {
-        const overflow = nameInput.scrollWidth - maxWidth;
-        
-        // Use larger steps when far from target, smaller when close
-        const step = overflow > 10 ? 1 : 0.5;
-        fontSize -= step;
-        
-        if (fontSize < minFontSize) fontSize = minFontSize;
-        nameInput.style.setProperty('--name-font-size', `${fontSize}px`);
-      }
-      
-      // Update cache
-      lastValue = currentValue;
-      lastFontSize = fontSize;
-      
-      console.log('[NAME INPUT] Width:', nameInput.scrollWidth + 'px', '| Font-size:', fontSize + 'px', '| Cached');
-    };
-
-    // Debounced version for input event (50ms delay)
-    const debouncedAdjust = () => {
-      if (debounceTimer) clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
-        adjustFontSize();
-      }, 50);
-    };
-
-    // Initial adjustment
-    adjustFontSize();
-
-    // Use debounced version for typing (performance)
-    nameInput.addEventListener('input', debouncedAdjust);
-    
-    // Immediate adjustment on commit
-    nameInput.addEventListener('change', adjustFontSize);
-
-    // ResizeObserver for zoom/window resize responsiveness
-    if (typeof ResizeObserver !== 'undefined') {
-      const resizeObserver = new ResizeObserver(() => {
-        // Reset cache on resize to force recalculation
-        lastValue = null;
-        adjustFontSize();
-      });
-      
-      resizeObserver.observe(nameInput);
-      
-      // Store observer for cleanup
-      if (!this._nameInputObserver) this._nameInputObserver = resizeObserver;
-    }
-
-    console.log('[NAME INPUT] Enhanced width-based adjustment enabled (debounce + cache + ResizeObserver)');
-  }
-
-  /**
-   * Prevent form submission when Enter is pressed on input fields
-   * @private
-   */
-  #preventEnterSubmit() {
-    const form = this.element.querySelector('form');
-    if (!form) return;
-
-    // Add event listener to prevent Enter key from submitting the form
-    form.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' && event.target.tagName === 'INPUT') {
-        event.preventDefault();
-        event.stopPropagation();
-        // Blur the input to trigger any change handlers
-        event.target.blur();
-      }
-    });
-
-    console.log('[CARDIGAN] Form Enter key prevention enabled');
   }
 
   /**
