@@ -1,5 +1,4 @@
 ﻿const { api, sheets } = foundry.applications;
-import ContextMenu5e from '../applications/context-menu.mjs';
 import { ItemTypeSelectionDialog } from '../applications/item-type-selection-dialog.mjs';
 import { RecipeCraftingDialog } from '../applications/recipe-crafting-dialog.mjs';
 import EffectsCompendiumSelectionDialog from '../applications/effects-compendium-selection-dialog.mjs';
@@ -25,6 +24,7 @@ import { SheetScrollActions } from './actions/sheet-scroll-actions.mjs';
 import { ItemPrepareActions } from './actions/item-prepare-actions.mjs';
 import { RecipeActions } from './actions/recipe-actions.mjs';
 import { DragDropActions } from './actions/drag-drop-actions.mjs';
+import { ContextMenuActions } from './actions/context-menu-actions.mjs';
 import CardiganTooltipManager from '../tooltips/tooltip-manager.mjs';
 
 /**
@@ -1910,19 +1910,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   #setupContextMenu() {
-    // Clear any existing context menu event listeners to prevent duplicates
-    for (const control of this.element.querySelectorAll("[data-context-menu]")) {
-      // Remove existing listener if any
-      control.removeEventListener("click", ContextMenu5e.triggerEvent);
-      // Add the listener
-      control.addEventListener("click", ContextMenu5e.triggerEvent);
-    }
-
-    // Setup context menu for weapon items
-    new ContextMenu5e(this.element, "[data-item-id]", [], {
-      onOpen: this._onOpenContextMenu.bind(this),
-      jQuery: false
-    });
+    return ContextMenuActions.setupContextMenu(this);
   }
 
   /**
@@ -2109,11 +2097,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   _onOpenContextMenu(element) {
-    const { itemId } = element.closest("[data-item-id]")?.dataset ?? {};
-    const item = this.actor.items.get(itemId);
-    if (!item) return;
-
-    ui.context.menuItems = this._getContextOptions(item, element);
+    return ContextMenuActions.onOpenContextMenu(element, this);
   }
 
   /**
@@ -2123,34 +2107,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   async _showWeaponInChat(weapon) {
-    // Create simplified weapon display for chat
-    const weaponData = weapon.system;
-    const weaponHtml = `
-      <div style="padding: 8px;">
-        <p><strong>Tipo:</strong> ${weaponData.weaponType || 'N/A'}</p>
-        <p><strong>Dano:</strong> ${weaponData.damage || 'N/A'}</p>
-        <p><strong>Alcance:</strong> ${weaponData.range || 'N/A'}</p>
-        ${weaponData.description ? `<p><strong>Descrição:</strong> ${weaponData.description}</p>` : ''}
-      </div>
-    `;
-    
-    // Create chat message with weapon information
-    const messageData = {
-      user: game.user.id,
-      speaker: ChatMessage.getSpeaker({ actor: this.document }),
-      content: `<div class="weapon-chat-display" style="background: linear-gradient(135deg, #2c2c2c, #1a1a1a); border: 2px solid #c9c7b8; border-radius: 8px; padding: 12px; margin: 8px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
-        <div style="text-align: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #c9c7b8;">
-          <h3 style="margin: 0; color: #f0f0e0; font-size: 16px;">
-            <i class="fas fa-sword" style="margin-right: 6px; color: #c9c7b8;"></i>
-            Informações da Arma
-          </h3>
-        </div>
-        ${weaponHtml}
-      </div>`,
-      style: CONST.CHAT_MESSAGE_STYLES.OTHER
-    };
-
-    return ChatMessage.create(messageData);
+    return ContextMenuActions.showWeaponInChat(weapon, this.document);
   }
 
   /**
@@ -2160,34 +2117,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   async _showArmorInChat(armor) {
-    // Create simplified armor display for chat
-    const armorData = armor.system;
-    const armorHtml = `
-      <div style="padding: 8px;">
-        <p><strong>Tipo:</strong> ${armorData.armorType || 'N/A'}</p>
-        <p><strong>Defesa:</strong> ${armorData.armor || 'N/A'}</p>
-        <p><strong>Durabilidade:</strong> ${armorData.currentDurability || 0}/${armorData.maxDurability || 0}</p>
-        ${armorData.description ? `<p><strong>Descrição:</strong> ${armorData.description}</p>` : ''}
-      </div>
-    `;
-    
-    // Create chat message with armor information
-    const messageData = {
-      user: game.user.id,
-      speaker: ChatMessage.getSpeaker({ actor: this.document }),
-      content: `<div class="armor-chat-display" style="background: linear-gradient(135deg, #2c2c2c, #1a1a1a); border: 2px solid #c9c7b8; border-radius: 8px; padding: 12px; margin: 8px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
-        <div style="text-align: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #c9c7b8;">
-          <h3 style="margin: 0; color: #f0f0e0; font-size: 16px;">
-            <i class="fas fa-shield-alt" style="margin-right: 6px; color: #c9c7b8;"></i>
-            Informações da Armadura
-          </h3>
-        </div>
-        ${armorHtml}
-      </div>`,
-      style: CONST.CHAT_MESSAGE_STYLES.OTHER
-    };
-
-    return ChatMessage.create(messageData);
+    return ContextMenuActions.showArmorInChat(armor, this.document);
   }
 
   /**
@@ -2198,101 +2128,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   _getContextOptions(item, element) {
-    const options = [];
-    
-    // Get the item container to check if it's expanded
-    const itemContainer = element.closest('.item.collapsible');
-    const isExpanded = itemContainer && !itemContainer.classList.contains('collapsed');
-
-    // Expand/Collapse option (first in the menu) - only for weapons in weapons table
-    if (item.type === "arma" && item.system.equipped) {
-      options.push({
-        name: isExpanded ? "Recolher" : "Expandir",
-        icon: isExpanded ? '<i class="fa-solid fa-compress fa-fw"></i>' : '<i class="fa-solid fa-expand fa-fw"></i>',
-        condition: () => true,
-        callback: li => this._onAction(li, "toggleExpand", item, itemContainer)
-      });
-    }
-
-    // Edit option
-    options.push({
-      name: "Editar",
-      icon: '<i class="fa-solid fa-pen-to-square fa-fw"></i>',
-      condition: () => item.isOwner,
-      callback: li => this._onAction(li, "edit", item)
-    });
-
-    // Equip/Unequip option for weapons
-    if (item.type === "arma") {
-      if (item.system.equipped) {
-        // Show Unequip option for equipped weapons
-        options.push({
-          name: game.i18n.localize("CARDIGAN.Tooltip.Unequip"),
-          icon: '<i class="fa-solid fa-shield fa-fw"></i>',
-          condition: () => item.isOwner,
-          callback: li => this._onAction(li, "unequip", item)
-        });
-      } else {
-        // Show Equip option for unequipped weapons
-        options.push({
-          name: game.i18n.localize("CARDIGAN.Tooltip.Equip"),
-          icon: '<i class="fa-solid fa-hand-fist fa-fw"></i>',
-          condition: () => item.isOwner,
-          callback: li => this._onAction(li, "equip", item)
-        });
-      }
-    }
-
-    // Equip/Unequip option for armors
-    if (item.type === "armadura") {
-      if (item.system.equipped) {
-        // Show Unequip option for equipped armors
-        options.push({
-          name: game.i18n.localize("CARDIGAN.Tooltip.Unequip"),
-          icon: '<i class="fa-solid fa-shield-slash fa-fw"></i>',
-          condition: () => item.isOwner,
-          callback: li => this._onAction(li, "unequipArmor", item)
-        });
-      } else {
-        // Show Equip option for unequipped armors
-        options.push({
-          name: game.i18n.localize("CARDIGAN.Tooltip.Equip"),
-          icon: '<i class="fa-solid fa-shield fa-fw"></i>',
-          condition: () => item.isOwner,
-          callback: li => this._onAction(li, "equipArmor", item)
-        });
-      }
-    }
-
-    // Show in Chat option for weapons and armors
-    if (item.type === "arma") {
-      options.push({
-        name: "Mostrar no Chat",
-        icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
-        condition: () => item.type === "arma", // Only for weapons
-        callback: li => this._onAction(li, "showInChat", item)
-      });
-    }
-
-    // Show in Chat option for armors
-    if (item.type === "armadura") {
-      options.push({
-        name: "Mostrar no Chat",
-        icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
-        condition: () => item.type === "armadura", // Only for armors
-        callback: li => this._onAction(li, "showInChat", item)
-      });
-    }
-
-    // Delete option
-    options.push({
-      name: "Excluir",
-      icon: '<i class="fa-solid fa-trash fa-fw"></i>',
-      condition: () => item.isOwner,
-      callback: li => this._onAction(li, "delete", item)
-    });
-
-    return options;
+    return ContextMenuActions.getContextOptions(item, element, this);
   }
 
   /**
@@ -2304,238 +2140,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   async _onAction(target, action, item, itemContainer = null) {
-    switch (action) {
-      case "toggleExpand":
-        // Use the existing expand logic but with the itemContainer passed from context menu
-        return this._handleToggleExpand(item, itemContainer);
-      case "edit":
-        return item.sheet.render(true);
-      case "equip":
-        // Equip weapon (move from backpack table to weapons table)
-        return this._equipWeapon(item);
-      case "unequip":
-        // Show confirmation dialog before unequipping
-        const confirmed = await foundry.applications.api.DialogV2.confirm({
-          title: game.i18n.localize("CARDIGAN.ConfirmUnequipWeapon"),
-          content: `<p>Tem certeza que deseja desequipar <strong>"${item.name}"</strong>?</p><p><em>${game.i18n.localize("CARDIGAN.ConfirmUnequipDescription")}</em></p>`,
-          yes: () => true,
-          no: () => false,
-          defaultYes: false
-        });
-        
-        if (confirmed) {
-          return this._unequipWeapon(item);
-        }
-        return null;
-      case "equipArmor":
-        // Equip armor (move from backpack table to armor table)
-        return this._equipArmor(item);
-      case "unequipArmor":
-        // Show confirmation dialog before unequipping armor
-        const armorConfirmed = await foundry.applications.api.DialogV2.confirm({
-          title: game.i18n.localize("CARDIGAN.ConfirmUnequipArmor"),
-          content: `<p>Tem certeza que deseja desequipar <strong>"${item.name}"</strong>?</p><p><em>${game.i18n.localize("CARDIGAN.ConfirmUnequipArmorDescription")}</em></p>`,
-          yes: () => true,
-          no: () => false,
-          defaultYes: false
-        });
-        
-        if (armorConfirmed) {
-          return this._unequipArmor(item);
-        }
-        return null;
-      case "showInChat":
-        // Handle both weapons and armors
-        if (item.type === "arma") {
-          return this._showWeaponInChat(item);
-        } else if (item.type === "armadura") {
-          return this._showArmorInChat(item);
-        }
-        return null;
-      case "delete":
-        // Check if this is an auto-managed effect (Fratura, Exaustão, Intoxicado, Inconsciente・Sono)
-        if (item.type === "efeito") {
-          const autoManagedEffects = {
-            'Fratura': ['fracture'],
-            'Exaustão': ['hunger', 'thirst'],
-            'Intoxicado': ['toxicity'],
-            'Inconsciente・Sono': ['toxicity']
-          };
-          
-          const statusKeys = autoManagedEffects[item.name];
-          if (statusKeys) {
-            // Check if any of the status conditions are active
-            const activeStatuses = [];
-            for (const statusKey of statusKeys) {
-              const statusValue = this.document.system.status?.[statusKey] || 0;
-              if (statusValue > 0) {
-                activeStatuses.push({ key: statusKey, value: statusValue });
-              }
-            }
-            
-            if (activeStatuses.length > 0) {
-              const statusInfo = activeStatuses.map(s => `${s.key}: ${s.value}`).join(', ');
-              ui.notifications.warn(`Não é possível excluir o efeito "${item.name}" enquanto houver checkboxes marcadas (${statusInfo}). Desmarque as checkboxes primeiro.`);
-              return null;
-            }
-          }
-        }
-        
-        // Show confirmation dialog before deleting
-        const deleteConfirmed = await foundry.applications.api.DialogV2.confirm({
-          title: `Excluir ${item.name}?`,
-          content: `<p>Tem certeza que deseja excluir <strong>"${item.name}"</strong>?</p><p><em>Esta ação não pode ser desfeita.</em></p>`,
-          yes: () => true,
-          no: () => false,
-          defaultYes: false
-        });
-        
-        if (deleteConfirmed) {
-          // Debug: Log item details before deletion
-          console.log("[DEBUG DELETE] Item details:", {
-            name: item.name,
-            type: item.type,
-            system: item.system,
-            isTemporaryHealth: item.system.isTemporaryHealth,
-            healthBonusValue: item.system.healthBonusValue
-          });
-          
-          // Check if it's a temporary health effect and adjust Health Bonus before deletion
-          if (item.type === "efeito" && item.system.isTemporaryHealth && item.system.healthBonusValue) {
-            console.log("[TEMPORARY HEALTH] Removing health bonus on effect deletion:", {
-              effectName: item.name,
-              bonusToRemove: item.system.healthBonusValue
-            });
-            
-            // Remove the health bonus value from Health Bonus
-            const currentHealthBonus = this.document.system.status.healthBonus || 0;
-            const calculatedHealthBonus = currentHealthBonus - item.system.healthBonusValue;
-            const newHealthBonus = Math.max(0, calculatedHealthBonus); // Only apply Math.max on final result
-            
-            console.log("[TEMPORARY HEALTH] Health bonus calculation details:", {
-              currentBonus: currentHealthBonus,
-              bonusToRemove: item.system.healthBonusValue,
-              calculated: calculatedHealthBonus,
-              final: newHealthBonus
-            });
-            
-            await this.document.update({
-              'system.status.healthBonus': newHealthBonus
-            });
-            
-            console.log("[TEMPORARY HEALTH] Health bonus adjusted:", {
-              previousBonus: currentHealthBonus,
-              newBonus: newHealthBonus
-            });
-          } else if (item.type === "efeito" && item.system.isTemporaryEnergy && item.system.energyBonusValue) {
-            console.log("[TEMPORARY ENERGY] Removing energy bonus on effect deletion:", {
-              effectName: item.name,
-              bonusToRemove: item.system.energyBonusValue
-            });
-            
-            // Remove the energy bonus value from Energy Bonus
-            const currentEnergyBonus = this.document.system.status.energyBonus || 0;
-            const calculatedEnergyBonus = currentEnergyBonus - item.system.energyBonusValue;
-            const newEnergyBonus = Math.max(0, calculatedEnergyBonus); // Only apply Math.max on final result
-            
-            console.log("[TEMPORARY ENERGY] Energy bonus calculation details:", {
-              currentBonus: currentEnergyBonus,
-              bonusToRemove: item.system.energyBonusValue,
-              calculated: calculatedEnergyBonus,
-              final: newEnergyBonus
-            });
-            
-            await this.document.update({
-              'system.status.energyBonus': newEnergyBonus
-            });
-            
-            console.log("[TEMPORARY ENERGY] Energy bonus adjusted:", {
-              previousBonus: currentEnergyBonus,
-              newBonus: newEnergyBonus
-            });
-          } else if (item.type === "efeito" && item.system.isTemporaryArmor && item.system.armorBonusValue) {
-            console.log("[TEMPORARY ARMOR] Removing armor bonus on effect deletion:", {
-              effectName: item.name,
-              bonusToRemove: item.system.armorBonusValue
-            });
-            
-            // Remove the armor bonus value from Armor Bonus
-            const currentArmorBonus = this.document.system.status.armorBonus || 0;
-            const calculatedArmorBonus = currentArmorBonus - item.system.armorBonusValue;
-            const newArmorBonus = Math.max(0, calculatedArmorBonus); // Only apply Math.max on final result
-            
-            console.log("[TEMPORARY ARMOR] Armor bonus calculation details:", {
-              currentBonus: currentArmorBonus,
-              bonusToRemove: item.system.armorBonusValue,
-              calculated: calculatedArmorBonus,
-              final: newArmorBonus
-            });
-            
-            await this.document.update({
-              'system.status.armorBonus': newArmorBonus
-            });
-            
-            console.log("[TEMPORARY ARMOR] Armor bonus adjusted:", {
-              previousBonus: currentArmorBonus,
-              newBonus: newArmorBonus
-            });
-          } else {
-            console.log("[DEBUG DELETE] Item does not match temporary health criteria:", {
-              isEfeito: item.type === "efeito",
-              hasIsTemporaryHealth: !!item.system.isTemporaryHealth,
-              hasHealthBonusValue: !!item.system.healthBonusValue
-            });
-          }
-          
-          return item.delete();
-        }
-        return null;
-      case "rollSkill":
-        // Roll a skill check
-        const skillId = target.dataset.skillId;
-        const skillItem = this.document.items.get(skillId);
-        if (skillItem && skillItem.system.rollSkillCheck) {
-          return skillItem.system.rollSkillCheck();
-        }
-        return null;
-
-    }
-  }
-
-  /**
-   * Equip a weapon (move from backpack table to weapons table)
-   * @param {Item} weapon - The weapon to equip
-   * @private
-   */
-  async _equipWeapon(weapon) {
-    return EquipmentActions.equipWeaponFromContext(weapon, this);
-  }
-
-  /**
-   * Unequip a weapon (move from weapons table to backpack table)
-   * @param {Item} weapon - The weapon to unequip
-   * @private
-   */
-  async _unequipWeapon(weapon) {
-    return EquipmentActions.unequipWeaponFromContext(weapon, this);
-  }
-
-  /**
-   * Equip an armor (move from backpack table to armor table)
-   * @param {Item} armor - The armor to equip
-   * @private
-   */
-  async _equipArmor(armor) {
-    return EquipmentActions.equipArmorFromContext(armor, this);
-  }
-
-  /**
-   * Unequip an armor (move from armor table to backpack table)
-   * @param {Item} armor - The armor to unequip
-   * @private
-   */
-  async _unequipArmor(armor) {
-    return EquipmentActions.unequipArmorFromContext(armor, this);
+    return ContextMenuActions.onAction(target, action, item, this, itemContainer);
   }
 
   static async _onCookRecipe(event, target) {
