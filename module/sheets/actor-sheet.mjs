@@ -391,12 +391,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Adicionar event listeners para campos dinâmicos de valores atuais
     this.#addValueFieldsListeners();
     
-    // Inicializar barra de vida animada
-    this.#initHealthBar();
-    
-    // Inicializar barra de energia animada
-    this.#initEnergyBar();
-    
     // Ajustar font-size do input name baseado no número de caracteres
     this.#adjustNameInputFontSize();
 
@@ -3566,37 +3560,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     console.log(`[${bonusType.toUpperCase()} BLUR] Total: ${displayValue}, Stored: ${storedValue}, Input: ${userInput}, Equipment: ${equipmentBonus}`);
   }
 
-  /**
-   * Add listeners for all profession table visibility toggles
-   * @private
-   */
-  #addProfessionTableListeners() {
-    const professions = [
-      { name: 'culinary', displayName: 'CULINARY TABLE' },
-      { name: 'tailoring', displayName: 'TAILORING TABLE' },
-      { name: 'tecnomagic', displayName: 'TECNOMAGIC TABLE' },
-      { name: 'blacksmithing', displayName: 'BLACKSMITHING TABLE' },
-      { name: 'alchemy', displayName: 'ALCHEMY TABLE' }
-    ];
-
-    professions.forEach(profession => {
-      const toggle = this.element.querySelector(`[data-${profession.name}-table-toggle]`);
-      const tableSection = this.element.querySelector(`[data-${profession.name}-table-section]`);
-      
-      if (!toggle || !tableSection) return;
-      
-      // Add event listener for the profession table toggle checkbox
-      toggle.addEventListener('change', (event) => {
-        const isChecked = event.target.checked;
-        
-        if (isChecked) {
-          tableSection.classList.remove('hidden');
-        } else {
-          tableSection.classList.add('hidden');
-        }
-      });
-    });
-  }
 
   /**
    * Add listeners for skill enhancement checkboxes
@@ -3841,29 +3804,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     console.log(`[${valueType.toUpperCase()} VALUE BLUR] Value: ${finalValue}${finalValue !== userInput ? ` (capped from ${userInput})` : ''}`);
   }
 
-  /**
-   * Initialize and setup health bar animation inside frame
-   * NO LONGER NEEDED - Progress element updates automatically!
-   * Keeping method stub for compatibility
-   * @private
-   */
-  #initHealthBar() {
-    // Native <progress> element handles animation automatically
-    // No manual width manipulation needed!
-    console.log('[HEALTH BAR] Using native progress element - auto-animated');
-  }
-
-  /**
-   * Initialize and setup energy bar animation inside frame
-   * NO LONGER NEEDED - Progress element updates automatically!
-   * Keeping method stub for compatibility
-   * @private
-   */
-  #initEnergyBar() {
-    // Native <progress> element handles animation automatically
-    // No manual width manipulation needed!
-    console.log('[ENERGY BAR] Using native progress element - auto-animated');
-  }
 
   /**
    * Adjust font-size of name input based on actual text width
