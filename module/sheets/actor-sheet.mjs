@@ -27,6 +27,7 @@ import { DragDropActions } from './actions/drag-drop-actions.mjs';
 import { ContextMenuActions } from './actions/context-menu-actions.mjs';
 import { WindowControlsListeners } from './listeners/window-controls-listeners.mjs';
 import { OverridesListeners } from './listeners/overrides-listeners.mjs';
+import { ItemExpand } from './parts/item-expand.mjs';
 import CardiganTooltipManager from '../tooltips/tooltip-manager.mjs';
 
 /**
@@ -1570,106 +1571,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   async _handleToggleExpand(item, itemContainer) {
-    if (!item || !itemContainer) {
-      console.warn("Could not find item or item container for expand toggle");
-      return;
-    }
-    
-    const summary = itemContainer.querySelector(":scope > .item-description > .wrapper");
-    const itemId = item.id;
-    
-    if (!summary) {
-      console.warn("Could not find summary wrapper");
-      return;
-    }
-    
-    const expanded = this.expandedSections.get(itemId);
-    const isArmor = item.type === 'armadura';
-    const isWeapon = item.type === 'arma';
-    const isSkill = item.type === 'skill';
-    const isRecipe = item.type?.includes('recipe') || item.type?.includes('-recipe');
-    
-    let summaryClass;
-    if (isArmor) summaryClass = ".armor-summary";
-    else if (isWeapon) summaryClass = ".weapon-summary";
-    else if (isSkill) summaryClass = ".skill-summary";
-    else if (isRecipe) summaryClass = ".recipe-summary";
-    else summaryClass = ".weapon-summary"; // fallback
-    
-    if (expanded) {
-      // Collapse
-      this.expandedSections.set(itemId, false);
-      summary.querySelector(summaryClass)?.remove();
-    } else {
-      // Expand
-      try {
-        // Get item data for summary
-        const context = {
-          actor: this.actor, // Add actor to context for ingredient checking
-          item: item,
-          system: item.system,
-          config: CONFIG.CARDIGAN,
-          enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description || "", {
-            secrets: item.isOwner,
-            documents: true,
-            links: true,
-            rolls: true,
-            rollData: item.getRollData?.() || {}
-          })
-        };
-        
-        // Process enhancements for skills
-        if (isSkill && item.system.enhancements && Array.isArray(item.system.enhancements)) {
-          const enhancements = [];
-          for (let i = 0; i < item.system.enhancements.length; i++) {
-            const enhancement = item.system.enhancements[i];
-            const isAcquired = item.system.acquiredEnhancements?.[i] === true;
-            
-            // Only show enhancements that have a description
-            if (enhancement?.description) {
-              enhancements.push({
-                number: i + 1,
-                name: enhancement.name || `Enhancement ${i + 1}`,
-                description: enhancement.description,
-                acquired: isAcquired,
-                enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(enhancement.description, {
-                  secrets: item.isOwner,
-                  documents: true,
-                  links: true,
-                  rolls: true,
-                  rollData: item.getRollData?.() || {}
-                })
-              });
-            }
-          }
-          if (enhancements.length > 0) {
-            context.enhancements = enhancements;
-          }
-        }
-        
-        // Choose template based on item type
-        let template;
-        if (isArmor) {
-          template = "systems/cardigan/templates/armors/armor-summary.hbs";
-        } else if (isSkill) {
-          template = "systems/cardigan/templates/skills/skill-summary.hbs";
-        } else if (isRecipe) {
-          template = "systems/cardigan/templates/recipes/recipe-summary.hbs";
-        } else {
-          template = "systems/cardigan/templates/weapons/weapon-summary.hbs";
-        }
-        
-        const content = await foundry.applications.handlebars.renderTemplate(template, context);
-        summary.insertAdjacentHTML("beforeend", content);
-        this.expandedSections.set(itemId, true);
-      } catch (error) {
-        console.error(`Error creating ${isArmor ? 'armor' : isSkill ? 'skill' : isRecipe ? 'recipe' : 'weapon'} summary:`, error);
-        return;
-      }
-    }
-    
-    // Update CSS classes
-    itemContainer.classList.toggle("collapsed", expanded);
+    return ItemExpand.handleToggleExpand(this, item, itemContainer);
   }
 
   /**
@@ -1680,78 +1582,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @private
    */
   async _refreshExpandedSummary(itemId, item) {
-    const itemContainer = this.element.querySelector(`[data-item-id="${itemId}"]`)?.closest('.item-row, .item');
-    if (!itemContainer) {
-      console.warn("Could not find item container for refresh");
-      return;
-    }
-
-    const summary = itemContainer.querySelector(":scope > .item-description > .wrapper");
-    if (!summary) {
-      console.warn("Could not find summary wrapper for refresh");
-      return;
-    }
-
-    const isSkill = item.type === 'skill';
-    if (!isSkill) return; // Only refresh for skills
-
-    // Remove old summary
-    const oldSummary = summary.querySelector(".skill-summary");
-    if (oldSummary) {
-      oldSummary.remove();
-    }
-
-    // Rebuild context
-    try {
-      const context = {
-        actor: this.actor,
-        item: item,
-        system: item.system,
-        config: CONFIG.CARDIGAN,
-        enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description || "", {
-          secrets: item.isOwner,
-          documents: true,
-          links: true,
-          rolls: true,
-          rollData: item.getRollData?.() || {}
-        })
-      };
-
-      // Process enhancements for skills
-      if (item.system.enhancements && Array.isArray(item.system.enhancements)) {
-        const enhancements = [];
-        for (let i = 0; i < item.system.enhancements.length; i++) {
-          const enhancement = item.system.enhancements[i];
-          const isAcquired = item.system.acquiredEnhancements?.[i] === true;
-          
-          // Only show enhancements that have a description
-          if (enhancement?.description) {
-            enhancements.push({
-              number: i + 1,
-              name: enhancement.name || `Enhancement ${i + 1}`,
-              description: enhancement.description,
-              acquired: isAcquired,
-              enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(enhancement.description, {
-                secrets: item.isOwner,
-                documents: true,
-                links: true,
-                rolls: true,
-                rollData: item.getRollData?.() || {}
-              })
-            });
-          }
-        }
-        if (enhancements.length > 0) {
-          context.enhancements = enhancements;
-        }
-      }
-
-      const template = "systems/cardigan/templates/skills/skill-summary.hbs";
-      const content = await foundry.applications.handlebars.renderTemplate(template, context);
-      summary.insertAdjacentHTML("beforeend", content);
-    } catch (error) {
-      console.error("Error refreshing skill summary:", error);
-    }
+    return ItemExpand.refreshExpandedSummary(this, itemId, item);
   }
 
   /**
@@ -1762,119 +1593,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * @protected
    */
   static async _onToggleExpand(event, target) {
-    event.preventDefault();
-    
-    const icon = target.querySelector(":scope > i");
-    const row = target.closest("[data-uuid]") || target.closest("[data-item-id]");
-    
-    if (!row) {
-      console.warn("Could not find item row for expand toggle");
-      return;
-    }
-    
-    const summary = row.querySelector(":scope > .item-description > .wrapper");
-    const itemId = row.dataset.itemId;
-    const item = this.document.items.get(itemId);
-    
-    if (!item || !summary) {
-      console.warn("Could not find item or summary wrapper");
-      return;
-    }
-    
-    const expanded = this.expandedSections.get(itemId);
-    const isArmor = item.type === 'armadura';
-    const isWeapon = item.type === 'arma';
-    const isSkill = item.type === 'skill';
-    const isRecipe = item.type?.includes('recipe') || item.type?.includes('-recipe');
-    
-    let summaryClass;
-    if (isArmor) summaryClass = ".armor-summary";
-    else if (isWeapon) summaryClass = ".weapon-summary";
-    else if (isSkill) summaryClass = ".skill-summary";
-    else if (isRecipe) summaryClass = ".recipe-summary";
-    else summaryClass = ".weapon-summary"; // fallback
-    
-    if (expanded) {
-      // Collapse
-      this.expandedSections.set(itemId, false);
-      summary.querySelector(summaryClass)?.remove();
-    } else {
-      // Expand
-      try {
-        // Get item data for summary
-        const context = {
-          actor: this.document, // Add actor to context for ingredient checking (static method uses this.document)
-          item: item,
-          system: item.system,
-          config: CONFIG.CARDIGAN,
-          enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description || "", {
-            secrets: item.isOwner,
-            documents: true,
-            links: true,
-            rolls: true,
-            rollData: item.getRollData?.() || {}
-          })
-        };
-        
-        // If skill, process enhancements
-        if (isSkill && item.system.enhancements && Array.isArray(item.system.enhancements)) {
-          const enhancements = [];
-          for (let i = 0; i < item.system.enhancements.length; i++) {
-            const enhancement = item.system.enhancements[i];
-            const isAcquired = item.system.acquiredEnhancements?.[i] === true;
-            
-            // Only show enhancements that have a description
-            if (enhancement && enhancement.description) {
-              enhancements.push({
-                number: i + 1,
-                name: enhancement.name || `Enhancement ${i + 1}`,
-                description: enhancement.description,
-                acquired: isAcquired,
-                enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(enhancement.description, {
-                  secrets: item.isOwner,
-                  documents: true,
-                  links: true,
-                  rolls: true,
-                  rollData: item.getRollData?.() || {}
-                })
-              });
-            }
-          }
-          if (enhancements.length > 0) {
-            context.enhancements = enhancements;
-          }
-        }
-        
-        // Choose template based on item type
-        let template;
-        if (isArmor) {
-          template = "systems/cardigan/templates/armors/armor-summary.hbs";
-        } else if (isSkill) {
-          template = "systems/cardigan/templates/skills/skill-summary.hbs";
-        } else if (isRecipe) {
-          template = "systems/cardigan/templates/recipes/recipe-summary.hbs";
-        } else {
-          template = "systems/cardigan/templates/weapons/weapon-summary.hbs";
-        }
-        
-        const content = await foundry.applications.handlebars.renderTemplate(template, context);
-        summary.insertAdjacentHTML("beforeend", content);
-        this.expandedSections.set(itemId, true);
-      } catch (error) {
-        console.error(`Error creating ${isArmor ? 'armor' : isSkill ? 'skill' : isRecipe ? 'recipe' : 'weapon'} summary:`, error);
-        return;
-      }
-    }
-    
-    // Update CSS classes
-    row.classList.toggle("collapsed", expanded);
-    
-    // Update icon only if we have an icon (from button, not from weapon name click)
-    if (icon) {
-      icon.classList.toggle("fa-compress", !expanded);
-      icon.classList.toggle("fa-expand", expanded);
-      target.setAttribute("data-tooltip", !expanded ? "Colapsar Detalhes" : "Expandir Detalhes");
-    }
+    return ItemExpand.onToggleExpand(this, event, target);
   }
 
   /**
