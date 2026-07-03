@@ -26,6 +26,7 @@ import { RecipeActions } from './actions/recipe-actions.mjs';
 import { DragDropActions } from './actions/drag-drop-actions.mjs';
 import { ContextMenuActions } from './actions/context-menu-actions.mjs';
 import { WindowControlsListeners } from './listeners/window-controls-listeners.mjs';
+import { OverridesListeners } from './listeners/overrides-listeners.mjs';
 import CardiganTooltipManager from '../tooltips/tooltip-manager.mjs';
 
 /**
@@ -1880,30 +1881,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    * Disables inputs subject to active effects
    */
   #disableOverrides() {
-    // First, clear any previous disabled state applied by this override pass.
-    // This prevents stale disabled fields when override sources are removed without a full rerender cycle.
-    for (const input of this.element.querySelectorAll('[data-override-disabled="true"]')) {
-      input.disabled = false;
-      input.removeAttribute('data-override-disabled');
-    }
-
-    // Manual bonus fields must remain editable by design.
-    const alwaysEditableOverrides = new Set([
-      'system.status.healthBonus',
-      'system.status.energyBonus',
-      'system.status.armorBonus'
-    ]);
-
-    const flatOverrides = foundry.utils.flattenObject(this.actor.overrides);
-    for (const override of Object.keys(flatOverrides)) {
-      if (alwaysEditableOverrides.has(override)) continue;
-
-      const input = this.element.querySelector(`[name="${override}"]`);
-      if (input) {
-        input.disabled = true;
-        input.setAttribute('data-override-disabled', 'true');
-      }
-    }
+    return OverridesListeners.disableOverrides(this);
   }
 
   /**
