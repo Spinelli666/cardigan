@@ -8,6 +8,7 @@ import { HeaderStatusActions } from './actions/header-status-actions.mjs';
 import { HeaderListeners } from './listeners/header-listeners.mjs';
 import { AbilitiesListeners } from './listeners/abilities-listeners.mjs';
 import { EquipmentFieldListeners } from './listeners/equipment-field-listeners.mjs';
+import { StatFieldListeners } from './listeners/stat-field-listeners.mjs';
 import { ProficienciesActions } from './actions/proficiencies-actions.mjs';
 import { MoneyTradeActions } from './actions/money-trade-actions.mjs';
 import { InventoryActions } from './actions/inventory-actions.mjs';
@@ -354,7 +355,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     HeaderListeners.initialize(this.element, this.actor);
 
     // Limitar XP atual entre 0 e 100 durante a digitação
-    this.#addExperienceListeners();
+    StatFieldListeners.addExperienceListeners(this.element);
     
     // Adicionar event listeners para campos de durabilidade
     EquipmentFieldListeners.addDurabilityListeners(this.element, this.actor, this);
@@ -374,7 +375,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     this.#addProficiencyRollListeners();
     
     // Adicionar event listeners para campos dinâmicos de bonus
-    this.#addBonusFieldsListeners();
+    StatFieldListeners.addBonusFieldsListeners(this.element, this.actor);
     
     // Adicionar tooltips ricos de proficiências
     CardiganTooltipManager.attachProficiencyTooltips(this.element, this.actor);
@@ -390,13 +391,13 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     this.#addEnhancementCheckboxListeners();
     
     // Adicionar event listeners para campos dinâmicos de valores atuais
-    this.#addValueFieldsListeners();
+    StatFieldListeners.addValueFieldsListeners(this.element, this.actor);
     
     // Ajustar font-size do input name baseado no número de caracteres
     this.#adjustNameInputFontSize();
 
     // Ajustar font-size do input de XP para 3 dígitos
-    this.#setupExperienceInputFontSize();
+    StatFieldListeners.setupExperienceInputFontSize(this.element);
     
     // Prevenir submit do formulário ao pressionar Enter em inputs
     this.#preventEnterSubmit();
@@ -2952,179 +2953,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     console.log(`[CARDIGAN] Proficiency roll listeners added to ${proficiencyFields.length} fields`);
   }
 
-
-  /**
-   * Add listeners for bonus fields (health, energy, armor)
-   * @private
-   */
-  #addBonusFieldsListeners() {
-    const bonusFields = [
-      {
-        selector: 'input.health-bonus-input.dynamic-field',
-        hiddenSelector: 'input.health-bonus-hidden',
-        type: 'healthBonus'
-      },
-      {
-        selector: 'input.energy-bonus-input.dynamic-field',
-        hiddenSelector: 'input.energy-bonus-hidden',
-        type: 'energyBonus'
-      },
-      { selector: 'input.armor-bonus-input.dynamic-field', type: 'armorBonus' }
-    ];
-    
-    bonusFields.forEach(({ selector, hiddenSelector, type }) => {
-      const field = this.element.querySelector(selector);
-      const hiddenField = hiddenSelector ? this.element.querySelector(hiddenSelector) : null;
-      
-      if (field) {
-        // Sync displayed value (manual + equipment) when applicable
-        this.#syncBonusFieldDisplay(field, type, hiddenField);
-
-        // Event listener para focus (mostrar valor atual)
-        field.addEventListener('focus', (event) => {
-          this.#handleBonusFieldFocus(event, type, hiddenField);
-        });
-        
-        // Event listener para blur (salvar valor)
-        field.addEventListener('blur', (event) => {
-          this.#handleBonusFieldBlur(event, type, hiddenField);
-        });
-      }
-    });
-    
-    console.log('[CARDIGAN] Bonus fields dynamic listeners added');
-  }
-
-  /**
-   * Get equipment-derived bonus for a status bonus type
-   * @param {string} bonusType
-   * @returns {number}
-   * @private
-   */
-  #getEquipmentStatusBonus(bonusType) {
-    const system = this.actor.system;
-
-    switch (bonusType) {
-      case 'armorBonus':
-        return Number(system._armorProtectionBonus ?? 0);
-      default:
-        return 0;
-    }
-  }
-
-  /**
-   * Get active temporary armor bonus currently granted by consumable effects.
-   * @returns {number}
-   * @private
-   */
-  #getActiveConsumableArmorBonus() {
-    return this.actor.items.reduce((total, item) => {
-      if (item.type !== 'efeito') return total;
-      if (!item.system?.isTemporaryArmor) return total;
-
-      const bonus = Number(item.system?.armorBonusValue || 0);
-      return total + bonus;
-    }, 0);
-  }
-
-  /**
-   * Sync visible bonus field value from manual + equipment bonuses
-   * @param {HTMLInputElement} field
-   * @param {string} bonusType
-   * @param {HTMLInputElement | null} hiddenField
-   * @private
-   */
-  #syncBonusFieldDisplay(field, bonusType, hiddenField = null) {
-    const manualValue = Number(this.actor.system.status?.[bonusType] || 0);
-    const equipmentBonus = hiddenField ? this.#getEquipmentStatusBonus(bonusType) : 0;
-    const displayValue = manualValue + equipmentBonus;
-
-    field.value = displayValue;
-    field.dataset.currentValue = displayValue;
-
-    if (hiddenField) {
-      hiddenField.value = manualValue;
-    }
-  }
-
-  /**
-   * Handler para quando o usuário clica em um campo de bonus (focus)
-   * @private
-   */
-  #handleBonusFieldFocus(event, bonusType, hiddenField = null) {
-    const field = event.target;
-    const storedValue = Number(this.actor.system.status?.[bonusType] || 0);
-    const equipmentBonus = hiddenField ? this.#getEquipmentStatusBonus(bonusType) : 0;
-
-    // Para campos com hidden (health/energy), editar o valor manual.
-    // Para os demais, mantém comportamento padrão.
-    let valueForEditing = hiddenField ? storedValue : (storedValue + equipmentBonus);
-
-    if (bonusType === 'armorBonus' && !hiddenField) {
-      const storedManual = this.actor.system.status?.armorBonusManual;
-      const manualValue = Number.isFinite(Number(storedManual)) ? Number(storedManual) : storedValue;
-      const temporaryBonus = Math.max(0, storedValue - manualValue);
-
-      valueForEditing = manualValue;
-      field.dataset.armorTemporaryBonus = temporaryBonus;
-    }
-
-    field.value = valueForEditing === 0 ? '' : valueForEditing;
-    field.dataset.currentValue = valueForEditing;
-    
-    console.log(`[${bonusType.toUpperCase()} FOCUS] Editing value: ${valueForEditing}, Stored: ${storedValue}, Equipment: ${equipmentBonus}`);
-    field.select();
-  }
-
-  /**
-   * Handler para quando o usuário sai de um campo de bonus (blur)
-   * @private
-   */
-  #handleBonusFieldBlur(event, bonusType, hiddenField = null) {
-    const field = event.target;
-    const userInput = Number(field.value) || 0;
-    const equipmentBonus = hiddenField ? this.#getEquipmentStatusBonus(bonusType) : 0;
-    let storedValue = userInput;
-
-    if (bonusType === 'armorBonus' && !hiddenField) {
-      const temporaryBonus = Number(field.dataset.armorTemporaryBonus) || 0;
-      storedValue = userInput + temporaryBonus;
-
-      const displayValue = storedValue + equipmentBonus;
-      field.value = displayValue;
-      field.dataset.currentValue = displayValue;
-
-      this.actor.update({
-        'system.status.armorBonusManual': userInput,
-        'system.status.armorBonus': storedValue
-      }).catch(error => {
-        console.error('[CARDIGAN] Erro ao atualizar armorBonus:', error);
-      });
-
-      console.log(`[${bonusType.toUpperCase()} BLUR] Total: ${displayValue}, Manual: ${userInput}, Temporary: ${temporaryBonus}, Equipment: ${equipmentBonus}`);
-      return;
-    }
-
-    // Mostrar total e persistir apenas manual
-    const displayValue = storedValue + equipmentBonus;
-    field.value = displayValue;
-    field.dataset.currentValue = displayValue;
-
-    if (hiddenField) {
-      hiddenField.value = storedValue;
-    }
-    
-    // Salvar o valor
-    this.actor.update({
-      [`system.status.${bonusType}`]: storedValue
-    }).catch(error => {
-      console.error(`[CARDIGAN] Erro ao atualizar ${bonusType}:`, error);
-    });
-    
-    console.log(`[${bonusType.toUpperCase()} BLUR] Total: ${displayValue}, Stored: ${storedValue}, Input: ${userInput}, Equipment: ${equipmentBonus}`);
-  }
-
-
   /**
    * Add listeners for skill enhancement checkboxes
    * @private
@@ -3276,98 +3104,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       ui.notifications.info(`${linkedSkills.length} skill(s) vinculada(s) removida(s) do aprimoramento ${enhancementIndex + 1} de ${parentSkill.name}`);
     }
   }
-
-  /**
-   * Add listeners for value fields (health, energy, armor current values)
-   * @private
-   */
-  #addValueFieldsListeners() {
-    const valueFields = [
-      { selector: 'input[name="system.health.value"].dynamic-field', type: 'health', path: 'system.health.value' },
-      { selector: 'input[name="system.power.value"].dynamic-field', type: 'power', path: 'system.power.value' },
-      { selector: 'input[name="system.armor.value"].dynamic-field', type: 'armor', path: 'system.armor.value' }
-    ];
-    
-    valueFields.forEach(({ selector, type, path }) => {
-      const field = this.element.querySelector(selector);
-      
-      if (field) {
-        // Event listener para focus (mostrar valor atual)
-        field.addEventListener('focus', (event) => {
-          this.#handleValueFieldFocus(event, type, path);
-        });
-        
-        // Event listener para blur (salvar valor)
-        field.addEventListener('blur', (event) => {
-          this.#handleValueFieldBlur(event, type, path);
-        });
-      }
-    });
-    
-    console.log('[CARDIGAN] Value fields dynamic listeners added');
-  }
-
-  /**
-   * Handler para quando o usuário clica em um campo de valor (focus)
-   * @private
-   */
-  #handleValueFieldFocus(event, valueType, valuePath) {
-    const field = event.target;
-    const system = this.actor.system;
-    
-    // Para value fields, obter valor atual baseado no path
-    const pathParts = valuePath.split('.');
-    let currentValue = system;
-    for (let i = 1; i < pathParts.length; i++) { // Pula 'system'
-      currentValue = currentValue[pathParts[i]];
-    }
-    
-    // Mostrar o valor atual
-    field.value = currentValue === 0 ? '' : currentValue;
-    field.dataset.currentValue = currentValue;
-    
-    console.log(`[${valueType.toUpperCase()} VALUE FOCUS] Current: ${currentValue}`);
-    field.select();
-  }
-
-  /**
-   * Handler para quando o usuário sai de um campo de valor (blur)
-   * @private
-   */
-  #handleValueFieldBlur(event, valueType, valuePath) {
-    const field = event.target;
-    const userInput = Number(field.value) || 0;
-    const system = this.actor.system;
-    
-    // Obter valor máximo para validação
-    const pathParts = valuePath.split('.');
-    const resourceType = pathParts[pathParts.length - 2]; // 'health', 'power', ou 'armor'
-    const maxValue = system[resourceType].max;
-    
-    // Garantir que o valor não exceda o máximo
-    const finalValue = Math.min(userInput, maxValue);
-    
-    // Se o valor foi ajustado, mostrar o valor final
-    if (finalValue !== userInput) {
-      field.value = finalValue;
-      console.warn(`[${valueType.toUpperCase()} VALUE] Value ${userInput} capped to max ${maxValue}`);
-    } else {
-      field.value = finalValue;
-    }
-    
-    field.dataset.currentValue = finalValue;
-    
-    // Salvar o valor
-    const updateData = {};
-    updateData[valuePath] = finalValue;
-    
-    this.actor.update(updateData).catch(error => {
-      console.error(`[CARDIGAN] Erro ao atualizar ${valuePath}:`, error);
-    });
-    
-    console.log(`[${valueType.toUpperCase()} VALUE BLUR] Value: ${finalValue}${finalValue !== userInput ? ` (capped from ${userInput})` : ''}`);
-  }
-
 
   /**
    * Adjust font-size of name input based on actual text width
