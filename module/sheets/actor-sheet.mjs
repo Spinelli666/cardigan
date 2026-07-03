@@ -1,4 +1,4 @@
-const { api, sheets } = foundry.applications;
+﻿const { api, sheets } = foundry.applications;
 import ContextMenu5e from '../applications/context-menu.mjs';
 import { ItemTypeSelectionDialog } from '../applications/item-type-selection-dialog.mjs';
 import { RecipeCraftingDialog } from '../applications/recipe-crafting-dialog.mjs';
@@ -9,6 +9,8 @@ import { HeaderListeners } from './listeners/header-listeners.mjs';
 import { AbilitiesListeners } from './listeners/abilities-listeners.mjs';
 import { EquipmentFieldListeners } from './listeners/equipment-field-listeners.mjs';
 import { StatFieldListeners } from './listeners/stat-field-listeners.mjs';
+import { ProficiencyListeners } from './listeners/proficiency-listeners.mjs';
+import { EnhancementListeners } from './listeners/enhancement-listeners.mjs';
 import { ProficienciesActions } from './actions/proficiencies-actions.mjs';
 import { MoneyTradeActions } from './actions/money-trade-actions.mjs';
 import { InventoryActions } from './actions/inventory-actions.mjs';
@@ -372,7 +374,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     AbilitiesListeners.initialize(this.element, this.actor);
     
     // Adicionar event listeners para rolagem nas perícias (Accuracy, Evasion, etc.)
-    this.#addProficiencyRollListeners();
+    ProficiencyListeners.addProficiencyRollListeners(this.element, this);
     
     // Adicionar event listeners para campos dinâmicos de bonus
     StatFieldListeners.addBonusFieldsListeners(this.element, this.actor);
@@ -388,7 +390,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // No manual event listeners needed
     
     // Adicionar event listeners para checkboxes de aprimoramentos de skills
-    this.#addEnhancementCheckboxListeners();
+    EnhancementListeners.addEnhancementCheckboxListeners(this.element, this.actor, this);
     
     // Adicionar event listeners para campos dinâmicos de valores atuais
     StatFieldListeners.addValueFieldsListeners(this.element, this.actor);
@@ -2851,258 +2853,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   async _unequipArmor(armor) {
     return EquipmentActions.unequipArmorFromContext(armor, this);
-  }
-
-
-  /**
-   * Add click listeners to all proficiency value fields for rolling
-   * Left-click: Show roll dialog
-   * Right-click (contextmenu): Allow normal editing
-   * @private
-   */
-  #addProficiencyRollListeners() {
-    const proficiencyFields = this.element.querySelectorAll('.proficiency-item .ability-value[data-ability]');
-    
-    if (proficiencyFields.length === 0) {
-      console.warn('[CARDIGAN] No proficiency fields found for roll listeners');
-      return;
-    }
-    
-    proficiencyFields.forEach(field => {
-      const abilityKey = field.dataset.ability;
-      // Capitalize first letter for localization key (accuracy -> Accuracy)
-      const abilityKeyCapitalized = abilityKey.charAt(0).toUpperCase() + abilityKey.slice(1);
-      const localizationKey = `CARDIGAN.Ability.${abilityKeyCapitalized}.full`;
-      const abilityLabel = game.i18n.localize(localizationKey);
-      
-      // Variável para rastrear se estamos em modo de edição (por campo)
-      let isEditMode = false;
-      
-      // Mousedown: Prevenir foco no clique esquerdo
-      field.addEventListener('mousedown', (event) => {
-        // Botão esquerdo (button 0) - prevenir foco
-        if (event.button === 0 && !isEditMode) {
-          event.preventDefault();
-        }
-        // Botão direito (button 2) - ativar modo de edição
-        if (event.button === 2) {
-          isEditMode = true;
-        }
-      });
-      
-      // Click: Trigger roll dialog (apenas se não estiver em modo de edição)
-      field.addEventListener('click', async (event) => {
-        if (isEditMode) {
-          return; // Permitir edição normal
-        }
-        
-        event.preventDefault();
-        event.stopPropagation();
-        
-        // Simular o comportamento do botão de roll
-        const rollData = {
-          roll: `1d20+@${abilityKey}.total`,
-          label: abilityLabel,
-          key: abilityKey
-        };
-        
-        // Criar um evento simulado com os dataset necessários
-        const simulatedTarget = {
-          dataset: rollData
-        };
-        
-        // Chamar o método _onRoll com o contexto correto (bind this)
-        await this.constructor._onRoll.call(this, event, simulatedTarget);
-        
-        console.log(`[CARDIGAN] ${abilityLabel} roll triggered from value field`);
-      });
-      
-      // Right-click: Ativar modo de edição e forçar estado normal (sem hover)
-      field.addEventListener('contextmenu', (event) => {
-        event.preventDefault();
-        isEditMode = true;
-        
-        // Adicionar classe para forçar estado normal (esconde o d20, mostra o número)
-        const statusDisplay = field.closest('.status-display');
-        if (statusDisplay) {
-          statusDisplay.classList.add('force-normal');
-        }
-        
-        // Focar o campo para permitir edição
-        field.focus();
-        field.select();
-        
-        console.log(`[CARDIGAN] ${abilityLabel} field opened for editing`);
-      });
-      
-      // Blur: Desativar modo de edição quando sair do campo
-      field.addEventListener('blur', () => {
-        isEditMode = false;
-        
-        // Remover classe que força estado normal
-        const statusDisplay = field.closest('.status-display');
-        if (statusDisplay) {
-          statusDisplay.classList.remove('force-normal');
-        }
-      });
-      
-      // Adicionar cursor pointer para indicar que é clicável
-      field.style.cursor = 'pointer';
-    });
-    
-    console.log(`[CARDIGAN] Proficiency roll listeners added to ${proficiencyFields.length} fields`);
-  }
-
-  /**
-   * Add listeners for skill enhancement checkboxes
-   * @private
-   */
-  #addEnhancementCheckboxListeners() {
-    // Get all enhancement checkboxes
-    const checkboxes = this.element.querySelectorAll('input[type="checkbox"][name^="system.acquiredEnhancements"][data-item-id]');
-    
-    checkboxes.forEach(checkbox => {
-      // Remove any existing listeners to prevent duplicates
-      checkbox.removeEventListener('change', checkbox._enhancementHandler);
-      
-      // Create handler
-      checkbox._enhancementHandler = async (event) => {
-        const itemId = checkbox.dataset.itemId;
-        const item = this.actor.items.get(itemId);
-        
-        if (!item) {
-          console.error('[CARDIGAN] Item not found for enhancement checkbox:', itemId);
-          return;
-        }
-        
-        // Parse the enhancement index from the name (e.g., "system.acquiredEnhancements.1" -> index 1)
-        const match = checkbox.name.match(/system\.acquiredEnhancements\.(\d+)/);
-        if (!match) {
-          console.error('[CARDIGAN] Could not parse enhancement index from:', checkbox.name);
-          return;
-        }
-        
-        const index = parseInt(match[1]);
-        const isChecked = checkbox.checked;
-        
-        // Update the item's acquiredEnhancements array
-        const currentEnhancements = item.system.acquiredEnhancements || [false, false, false];
-        const newEnhancements = [...currentEnhancements];
-        newEnhancements[index] = isChecked;
-        
-        try {
-          await item.update({
-            'system.acquiredEnhancements': newEnhancements
-          }, {
-            render: false  // Prevent automatic re-render to avoid checkbox state issues
-          });
-          
-          // Handle linked skills for this enhancement
-          const enhancement = item.system.enhancements?.[index];
-          if (enhancement && enhancement.hasLinkedSkills && enhancement.linkedSkills?.length > 0) {
-            if (isChecked) {
-              // Add linked skills
-              await this._addEnhancementLinkedSkills(item, index, enhancement.linkedSkills);
-            } else {
-              // Remove linked skills
-              await this._removeEnhancementLinkedSkills(item, index);
-            }
-          }
-          
-          // Update expanded summary if it's currently open
-          const itemContainer = this.element.querySelector(`[data-item-id="${itemId}"]`)?.closest('.item-row, .item');
-          if (itemContainer && this.expandedSections?.get(itemId)) {
-            await this._refreshExpandedSummary(itemId, item);
-          }
-          
-        } catch (error) {
-          console.error('[CARDIGAN] Error updating enhancement:', error);
-          // Revert checkbox on error
-          checkbox.checked = !isChecked;
-        }
-      };
-      
-      checkbox.addEventListener('change', checkbox._enhancementHandler);
-    });
-    
-    console.log(`[CARDIGAN] Enhancement checkbox listeners added (${checkboxes.length} checkboxes)`);
-  }
-
-  /**
-   * Add linked skills when an enhancement is acquired
-   * @param {Item} parentSkill - The parent skill item
-   * @param {number} enhancementIndex - Index of the enhancement (0, 1, or 2)
-   * @param {Array} linkedSkills - Array of linked skill data
-   * @private
-   */
-  async _addEnhancementLinkedSkills(parentSkill, enhancementIndex, linkedSkills) {
-    if (!linkedSkills || linkedSkills.length === 0) return;
-
-    console.log(`[CARDIGAN] Adding ${linkedSkills.length} linked skills for enhancement ${enhancementIndex} of ${parentSkill.name}`);
-
-    const skillsToAdd = [];
-    for (const linkedSkill of linkedSkills) {
-      try {
-        // Get the skill from compendium
-        const skillDoc = await fromUuid(linkedSkill.uuid);
-        if (!skillDoc) {
-          console.warn(`[CARDIGAN] Could not find skill with UUID: ${linkedSkill.uuid}`);
-          continue;
-        }
-
-        // Check if skill already exists in actor
-        const existingSkill = this.actor.items.find(i => 
-          i.type === 'skill' && i.name === skillDoc.name
-        );
-
-        if (existingSkill) {
-          console.log(`[CARDIGAN] Skill ${skillDoc.name} already exists, skipping`);
-          continue;
-        }
-
-        // Prepare skill data with enhancement linked flag
-        const skillData = skillDoc.toObject();
-        skillData.system.enhancementLinkedSkill = {
-          isEnhancementLinked: true,
-          parentSkillId: parentSkill.id,
-          parentSkillName: parentSkill.name,
-          enhancementIndex: enhancementIndex
-        };
-
-        skillsToAdd.push(skillData);
-      } catch (error) {
-        console.error(`[CARDIGAN] Error processing linked skill:`, error);
-      }
-    }
-
-    if (skillsToAdd.length > 0) {
-      await this.actor.createEmbeddedDocuments('Item', skillsToAdd);
-      ui.notifications.info(`${skillsToAdd.length} skill(s) vinculada(s) adicionada(s) pelo aprimoramento ${enhancementIndex + 1} de ${parentSkill.name}`);
-    }
-  }
-
-  /**
-   * Remove linked skills when an enhancement is unacquired
-   * @param {Item} parentSkill - The parent skill item
-   * @param {number} enhancementIndex - Index of the enhancement (0, 1, or 2)
-   * @private
-   */
-  async _removeEnhancementLinkedSkills(parentSkill, enhancementIndex) {
-    console.log(`[CARDIGAN] Removing linked skills for enhancement ${enhancementIndex} of ${parentSkill.name}`);
-
-    // Find all skills linked to this enhancement
-    const linkedSkills = this.actor.items.filter(item => 
-      item.type === 'skill' &&
-      item.system.enhancementLinkedSkill?.isEnhancementLinked === true &&
-      item.system.enhancementLinkedSkill?.parentSkillId === parentSkill.id &&
-      item.system.enhancementLinkedSkill?.enhancementIndex === enhancementIndex
-    );
-
-    if (linkedSkills.length > 0) {
-      const idsToDelete = linkedSkills.map(s => s.id);
-      await this.actor.deleteEmbeddedDocuments('Item', idsToDelete);
-      ui.notifications.info(`${linkedSkills.length} skill(s) vinculada(s) removida(s) do aprimoramento ${enhancementIndex + 1} de ${parentSkill.name}`);
-    }
   }
 
   /**
