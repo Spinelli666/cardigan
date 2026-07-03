@@ -6,6 +6,7 @@ import EffectsCompendiumSelectionDialog from '../applications/effects-compendium
 import { HeaderActions } from './actions/header-actions.mjs';
 import { HeaderStatusActions } from './actions/header-status-actions.mjs';
 import { HeaderListeners } from './listeners/header-listeners.mjs';
+import { AbilitiesListeners } from './listeners/abilities-listeners.mjs';
 import { ProficienciesActions } from './actions/proficiencies-actions.mjs';
 import { MoneyTradeActions } from './actions/money-trade-actions.mjs';
 import { InventoryActions } from './actions/inventory-actions.mjs';
@@ -366,7 +367,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     this.#addAmmunitionListeners();
     
     // Adicionar event listeners para campos dinâmicos de abilities
-    this.#addAbilitiesListeners();
+    AbilitiesListeners.initialize(this.element, this.actor);
     
     // Adicionar event listeners para rolagem nas perícias (Accuracy, Evasion, etc.)
     this.#addProficiencyRollListeners();
@@ -3293,31 +3294,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     return EquipmentActions.unequipArmorFromContext(armor, this);
   }
 
-  /**
-   * Adicionar event listeners para campos dinâmicos de abilities
-   * Implementa o padrão Dynamic Base + Manual Field
-   * @private
-   */
-  #addAbilitiesListeners() {
-    const dynamicFields = this.element.querySelectorAll('.dynamic-field');
-    
-    dynamicFields.forEach(field => {
-      const ability = field.dataset.ability;
-      const fieldType = field.dataset.field; // 'value' ou 'totalBonus'
-      
-      // Event listener para focus (mostrar valor manual)
-      field.addEventListener('focus', (event) => {
-        this.#handleAbilityFieldFocus(event, ability, fieldType);
-      });
-      
-      // Event listener para blur (calcular e mostrar total)
-      field.addEventListener('blur', (event) => {
-        this.#handleAbilityFieldBlur(event, ability, fieldType);
-      });
-    });
-    
-    console.log(`[CARDIGAN] Dynamic abilities listeners added to ${dynamicFields.length} fields`);
-  }
 
   /**
    * Add click listeners to all proficiency value fields for rolling
@@ -3418,80 +3394,6 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     console.log(`[CARDIGAN] Proficiency roll listeners added to ${proficiencyFields.length} fields`);
   }
 
-  /**
-   * Handler para quando o usuário foca em um campo de ability (focus)
-   * Mostra o valor manual inserido (sem modificadores)
-   * @private
-   */
-  #handleAbilityFieldFocus(event, ability, fieldType) {
-    const field = event.target;
-    const abilityData = this.actor.system.abilities[ability];
-    
-    if (fieldType === 'value') {
-      // Campo base - mostrar apenas o valor manual
-      const manualValue = abilityData.manualValue || 0;
-      field.value = manualValue === 0 ? '' : manualValue;
-      field.dataset.manualValue = manualValue;
-      
-      console.log(`[ABILITY FOCUS] ${ability}.value - Manual: ${manualValue}`);
-    } else if (fieldType === 'totalBonus') {
-      // Campo bônus - mostrar apenas o bônus manual
-      const manualBonus = abilityData.manualBonus || 0;
-      field.value = manualBonus === 0 ? '' : manualBonus;
-      field.dataset.manualBonus = manualBonus;
-      
-      console.log(`[ABILITY FOCUS] ${ability}.totalBonus - Manual: ${manualBonus}`);
-    }
-    
-    field.select();
-  }
-
-  /**
-   * Handler para quando o usuário sai de um campo de ability (blur)
-   * @private
-   */
-  #handleAbilityFieldBlur(event, ability, fieldType) {
-    const field = event.target;
-    const userInput = Number(field.value) || 0;
-    const abilityData = this.actor.system.abilities[ability];
-    
-    if (fieldType === 'value') {
-      // Campo base - calcular total
-      const baseValue = abilityData.baseValue || 0; // Valor padrão
-      const totalValue = baseValue + userInput;
-      
-      field.value = totalValue;
-      field.dataset.manualValue = userInput;
-      
-      // Salvar apenas o valor manual
-      this.actor.update({
-        [`system.abilities.${ability}.manualValue`]: userInput
-      }).catch(error => {
-        console.error(`[CARDIGAN] Erro ao atualizar ${ability}.manualValue:`, error);
-      });
-      
-      console.log(`[ABILITY BLUR] ${ability}.value - Manual: ${userInput}, Total: ${totalValue}`);
-    } else if (fieldType === 'totalBonus') {
-      // Campo bônus - calcular total
-      const calculatedBonus =
-        (abilityData.baseBonus || 0) +
-        (abilityData.weaponBonus || 0) +
-        (abilityData.armorBonus || 0);
-      const totalBonus = calculatedBonus + userInput;
-      
-      field.value = totalBonus;
-      field.dataset.manualBonus = userInput;
-      
-      // Salvar apenas o bônus manual
-      this.actor.update({
-        [`system.abilities.${ability}.manualBonus`]: userInput
-      }).catch(error => {
-        console.error(`[CARDIGAN] Erro ao atualizar ${ability}.manualBonus:`, error);
-      });
-      
-      console.log(`[ABILITY BLUR] ${ability}.totalBonus - Manual: ${userInput}, Calculated: ${calculatedBonus}, Total: ${totalBonus}`);
-    }
-  }
 
   /**
    * Add listeners for bonus fields (health, energy, armor)
