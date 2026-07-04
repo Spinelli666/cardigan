@@ -1,0 +1,39 @@
+{{!-- proficiency-item.hbs: bloco de proficiência (bonus input + value input + label) --}}
+{{!-- Parâmetros: ability, abilityData, labelPrefix --}}
+<div class='proficiencies-list'>
+  <div class='proficiency-item'>
+    <div class='bonus-container'>
+      <input
+        type='number'
+        name='{{concat "system.abilities." ability ".totalBonus"}}'
+        value='{{abilityData.totalBonus}}'
+        data-dtype='Number'
+        class='bonus-input dynamic-field'
+        data-ability='{{ability}}'
+        data-field='totalBonus'
+      />
+    </div>
+    <div class='status-display'>
+      <input
+        type='number'
+        name='{{concat "system.abilities." ability ".value"}}'
+        value='{{abilityData.value}}'
+        data-dtype='Number'
+        class='ability-value dynamic-field'
+        data-ability='{{ability}}'
+        data-field='value'
+      />
+      <img src='systems/cardigan/assets/images/decorative/icons/icon-d20.svg' class='d20-icon' alt='d20' />
+    </div>
+  </div>
+  <div class='proficiency-label-wrapper'>
+    <label
+      class='proficiency-clickable-label'
+      data-tooltip='{{concat labelPrefix ".full"}}'
+      data-tooltip-class='cardigan-tooltip'
+      data-tooltip-type='proficiency'
+      data-ability='{{ability}}'>
+      {{localize (concat labelPrefix ".long")}}
+    </label>
+  </div>
+</div>

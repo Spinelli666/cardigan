@@ -152,6 +152,7 @@ Hooks.once('init', function () {
     'systems/cardigan/templates/actor/partials/durability-display.hbs',
     'systems/cardigan/templates/actor/partials/armor-info-badges.hbs',
     'systems/cardigan/templates/actor/partials/equipped-armor-item.hbs',
+    'systems/cardigan/templates/actor/partials/proficiency-item.hbs',
   ]);
 });
 
