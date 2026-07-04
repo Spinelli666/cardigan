@@ -16,6 +16,6 @@ A documentação detalhada do projeto foi organizada em `docs-ai/` para economiz
 - @docs-ai/project-conventions.md — convenções e regras do projeto (padrão Manager, idioma dos campos de schema, padrão de sheets/sockets).
 - @docs-ai/foundry-references.md — repositórios externos de referência (foundryvtt, dnd5e, pf2e, daggerheart, olddragon2e, foundryvtt-cli) — apenas para consulta de padrões, nunca copiar código diretamente.
 - @docs-ai/pending-tasks.md — **resumo acionável** das refatorações e investigações pendentes.
-- @INVESTIGACOES_FUTURAS.md — arquivo **histórico/original** de investigações, hipóteses e anotações detalhadas (na raiz do projeto). Não editar seu conteúdo existente sem necessidade.
+- @FUTURE_INVESTIGATIONS.md — arquivo **histórico/original** de investigações, hipóteses e anotações detalhadas (na raiz do projeto). Não editar seu conteúdo existente sem necessidade.
 
-**Antes de iniciar tarefas complexas** (refatorações de sheets, effects, skills, weapon-properties, ou qualquer mudança estrutural), consulte `docs-ai/pending-tasks.md` e, quando relevante, `INVESTIGACOES_FUTURAS.md` para entender o contexto e decisões já tomadas.
+**Antes de iniciar tarefas complexas** (refatorações de sheets, effects, skills, weapon-properties, ou qualquer mudança estrutural), consulte `docs-ai/pending-tasks.md` e, quando relevante, `FUTURE_INVESTIGATIONS.md` para entender o contexto e decisões já tomadas.

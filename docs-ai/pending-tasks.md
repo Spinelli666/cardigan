@@ -1,8 +1,8 @@
 # Tarefas Pendentes (Resumo Acionável)
 
-Este arquivo é um **resumo organizado e acionável** das investigações registradas em [`INVESTIGACOES_FUTURAS.md`](../INVESTIGACOES_FUTURAS.md) (raiz do projeto). Esse arquivo histórico contém o detalhamento completo, comparações com outros sistemas, exemplos de código e justificativas — **não foi alterado e deve ser consultado para contexto completo** antes de iniciar qualquer item abaixo marcado como tarefa grande.
+Este arquivo é um **resumo organizado e acionável** das investigações registradas em [`FUTURE_INVESTIGATIONS.md`](../FUTURE_INVESTIGATIONS.md) (raiz do projeto). Esse arquivo histórico contém o detalhamento completo, comparações com outros sistemas, exemplos de código e justificativas — **não foi alterado e deve ser consultado para contexto completo** antes de iniciar qualquer item abaixo marcado como tarefa grande.
 
-Última sincronização com `INVESTIGACOES_FUTURAS.md`: última atualização registrada lá foi 14/01/2026, com adição de 28/03/2026 (backlog de extrações do `actor-sheet.mjs`). Atualizado em 30/06/2026 com conclusão da Fase 2 de `cardigan.mjs`. Atualizado em 01/07/2026 com conclusão da Fase 3 de `skill-manager.mjs`. Atualizado em 03/07/2026 com conclusão da refatoração do `actor-sheet.mjs`. Atualizado em 03/07/2026 com conclusão da Fase 4 (Weapon Properties base class). Atualizado em 04/07/2026 com conclusão da Fase 2 (Templates Handlebars).
+Última sincronização com `FUTURE_INVESTIGATIONS.md`: última atualização registrada lá foi 14/01/2026, com adição de 28/03/2026 (backlog de extrações do `actor-sheet.mjs`). Atualizado em 30/06/2026 com conclusão da Fase 2 de `cardigan.mjs`. Atualizado em 01/07/2026 com conclusão da Fase 3 de `skill-manager.mjs`. Atualizado em 03/07/2026 com conclusão da refatoração do `actor-sheet.mjs`. Atualizado em 03/07/2026 com conclusão da Fase 4 (Weapon Properties base class). Atualizado em 04/07/2026 com conclusão da Fase 2 (Templates Handlebars).
 
 ---
 
@@ -81,7 +81,7 @@ O arquivo restante (~1.512 linhas) contém lifecycle hooks, `_prepareContext`, `
 - Integrado ao `actor._onUpdate` hook (Opção B do leque de soluções avaliado).
 - `setTimeout` removido de `prepareDerivedData()`; ~172 linhas de métodos deprecated removidas.
 
-Nenhuma ação pendente aqui — registrado apenas para histórico/contexto (ver opções A/B/C avaliadas em `INVESTIGACOES_FUTURAS.md` caso um padrão similar seja necessário em outro efeito).
+Nenhuma ação pendente aqui — registrado apenas para histórico/contexto (ver opções A/B/C avaliadas em `FUTURE_INVESTIGATIONS.md` caso um padrão similar seja necessário em outro efeito).
 
 ---
 
@@ -129,13 +129,13 @@ O arquivo restante (~309 linhas) é puro orchestrator: registry, `initialize()`,
 | 8 | `weapon-reload-ammo.hbs` | `equipment.hbs` — wrapper de reload e display de munição |
 | 9 | `armor-section-container.hbs` | `equipment.hbs` — container de seção de armadura por tipo de corpo (6 slots) |
 
-Todos os partials registrados via `foundry.applications.handlebars.loadTemplates()` no hook `init` de `module/cardigan.mjs`. Os partials originalmente planejados em `INVESTIGACOES_FUTURAS.md` (`item-row.hbs`, `effect-badge.hbs`, etc.) foram substituídos pelos listados acima, que refletem a duplicação real encontrada nos templates.
+Todos os partials registrados via `foundry.applications.handlebars.loadTemplates()` no hook `init` de `module/cardigan.mjs`. Os partials originalmente planejados em `FUTURE_INVESTIGATIONS.md` (`item-row.hbs`, `effect-badge.hbs`, etc.) foram substituídos pelos listados acima, que refletem a duplicação real encontrada nos templates.
 
 ---
 
 ## 🟡 Prioridade média — Outras refatorações planejadas (Fase 5)
 
-Detalhes completos e exemplos de código em `INVESTIGACOES_FUTURAS.md`.
+Detalhes completos e exemplos de código em `FUTURE_INVESTIGATIONS.md`.
 
 - **Fase 5 — JSDoc**: adicionar JSDoc consistente em data models, helpers principais, weapon properties e effect classes (padrão pf2e).
 
@@ -156,12 +156,12 @@ Detalhes completos e exemplos de código em `INVESTIGACOES_FUTURAS.md`.
 - Padronizar comentários novos em inglês (JSDoc).
 - Métodos/constantes já seguem inglês.
 
-**Se esta migração for retomada no futuro**, o plano completo (8 etapas: mapeamento, sistema de migração de dados, refatoração de schemas, atualização de templates, refatoração de sheets, atualização de compêndios, camada de compatibilidade com `logCompatibilityWarning`, testes) está detalhado em `INVESTIGACOES_FUTURAS.md`, incluindo tabela de riscos/mitigações. Tratar como **versão major (v2.0)**, não como tarefa incremental.
+**Se esta migração for retomada no futuro**, o plano completo (8 etapas: mapeamento, sistema de migração de dados, refatoração de schemas, atualização de templates, refatoração de sheets, atualização de compêndios, camada de compatibilidade com `logCompatibilityWarning`, testes) está detalhado em `FUTURE_INVESTIGATIONS.md`, incluindo tabela de riscos/mitigações. Tratar como **versão major (v2.0)**, não como tarefa incremental.
 
 ---
 
 ## Como usar este arquivo
 
-- Antes de iniciar qualquer refatoração de sheets/skills/effects/weapon-properties, releia a seção correspondente aqui **e** em `INVESTIGACOES_FUTURAS.md` para contexto completo (exemplos de código-alvo, comparações com outros sistemas).
-- Ao concluir um item, atualize tanto este arquivo (mover para "Concluído") quanto, se fizer sentido, adicionar uma nota em `INVESTIGACOES_FUTURAS.md` (sem apagar o histórico existente).
+- Antes de iniciar qualquer refatoração de sheets/skills/effects/weapon-properties, releia a seção correspondente aqui **e** em `FUTURE_INVESTIGATIONS.md` para contexto completo (exemplos de código-alvo, comparações com outros sistemas).
+- Ao concluir um item, atualize tanto este arquivo (mover para "Concluído") quanto, se fizer sentido, adicionar uma nota em `FUTURE_INVESTIGATIONS.md` (sem apagar o histórico existente).
 - Itens marcados como "hipótese/investigação não confirmada" exigem decisão explícita do usuário antes de virarem trabalho ativo.
