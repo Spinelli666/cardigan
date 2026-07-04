@@ -2,7 +2,7 @@
 
 Este arquivo é um **resumo organizado e acionável** das investigações registradas em [`INVESTIGACOES_FUTURAS.md`](../INVESTIGACOES_FUTURAS.md) (raiz do projeto). Esse arquivo histórico contém o detalhamento completo, comparações com outros sistemas, exemplos de código e justificativas — **não foi alterado e deve ser consultado para contexto completo** antes de iniciar qualquer item abaixo marcado como tarefa grande.
 
-Última sincronização com `INVESTIGACOES_FUTURAS.md`: última atualização registrada lá foi 14/01/2026, com adição de 28/03/2026 (backlog de extrações do `actor-sheet.mjs`). Atualizado em 30/06/2026 com conclusão da Fase 2 de `cardigan.mjs`. Atualizado em 01/07/2026 com conclusão da Fase 3 de `skill-manager.mjs`. Atualizado em 03/07/2026 com conclusão da refatoração do `actor-sheet.mjs`. Atualizado em 03/07/2026 com conclusão da Fase 4 (Weapon Properties base class).
+Última sincronização com `INVESTIGACOES_FUTURAS.md`: última atualização registrada lá foi 14/01/2026, com adição de 28/03/2026 (backlog de extrações do `actor-sheet.mjs`). Atualizado em 30/06/2026 com conclusão da Fase 2 de `cardigan.mjs`. Atualizado em 01/07/2026 com conclusão da Fase 3 de `skill-manager.mjs`. Atualizado em 03/07/2026 com conclusão da refatoração do `actor-sheet.mjs`. Atualizado em 03/07/2026 com conclusão da Fase 4 (Weapon Properties base class). Atualizado em 04/07/2026 com conclusão da Fase 2 (Templates Handlebars).
 
 ---
 
@@ -113,11 +113,30 @@ O arquivo restante (~309 linhas) é puro orchestrator: registry, `initialize()`,
 
 ---
 
-## 🟡 Prioridade média — Outras refatorações planejadas (Fases 2, 5)
+## ✅ Concluído — Fase 2: Templates Handlebars — 04/07/2026
+
+9 partials reutilizáveis criados em `templates/actor/partials/` ao longo de 9 commits cirúrgicos, eliminando HTML duplicado em `templates/actor/`:
+
+| Commit | Partial | Extraído de |
+|--------|---------|-------------|
+| 1 | `skill-row.hbs` | `professions.hbs` — linha de skill em listas de profissão |
+| 2 | `recipe-row.hbs` | `professions.hbs` — linha de receita (cozinha/costura/tecnomagia) |
+| 3 | `durability-display.hbs` | `equipment.hbs` — exibição de durabilidade de armadura |
+| 4 | `armor-info-badges.hbs` | `equipment.hbs` — badges de proteção, tipo, peso e slot |
+| 5 | `equipped-armor-item.hbs` | `equipment.hbs` — item de armadura equipado (compõe commits 3+4) |
+| 6 | `proficiency-item.hbs` | `proficiencies.hbs` — linha de proficiência por habilidade |
+| 7 | `sequential-status-field.hbs` | `header.hbs` — campo de status sequencial (fome, sede, vida, energia) |
+| 8 | `weapon-reload-ammo.hbs` | `equipment.hbs` — wrapper de reload e display de munição |
+| 9 | `armor-section-container.hbs` | `equipment.hbs` — container de seção de armadura por tipo de corpo (6 slots) |
+
+Todos os partials registrados via `foundry.applications.handlebars.loadTemplates()` no hook `init` de `module/cardigan.mjs`. Os partials originalmente planejados em `INVESTIGACOES_FUTURAS.md` (`item-row.hbs`, `effect-badge.hbs`, etc.) foram substituídos pelos listados acima, que refletem a duplicação real encontrada nos templates.
+
+---
+
+## 🟡 Prioridade média — Outras refatorações planejadas (Fase 5)
 
 Detalhes completos e exemplos de código em `INVESTIGACOES_FUTURAS.md`.
 
-- **Fase 2 — Templates Handlebars**: criar partials reutilizáveis (`item-row.hbs`, `proficiency-row.hbs`, `skill-card.hbs`, `effect-badge.hbs`, `ability-score.hbs`, `resource-bar.hbs`, `armor-slot.hbs`, `weapon-slot.hbs`) para reduzir HTML duplicado em `templates/actor/`.
 - **Fase 5 — JSDoc**: adicionar JSDoc consistente em data models, helpers principais, weapon properties e effect classes (padrão pf2e).
 
 ---
