@@ -6,7 +6,7 @@ import { BaseWeaponProperty } from '../base-weapon-property.mjs';
  */
 export class Certeiro extends BaseWeaponProperty {
   static get id() {
-    return 'certeiro';
+    return 'accurate';
   }
 
   /**

@@ -275,7 +275,7 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
       const currentDurability = weapon.system.durability?.current ?? 0;
       if (currentDurability <= 0) continue;
       
-      if (weapon.system.properties?.includes('certeiro')) {
+      if (weapon.system.properties?.includes('accurate')) {
         certeiroCriticalBonus -= 1;
       }
     }

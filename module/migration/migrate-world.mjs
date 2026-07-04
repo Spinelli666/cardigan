@@ -61,6 +61,7 @@ async function _migrateItem(item) {
   if (item.type === 'armadura') await _migrateArmaduraItem(item);
   if (item.type === 'efeito') await _migrateEfeitoItem(item);
   if (item.type === 'skill') await _migrateSkillItem(item);
+  if (item.type === 'arma') await _migrateArmaItem(item);
   await _migrateWeightItem(item);
 }
 
@@ -146,6 +147,29 @@ async function _migrateSkillItem(item) {
 
   if (Object.keys(updates).length > 0) {
     await item.update(updates);
+  }
+}
+
+const WEAPON_PROPERTY_PT_TO_EN = {
+  'certeiro': 'accurate',
+  'contundente': 'blunt',
+  'eletrocutar': 'electrify',
+  'ferir': 'wound',
+  'impacto': 'impact',
+  'incendiar': 'ignite',
+  'traspassar': 'pierce'
+};
+
+/**
+ * Migrate weapon properties array values PT→EN.
+ * @param {Item} item
+ */
+async function _migrateArmaItem(item) {
+  const source = item._source?.system ?? {};
+  if (!Array.isArray(source.properties)) return;
+  const migrated = source.properties.map(p => WEAPON_PROPERTY_PT_TO_EN[p] ?? p);
+  if (migrated.some((p, i) => p !== source.properties[i])) {
+    await item.update({ 'system.properties': migrated });
   }
 }
 

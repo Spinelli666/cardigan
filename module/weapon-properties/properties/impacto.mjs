@@ -6,7 +6,7 @@ import { BaseWeaponProperty } from '../base-weapon-property.mjs';
  */
 export class Impacto extends BaseWeaponProperty {
   static get id() {
-    return 'impacto';
+    return 'impact';
   }
 
   /**
@@ -19,7 +19,7 @@ export class Impacto extends BaseWeaponProperty {
    */
   async onCriticalHit(attacker, defender, criticalData) {
     if (!defender) {
-      console.warn('[IMPACTO] No defender provided for critical hit');
+      console.warn('[IMPACT] No defender provided for critical hit');
       return;
     }
 
@@ -86,7 +86,7 @@ export class Impacto extends BaseWeaponProperty {
       
       return true;
     } catch (error) {
-      console.error('[IMPACTO] Error applying fracture:', error);
+      console.error('[IMPACT] Error applying fracture:', error);
       ui.notifications.error(`Erro ao aplicar Fratura: ${error.message}`);
       return false;
     }

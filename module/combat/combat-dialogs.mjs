@@ -507,8 +507,8 @@ export async function createAttackerResultDialog(data) {
           // Also show locally
           showDamageNotification(notificationData);
           
-          // Apply bleeding effect if weapon has "ferir" property and attacker scored critical hit
-          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("ferir")) {
+          // Apply bleeding effect if weapon has "wound" property and attacker scored critical hit
+          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("wound")) {
             console.log('[FERIR] Player Dialog - Conditions met: critical hit + ferir property');
             const defenderActor = game.actors.get(actorId);
             if (defenderActor) {
@@ -516,40 +516,40 @@ export async function createAttackerResultDialog(data) {
             }
           }
           
-          // Apply weakened effect if weapon has "traspassar" property and attacker scored critical hit
-          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("traspassar")) {
+          // Apply weakened effect if weapon has "pierce" property and attacker scored critical hit
+          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("pierce")) {
             const defenderActor = game.actors.get(actorId);
             if (defenderActor) {
               await Traspassar.applyWeakenedEffect(defenderActor, weaponName || "arma com traspassar");
             }
           }
           
-          // Apply prone effect if weapon has "contundente" property and attacker scored critical hit
-          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("contundente")) {
+          // Apply prone effect if weapon has "blunt" property and attacker scored critical hit
+          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("blunt")) {
             const defenderActor = game.actors.get(actorId);
             if (defenderActor) {
               await Contundente.applyProneEffect(defenderActor, weaponName || "arma contundente");
             }
           }
           
-          // Apply burning effect if weapon has "incendiar" property and attacker scored critical hit
-          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("incendiar")) {
+          // Apply burning effect if weapon has "ignite" property and attacker scored critical hit
+          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("ignite")) {
             const defenderActor = game.actors.get(actorId);
             if (defenderActor) {
               await Incendiar.applyBurningEffect(defenderActor, weaponName || "arma incendiária");
             }
           }
           
-          // Apply shocked effect if weapon has "eletrocutar" property and attacker scored critical hit
-          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("eletrocutar")) {
+          // Apply shocked effect if weapon has "electrify" property and attacker scored critical hit
+          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("electrify")) {
             const defenderActor = game.actors.get(actorId);
             if (defenderActor) {
               await Eletrocutar.applyShockedEffect(defenderActor, weaponName || "arma elétrica");
             }
           }
           
-          // Apply fracture if weapon has "impacto" property and attacker scored critical hit
-          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("impacto")) {
+          // Apply fracture if weapon has "impact" property and attacker scored critical hit
+          if (attackerCriticalHit && weaponProperties && weaponProperties.includes("impact")) {
             const defenderActor = game.actors.get(actorId);
             if (defenderActor) {
               await Impacto.applyFractureEffect(defenderActor, weaponName || "arma de impacto");
@@ -1047,33 +1047,33 @@ export async function createGMEvasionNotification(data) {
             // Also show locally
             showDamageNotification(notificationData);
             
-            // Apply bleeding effect if weapon has "ferir" property and attacker scored critical hit
-            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("ferir")) {
+            // Apply bleeding effect if weapon has "wound" property and attacker scored critical hit
+            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("wound")) {
               await Ferir.applyBleedingEffect(actor, weaponName || "arma com ferir");
             }
             
-            // Apply weakened effect if weapon has "traspassar" property and attacker scored critical hit
-            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("traspassar")) {
+            // Apply weakened effect if weapon has "pierce" property and attacker scored critical hit
+            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("pierce")) {
               await Traspassar.applyWeakenedEffect(actor, weaponName || "arma com traspassar");
             }
             
-            // Apply prone effect if weapon has "contundente" property and attacker scored critical hit
-            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("contundente")) {
+            // Apply prone effect if weapon has "blunt" property and attacker scored critical hit
+            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("blunt")) {
               await Contundente.applyProneEffect(actor, weaponName || "arma contundente");
             }
             
-            // Apply burning effect if weapon has "incendiar" property and attacker scored critical hit
-            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("incendiar")) {
+            // Apply burning effect if weapon has "ignite" property and attacker scored critical hit
+            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("ignite")) {
               await Incendiar.applyBurningEffect(actor, weaponName || "arma incendiária");
             }
             
-            // Apply shocked effect if weapon has "eletrocutar" property and attacker scored critical hit
-            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("eletrocutar")) {
+            // Apply shocked effect if weapon has "electrify" property and attacker scored critical hit
+            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("electrify")) {
               await Eletrocutar.applyShockedEffect(actor, weaponName || "arma elétrica");
             }
             
-            // Apply fracture if weapon has "impacto" property and attacker scored critical hit
-            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("impacto")) {
+            // Apply fracture if weapon has "impact" property and attacker scored critical hit
+            if (attackerCriticalHit && weaponProperties && weaponProperties.includes("impact")) {
               await Impacto.applyFractureEffect(actor, weaponName || "arma de impacto");
             }
             

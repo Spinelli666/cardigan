@@ -25,13 +25,13 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
 
   /** Valid weapon properties that can be applied */
   static VALID_PROPERTIES = [
-    'certeiro',
-    'contundente',
-    'eletrocutar',
-    'ferir',
-    'impacto',
-    'incendiar',
-    'traspassar',
+    'accurate',
+    'blunt',
+    'electrify',
+    'wound',
+    'impact',
+    'ignite',
+    'pierce',
     'vorpal'
   ];
 
