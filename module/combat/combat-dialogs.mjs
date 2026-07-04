@@ -1,12 +1,12 @@
 ﻿import { buildRollFormula } from '../helpers/config.mjs';
 import { ChatMessageHelper } from '../helpers/chat-messages.mjs';
 // Import weapon property classes for combat effects
-import { Ferir } from '../weapon-properties/properties/ferir.mjs';
-import { Traspassar } from '../weapon-properties/properties/traspassar.mjs';
-import { Contundente } from '../weapon-properties/properties/contundente.mjs';
-import { Incendiar } from '../weapon-properties/properties/incendiar.mjs';
-import { Eletrocutar } from '../weapon-properties/properties/eletrocutar.mjs';
-import { Impacto } from '../weapon-properties/properties/impacto.mjs';
+import { Ferir } from '../weapon-properties/properties/wound.mjs';
+import { Traspassar } from '../weapon-properties/properties/pierce.mjs';
+import { Contundente } from '../weapon-properties/properties/blunt.mjs';
+import { Incendiar } from '../weapon-properties/properties/ignite.mjs';
+import { Eletrocutar } from '../weapon-properties/properties/electrocute.mjs';
+import { Impacto } from '../weapon-properties/properties/impact.mjs';
 // Global Map to track active attack dialogs
 const activeAttackDialogs = new Map();
 

@@ -36,7 +36,7 @@ export function registerInitSocketListeners({
     } else if (data.type === "applyBleeding" && game.user.isGM) {
       const targetActor = game.actors.get(data.targetActorId);
       if (targetActor) {
-        const { Ferir } = await import('./weapon-properties/properties/ferir.mjs');
+        const { Ferir } = await import('./weapon-properties/properties/wound.mjs');
         await Ferir.applyBleedingEffect(targetActor, data.weaponName);
       } else {
         console.error('[FERIR] Target actor not found:', data.targetActorId);
@@ -48,7 +48,7 @@ export function registerInitSocketListeners({
     } else if (data.type === "applyWeakened" && game.user.isGM) {
       const targetActor = game.actors.get(data.targetActorId);
       if (targetActor) {
-        const { Traspassar } = await import('./weapon-properties/properties/traspassar.mjs');
+        const { Traspassar } = await import('./weapon-properties/properties/pierce.mjs');
         await Traspassar.applyWeakenedEffect(targetActor, data.weaponName);
       } else {
         console.error('[TRASPASSAR] Target actor not found:', data.targetActorId);
@@ -60,7 +60,7 @@ export function registerInitSocketListeners({
     } else if (data.type === "applyProne" && game.user.isGM) {
       const targetActor = game.actors.get(data.targetActorId);
       if (targetActor) {
-        const { Contundente } = await import('./weapon-properties/properties/contundente.mjs');
+        const { Contundente } = await import('./weapon-properties/properties/blunt.mjs');
         await Contundente.applyProneEffect(targetActor, data.weaponName);
       } else {
         console.error('[CONTUNDENTE] Target actor not found:', data.targetActorId);
@@ -72,7 +72,7 @@ export function registerInitSocketListeners({
     } else if (data.type === "applyBurning" && game.user.isGM) {
       const targetActor = game.actors.get(data.targetActorId);
       if (targetActor) {
-        const { Incendiar } = await import('./weapon-properties/properties/incendiar.mjs');
+        const { Incendiar } = await import('./weapon-properties/properties/ignite.mjs');
         await Incendiar.applyBurningEffect(targetActor, data.weaponName);
       } else {
         console.error('[INCENDIAR] Target actor not found:', data.targetActorId);
@@ -84,7 +84,7 @@ export function registerInitSocketListeners({
     } else if (data.type === "applyShocked" && game.user.isGM) {
       const targetActor = game.actors.get(data.targetActorId);
       if (targetActor) {
-        const { Eletrocutar } = await import('./weapon-properties/properties/eletrocutar.mjs');
+        const { Eletrocutar } = await import('./weapon-properties/properties/electrocute.mjs');
         await Eletrocutar.applyShockedEffect(targetActor, data.weaponName);
       } else {
         console.error('[ELETROCUTAR] Target actor not found:', data.targetActorId);
@@ -96,7 +96,7 @@ export function registerInitSocketListeners({
     } else if (data.type === "applyFracture" && game.user.isGM) {
       const targetActor = game.actors.get(data.targetActorId);
       if (targetActor) {
-        const { Impacto } = await import('./weapon-properties/properties/impacto.mjs');
+        const { Impacto } = await import('./weapon-properties/properties/impact.mjs');
         await Impacto.applyFractureEffect(targetActor, data.weaponName);
       } else {
         console.error('[IMPACTO] Target actor not found:', data.targetActorId);
