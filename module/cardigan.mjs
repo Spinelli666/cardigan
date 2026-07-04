@@ -148,6 +148,7 @@ Hooks.once('init', function () {
   // Pre-load HBS partials for reusable template components
   foundry.applications.handlebars.loadTemplates([
     'systems/cardigan/templates/actor/partials/skill-row.hbs',
+    'systems/cardigan/templates/actor/partials/recipe-row.hbs',
   ]);
 });
 
