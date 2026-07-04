@@ -561,131 +561,83 @@
 
   {{#if (and system.details.showWeaponsTable hasHeaderArmorEquipped)}}
   <div class="armor-equipament-container">
-    {{#if hasHeadArmorEquipped}}
-    <div class="head-container">
-      <div class='head-title-row'>
-        <img
-          src='systems/cardigan/assets/images/armor/head.webp'
-          alt='Cabeça'
-          class='head-image'
-        />
-        <p>⬩ CABEÇA</p>
-      </div>
+    {{> "systems/cardigan/templates/actor/partials/armor-section-container.hbs"
+      guard=hasHeadArmorEquipped
+      containerClass="head-container"
+      titleRowClass="head-title-row"
+      imgSrc="systems/cardigan/assets/images/armor/head.webp"
+      imgAlt="Cabeça"
+      imgClass="head-image"
+      label="CABEÇA"
+      tableClass="head-armor-table"
+      armorType="cabeca"
+      itemClass="head-armor-item"
+    }}
 
-      <ol class='items-list head-armor-table'>
-        {{#each armaduras as |item id|}}
-          {{#if (eq item.system.armorType "cabeca")}}
-            {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass="head-armor-item"}}
-          {{/if}}
-        {{/each}}
-      </ol>
-    </div>
-    {{/if}}
+    {{> "systems/cardigan/templates/actor/partials/armor-section-container.hbs"
+      guard=hasTorsoArmorEquipped
+      containerClass="torso-container"
+      titleRowClass="torso-title-row"
+      imgSrc="systems/cardigan/assets/images/armor/chest.webp"
+      imgAlt="Torso"
+      imgClass="torso-image"
+      label="TORSO"
+      tableClass="torso-armor-table"
+      armorType="torso"
+      itemClass="torso-armor-item"
+    }}
 
-    {{#if hasTorsoArmorEquipped}}
-    <div class="torso-container">
-      <div class='torso-title-row'>
-        <img
-          src='systems/cardigan/assets/images/armor/chest.webp'
-          alt='Torso'
-          class='torso-image'
-        />
-        <p>⬩ TORSO</p>
-      </div>
+    {{> "systems/cardigan/templates/actor/partials/armor-section-container.hbs"
+      guard=hasArmsArmorEquipped
+      containerClass="arms-container"
+      titleRowClass="arms-title-row"
+      imgSrc="systems/cardigan/assets/images/armor/arms.webp"
+      imgAlt="Braços"
+      imgClass="arms-image"
+      label="BRAÇOS"
+      tableClass="arms-armor-table"
+      armorType="bracos"
+      itemClass="arms-armor-item"
+    }}
 
-      <ol class='items-list torso-armor-table'>
-        {{#each armaduras as |item id|}}
-          {{#if (eq item.system.armorType "torso")}}
-            {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass="torso-armor-item"}}
-          {{/if}}
-        {{/each}}
-      </ol>
-    </div>
-    {{/if}}
+    {{> "systems/cardigan/templates/actor/partials/armor-section-container.hbs"
+      guard=hasLegsArmorEquipped
+      containerClass="legs-container"
+      titleRowClass="legs-title-row"
+      imgSrc="systems/cardigan/assets/images/armor/leggings.webp"
+      imgAlt="Pernas"
+      imgClass="legs-image"
+      label="PERNAS"
+      tableClass="legs-armor-table"
+      armorType="pernas"
+      itemClass="legs-armor-item"
+    }}
 
-    {{#if hasArmsArmorEquipped}}
-    <div class="arms-container">
-      <div class='arms-title-row'>
-        <img
-          src='systems/cardigan/assets/images/armor/arms.webp'
-          alt='Braços'
-          class='arms-image'
-        />
-        <p>⬩ BRAÇOS</p>
-      </div>
+    {{> "systems/cardigan/templates/actor/partials/armor-section-container.hbs"
+      guard=hasFeetArmorEquipped
+      containerClass="feet-container"
+      titleRowClass="feet-title-row"
+      imgSrc="systems/cardigan/assets/images/armor/boots.webp"
+      imgAlt="Pés"
+      imgClass="feet-image"
+      label="PÉS"
+      tableClass="feet-armor-table"
+      armorType="pes"
+      itemClass="feet-armor-item"
+    }}
 
-      <ol class='items-list arms-armor-table'>
-        {{#each armaduras as |item id|}}
-          {{#if (eq item.system.armorType "bracos")}}
-            {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass="arms-armor-item"}}
-          {{/if}}
-        {{/each}}
-      </ol>
-    </div>
-    {{/if}}
-
-    {{#if hasLegsArmorEquipped}}
-    <div class="legs-container">
-      <div class='legs-title-row'>
-        <img
-          src='systems/cardigan/assets/images/armor/leggings.webp'
-          alt='Pernas'
-          class='legs-image'
-        />
-        <p>⬩ PERNAS</p>
-      </div>
-
-      <ol class='items-list legs-armor-table'>
-        {{#each armaduras as |item id|}}
-          {{#if (eq item.system.armorType "pernas")}}
-            {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass="legs-armor-item"}}
-          {{/if}}
-        {{/each}}
-      </ol>
-    </div>
-    {{/if}}
-
-    {{#if hasFeetArmorEquipped}}
-    <div class="feet-container">
-      <div class='feet-title-row'>
-        <img
-          src='systems/cardigan/assets/images/armor/boots.webp'
-          alt='Pés'
-          class='feet-image'
-        />
-        <p>⬩ PÉS</p>
-      </div>
-
-      <ol class='items-list feet-armor-table'>
-        {{#each armaduras as |item id|}}
-          {{#if (eq item.system.armorType "pes")}}
-            {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass="feet-armor-item"}}
-          {{/if}}
-        {{/each}}
-      </ol>
-    </div>
-    {{/if}}
-
-    {{#if hasAccessoriesArmorEquipped}}
-    <div class="accessories-container">
-      <div class='accessories-title-row'>
-        <img
-          src='systems/cardigan/assets/images/armor/charm.webp'
-          alt='Acessórios'
-          class='accessories-image'
-        />
-        <p>⬩ ACESSÓRIOS</p>
-      </div>
-
-      <ol class='items-list accessories-armor-table'>
-        {{#each armaduras as |item id|}}
-          {{#if (eq item.system.armorType "acessorios")}}
-            {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass="accessories-armor-item"}}
-          {{/if}}
-        {{/each}}
-      </ol>
-    </div>
-    {{/if}}
+    {{> "systems/cardigan/templates/actor/partials/armor-section-container.hbs"
+      guard=hasAccessoriesArmorEquipped
+      containerClass="accessories-container"
+      titleRowClass="accessories-title-row"
+      imgSrc="systems/cardigan/assets/images/armor/charm.webp"
+      imgAlt="Acessórios"
+      imgClass="accessories-image"
+      label="ACESSÓRIOS"
+      tableClass="accessories-armor-table"
+      armorType="acessorios"
+      itemClass="accessories-armor-item"
+    }}
   </div>
   {{/if}}
   </div>
