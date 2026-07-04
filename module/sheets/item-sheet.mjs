@@ -74,8 +74,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       removeSpellCategory: this._removeSpellCategory,
       addSkillBonus: this._addSkillBonus,
       removeSkillBonus: this._removeSkillBonus,
-      'add-skill-effect': this._addSkillEffect,
-      'remove-skill-effect': this._removeSkillEffect,
       addEffect: this._addEffect,
       removeEffect: this._removeEffect,
       'use-item': this._useConsumableItem,
@@ -1089,49 +1087,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     // Use direct update instead of form submit to avoid full document validation
     return item.update({ 'system.skillBonuses': finalSkillBonuses });
-  }
-
-  /**
-   * Handle adding a new skill effect to a consumable item
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _addSkillEffect(event, target) {
-    event.preventDefault();
-    const item = this.item;
-    if (item.type !== 'item-consumivel') return;
-
-    const currentEffects = item.system.toObject().modifiers?.skillEffects || [];
-    const newEffect = {
-      skill: 'vigor',
-      operation: 'add',
-      value: 1,
-      duration: 'temporary'
-    };
-    const newEffects = [...currentEffects, newEffect];
-    
-    return this.submit({ updateData: { 'system.modifiers.skillEffects': newEffects } });
-  }
-
-  /**
-   * Handle removing a skill effect from a consumable item
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _removeSkillEffect(event, target) {
-    event.preventDefault();
-    const item = this.item;
-    if (item.type !== 'item-consumivel') return;
-
-    const index = parseInt(target.dataset.index);
-    if (isNaN(index)) return;
-
-    const currentEffects = item.system.toObject().modifiers?.skillEffects || [];
-    const newEffects = currentEffects.filter((_, i) => i !== index);
-    
-    return this.submit({ updateData: { 'system.modifiers.skillEffects': newEffects } });
   }
 
   /**

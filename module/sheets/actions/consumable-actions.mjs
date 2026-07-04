@@ -407,13 +407,13 @@ export class ConsumableActions {
       console.log("[CONSUME] Checking movement boost:", {
         hasMovementBoost: item.system.hasMovementBoost,
         movementBoostAmount: item.system.movementBoostAmount,
-        bonusDeslocamento: item.system.bonusDeslocamento
+        movementBonus: item.system.movementBonus
       });
 
       const movementEnabled =
-        item.system?.bonusDeslocamento?.enabled ?? item.system?.hasMovementBoost ?? false;
+        item.system?.movementBonus?.enabled ?? item.system?.hasMovementBoost ?? false;
       const movementAmount = Number(
-        item.system?.bonusDeslocamento?.bonus ?? item.system?.movementBoostAmount ?? 0
+        item.system?.movementBonus?.bonus ?? item.system?.movementBoostAmount ?? 0
       );
 
       if (movementEnabled && movementAmount > 0) {
@@ -2277,9 +2277,9 @@ export class ConsumableActions {
       console.log("[MOVEMENT] Actor details:", sheet.document.system.details);
 
       const movementEnabled =
-        item.system?.bonusDeslocamento?.enabled ?? item.system?.hasMovementBoost ?? false;
+        item.system?.movementBonus?.enabled ?? item.system?.hasMovementBoost ?? false;
       const baseAmount = Number(
-        item.system?.bonusDeslocamento?.bonus ?? item.system?.movementBoostAmount ?? 0
+        item.system?.movementBonus?.bonus ?? item.system?.movementBoostAmount ?? 0
       );
       const consumedQuantity = Math.max(1, Number(quantity) || 1);
       const amount = baseAmount * consumedQuantity;

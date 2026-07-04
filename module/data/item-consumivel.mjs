@@ -616,7 +616,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     });
 
     // Movement bonus object (same structure used by armor)
-    schema.bonusDeslocamento = new fields.SchemaField({
+    schema.movementBonus = new fields.SchemaField({
       enabled: new fields.BooleanField({
         required: true,
         initial: true,
@@ -673,44 +673,12 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     schema.modifiers = new fields.SchemaField({
       // Status effects (checkboxes)
       statusEffects: new fields.SchemaField({
-        fome: new fields.NumberField({ required: true, initial: 0 }),
-        sede: new fields.NumberField({ required: true, initial: 0 }),
-        fratura: new fields.NumberField({ required: true, initial: 0 }),
-        sanidade: new fields.NumberField({ required: true, initial: 0 }),
-        toxidade: new fields.NumberField({ required: true, initial: 0 })
+        hunger: new fields.NumberField({ required: true, initial: 0 }),
+        thirst: new fields.NumberField({ required: true, initial: 0 }),
+        fracture: new fields.NumberField({ required: true, initial: 0 }),
+        sanity: new fields.NumberField({ required: true, initial: 0 }),
+        toxicity: new fields.NumberField({ required: true, initial: 0 })
       }),
-
-      // Skill effects
-      skillEffects: new fields.ArrayField(new fields.SchemaField({
-        skill: new fields.StringField({ 
-          required: true, 
-          blank: false, 
-          initial: "vigor",
-          choices: {
-            "vigor": "CARDIGAN.Vigor",
-            "agilidade": "CARDIGAN.Agilidade", 
-            "intelecto": "CARDIGAN.Intelecto",
-            "presenca": "CARDIGAN.Presenca",
-            "forca": "CARDIGAN.Forca"
-          }
-        }),
-        operation: new fields.StringField({ 
-          required: true, 
-          initial: "add",
-          choices: CardiganSystemItemConsumivel.OPERATION_CHOICES
-        }),
-        value: new fields.NumberField({ required: true, initial: 1 }),
-        duration: new fields.StringField({
-          required: true,
-          initial: "temporary",
-          choices: {
-            "permanent": "CARDIGAN.Modifiers.Permanent",
-            "temporary": "CARDIGAN.Modifiers.Temporary", 
-            "scene": "CARDIGAN.Modifiers.Scene",
-            "combat": "CARDIGAN.Modifiers.Combat"
-          }
-        })
-      })),
 
       // Roll system
       rollSystem: new fields.SchemaField({
@@ -810,24 +778,24 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     this._setDerivedFlags();
   }
 
-  /** Keep compatibility between legacy movement fields and bonusDeslocamento object. */
+  /** Keep compatibility between legacy movement fields and movementBonus object. */
   _syncLegacyMovementFields() {
     const legacyEnabled = Boolean(this.hasMovementBoost);
     const legacyAmount = Number(this.movementBoostAmount ?? 0);
 
-    if (!this.bonusDeslocamento || typeof this.bonusDeslocamento !== 'object') {
-      this.bonusDeslocamento = {
+    if (!this.movementBonus || typeof this.movementBonus !== 'object') {
+      this.movementBonus = {
         enabled: legacyEnabled,
         bonus: Number.isFinite(legacyAmount) ? Math.max(0, legacyAmount) : 0,
       };
     }
 
-    const nextBonusRaw = Number(this.bonusDeslocamento.bonus ?? legacyAmount);
+    const nextBonusRaw = Number(this.movementBonus.bonus ?? legacyAmount);
     const nextBonus = Number.isFinite(nextBonusRaw) ? Math.max(0, nextBonusRaw) : 0;
     const nextEnabled = nextBonus > 0;
 
-    this.bonusDeslocamento.enabled = nextEnabled;
-    this.bonusDeslocamento.bonus = nextBonus;
+    this.movementBonus.enabled = nextEnabled;
+    this.movementBonus.bonus = nextBonus;
 
     // Mirror to legacy fields used by existing logic paths.
     this.hasMovementBoost = nextEnabled;
@@ -907,13 +875,6 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     if (Array.isArray(this.customEffects)) {
       this.customEffects = this.customEffects.filter(
         effect => effect.id && effect.name
-      );
-    }
-
-    // Clean modifiers.skillEffects
-    if (this.modifiers?.skillEffects && Array.isArray(this.modifiers.skillEffects)) {
-      this.modifiers.skillEffects = this.modifiers.skillEffects.filter(
-        effect => effect.skill && effect.value !== 0
       );
     }
 

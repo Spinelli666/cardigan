@@ -101,6 +101,7 @@ async function _migrateItem(item) {
   if (item.type === 'efeito') await _migrateEfeitoItem(item);
   if (item.type === 'skill') await _migrateSkillItem(item);
   if (item.type === 'arma') await _migrateArmaItem(item);
+  if (item.type === 'item-consumivel') await _migrateConsumivelItem(item);
   await _migrateWeightItem(item);
 }
 
@@ -232,6 +233,40 @@ async function _migrateWeightItem(item) {
   if (!enWeight) return;
 
   await item.update({ 'system.weight': enWeight });
+}
+
+const STATUS_EFFECTS_PT_TO_EN = {
+  'fome': 'hunger',
+  'sede': 'thirst',
+  'fratura': 'fracture',
+  'sanidade': 'sanity',
+  'toxidade': 'toxicity'
+};
+
+/**
+ * Rename bonusDeslocamento→movementBonus and statusEffects sub-fields PT→EN.
+ * @param {Item} item
+ */
+async function _migrateConsumivelItem(item) {
+  const source = item._source?.system ?? {};
+  const updates = {};
+
+  if ('bonusDeslocamento' in source) {
+    updates['system.movementBonus'] = source.bonusDeslocamento;
+    updates['system.-=bonusDeslocamento'] = null;
+  }
+
+  const statusEffects = source.modifiers?.statusEffects ?? {};
+  for (const [pt, en] of Object.entries(STATUS_EFFECTS_PT_TO_EN)) {
+    if (pt in statusEffects) {
+      updates[`system.modifiers.statusEffects.${en}`] = statusEffects[pt];
+      updates[`system.modifiers.statusEffects.-=${pt}`] = null;
+    }
+  }
+
+  if (Object.keys(updates).length > 0) {
+    await item.update(updates);
+  }
 }
 
 const ARMOR_TYPE_PT_TO_EN = {

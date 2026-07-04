@@ -934,9 +934,6 @@
       "Subtitle": "Effects and modifiers applied when using this item",
       "StatusEffects": "Status Effects",
       "StatusEffectsHelp": "Positive values add, negative values remove",
-      "SkillEffects": "Skill Effects", 
-      "AddSkillEffect": "Add Skill Effect",
-      "RemoveSkillEffect": "Remove Effect",
       "RollSystem": "Roll System",
       "EnableRollSystem": "Enable Roll System", 
       "DiceFormula": "Dice Formula",
@@ -961,11 +958,11 @@
       "Apply": "Apply",
       "Remove": "Remove",
       "None": "None",
-      "Fome": "Hunger",
-      "Sede": "Thirst", 
-      "Fratura": "Fracture",
-      "Sanidade": "Sanity",
-      "Toxidade": "Toxicity"
+      "Hunger": "Fome",
+      "Thirst": "Sede",
+      "Fracture": "Fratura",
+      "Sanity": "Sanidade",
+      "Toxicity": "Toxidade"
     },
     "Currency": {
       "Gold": "gold"
