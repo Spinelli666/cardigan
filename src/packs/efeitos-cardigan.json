@@ -24,7 +24,7 @@
       "img": "icons/magic/light/explosion-star-large-blue-yellow.webp",
       "system": {
         "description": "<p>O personagem foi abençoado por uma força divina, recebendo vantagem em testes de atributo e jogadas de ataque pelos próximos 10 minutos.</p>",
-        "efeitoType": "positivo",
+        "effectType": "positive",
         "duration": 10,
         "active": true
       },
@@ -47,7 +47,7 @@
       "img": "icons/magic/defensive/shield-barrier-glowing-triangle-blue.webp",
       "system": {
         "description": "<p>O personagem está protegido por uma barreira mágica que reduz dano físico e mágico recebido em 50% pelos próximos 5 minutos.</p>",
-        "efeitoType": "positivo",
+        "effectType": "positive",
         "duration": 5,
         "active": true
       },
@@ -70,7 +70,7 @@
       "img": "icons/magic/life/heart-cross-strong-flame-green.webp",
       "system": {
         "description": "<p>O personagem teve sua vitalidade aumentada, ganhando +20 pontos de vida temporários e regeneração de 2 PV por turno pelos próximos 15 minutos.</p>",
-        "efeitoType": "positivo",
+        "effectType": "positive",
         "duration": 15,
         "active": true
       },
@@ -93,7 +93,7 @@
       "img": "icons/magic/unholy/strike-evil-glowing-red.webp",
       "system": {
         "description": "<p>O personagem foi amaldiçoado por forças sombrias, sofrendo desvantagem em todos os testes de atributo e perdendo 1 PV por turno pelos próximos 20 minutos.</p>",
-        "efeitoType": "negativo",
+        "effectType": "negative",
         "duration": 20,
         "active": true
       },
@@ -116,7 +116,7 @@
       "img": "icons/magic/death/skull-poison-green.webp",
       "system": {
         "description": "<p>O personagem está envenenado, sofrendo 1d4 de dano por veneno a cada turno e tendo sua velocidade reduzida pela metade pelos próximos 8 minutos.</p>",
-        "efeitoType": "negativo",
+        "effectType": "negative",
         "duration": 8,
         "active": true
       },
@@ -139,7 +139,7 @@
       "img": "icons/magic/control/debuff-chains-blue.webp",
       "system": {
         "description": "<p>O personagem está paralisado e não pode se mover nem realizar ações físicas. Ataques contra ele têm vantagem. Duração: 3 turnos.</p>",
-        "efeitoType": "negativo",
+        "effectType": "negative",
         "duration": 3,
         "active": true
       },

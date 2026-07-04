@@ -670,12 +670,12 @@ export async function showArmorDurabilityDialog(armors, previouslySelected = [])
   return new Promise(async (resolve) => {
     // Map armor types to localization keys
     const armorTypeKeys = {
-      'cabeca': 'CARDIGAN.ArmorType.Cabeca',
-      'acessorios': 'CARDIGAN.ArmorType.Acessorios',
+      'head': 'CARDIGAN.ArmorType.Cabeca',
+      'accessories': 'CARDIGAN.ArmorType.Acessorios',
       'torso': 'CARDIGAN.ArmorType.Torso',
-      'bracos': 'CARDIGAN.ArmorType.Bracos',
-      'pernas': 'CARDIGAN.ArmorType.Pernas',
-      'pes': 'CARDIGAN.ArmorType.Pes'
+      'arms': 'CARDIGAN.ArmorType.Bracos',
+      'legs': 'CARDIGAN.ArmorType.Pernas',
+      'feet': 'CARDIGAN.ArmorType.Pes'
     };
     
     // Prepare armor data for template

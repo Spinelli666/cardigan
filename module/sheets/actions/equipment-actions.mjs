@@ -198,8 +198,9 @@ export class EquipmentActions {
     }
 
     try {
-      const armorTypeLabel = game.i18n.localize(`CARDIGAN.ArmorType.${item.system.armorType.charAt(0).toUpperCase() + item.system.armorType.slice(1)}`);
-      
+      const ARMOR_TYPE_I18N = { head: 'CARDIGAN.ArmorType.Cabeca', accessories: 'CARDIGAN.ArmorType.Acessorios', torso: 'CARDIGAN.ArmorType.Torso', arms: 'CARDIGAN.ArmorType.Bracos', legs: 'CARDIGAN.ArmorType.Pernas', feet: 'CARDIGAN.ArmorType.Pes' };
+      const armorTypeLabel = game.i18n.localize(ARMOR_TYPE_I18N[item.system.armorType] ?? 'CARDIGAN.ArmorType.Torso');
+
       // Handle quantity splitting: if qty > 1, create equipped copy and reduce original
       const currentQuantity = item.system.quantity || 1;
       if (currentQuantity > 1) {
@@ -440,7 +441,8 @@ export class EquipmentActions {
       console.log("Armor ID:", armor._id);
       console.log("Armor quantity:", armor.system.quantity || 1);
 
-      const armorTypeLabel = game.i18n.localize(`CARDIGAN.ArmorType.${armor.system.armorType.charAt(0).toUpperCase() + armor.system.armorType.slice(1)}`);
+      const ARMOR_TYPE_I18N = { head: 'CARDIGAN.ArmorType.Cabeca', accessories: 'CARDIGAN.ArmorType.Acessorios', torso: 'CARDIGAN.ArmorType.Torso', arms: 'CARDIGAN.ArmorType.Bracos', legs: 'CARDIGAN.ArmorType.Pernas', feet: 'CARDIGAN.ArmorType.Pes' };
+      const armorTypeLabel = game.i18n.localize(ARMOR_TYPE_I18N[armor.system.armorType] ?? 'CARDIGAN.ArmorType.Torso');
 
       // Bloqueia equipar se já houver uma armadura equipada desta parte marcada como `single`
       const existingSingleEquipped = sheet.document.items.find((i) =>
