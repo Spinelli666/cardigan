@@ -992,7 +992,7 @@ export class BaseSkill {
       const { rollType, attackMode, manualModifier = 0 } = advantageType;
 
       // Check for Congelado effect and get penalty
-      const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+      const { CongeladoEffect } = await import('../effects/effects/frozen.mjs');
       const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
 
       // Helper function to roll with critical detection
@@ -1078,7 +1078,7 @@ export class BaseSkill {
       const { rollType, attackMode, manualModifier = 0 } = advantageType;
 
       // Check for Congelado effect and get penalty
-      const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+      const { CongeladoEffect } = await import('../effects/effects/frozen.mjs');
       const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
 
       // Helper function to roll with critical detection

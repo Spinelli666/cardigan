@@ -127,7 +127,7 @@ export class HeaderStatusActions {
         rollDescription += modeText;
         
         // Check for Congelado effect and apply skill penalty
-        const { CongeladoEffect } = await import('../../effects/effects/congelado.mjs');
+        const { CongeladoEffect } = await import('../../effects/effects/frozen.mjs');
         const congeladoPenalty = CongeladoEffect.getSkillPenalty(sheet.document);
         
         // Apply Congelado penalty to formula if present

@@ -129,7 +129,7 @@ export class EletrocutadoEffect extends BaseEffect {
     console.log(`[${this.effectName}] Vigor Test - Stamina Value: ${staminaValue}, Total Bonus: ${staminaTotalBonus}, Total Modifier: ${vigorModifier}`);
 
     // Check for Congelado effect and apply skill penalty
-    const { CongeladoEffect } = await import('./congelado.mjs');
+    const { CongeladoEffect } = await import('./frozen.mjs');
     const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
     const finalVigorModifier = vigorModifier + congeladoPenalty;
     

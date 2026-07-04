@@ -241,7 +241,7 @@ export class WeaponActions {
     }
 
     // Check for Congelado effect and apply skill penalty
-    const { CongeladoEffect } = await import('../../effects/effects/congelado.mjs');
+    const { CongeladoEffect } = await import('../../effects/effects/frozen.mjs');
     const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
 
     // Apply Congelado penalty to formula if present
@@ -255,7 +255,7 @@ export class WeaponActions {
     await roll.evaluate();
 
     // Apply Sangramento effect for accuracy rolls
-    const { SangramentoEffect } = await import('../../effects/effects/sangramento.mjs');
+    const { SangramentoEffect } = await import('../../effects/effects/bleeding.mjs');
     await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
 
     // Calcular dano total da arma

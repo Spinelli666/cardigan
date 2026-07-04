@@ -6,19 +6,19 @@ export { default as BaseEffect } from './base-effect.mjs';
 export { default as EffectManager } from './effect-manager.mjs';
 
 // Export custom effect implementations
-export { default as ImparavelEffect } from './effects/imparavel.mjs';
-export { default as PersistenciaEffect } from './effects/persistencia.mjs';
-export { FraturaEffect } from './effects/fratura.mjs';
-export { ExaustaoEffect } from './effects/exaustao.mjs';
-export { ToxicidadeEffect } from './effects/toxicidade.mjs';
-export { SangramentoEffect } from './effects/sangramento.mjs';
-export { IncendiadoEffect } from './effects/incendiado.mjs';
-export { EletrocutadoEffect } from './effects/eletrocutado.mjs';
-export { CongeladoEffect } from './effects/congelado.mjs';
-export { AmaldicoadoEffect } from './effects/amaldicoado.mjs';
-export { PetrificadoEffect } from './effects/petrificado.mjs';
-export { default as LentoEffect } from './effects/lento.mjs';
-export { EnvenenadoEffect } from './effects/envenenado.mjs';
+export { default as ImparavelEffect } from './effects/unstoppable.mjs';
+export { default as PersistenciaEffect } from './effects/persistence.mjs';
+export { FraturaEffect } from './effects/fracture.mjs';
+export { ExaustaoEffect } from './effects/exhaustion.mjs';
+export { ToxicidadeEffect } from './effects/toxicity.mjs';
+export { SangramentoEffect } from './effects/bleeding.mjs';
+export { IncendiadoEffect } from './effects/burning.mjs';
+export { EletrocutadoEffect } from './effects/electrocuted.mjs';
+export { CongeladoEffect } from './effects/frozen.mjs';
+export { AmaldicoadoEffect } from './effects/cursed.mjs';
+export { PetrificadoEffect } from './effects/petrified.mjs';
+export { default as LentoEffect } from './effects/slowed.mjs';
+export { EnvenenadoEffect } from './effects/poisoned.mjs';
 
 /**
  * Initialize the effects system
@@ -26,19 +26,19 @@ export { EnvenenadoEffect } from './effects/envenenado.mjs';
  */
 export async function initializeEffects() {
   // Import custom effects and register them
-  const ImparavelEffect = (await import('./effects/imparavel.mjs')).default;
-  const PersistenciaEffect = (await import('./effects/persistencia.mjs')).default;
-  const { FraturaEffect } = await import('./effects/fratura.mjs');
-  const { ExaustaoEffect } = await import('./effects/exaustao.mjs');
-  const { ToxicidadeEffect } = await import('./effects/toxicidade.mjs');
-  const { SangramentoEffect } = await import('./effects/sangramento.mjs');
-  const { IncendiadoEffect } = await import('./effects/incendiado.mjs');
-  const { EletrocutadoEffect } = await import('./effects/eletrocutado.mjs');
-  const { CongeladoEffect } = await import('./effects/congelado.mjs');
-  const { AmaldicoadoEffect } = await import('./effects/amaldicoado.mjs');
-  const { PetrificadoEffect } = await import('./effects/petrificado.mjs');
-  const LentoEffect = (await import('./effects/lento.mjs')).default;
-  const { EnvenenadoEffect } = await import('./effects/envenenado.mjs');
+  const ImparavelEffect = (await import('./effects/unstoppable.mjs')).default;
+  const PersistenciaEffect = (await import('./effects/persistence.mjs')).default;
+  const { FraturaEffect } = await import('./effects/fracture.mjs');
+  const { ExaustaoEffect } = await import('./effects/exhaustion.mjs');
+  const { ToxicidadeEffect } = await import('./effects/toxicity.mjs');
+  const { SangramentoEffect } = await import('./effects/bleeding.mjs');
+  const { IncendiadoEffect } = await import('./effects/burning.mjs');
+  const { EletrocutadoEffect } = await import('./effects/electrocuted.mjs');
+  const { CongeladoEffect } = await import('./effects/frozen.mjs');
+  const { AmaldicoadoEffect } = await import('./effects/cursed.mjs');
+  const { PetrificadoEffect } = await import('./effects/petrified.mjs');
+  const LentoEffect = (await import('./effects/slowed.mjs')).default;
+  const { EnvenenadoEffect } = await import('./effects/poisoned.mjs');
   const { default: EffectManager } = await import('./effect-manager.mjs');
   
   EffectManager.register('Imparável', ImparavelEffect);

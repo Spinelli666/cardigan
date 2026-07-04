@@ -198,7 +198,7 @@ export async function performDefaultPrimaryAttack(actor, skillName) {
 
         let individualRollDescription = `${rollDescription} (Individual) → ${targetToken.name}`;
 
-        const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+        const { CongeladoEffect } = await import('../effects/effects/frozen.mjs');
         const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
 
         if (congeladoPenalty !== 0) {
@@ -213,7 +213,7 @@ export async function performDefaultPrimaryAttack(actor, skillName) {
         const roll = new Roll(formula, rollData);
         await roll.evaluate();
 
-        const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+        const { SangramentoEffect } = await import('../effects/effects/bleeding.mjs');
         await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
 
         const flags = detectCriticalResults(roll, actor, 'accuracy');
@@ -292,7 +292,7 @@ export async function performDefaultPrimaryAttack(actor, skillName) {
     const modeText = attackMode === 'conjunto' ? ' (Conjunto)' : ' (Individual)';
     rollDescription += modeText;
 
-    const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+    const { CongeladoEffect } = await import('../effects/effects/frozen.mjs');
     const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
 
     if (congeladoPenalty !== 0) {
@@ -307,7 +307,7 @@ export async function performDefaultPrimaryAttack(actor, skillName) {
     const roll = new Roll(formula, rollData);
     await roll.evaluate();
 
-    const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+    const { SangramentoEffect } = await import('../effects/effects/bleeding.mjs');
     await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
 
     const flags = detectCriticalResults(roll, actor, 'accuracy');
@@ -506,7 +506,7 @@ export async function performDefaultSecondaryAttack(actor, skillName) {
         const roll = new Roll(formula, rollData);
         await roll.evaluate();
 
-        const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+        const { SangramentoEffect } = await import('../effects/effects/bleeding.mjs');
         await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
 
         const flags = detectCriticalResults(roll, actor, 'accuracy');
@@ -592,7 +592,7 @@ export async function performDefaultSecondaryAttack(actor, skillName) {
     const roll = new Roll(formula, rollData);
     await roll.evaluate();
 
-    const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+    const { SangramentoEffect } = await import('../effects/effects/bleeding.mjs');
     await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
 
     const flags = detectCriticalResults(roll, actor, 'accuracy');
@@ -792,7 +792,7 @@ export async function performUnifiedSkillAttack(actor, skillName) {
     }
     rollDescription += weaponIndicator;
 
-    const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+    const { CongeladoEffect } = await import('../effects/effects/frozen.mjs');
     const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
 
     const modifiers = [];
@@ -805,7 +805,7 @@ export async function performUnifiedSkillAttack(actor, skillName) {
     const roll = new Roll(formula, rollData);
     await roll.evaluate();
 
-    const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+    const { SangramentoEffect } = await import('../effects/effects/bleeding.mjs');
     await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
 
     const flags = detectCriticalResults(roll, actor, 'accuracy');

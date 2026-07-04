@@ -536,7 +536,7 @@ export class ConsumableActions {
       const abilityBonus = abilityData.totalBonus || 0;
       const totalModifier = abilityValue + abilityBonus;
 
-      const { CongeladoEffect } = await import('../../effects/effects/congelado.mjs');
+      const { CongeladoEffect } = await import('../../effects/effects/frozen.mjs');
       const congeladoPenalty = CongeladoEffect.getSkillPenalty(sheet.document);
       const finalModifier = totalModifier + congeladoPenalty;
 
