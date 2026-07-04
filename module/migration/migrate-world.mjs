@@ -60,6 +60,7 @@ async function _migrateActor(actor) {
 async function _migrateItem(item) {
   if (item.type === 'armadura') await _migrateArmaduraItem(item);
   if (item.type === 'efeito') await _migrateEfeitoItem(item);
+  if (item.type === 'skill') await _migrateSkillItem(item);
   await _migrateWeightItem(item);
 }
 
@@ -86,6 +87,61 @@ async function _migrateEfeitoItem(item) {
   if ('rodadas' in source) {
     updates['system.rounds'] = source.rodadas;
     updates['system.-=rodadas'] = null;
+  }
+
+  if (Object.keys(updates).length > 0) {
+    await item.update(updates);
+  }
+}
+
+const SKILL_ACTION_TYPE_PT_TO_EN = {
+  "passiva": "passive",
+  "foco": "focus",
+  "reacao": "reaction"
+};
+
+const SKILL_CLASS_PT_TO_EN = {
+  "andarilho": "wanderer",
+  "guerreiro": "warrior",
+  "ladino": "rogue",
+  "feiticeiro": "sorcerer",
+  "raciais": "racial",
+  "unicas": "unique"
+};
+
+const SPELL_CATEGORY_PT_TO_EN = {
+  "neutro": "neutral",
+  "feerico": "fae",
+  "caos": "chaos",
+  "necromancia": "necromancy"
+};
+
+/**
+ * Migrate skillActionTypes, skillClass and spellCategories choice values PT→EN.
+ * @param {Item} item
+ */
+async function _migrateSkillItem(item) {
+  const source = item._source?.system ?? {};
+  const updates = {};
+
+  // Migrate skillClass
+  const enClass = SKILL_CLASS_PT_TO_EN[source.skillClass];
+  if (enClass) updates['system.skillClass'] = enClass;
+
+  // Migrate skillActionTypes array
+  if (Array.isArray(source.skillActionTypes)) {
+    const migratedTypes = source.skillActionTypes.map(t => SKILL_ACTION_TYPE_PT_TO_EN[t] ?? t);
+    if (migratedTypes.some((t, i) => t !== source.skillActionTypes[i])) {
+      updates['system.skillActionTypes'] = migratedTypes;
+    }
+  }
+
+  // Migrate spellCategories array
+  if (Array.isArray(source.spellCategories)) {
+    const migratedCats = source.spellCategories.map(c => SPELL_CATEGORY_PT_TO_EN[c] ?? c);
+    if (migratedCats.some((c, i) => c !== source.spellCategories[i])) {
+      updates['system.spellCategories'] = migratedCats;
+    }
   }
 
   if (Object.keys(updates).length > 0) {

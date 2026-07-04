@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "B9cT1wZ4yQ2xP5rS",
   "_key": "!items!B9cT1wZ4yQ2xP5rS",
   "name": "Bomba Surpresa",
@@ -8,7 +8,7 @@
     "skillActionTypes": [
       "long-action"
     ],
-    "skillClass": "andarilho",
+    "skillClass": "wanderer",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

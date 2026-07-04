@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "F9gH2iI5jK8kL1lM",
   "_key": "!items!F9gH2iI5jK8kL1lM",
   "name": "Boa Sorte",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "raciais",
+    "skillClass": "racial",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

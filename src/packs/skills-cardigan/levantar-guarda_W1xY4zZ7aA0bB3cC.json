@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "W1xY4zZ7aA0bB3cC",
   "_key": "!items!W1xY4zZ7aA0bB3cC",
   "name": "Levantar a Guarda",
@@ -7,9 +7,9 @@
   "system": {
     "skillActionTypes": [
       "long-action",
-      "foco"
+      "focus"
     ],
-    "skillClass": "guerreiro",
+    "skillClass": "warrior",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 3,

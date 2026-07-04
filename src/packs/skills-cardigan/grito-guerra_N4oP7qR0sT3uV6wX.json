@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "N4oP7qR0sT3uV6wX",
   "_key": "!items!N4oP7qR0sT3uV6wX",
   "name": "Grito de Guerra",
@@ -8,7 +8,7 @@
     "skillActionTypes": [
       "long-action"
     ],
-    "skillClass": "guerreiro",
+    "skillClass": "warrior",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 4,

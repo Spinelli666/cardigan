@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "N2oP5qR8sT1uV4wX",
   "_key": "!items!N2oP5qR8sT1uV4wX",
   "name": "Dobra-Mentes",
@@ -8,8 +8,8 @@
     "skillActionTypes": [
       "short-action"
     ],
-    "skillClass": "feiticeiro",
-    "spellCategories": ["neutro"],
+    "skillClass": "sorcerer",
+    "spellCategories": ["neutral"],
     "hasEnergyCost": true,
     "energyCost": 3,
     "hasCustomEffects": true,

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "E2fG5hH8iJ1jK4kL",
   "_key": "!items!E2fG5hH8iJ1jK4kL",
   "name": "Escapada",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/rogue.webp",
   "system": {
     "skillActionTypes": [
-      "reacao"
+      "reaction"
     ],
-    "skillClass": "ladino",
+    "skillClass": "rogue",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 2,

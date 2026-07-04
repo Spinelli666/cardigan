@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "Q8rS1tU4vW7xY0zZ",
   "_key": "!items!Q8rS1tU4vW7xY0zZ",
   "name": "Incansável",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "raciais",
+    "skillClass": "racial",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

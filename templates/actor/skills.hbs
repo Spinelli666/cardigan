@@ -54,37 +54,37 @@
   <div class="skill-toggles-container">
     {{! Andarilho Skills Toggle }}
     <label class="icon-toggle" title="{{localize 'CARDIGAN.AndarilhoSkillsTable'}}">
-      <input type="checkbox" name="system.details.showSkillsAndarilhoTable" {{checked system.details.showSkillsAndarilhoTable}} data-dtype="Boolean" data-andarilho-skills-table-toggle />
+      <input type="checkbox" name="system.details.showSkillsAndarilhoTable" {{checked system.details.showSkillsAndarilhoTable}} data-dtype="Boolean" data-wanderer-skills-table-toggle />
       <i class="fas fa-hiking {{#if system.details.showSkillsAndarilhoTable}}active{{/if}}" style="color: #8bc34a;"></i>
     </label>
     
     {{! Guerreiro Skills Toggle }}
     <label class="icon-toggle" title="{{localize 'CARDIGAN.GuerreiroSkillsTable'}}">
-      <input type="checkbox" name="system.details.showSkillsGuerreiroTable" {{checked system.details.showSkillsGuerreiroTable}} data-dtype="Boolean" data-guerreiro-skills-table-toggle />
+      <input type="checkbox" name="system.details.showSkillsGuerreiroTable" {{checked system.details.showSkillsGuerreiroTable}} data-dtype="Boolean" data-warrior-skills-table-toggle />
       <i class="fas fa-sword {{#if system.details.showSkillsGuerreiroTable}}active{{/if}}" style="color: #f44336;"></i>
     </label>
     
     {{! Ladino Skills Toggle }}
     <label class="icon-toggle" title="{{localize 'CARDIGAN.LadinoSkillsTable'}}">
-      <input type="checkbox" name="system.details.showSkillsLadinoTable" {{checked system.details.showSkillsLadinoTable}} data-dtype="Boolean" data-ladino-skills-table-toggle />
+      <input type="checkbox" name="system.details.showSkillsLadinoTable" {{checked system.details.showSkillsLadinoTable}} data-dtype="Boolean" data-rogue-skills-table-toggle />
       <i class="fas fa-mask {{#if system.details.showSkillsLadinoTable}}active{{/if}}" style="color: #9c27b0;"></i>
     </label>
     
     {{! Feiticeiro Skills Toggle }}
     <label class="icon-toggle" title="{{localize 'CARDIGAN.FeiticeiroSkillsTable'}}">
-      <input type="checkbox" name="system.details.showSkillsFeiticeiroTable" {{checked system.details.showSkillsFeiticeiroTable}} data-dtype="Boolean" data-feiticeiro-skills-table-toggle />
+      <input type="checkbox" name="system.details.showSkillsFeiticeiroTable" {{checked system.details.showSkillsFeiticeiroTable}} data-dtype="Boolean" data-sorcerer-skills-table-toggle />
       <i class="fas fa-magic {{#if system.details.showSkillsFeiticeiroTable}}active{{/if}}" style="color: #2196f3;"></i>
     </label>
     
     {{! Raciais Skills Toggle }}
     <label class="icon-toggle" title="{{localize 'CARDIGAN.RaciaisSkillsTable'}}">
-      <input type="checkbox" name="system.details.showSkillsRaciaisTable" {{checked system.details.showSkillsRaciaisTable}} data-dtype="Boolean" data-raciais-skills-table-toggle />
+      <input type="checkbox" name="system.details.showSkillsRaciaisTable" {{checked system.details.showSkillsRaciaisTable}} data-dtype="Boolean" data-racial-skills-table-toggle />
       <i class="fas fa-users {{#if system.details.showSkillsRaciaisTable}}active{{/if}}" style="color: #ff9800;"></i>
     </label>
     
     {{! Únicas Skills Toggle }}
     <label class="icon-toggle" title="{{localize 'CARDIGAN.UnicasSkillsTable'}}">
-      <input type="checkbox" name="system.details.showSkillsUnicasTable" {{checked system.details.showSkillsUnicasTable}} data-dtype="Boolean" data-unicas-skills-table-toggle />
+      <input type="checkbox" name="system.details.showSkillsUnicasTable" {{checked system.details.showSkillsUnicasTable}} data-dtype="Boolean" data-unique-skills-table-toggle />
       <i class="fas fa-star {{#if system.details.showSkillsUnicasTable}}active{{/if}}" style="color: #ffc107;"></i>
     </label>
   </div>
@@ -92,7 +92,7 @@
   {{! SKILL CLASS TABLES - All skill tables by class }}
   
   {{! Andarilho Skills Table }}
-  <div class="skill-table-container andarilho-skills-table-container {{#unless system.details.showSkillsAndarilhoTable}}hidden{{/unless}}" data-andarilho-skills-table-section style="margin-bottom: 20px;">
+  <div class="skill-table-container wanderer-skills-table-container {{#unless system.details.showSkillsAndarilhoTable}}hidden{{/unless}}" data-wanderer-skills-table-section style="margin-bottom: 20px;">
     <h3 class="items-section-header" style="margin-bottom: 10px; color: #8bc34a; text-align: center;">
       <i class="fas fa-hiking" style="margin-right: 8px;"></i>
       {{localize "CARDIGAN.AndarilhoSkillsTable"}}
@@ -111,7 +111,7 @@
           {{/if}}
         </div>
       </li>
-      {{#each skillsAndarilho as |skill id|}}
+      {{#each skillsWanderer as |skill id|}}
         {{> "systems/cardigan/templates/actor/partials/skill-row.hbs" skill=skill showEnhancements=true allowDelete=true}}
       {{else}}
         <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>
@@ -126,7 +126,7 @@
   </div>
 
   {{! Guerreiro Skills Table }}
-  <div class="skill-table-container guerreiro-skills-table-container {{#unless system.details.showSkillsGuerreiroTable}}hidden{{/unless}}" data-guerreiro-skills-table-section style="margin-bottom: 20px;">
+  <div class="skill-table-container warrior-skills-table-container {{#unless system.details.showSkillsGuerreiroTable}}hidden{{/unless}}" data-warrior-skills-table-section style="margin-bottom: 20px;">
     <h3 class="items-section-header" style="margin-bottom: 10px; color: #f44336; text-align: center;">
       <i class="fas fa-sword" style="margin-right: 8px;"></i>
       {{localize "CARDIGAN.GuerreiroSkillsTable"}}
@@ -145,7 +145,7 @@
           {{/if}}
         </div>
       </li>
-      {{#each skillsGuerreiro as |skill id|}}
+      {{#each skillsWarrior as |skill id|}}
         {{> "systems/cardigan/templates/actor/partials/skill-row.hbs" skill=skill showEnhancements=true allowDelete=true}}
       {{else}}
         <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>
@@ -160,7 +160,7 @@
   </div>
 
   {{! Ladino Skills Table }}
-  <div class="skill-table-container ladino-skills-table-container {{#unless system.details.showSkillsLadinoTable}}hidden{{/unless}}" data-ladino-skills-table-section style="margin-bottom: 20px;">
+  <div class="skill-table-container rogue-skills-table-container {{#unless system.details.showSkillsLadinoTable}}hidden{{/unless}}" data-rogue-skills-table-section style="margin-bottom: 20px;">
     <h3 class="items-section-header" style="margin-bottom: 10px; color: #9c27b0; text-align: center;">
       <i class="fas fa-mask" style="margin-right: 8px;"></i>
       {{localize "CARDIGAN.LadinoSkillsTable"}}
@@ -179,7 +179,7 @@
           {{/if}}
         </div>
       </li>
-      {{#each skillsLadino as |skill id|}}
+      {{#each skillsRogue as |skill id|}}
         {{> "systems/cardigan/templates/actor/partials/skill-row.hbs" skill=skill showEnhancements=true allowDelete=true}}
       {{else}}
         <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>
@@ -194,7 +194,7 @@
   </div>
 
   {{! Feiticeiro Skills Table }}
-  <div class="skill-table-container feiticeiro-skills-table-container {{#unless system.details.showSkillsFeiticeiroTable}}hidden{{/unless}}" data-feiticeiro-skills-table-section style="margin-bottom: 20px;">
+  <div class="skill-table-container sorcerer-skills-table-container {{#unless system.details.showSkillsFeiticeiroTable}}hidden{{/unless}}" data-sorcerer-skills-table-section style="margin-bottom: 20px;">
     <h3 class="items-section-header" style="margin-bottom: 10px; color: #2196f3; text-align: center;">
       <i class="fas fa-magic" style="margin-right: 8px;"></i>
       {{localize "CARDIGAN.FeiticeiroSkillsTable"}}
@@ -213,7 +213,7 @@
           {{/if}}
         </div>
       </li>
-      {{#each skillsFeiticeiro as |skill id|}}
+      {{#each skillsSorcerer as |skill id|}}
         {{> "systems/cardigan/templates/actor/partials/skill-row.hbs" skill=skill showEnhancements=true allowDelete=true}}
       {{else}}
         <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>
@@ -228,7 +228,7 @@
   </div>
 
   {{! Raciais Skills Table }}
-  <div class="skill-table-container raciais-skills-table-container {{#unless system.details.showSkillsRaciaisTable}}hidden{{/unless}}" data-raciais-skills-table-section style="margin-bottom: 20px;">
+  <div class="skill-table-container racial-skills-table-container {{#unless system.details.showSkillsRaciaisTable}}hidden{{/unless}}" data-racial-skills-table-section style="margin-bottom: 20px;">
     <h3 class="items-section-header" style="margin-bottom: 10px; color: #ff9800; text-align: center;">
       <i class="fas fa-users" style="margin-right: 8px;"></i>
       {{localize "CARDIGAN.RaciaisSkillsTable"}}
@@ -246,7 +246,7 @@
           {{/if}}
         </div>
       </li>
-      {{#each skillsRaciais as |skill id|}}
+      {{#each skillsRacial as |skill id|}}
         {{> "systems/cardigan/templates/actor/partials/skill-row.hbs" skill=skill showEnhancements=false allowDelete=false}}
       {{else}}
         <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>
@@ -261,7 +261,7 @@
   </div>
 
   {{! Únicas Skills Table }}
-  <div class="skill-table-container unicas-skills-table-container {{#unless system.details.showSkillsUnicasTable}}hidden{{/unless}}" data-unicas-skills-table-section style="margin-bottom: 20px;">
+  <div class="skill-table-container unique-skills-table-container {{#unless system.details.showSkillsUnicasTable}}hidden{{/unless}}" data-unique-skills-table-section style="margin-bottom: 20px;">
     <h3 class="items-section-header" style="margin-bottom: 10px; color: #ffc107; text-align: center;">
       <i class="fas fa-star" style="margin-right: 8px;"></i>
       {{localize "CARDIGAN.UnicasSkillsTable"}}
@@ -280,7 +280,7 @@
           {{/if}}
         </div>
       </li>
-      {{#each skillsUnicas as |skill id|}}
+      {{#each skillsUnique as |skill id|}}
         {{> "systems/cardigan/templates/actor/partials/skill-row.hbs" skill=skill showEnhancements=true allowDelete=true}}
       {{else}}
         <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>

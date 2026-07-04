@@ -33,11 +33,11 @@ CARDIGAN.abilityAbbreviations = {
  * @type {Object}
  */
 CARDIGAN.skillTypes = {
-  passiva: 'CARDIGAN.Item.Skill.Types.Passiva',
+  passive: 'CARDIGAN.Item.Skill.Types.Passive',
   'long-action': 'CARDIGAN.Item.Skill.Types.LongAction',
-  foco: 'CARDIGAN.Item.Skill.Types.Foco',
+  focus: 'CARDIGAN.Item.Skill.Types.Focus',
   'short-action': 'CARDIGAN.Item.Skill.Types.ShortAction',
-  reacao: 'CARDIGAN.Item.Skill.Types.Reacao'
+  reaction: 'CARDIGAN.Item.Skill.Types.Reaction'
 };
 
 /**
@@ -45,12 +45,19 @@ CARDIGAN.skillTypes = {
  * @type {Object}
  */
 CARDIGAN.skillClasses = {
-  andarilho: 'CARDIGAN.Item.Skill.Classes.Andarilho',
-  guerreiro: 'CARDIGAN.Item.Skill.Classes.Guerreiro',
-  ladino: 'CARDIGAN.Item.Skill.Classes.Ladino',
-  feiticeiro: 'CARDIGAN.Item.Skill.Classes.Feiticeiro',
-  raciais: 'CARDIGAN.Item.Skill.Classes.Raciais',
-  unicas: 'CARDIGAN.Item.Skill.Classes.Unicas'
+  wanderer: 'CARDIGAN.Item.Skill.Classes.Wanderer',
+  warrior: 'CARDIGAN.Item.Skill.Classes.Warrior',
+  rogue: 'CARDIGAN.Item.Skill.Classes.Rogue',
+  sorcerer: 'CARDIGAN.Item.Skill.Classes.Sorcerer',
+  racial: 'CARDIGAN.Item.Skill.Classes.Racial',
+  unique: 'CARDIGAN.Item.Skill.Classes.Unique'
+};
+
+CARDIGAN.spellCategories = {
+  neutral: 'CARDIGAN.Item.Skill.SpellCategory.Neutral',
+  fae: 'CARDIGAN.Item.Skill.SpellCategory.Fae',
+  chaos: 'CARDIGAN.Item.Skill.SpellCategory.Chaos',
+  necromancy: 'CARDIGAN.Item.Skill.SpellCategory.Necromancy'
 };
 
 /**

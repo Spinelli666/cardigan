@@ -326,26 +326,26 @@
         "PrerequisitesPlaceholder": "List any prerequisites or requirements for learning this skill...",
         "Types": {
           "LongAction": "Long Action",
-          "Foco": "FOCO",
-          "Passiva": "Passiva",
+          "Focus": "Foco",
+          "Passive": "Passiva",
           "ShortAction": "Short Action",
-          "Reacao": "Reação"
+          "Reaction": "Reação"
         },
         "Class": "Skill Class",
         "Classes": {
-          "Andarilho": "Andarilho",
-          "Guerreiro": "Guerreiro",
-          "Ladino": "Ladino",
-          "Feiticeiro": "Feiticeiro",
-          "Raciais": "Raciais",
-          "Unicas": "Únicas"
+          "Wanderer": "Andarilho",
+          "Warrior": "Guerreiro",
+          "Rogue": "Ladino",
+          "Sorcerer": "Feiticeiro",
+          "Racial": "Raciais",
+          "Unique": "Únicas"
         },
         "SpellCategories": "Categorias de Feitiços",
         "SpellCategory": {
-          "Neutro": "Neutro",
-          "Feerico": "Feérico",
-          "Caos": "Caos",
-          "Necromancia": "Necromancia"
+          "Neutral": "Neutro",
+          "Fae": "Feérico",
+          "Chaos": "Caos",
+          "Necromancy": "Necromancia"
         },
         "HasEnergyCost": "Gasta Energia?",
         "EnergyCost": "Custo de Energia",

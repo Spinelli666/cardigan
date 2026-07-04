@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "S6tU9vW2xY5zZ8aB",
   "_key": "!items!S6tU9vW2xY5zZ8aB",
   "name": "Persistência",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "raciais",
+    "skillClass": "racial",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "T2uV5wX8yZ1zZ4aA",
   "_key": "!items!T2uV5wX8yZ1zZ4aA",
   "name": "Transmutar",
@@ -7,10 +7,10 @@
   "system": {
     "skillActionTypes": [
       "short-action",
-      "foco"
+      "focus"
     ],
-    "skillClass": "feiticeiro",
-    "spellCategories": ["caos"],
+    "skillClass": "sorcerer",
+    "spellCategories": ["chaos"],
     "hasEnergyCost": true,
     "energyCost": 3,
     "hasCustomEffects": true,

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "L7mN0oP3qR6sS9tU",
   "_key": "!items!L7mN0oP3qR6sS9tU",
   "name": "Defender",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/warrior.webp",
   "system": {
     "skillActionTypes": [
-      "reacao"
+      "reaction"
     ],
-    "skillClass": "guerreiro",
+    "skillClass": "warrior",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 1,

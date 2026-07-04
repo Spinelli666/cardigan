@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "N1oP4qR7sT0uV3wX",
   "_key": "!items!N1oP4qR7sT0uV3wX",
   "name": "Ataque Surpresa",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/rogue.webp",
   "system": {
     "skillActionTypes": [
-      "reacao"
+      "reaction"
     ],
-    "skillClass": "ladino",
+    "skillClass": "rogue",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "V5wX8yY1zZ4aB7cC",
   "_key": "!items!V5wX8yY1zZ4aB7cC",
   "name": "Golpe Perfeito",
@@ -7,9 +7,9 @@
   "system": {
     "skillActionTypes": [
       "long-action",
-      "foco"
+      "focus"
     ],
-    "skillClass": "guerreiro",
+    "skillClass": "warrior",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 3,

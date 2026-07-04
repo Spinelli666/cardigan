@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "E3fG6hH9iJ2jK5kL",
   "_key": "!items!E3fG6hH9iJ2jK5kL",
   "name": "Gênese Elemental",
@@ -8,10 +8,10 @@
     "skillActionTypes": [
       "short-action",
       "long-action",
-      "foco"
+      "focus"
     ],
-    "skillClass": "feiticeiro",
-    "spellCategories": ["feerico"],
+    "skillClass": "sorcerer",
+    "spellCategories": ["fae"],
     "hasEnergyCost": true,
     "energyCost": 3,
     "hasCustomEffects": true,

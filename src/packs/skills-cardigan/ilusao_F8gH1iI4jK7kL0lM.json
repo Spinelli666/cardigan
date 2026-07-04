@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "F8gH1iI4jK7kL0lM",
   "_key": "!items!F8gH1iI4jK7kL0lM",
   "name": "Ilusão",
@@ -7,10 +7,10 @@
   "system": {
     "skillActionTypes": [
       "long-action",
-      "foco"
+      "focus"
     ],
-    "skillClass": "feiticeiro",
-    "spellCategories": ["caos"],
+    "skillClass": "sorcerer",
+    "spellCategories": ["chaos"],
     "hasEnergyCost": true,
     "energyCost": 3,
     "hasCustomEffects": false,

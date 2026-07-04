@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "A3bC4dE5fF6gG7hH",
   "_key": "!items!A3bC4dE5fF6gG7hH",
   "name": "Companheiro",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "andarilho",
+    "skillClass": "wanderer",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

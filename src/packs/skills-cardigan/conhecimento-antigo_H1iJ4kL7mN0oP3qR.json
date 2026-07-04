@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "H1iJ4kL7mN0oP3qR",
   "_key": "!items!H1iJ4kL7mN0oP3qR",
   "name": "Conhecimento Antigo",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "raciais",
+    "skillClass": "racial",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

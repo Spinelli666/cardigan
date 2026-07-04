@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "D1eR0gF2hJ3kL4mN",
   "_key": "!items!D1eR0gF2hJ3kL4mN",
   "name": "Interceptar",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillActionTypes": [
-      "reacao"
+      "reaction"
     ],
-    "skillClass": "andarilho",
+    "skillClass": "wanderer",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 1,

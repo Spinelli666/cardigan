@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "J4kL7mN1oP3qR6sT",
   "_key": "!items!J4kL7mN1oP3qR6sT",
   "name": "Investida",
@@ -8,7 +8,7 @@
     "skillActionTypes": [
       "long-action"
     ],
-    "skillClass": "guerreiro",
+    "skillClass": "warrior",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 3,

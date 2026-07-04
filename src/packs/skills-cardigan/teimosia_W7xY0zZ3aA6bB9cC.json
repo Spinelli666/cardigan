@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "W7xY0zZ3aA6bB9cC",
   "_key": "!items!W7xY0zZ3aA6bB9cC",
   "name": "Teimosia",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "raciais",
+    "skillClass": "racial",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "C1dE4fG7hH0iJ3kL",
   "_key": "!items!C1dE4fG7hH0iJ3kL",
   "name": "Telecinese",
@@ -8,10 +8,10 @@
     "skillActionTypes": [
       "short-action",
       "long-action",
-      "foco"
+      "focus"
     ],
-    "skillClass": "feiticeiro",
-    "spellCategories": ["neutro"],
+    "skillClass": "sorcerer",
+    "spellCategories": ["neutral"],
     "hasEnergyCost": true,
     "energyCost": 2,
     "hasCustomEffects": true,

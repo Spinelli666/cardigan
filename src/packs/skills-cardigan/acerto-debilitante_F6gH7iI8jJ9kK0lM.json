@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "F6gH7iI8jJ9kK0lM",
   "_key": "!items!F6gH7iI8jJ9kK0lM",
   "name": "Acerto Debilitante",
@@ -8,7 +8,7 @@
     "skillActionTypes": [
       "short-action"
     ],
-    "skillClass": "andarilho",
+    "skillClass": "wanderer",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 2,

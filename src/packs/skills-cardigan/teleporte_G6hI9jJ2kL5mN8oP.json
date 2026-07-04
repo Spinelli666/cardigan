@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "G6hI9jJ2kL5mN8oP",
   "_key": "!items!G6hI9jJ2kL5mN8oP",
   "name": "Teleporte",
@@ -8,8 +8,8 @@
     "skillActionTypes": [
       "short-action"
     ],
-    "skillClass": "feiticeiro",
-    "spellCategories": ["caos", "necromancia"],
+    "skillClass": "sorcerer",
+    "spellCategories": ["chaos", "necromancy"],
     "hasEnergyCost": true,
     "energyCost": 2,
     "hasCustomEffects": false,

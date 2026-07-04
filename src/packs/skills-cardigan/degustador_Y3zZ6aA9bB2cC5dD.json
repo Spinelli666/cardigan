@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "Y3zZ6aA9bB2cC5dD",
   "_key": "!items!Y3zZ6aA9bB2cC5dD",
   "name": "Degustador",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "raciais",
+    "skillClass": "racial",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

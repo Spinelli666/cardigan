@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "F7gH0iI3jK6kL9lM",
   "_key": "!items!F7gH0iI3jK6kL9lM",
   "name": "Puro Veneno",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/rogue.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "ladino",
+    "skillClass": "rogue",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

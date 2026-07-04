@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "E2fG5hH8iI9jK0lL",
   "_key": "!items!E2fG5hH8iI9jK0lL",
   "name": "Colecionador",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "andarilho",
+    "skillClass": "wanderer",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

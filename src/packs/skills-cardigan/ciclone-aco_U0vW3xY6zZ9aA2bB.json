@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "U0vW3xY6zZ9aA2bB",
   "_key": "!items!U0vW3xY6zZ9aA2bB",
   "name": "Ciclone de Aço",
@@ -8,7 +8,7 @@
     "skillActionTypes": [
       "long-action"
     ],
-    "skillClass": "guerreiro",
+    "skillClass": "warrior",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 2,

@@ -778,35 +778,39 @@ export class CardiganSystemItem extends Item {
     // Get the skill class
     const skillClass = this.system.skillClass;
     
-    // Skip racial skills and auto-added skills
-    if (skillClass === 'raciais' || skillClass === 'unicas') {
+    // Skip racial and unique skills
+    if (skillClass === 'racial' || skillClass === 'unique') {
       console.log(`[Item._incrementClassCounter] Skipping counter increment for: ${this.name} (${skillClass})`);
       return;
     }
-    
+
     // Skip Componentes and Despertar Psiônico (auto-added skills)
     if (this.name === 'Componentes' || this.name === 'Despertar Psiônico') {
       console.log(`[Item._incrementClassCounter] Skipping auto-added skill: ${this.name}`);
       return;
     }
-    
+
     // Valid class types that have counters
-    const validClasses = ['andarilho', 'guerreiro', 'ladino', 'feiticeiro'];
-    
+    const validClasses = ['wanderer', 'warrior', 'rogue', 'sorcerer'];
+
     if (!validClasses.includes(skillClass)) {
       console.log(`[Item._incrementClassCounter] Skill ${this.name} has invalid skillClass: ${skillClass}`);
       return;
     }
-    
+
+    // Bridge: actor classes fields still use PT names until C8 renames them
+    const SKILL_CLASS_TO_ACTOR_FIELD = { wanderer: 'andarilho', warrior: 'guerreiro', rogue: 'ladino', sorcerer: 'feiticeiro' };
+    const actorField = SKILL_CLASS_TO_ACTOR_FIELD[skillClass] ?? skillClass;
+
     // Get current counter value
-    const currentValue = this.actor.system.classes[skillClass] || 0;
+    const currentValue = this.actor.system.classes[actorField] || 0;
     const newValue = currentValue + 1;
-    
+
     // Update the counter
     await this.actor.update({
-      [`system.classes.${skillClass}`]: newValue
+      [`system.classes.${actorField}`]: newValue
     });
-    
+
     console.log(`[Item._incrementClassCounter] Incremented ${skillClass} counter from ${currentValue} to ${newValue} for skill: ${this.name}`);
   }
 
@@ -821,35 +825,39 @@ export class CardiganSystemItem extends Item {
     // Get the skill class
     const skillClass = this.system.skillClass;
     
-    // Skip racial skills and auto-added skills
-    if (skillClass === 'raciais' || skillClass === 'unicas') {
+    // Skip racial and unique skills
+    if (skillClass === 'racial' || skillClass === 'unique') {
       console.log(`[Item._decrementClassCounter] Skipping counter decrement for: ${this.name} (${skillClass})`);
       return;
     }
-    
+
     // Skip Componentes and Despertar Psiônico (auto-added skills)
     if (this.name === 'Componentes' || this.name === 'Despertar Psiônico') {
       console.log(`[Item._decrementClassCounter] Skipping auto-added skill: ${this.name}`);
       return;
     }
-    
+
     // Valid class types that have counters
-    const validClasses = ['andarilho', 'guerreiro', 'ladino', 'feiticeiro'];
-    
+    const validClasses = ['wanderer', 'warrior', 'rogue', 'sorcerer'];
+
     if (!validClasses.includes(skillClass)) {
       console.log(`[Item._decrementClassCounter] Skill ${this.name} has invalid skillClass: ${skillClass}`);
       return;
     }
-    
+
+    // Bridge: actor classes fields still use PT names until C8 renames them
+    const SKILL_CLASS_TO_ACTOR_FIELD = { wanderer: 'andarilho', warrior: 'guerreiro', rogue: 'ladino', sorcerer: 'feiticeiro' };
+    const actorField = SKILL_CLASS_TO_ACTOR_FIELD[skillClass] ?? skillClass;
+
     // Get current counter value
-    const currentValue = this.actor.system.classes[skillClass] || 0;
-    const newValue = Math.max(0, currentValue - 1); // Never go below 0
-    
+    const currentValue = this.actor.system.classes[actorField] || 0;
+    const newValue = Math.max(0, currentValue - 1);
+
     // Update the counter
     await this.actor.update({
-      [`system.classes.${skillClass}`]: newValue
+      [`system.classes.${actorField}`]: newValue
     });
-    
+
     console.log(`[Item._decrementClassCounter] Decremented ${skillClass} counter from ${currentValue} to ${newValue} for skill: ${this.name}`);
   }
 

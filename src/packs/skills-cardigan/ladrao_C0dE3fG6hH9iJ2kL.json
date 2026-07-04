@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "C0dE3fG6hH9iJ2kL",
   "_key": "!items!C0dE3fG6hH9iJ2kL",
   "name": "Ladrão",
@@ -7,9 +7,9 @@
   "system": {
     "skillActionTypes": [
       "short-action",
-      "foco"
+      "focus"
     ],
-    "skillClass": "ladino",
+    "skillClass": "rogue",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

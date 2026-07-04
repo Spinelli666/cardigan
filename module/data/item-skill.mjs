@@ -23,30 +23,30 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
         required: false,
         blank: true,
         choices: () => CONFIG.CARDIGAN?.skillTypes || {
-          passiva: 'Passiva',
-          active: 'Active',
-          foco: 'FOCO',
-          simples: 'Simples',
-          reacao: 'Reação'
+          passive: 'Passiva',
+          'long-action': 'Ação Longa',
+          focus: 'Foco',
+          'short-action': 'Ação Curta',
+          reaction: 'Reação'
         }
       }),
       {
         required: false,
-        initial: ['passiva'],
+        initial: ['passive'],
         label: 'CARDIGAN.Item.Skill.ActionTypes'
       }
     );
 
     schema.skillClass = new fields.StringField({
       required: false,
-      initial: 'andarilho',
+      initial: 'wanderer',
       choices: () => CONFIG.CARDIGAN?.skillClasses || {
-        andarilho: 'Andarilho',
-        guerreiro: 'Guerreiro',
-        ladino: 'Ladino',
-        feiticeiro: 'Feiticeiro',
-        raciais: 'Raciais',
-        unicas: 'Únicas'
+        wanderer: 'Andarilho',
+        warrior: 'Guerreiro',
+        rogue: 'Ladino',
+        sorcerer: 'Feiticeiro',
+        racial: 'Raciais',
+        unique: 'Únicas'
       },
       label: 'CARDIGAN.Item.Skill.Class'
     });
@@ -57,10 +57,10 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
         required: false,
         blank: true,
         choices: () => CONFIG.CARDIGAN?.spellCategories || {
-          neutro: 'Neutro',
-          feerico: 'Feérico',
-          caos: 'Caos',
-          necromancia: 'Necromancia'
+          neutral: 'Neutro',
+          fae: 'Feérico',
+          chaos: 'Caos',
+          necromancy: 'Necromancia'
         }
       }),
       {
@@ -285,8 +285,8 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       img: options.img || 'icons/svg/upgrade.svg',
       system: {
         description: options.description || '',
-        skillActionTypes: options.skillActionTypes || ['passiva'],
-        skillClass: options.skillClass || 'andarilho',
+        skillActionTypes: options.skillActionTypes || ['passive'],
+        skillClass: options.skillClass || 'wanderer',
         spellCategories: options.spellCategories || [],
         hasEnergyCost: options.hasEnergyCost || false,
         energyCost: options.energyCost || 0,

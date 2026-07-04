@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "G5hI8jJ1kL4mN7oP",
   "_key": "!items!G5hI8jJ1kL4mN7oP",
   "name": "Enganar",
@@ -8,7 +8,7 @@
     "skillActionTypes": [
       "long-action"
     ],
-    "skillClass": "ladino",
+    "skillClass": "rogue",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 2,

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "P4qR7sT0uV3wX6yZ",
   "_key": "!items!P4qR7sT0uV3wX6yZ",
   "name": "Runas Antigas",
@@ -8,8 +8,8 @@
     "skillActionTypes": [
       "long-action"
     ],
-    "skillClass": "feiticeiro",
-    "spellCategories": ["feerico", "caos"],
+    "skillClass": "sorcerer",
+    "spellCategories": ["fae", "chaos"],
     "hasEnergyCost": true,
     "energyCost": 2,
     "hasCustomEffects": true,

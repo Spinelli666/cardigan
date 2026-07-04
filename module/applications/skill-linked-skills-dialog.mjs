@@ -94,12 +94,12 @@ export class SkillLinkedSkillsDialog extends foundry.applications.api.Handlebars
 
       // Group skills by class
       this.skillsByClass = {
-        andarilho: allSkills.filter(s => s.skillClass === 'andarilho'),
-        guerreiro: allSkills.filter(s => s.skillClass === 'guerreiro'),
-        ladino: allSkills.filter(s => s.skillClass === 'ladino'),
-        feiticeiro: allSkills.filter(s => s.skillClass === 'feiticeiro'),
-        raciais: allSkills.filter(s => s.skillClass === 'raciais'),
-        unicas: allSkills.filter(s => s.skillClass === 'unicas')
+        wanderer: allSkills.filter(s => s.skillClass === 'wanderer'),
+        warrior: allSkills.filter(s => s.skillClass === 'warrior'),
+        rogue: allSkills.filter(s => s.skillClass === 'rogue'),
+        sorcerer: allSkills.filter(s => s.skillClass === 'sorcerer'),
+        racial: allSkills.filter(s => s.skillClass === 'racial'),
+        unique: allSkills.filter(s => s.skillClass === 'unique')
       };
     } catch (error) {
       console.error("Error loading skills from compendium:", error);

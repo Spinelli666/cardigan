@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "D1eF4gG7hI0iJ3kL",
   "_key": "!items!D1eF4gG7hI0iJ3kL",
   "name": "Enganar a Morte",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "raciais",
+    "skillClass": "racial",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

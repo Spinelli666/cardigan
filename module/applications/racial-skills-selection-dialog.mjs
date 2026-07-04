@@ -54,7 +54,7 @@ export class RacialSkillsSelectionDialog extends foundry.applications.api.Handle
       if (pack) {
         const documents = await pack.getDocuments();
         const compendiumSkills = documents
-          .filter(doc => doc.type === 'skill' && doc.system.skillClass === 'raciais')
+          .filter(doc => doc.type === 'skill' && doc.system.skillClass === 'racial')
           .map(skill => ({
             id: skill.id,
             name: skill.name,
@@ -67,7 +67,7 @@ export class RacialSkillsSelectionDialog extends foundry.applications.api.Handle
       
       // Load skills from world
       const worldSkills = game.items
-        .filter(item => item.type === 'skill' && item.system.skillClass === 'raciais')
+        .filter(item => item.type === 'skill' && item.system.skillClass === 'racial')
         .map(skill => ({
           id: skill.id,
           name: skill.name,

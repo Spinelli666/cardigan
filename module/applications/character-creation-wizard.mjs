@@ -136,17 +136,17 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
           }
 
           // Adicionar categorias de magia para Feiticeiro
-          if (skill.skillClass === 'feiticeiro' && skill.spellCategories && Array.isArray(skill.spellCategories) && skill.spellCategories.length > 0) {
+          if (skill.skillClass === 'sorcerer' && skill.spellCategories && Array.isArray(skill.spellCategories) && skill.spellCategories.length > 0) {
             const categoryImages = {
-              'neutro': 'systems/cardigan/assets/images/others/neutral-spell.webp',
-              'feerico': 'systems/cardigan/assets/images/bestiary/fae-creatures.webp',
-              'caos': 'systems/cardigan/assets/images/bestiary/indivisible-chaos.webp',
-              'necromancia': 'systems/cardigan/assets/images/bestiary/necromancy.webp'
+              'neutral': 'systems/cardigan/assets/images/others/neutral-spell.webp',
+              'fae': 'systems/cardigan/assets/images/bestiary/fae-creatures.webp',
+              'chaos': 'systems/cardigan/assets/images/bestiary/indivisible-chaos.webp',
+              'necromancy': 'systems/cardigan/assets/images/bestiary/necromancy.webp'
             };
 
             skillData.spellCategories = skill.spellCategories.map(category => ({
               categoryImage: categoryImages[category],
-              categoryName: game.i18n.localize(`CARDIGAN.SpellCategory.${category.charAt(0).toUpperCase() + category.slice(1)}`) || category
+              categoryName: game.i18n.localize(`CARDIGAN.Item.Skill.SpellCategory.${category.charAt(0).toUpperCase() + category.slice(1)}`) || category
             }));
           }
 
@@ -155,10 +155,10 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         
         // Nome do caminho atual para exibição
         const pathNames = {
-          andarilho: 'Andarilho',
-          guerreiro: 'Guerreiro',
-          ladino: 'Ladino',
-          feiticeiro: 'Feiticeiro'
+          wanderer: 'Andarilho',
+          warrior: 'Guerreiro',
+          rogue: 'Ladino',
+          sorcerer: 'Feiticeiro'
         };
         context.currentPathName = pathNames[this.currentPath];
       } else {
@@ -431,10 +431,10 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
 
       const documents = await pack.getDocuments();
       const skillsByClass = {
-        andarilho: [],
-        guerreiro: [],
-        ladino: [],
-        feiticeiro: []
+        wanderer: [],
+        warrior: [],
+        rogue: [],
+        sorcerer: []
       };
 
       for (const skill of documents.filter(doc => doc.type === 'skill' && doc.system.skillClass)) {
@@ -490,10 +490,10 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
 
       this.skills = skillsByClass;
       console.log('[CharacterWizard] Loaded skills:', {
-        andarilho: this.skills.andarilho.length,
-        guerreiro: this.skills.guerreiro.length,
-        ladino: this.skills.ladino.length,
-        feiticeiro: this.skills.feiticeiro.length
+        wanderer: this.skills.wanderer.length,
+        warrior: this.skills.warrior.length,
+        rogue: this.skills.rogue.length,
+        sorcerer: this.skills.sorcerer.length
       });
 
     } catch (error) {
@@ -508,32 +508,32 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
   _preparePaths() {
     return [
       {
-        id: 'andarilho',
+        id: 'wanderer',
         name: 'Andarilho',
         img: 'systems/cardigan/assets/images/paths/wanderer.webp',
-        active: this.currentPath === 'andarilho',
-        skillCount: this.skills.andarilho?.length || 0
+        active: this.currentPath === 'wanderer',
+        skillCount: this.skills.wanderer?.length || 0
       },
       {
-        id: 'guerreiro',
+        id: 'warrior',
         name: 'Guerreiro',
         img: 'systems/cardigan/assets/images/paths/warrior.webp',
-        active: this.currentPath === 'guerreiro',
-        skillCount: this.skills.guerreiro?.length || 0
+        active: this.currentPath === 'warrior',
+        skillCount: this.skills.warrior?.length || 0
       },
       {
-        id: 'ladino',
+        id: 'rogue',
         name: 'Ladino',
         img: 'systems/cardigan/assets/images/paths/rogue.webp',
-        active: this.currentPath === 'ladino',
-        skillCount: this.skills.ladino?.length || 0
+        active: this.currentPath === 'rogue',
+        skillCount: this.skills.rogue?.length || 0
       },
       {
-        id: 'feiticeiro',
+        id: 'sorcerer',
         name: 'Feiticeiro',
         img: 'systems/cardigan/assets/images/paths/wizard.webp',
-        active: this.currentPath === 'feiticeiro',
-        skillCount: this.skills.feiticeiro?.length || 0
+        active: this.currentPath === 'sorcerer',
+        skillCount: this.skills.sorcerer?.length || 0
       }
     ];
   }
@@ -1040,12 +1040,12 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         const skillClass = skillDocument.system.skillClass;
         if (skillClass) {
           // Verificar se tem pelo menos 1 skill do Andarilho
-          if (skillClass === 'andarilho') {
+          if (skillClass === 'wanderer') {
             hasAndarilhoSkill = true;
           }
-          
+
           // Verificar se tem pelo menos 1 skill do Feiticeiro
-          if (skillClass === 'feiticeiro') {
+          if (skillClass === 'sorcerer') {
             hasFeiticeiroSkill = true;
           }
         }

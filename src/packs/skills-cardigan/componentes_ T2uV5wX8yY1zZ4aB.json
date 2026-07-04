@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "T2uV5wX8yY1zZ4aB",
   "_key": "!items!T2uV5wX8yY1zZ4aB",
   "name": "Componentes",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "andarilho",
+    "skillClass": "wanderer",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

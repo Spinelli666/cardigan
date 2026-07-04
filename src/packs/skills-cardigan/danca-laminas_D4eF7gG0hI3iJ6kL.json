@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "D4eF7gG0hI3iJ6kL",
   "_key": "!items!D4eF7gG0hI3iJ6kL",
   "name": "Dança das Lâminas",
@@ -8,7 +8,7 @@
     "skillActionTypes": [
       "long-action"
     ],
-    "skillClass": "ladino",
+    "skillClass": "rogue",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 3,

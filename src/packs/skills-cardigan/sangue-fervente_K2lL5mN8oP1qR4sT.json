@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "K2lL5mN8oP1qR4sT",
   "_key": "!items!K2lL5mN8oP1qR4sT",
   "name": "Sangue Fervente",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "raciais",
+    "skillClass": "racial",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

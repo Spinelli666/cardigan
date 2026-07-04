@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "Y7zZ0aA3bB6cC9dD",
   "_key": "!items!Y7zZ0aA3bB6cC9dD",
   "name": "Evocação",
@@ -8,8 +8,8 @@
     "skillActionTypes": [
       "long-action"
     ],
-    "skillClass": "feiticeiro",
-    "spellCategories": ["feerico", "caos", "necromancia"],
+    "skillClass": "sorcerer",
+    "spellCategories": ["fae", "chaos", "necromancy"],
     "hasEnergyCost": true,
     "energyCost": 5,
     "hasCustomEffects": false,

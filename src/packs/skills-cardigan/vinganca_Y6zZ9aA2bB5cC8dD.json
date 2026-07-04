@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "Y6zZ9aA2bB5cC8dD",
   "_key": "!items!Y6zZ9aA2bB5cC8dD",
   "name": "Vingança",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/rogue.webp",
   "system": {
     "skillActionTypes": [
-      "reacao"
+      "reaction"
     ],
-    "skillClass": "ladino",
+    "skillClass": "rogue",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 1,

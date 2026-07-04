@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "D5eF8gG1hI4iJ7kL",
   "_key": "!items!D5eF8gG1hI4iJ7kL",
   "name": "Aura Defletora",
@@ -9,8 +9,8 @@
       "short-action",
       "long-action"
     ],
-    "skillClass": "feiticeiro",
-    "spellCategories": ["neutro"],
+    "skillClass": "sorcerer",
+    "spellCategories": ["neutral"],
     "hasEnergyCost": true,
     "energyCost": 4,
     "hasCustomEffects": false,

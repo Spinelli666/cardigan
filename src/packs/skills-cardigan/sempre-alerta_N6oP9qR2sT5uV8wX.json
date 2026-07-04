@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "N6oP9qR2sT5uV8wX",
   "_key": "!items!N6oP9qR2sT5uV8wX",
   "name": "Sempre Alerta",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "raciais",
+    "skillClass": "racial",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

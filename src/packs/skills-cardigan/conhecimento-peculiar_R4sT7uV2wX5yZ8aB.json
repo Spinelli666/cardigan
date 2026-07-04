@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "R4sT7uV2wX5yZ8aB",
   "_key": "!items!R4sT7uV2wX5yZ8aB",
   "name": "Conhecimento Peculiar",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "andarilho",
+    "skillClass": "wanderer",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

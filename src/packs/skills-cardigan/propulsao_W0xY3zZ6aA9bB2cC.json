@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "W0xY3zZ6aA9bB2cC",
   "_key": "!items!W0xY3zZ6aA9bB2cC",
   "name": "Propulsão",
@@ -8,8 +8,8 @@
     "skillActionTypes": [
       "short-action"
     ],
-    "skillClass": "feiticeiro",
-    "spellCategories": ["neutro"],
+    "skillClass": "sorcerer",
+    "spellCategories": ["neutral"],
     "hasEnergyCost": true,
     "energyCost": 2,
     "hasCustomEffects": false,

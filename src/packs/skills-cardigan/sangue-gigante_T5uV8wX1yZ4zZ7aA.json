@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "T5uV8wX1yZ4zZ7aA",
   "_key": "!items!T5uV8wX1yZ4zZ7aA",
   "name": "Sangue de Gigante",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "raciais",
+    "skillClass": "racial",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

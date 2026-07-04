@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "F0gH3iI6jJ9kK2lM",
   "_key": "!items!F0gH3iI6jJ9kK2lM",
   "name": "Adrenalina",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/warrior.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "guerreiro",
+    "skillClass": "warrior",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

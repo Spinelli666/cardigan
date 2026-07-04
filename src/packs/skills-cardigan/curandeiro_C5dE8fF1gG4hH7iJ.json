@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "C5dE8fF1gG4hH7iJ",
   "_key": "!items!C5dE8fF1gG4hH7iJ",
   "name": "Curandeiro",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/wanderer.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "andarilho",
+    "skillClass": "wanderer",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "D3eF6gG9hH2iI5jK",
   "_key": "!items!D3eF6gG9hH2iI5jK",
   "name": "Luta Livre",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/warrior.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "guerreiro",
+    "skillClass": "warrior",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

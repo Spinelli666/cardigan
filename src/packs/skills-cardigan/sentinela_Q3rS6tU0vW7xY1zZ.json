@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "Q3rS6tU0vW7xY1zZ",
   "_key": "!items!Q3rS6tU0vW7xY1zZ",
   "name": "Sentinela",
@@ -7,9 +7,9 @@
   "system": {
     "skillActionTypes": [
       "short-action",
-      "foco"
+      "focus"
     ],
-    "skillClass": "andarilho",
+    "skillClass": "wanderer",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 2,

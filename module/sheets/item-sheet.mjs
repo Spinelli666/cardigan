@@ -989,7 +989,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     event.preventDefault();
     
     const item = this.item;
-    if (item.type !== 'skill' || item.system.skillClass !== 'feiticeiro') {
+    if (item.type !== 'skill' || item.system.skillClass !== 'sorcerer') {
       return;
     }
 

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "M6nO9pP2qR5sT8uV",
   "_key": "!items!M6nO9pP2qR5sT8uV",
   "name": "Retribuição",
@@ -8,7 +8,7 @@
     "skillActionTypes": [
       "short-action"
     ],
-    "skillClass": "guerreiro",
+    "skillClass": "warrior",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

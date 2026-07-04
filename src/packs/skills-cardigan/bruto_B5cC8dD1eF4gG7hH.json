@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "B5cC8dD1eF4gG7hH",
   "_key": "!items!B5cC8dD1eF4gG7hH",
   "name": "Bruto",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "raciais",
+    "skillClass": "racial",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

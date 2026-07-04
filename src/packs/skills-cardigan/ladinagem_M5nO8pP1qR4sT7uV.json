@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "M5nO8pP1qR4sT7uV",
   "_key": "!items!M5nO8pP1qR4sT7uV",
   "name": "Ladinagem",
@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/rogue.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "ladino",
+    "skillClass": "rogue",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,
