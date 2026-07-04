@@ -47,11 +47,50 @@ async function _migrateSchemaV1() {
   }
 }
 
+const CLASSES_PT_TO_EN = {
+  'andarilho': 'wanderer',
+  'guerreiro': 'warrior',
+  'ladino': 'rogue',
+  'feiticeiro': 'sorcerer'
+};
+
+const SHOW_SKILLS_PT_TO_EN = {
+  'showSkillsAndarilhoTable': 'showSkillsWandererTable',
+  'showSkillsGuerreiroTable': 'showSkillsWarriorTable',
+  'showSkillsLadinoTable': 'showSkillsRogueTable',
+  'showSkillsFeiticeiroTable': 'showSkillsSorcererTable',
+  'showSkillsRaciaisTable': 'showSkillsRacialTable',
+  'showSkillsUnicasTable': 'showSkillsUniqueTable'
+};
+
 /**
+ * Rename classes sub-fields PT→EN and showSkills detail flags PT→EN.
  * @param {Actor} actor
  */
 async function _migrateActor(actor) {
-  // Migration steps for actors will be added in subsequent commits.
+  if (actor.type !== 'character') return;
+  const source = actor._source?.system ?? {};
+  const updates = {};
+
+  const classes = source.classes ?? {};
+  for (const [pt, en] of Object.entries(CLASSES_PT_TO_EN)) {
+    if (pt in classes) {
+      updates[`system.classes.${en}`] = classes[pt];
+      updates[`system.classes.-=${pt}`] = null;
+    }
+  }
+
+  const details = source.details ?? {};
+  for (const [pt, en] of Object.entries(SHOW_SKILLS_PT_TO_EN)) {
+    if (pt in details) {
+      updates[`system.details.${en}`] = details[pt];
+      updates[`system.details.-=${pt}`] = null;
+    }
+  }
+
+  if (Object.keys(updates).length > 0) {
+    await actor.update(updates);
+  }
 }
 
 /**

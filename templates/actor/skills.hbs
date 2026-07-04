@@ -11,8 +11,8 @@
         <label>ANDARILHO</label>
         <input
           type='number'
-          name='system.classes.andarilho'
-          value='{{system.classes.andarilho}}'
+          name='system.classes.wanderer'
+          value='{{system.classes.wanderer}}'
           data-dtype='Number'
           min='0'
         />
@@ -21,8 +21,8 @@
         <label>GUERREIRO</label>
         <input
           type='number'
-          name='system.classes.guerreiro'
-          value='{{system.classes.guerreiro}}'
+          name='system.classes.warrior'
+          value='{{system.classes.warrior}}'
           data-dtype='Number'
           min='0'
         />
@@ -31,8 +31,8 @@
         <label>LADINO</label>
         <input
           type='number'
-          name='system.classes.ladino'
-          value='{{system.classes.ladino}}'
+          name='system.classes.rogue'
+          value='{{system.classes.rogue}}'
           data-dtype='Number'
           min='0'
         />
@@ -41,8 +41,8 @@
         <label>FEITICEIRO</label>
         <input
           type='number'
-          name='system.classes.feiticeiro'
-          value='{{system.classes.feiticeiro}}'
+          name='system.classes.sorcerer'
+          value='{{system.classes.sorcerer}}'
           data-dtype='Number'
           min='0'
         />
@@ -53,49 +53,49 @@
   {{! SKILL CLASS TABLE TOGGLES - Responsive layout }}
   <div class="skill-toggles-container">
     {{! Andarilho Skills Toggle }}
-    <label class="icon-toggle" title="{{localize 'CARDIGAN.AndarilhoSkillsTable'}}">
-      <input type="checkbox" name="system.details.showSkillsAndarilhoTable" {{checked system.details.showSkillsAndarilhoTable}} data-dtype="Boolean" data-wanderer-skills-table-toggle />
-      <i class="fas fa-hiking {{#if system.details.showSkillsAndarilhoTable}}active{{/if}}" style="color: #8bc34a;"></i>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.WandererSkillsTable'}}">
+      <input type="checkbox" name="system.details.showSkillsWandererTable" {{checked system.details.showSkillsWandererTable}} data-dtype="Boolean" data-wanderer-skills-table-toggle />
+      <i class="fas fa-hiking {{#if system.details.showSkillsWandererTable}}active{{/if}}" style="color: #8bc34a;"></i>
     </label>
-    
+
     {{! Guerreiro Skills Toggle }}
-    <label class="icon-toggle" title="{{localize 'CARDIGAN.GuerreiroSkillsTable'}}">
-      <input type="checkbox" name="system.details.showSkillsGuerreiroTable" {{checked system.details.showSkillsGuerreiroTable}} data-dtype="Boolean" data-warrior-skills-table-toggle />
-      <i class="fas fa-sword {{#if system.details.showSkillsGuerreiroTable}}active{{/if}}" style="color: #f44336;"></i>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.WarriorSkillsTable'}}">
+      <input type="checkbox" name="system.details.showSkillsWarriorTable" {{checked system.details.showSkillsWarriorTable}} data-dtype="Boolean" data-warrior-skills-table-toggle />
+      <i class="fas fa-sword {{#if system.details.showSkillsWarriorTable}}active{{/if}}" style="color: #f44336;"></i>
     </label>
-    
+
     {{! Ladino Skills Toggle }}
-    <label class="icon-toggle" title="{{localize 'CARDIGAN.LadinoSkillsTable'}}">
-      <input type="checkbox" name="system.details.showSkillsLadinoTable" {{checked system.details.showSkillsLadinoTable}} data-dtype="Boolean" data-rogue-skills-table-toggle />
-      <i class="fas fa-mask {{#if system.details.showSkillsLadinoTable}}active{{/if}}" style="color: #9c27b0;"></i>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.RogueSkillsTable'}}">
+      <input type="checkbox" name="system.details.showSkillsRogueTable" {{checked system.details.showSkillsRogueTable}} data-dtype="Boolean" data-rogue-skills-table-toggle />
+      <i class="fas fa-mask {{#if system.details.showSkillsRogueTable}}active{{/if}}" style="color: #9c27b0;"></i>
     </label>
-    
+
     {{! Feiticeiro Skills Toggle }}
-    <label class="icon-toggle" title="{{localize 'CARDIGAN.FeiticeiroSkillsTable'}}">
-      <input type="checkbox" name="system.details.showSkillsFeiticeiroTable" {{checked system.details.showSkillsFeiticeiroTable}} data-dtype="Boolean" data-sorcerer-skills-table-toggle />
-      <i class="fas fa-magic {{#if system.details.showSkillsFeiticeiroTable}}active{{/if}}" style="color: #2196f3;"></i>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.SorcererSkillsTable'}}">
+      <input type="checkbox" name="system.details.showSkillsSorcererTable" {{checked system.details.showSkillsSorcererTable}} data-dtype="Boolean" data-sorcerer-skills-table-toggle />
+      <i class="fas fa-magic {{#if system.details.showSkillsSorcererTable}}active{{/if}}" style="color: #2196f3;"></i>
     </label>
-    
+
     {{! Raciais Skills Toggle }}
-    <label class="icon-toggle" title="{{localize 'CARDIGAN.RaciaisSkillsTable'}}">
-      <input type="checkbox" name="system.details.showSkillsRaciaisTable" {{checked system.details.showSkillsRaciaisTable}} data-dtype="Boolean" data-racial-skills-table-toggle />
-      <i class="fas fa-users {{#if system.details.showSkillsRaciaisTable}}active{{/if}}" style="color: #ff9800;"></i>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.RacialSkillsTable'}}">
+      <input type="checkbox" name="system.details.showSkillsRacialTable" {{checked system.details.showSkillsRacialTable}} data-dtype="Boolean" data-racial-skills-table-toggle />
+      <i class="fas fa-users {{#if system.details.showSkillsRacialTable}}active{{/if}}" style="color: #ff9800;"></i>
     </label>
-    
+
     {{! Únicas Skills Toggle }}
-    <label class="icon-toggle" title="{{localize 'CARDIGAN.UnicasSkillsTable'}}">
-      <input type="checkbox" name="system.details.showSkillsUnicasTable" {{checked system.details.showSkillsUnicasTable}} data-dtype="Boolean" data-unique-skills-table-toggle />
-      <i class="fas fa-star {{#if system.details.showSkillsUnicasTable}}active{{/if}}" style="color: #ffc107;"></i>
+    <label class="icon-toggle" title="{{localize 'CARDIGAN.UniqueSkillsTable'}}">
+      <input type="checkbox" name="system.details.showSkillsUniqueTable" {{checked system.details.showSkillsUniqueTable}} data-dtype="Boolean" data-unique-skills-table-toggle />
+      <i class="fas fa-star {{#if system.details.showSkillsUniqueTable}}active{{/if}}" style="color: #ffc107;"></i>
     </label>
   </div>
 
   {{! SKILL CLASS TABLES - All skill tables by class }}
   
   {{! Andarilho Skills Table }}
-  <div class="skill-table-container wanderer-skills-table-container {{#unless system.details.showSkillsAndarilhoTable}}hidden{{/unless}}" data-wanderer-skills-table-section style="margin-bottom: 20px;">
+  <div class="skill-table-container wanderer-skills-table-container {{#unless system.details.showSkillsWandererTable}}hidden{{/unless}}" data-wanderer-skills-table-section style="margin-bottom: 20px;">
     <h3 class="items-section-header" style="margin-bottom: 10px; color: #8bc34a; text-align: center;">
       <i class="fas fa-hiking" style="margin-right: 8px;"></i>
-      {{localize "CARDIGAN.AndarilhoSkillsTable"}}
+      {{localize "CARDIGAN.WandererSkillsTable"}}
     </h3>
     <ol class='items-list'>
       <li class='item flexrow items-header'>
@@ -126,10 +126,10 @@
   </div>
 
   {{! Guerreiro Skills Table }}
-  <div class="skill-table-container warrior-skills-table-container {{#unless system.details.showSkillsGuerreiroTable}}hidden{{/unless}}" data-warrior-skills-table-section style="margin-bottom: 20px;">
+  <div class="skill-table-container warrior-skills-table-container {{#unless system.details.showSkillsWarriorTable}}hidden{{/unless}}" data-warrior-skills-table-section style="margin-bottom: 20px;">
     <h3 class="items-section-header" style="margin-bottom: 10px; color: #f44336; text-align: center;">
       <i class="fas fa-sword" style="margin-right: 8px;"></i>
-      {{localize "CARDIGAN.GuerreiroSkillsTable"}}
+      {{localize "CARDIGAN.WarriorSkillsTable"}}
     </h3>
     <ol class='items-list'>
       <li class='item flexrow items-header'>
@@ -160,10 +160,10 @@
   </div>
 
   {{! Ladino Skills Table }}
-  <div class="skill-table-container rogue-skills-table-container {{#unless system.details.showSkillsLadinoTable}}hidden{{/unless}}" data-rogue-skills-table-section style="margin-bottom: 20px;">
+  <div class="skill-table-container rogue-skills-table-container {{#unless system.details.showSkillsRogueTable}}hidden{{/unless}}" data-rogue-skills-table-section style="margin-bottom: 20px;">
     <h3 class="items-section-header" style="margin-bottom: 10px; color: #9c27b0; text-align: center;">
       <i class="fas fa-mask" style="margin-right: 8px;"></i>
-      {{localize "CARDIGAN.LadinoSkillsTable"}}
+      {{localize "CARDIGAN.RogueSkillsTable"}}
     </h3>
     <ol class='items-list'>
       <li class='item flexrow items-header'>
@@ -194,10 +194,10 @@
   </div>
 
   {{! Feiticeiro Skills Table }}
-  <div class="skill-table-container sorcerer-skills-table-container {{#unless system.details.showSkillsFeiticeiroTable}}hidden{{/unless}}" data-sorcerer-skills-table-section style="margin-bottom: 20px;">
+  <div class="skill-table-container sorcerer-skills-table-container {{#unless system.details.showSkillsSorcererTable}}hidden{{/unless}}" data-sorcerer-skills-table-section style="margin-bottom: 20px;">
     <h3 class="items-section-header" style="margin-bottom: 10px; color: #2196f3; text-align: center;">
       <i class="fas fa-magic" style="margin-right: 8px;"></i>
-      {{localize "CARDIGAN.FeiticeiroSkillsTable"}}
+      {{localize "CARDIGAN.SorcererSkillsTable"}}
     </h3>
     <ol class='items-list'>
       <li class='item flexrow items-header'>
@@ -228,10 +228,10 @@
   </div>
 
   {{! Raciais Skills Table }}
-  <div class="skill-table-container racial-skills-table-container {{#unless system.details.showSkillsRaciaisTable}}hidden{{/unless}}" data-racial-skills-table-section style="margin-bottom: 20px;">
+  <div class="skill-table-container racial-skills-table-container {{#unless system.details.showSkillsRacialTable}}hidden{{/unless}}" data-racial-skills-table-section style="margin-bottom: 20px;">
     <h3 class="items-section-header" style="margin-bottom: 10px; color: #ff9800; text-align: center;">
       <i class="fas fa-users" style="margin-right: 8px;"></i>
-      {{localize "CARDIGAN.RaciaisSkillsTable"}}
+      {{localize "CARDIGAN.RacialSkillsTable"}}
     </h3>
     <ol class='items-list'>
       <li class='item flexrow items-header'>
@@ -261,10 +261,10 @@
   </div>
 
   {{! Únicas Skills Table }}
-  <div class="skill-table-container unique-skills-table-container {{#unless system.details.showSkillsUnicasTable}}hidden{{/unless}}" data-unique-skills-table-section style="margin-bottom: 20px;">
+  <div class="skill-table-container unique-skills-table-container {{#unless system.details.showSkillsUniqueTable}}hidden{{/unless}}" data-unique-skills-table-section style="margin-bottom: 20px;">
     <h3 class="items-section-header" style="margin-bottom: 10px; color: #ffc107; text-align: center;">
       <i class="fas fa-star" style="margin-right: 8px;"></i>
-      {{localize "CARDIGAN.UnicasSkillsTable"}}
+      {{localize "CARDIGAN.UniqueSkillsTable"}}
     </h3>
     <ol class='items-list'>
       <li class='item flexrow items-header'>

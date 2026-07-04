@@ -1166,7 +1166,7 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
         }
       }
       
-      // Os contadores de classe (system.classes.andarilho, etc.) são incrementados
+      // Os contadores de classe (system.classes.wanderer, etc.) são incrementados
       // automaticamente pelo Item._onCreate quando as skills são criadas
       
       await this.actor.update(updates);

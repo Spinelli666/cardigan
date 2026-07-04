@@ -798,17 +798,13 @@ export class CardiganSystemItem extends Item {
       return;
     }
 
-    // Bridge: actor classes fields still use PT names until C8 renames them
-    const SKILL_CLASS_TO_ACTOR_FIELD = { wanderer: 'andarilho', warrior: 'guerreiro', rogue: 'ladino', sorcerer: 'feiticeiro' };
-    const actorField = SKILL_CLASS_TO_ACTOR_FIELD[skillClass] ?? skillClass;
-
     // Get current counter value
-    const currentValue = this.actor.system.classes[actorField] || 0;
+    const currentValue = this.actor.system.classes[skillClass] || 0;
     const newValue = currentValue + 1;
 
     // Update the counter
     await this.actor.update({
-      [`system.classes.${actorField}`]: newValue
+      [`system.classes.${skillClass}`]: newValue
     });
 
     console.log(`[Item._incrementClassCounter] Incremented ${skillClass} counter from ${currentValue} to ${newValue} for skill: ${this.name}`);
@@ -845,17 +841,13 @@ export class CardiganSystemItem extends Item {
       return;
     }
 
-    // Bridge: actor classes fields still use PT names until C8 renames them
-    const SKILL_CLASS_TO_ACTOR_FIELD = { wanderer: 'andarilho', warrior: 'guerreiro', rogue: 'ladino', sorcerer: 'feiticeiro' };
-    const actorField = SKILL_CLASS_TO_ACTOR_FIELD[skillClass] ?? skillClass;
-
     // Get current counter value
-    const currentValue = this.actor.system.classes[actorField] || 0;
+    const currentValue = this.actor.system.classes[skillClass] || 0;
     const newValue = Math.max(0, currentValue - 1);
 
     // Update the counter
     await this.actor.update({
-      [`system.classes.${actorField}`]: newValue
+      [`system.classes.${skillClass}`]: newValue
     });
 
     console.log(`[Item._decrementClassCounter] Decremented ${skillClass} counter from ${currentValue} to ${newValue} for skill: ${this.name}`);
