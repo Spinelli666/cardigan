@@ -144,6 +144,11 @@ Hooks.once('init', function () {
 
   // Initialize Weapon Properties System
   initializeWeaponProperties();
+
+  // Pre-load HBS partials for reusable template components
+  foundry.applications.handlebars.loadTemplates([
+    'systems/cardigan/templates/actor/partials/skill-row.hbs',
+  ]);
 });
 
 /* -------------------------------------------- */

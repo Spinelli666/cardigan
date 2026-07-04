@@ -112,71 +112,7 @@
         </div>
       </li>
       {{#each skillsAndarilho as |skill id|}}
-        <li
-          class='item collapsible collapsed skill-item'
-          data-item-id='{{skill._id}}'
-          data-uuid='{{skill.uuid}}'
-          data-drag='true'
-          data-document-class='Item'
-        >
-          {{!-- Skill Row Summary --}}
-          <div class="item-row flexrow">
-            <div class='item-name'>
-              <div class='item-image'>
-                <img src='{{skill.img}}' title='{{skill.name}}' width='24' height='24'/>
-              </div>
-              <div 
-                class="skill-name-hover"
-                
-                
-                data-item-id="{{skill._id}}"
-                data-action="toggleExpand"
-                style="cursor: pointer;"
-              >
-                {{skill.name}}
-                {{#if skill.system.isPassive}}
-                  <i class="fas fa-shield-alt" title="{{localize 'CARDIGAN.PassiveSkill'}}" style="color: #4caf50; margin-left: 5px;"></i>
-                {{/if}}
-              </div>
-            </div>
-            <div class='item-type'>
-              {{#if skill.system.skillActionTypes}}
-                <span class="skill-type-badge" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(33,150,243,0.2); color: #2196f3;">
-                  {{formatSkillActionTypes skill.system.skillActionTypes}}
-                </span>
-              {{/if}}
-            </div>
-            <div class='item-enhancements'>
-              <div class="enhancement-checkboxes" style="display: flex; gap: 8px; justify-content: center;">
-                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked (lookup skill.system.acquiredEnhancements 0)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked (lookup skill.system.acquiredEnhancements 1)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked (lookup skill.system.acquiredEnhancements 2)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
-              </div>
-            </div>
-            <div class='item-controls'>
-              <a class='item-control skill-chat' title='{{localize "CARDIGAN.ShowInChat"}}' data-action='skillToChat' data-item-id='{{skill._id}}'>
-                <i class='fas fa-comment'></i>
-              </a>
-              {{#if @root.editable}}
-                <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
-                  <i class='fas fa-edit'></i>
-                </a>
-                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
-                  <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
-                  <i class='fas fa-trash'></i>
-                </a>
-                  {{/unless}}
-              {{/if}}
-            </div>
-          </div>
-          
-          {{!-- Expandable Description --}}
-          <div class="item-description">
-            <div class="wrapper">
-              {{!-- Expanded content will be loaded here dynamically --}}
-            </div>
-          </div>
-        </li>
+        {{> "systems/cardigan/templates/actor/partials/skill-row.hbs" skill=skill showEnhancements=true allowDelete=true}}
       {{else}}
         <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>
           <div style='width: 100%;'>
@@ -210,71 +146,7 @@
         </div>
       </li>
       {{#each skillsGuerreiro as |skill id|}}
-        <li
-          class='item collapsible collapsed skill-item'
-          data-item-id='{{skill._id}}'
-          data-uuid='{{skill.uuid}}'
-          data-drag='true'
-          data-document-class='Item'
-        >
-          {{!-- Skill Row Summary --}}
-          <div class="item-row flexrow">
-            <div class='item-name'>
-              <div class='item-image'>
-                <img src='{{skill.img}}' title='{{skill.name}}' width='24' height='24'/>
-              </div>
-              <div 
-                class="skill-name-hover"
-                
-                
-                data-item-id="{{skill._id}}"
-                data-action="toggleExpand"
-                style="cursor: pointer;"
-              >
-                {{skill.name}}
-                {{#if skill.system.isPassive}}
-                  <i class="fas fa-shield-alt" title="{{localize 'CARDIGAN.PassiveSkill'}}" style="color: #4caf50; margin-left: 5px;"></i>
-                {{/if}}
-              </div>
-            </div>
-            <div class='item-type'>
-              {{#if skill.system.skillActionTypes}}
-                <span class="skill-type-badge" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(33,150,243,0.2); color: #2196f3;">
-                  {{formatSkillActionTypes skill.system.skillActionTypes}}
-                </span>
-              {{/if}}
-            </div>
-            <div class='item-enhancements'>
-              <div class="enhancement-checkboxes" style="display: flex; gap: 8px; justify-content: center;">
-                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked (lookup skill.system.acquiredEnhancements 0)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked (lookup skill.system.acquiredEnhancements 1)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked (lookup skill.system.acquiredEnhancements 2)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
-              </div>
-            </div>
-            <div class='item-controls'>
-              <a class='item-control skill-chat' title='{{localize "CARDIGAN.ShowInChat"}}' data-action='skillToChat' data-item-id='{{skill._id}}'>
-                <i class='fas fa-comment'></i>
-              </a>
-              {{#if @root.editable}}
-                <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
-                  <i class='fas fa-edit'></i>
-                </a>
-                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
-                  <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
-                  <i class='fas fa-trash'></i>
-                </a>
-                  {{/unless}}
-              {{/if}}
-            </div>
-          </div>
-          
-          {{!-- Expandable Description --}}
-          <div class="item-description">
-            <div class="wrapper">
-              {{!-- Expanded content will be loaded here dynamically --}}
-            </div>
-          </div>
-        </li>
+        {{> "systems/cardigan/templates/actor/partials/skill-row.hbs" skill=skill showEnhancements=true allowDelete=true}}
       {{else}}
         <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>
           <div style='width: 100%;'>
@@ -308,71 +180,7 @@
         </div>
       </li>
       {{#each skillsLadino as |skill id|}}
-        <li
-          class='item collapsible collapsed skill-item'
-          data-item-id='{{skill._id}}'
-          data-uuid='{{skill.uuid}}'
-          data-drag='true'
-          data-document-class='Item'
-        >
-          {{!-- Skill Row Summary --}}
-          <div class="item-row flexrow">
-            <div class='item-name'>
-              <div class='item-image'>
-                <img src='{{skill.img}}' title='{{skill.name}}' width='24' height='24'/>
-              </div>
-              <div 
-                class="skill-name-hover"
-                
-                
-                data-item-id="{{skill._id}}"
-                data-action="toggleExpand"
-                style="cursor: pointer;"
-              >
-                {{skill.name}}
-                {{#if skill.system.isPassive}}
-                  <i class="fas fa-shield-alt" title="{{localize 'CARDIGAN.PassiveSkill'}}" style="color: #4caf50; margin-left: 5px;"></i>
-                {{/if}}
-              </div>
-            </div>
-            <div class='item-type'>
-              {{#if skill.system.skillActionTypes}}
-                <span class="skill-type-badge" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(33,150,243,0.2); color: #2196f3;">
-                  {{formatSkillActionTypes skill.system.skillActionTypes}}
-                </span>
-              {{/if}}
-            </div>
-            <div class='item-enhancements'>
-              <div class="enhancement-checkboxes" style="display: flex; gap: 8px; justify-content: center;">
-                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked (lookup skill.system.acquiredEnhancements 0)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked (lookup skill.system.acquiredEnhancements 1)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked (lookup skill.system.acquiredEnhancements 2)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
-              </div>
-            </div>
-            <div class='item-controls'>
-              <a class='item-control skill-chat' title='{{localize "CARDIGAN.ShowInChat"}}' data-action='skillToChat' data-item-id='{{skill._id}}'>
-                <i class='fas fa-comment'></i>
-              </a>
-              {{#if @root.editable}}
-                <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
-                  <i class='fas fa-edit'></i>
-                </a>
-                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
-                  <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
-                  <i class='fas fa-trash'></i>
-                </a>
-                  {{/unless}}
-              {{/if}}
-            </div>
-          </div>
-          
-          {{!-- Expandable Description --}}
-          <div class="item-description">
-            <div class="wrapper">
-              {{!-- Expanded content will be loaded here dynamically --}}
-            </div>
-          </div>
-        </li>
+        {{> "systems/cardigan/templates/actor/partials/skill-row.hbs" skill=skill showEnhancements=true allowDelete=true}}
       {{else}}
         <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>
           <div style='width: 100%;'>
@@ -406,71 +214,7 @@
         </div>
       </li>
       {{#each skillsFeiticeiro as |skill id|}}
-        <li
-          class='item collapsible collapsed skill-item'
-          data-item-id='{{skill._id}}'
-          data-uuid='{{skill.uuid}}'
-          data-drag='true'
-          data-document-class='Item'
-        >
-          {{!-- Skill Row Summary --}}
-          <div class="item-row flexrow">
-            <div class='item-name'>
-              <div class='item-image'>
-                <img src='{{skill.img}}' title='{{skill.name}}' width='24' height='24'/>
-              </div>
-              <div 
-                class="skill-name-hover"
-                
-                
-                data-item-id="{{skill._id}}"
-                data-action="toggleExpand"
-                style="cursor: pointer;"
-              >
-                {{skill.name}}
-                {{#if skill.system.isPassive}}
-                  <i class="fas fa-shield-alt" title="{{localize 'CARDIGAN.PassiveSkill'}}" style="color: #4caf50; margin-left: 5px;"></i>
-                {{/if}}
-              </div>
-            </div>
-            <div class='item-type'>
-              {{#if skill.system.skillActionTypes}}
-                <span class="skill-type-badge" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(33,150,243,0.2); color: #2196f3;">
-                  {{formatSkillActionTypes skill.system.skillActionTypes}}
-                </span>
-              {{/if}}
-            </div>
-            <div class='item-enhancements'>
-              <div class="enhancement-checkboxes" style="display: flex; gap: 8px; justify-content: center;">
-                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked (lookup skill.system.acquiredEnhancements 0)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked (lookup skill.system.acquiredEnhancements 1)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked (lookup skill.system.acquiredEnhancements 2)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
-              </div>
-            </div>
-            <div class='item-controls'>
-              <a class='item-control skill-chat' title='{{localize "CARDIGAN.ShowInChat"}}' data-action='skillToChat' data-item-id='{{skill._id}}'>
-                <i class='fas fa-comment'></i>
-              </a>
-              {{#if @root.editable}}
-                <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
-                  <i class='fas fa-edit'></i>
-                </a>
-                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
-                  <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
-                  <i class='fas fa-trash'></i>
-                </a>
-                  {{/unless}}
-              {{/if}}
-            </div>
-          </div>
-          
-          {{!-- Expandable Description --}}
-          <div class="item-description">
-            <div class="wrapper">
-              {{!-- Expanded content will be loaded here dynamically --}}
-            </div>
-          </div>
-        </li>
+        {{> "systems/cardigan/templates/actor/partials/skill-row.hbs" skill=skill showEnhancements=true allowDelete=true}}
       {{else}}
         <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>
           <div style='width: 100%;'>
@@ -503,59 +247,7 @@
         </div>
       </li>
       {{#each skillsRaciais as |skill id|}}
-        <li
-          class='item collapsible collapsed skill-item'
-          data-item-id='{{skill._id}}'
-          data-uuid='{{skill.uuid}}'
-          data-drag='true'
-          data-document-class='Item'
-        >
-          {{!-- Skill Row Summary --}}
-          <div class="item-row flexrow">
-            <div class='item-name'>
-              <div class='item-image'>
-                <img src='{{skill.img}}' title='{{skill.name}}' width='24' height='24'/>
-              </div>
-              <div 
-                class="skill-name-hover"
-                
-                
-                data-item-id="{{skill._id}}"
-                data-action="toggleExpand"
-                style="cursor: pointer;"
-              >
-                {{skill.name}}
-                {{#if skill.system.isPassive}}
-                  <i class="fas fa-shield-alt" title="{{localize 'CARDIGAN.PassiveSkill'}}" style="color: #4caf50; margin-left: 5px;"></i>
-                {{/if}}
-              </div>
-            </div>
-            <div class='item-type'>
-              {{#if skill.system.skillActionTypes}}
-                <span class="skill-type-badge" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(33,150,243,0.2); color: #2196f3;">
-                  {{formatSkillActionTypes skill.system.skillActionTypes}}
-                </span>
-              {{/if}}
-            </div>
-            <div class='item-controls'>
-              <a class='item-control skill-chat' title='{{localize "CARDIGAN.ShowInChat"}}' data-action='skillToChat' data-item-id='{{skill._id}}'>
-                <i class='fas fa-comment'></i>
-              </a>
-              {{#if @root.editable}}
-                <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
-                  <i class='fas fa-edit'></i>
-                </a>
-              {{/if}}
-            </div>
-          </div>
-          
-          {{!-- Expandable Description --}}
-          <div class="item-description">
-            <div class="wrapper">
-              {{!-- Expanded content will be loaded here dynamically --}}
-            </div>
-          </div>
-        </li>
+        {{> "systems/cardigan/templates/actor/partials/skill-row.hbs" skill=skill showEnhancements=false allowDelete=false}}
       {{else}}
         <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>
           <div style='width: 100%;'>
@@ -589,71 +281,7 @@
         </div>
       </li>
       {{#each skillsUnicas as |skill id|}}
-        <li
-          class='item collapsible collapsed skill-item'
-          data-item-id='{{skill._id}}'
-          data-uuid='{{skill.uuid}}'
-          data-drag='true'
-          data-document-class='Item'
-        >
-          {{!-- Skill Row Summary --}}
-          <div class="item-row flexrow">
-            <div class='item-name'>
-              <div class='item-image'>
-                <img src='{{skill.img}}' title='{{skill.name}}' width='24' height='24'/>
-              </div>
-              <div 
-                class="skill-name-hover"
-                
-                
-                data-item-id="{{skill._id}}"
-                data-action="toggleExpand"
-                style="cursor: pointer;"
-              >
-                {{skill.name}}
-                {{#if skill.system.isPassive}}
-                  <i class="fas fa-shield-alt" title="{{localize 'CARDIGAN.PassiveSkill'}}" style="color: #4caf50; margin-left: 5px;"></i>
-                {{/if}}
-              </div>
-            </div>
-            <div class='item-type'>
-              {{#if skill.system.skillActionTypes}}
-                <span class="skill-type-badge" style="padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(33,150,243,0.2); color: #2196f3;">
-                  {{formatSkillActionTypes skill.system.skillActionTypes}}
-                </span>
-              {{/if}}
-            </div>
-            <div class='item-enhancements'>
-              <div class="enhancement-checkboxes" style="display: flex; gap: 8px; justify-content: center;">
-                <input type="checkbox" name="system.acquiredEnhancements.0" {{checked (lookup skill.system.acquiredEnhancements 0)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 1" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.1" {{checked (lookup skill.system.acquiredEnhancements 1)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 2" style="width: 18px; height: 18px; cursor: pointer;" />
-                <input type="checkbox" name="system.acquiredEnhancements.2" {{checked (lookup skill.system.acquiredEnhancements 2)}} data-dtype="Boolean" data-item-id="{{skill._id}}" title="Enhancement 3" style="width: 18px; height: 18px; cursor: pointer;" />
-              </div>
-            </div>
-            <div class='item-controls'>
-              <a class='item-control skill-chat' title='{{localize "CARDIGAN.ShowInChat"}}' data-action='skillToChat' data-item-id='{{skill._id}}'>
-                <i class='fas fa-comment'></i>
-              </a>
-              {{#if @root.editable}}
-                <a class='item-control item-edit' title='{{localize "CARDIGAN.EditItem"}}' data-action='editDoc' data-document-class='Item'>
-                  <i class='fas fa-edit'></i>
-                </a>
-                {{#unless (or skill.system.isLinkedSkill skill.system.enhancementLinkedSkill.isEnhancementLinked)}}
-                  <a class='item-control item-delete' title='{{localize "CARDIGAN.DeleteItem"}}' data-action='deleteDoc' data-document-class='Item'>
-                  <i class='fas fa-trash'></i>
-                </a>
-                  {{/unless}}
-              {{/if}}
-            </div>
-          </div>
-          
-          {{!-- Expandable Description --}}
-          <div class="item-description">
-            <div class="wrapper">
-              {{!-- Expanded content will be loaded here dynamically --}}
-            </div>
-          </div>
-        </li>
+        {{> "systems/cardigan/templates/actor/partials/skill-row.hbs" skill=skill showEnhancements=true allowDelete=true}}
       {{else}}
         <li class='item flexrow empty-state' style='text-align: center; padding: 20px; color: #a59b85;'>
           <div style='width: 100%;'>
