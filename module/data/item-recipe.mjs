@@ -189,7 +189,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
           ),
           
           // Armor properties
-          protecao: new fields.NumberField({ required: false, min: 0 }),
+          protection: new fields.NumberField({ required: false, min: 0 }),
           armorType: new fields.StringField({ required: false, blank: true }),
           armorClass: new fields.StringField({ required: false, blank: true }),
           durability: new fields.SchemaField({

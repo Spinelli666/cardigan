@@ -396,7 +396,7 @@ export class RecipeActions {
               }),
               ...(selectedResult.customProperties.weaponType && { weaponType: selectedResult.customProperties.weaponType }),
               ...(selectedResult.customProperties.properties && { properties: selectedResult.customProperties.properties }),
-              ...(selectedResult.customProperties.protecao !== undefined && { protection: selectedResult.customProperties.protecao }),
+              ...(selectedResult.customProperties.protection !== undefined && { protection: selectedResult.customProperties.protection }),
               ...(selectedResult.customProperties.armorType && { armorType: selectedResult.customProperties.armorType }),
               ...(selectedResult.customProperties.armorClass && { armorClass: selectedResult.customProperties.armorClass }),
               ...(selectedResult.customProperties.durability && { durability: selectedResult.customProperties.durability }),

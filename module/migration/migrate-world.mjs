@@ -102,6 +102,7 @@ async function _migrateItem(item) {
   if (item.type === 'skill') await _migrateSkillItem(item);
   if (item.type === 'arma') await _migrateArmaItem(item);
   if (item.type === 'item-consumivel') await _migrateConsumivelItem(item);
+  if (item.type === 'item-recipe') await _migrateRecipeItem(item);
   await _migrateWeightItem(item);
 }
 
@@ -266,6 +267,28 @@ async function _migrateConsumivelItem(item) {
 
   if (Object.keys(updates).length > 0) {
     await item.update(updates);
+  }
+}
+
+/**
+ * Rename customProperties.protecao→protection inside each resultItem of a recipe.
+ * @param {Item} item
+ */
+async function _migrateRecipeItem(item) {
+  const source = item._source?.system ?? {};
+  if (!Array.isArray(source.resultItems)) return;
+
+  let changed = false;
+  const resultItems = source.resultItems.map(result => {
+    const cp = result.customProperties ?? {};
+    if (!('protecao' in cp)) return result;
+    changed = true;
+    const { protecao, ...rest } = cp;
+    return { ...result, customProperties: { ...rest, protection: protecao } };
+  });
+
+  if (changed) {
+    await item.update({ 'system.resultItems': resultItems });
   }
 }
 
