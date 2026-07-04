@@ -19,8 +19,8 @@ Quatro packs, agrupados sob a pasta `SRD` em `system.json`:
 
 ## Documentação relacionada
 
-- Arquitetura detalhada: [arquitetura.md](arquitetura.md)
-- Comandos e fluxo de build/dev: [fluxo-desenvolvimento.md](fluxo-desenvolvimento.md)
-- Convenções e regras do projeto: [regras-cardigan.md](regras-cardigan.md)
-- Referências externas (outros sistemas Foundry): [referencias-foundry.md](referencias-foundry.md)
-- Tarefas pendentes / refatorações planejadas: [tarefas-pendentes.md](tarefas-pendentes.md)
+- Arquitetura detalhada: [architecture.md](architecture.md)
+- Comandos e fluxo de build/dev: [dev-flow.md](dev-flow.md)
+- Convenções e regras do projeto: [project-conventions.md](project-conventions.md)
+- Referências externas (outros sistemas Foundry): [foundry-references.md](foundry-references.md)
+- Tarefas pendentes / refatorações planejadas: [pending-tasks.md](pending-tasks.md)

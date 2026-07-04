@@ -19,7 +19,7 @@ Este arquivo é um **resumo organizado e acionável** das investigações regist
 | 5 | Evasion/precision click handlers | `module/combat/evasion-precision.mjs` |
 | 6 | Chat hooks (renderChatMessageHTML x6) | `module/hooks/chat-hooks.mjs` |
 
-O arquivo restante (~350 linhas) é puro bootstrap: imports, `globalThis.cardigan`, hooks `init`/`setup`/`ready`, e os hooks `preCreateActiveEffect`/`updateItem`. Ver estrutura atualizada em [arquitetura.md](arquitetura.md).
+O arquivo restante (~350 linhas) é puro bootstrap: imports, `globalThis.cardigan`, hooks `init`/`setup`/`ready`, e os hooks `preCreateActiveEffect`/`updateItem`. Ver estrutura atualizada em [architecture.md](architecture.md).
 
 ---
 

@@ -24,12 +24,12 @@ Ao adicionar um novo efeito, skill, raça ou propriedade de arma:
 - Os **campos de schema das DataModels permanecem em português** (ex.: `protecao`, `bonusVida`, `bonusEnergia`, `armorType` com valores como `"cabeca"`, `"torso"`), por compatibilidade com dados existentes.
 - Classes/métodos seguem em inglês (ex.: `ArmorData`, `prepareDerivedData`).
 - Comentários devem ser preferencialmente em inglês (JSDoc), embora o código atual ainda tenha mistura de PT/EN.
-- Uma migração completa de campos PT→EN é uma **investigação futura, não confirmada** — ver [tarefas-pendentes.md](tarefas-pendentes.md) (seção "Padronização de idioma"). Não iniciar essa migração sem alinhamento explícito, dado o alto risco de quebrar saves existentes e compêndios.
+- Uma migração completa de campos PT→EN é uma **investigação futura, não confirmada** — ver [pending-tasks.md](pending-tasks.md) (seção "Padronização de idioma"). Não iniciar essa migração sem alinhamento explícito, dado o alto risco de quebrar saves existentes e compêndios.
 
 ## Sheets (ApplicationV2)
 
 - `actor-sheet.mjs` e `item-sheet.mjs` usam `static PARTS` + `static DEFAULT_OPTIONS.actions`.
-- Lógica nova de ação/comportamento de sheet deve, sempre que possível, ir para `sheets/actions/`, `sheets/listeners/` ou `sheets/parts/` em vez de crescer ainda mais o `actor-sheet.mjs` (que já está identificado como monolítico — ver [tarefas-pendentes.md](tarefas-pendentes.md)).
+- Lógica nova de ação/comportamento de sheet deve, sempre que possível, ir para `sheets/actions/`, `sheets/listeners/` ou `sheets/parts/` em vez de crescer ainda mais o `actor-sheet.mjs` (que já está identificado como monolítico — ver [pending-tasks.md](pending-tasks.md)).
 - Ao extrair lógica do `actor-sheet.mjs`, manter wrappers no próprio `actor-sheet` para preservar compatibilidade com `DEFAULT_OPTIONS.actions` e integrações externas, extrair por blocos coesos, e evitar mudar comportamento no mesmo commit da extração.
 
 ## Sockets / combate
