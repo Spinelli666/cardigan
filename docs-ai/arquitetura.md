@@ -6,7 +6,6 @@
 - Registra `CONFIG.Actor.dataModels` / `CONFIG.Item.dataModels`.
 - Registra as sheets V2 de actor/item (via `DocumentSheetConfig`).
 - Registra os helpers do Handlebars (centralizados em `module/helpers/config.mjs`).
-- Define `CONFIG.ActiveEffect.legacyTransferral = false`.
 - Chama as funções `initialize*` dos subsistemas Skills/Effects/Races/Weapon-Properties.
 
 No hook `setup`:
@@ -49,9 +48,9 @@ Cada tipo de Actor/Item tem uma subclasse `TypeDataModel` com `defineSchema()`, 
 `actor-sheet.mjs` e `item-sheet.mjs` estendem `ApplicationV2`/`HandlebarsApplicationMixin` (`api.HandlebarsApplicationMixin(sheets.ActorSheetV2/ItemSheetV2)`), usando `static PARTS` para renderização multi-parte (header, tabs, proficiencies, biography, skills, equipment, professions, description, attribute parts por tipo de item, etc.) e `static DEFAULT_OPTIONS.actions` para handlers de ação declarativos.
 
 A lógica das sheets é dividida por responsabilidade em subpastas:
-- `sheets/actions/` — classes estáticas de handlers de ação (ex.: `WeaponActions`, `EquipmentActions`, `InventoryActions`, `ConsumableActions`, `HeaderActions`, `AmmunitionActions`, `MoneyTradeActions`, `ProfessionFilterActions`).
-- `sheets/listeners/` — configuração de listeners de eventos DOM (ex.: `header-listeners.mjs`, `armor-item-listeners.mjs`, `common-item-listeners.mjs`).
-- `sheets/parts/` — preparação de contexto e helpers de comportamento por parte (ex.: `armor-context.mjs`, `header-context.mjs`, `weapon-ammunition-behavior.mjs`).
+- `sheets/actions/` — classes estáticas de handlers de ação: `WeaponActions`, `EquipmentActions`, `AmmunitionActions`, `ConsumableActions`, `InventoryActions`, `HeaderActions`, `HeaderStatusActions`, `ProficienciesActions`, `MoneyTradeActions`, `BackpackSearchActions`, `SheetScrollActions`, `ItemPrepareActions`, `ProfessionFilterActions`, `RecipeActions`, `DragDropActions`, `ContextMenuActions`, `DeleteActions`.
+- `sheets/listeners/` — configuração de listeners de eventos DOM: `header-listeners.mjs`, `armor-item-listeners.mjs`, `common-item-listeners.mjs`, `abilities-listeners.mjs`, `equipment-field-listeners.mjs`, `stat-field-listeners.mjs`, `proficiency-listeners.mjs`, `enhancement-listeners.mjs`, `misc-listeners.mjs`, `window-controls-listeners.mjs`, `overrides-listeners.mjs`.
+- `sheets/parts/` — preparação de contexto e helpers de comportamento por parte: `armor-context.mjs`, `header-context.mjs`, `weapon-ammunition-behavior.mjs`, `sheet-base-behavior.mjs`, `armor-sheet-behavior.mjs`, `ingredient-sheet-behavior.mjs`, `ammunition-sheet-behavior.mjs`, `item-expand.mjs`.
 
 ## Subsistemas "Manager"
 

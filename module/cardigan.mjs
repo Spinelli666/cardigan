@@ -144,6 +144,15 @@ Hooks.once('init', function () {
 
   // Initialize Weapon Properties System
   initializeWeaponProperties();
+
+  // Pre-load HBS partials for reusable template components
+  foundry.applications.handlebars.loadTemplates([
+    'systems/cardigan/templates/actor/partials/skill-row.hbs',
+    'systems/cardigan/templates/actor/partials/recipe-row.hbs',
+    'systems/cardigan/templates/actor/partials/durability-display.hbs',
+    'systems/cardigan/templates/actor/partials/armor-info-badges.hbs',
+    'systems/cardigan/templates/actor/partials/equipped-armor-item.hbs',
+  ]);
 });
 
 /* -------------------------------------------- */

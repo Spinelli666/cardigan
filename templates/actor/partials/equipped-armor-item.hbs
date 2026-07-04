@@ -1,0 +1,70 @@
+{{!-- equipped-armor-item.hbs: linha <li> de armadura equipada em um slot --}}
+{{!-- Parâmetros: item, itemClass --}}
+<li
+  class='item {{itemClass}} {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'
+  data-item-id='{{item._id}}'
+  data-uuid='{{item.uuid}}'
+  data-drag='true'
+  data-document-class='Item'
+>
+  <div class='item-name-group'>
+    <div class='item-name {{#if (eq item.system.durability.current 0)}}item-name-broken{{/if}}'>
+      <div>{{item.name}}</div>
+    </div>
+    <div class='item-single-heavy'>
+      {{#if item.system.single}}
+        <img
+          src='systems/cardigan/assets/images/decorative/icons/icon-single-equipped.svg'
+          alt='{{localize "CARDIGAN.Single"}}'
+          class='single-equipped-icon'
+          width='18'
+          height='18'
+          data-tooltip='Único'
+          data-tooltip-class='cardigan-tooltip'
+        />
+      {{/if}}
+      {{#if (eq item.system.weight "pesado")}}
+        <img
+          src='systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg'
+          alt='{{localize "CARDIGAN.Heavy"}}'
+          class='heavy-item-icon'
+          width='15'
+          height='15'
+          data-tooltip='Pesada'
+          data-tooltip-class='cardigan-tooltip'
+        />
+      {{/if}}
+    </div>
+  </div>
+  <div class='item-information'>
+    {{> "systems/cardigan/templates/actor/partials/armor-info-badges.hbs" item=item}}
+  </div>
+  <div class='item-durability {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'>
+    {{> "systems/cardigan/templates/actor/partials/durability-display.hbs" item=item}}
+  </div>
+  <div class='item-unequip'>
+    {{#if @root.editable}}
+      <a
+        class='item-control unequip-armor unequip-button'
+        data-tooltip='CARDIGAN.Tooltip.Unequip'
+        data-tooltip-class='cardigan-tooltip'
+        data-action='unequipArmor'
+        data-item-id='{{item._id}}'
+      >
+        <img
+          src='systems/cardigan/assets/images/decorative/icons/icon-equip.svg'
+          alt='{{localize "CARDIGAN.Tooltip.Unequip"}}'
+          width='20'
+          height='20'
+        />
+      </a>
+    {{/if}}
+  </div>
+  <div class='item-controls'>
+    {{#if @root.editable}}
+      <button type='button' class='unbutton item-control always-interactive' data-context-menu>
+        <i class='fa-solid fa-ellipsis-vertical' inert></i>
+      </button>
+    {{/if}}
+  </div>
+</li>
