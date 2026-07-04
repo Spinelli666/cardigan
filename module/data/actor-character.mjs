@@ -426,28 +426,28 @@ export default class CardiganSystemCharacter extends CardiganSystemActorBase {
 
       // 2. Calculate stat bonuses from armors
       // Health bonus
-      if (armor.system.bonusVida && armor.system.bonusVida > 0) {
-        armorHealthBonus += armor.system.bonusVida;
+      if (armor.system.lifeBonus && armor.system.lifeBonus > 0) {
+        armorHealthBonus += armor.system.lifeBonus;
       }
-      
-      // Energy bonus  
-      if (armor.system.bonusEnergia && armor.system.bonusEnergia > 0) {
-        armorEnergyBonus += armor.system.bonusEnergia;
+
+      // Energy bonus
+      if (armor.system.energyBonus && armor.system.energyBonus > 0) {
+        armorEnergyBonus += armor.system.energyBonus;
       }
-      
+
       // Protection bonus (contributes to armor max)
-      if (armor.system.protecao && armor.system.protecao > 0) {
-        armorProtectionBonus += armor.system.protecao;
+      if (armor.system.protection && armor.system.protection > 0) {
+        armorProtectionBonus += armor.system.protection;
       }
-      
+
       // Movement bonus
-      if (armor.system.bonusDeslocamento && armor.system.bonusDeslocamento.enabled && armor.system.bonusDeslocamento.bonus > 0) {
-        armorMovementBonus += armor.system.bonusDeslocamento.bonus;
+      if (armor.system.movementBonus?.enabled && armor.system.movementBonus.bonus > 0) {
+        armorMovementBonus += armor.system.movementBonus.bonus;
       }
-      
+
       // Backpack space bonus
-      if (armor.system.bonusEspacoMochila && armor.system.bonusEspacoMochila.enabled && armor.system.bonusEspacoMochila.bonus > 0) {
-        armorBackpackSpaceBonus += armor.system.bonusEspacoMochila.bonus;
+      if (armor.system.backpackBonus?.enabled && armor.system.backpackBonus.bonus > 0) {
+        armorBackpackSpaceBonus += armor.system.backpackBonus.bonus;
       }
     }
 

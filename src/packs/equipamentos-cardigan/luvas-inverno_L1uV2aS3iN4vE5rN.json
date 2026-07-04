@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "L1uV2aS3iN4vE5rN",
   "_key": "!items!L1uV2aS3iN4vE5rN",
   "name": "Luvas de Inverno",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "bracos",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Luvas de Inverno",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": true,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

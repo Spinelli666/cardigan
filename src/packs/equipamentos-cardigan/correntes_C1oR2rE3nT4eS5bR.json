@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "C1oR2rE3nT4eS5bR",
   "_key": "!items!C1oR2rE3nT4eS5bR",
   "name": "Correntes",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "bracos",
-    "protecao": 1,
+    "protection": 1,
     "armorClass": "Correntes",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

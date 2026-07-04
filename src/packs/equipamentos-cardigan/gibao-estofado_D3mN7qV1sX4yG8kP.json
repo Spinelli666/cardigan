@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "D3mN7qV1sX4yG8kP",
   "_key": "!items!D3mN7qV1sX4yG8kP",
   "name": "Gibão Estofado",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "torso",
-    "protecao": 3,
+    "protection": 3,
     "armorClass": "Gibão Estofado",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": true,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

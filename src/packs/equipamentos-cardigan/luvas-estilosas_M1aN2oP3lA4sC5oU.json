@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "M1aN2oP3lA4sC5oU",
   "_key": "!items!M1aN2oP3lA4sC5oU",
   "name": "Luvas Estilosas",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "bracos",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Luvas Estilosas",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": true,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

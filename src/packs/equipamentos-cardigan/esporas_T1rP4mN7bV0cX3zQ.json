@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "T1rP4mN7bV0cX3zQ",
   "_key": "!items!T1rP4mN7bV0cX3zQ",
   "name": "Esporas",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "pes",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Esporas",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": true,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

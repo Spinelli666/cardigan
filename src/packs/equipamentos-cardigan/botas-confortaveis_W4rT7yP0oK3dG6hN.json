@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "W4rT7yP0oK3dG6hN",
   "_key": "!items!W4rT7yP0oK3dG6hN",
   "name": "Botas Confortáveis",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "pes",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Botas Confortáveis",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 1,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 1,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

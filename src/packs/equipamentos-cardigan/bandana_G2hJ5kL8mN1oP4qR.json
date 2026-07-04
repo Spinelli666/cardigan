@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "G2hJ5kL8mN1oP4qR",
   "_key": "!items!G2hJ5kL8mN1oP4qR",
   "name": "Bandana",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "armorType": "cabeca",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Bandana",
     "equipped": false,
     "skillBonuses": [
@@ -20,13 +20,13 @@
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

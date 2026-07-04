@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "M9pR2vT5yB8dN1kS",
   "_key": "!items!M9pR2vT5yB8dN1kS",
   "name": "Elmo Fechado",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "cabeca",
-    "protecao": 3,
+    "protection": 3,
     "armorClass": "Elmo Fechado",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

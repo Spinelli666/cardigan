@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "B1aN2dA3gE4nS5mA",
   "_key": "!items!B1aN2dA3gE4nS5mA",
   "name": "Bandagens",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "bracos",
-    "protecao": 1,
+    "protection": 1,
     "armorClass": "Bandagens",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

@@ -40,7 +40,7 @@ export default class ArmorData extends BaseItemData {
         }
       }),
       
-      protecao: new NumberField({
+      protection: new NumberField({
         required: true,
         nullable: false,
         integer: true,
@@ -78,21 +78,21 @@ export default class ArmorData extends BaseItemData {
       stylish: new BooleanField({initial: false}),
       single: new BooleanField({initial: false}),
       
-      bonusVida: new NumberField({
+      lifeBonus: new NumberField({
         required: true,
         nullable: false,
         integer: true,
         initial: 0
       }),
-      
-      bonusEnergia: new NumberField({
+
+      energyBonus: new NumberField({
         required: true,
         nullable: false,
         integer: true,
         initial: 0
       }),
-      
-      bonusDeslocamento: new SchemaField({
+
+      movementBonus: new SchemaField({
         enabled: new BooleanField({initial: false}),
         bonus: new NumberField({
           required: true,
@@ -102,7 +102,7 @@ export default class ArmorData extends BaseItemData {
         })
       }),
 
-      bonusEspacoMochila: new SchemaField({
+      backpackBonus: new SchemaField({
         enabled: new BooleanField({initial: false}),
         bonus: new NumberField({
           required: true,
@@ -199,8 +199,8 @@ export default class ArmorData extends BaseItemData {
     this.isDamaged = this.durability.current < this.durability.max;
     this.isBroken = this.durability.current <= 0;
     this.hasSkillBonus = this.skillBonuses?.length > 0 && this.skillBonuses.some(b => b.skill && b.bonus !== 0);
-    this.hasMovementBonus = this.bonusDeslocamento.enabled && this.bonusDeslocamento.bonus !== 0;
-    this.hasAttributeBonus = this.bonusVida !== 0 || this.bonusEnergia !== 0;
+    this.hasMovementBonus = this.movementBonus.enabled && this.movementBonus.bonus !== 0;
+    this.hasAttributeBonus = this.lifeBonus !== 0 || this.energyBonus !== 0;
   }
 
   /**
@@ -233,11 +233,8 @@ export default class ArmorData extends BaseItemData {
    * @private
    */
   _normalizeBonusFields() {
-    this._migrateLegacyBonusField("movementBonus", "bonusDeslocamento");
-    this._migrateLegacyBonusField("backpackSpace", "bonusEspacoMochila");
-
-    this._syncBonusEnabledState("bonusDeslocamento");
-    this._syncBonusEnabledState("bonusEspacoMochila");
+    this._syncBonusEnabledState("movementBonus");
+    this._syncBonusEnabledState("backpackBonus");
   }
 
   /**

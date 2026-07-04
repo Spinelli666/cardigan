@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "F3jL6pS9vY2aD5gH",
   "_key": "!items!F3jL6pS9vY2aD5gH",
   "name": "Capa",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "torso",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Capa",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": true,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

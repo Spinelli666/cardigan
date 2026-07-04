@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "G7hN2mK5pT1vX8sR",
   "_key": "!items!G7hN2mK5pT1vX8sR",
   "name": "Mochila",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "torso",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Mochila",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": true,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": true,
       "bonus": 10
     },

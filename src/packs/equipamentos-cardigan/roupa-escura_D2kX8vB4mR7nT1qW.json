@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "D2kX8vB4mR7nT1qW",
   "_key": "!items!D2kX8vB4mR7nT1qW",
   "name": "Roupa Escura",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "armorType": "torso",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Roupa Escura",
     "equipped": false,
     "skillBonuses": [
@@ -20,13 +20,13 @@
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

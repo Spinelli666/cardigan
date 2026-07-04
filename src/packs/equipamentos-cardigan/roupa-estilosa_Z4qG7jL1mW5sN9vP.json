@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "Z4qG7jL1mW5sN9vP",
   "_key": "!items!Z4qG7jL1mW5sN9vP",
   "name": "Roupa Estilosa",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "torso",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Roupa Estilosa",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": true,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

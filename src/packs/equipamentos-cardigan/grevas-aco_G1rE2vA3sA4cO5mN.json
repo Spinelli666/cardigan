@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "G1rE2vA3sA4cO5mN",
   "_key": "!items!G1rE2vA3sA4cO5mN",
   "name": "Grevas de Aço",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "pernas",
-    "protecao": 2,
+    "protection": 2,
     "armorClass": "Grevas de Aço",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

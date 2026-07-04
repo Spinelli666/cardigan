@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "F9gH2jK5mS8pW1vX",
   "_key": "!items!F9gH2jK5mS8pW1vX",
   "name": "Botas Leves",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "pes",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Botas Leves",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": true,
       "bonus": 1
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

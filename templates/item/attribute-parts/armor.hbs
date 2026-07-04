@@ -40,7 +40,7 @@ Template para itens do tipo armadura com aba Detail
             <div class="armor-extra-content">
               <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-armor.svg" alt="{{localize 'CARDIGAN.ArmorProtection'}}" data-tooltip="Proteção" data-tooltip-class='cardigan-tooltip' />
               <div class="armor-protection-input-wrapper armor-extra-panel" data-armor-extra-panel="protection">
-                <input type="number" name="system.protecao" value="{{item.system.protecao}}" min="0" placeholder="0"/>
+                <input type="number" name="system.protection" value="{{item.system.protection}}" min="0" placeholder="0"/>
               </div>
             </div>
           </div>
@@ -62,7 +62,7 @@ Template para itens do tipo armadura com aba Detail
             <div class="armor-extra-content">
               <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-health.svg" alt="{{localize 'CARDIGAN.Life'}}" data-tooltip="Vida" data-tooltip-class='cardigan-tooltip' />
               <div class="life-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="lifeBonus">
-                <input type="number" name="system.bonusVida" value="{{item.system.bonusVida}}" placeholder="0"/>
+                <input type="number" name="system.lifeBonus" value="{{item.system.lifeBonus}}" placeholder="0"/>
               </div>
             </div>
           </div>
@@ -71,7 +71,7 @@ Template para itens do tipo armadura com aba Detail
             <div class="armor-extra-content">
               <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-energy.svg" alt="{{localize 'CARDIGAN.Energy'}}" data-tooltip="Energia" data-tooltip-class='cardigan-tooltip' />
               <div class="energy-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="energyBonus">
-                <input type="number" name="system.bonusEnergia" value="{{item.system.bonusEnergia}}" placeholder="0"/>
+                <input type="number" name="system.energyBonus" value="{{item.system.energyBonus}}" placeholder="0"/>
               </div>
             </div>
           </div>
@@ -82,8 +82,8 @@ Template para itens do tipo armadura com aba Detail
             <div class="armor-extra-content">
               <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-movement.svg" alt="{{localize 'CARDIGAN.MovementBonus'}}" data-tooltip="Bônus de Movimento" data-tooltip-class='cardigan-tooltip' />
               <div class="movement-bonus-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="movement">
-                <input type="hidden" name="system.bonusDeslocamento.enabled" value="{{armorMovementBonus.enabled}}" data-dtype="Boolean"/>
-                <input type="number" name="system.bonusDeslocamento.bonus" value="{{armorMovementBonus.bonus}}" min="0" placeholder="0"/>
+                <input type="hidden" name="system.movementBonus.enabled" value="{{armorMovementBonus.enabled}}" data-dtype="Boolean"/>
+                <input type="number" name="system.movementBonus.bonus" value="{{armorMovementBonus.bonus}}" min="0" placeholder="0"/>
               </div>
             </div>
           </div>
@@ -105,8 +105,8 @@ Template para itens do tipo armadura com aba Detail
             <div class="armor-extra-content">
               <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-backpack.svg" alt="{{localize 'CARDIGAN.BackpackSpace'}}" data-tooltip="Espaço na Mochila" data-tooltip-class='cardigan-tooltip' />
               <div class="backpack-space-input-wrapper armor-quantity-input-wrapper armor-extra-panel" data-armor-extra-panel="backpack">
-                <input type="hidden" name="system.bonusEspacoMochila.enabled" value="{{armorBackpackSpaceBonus.enabled}}" data-dtype="Boolean"/>
-                <input type="number" name="system.bonusEspacoMochila.bonus" value="{{armorBackpackSpaceBonus.bonus}}" min="0" placeholder="0"/>
+                <input type="hidden" name="system.backpackBonus.enabled" value="{{armorBackpackSpaceBonus.enabled}}" data-dtype="Boolean"/>
+                <input type="number" name="system.backpackBonus.bonus" value="{{armorBackpackSpaceBonus.bonus}}" min="0" placeholder="0"/>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "X7rM2kP9tW4vN1sL",
   "_key": "!items!X7rM2kP9tW4vN1sL",
   "name": "Cota de Malha",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "torso",
-    "protecao": 5,
+    "protection": 5,
     "armorClass": "Cota de Malha",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": true,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

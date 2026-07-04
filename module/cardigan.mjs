@@ -31,6 +31,8 @@ import { handleTradeRequest, handleTradeAccepted, handleTradeRejected, handleTra
 import { handleMerchantTradeRequest, handleMerchantTradeAccepted, handleMerchantTradeRejected, handleMerchantTradeUpdate, handleMerchantTradeConfirm, handleMerchantTradeUndo, handleMerchantTradeCancel, handleMerchantTradeComplete, handleExecuteMerchantTradeTransfer } from './trade/merchant-trade-handlers.mjs';
 // Import Combat Dialogs
 import { closeAttackDialogForAttacker, showDamageNotification, showArmorDurabilityNotification, createAttackerResultDialog, showArmorDurabilityDialog, createGMEvasionNotification } from './combat/combat-dialogs.mjs';
+// Import Migration
+import { migrateWorldData } from './migration/migrate-world.mjs';
 
 
 
@@ -144,6 +146,15 @@ Hooks.once('init', function () {
 
   // Initialize Weapon Properties System
   initializeWeaponProperties();
+
+  // Register schema version setting (used by the migration system)
+  game.settings.register('cardigan', 'schemaVersion', {
+    name: 'Schema Version',
+    scope: 'world',
+    config: false,
+    type: Number,
+    default: 0,
+  });
 
   // Pre-load HBS partials for reusable template components
   foundry.applications.handlebars.loadTemplates([
@@ -324,6 +335,9 @@ Hooks.on('updateItem', function (item, updates, options, userId) {
 /* -------------------------------------------- */
 
 Hooks.once('ready', function () {
+  // Run world data migrations (GM only)
+  migrateWorldData();
+
   // Initialize Cardigan tooltip system
   CardiganTooltipManager.initialize();
   

@@ -151,15 +151,15 @@ export class InventoryActions {
     // Calculate totals from equipped armors
     context.armaduras.forEach(armor => {
       // Armor protection
-      totalArmor += armor.system.protecao || 0;
-      
+      totalArmor += armor.system.protection || 0;
+
       // Life and energy bonuses
-      totalLifeBonus += armor.system.bonusVida || 0;
-      totalEnergyBonus += armor.system.bonusEnergia || 0;
-      
+      totalLifeBonus += armor.system.lifeBonus || 0;
+      totalEnergyBonus += armor.system.energyBonus || 0;
+
       // Movement bonus (only if enabled)
-      if (armor.system.bonusDeslocamento && armor.system.bonusDeslocamento.enabled) {
-        totalMovementBonus += armor.system.bonusDeslocamento.bonus || 0;
+      if (armor.system.movementBonus?.enabled) {
+        totalMovementBonus += armor.system.movementBonus.bonus || 0;
       }
     });
 

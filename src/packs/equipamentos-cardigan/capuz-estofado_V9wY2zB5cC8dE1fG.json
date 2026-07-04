@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "V9wY2zB5cC8dE1fG",
   "_key": "!items!V9wY2zB5cC8dE1fG",
   "name": "Capuz Estofado",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "cabeca",
-    "protecao": 1,
+    "protection": 1,
     "armorClass": "Capuz Estofado",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

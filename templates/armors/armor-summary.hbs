@@ -33,7 +33,7 @@
       <div class="armor-stats-row">
         <div class="armor-protection">
           <i class="fas fa-shield-alt"></i>
-          {{system.protecao}}
+          {{system.protection}}
         </div>
       </div>
       
@@ -89,23 +89,23 @@
         {{/if}}
         
         {{!-- Life Bonus with Description --}}
-        {{#unless (eq system.bonusVida 0)}}
+        {{#unless (eq system.lifeBonus 0)}}
         <div class="property-detail-line">
-          ◆ ❤️Vida ‣ Você recebeu {{#if (gt system.bonusVida 0)}}+{{system.bonusVida}}{{else}}{{system.bonusVida}}{{/if}} de Vida.
+          ◆ ❤️Vida ‣ Você recebeu {{#if (gt system.lifeBonus 0)}}+{{system.lifeBonus}}{{else}}{{system.lifeBonus}}{{/if}} de Vida.
         </div>
         {{/unless}}
-        
+
         {{!-- Energy Bonus with Description --}}
-        {{#unless (eq system.bonusEnergia 0)}}
+        {{#unless (eq system.energyBonus 0)}}
         <div class="property-detail-line">
-          ◆ ⚡️Energia ‣ Você recebeu {{#if (gt system.bonusEnergia 0)}}+{{system.bonusEnergia}}{{else}}{{system.bonusEnergia}}{{/if}} de Energia.
+          ◆ ⚡️Energia ‣ Você recebeu {{#if (gt system.energyBonus 0)}}+{{system.energyBonus}}{{else}}{{system.energyBonus}}{{/if}} de Energia.
         </div>
         {{/unless}}
-        
+
         {{!-- Movement Bonus with Description --}}
-        {{#if (and system.bonusDeslocamento.enabled (not (eq system.bonusDeslocamento.bonus 0)))}}
+        {{#if (and system.movementBonus.enabled (not (eq system.movementBonus.bonus 0)))}}
         <div class="property-detail-line">
-          ◆ 👣Deslocamento ‣ Você recebeu {{#if (gt system.bonusDeslocamento.bonus 0)}}+{{system.bonusDeslocamento.bonus}}{{else}}{{system.bonusDeslocamento.bonus}}{{/if}} de Deslocamento.
+          ◆ 👣Deslocamento ‣ Você recebeu {{#if (gt system.movementBonus.bonus 0)}}+{{system.movementBonus.bonus}}{{else}}{{system.movementBonus.bonus}}{{/if}} de Deslocamento.
         </div>
         {{/if}}
         

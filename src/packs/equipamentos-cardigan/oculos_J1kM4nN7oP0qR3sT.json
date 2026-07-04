@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "J1kM4nN7oP0qR3sT",
   "_key": "!items!J1kM4nN7oP0qR3sT",
   "name": "Óculos",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "armorType": "cabeca",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Óculos",
     "equipped": false,
     "skillBonuses": [
@@ -20,13 +20,13 @@
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "Y8hN3mR6kP1vX4sZ",
   "_key": "!items!Y8hN3mR6kP1vX4sZ",
   "name": "Artefato Paranormal",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "acessorios",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Artefato Paranormal",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": true,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

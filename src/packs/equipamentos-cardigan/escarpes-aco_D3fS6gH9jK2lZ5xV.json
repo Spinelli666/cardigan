@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "D3fS6gH9jK2lZ5xV",
   "_key": "!items!D3fS6gH9jK2lZ5xV",
   "name": "Escarpes de Aço",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "pes",
-    "protecao": 1,
+    "protection": 1,
     "armorClass": "Escarpes de Aço",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

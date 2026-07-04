@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "B4qL9dF2zW6jY3mP",
   "_key": "!items!B4qL9dF2zW6jY3mP",
   "name": "Mochila Grande",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "torso",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Mochila Grande",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": true,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": true,
       "bonus": 20
     },

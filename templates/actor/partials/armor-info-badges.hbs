@@ -27,7 +27,7 @@
   </div>
 {{/if}}
 
-{{#if item.system.bonusEspacoMochila.enabled}}
+{{#if item.system.backpackBonus.enabled}}
   <div class='backpack info-badge'>
     <img
       src='systems/cardigan/assets/images/decorative/icons/icon-backpack.svg'
@@ -37,7 +37,7 @@
       height='20'
     />
     <div class='bonus-display'>
-      <span class='bonus-value'>+{{item.system.bonusEspacoMochila.bonus}}</span>
+      <span class='bonus-value'>+{{item.system.backpackBonus.bonus}}</span>
     </div>
   </div>
 {{/if}}
@@ -75,7 +75,7 @@
   {{/if}}
 {{/each}}
 
-{{#if item.system.bonusDeslocamento.enabled}}
+{{#if item.system.movementBonus.enabled}}
   <div class='movement-bonus info-badge'>
     <img
       src='systems/cardigan/assets/images/decorative/icons/icon-movement.svg'
@@ -85,12 +85,12 @@
       height='20'
     />
     <div class='bonus-display'>
-      <span class='bonus-value'>+{{item.system.bonusDeslocamento.bonus}}</span>
+      <span class='bonus-value'>+{{item.system.movementBonus.bonus}}</span>
     </div>
   </div>
 {{/if}}
 
-{{#if (gte item.system.bonusEnergia 1)}}
+{{#if (gte item.system.energyBonus 1)}}
   <div class='energy-bonus info-badge'>
     <img
       src='systems/cardigan/assets/images/decorative/icons/icon-energy.svg'
@@ -100,12 +100,12 @@
       height='20'
     />
     <div class='bonus-display'>
-      <span class='bonus-value'>+{{item.system.bonusEnergia}}</span>
+      <span class='bonus-value'>+{{item.system.energyBonus}}</span>
     </div>
   </div>
 {{/if}}
 
-{{#if (gte item.system.protecao 1)}}
+{{#if (gte item.system.protection 1)}}
   <div class='protection info-badge'>
     <img
       src='systems/cardigan/assets/images/decorative/icons/icon-armor.svg'
@@ -115,7 +115,7 @@
       height='20'
     />
     <div class='bonus-display'>
-      <span class='bonus-value'>+{{item.system.protecao}}</span>
+      <span class='bonus-value'>+{{item.system.protection}}</span>
     </div>
   </div>
 {{/if}}

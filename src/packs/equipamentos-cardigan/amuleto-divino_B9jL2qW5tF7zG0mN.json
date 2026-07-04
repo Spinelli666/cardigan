@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "B9jL2qW5tF7zG0mN",
   "_key": "!items!B9jL2qW5tF7zG0mN",
   "name": "Amuleto Divino",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "armorType": "acessorios",
-    "protecao": 0,
+    "protection": 0,
     "armorClass": "Amuleto Divino",
     "equipped": false,
     "skillBonuses": [
@@ -20,13 +20,13 @@
     "magicalArtifact": false,
     "resistenciaFrio": false,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

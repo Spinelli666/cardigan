@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "H5qG8jD3zF6mB0vK",
   "_key": "!items!H5qG8jD3zF6mB0vK",
   "name": "Peitoral de Placas",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "torso",
-    "protecao": 6,
+    "protection": 6,
     "armorClass": "Peitoral de Placas",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": true,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },

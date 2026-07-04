@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "K9zW2vP5nR8xL4tM",
   "_key": "!items!K9zW2vP5nR8xL4tM",
   "name": "Ombreira",
@@ -8,20 +8,20 @@
   "system": {
     "description": "",
     "armorType": "torso",
-    "protecao": 2,
+    "protection": 2,
     "armorClass": "Ombreira",
     "equipped": false,
     "skillBonuses": [],
     "magicalArtifact": false,
     "resistenciaFrio": true,
     "stylish": false,
-    "bonusVida": 0,
-    "bonusEnergia": 0,
-    "bonusDeslocamento": {
+    "lifeBonus": 0,
+    "energyBonus": 0,
+    "movementBonus": {
       "enabled": false,
       "bonus": 0
     },
-    "bonusEspacoMochila": {
+    "backpackBonus": {
       "enabled": false,
       "bonus": 0
     },
