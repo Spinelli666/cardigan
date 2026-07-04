@@ -149,6 +149,7 @@ Hooks.once('init', function () {
   foundry.applications.handlebars.loadTemplates([
     'systems/cardigan/templates/actor/partials/skill-row.hbs',
     'systems/cardigan/templates/actor/partials/recipe-row.hbs',
+    'systems/cardigan/templates/actor/partials/durability-display.hbs',
   ]);
 });
 
