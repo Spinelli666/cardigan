@@ -120,22 +120,22 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     tabs: { template: 'templates/generic/tab-navigation.hbs' },
     description: { template: 'systems/cardigan/templates/item/description.hbs' },
     attributesItemComum: {
-      template: 'systems/cardigan/templates/item/attribute-parts/item-comum.hbs',
+      template: 'systems/cardigan/templates/item/attribute-parts/item-common.hbs',
     },
     attributesItemMunicao: {
-      template: 'systems/cardigan/templates/item/attribute-parts/item-municao.hbs',
+      template: 'systems/cardigan/templates/item/attribute-parts/item-ammunition.hbs',
     },
     attributesItemConsumivel: {
-      template: 'systems/cardigan/templates/item/attribute-parts/item-consumivel.hbs',
+      template: 'systems/cardigan/templates/item/attribute-parts/item-consumable.hbs',
     },
     modifiersItemConsumivel: {
-      template: 'systems/cardigan/templates/item/attribute-parts/item-consumivel-modifiers.hbs',
+      template: 'systems/cardigan/templates/item/attribute-parts/item-consumable-modifiers.hbs',
     },
     attributesEfeito: {
-      template: 'systems/cardigan/templates/item/attribute-parts/efeito.hbs',
+      template: 'systems/cardigan/templates/item/attribute-parts/effect.hbs',
     },
     attributesArma: {
-      template: 'systems/cardigan/templates/item/attribute-parts/arma.hbs',
+      template: 'systems/cardigan/templates/item/attribute-parts/weapon.hbs',
     },
     attributesArmadura: {
       template: 'systems/cardigan/templates/item/attribute-parts/armor.hbs',
