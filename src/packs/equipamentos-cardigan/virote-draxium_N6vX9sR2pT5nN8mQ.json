@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "N6vX9sR2pT5nN8mQ",
   "_key": "!items!N6vX9sR2pT5nN8mQ",
   "name": "Virote de Draxium",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 18,
     "isFirearmAmmo": false,
     "isSpecialAmmo": true

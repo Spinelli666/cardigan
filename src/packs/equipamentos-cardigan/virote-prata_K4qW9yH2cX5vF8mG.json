@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "K4qW9yH2cX5vF8mG",
   "_key": "!items!K4qW9yH2cX5vF8mG",
   "name": "Virote de Prata",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 18,
     "isFirearmAmmo": false,
     "isSpecialAmmo": true

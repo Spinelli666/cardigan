@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "hH7iI8jJ9kK0lL1M",
   "_key": "!items!hH7iI8jJ9kK0lL1M",
   "name": "Desarmado",
@@ -6,8 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/desarmado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Sua arma caiu no chão a dois metros de você. Você pode juntá-la com uma ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Ação Curta</strong>.</p>",
-    "efeitoType": "negativo",
-    "rodadas": "0"
+    "effectType": "negative",
+    "rounds": "0"
   },
   "effects": [],
   "folder": "Kx8mN2QwRtY5UvBp",

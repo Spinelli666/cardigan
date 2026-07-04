@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "E9fG7hI8jK9lM0nO",
   "_key": "!items!E9fG7hI8jK9lM0nO",
   "name": "Invisível",
@@ -6,8 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/invisivel.webp",
   "system": {
     "description": "<p style=\"text-align: justify;\">Você está oculto da visão de todos e não pode ser alvejado por ataques físicos ou mágicos que requisitem enxergá-lo.</p>",
-    "efeitoType": "positivo",
-    "rodadas": "0"
+    "effectType": "positive",
+    "rounds": "0"
   },
   "effects": [],
   "folder": "FszDz3GuPvOHfi8w",

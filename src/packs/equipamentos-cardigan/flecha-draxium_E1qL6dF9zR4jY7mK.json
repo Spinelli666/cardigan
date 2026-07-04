@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "E1qL6dF9zR4jY7mK",
   "_key": "!items!E1qL6dF9zR4jY7mK",
   "name": "Flecha de Draxium",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 17,
     "isFirearmAmmo": false,
     "isSpecialAmmo": true

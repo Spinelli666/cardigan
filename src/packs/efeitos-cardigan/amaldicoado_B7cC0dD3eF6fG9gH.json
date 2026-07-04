@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "B7cC0dD3eF6fG9gH",
   "_key": "!items!B7cC0dD3eF6fG9gH",
   "name": "Amaldiçoado",
@@ -6,8 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/amaldicoado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Está coberto de anomalia extraplanar, recebendo 5⚫ de dano Imaterial a cada rodada enquanto o efeito durar. Não pode receber nenhuma regeneração de 💔PV ou ⚡️PE durante este efeito, exceto se for de origem paranormal, e neste caso a regeneração é reduzida pela metade.</p>",
-    "efeitoType": "negativo",
-    "rodadas": "0"
+    "effectType": "negative",
+    "rounds": "0"
   },
   "effects": [],
   "folder": "Kx8mN2QwRtY5UvBp",

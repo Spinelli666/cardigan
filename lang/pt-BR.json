@@ -426,14 +426,14 @@
       },
       "Efeito": {
         "Types": {
-          "Positivo": "Positivo",
-          "Negativo": "Negativo"
+          "Positive": "Positivo",
+          "Negative": "Negativo"
         },
         "FIELDS": {
-          "efeitoType": {
+          "effectType": {
             "label": "Tipos de Efeitos"
           },
-          "rodadas": {
+          "rounds": {
             "label": "Rodadas"
           }
         }

@@ -77,7 +77,7 @@ export class InventoryActions {
   /**
    * Calculate spaces occupied by a given item weight and quantity.
    * Pure function — no sheet/actor context needed.
-   * @param {string} weight - 'leve', 'medio', 'pesado' or 'muito-pesado'
+   * @param {string} weight - 'light', 'medium', 'heavy' or 'very-heavy'
    * @param {number} quantity - Item quantity
    * @returns {number} Spaces occupied
    */
@@ -85,16 +85,16 @@ export class InventoryActions {
     if (!weight || quantity <= 0) return 0;
 
     switch (weight) {
-      case 'leve':
+      case 'light':
         // 0 spaces, but +1 space per 10 items
         return Math.floor(quantity / 10);
-      case 'medio':
+      case 'medium':
         // 1 space each
         return quantity;
-      case 'pesado':
+      case 'heavy':
         // 2 spaces each
         return quantity * 2;
-      case 'muito-pesado':
+      case 'very-heavy':
         // 4 spaces each
         return quantity * 4;
       default:
@@ -114,22 +114,22 @@ export class InventoryActions {
     if (!backpackItems || !Array.isArray(backpackItems)) return 0;
 
     let totalSpaces = 0;
-    const weightGroups = { leve: 0 };
+    const weightGroups = { light: 0 };
     const moneySpaces = Math.floor(moneyAmount / 100);
 
     backpackItems.forEach(item => {
       const weight = item.system?.weight;
       const quantity = item.system?.quantity || 1;
 
-      if (weight === 'leve') {
-        weightGroups.leve += quantity;
+      if (weight === 'light') {
+        weightGroups.light += quantity;
       } else {
         totalSpaces += InventoryActions.calculateItemSpaces(weight, quantity);
       }
     });
 
-    // Apply special leve grouping rule, then add money spaces
-    totalSpaces += InventoryActions.calculateItemSpaces('leve', weightGroups.leve);
+    // Apply special light grouping rule, then add money spaces
+    totalSpaces += InventoryActions.calculateItemSpaces('light', weightGroups.light);
     totalSpaces += moneySpaces;
 
     return totalSpaces;

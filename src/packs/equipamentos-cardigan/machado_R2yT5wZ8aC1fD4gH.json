@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "R2yT5wZ8aC1fD4gH",
   "_key": "!items!R2yT5wZ8aC1fD4gH",
   "name": "Machado",
@@ -26,7 +26,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "leve",
+    "weight": "light",
     "price": 35,
     "durability": {
       "current": 3,

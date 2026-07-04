@@ -30,7 +30,7 @@ export default class CardiganSystemItemIngredient extends CardiganSystemItemBase
     schema.weight = new fields.StringField({
       required: true,
       blank: false,
-      initial: "leve"
+      initial: "light"
     });
 
     // Ingredient-specific fields
@@ -50,7 +50,7 @@ export default class CardiganSystemItemIngredient extends CardiganSystemItemBase
       type: 'ingredient',
       system: {
         quantity: options.quantity || 1,
-        weight: options.weight || 'leve',
+        weight: options.weight || 'light',
         profession: options.profession || 'general'
       }
     };

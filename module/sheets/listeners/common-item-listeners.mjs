@@ -1358,10 +1358,10 @@ export class CommonItemListeners {
     if (!weightInput || !weightPanel) return;
 
     const weightToNumber = {
-      'leve': '0',
-      'medio': '1',
-      'pesado': '2',
-      'muito-pesado': '4'
+      'light': '0',
+      'medium': '1',
+      'heavy': '2',
+      'very-heavy': '4'
     };
 
     const updateDisplay = () => {
@@ -1373,15 +1373,15 @@ export class CommonItemListeners {
 
     const options = sheet.item.type === 'item-municao'
       ? [
-          { weight: 'leve', number: '0', label: 'LEVE' },
-          { weight: 'medio', number: '1', label: 'MÉDIO' },
-          { weight: 'pesado', number: '2', label: 'PESADO' }
+          { weight: 'light', number: '0', label: 'LEVE' },
+          { weight: 'medium', number: '1', label: 'MÉDIO' },
+          { weight: 'heavy', number: '2', label: 'PESADO' }
         ]
       : [
-          { weight: 'leve', number: '0', label: 'LEVE' },
-          { weight: 'medio', number: '1', label: 'MÉDIO' },
-          { weight: 'pesado', number: '2', label: 'PESADO' },
-          { weight: 'muito-pesado', number: '4', label: 'M. PESADO' }
+          { weight: 'light', number: '0', label: 'LEVE' },
+          { weight: 'medium', number: '1', label: 'MÉDIO' },
+          { weight: 'heavy', number: '2', label: 'PESADO' },
+          { weight: 'very-heavy', number: '4', label: 'M. PESADO' }
         ];
 
     const openWeightDialog = async (event) => {

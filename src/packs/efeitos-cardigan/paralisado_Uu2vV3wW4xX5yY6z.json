@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "Uu2vV3wW4xX5yY6z",
   "_key": "!items!Uu2vV3wW4xX5yY6z",
   "name": "Paralisado",
@@ -6,8 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/paralisado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Está paralisado e não pode realizar nenhuma ação ou teste até terminar o efeito.</p>",
-    "efeitoType": "negativo",
-    "rodadas": "0"
+    "effectType": "negative",
+    "rounds": "0"
   },
   "effects": [],
   "folder": "Kx8mN2QwRtY5UvBp",

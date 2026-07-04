@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "N2vP7sH1kX5tG8wB",
   "_key": "!items!N2vP7sH1kX5tG8wB",
   "name": "Bomba",
@@ -26,7 +26,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "leve",
+    "weight": "light",
     "price": 50,
     "durability": {
       "current": 3,

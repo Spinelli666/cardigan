@@ -59,6 +59,60 @@ async function _migrateActor(actor) {
  */
 async function _migrateItem(item) {
   if (item.type === 'armadura') await _migrateArmaduraItem(item);
+  if (item.type === 'efeito') await _migrateEfeitoItem(item);
+  await _migrateWeightItem(item);
+}
+
+const EFEITO_TYPE_PT_TO_EN = {
+  "positivo": "positive",
+  "negativo": "negative"
+};
+
+/**
+ * Rename efeitoType→effectType, rodadas→rounds; migrate choice values PT→EN.
+ * @param {Item} item
+ */
+async function _migrateEfeitoItem(item) {
+  const source = item._source?.system ?? {};
+  const updates = {};
+
+  if ('efeitoType' in source) {
+    updates['system.effectType'] = EFEITO_TYPE_PT_TO_EN[source.efeitoType] ?? source.efeitoType;
+    updates['system.-=efeitoType'] = null;
+  } else if (source.effectType && EFEITO_TYPE_PT_TO_EN[source.effectType]) {
+    updates['system.effectType'] = EFEITO_TYPE_PT_TO_EN[source.effectType];
+  }
+
+  if ('rodadas' in source) {
+    updates['system.rounds'] = source.rodadas;
+    updates['system.-=rodadas'] = null;
+  }
+
+  if (Object.keys(updates).length > 0) {
+    await item.update(updates);
+  }
+}
+
+const WEIGHT_PT_TO_EN = {
+  "leve": "light",
+  "pesado": "heavy",
+  "muito-pesado": "very-heavy",
+  "medio": "medium"
+};
+
+/**
+ * Migrate weight choice values PT→EN for all item types that have a weight field.
+ * @param {Item} item
+ */
+async function _migrateWeightItem(item) {
+  const WEIGHT_ITEM_TYPES = ['armadura', 'arma', 'item-municao', 'item-comum', 'item-ingredient', 'item-consumivel', 'item-recipe'];
+  if (!WEIGHT_ITEM_TYPES.includes(item.type)) return;
+
+  const source = item._source?.system ?? {};
+  const enWeight = WEIGHT_PT_TO_EN[source.weight];
+  if (!enWeight) return;
+
+  await item.update({ 'system.weight': enWeight });
 }
 
 const ARMOR_TYPE_PT_TO_EN = {

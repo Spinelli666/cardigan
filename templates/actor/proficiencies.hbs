@@ -146,7 +146,7 @@
                   data-effect-name="{{efeito.name}}"
                   data-effect-description="{{efeito.system.description}}"
                   data-effect-img="{{efeito.img}}"
-                  data-effect-rounds="{{efeito.system.rodadas}}"
+                  data-effect-rounds="{{efeito.system.rounds}}"
                   class="effect-image-clickable"
                 />
                 <div class="chat-icon"></div>
@@ -182,7 +182,7 @@
 
               <div class='effect-rounds'>
                 <img src="systems/cardigan/assets/images/decorative/icons/icon-clock.svg" alt="Rodadas" class="rounds-icon" width="16" height="16">
-                <span class="rounds-value">{{#if efeito.system.rodadas}}{{#if (eq efeito.system.rodadas "infinito")}}<div class="rounds-infinite-icon"></div>{{else}}{{efeito.system.rodadas}}{{/if}}{{else}}0{{/if}}</span>
+                <span class="rounds-value">{{#if efeito.system.rounds}}{{#if (eq efeito.system.rounds "infinito")}}<div class="rounds-infinite-icon"></div>{{else}}{{efeito.system.rounds}}{{/if}}{{else}}0{{/if}}</span>
               </div>
 
               <div class='effect-controls flexrow'>

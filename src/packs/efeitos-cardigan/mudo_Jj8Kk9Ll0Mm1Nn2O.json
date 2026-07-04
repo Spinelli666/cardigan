@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "Jj8Kk9Ll0Mm1Nn2O",
   "_key": "!items!Jj8Kk9Ll0Mm1Nn2O",
   "name": "Mudo",
@@ -6,8 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/mudo.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Não pode falar e recebe <em>Desvantagem Aprimorada</em> em qualquer teste que requeira sua fala.</p>",
-    "efeitoType": "negativo",
-    "rodadas": "0"
+    "effectType": "negative",
+    "rounds": "0"
   },
   "effects": [],
   "folder": "Kx8mN2QwRtY5UvBp",

@@ -38,7 +38,7 @@ export default class CardiganSystemItemComum extends CardiganSystemItemBase {
     schema.weight = new fields.StringField({
       required: true,
       blank: false,
-      initial: "leve"
+      initial: "light"
     });
 
     schema.price = new fields.NumberField({
@@ -73,7 +73,7 @@ export default class CardiganSystemItemComum extends CardiganSystemItemBase {
       type: 'comum',
       system: {
         quantity: options.quantity || 1,
-        weight: options.weight || 'leve',
+        weight: options.weight || 'light',
         price: options.price || 0,
         category: options.category || 'misc',
         usage: options.usage || '',

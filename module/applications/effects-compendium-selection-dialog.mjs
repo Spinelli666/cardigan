@@ -77,7 +77,7 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
         name: doc.name,
         img: doc.img,
         system: {
-          efeitoType: doc.system?.efeitoType,
+          effectType: doc.system?.effectType,
           description: doc.system?.description
         }
       })));
@@ -92,7 +92,7 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
         name: item.name,
         img: item.img,
         system: {
-          efeitoType: item.system?.efeitoType,
+          effectType: item.system?.effectType,
           description: item.system?.description
         }
       }));
@@ -109,11 +109,11 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
 
     // Sort effects: positivos first, then others, then alphabetically.
     return uniqueEffects.sort((a, b) => {
-      const typeA = a.system?.efeitoType || '';
-      const typeB = b.system?.efeitoType || '';
+      const typeA = a.system?.effectType || '';
+      const typeB = b.system?.effectType || '';
 
-      if (typeA === 'positivo' && typeB !== 'positivo') return -1;
-      if (typeA !== 'positivo' && typeB === 'positivo') return 1;
+      if (typeA === 'positive' && typeB !== 'positive') return -1;
+      if (typeA !== 'positive' && typeB === 'positive') return 1;
 
       return (a.name || '').localeCompare(b.name || '', 'pt-BR');
     });
@@ -259,7 +259,7 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
 
         const itemData = doc.toObject();
         if (!itemData.system) itemData.system = {};
-        itemData.system.rodadas = effect.roundsValue;
+        itemData.system.rounds = effect.roundsValue;
         itemsToCreate.push(itemData);
       }
 

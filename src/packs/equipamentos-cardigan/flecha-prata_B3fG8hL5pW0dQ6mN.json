@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "B3fG8hL5pW0dQ6mN",
   "_key": "!items!B3fG8hL5pW0dQ6mN",
   "name": "Flecha de Prata",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 17,
     "isFirearmAmmo": false,
     "isSpecialAmmo": true

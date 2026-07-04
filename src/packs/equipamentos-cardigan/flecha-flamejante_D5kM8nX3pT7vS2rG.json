@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "D5kM8nX3pT7vS2rG",
   "_key": "!items!D5kM8nX3pT7vS2rG",
   "name": "Flecha Flamejante",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 17,
     "isFirearmAmmo": false,
     "isSpecialAmmo": true

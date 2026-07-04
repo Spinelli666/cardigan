@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "H5bN8mQ1kX4vP7sJ",
   "_key": "!items!H5bN8mQ1kX4vP7sJ",
   "name": "Lança",
@@ -26,7 +26,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "leve",
+    "weight": "light",
     "price": 20,
     "durability": {
       "current": 3,

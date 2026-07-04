@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "Q1cN7mB4xZ9lQ2rT",
   "_key": "!items!Q1cN7mB4xZ9lQ2rT",
   "name": "Virote Gélido",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 18,
     "isFirearmAmmo": false,
     "isSpecialAmmo": true

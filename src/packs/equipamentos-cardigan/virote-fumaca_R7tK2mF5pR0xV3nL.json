@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "R7tK2mF5pR0xV3nL",
   "_key": "!items!R7tK2mF5pR0xV3nL",
   "name": "Virote de Fumaça",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 18,
     "isFirearmAmmo": false,
     "isSpecialAmmo": true

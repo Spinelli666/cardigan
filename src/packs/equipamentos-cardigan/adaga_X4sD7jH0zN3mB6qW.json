@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "X4sD7jH0zN3mB6qW",
   "_key": "!items!X4sD7jH0zN3mB6qW",
   "name": "Adaga",
@@ -26,7 +26,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "leve",
+    "weight": "light",
     "price": 10,
     "durability": {
       "current": 3,

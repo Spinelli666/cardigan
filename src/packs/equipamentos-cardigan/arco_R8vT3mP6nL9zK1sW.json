@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "R8vT3mP6nL9zK1sW",
   "_key": "!items!R8vT3mP6nL9zK1sW",
   "name": "Arco",
@@ -26,7 +26,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "pesado",
+    "weight": "heavy",
     "price": 50,
     "durability": {
       "current": 3,

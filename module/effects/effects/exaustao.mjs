@@ -95,7 +95,7 @@ export class ExaustaoEffect extends BaseEffect {
 
     // Add to actor with infinite rounds (since it's from checkbox)
     const effectData = effectDoc.toObject();
-    effectData.system.rodadas = 'infinito';
+    effectData.system.rounds = 'infinito';
     await actor.createEmbeddedDocuments('Item', [effectData]);
     console.log(`[${this.effectName} Sync] Added ${this.effectName} effect to ${actor.name} with infinite rounds`);
   }

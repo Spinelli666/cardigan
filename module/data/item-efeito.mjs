@@ -16,14 +16,14 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
     const fields = foundry.data.fields;
     const schema = super.defineSchema();
 
-    schema.efeitoType = new fields.StringField({
+    schema.effectType = new fields.StringField({
       required: true,
       blank: false,
-      initial: 'negativo',
-      choices: CONFIG.CARDIGAN.efeitoTypes,
+      initial: 'negative',
+      choices: CONFIG.CARDIGAN.effectTypes,
     });
 
-    schema.rodadas = new fields.StringField({
+    schema.rounds = new fields.StringField({
       required: true,
       blank: false,
       initial: '0',
@@ -151,7 +151,7 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
       img: options.img || 'icons/svg/aura.svg',
       system: {
         description: options.description || '',
-        efeitoType: options.efeitoType || 'negativo',
+        effectType: options.effectType || 'negative',
         duration: options.duration || 0,
         consumableTracking: {
           isTrackingEffect: options.consumableTracking?.isTrackingEffect || false,

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "w4xY6z7A8bC9dE0F",
   "_key": "!items!w4xY6z7A8bC9dE0F",
   "name": "Fratura",
@@ -6,8 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/fratura.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Você foi gravemente ferido, e para cada ponto de Fratura que possuir seus 💔PV & ⚡️PE <strong>totais</strong> são reduzidos em <strong>5</strong>. Além disso, acumular <strong>5</strong> Fraturas o deixa ☠️Derrotado. Pode ser removido com um 💤 <strong>Descanso Longo</strong> ou com um <strong>::systems/cardigan/assets/images/alchemy/surgical-kit.webp::Conjunto Cirúrgico</strong>.</p>",
-    "efeitoType": "negativo",
-    "rodadas": "0"
+    "effectType": "negative",
+    "rounds": "0"
   },
   "effects": [],
   "folder": "Kx8mN2QwRtY5UvBp",

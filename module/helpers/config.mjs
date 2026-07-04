@@ -69,9 +69,9 @@ CARDIGAN.skillRanks = {
  * The set of Effect Types used within the system.
  * @type {Object}
  */
-CARDIGAN.efeitoTypes = {
-  positivo: 'CARDIGAN.Item.Efeito.Types.Positivo',
-  negativo: 'CARDIGAN.Item.Efeito.Types.Negativo'
+CARDIGAN.effectTypes = {
+  positive: 'CARDIGAN.Item.Efeito.Types.Positive',
+  negative: 'CARDIGAN.Item.Efeito.Types.Negative'
 };
 
 /**
@@ -121,8 +121,8 @@ export function registerHandlebarsHelpers() {
     
     // Add weight icon
     const weightIcon = '🎒'; // Backpack icon
-    const weightText = weapon.system.weight === 'leve' ? 'Leve' : 'Pesado';
-    
+    const weightText = weapon.system.weight === 'light' ? 'Leve' : 'Pesado';
+
     // Build the complete content with icons above the name
     content = `${typeIcons} ${weightIcon} ${weightText}\n${weapon.name}`;
     
@@ -155,7 +155,7 @@ export function registerHandlebarsHelpers() {
     }
     
     // Generate weight info
-    const weightText = weapon.system.weight === 'leve' ? 'Leve' : 'Pesado';
+    const weightText = weapon.system.weight === 'light' ? 'Leve' : 'Pesado';
     const weightHTML = '<i class="fas fa-backpack"></i><span>' + weightText + '</span>';
     
     // Build complete HTML
@@ -204,7 +204,7 @@ export function registerHandlebarsHelpers() {
     if (!armor) return '';
     
     // Generate weight info
-    const weightText = armor.system.weight === 'leve' ? 'Leve' : 'Pesado';
+    const weightText = armor.system.weight === 'light' ? 'Leve' : 'Pesado';
     const weightHTML = '<i class="fas fa-backpack"></i><span>' + weightText + '</span>';
     
     // Generate special properties icons
@@ -350,13 +350,13 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('calculateItemSpaces', function(weight, quantity) {
     if (!weight || quantity <= 0) return 0;
     switch (weight) {
-      case 'leve':
+      case 'light':
         return Math.floor(quantity / 10);
-      case 'medio':
+      case 'medium':
         return quantity;
-      case 'pesado':
+      case 'heavy':
         return quantity * 2;
-      case 'muito-pesado':
+      case 'very-heavy':
         return quantity * 4;
       default:
         return 0;
@@ -366,13 +366,13 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('abbreviateWeight', function(weight) {
     if (!weight) return '';
     switch (weight) {
-      case 'leve':
+      case 'light':
         return 'L';
-      case 'medio':
+      case 'medium':
         return 'M';
-      case 'pesado':
+      case 'heavy':
         return 'P';
-      case 'muito-pesado':
+      case 'very-heavy':
         return 'MP';
       default:
         return weight.toUpperCase();

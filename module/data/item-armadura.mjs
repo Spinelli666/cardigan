@@ -115,19 +115,19 @@ export default class ArmorData extends BaseItemData {
       
       weight: new StringField({
         required: true,
-        initial: "leve",
+        initial: "light",
         choices: {
-          "leve": "CARDIGAN.Light",
-          "pesado": "CARDIGAN.Heavy"
+          "light": "CARDIGAN.Light",
+          "heavy": "CARDIGAN.Heavy"
         },
         clean: (value) => {
           // Convert old numeric values to string choices
           if (typeof value === 'number') {
-            return value <= 0 ? "leve" : "pesado";
+            return value <= 0 ? "light" : "heavy";
           }
           // Ensure valid string choices
-          if (!["leve", "pesado"].includes(value)) {
-            return "leve";
+          if (!["light", "heavy"].includes(value)) {
+            return "light";
           }
           return value;
         }

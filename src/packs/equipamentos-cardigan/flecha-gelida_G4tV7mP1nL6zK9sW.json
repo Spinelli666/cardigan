@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "G4tV7mP1nL6zK9sW",
   "_key": "!items!G4tV7mP1nL6zK9sW",
   "name": "Flecha Gélida",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 17,
     "isFirearmAmmo": false,
     "isSpecialAmmo": true

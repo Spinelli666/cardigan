@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "M9qK2nL5vP8xS1tB",
   "_key": "!items!M9qK2nL5vP8xS1tB",
   "name": "Mangual",
@@ -26,7 +26,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "leve",
+    "weight": "light",
     "price": 35,
     "durability": {
       "current": 3,

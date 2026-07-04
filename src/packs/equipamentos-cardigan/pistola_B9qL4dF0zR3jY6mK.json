@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "B9qL4dF0zR3jY6mK",
   "_key": "!items!B9qL4dF0zR3jY6mK",
   "name": "Pistola",
@@ -30,7 +30,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "leve",
+    "weight": "light",
     "price": 80,
     "durability": {
       "current": 3,

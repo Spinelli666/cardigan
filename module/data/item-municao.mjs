@@ -8,9 +8,9 @@ export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
 
   /** Weight choices for ammunition */
   static WEIGHT_CHOICES = {
-    "leve": "CARDIGAN.WeightLight",
-    "medio": "CARDIGAN.WeightMedium",
-    "pesado": "CARDIGAN.WeightHeavy"
+    "light": "CARDIGAN.WeightLight",
+    "medium": "CARDIGAN.WeightMedium",
+    "heavy": "CARDIGAN.WeightHeavy"
   };
 
   static defineSchema() {
@@ -27,7 +27,7 @@ export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
     schema.weight = new fields.StringField({
       required: true,
       blank: false,
-      initial: "leve",
+      initial: "light",
       choices: CardiganSystemItemMunicao.WEIGHT_CHOICES
     });
 
@@ -58,7 +58,7 @@ export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
       type: 'municao',
       system: {
         quantity: options.quantity || 1,
-        weight: options.weight || 'leve',
+        weight: options.weight || 'light',
         price: options.price || 0,
         isFirearmAmmo: false,
         isSpecialAmmo: options.isSpecialAmmo || false
@@ -73,7 +73,7 @@ export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
       type: 'municao',
       system: {
         quantity: options.quantity || 1,
-        weight: options.weight || 'leve',
+        weight: options.weight || 'light',
         price: options.price || 0,
         isFirearmAmmo: true,
         isSpecialAmmo: options.isSpecialAmmo || false

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "H8vX2mN5sT9kP4zR",
   "_key": "!items!H8vX2mN5sT9kP4zR",
   "name": "Bomba de Draxium",
@@ -26,7 +26,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "leve",
+    "weight": "light",
     "price": 65,
     "durability": {
       "current": 3,

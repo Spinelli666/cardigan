@@ -212,7 +212,7 @@ async function loadStatusEffects() {
       };
       
       // Separate by type
-      if (doc.system.efeitoType === 'positivo') {
+      if (doc.system.effectType === 'positive') {
         positiveEffects.push(effectData);
       } else {
         negativeEffects.push(effectData);

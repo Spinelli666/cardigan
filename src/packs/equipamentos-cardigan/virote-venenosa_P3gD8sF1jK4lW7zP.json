@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "P3gD8sF1jK4lW7zP",
   "_key": "!items!P3gD8sF1jK4lW7zP",
   "name": "Virote Venenoso",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 18,
     "isFirearmAmmo": false,
     "isSpecialAmmo": true

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "A7vM4kR9nT2zS1pX",
   "_key": "!items!A7vM4kR9nT2zS1pX",
   "name": "Flecha",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 2,
     "isFirearmAmmo": false,
     "isSpecialAmmo": false

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "M7rK2vN9tP5zX1sW",
   "_key": "!items!M7rK2vN9tP5zX1sW",
   "name": "Alabarda",
@@ -26,7 +26,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "pesado",
+    "weight": "heavy",
     "price": 60,
     "durability": {
       "current": 3,

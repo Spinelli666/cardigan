@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "K8mR3vP6nT9zL2sW",
   "_key": "!items!K8mR3vP6nT9zL2sW",
   "name": "Montante",
@@ -26,7 +26,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "pesado",
+    "weight": "heavy",
     "price": 60,
     "durability": {
       "current": 3,

@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "X9kR4vN7zP2mT1sQ",
   "_key": "!items!X9kR4vN7zP2mT1sQ",
   "name": "Cartucho de Draxium",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 21,
     "isFirearmAmmo": true,
     "isSpecialAmmo": true

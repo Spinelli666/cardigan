@@ -25,7 +25,7 @@
       "enabled": true,
       "bonus": 20
     },
-    "weight": "leve",
+    "weight": "light",
     "price": 100,
     "durability": {
       "current": 3,

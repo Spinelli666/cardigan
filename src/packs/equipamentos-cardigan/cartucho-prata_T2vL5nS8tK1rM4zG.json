@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "T2vL5nS8tK1rM4zG",
   "_key": "!items!T2vL5nS8tK1rM4zG",
   "name": "Cartucho de Prata",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 21,
     "isFirearmAmmo": true,
     "isSpecialAmmo": true

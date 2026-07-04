@@ -717,7 +717,7 @@ export class ConsumableActions {
 
       const itemData = foundry.utils.deepClone(sourceDocument.toObject());
       if (!itemData.system) itemData.system = {};
-      itemData.system.rodadas = normalizeRoundsValue(configuredEffect.rounds);
+      itemData.system.rounds = normalizeRoundsValue(configuredEffect.rounds);
 
       await sheet.document.createEmbeddedDocuments('Item', [itemData]);
     }
@@ -1299,8 +1299,8 @@ export class ConsumableActions {
         img: originalItem.img,
         system: {
           description: description,
-          rodadas: 'infinito',
-          efeitoType: 'positivo',
+          rounds: 'infinito',
+          effectType: 'positive',
           consumableTracking: {
             isTrackingEffect: true,
             originalItemName: originalItem.name,
@@ -1426,7 +1426,7 @@ export class ConsumableActions {
           name: trackingEffectName,
           type: "efeito",
           system: {
-            rodadas: 'infinito',
+            rounds: 'infinito',
             description: trackingDescription,
             healthBonusValue: healthBonus,
             sourceItemId: item.id,
@@ -1599,7 +1599,7 @@ export class ConsumableActions {
           name: trackingEffectName,
           type: "efeito",
           system: {
-            rodadas: 'infinito',
+            rounds: 'infinito',
             description: trackingDescription,
             energyBonusValue: energyBonus,
             sourceItemId: item.id,

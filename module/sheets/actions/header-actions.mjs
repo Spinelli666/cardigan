@@ -199,7 +199,7 @@ export class HeaderActions {
       item.type === "armadura" && item.system.equipped
     );
     
-    return equippedArmor.some(armor => armor.system.weight === "pesado");
+    return equippedArmor.some(armor => armor.system.weight === "heavy");
   }
 
   /**

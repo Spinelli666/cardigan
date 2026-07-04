@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "mN2nO3oP4pQ5qR6r",
   "_key": "!items!mN2nO3oP4pQ5qR6r",
   "name": "Caído",
@@ -6,8 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/caido.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Cai no chão e recebe Desvantagem em qualquer teste de Perícia. Em seu turno pode usar sua ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Ação Curta</strong> para se levantar. Além disso, caso você esteja mantendo uma habilidade do tipo <strong>Foco</strong> ela é removida.</p>",
-    "efeitoType": "negativo",
-    "rodadas": "0"
+    "effectType": "negative",
+    "rounds": "0"
   },
   "effects": [],
   "folder": "Kx8mN2QwRtY5UvBp",

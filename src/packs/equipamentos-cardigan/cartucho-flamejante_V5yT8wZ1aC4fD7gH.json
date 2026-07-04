@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "V5yT8wZ1aC4fD7gH",
   "_key": "!items!V5yT8wZ1aC4fD7gH",
   "name": "Cartucho Flamejante",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 21,
     "isFirearmAmmo": true,
     "isSpecialAmmo": true

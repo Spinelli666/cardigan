@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "G4hX7jB2fN0mS5dQ",
   "_key": "!items!G4hX7jB2fN0mS5dQ",
   "name": "Balestra Pesada  ",
@@ -26,7 +26,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "pesado",
+    "weight": "heavy",
     "price": 150,
     "durability": {
       "current": 3,

@@ -30,9 +30,9 @@
             </div>
             <div class="effect-info">
               <span class="effect-name">{{effect.name}}</span>
-              {{#if effect.system.efeitoType}}
-                <span class="effect-type effect-type-{{effect.system.efeitoType}}">
-                  {{#if (eq effect.system.efeitoType "positivo")}}Positivo{{else}}Negativo{{/if}}
+              {{#if effect.system.effectType}}
+                <span class="effect-type effect-type-{{effect.system.effectType}}">
+                  {{#if (eq effect.system.effectType "positive")}}Positivo{{else}}Negativo{{/if}}
                 </span>
               {{/if}}
             </div>

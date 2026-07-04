@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "P2tV9kM5rS8uY1cB",
   "_key": "!items!P2tV9kM5rS8uY1cB",
   "name": "Mangual Pesado",
@@ -26,7 +26,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "pesado",
+    "weight": "heavy",
     "price": 65,
     "durability": {
       "current": 3,

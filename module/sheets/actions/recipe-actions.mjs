@@ -104,7 +104,7 @@ export class RecipeActions {
           img: recipe.img,
           system: {
             quantity: recipe.system.servings || 1,
-            weight: recipe.system.weight || "leve",
+            weight: recipe.system.weight || "light",
             price: Math.ceil(recipe.system.price / 2) || 1,
             effects: []
           }
@@ -426,7 +426,7 @@ export class RecipeActions {
           img: recipe.img || "icons/sundries/miscellaneous/mortar-pestle.svg",
           system: {
             quantity: 1,
-            weight: "leve",
+            weight: "light",
             price: recipe.system.price || 10,
             description: `Crafted from ${recipe.name} recipe.${recipe.system.description ? `\n\n${recipe.system.description}` : ''}`
           }

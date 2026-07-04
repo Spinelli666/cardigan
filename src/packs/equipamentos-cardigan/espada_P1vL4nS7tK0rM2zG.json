@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "P1vL4nS7tK0rM2zG",
   "_key": "!items!P1vL4nS7tK0rM2zG",
   "name": "Espada",
@@ -26,7 +26,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "leve",
+    "weight": "light",
     "price": 20,
     "durability": {
       "current": 3,

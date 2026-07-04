@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "J7kS3vR6tM9nZ2xB",
   "_key": "!items!J7kS3vR6tM9nZ2xB",
   "name": "Virote",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 3,
     "isFirearmAmmo": false,
     "isSpecialAmmo": false

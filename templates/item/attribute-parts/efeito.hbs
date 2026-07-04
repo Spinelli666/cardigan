@@ -1,26 +1,26 @@
-{{!-- 
+{{!--
 Template simplificado para itens do tipo efeito
 Aba Details com campo de tipo (dropdown)
 --}}
 <section class='tab {{tab.cssClass}}' data-group='primary' data-tab='attributes' data-application-part='attributesEfeito'>
   <div class="form-group item-efeito-form-group">
-    <label>{{localize "CARDIGAN.Item.Efeito.FIELDS.efeitoType.label"}}</label>
-    <select name="system.efeitoType">
-      <option value="positivo" {{selected item.system.efeitoType "positivo"}}>{{localize "CARDIGAN.Item.Efeito.Types.Positivo"}}</option>
-      <option value="negativo" {{selected item.system.efeitoType "negativo"}}>{{localize "CARDIGAN.Item.Efeito.Types.Negativo"}}</option>
+    <label>{{localize "CARDIGAN.Item.Efeito.FIELDS.effectType.label"}}</label>
+    <select name="system.effectType">
+      <option value="positive" {{selected item.system.effectType "positive"}}>{{localize "CARDIGAN.Item.Efeito.Types.Positive"}}</option>
+      <option value="negative" {{selected item.system.effectType "negative"}}>{{localize "CARDIGAN.Item.Efeito.Types.Negative"}}</option>
     </select>
   </div>
-  
+
   <div class="form-group item-efeito-form-group">
-    <label>{{localize "CARDIGAN.Item.Efeito.FIELDS.rodadas.label"}}</label>
-    <select name="system.rodadas">
-      <option value="0" {{selected item.system.rodadas "0"}}>0</option>
-      <option value="1" {{selected item.system.rodadas "1"}}>1</option>
-      <option value="2" {{selected item.system.rodadas "2"}}>2</option>
-      <option value="3" {{selected item.system.rodadas "3"}}>3</option>
-      <option value="4" {{selected item.system.rodadas "4"}}>4</option>
-      <option value="5" {{selected item.system.rodadas "5"}}>5</option>
-      <option value="infinito" {{selected item.system.rodadas "infinito"}}>∞</option>
+    <label>{{localize "CARDIGAN.Item.Efeito.FIELDS.rounds.label"}}</label>
+    <select name="system.rounds">
+      <option value="0" {{selected item.system.rounds "0"}}>0</option>
+      <option value="1" {{selected item.system.rounds "1"}}>1</option>
+      <option value="2" {{selected item.system.rounds "2"}}>2</option>
+      <option value="3" {{selected item.system.rounds "3"}}>3</option>
+      <option value="4" {{selected item.system.rounds "4"}}>4</option>
+      <option value="5" {{selected item.system.rounds "5"}}>5</option>
+      <option value="infinito" {{selected item.system.rounds "infinito"}}>∞</option>
     </select>
   </div>
 </section>

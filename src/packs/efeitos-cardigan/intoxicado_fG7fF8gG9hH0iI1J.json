@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "fG7fF8gG9hH0iI1J",
   "_key": "!items!fG7fF8gG9hH0iI1J",
   "name": "Intoxicado",
@@ -6,8 +6,8 @@
   "img": "systems/cardigan/assets/images/effects/intoxicado.webp",
   "system": {
     "description": "<p style=\"text-align: justify\">Não é afetado por efeitos de <strong>::systems/cardigan/assets/images/alchemy/alchemical-tonic.webp::Alquimia</strong>. Pode ser removido por um 💤<strong>Descanso Longo</strong> ou <strong>::systems/cardigan/assets/images/alchemy/purifying-tonic.webp::Tônico Purificador</strong>.</p>",
-    "efeitoType": "negativo",
-    "rodadas": "0"
+    "effectType": "negative",
+    "rounds": "0"
   },
   "effects": [],
   "folder": "Kx8mN2QwRtY5UvBp",

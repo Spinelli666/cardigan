@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "L2qW5yH8cX1vF3mG",
   "_key": "!items!L2qW5yH8cX1vF3mG",
   "name": "Mosquete",
@@ -29,7 +29,7 @@
     ],
     "rightHand": false,
     "leftHand": false,
-    "weight": "pesado",
+    "weight": "heavy",
     "price": 200,
     "durability": {
       "current": 3,

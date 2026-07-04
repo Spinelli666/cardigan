@@ -102,7 +102,7 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     schema.weight = new fields.StringField({
       required: true,
       blank: false,
-      initial: "leve"
+      initial: "light"
     });
 
     schema.price = new fields.NumberField({

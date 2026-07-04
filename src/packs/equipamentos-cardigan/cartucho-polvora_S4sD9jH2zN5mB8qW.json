@@ -1,4 +1,4 @@
-{
+﻿{
   "_id": "S4sD9jH2zN5mB8qW",
   "_key": "!items!S4sD9jH2zN5mB8qW",
   "name": "Cartucho de Pólvora",
@@ -8,7 +8,7 @@
   "system": {
     "description": "",
     "quantity": 1,
-    "weight": "leve",
+    "weight": "light",
     "price": 6,
     "isFirearmAmmo": true,
     "isSpecialAmmo": false

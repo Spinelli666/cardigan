@@ -13,8 +13,8 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
 
   /** Weight choices for weapons */
   static WEIGHT_CHOICES = {
-    leve: "CARDIGAN.Light",
-    pesado: "CARDIGAN.Heavy"
+    light: "CARDIGAN.Light",
+    heavy: "CARDIGAN.Heavy"
   };
 
   /** Vorpal property damage bonus when wielded with both hands */
@@ -77,19 +77,19 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
       ),
       rightHand: new fields.BooleanField({ required: true, initial: false }),
       leftHand: new fields.BooleanField({ required: true, initial: false }),
-      weight: new fields.StringField({ 
-        required: true, 
-        blank: false, 
-        initial: "leve",
+      weight: new fields.StringField({
+        required: true,
+        blank: false,
+        initial: "light",
         choices: CardiganSystemArma.WEIGHT_CHOICES,
         clean: (value) => {
           // Convert old numeric values to string choices
           if (typeof value === 'number') {
-            return value <= 0 ? "leve" : "pesado";
+            return value <= 0 ? "light" : "heavy";
           }
           // Ensure valid string choices
-          if (!["leve", "pesado"].includes(value)) {
-            return "leve";
+          if (!["light", "heavy"].includes(value)) {
+            return "light";
           }
           return value;
         }
@@ -217,7 +217,7 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
         properties: options.properties || [],
         rightHand: false,
         leftHand: false,
-        weight: options.weight || 'leve',
+        weight: options.weight || 'light',
         price: options.price || 0,
         durability: {
           current: CardiganSystemArma.DURABILITY_MAX,
@@ -255,7 +255,7 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
         properties: options.properties || [],
         rightHand: false,
         leftHand: false,
-        weight: options.weight || 'leve',
+        weight: options.weight || 'light',
         price: options.price || 0,
         durability: {
           current: CardiganSystemArma.DURABILITY_MAX,
@@ -293,7 +293,7 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
         properties: options.properties || [],
         rightHand: false,
         leftHand: false,
-        weight: options.weight || 'pesado',
+        weight: options.weight || 'heavy',
         price: options.price || 0,
         durability: {
           current: CardiganSystemArma.DURABILITY_MAX,
