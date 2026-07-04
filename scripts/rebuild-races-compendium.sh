@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script para reconstruir completamente o compêndio de raças
-# Uso: ./rebuild-racas-compendium.sh
+# Uso: ./rebuild-races-compendium.sh
 
 echo "🔧 Rebuilding Racas Compendium..."
 
