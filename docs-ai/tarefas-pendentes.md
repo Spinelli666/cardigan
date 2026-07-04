@@ -2,7 +2,7 @@
 
 Este arquivo é um **resumo organizado e acionável** das investigações registradas em [`INVESTIGACOES_FUTURAS.md`](../INVESTIGACOES_FUTURAS.md) (raiz do projeto). Esse arquivo histórico contém o detalhamento completo, comparações com outros sistemas, exemplos de código e justificativas — **não foi alterado e deve ser consultado para contexto completo** antes de iniciar qualquer item abaixo marcado como tarefa grande.
 
-Última sincronização com `INVESTIGACOES_FUTURAS.md`: última atualização registrada lá foi 14/01/2026, com adição de 28/03/2026 (backlog de extrações do `actor-sheet.mjs`). Atualizado em 30/06/2026 com conclusão da Fase 2 de `cardigan.mjs`. Atualizado em 01/07/2026 com conclusão da Fase 3 de `skill-manager.mjs`. Atualizado em 03/07/2026 com conclusão da refatoração do `actor-sheet.mjs`.
+Última sincronização com `INVESTIGACOES_FUTURAS.md`: última atualização registrada lá foi 14/01/2026, com adição de 28/03/2026 (backlog de extrações do `actor-sheet.mjs`). Atualizado em 30/06/2026 com conclusão da Fase 2 de `cardigan.mjs`. Atualizado em 01/07/2026 com conclusão da Fase 3 de `skill-manager.mjs`. Atualizado em 03/07/2026 com conclusão da refatoração do `actor-sheet.mjs`. Atualizado em 03/07/2026 com conclusão da Fase 4 (Weapon Properties base class).
 
 ---
 
@@ -100,12 +100,24 @@ O arquivo restante (~309 linhas) é puro orchestrator: registry, `initialize()`,
 
 ---
 
-## 🟡 Prioridade média — Outras refatorações planejadas (Fases 2, 4, 5)
+## ✅ Concluído — Fase 4: Weapon Properties base class — 03/07/2026
+
+`base-weapon-property.mjs` foi expandido com template method completo para aplicação de efeitos de compêndio, e as 5 propriedades de efeito de compêndio foram simplificadas de ~124 para 18 linhas cada (−530 linhas no total):
+
+| Commit | Mudança |
+|--------|---------|
+| 1 | `base-weapon-property.mjs`: adicionados 6 static getters de config (`effectName`, `socketApplyType`, `socketNotifyType`, `effectEmoji`, `logTag`, `defaultWeaponName`), `onCriticalHit()` default impl, `applyCompendiumEffect()` e `applyCompendiumEffectStatic()` |
+| 2 | `ferir`, `incendiar`, `eletrocutar`, `traspassar`, `contundente` reescritos: apenas os 6 getters de config + alias de backward-compat |
+
+`impacto.mjs` não foi alterado — incrementa campo numérico `system.status.fracture`, não aplica efeito de compêndio, portanto não se enquadra no template method. `certeiro.mjs` e `vorpal.mjs` são passivos sem `onCriticalHit`, não precisam de mudança.
+
+---
+
+## 🟡 Prioridade média — Outras refatorações planejadas (Fases 2, 5)
 
 Detalhes completos e exemplos de código em `INVESTIGACOES_FUTURAS.md`.
 
 - **Fase 2 — Templates Handlebars**: criar partials reutilizáveis (`item-row.hbs`, `proficiency-row.hbs`, `skill-card.hbs`, `effect-badge.hbs`, `ability-score.hbs`, `resource-bar.hbs`, `armor-slot.hbs`, `weapon-slot.hbs`) para reduzir HTML duplicado em `templates/actor/`.
-- **Fase 4 — Weapon Properties base class**: criar `weapon-properties/base-weapon-property.mjs` com template method (`applyEffect`, `canApply`, `_createEffect`, `_notifyPlayers`) para eliminar duplicação entre os 20+ arquivos de propriedades.
 - **Fase 5 — JSDoc**: adicionar JSDoc consistente em data models, helpers principais, weapon properties e effect classes (padrão pf2e).
 
 ---
