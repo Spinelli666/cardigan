@@ -9,12 +9,12 @@ const { NumberField, StringField, BooleanField, ArrayField, SchemaField, ObjectF
 export default class ArmorData extends BaseItemData {
 
   static ARMOR_TYPE_ORDER = {
-    "cabeca": 1,
-    "acessorios": 2,
+    "head": 1,
+    "accessories": 2,
     "torso": 3,
-    "bracos": 4,
-    "pernas": 5,
-    "pes": 6
+    "arms": 4,
+    "legs": 5,
+    "feet": 6
   };
   
   static DEFAULT_TYPE_ORDER = 99;
@@ -31,12 +31,12 @@ export default class ArmorData extends BaseItemData {
         required: true,
         initial: "torso",
         choices: {
-          "cabeca": "CARDIGAN.ArmorType.Cabeca",
-          "acessorios": "CARDIGAN.ArmorType.Acessorios",
+          "head": "CARDIGAN.ArmorType.Cabeca",
+          "accessories": "CARDIGAN.ArmorType.Acessorios",
           "torso": "CARDIGAN.ArmorType.Torso",
-          "bracos": "CARDIGAN.ArmorType.Bracos",
-          "pernas": "CARDIGAN.ArmorType.Pernas",
-          "pes": "CARDIGAN.ArmorType.Pes"
+          "arms": "CARDIGAN.ArmorType.Bracos",
+          "legs": "CARDIGAN.ArmorType.Pernas",
+          "feet": "CARDIGAN.ArmorType.Pes"
         }
       }),
       

@@ -12,24 +12,24 @@ Template para itens do tipo armadura com aba Detail
           {{!-- Grid of armor type selection buttons (3x2 layout) --}}
           <div class="armor-type-selector-grid">
             {{!-- First row: head, charm, chest --}}
-            <button type="button" class="armor-type-selector-btn" data-armor-type="cabeca" data-tooltip="Cabeça" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "cabeca")}}data-selected{{/if}}>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="head" data-tooltip="Cabeça" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "head")}}data-selected{{/if}}>
               <img src="systems/cardigan/assets/images/armor/head.webp" alt="{{localize 'CARDIGAN.ArmorType.Cabeca'}}" title="{{localize 'CARDIGAN.ArmorType.Cabeca'}}" />
             </button>
-            <button type="button" class="armor-type-selector-btn" data-armor-type="acessorios" data-tooltip="Acessórios" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "acessorios")}}data-selected{{/if}}>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="accessories" data-tooltip="Acessórios" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "accessories")}}data-selected{{/if}}>
               <img src="systems/cardigan/assets/images/armor/charm.webp" alt="{{localize 'CARDIGAN.ArmorType.Acessorios'}}" title="{{localize 'CARDIGAN.ArmorType.Acessorios'}}" />
             </button>
             <button type="button" class="armor-type-selector-btn" data-armor-type="torso" data-tooltip="Torso" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "torso")}}data-selected{{/if}}>
               <img src="systems/cardigan/assets/images/armor/chest.webp" alt="{{localize 'CARDIGAN.ArmorType.Torso'}}" title="{{localize 'CARDIGAN.ArmorType.Torso'}}" />
             </button>
-            
+
             {{!-- Second row: gauntlets, leggings, boots --}}
-            <button type="button" class="armor-type-selector-btn" data-armor-type="bracos" data-tooltip="Braços" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "bracos")}}data-selected{{/if}}>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="arms" data-tooltip="Braços" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "arms")}}data-selected{{/if}}>
               <img src="systems/cardigan/assets/images/armor/gauntlets.webp" alt="{{localize 'CARDIGAN.ArmorType.Bracos'}}" title="{{localize 'CARDIGAN.ArmorType.Bracos'}}" />
             </button>
-            <button type="button" class="armor-type-selector-btn" data-armor-type="pernas" data-tooltip="Pernas" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "pernas")}}data-selected{{/if}}>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="legs" data-tooltip="Pernas" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "legs")}}data-selected{{/if}}>
               <img src="systems/cardigan/assets/images/armor/leggings.webp" alt="{{localize 'CARDIGAN.ArmorType.Pernas'}}" title="{{localize 'CARDIGAN.ArmorType.Pernas'}}" />
             </button>
-            <button type="button" class="armor-type-selector-btn" data-armor-type="pes" data-tooltip="Pés" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "pes")}}data-selected{{/if}}>
+            <button type="button" class="armor-type-selector-btn" data-armor-type="feet" data-tooltip="Pés" data-tooltip-class='cardigan-tooltip' {{#if (eq item.system.armorType "feet")}}data-selected{{/if}}>
               <img src="systems/cardigan/assets/images/armor/boots.webp" alt="{{localize 'CARDIGAN.ArmorType.Pes'}}" title="{{localize 'CARDIGAN.ArmorType.Pes'}}" />
             </button>
           </div>

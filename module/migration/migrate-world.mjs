@@ -61,6 +61,14 @@ async function _migrateItem(item) {
   if (item.type === 'armadura') await _migrateArmaduraItem(item);
 }
 
+const ARMOR_TYPE_PT_TO_EN = {
+  "cabeca": "head",
+  "acessorios": "accessories",
+  "bracos": "arms",
+  "pernas": "legs",
+  "pes": "feet"
+};
+
 /**
  * Rename PT armor field keys to EN equivalents.
  * protecao→protection, bonusVida→lifeBonus, bonusEnergia→energyBonus,
@@ -70,6 +78,12 @@ async function _migrateItem(item) {
 async function _migrateArmaduraItem(item) {
   const source = item._source?.system ?? {};
   const updates = {};
+
+  // Migrate armorType choice values PT→EN ("cabeca"→"head", etc.; "torso" unchanged)
+  const enArmorType = ARMOR_TYPE_PT_TO_EN[source.armorType];
+  if (enArmorType) {
+    updates['system.armorType'] = enArmorType;
+  }
 
   if ('protecao' in source) {
     updates['system.protection'] = source.protecao;

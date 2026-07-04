@@ -116,12 +116,12 @@ export class ItemPrepareActions {
 
     // Sort armors by type order (Cabeça, Acessórios, Torso, Braços, Pernas, Pés)
     const armorTypeOrder = {
-      "cabeca": 1,
-      "acessorios": 2,
+      "head": 1,
+      "accessories": 2,
       "torso": 3,
-      "bracos": 4,
-      "pernas": 5,
-      "pes": 6
+      "arms": 4,
+      "legs": 5,
+      "feet": 6
     };
 
     // Sort then assign
@@ -223,12 +223,12 @@ export class ItemPrepareActions {
     });
 
     // Header armor section visibility flags
-    context.hasHeadArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'cabeca');
+    context.hasHeadArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'head');
     context.hasTorsoArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'torso');
-    context.hasArmsArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'bracos');
-    context.hasLegsArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'pernas');
-    context.hasFeetArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'pes');
-    context.hasAccessoriesArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'acessorios');
+    context.hasArmsArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'arms');
+    context.hasLegsArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'legs');
+    context.hasFeetArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'feet');
+    context.hasAccessoriesArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'accessories');
     context.hasHeaderArmorEquipped =
       context.hasHeadArmorEquipped ||
       context.hasTorsoArmorEquipped ||

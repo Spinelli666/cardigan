@@ -57,12 +57,12 @@ export class ArmorTypeSelectionDialog extends HandlebarsApplicationMixin(Applica
     const context = await super._prepareContext(options);
     
     context.armorTypes = [
-      { key: "cabeca", label: game.i18n.localize("CARDIGAN.ArmorType.Cabeca"), icon: "fa-solid fa-hat-hard" },
-      { key: "acessorios", label: game.i18n.localize("CARDIGAN.ArmorType.Acessorios"), icon: "fa-solid fa-gem" },
+      { key: "head", label: game.i18n.localize("CARDIGAN.ArmorType.Cabeca"), icon: "fa-solid fa-hat-hard" },
+      { key: "accessories", label: game.i18n.localize("CARDIGAN.ArmorType.Acessorios"), icon: "fa-solid fa-gem" },
       { key: "torso", label: game.i18n.localize("CARDIGAN.ArmorType.Torso"), icon: "fa-solid fa-shirt" },
-      { key: "bracos", label: game.i18n.localize("CARDIGAN.ArmorType.Bracos"), icon: "fa-solid fa-hand-fist" },
-      { key: "pernas", label: game.i18n.localize("CARDIGAN.ArmorType.Pernas"), icon: "fa-solid fa-socks" },
-      { key: "pes", label: game.i18n.localize("CARDIGAN.ArmorType.Pes"), icon: "fa-solid fa-shoe-prints" }
+      { key: "arms", label: game.i18n.localize("CARDIGAN.ArmorType.Bracos"), icon: "fa-solid fa-hand-fist" },
+      { key: "legs", label: game.i18n.localize("CARDIGAN.ArmorType.Pernas"), icon: "fa-solid fa-socks" },
+      { key: "feet", label: game.i18n.localize("CARDIGAN.ArmorType.Pes"), icon: "fa-solid fa-shoe-prints" }
     ];
     
     return context;
