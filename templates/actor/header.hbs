@@ -247,146 +247,41 @@
     {{! Right Aside }}
     <aside class='header-right'>
       {{! Fracture Field }}
-      <div class='fracture-field'>
-        <div class='icon-arrow-wrapper'>
-          <img src='systems/cardigan/assets/images/decorative/icons/icon-fracture.svg' alt='Fracture' class='fracture-icon' data-tooltip='CARDIGAN.Tooltip.Fracture' data-tooltip-class='cardigan-tooltip'/>
-          <i class="fa-solid fa-caret-right triangle-arrow"></i>
-        </div>
-        <div class='sequential-group' data-field='fracture'>
-          <input type='hidden' name='system.status.fracture' value='{{system.status.fracture}}' data-dtype='Number' />
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='1'
-              {{#if (gte system.status.fracture 1)}}checked{{/if}}
-            />
-          </label>
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='2'
-              {{#if (gte system.status.fracture 2)}}checked{{/if}}
-            />
-          </label>
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='3'
-              {{#if (gte system.status.fracture 3)}}checked{{/if}}
-            />
-          </label>
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='4'
-              {{#if (gte system.status.fracture 4)}}checked{{/if}}
-            />
-          </label>
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='5'
-              {{#if (gte system.status.fracture 5)}}checked{{/if}}
-            />
-          </label>
-        </div>
-      </div>
+      {{> "systems/cardigan/templates/actor/partials/sequential-status-field.hbs"
+        fieldClass="fracture-field"
+        iconSrc="systems/cardigan/assets/images/decorative/icons/icon-fracture.svg"
+        iconAlt="Fracture"
+        iconClass="fracture-icon"
+        tooltipKey="CARDIGAN.Tooltip.Fracture"
+        fieldName="fracture"
+        statusValue=system.status.fracture
+      }}
       <div class='border-divider'>
         <img src='systems/cardigan/assets/images/decorative/border-bottom.svg' alt='' />
       </div>
       {{! Toxicity Field }}
-      <div class='toxicity-field'>
-        <div class='icon-arrow-wrapper'>
-          <img src='systems/cardigan/assets/images/decorative/icons/icon-toxic.svg' alt='Toxicity' class='toxicity-icon' data-tooltip='CARDIGAN.Tooltip.Toxicity' data-tooltip-class='cardigan-tooltip'/>
-          <i class="fa-solid fa-caret-right triangle-arrow"></i>
-        </div>
-        <div class='sequential-group' data-field='toxicity'>
-          <input type='hidden' name='system.status.toxicity' value='{{system.status.toxicity}}' data-dtype='Number' />
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='1'
-              {{#if (gte system.status.toxicity 1)}}checked{{/if}}
-            />
-          </label>
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='2'
-              {{#if (gte system.status.toxicity 2)}}checked{{/if}}
-            />
-          </label>
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='3'
-              {{#if (gte system.status.toxicity 3)}}checked{{/if}}
-            />
-          </label>
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='4'
-              {{#if (gte system.status.toxicity 4)}}checked{{/if}}
-            />
-          </label>
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='5'
-              {{#if (gte system.status.toxicity 5)}}checked{{/if}}
-            />
-          </label>
-        </div>
-      </div>
+      {{> "systems/cardigan/templates/actor/partials/sequential-status-field.hbs"
+        fieldClass="toxicity-field"
+        iconSrc="systems/cardigan/assets/images/decorative/icons/icon-toxic.svg"
+        iconAlt="Toxicity"
+        iconClass="toxicity-icon"
+        tooltipKey="CARDIGAN.Tooltip.Toxicity"
+        fieldName="toxicity"
+        statusValue=system.status.toxicity
+      }}
       <div class='border-divider'>
         <img src='systems/cardigan/assets/images/decorative/border-bottom.svg' alt='' />
       </div>
       {{! Sanity Field }}
-      <div class='sanity-field'>
-        <div class='icon-arrow-wrapper'>
-          <img src='systems/cardigan/assets/images/decorative/icons/icon-sanity.svg' alt='Sanity' class='sanity-icon' data-tooltip='CARDIGAN.Tooltip.Sanity' data-tooltip-class='cardigan-tooltip'/>
-          <i class="fa-solid fa-caret-right triangle-arrow"></i>
-        </div>
-        <div class='sequential-group' data-field='sanity'>
-          <input type='hidden' name='system.status.sanity' value='{{system.status.sanity}}' data-dtype='Number' />
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='1'
-              {{#if (gte system.status.sanity 1)}}checked{{/if}}
-            />
-          </label>
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='2'
-              {{#if (gte system.status.sanity 2)}}checked{{/if}}
-            />
-          </label>
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='3'
-              {{#if (gte system.status.sanity 3)}}checked{{/if}}
-            />
-          </label>
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='4'
-              {{#if (gte system.status.sanity 4)}}checked{{/if}}
-            />
-          </label>
-          <label class='sequential-option'>
-            <input
-              type='checkbox'
-              data-level='5'
-              {{#if (gte system.status.sanity 5)}}checked{{/if}}
-            />
-          </label>
-        </div>
-      </div>
+      {{> "systems/cardigan/templates/actor/partials/sequential-status-field.hbs"
+        fieldClass="sanity-field"
+        iconSrc="systems/cardigan/assets/images/decorative/icons/icon-sanity.svg"
+        iconAlt="Sanity"
+        iconClass="sanity-icon"
+        tooltipKey="CARDIGAN.Tooltip.Sanity"
+        fieldName="sanity"
+        statusValue=system.status.sanity
+      }}
       <div class='border-divider border-divider-sanity'>
         <img src='systems/cardigan/assets/images/decorative/border-bottom.svg' alt='' />
       </div>

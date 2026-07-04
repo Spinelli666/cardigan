@@ -1,0 +1,46 @@
+{{!-- sequential-status-field.hbs: campo de status sequencial com ícone e 5 checkboxes --}}
+{{!-- Parâmetros: fieldClass, iconSrc, iconAlt, iconClass, tooltipKey, fieldName, statusValue --}}
+<div class='{{fieldClass}}'>
+  <div class='icon-arrow-wrapper'>
+    <img src='{{iconSrc}}' alt='{{iconAlt}}' class='{{iconClass}}' data-tooltip='{{tooltipKey}}' data-tooltip-class='cardigan-tooltip'/>
+    <i class="fa-solid fa-caret-right triangle-arrow"></i>
+  </div>
+  <div class='sequential-group' data-field='{{fieldName}}'>
+    <input type='hidden' name='{{concat "system.status." fieldName}}' value='{{statusValue}}' data-dtype='Number' />
+    <label class='sequential-option'>
+      <input
+        type='checkbox'
+        data-level='1'
+        {{#if (gte statusValue 1)}}checked{{/if}}
+      />
+    </label>
+    <label class='sequential-option'>
+      <input
+        type='checkbox'
+        data-level='2'
+        {{#if (gte statusValue 2)}}checked{{/if}}
+      />
+    </label>
+    <label class='sequential-option'>
+      <input
+        type='checkbox'
+        data-level='3'
+        {{#if (gte statusValue 3)}}checked{{/if}}
+      />
+    </label>
+    <label class='sequential-option'>
+      <input
+        type='checkbox'
+        data-level='4'
+        {{#if (gte statusValue 4)}}checked{{/if}}
+      />
+    </label>
+    <label class='sequential-option'>
+      <input
+        type='checkbox'
+        data-level='5'
+        {{#if (gte statusValue 5)}}checked{{/if}}
+      />
+    </label>
+  </div>
+</div>
