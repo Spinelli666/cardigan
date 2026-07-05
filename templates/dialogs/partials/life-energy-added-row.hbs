@@ -1,0 +1,34 @@
+{{!-- life-energy-added-row.hbs: linha de preview de modificador de Vida/Energia --}}
+{{!-- Parâmetros: icon, alt, formula, isTemporary, isDecrease --}}
+<div class='consumable-item-life-energy-added-row'>
+  <img
+    class='consumable-item-life-energy-added-icon'
+    src='systems/cardigan/assets/images/decorative/icons/{{icon}}'
+    alt='{{alt}}'
+  />
+  <div class='consumable-item-life-energy-added-line'>
+    <div class='consumable-item-life-energy-added-entry'>
+      <span class='consumable-item-life-energy-added-formula'>{{formula}}</span>
+    </div>
+    <div class='consumable-item-life-energy-added-flags'>
+      {{#if isDecrease}}
+        <span
+          class='consumable-item-life-energy-added-type-symbol consumable-item-life-energy-added-decrease-symbol'
+          data-tooltip='Remover'
+          data-tooltip-class='cardigan-tooltip'
+        >-</span>
+      {{else}}
+        <span
+          class='consumable-item-life-energy-added-type-symbol consumable-item-life-energy-added-increase-symbol'
+          data-tooltip='Adicionar'
+          data-tooltip-class='cardigan-tooltip'
+        >+</span>
+      {{/if}}
+    </div>
+    {{#if isTemporary}}
+      <div class='consumable-item-life-energy-added-temp' data-tooltip='Temporário' data-tooltip-class='cardigan-tooltip'>
+        <p>PVT</p>
+      </div>
+    {{/if}}
+  </div>
+</div>

@@ -60,9 +60,10 @@ export class LifeEnergyDialogListeners {
       return formula;
     };
 
-    const renderAddedContent = () => {
+    const addedRowTemplatePath = 'systems/cardigan/templates/dialogs/partials/life-energy-added-row.hbs';
+
+    const renderAddedContent = async () => {
       if (!addedContentContainer) return;
-      addedContentContainer.innerHTML = '';
 
       const sys = sheet.item.system;
       const lifeFormula = buildLifeFormula(sys);
@@ -88,66 +89,17 @@ export class LifeEnergyDialogListeners {
       }
 
       if (!entries.length) {
+        addedContentContainer.innerHTML = '';
         addedContentContainer.classList.add('hidden');
         return;
       }
 
       addedContentContainer.classList.remove('hidden');
 
-      entries.forEach(({ icon, alt, formula, isTemporary, isDecrease }) => {
-        const row = document.createElement('div');
-        row.className = 'consumable-item-life-energy-added-row';
-
-        const iconImg = document.createElement('img');
-        iconImg.className = 'consumable-item-life-energy-added-icon';
-        iconImg.src = `systems/cardigan/assets/images/decorative/icons/${icon}`;
-        iconImg.alt = alt;
-
-        const line = document.createElement('div');
-        line.className = 'consumable-item-life-energy-added-line';
-
-        const entry = document.createElement('div');
-        entry.className = 'consumable-item-life-energy-added-entry';
-
-        const formulaSpan = document.createElement('span');
-        formulaSpan.className = 'consumable-item-life-energy-added-formula';
-        formulaSpan.textContent = formula;
-
-        entry.appendChild(formulaSpan);
-
-        const flags = document.createElement('div');
-        flags.className = 'consumable-item-life-energy-added-flags';
-
-        const typeSymbol = document.createElement('span');
-        typeSymbol.className = isDecrease
-          ? 'consumable-item-life-energy-added-type-symbol consumable-item-life-energy-added-decrease-symbol'
-          : 'consumable-item-life-energy-added-type-symbol consumable-item-life-energy-added-increase-symbol';
-        typeSymbol.textContent = isDecrease ? '-' : '+';
-        typeSymbol.dataset.tooltip = isDecrease ? 'Remover' : 'Adicionar';
-        typeSymbol.dataset.tooltipClass = 'cardigan-tooltip';
-        flags.appendChild(typeSymbol);
-
-        line.appendChild(entry);
-        line.appendChild(flags);
-
-        if (isTemporary) {
-          const temp = document.createElement('div');
-          temp.className = 'consumable-item-life-energy-added-temp';
-          temp.dataset.tooltip = 'Temporário';
-          temp.dataset.tooltipClass = 'cardigan-tooltip';
-
-          const tempText = document.createElement('p');
-          tempText.textContent = 'PVT';
-          temp.appendChild(tempText);
-
-          line.appendChild(temp);
-        }
-
-        row.appendChild(iconImg);
-        row.appendChild(line);
-
-        addedContentContainer.appendChild(row);
-      });
+      const rows = await Promise.all(
+        entries.map((entry) => foundry.applications.handlebars.renderTemplate(addedRowTemplatePath, entry))
+      );
+      addedContentContainer.innerHTML = rows.join('');
     };
 
     renderAddedContent();
@@ -596,7 +548,7 @@ export class LifeEnergyDialogListeners {
           'system.energyModifierDoubleSkill': energyDouble
         });
 
-        renderAddedContent();
+        await renderAddedContent();
         dialog.close();
       });
     };
