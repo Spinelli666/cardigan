@@ -1,0 +1,26 @@
+{{!-- ability-dropdown.hbs: dropdown customizado de seleção de perícia/habilidade (9 opções fixas) --}}
+{{!-- Parâmetros: wrapperClass, wrapperAttr, inputClass, inputValue, inputName (opcional), inputDataType (opcional), inputDataAttr (opcional), triggerClass, triggerAttr, labelClass, labelAttr, menuClass, menuAttr, optionClass, optionAttr, selectedValue (opcional) --}}
+<div class="{{wrapperClass}}" {{wrapperAttr}}>
+  <input
+    type="hidden"
+    class="{{inputClass}}"
+    value="{{inputValue}}"
+    {{#if inputName}}name="{{inputName}}"{{/if}}
+    {{#if inputDataType}}data-dtype="{{inputDataType}}"{{/if}}
+    {{#if inputDataAttr}}{{inputDataAttr}}{{/if}}
+  />
+  <button type="button" class="{{triggerClass}}" {{triggerAttr}} aria-haspopup="listbox" aria-expanded="false">
+    <span class="{{labelClass}}" {{labelAttr}}>Precisão</span>
+  </button>
+  <div class="{{menuClass}} is-collapsed" {{menuAttr}} role="listbox">
+    <button type="button" class="{{optionClass}}{{#if (eq selectedValue "accuracy")}} is-selected{{/if}}" {{optionAttr}} data-value="accuracy">Precisão</button>
+    <button type="button" class="{{optionClass}}{{#if (eq selectedValue "evasion")}} is-selected{{/if}}" {{optionAttr}} data-value="evasion">Evasão</button>
+    <button type="button" class="{{optionClass}}{{#if (eq selectedValue "strength")}} is-selected{{/if}}" {{optionAttr}} data-value="strength">Força</button>
+    <button type="button" class="{{optionClass}}{{#if (eq selectedValue "dexterity")}} is-selected{{/if}}" {{optionAttr}} data-value="dexterity">Destreza</button>
+    <button type="button" class="{{optionClass}}{{#if (eq selectedValue "stamina")}} is-selected{{/if}}" {{optionAttr}} data-value="stamina">Vigor</button>
+    <button type="button" class="{{optionClass}}{{#if (eq selectedValue "stealth")}} is-selected{{/if}}" {{optionAttr}} data-value="stealth">Furtividade</button>
+    <button type="button" class="{{optionClass}}{{#if (eq selectedValue "persuasion")}} is-selected{{/if}}" {{optionAttr}} data-value="persuasion">Persuasão</button>
+    <button type="button" class="{{optionClass}}{{#if (eq selectedValue "intelligence")}} is-selected{{/if}}" {{optionAttr}} data-value="intelligence">Inteligência</button>
+    <button type="button" class="{{optionClass}}{{#if (eq selectedValue "psionics")}} is-selected{{/if}}" {{optionAttr}} data-value="psionics">Psionismo</button>
+  </div>
+</div>

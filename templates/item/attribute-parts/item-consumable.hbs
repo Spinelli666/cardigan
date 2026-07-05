@@ -364,23 +364,22 @@
       </div>
 
       <div class="consumable-item-skill-test-system {{#unless system.hasSkillCheck}}hidden{{/unless}}" data-skill-check-section>
-        <div class="form-group skill-selection" data-consumable-skill-ability>
-          <input type="hidden" name="system.skillCheckAbility" value="{{system.skillCheckAbility}}" data-dtype="String" class="consumable-item-skill-ability-input" />
-          <button type="button" class="consumable-item-skill-ability-trigger" data-consumable-skill-ability-trigger aria-haspopup="listbox" aria-expanded="false">
-            <span class="consumable-item-skill-ability-label" data-consumable-skill-ability-label>Precisão</span>
-          </button>
-          <div class="consumable-item-skill-ability-menu is-collapsed" data-consumable-skill-ability-menu role="listbox">
-            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="accuracy">Precisão</button>
-            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="evasion">Evasão</button>
-            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="strength">Força</button>
-            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="dexterity">Destreza</button>
-            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="stamina">Vigor</button>
-            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="stealth">Furtividade</button>
-            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="persuasion">Persuasão</button>
-            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="intelligence">Inteligência</button>
-            <button type="button" class="consumable-item-skill-ability-option" data-consumable-skill-ability-option data-value="psionics">Psionismo</button>
-          </div>
-        </div>
+        {{> "systems/cardigan/templates/partials/ability-dropdown.hbs"
+          wrapperClass="form-group skill-selection"
+          wrapperAttr="data-consumable-skill-ability"
+          inputClass="consumable-item-skill-ability-input"
+          inputValue=system.skillCheckAbility
+          inputName="system.skillCheckAbility"
+          inputDataType="String"
+          triggerClass="consumable-item-skill-ability-trigger"
+          triggerAttr="data-consumable-skill-ability-trigger"
+          labelClass="consumable-item-skill-ability-label"
+          labelAttr="data-consumable-skill-ability-label"
+          menuClass="consumable-item-skill-ability-menu"
+          menuAttr="data-consumable-skill-ability-menu"
+          optionClass="consumable-item-skill-ability-option"
+          optionAttr="data-consumable-skill-ability-option"
+        }}
         <div class="consumable-item-skill-test-advantage-controls">
           <label class="consumable-item-skill-test-advantage-toggle" aria-label="Desvantagem aprimorada" data-tooltip="Desvantagem Aprimorada" data-tooltip-class='cardigan-tooltip'>
             <input
