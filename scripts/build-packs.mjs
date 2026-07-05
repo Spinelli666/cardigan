@@ -36,6 +36,15 @@ try {
   );
   console.log("✅ Compêndio races-cardigan compilado!");
 
+  // Compilar equipment-cardigan
+  console.log("Compilando compêndio equipment-cardigan...");
+  await compilePack(
+    path.join(SYSTEM_ROOT, 'src', 'packs', 'equipment-cardigan'),
+    path.join(SYSTEM_ROOT, 'packs', 'equipment-cardigan'),
+    { yaml: false, recursive: true }
+  );
+  console.log("✅ Compêndio equipment-cardigan compilado!");
+
   console.log("🎉 Todos os compêndios compilados com sucesso!");
 } catch (error) {
   console.error("❌ Erro ao compilar compêndios:", error);
