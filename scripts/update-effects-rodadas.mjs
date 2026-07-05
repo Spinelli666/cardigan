@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Script para adicionar o campo 'rodadas' em todos os efeitos do compendium
  * Usage: node scripts/update-effects-rodadas.mjs
  */
@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const EFFECTS_DIR = path.join(__dirname, '..', 'src', 'packs', 'efeitos-cardigan');
+const EFFECTS_DIR = path.join(__dirname, '..', 'src', 'packs', 'effects-cardigan');
 
 console.log('🔄 Atualizando efeitos com campo "rodadas"...\n');
 

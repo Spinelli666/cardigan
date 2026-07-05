@@ -37,7 +37,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Suas Adagas possuem a <em>Propriedade</em> <strong><code>Ferir</code></strong>, aplicando <strong><code>🩸@UUID[Compendium.cardigan.efeitos-cardigan.Item.Z2aA3bB4cCd5eE6F]{Sangramento}</code></strong> em um <em>Acerto Crítico</em>.</p>",
+        "description": "<p style=\"text-align: justify;\">Suas Adagas possuem a <em>Propriedade</em> <strong><code>Ferir</code></strong>, aplicando <strong><code>🩸@UUID[Compendium.cardigan.effects-cardigan.Item.Z2aA3bB4cCd5eE6F]{Sangramento}</code></strong> em um <em>Acerto Crítico</em>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": true,

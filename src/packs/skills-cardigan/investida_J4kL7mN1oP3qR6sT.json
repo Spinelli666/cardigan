@@ -27,7 +27,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">O último inimigo atingido recebe <strong><code>🏃‍♂️@UUID[Compendium.cardigan.efeitos-cardigan.Item.mN2nO3oP4pQ5qR6r]{Caído}¹</code></strong> automaticamente.</p>",
+        "description": "<p style=\"text-align: justify;\">O último inimigo atingido recebe <strong><code>🏃‍♂️@UUID[Compendium.cardigan.effects-cardigan.Item.mN2nO3oP4pQ5qR6r]{Caído}¹</code></strong> automaticamente.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": true,

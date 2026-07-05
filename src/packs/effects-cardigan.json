@@ -1,9 +1,9 @@
-{
-  "package": "cardigan.efeitos-cardigan",
+﻿{
+  "package": "cardigan.effects-cardigan",
   "metadata": {
-    "name": "efeitos-cardigan",
+    "name": "effects-cardigan",
     "label": "Efeitos",
-    "path": "systems/cardigan/packs/efeitos-cardigan",
+    "path": "systems/cardigan/packs/effects-cardigan",
     "type": "Item",
     "system": "cardigan",
     "ownership": {
@@ -13,7 +13,7 @@
     "flags": {},
     "packageType": "system",
     "packageName": "cardigan",
-    "id": "cardigan.efeitos-cardigan"
+    "id": "cardigan.effects-cardigan"
   },
   "type": "Item",
   "items": [
@@ -203,7 +203,7 @@
     }
   ],
   "folder": {
-    "id": "efeitos-cardigan-folder",
+    "id": "effects-cardigan-folder",
     "name": "Efeitos do Cardigan"
   }
 }

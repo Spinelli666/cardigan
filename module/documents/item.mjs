@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
@@ -453,7 +453,7 @@ export class CardiganSystemItem extends Item {
       if (tracking.appliedEffects && tracking.appliedEffects.length > 0) {
         for (const effectId of tracking.appliedEffects) {
           // Find and remove effect from actor
-          const pack = game.packs.get("cardigan.efeitos-cardigan");
+          const pack = game.packs.get("cardigan.effects-cardigan");
           if (pack) {
             const effectDoc = await pack.getDocument(effectId);
             if (effectDoc) {

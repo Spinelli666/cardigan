@@ -27,7 +27,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">Acertos Críticos aplicam uma <strong><code>⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong> acumulativa.</p>",
+        "description": "<p style=\"text-align: justify;\">Acertos Críticos aplicam uma <strong><code>⛓️‍💥@UUID[Compendium.cardigan.effects-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong> acumulativa.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

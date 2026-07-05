@@ -1,9 +1,9 @@
-{
-  "package": "cardigan.racas-cardigan",
+﻿{
+  "package": "cardigan.races-cardigan",
   "metadata": {
-    "name": "racas-cardigan",
+    "name": "races-cardigan",
     "label": "Raças",
-    "path": "systems/cardigan/packs/racas-cardigan",
+    "path": "systems/cardigan/packs/races-cardigan",
     "type": "Item",
     "system": "cardigan",
     "ownership": {
@@ -13,7 +13,7 @@
     "flags": {},
     "packageType": "system",
     "packageName": "cardigan",
-    "id": "cardigan.racas-cardigan"
+    "id": "cardigan.races-cardigan"
   },
   "type": "Item",
   "folders": [],

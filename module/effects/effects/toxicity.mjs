@@ -1,4 +1,4 @@
-import BaseEffect from '../base-effect.mjs';
+﻿import BaseEffect from '../base-effect.mjs';
 
 /**
  * Toxicidade Effect
@@ -7,7 +7,7 @@ import BaseEffect from '../base-effect.mjs';
  */
 export class ToxicidadeEffect extends BaseEffect {
   static effectName = 'Toxicidade';
-  static compendiumName = 'cardigan.efeitos-cardigan';
+  static compendiumName = 'cardigan.effects-cardigan';
   static _syncInProgress = new Set(); // Track actors being synced to prevent concurrent operations
 
   /**

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Consumable Actions Module
  * Handles consumable item consumption, skill checks, critical effects and temporary modifiers.
  */
@@ -158,7 +158,7 @@ export class ConsumableActions {
       for (const effect of effects) {
         if (!effect.effectId || (!effect.apply && !effect.remove)) continue;
 
-        const pack = game.packs.get("cardigan.efeitos-cardigan");
+        const pack = game.packs.get("cardigan.effects-cardigan");
         const effectDocument = await pack.getDocument(effect.effectId);
 
         if (!effectDocument) {
@@ -898,7 +898,7 @@ export class ConsumableActions {
           if (effectId && effectId.trim() !== "") {
             await ConsumableActions.applyCriticalFailureEffect(effectId, sheet);
 
-            const effect = game.packs.find(p => p.metadata.id === "cardigan.efeitos-cardigan")?.index.get(effectId);
+            const effect = game.packs.find(p => p.metadata.id === "cardigan.effects-cardigan")?.index.get(effectId);
             const effectName = effect?.name || effectId;
             criticalFailureMessages.push(`Applied effect: <strong>${effectName}</strong>`);
           }
@@ -946,7 +946,7 @@ export class ConsumableActions {
    */
   static async applyCriticalFailureEffect(effectId, sheet) {
     try {
-      const pack = game.packs.get("cardigan.efeitos-cardigan");
+      const pack = game.packs.get("cardigan.effects-cardigan");
       if (!pack) {
         console.warn("Could not find effects compendium");
         return;
@@ -1005,7 +1005,7 @@ export class ConsumableActions {
           if (effectId && effectId.trim() !== "") {
             await ConsumableActions.applyCriticalHitEffect(effectId, sheet);
 
-            const effect = game.packs.find(p => p.metadata.id === "cardigan.efeitos-cardigan")?.index.get(effectId);
+            const effect = game.packs.find(p => p.metadata.id === "cardigan.effects-cardigan")?.index.get(effectId);
             const effectName = effect?.name || effectId;
             criticalHitMessages.push(`Applied effect: <strong>${effectName}</strong>`);
           }
@@ -1053,7 +1053,7 @@ export class ConsumableActions {
    */
   static async applyCriticalHitEffect(effectId, sheet) {
     try {
-      const pack = game.packs.get("cardigan.efeitos-cardigan");
+      const pack = game.packs.get("cardigan.effects-cardigan");
       if (!pack) {
         console.warn("Could not find effects compendium");
         return;
@@ -1165,7 +1165,7 @@ export class ConsumableActions {
       if (appliedEffects.length > 0) {
         effectDescriptions.push('<strong>Applied Effects:</strong>');
         for (const effectId of appliedEffects) {
-          const pack = game.packs.get("cardigan.efeitos-cardigan");
+          const pack = game.packs.get("cardigan.effects-cardigan");
           if (pack) {
             const effectDoc = await pack.getDocument(effectId);
             const effectName = effectDoc?.name || effectId;

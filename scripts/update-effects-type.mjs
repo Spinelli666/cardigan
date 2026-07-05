@@ -1,11 +1,11 @@
-import fs from 'fs';
+﻿import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const efeitosDir = path.join(__dirname, '..', 'src', 'packs', 'efeitos-cardigan');
+const efeitosDir = path.join(__dirname, '..', 'src', 'packs', 'effects-cardigan');
 
 // Read all JSON files in the directory
 const files = fs.readdirSync(efeitosDir).filter(file => 
@@ -72,6 +72,6 @@ console.log(`Total files processed: ${files.length}`);
 console.log(`Files updated: ${updatedCount}`);
 console.log(`Errors: ${errors}`);
 console.log('\nNext steps:');
-console.log('1. Review the changes in src/packs/efeitos-cardigan/');
+console.log('1. Review the changes in src/packs/effects-cardigan/');
 console.log('2. Run: npm run build:packs');
 console.log('3. Restart Foundry VTT to see the changes');

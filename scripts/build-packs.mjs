@@ -1,4 +1,4 @@
-import { compilePack } from "@foundryvtt/foundryvtt-cli";
+﻿import { compilePack } from "@foundryvtt/foundryvtt-cli";
 import path from "path";
 import { fileURLToPath } from 'url';
 
@@ -9,14 +9,14 @@ const SYSTEM_ROOT = path.resolve(__dirname, '..');
 console.log("Compilando compêndios do sistema Cardigan...");
 
 try {
-  // Compilar efeitos-cardigan
-  console.log("Compilando compêndio efeitos-cardigan...");
+  // Compilar effects-cardigan
+  console.log("Compilando compêndio effects-cardigan...");
   await compilePack(
-    path.join(SYSTEM_ROOT, 'src', 'packs', 'efeitos-cardigan'),
-    path.join(SYSTEM_ROOT, 'packs', 'efeitos-cardigan'),
+    path.join(SYSTEM_ROOT, 'src', 'packs', 'effects-cardigan'),
+    path.join(SYSTEM_ROOT, 'packs', 'effects-cardigan'),
     { yaml: false, recursive: true }
   );
-  console.log("✅ Compêndio efeitos-cardigan compilado!");
+  console.log("✅ Compêndio effects-cardigan compilado!");
 
   // Compilar skills-cardigan
   console.log("Compilando compêndio skills-cardigan...");
@@ -27,14 +27,14 @@ try {
   );
   console.log("✅ Compêndio skills-cardigan compilado!");
 
-  // Compilar racas-cardigan
-  console.log("Compilando compêndio racas-cardigan...");
+  // Compilar races-cardigan
+  console.log("Compilando compêndio races-cardigan...");
   await compilePack(
-    path.join(SYSTEM_ROOT, 'src', 'packs', 'racas-cardigan'),
-    path.join(SYSTEM_ROOT, 'packs', 'racas-cardigan'),
+    path.join(SYSTEM_ROOT, 'src', 'packs', 'races-cardigan'),
+    path.join(SYSTEM_ROOT, 'packs', 'races-cardigan'),
     { yaml: false, recursive: true }
   );
-  console.log("✅ Compêndio racas-cardigan compilado!");
+  console.log("✅ Compêndio races-cardigan compilado!");
 
   console.log("🎉 Todos os compêndios compilados com sucesso!");
 } catch (error) {

@@ -1,4 +1,4 @@
-import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
+﻿import { prepareActiveEffectCategories } from '../helpers/effects.mjs';
 import SkillEnhancementConfigDialog from '../applications/skill-enhancement-config-dialog.mjs';
 import SkillLinkedSkillsDialog from '../applications/skill-linked-skills-dialog.mjs';
 import RacialSkillsSelectionDialog from '../applications/racial-skills-selection-dialog.mjs';
@@ -1886,7 +1886,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
    */
   async _loadAvailableEffects() {
     try {
-      const pack = game.packs.get("cardigan.efeitos-cardigan");
+      const pack = game.packs.get("cardigan.effects-cardigan");
       if (!pack) {
         console.warn('[CARDIGAN] Effects compendium not found!');
         return [];

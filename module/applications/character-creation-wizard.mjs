@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Character Creation Wizard Dialog
  * Multi-step wizard for creating new characters
  */
@@ -269,7 +269,7 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
       const allRaces = [];
       
       // Carregar raças do compendium
-      const pack = game.packs.get("cardigan.racas-cardigan");
+      const pack = game.packs.get("cardigan.races-cardigan");
       if (pack) {
         const documents = await pack.getDocuments();
         const compendiumRaces = documents
@@ -321,7 +321,7 @@ export class CharacterCreationWizard extends foundry.applications.api.Handlebars
    */
   async _loadEquipment() {
     try {
-      const pack = game.packs.get("cardigan.equipamentos-cardigan");
+      const pack = game.packs.get("cardigan.equipment-cardigan");
       if (!pack) {
         console.error('[CharacterWizard] Equipment compendium not found');
         return;

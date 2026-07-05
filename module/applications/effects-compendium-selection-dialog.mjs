@@ -1,4 +1,4 @@
-const { api } = foundry.applications;
+﻿const { api } = foundry.applications;
 
 /**
  * A dialog for selecting effects from the compendium
@@ -63,12 +63,12 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
    * @private
    */
   async _getEffectsFromCompendium() {
-    const pack = game.packs.get('cardigan.efeitos-cardigan');
+    const pack = game.packs.get('cardigan.effects-cardigan');
     const mappedEffects = [];
 
     // 1) Effects from system compendium
     if (!pack) {
-      console.warn('[CARDIGAN] Compendium "efeitos-cardigan" not found');
+      console.warn('[CARDIGAN] Compendium "effects-cardigan" not found');
     } else {
       const compendiumDocs = await pack.getDocuments();
       mappedEffects.push(...compendiumDocs.filter(doc => doc.type === 'efeito').map(doc => ({

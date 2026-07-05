@@ -37,7 +37,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Aumenta o dano básico de <strong><code>🐍@UUID[Compendium.cardigan.efeitos-cardigan.Item.Uu7vV8wW9xX0yY1z]{Envenenado}</code></strong> para <strong><code>🐍10</code></strong> po Rodada.</p>",
+        "description": "<p style=\"text-align: justify;\">Aumenta o dano básico de <strong><code>🐍@UUID[Compendium.cardigan.effects-cardigan.Item.Uu7vV8wW9xX0yY1z]{Envenenado}</code></strong> para <strong><code>🐍10</code></strong> po Rodada.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

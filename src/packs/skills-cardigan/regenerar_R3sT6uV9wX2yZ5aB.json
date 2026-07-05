@@ -17,7 +17,7 @@
     "enhancements": [
       {
         "name": "Aprimoramento 1",
-        "description": "<p style=\"text-align: justify;\">Agora remove todas as <strong><code>1</code></strong> <strong><code>⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fraturas}</code></strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Agora remove todas as <strong><code>1</code></strong> <strong><code>⛓️‍💥@UUID[Compendium.cardigan.effects-cardigan.Item.w4xY6z7A8bC9dE0F]{Fraturas}</code></strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": false,

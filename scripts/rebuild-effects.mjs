@@ -1,4 +1,4 @@
-import { compilePack } from "@foundryvtt/foundryvtt-cli";
+﻿import { compilePack } from "@foundryvtt/foundryvtt-cli";
 import path from "path";
 import { fileURLToPath } from 'url';
 
@@ -9,8 +9,8 @@ const SYSTEM_ROOT = path.resolve(__dirname, '..');
 console.log("🔄 Reconstruindo compêndio de efeitos...");
 
 try {
-  const sourcePath = path.join(SYSTEM_ROOT, 'src', 'packs', 'efeitos-cardigan');
-  const destPath = path.join(SYSTEM_ROOT, 'packs', 'efeitos-cardigan');
+  const sourcePath = path.join(SYSTEM_ROOT, 'src', 'packs', 'effects-cardigan');
+  const destPath = path.join(SYSTEM_ROOT, 'packs', 'effects-cardigan');
   
   console.log(`📂 Fonte: ${sourcePath}`);
   console.log(`📂 Destino: ${destPath}`);

@@ -1,4 +1,4 @@
-import BaseEffect from '../base-effect.mjs';
+﻿import BaseEffect from '../base-effect.mjs';
 
 /**
  * Fratura Effect
@@ -6,7 +6,7 @@ import BaseEffect from '../base-effect.mjs';
  */
 export class FraturaEffect extends BaseEffect {
   static effectName = 'Fratura';
-  static compendiumName = 'cardigan.efeitos-cardigan';
+  static compendiumName = 'cardigan.effects-cardigan';
 
   /**
    * Synchronize the Fratura effect item based on fracture status level

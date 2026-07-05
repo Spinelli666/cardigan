@@ -175,7 +175,7 @@ Hooks.once('init', function () {
 /* -------------------------------------------- */
 
 /**
- * Load status effects from the efeitos-cardigan compendium
+ * Load status effects from the effects-cardigan compendium
  * and populate CONFIG.statusEffects for token HUD
  */
 async function loadStatusEffects() {
@@ -183,7 +183,7 @@ async function loadStatusEffects() {
     console.log('[CARDIGAN] Loading status effects from compendium...');
     
     // Get the effects compendium
-    const pack = game.packs.get('cardigan.efeitos-cardigan');
+    const pack = game.packs.get('cardigan.effects-cardigan');
     if (!pack) {
       console.warn('[CARDIGAN] Effects compendium not found');
       return;
@@ -208,7 +208,7 @@ async function loadStatusEffects() {
         name: doc.name,
         img: doc.img,
         // Store reference to the compendium item for later use
-        _source: `Compendium.cardigan.efeitos-cardigan.Item.${doc.id}`
+        _source: `Compendium.cardigan.effects-cardigan.Item.${doc.id}`
       };
       
       // Separate by type

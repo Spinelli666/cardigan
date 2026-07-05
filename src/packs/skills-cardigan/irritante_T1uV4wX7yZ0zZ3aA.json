@@ -27,7 +27,7 @@
       },
       {
         "name": "Aprimoramento 2",
-        "description": "<p style=\"text-align: justify;\">Inimigos provocados recebem <strong><code>💢@UUID[Compendium.cardigan.efeitos-cardigan.Item.R6sT7uV8wX9yZ0aB]{Irado}</code></strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Inimigos provocados recebem <strong><code>💢@UUID[Compendium.cardigan.effects-cardigan.Item.R6sT7uV8wX9yZ0aB]{Irado}</code></strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": true,

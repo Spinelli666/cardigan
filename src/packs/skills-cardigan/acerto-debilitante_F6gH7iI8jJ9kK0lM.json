@@ -59,7 +59,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Os efeitos desta habilidade também aplicam <strong><code>+1</code></strong><strong><code>⛓️‍💥@UUID[Compendium.cardigan.efeitos-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong> adicional.</p>",
+        "description": "<p style=\"text-align: justify;\">Os efeitos desta habilidade também aplicam <strong><code>+1</code></strong><strong><code>⛓️‍💥@UUID[Compendium.cardigan.effects-cardigan.Item.w4xY6z7A8bC9dE0F]{Fratura}</code></strong> adicional.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": true,
@@ -79,7 +79,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você mira com cautela nos pontos vitais do inimigo.\"</em></p><br><p></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Após acertar um ataque role <strong><code>1d6</code></strong>. O resultado corresponde a um ponto vital acertado no seu alvo, adicionando um Efeito adicional neste ataque:</p><blockquote><p><strong><code>6</code> ‣ Cabeça:</strong> O alvo recebe <strong><code>💫@UUID[Compendium.cardigan.efeitos-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong>.</p><p><strong><code>5</code> ‣ Torso:</strong> O alvo recebe <strong><code>🩸@UUID[Compendium.cardigan.efeitos-cardigan.Item.Z2aA3bB4cCd5eE6F]{Sangramento}²</code></strong>.</p><p style=\"text-align: justify;\"><strong><code>4・3</code> ‣ Braços:</strong> O alvo recebe <strong><code>👋@UUID[Compendium.cardigan.efeitos-cardigan.Item.hH7iI8jJ9kK0lL1M]{Desarmado}</code></strong> e <strong><code>-1</code> Durabilidade</strong> na ::systems/cardigan/assets/images/weapons/sword.webp::<strong>Arma</strong> equipada.</p><p style=\"text-align: justify;\"><strong><code>2・1</code> ‣ Pernas:</strong> O alvo recebe <strong><code>🏃‍♂️@UUID[Compendium.cardigan.efeitos-cardigan.Item.mN2nO3oP4pQ5qR6r]{Caído}¹</code></strong>.</p></blockquote>"
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Você mira com cautela nos pontos vitais do inimigo.\"</em></p><br><p></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Após acertar um ataque role <strong><code>1d6</code></strong>. O resultado corresponde a um ponto vital acertado no seu alvo, adicionando um Efeito adicional neste ataque:</p><blockquote><p><strong><code>6</code> ‣ Cabeça:</strong> O alvo recebe <strong><code>💫@UUID[Compendium.cardigan.effects-cardigan.Item.eE7fF8gG9hH0iI1J]{Atordoado}¹</code></strong>.</p><p><strong><code>5</code> ‣ Torso:</strong> O alvo recebe <strong><code>🩸@UUID[Compendium.cardigan.effects-cardigan.Item.Z2aA3bB4cCd5eE6F]{Sangramento}²</code></strong>.</p><p style=\"text-align: justify;\"><strong><code>4・3</code> ‣ Braços:</strong> O alvo recebe <strong><code>👋@UUID[Compendium.cardigan.effects-cardigan.Item.hH7iI8jJ9kK0lL1M]{Desarmado}</code></strong> e <strong><code>-1</code> Durabilidade</strong> na ::systems/cardigan/assets/images/weapons/sword.webp::<strong>Arma</strong> equipada.</p><p style=\"text-align: justify;\"><strong><code>2・1</code> ‣ Pernas:</strong> O alvo recebe <strong><code>🏃‍♂️@UUID[Compendium.cardigan.effects-cardigan.Item.mN2nO3oP4pQ5qR6r]{Caído}¹</code></strong>.</p></blockquote>"
   },
   "effects": [],
   "folder": "Sk1AndarilhoXy7Z",

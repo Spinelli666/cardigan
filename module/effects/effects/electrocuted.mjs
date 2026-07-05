@@ -1,4 +1,4 @@
-import BaseEffect from '../base-effect.mjs';
+﻿import BaseEffect from '../base-effect.mjs';
 
 /**
  * Eletrocutado Effect
@@ -199,7 +199,7 @@ export class EletrocutadoEffect extends BaseEffect {
   static async applyAtordoado(actor) {
     try {
       // Get the compendium
-      const pack = game.packs.get('cardigan.efeitos-cardigan');
+      const pack = game.packs.get('cardigan.effects-cardigan');
       if (!pack) {
         ui.notifications.error('Compêndio de efeitos não encontrado!');
         return;

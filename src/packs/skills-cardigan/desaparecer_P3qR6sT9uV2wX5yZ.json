@@ -43,7 +43,7 @@
       },
       {
         "name": "Aprimoramento 3",
-        "description": "<p style=\"text-align: justify;\">Inimigos dentro da área de fumaça recebem <strong><code></code>💨@UUID[Compendium.cardigan.efeitos-cardigan.Item.Pq2pQ3qR4rS5sT6t]{Enfraquecido}</strong>.</p>",
+        "description": "<p style=\"text-align: justify;\">Inimigos dentro da área de fumaça recebem <strong><code></code>💨@UUID[Compendium.cardigan.effects-cardigan.Item.Pq2pQ3qR4rS5sT6t]{Enfraquecido}</strong>.</p>",
         "hasEnergy": false,
         "energyCost": 0,
         "hasEffects": true,
@@ -63,7 +63,7 @@
       false,
       false
     ],
-    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Popularmente utilizado para saídas dramáticas. Seja criativo.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao usar uma <strong>Bomba de Fumaça</strong> - um item que aplica <strong><code>👁️@UUID[Compendium.cardigan.efeitos-cardigan.Item.pP3qQ4rR5sS6tT7u]{Cego}</code></strong> por <strong>2 Rodadas</strong>, adquirível com a habilidade ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Mão Leve</strong> de ::systems/cardigan/assets/images/paths/rogue.webp::<strong>Ladrão</strong> - você agora propaga fumaça pelo dobro da área de Bomba <strong><code>( 14x14m / 6r )</code></strong>.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Gastar esta habilidade ao arremessar a bomba garante à você e seus aliados o efeito <strong><code>👁️‍🗨️@UUID[Compendium.cardigan.efeitos-cardigan.Item.P2qR4sT5uV6wX7yZ]{Infravisão}</code></strong>, permitindo enxergar através da nuvem de fumaça, o que garante <strong>Vantagem</strong> em <strong>Precisão</strong> contra inimigos afetados sem quebrar o efeito <strong><code>👤Furtivo</code></strong>.</p>"
+    "description": "<p><br></p><p style=\"text-align: center;\"><em>\"Popularmente utilizado para saídas dramáticas. Seja criativo.\"</em></p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Ao usar uma <strong>Bomba de Fumaça</strong> - um item que aplica <strong><code>👁️@UUID[Compendium.cardigan.effects-cardigan.Item.pP3qQ4rR5sS6tT7u]{Cego}</code></strong> por <strong>2 Rodadas</strong>, adquirível com a habilidade ::systems/cardigan/assets/images/types-actions/simple-action.webp:: <strong>Mão Leve</strong> de ::systems/cardigan/assets/images/paths/rogue.webp::<strong>Ladrão</strong> - você agora propaga fumaça pelo dobro da área de Bomba <strong><code>( 14x14m / 6r )</code></strong>.</p><p><br></p><p style=\"text-align: justify;\">::systems/cardigan/assets/images/decorative/golden-star.webp::Gastar esta habilidade ao arremessar a bomba garante à você e seus aliados o efeito <strong><code>👁️‍🗨️@UUID[Compendium.cardigan.effects-cardigan.Item.P2qR4sT5uV6wX7yZ]{Infravisão}</code></strong>, permitindo enxergar através da nuvem de fumaça, o que garante <strong>Vantagem</strong> em <strong>Precisão</strong> contra inimigos afetados sem quebrar o efeito <strong><code>👤Furtivo</code></strong>.</p>"
   },
   "effects": [],
   "folder": "Sk3LadinoQwE4RtY",
