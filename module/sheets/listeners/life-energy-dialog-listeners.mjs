@@ -75,7 +75,8 @@ export class LifeEnergyDialogListeners {
           alt: 'Vida',
           formula: lifeFormula,
           isTemporary: sys.healthModifierIsTemporary ?? false,
-          isDecrease: sys.healthModifierType === 'subtract'
+          isDecrease: sys.healthModifierType === 'subtract',
+          tempLabel: 'PVT'
         });
       }
       if (energyFormula) {
@@ -84,7 +85,8 @@ export class LifeEnergyDialogListeners {
           alt: 'Energia',
           formula: energyFormula,
           isTemporary: sys.energyModifierIsTemporary ?? false,
-          isDecrease: sys.energyModifierType === 'subtract'
+          isDecrease: sys.energyModifierType === 'subtract',
+          tempLabel: 'PET'
         });
       }
 
