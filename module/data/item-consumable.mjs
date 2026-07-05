@@ -68,25 +68,6 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     "1d20": "1d20"
   };
 
-  /** Extended dice options including multi-dice (1d4 to 1d20, 2d6, 3d6) */
-  static EXTENDED_DICE_CHOICES = {
-    "1d4": "1d4",
-    "1d6": "1d6",
-    "1d8": "1d8",
-    "1d10": "1d10",
-    "1d12": "1d12",
-    "1d20": "1d20",
-    "2d6": "2d6",
-    "3d6": "3d6"
-  };
-
-  /** Mathematical operations for system modifiers (add/subtract/multiply) */
-  static OPERATION_CHOICES = {
-    "add": "CARDIGAN.Modifiers.Add",
-    "subtract": "CARDIGAN.Modifiers.Subtract",
-    "multiply": "CARDIGAN.Modifiers.Multiply"
-  };
-
   /** Define the data schema for consumable items */
   static defineSchema() {
     const fields = foundry.data.fields;
@@ -670,6 +651,8 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     });
 
     // Modifiers system
+    // NOTE: statusEffects is kept for the schema v1 PT->EN migration (see module/migration/migrate-world.mjs),
+    // and usage.consumeOnUse is read by _useConsumableItem in item-sheet.mjs.
     schema.modifiers = new fields.SchemaField({
       // Status effects (checkboxes)
       statusEffects: new fields.SchemaField({
@@ -680,67 +663,9 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
         toxicity: new fields.NumberField({ required: true, initial: 0 })
       }),
 
-      // Roll system
-      rollSystem: new fields.SchemaField({
-        enabled: new fields.BooleanField({ required: true, initial: false }),
-        diceFormula: new fields.StringField({ 
-          required: true, 
-          blank: true, 
-          initial: "1d20",
-          choices: CardiganSystemItemConsumivel.EXTENDED_DICE_CHOICES
-        }),
-        skillModifier: new fields.SchemaField({
-          skill: new fields.StringField({ 
-            required: true, 
-            blank: true, 
-            initial: "vigor",
-            choices: {
-              "": "CARDIGAN.None",
-              "vigor": "CARDIGAN.Vigor",
-              "agilidade": "CARDIGAN.Agilidade",
-              "intelecto": "CARDIGAN.Intelecto", 
-              "presenca": "CARDIGAN.Presenca",
-              "forca": "CARDIGAN.Forca"
-            }
-          }),
-          multiplier: new fields.NumberField({ required: true, initial: 1 }),
-          operation: new fields.StringField({
-            required: true,
-            initial: "add",
-            choices: CardiganSystemItemConsumivel.OPERATION_CHOICES
-          })
-        }),
-        rollDescription: new fields.HTMLField({ required: true, blank: true, initial: "" })
-      }),
-
-      // System effects (from compendium)
-      systemEffects: new fields.ArrayField(new fields.SchemaField({
-        effectId: new fields.StringField({ required: true, blank: false }),
-        duration: new fields.StringField({
-          required: true,
-          initial: "temporary",
-          choices: {
-            "permanent": "CARDIGAN.Modifiers.Permanent",
-            "temporary": "CARDIGAN.Modifiers.Temporary",
-            "scene": "CARDIGAN.Modifiers.Scene", 
-            "combat": "CARDIGAN.Modifiers.Combat"
-          }
-        }),
-        operation: new fields.StringField({
-          required: true,
-          initial: "apply",
-          choices: {
-            "apply": "CARDIGAN.Modifiers.Apply",
-            "remove": "CARDIGAN.Modifiers.Remove"
-          }
-        })
-      })),
-
       // Usage settings
       usage: new fields.SchemaField({
-        consumeOnUse: new fields.BooleanField({ required: true, initial: true }),
-        usesPerDay: new fields.NumberField({ required: true, initial: 0, min: 0 }),
-        currentUses: new fields.NumberField({ required: true, initial: 0, min: 0 })
+        consumeOnUse: new fields.BooleanField({ required: true, initial: true })
       })
     });
 
@@ -875,13 +800,6 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     if (Array.isArray(this.customEffects)) {
       this.customEffects = this.customEffects.filter(
         effect => effect.id && effect.name
-      );
-    }
-
-    // Clean modifiers.systemEffects
-    if (this.modifiers?.systemEffects && Array.isArray(this.modifiers.systemEffects)) {
-      this.modifiers.systemEffects = this.modifiers.systemEffects.filter(
-        effect => effect.effectId
       );
     }
   }

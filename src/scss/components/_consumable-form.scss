@@ -310,6 +310,115 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           background: linear-gradient(180deg, rgba(50, 145, 191, 0.22) 0%, rgba(13, 72, 104, 0.3) 58%, rgba(8, 56, 84, 0.35) 100%);
           box-shadow: inset 0 10px 22px rgba(122, 209, 255, 0.12), 0 8px 16px rgba(5, 25, 37, 0.22);
         }
+
+        .consumable-item-life-energy-added-row {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+        }
+
+        .consumable-item-life-energy-added-line {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          gap: 3px;
+        }
+
+        .consumable-item-life-energy-added-entry {
+          min-width: 0;
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 4px 6px;
+          border: 1.5px solid rgba(255, 183, 92, 0.2);
+          border-radius: 8px;
+          background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+        }
+
+        .consumable-item-life-energy-added-icon {
+          width: 24px;
+          height: 24px;
+          object-fit: contain;
+          flex-shrink: 0;
+          padding: 4px;
+          border: 1.5px solid rgba(255, 183, 92, 0.2);
+          border-radius: 8px;
+          background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+        }
+
+        .consumable-item-life-energy-added-formula {
+          min-width: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-align: center;
+          font-size: 11px;
+          text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+          @include gradient-text(linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%));
+        }
+
+        .consumable-item-life-energy-added-flags {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 2.5px 2px;
+          border: 1.5px solid rgba(255, 183, 92, 0.2);
+          border-radius: 8px;
+          background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          min-width: 22px;
+          flex-shrink: 0;
+        }
+
+        .consumable-item-life-energy-added-type-symbol {
+          font-family: 'Alatsi', sans-serif;
+          font-size: 16px;
+          line-height: 1;
+          user-select: none;
+          position: relative;
+          bottom: 0.8px;
+        }
+
+        .consumable-item-life-energy-added-increase-symbol {
+          background-image: linear-gradient(180deg, #5CFF7F 33.6%, #2E9E4D 66.67%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .consumable-item-life-energy-added-decrease-symbol {
+          background-image: linear-gradient(180deg, #FF001E 33.6%, #8B0011 66.67%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .consumable-item-life-energy-added-temp {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 5px;
+          border: 1.5px solid rgba(255, 183, 92, 0.2);
+          border-radius: 8px;
+          background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          flex-shrink: 0;
+
+          p {
+            margin: 0;
+            font-family: 'Alatsi', sans-serif;
+            font-size: 11px;
+            line-height: 1;
+            user-select: none;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+            @include gradient-text(linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%));
+          }
+        }
       }
 
       .consumable-item-effects-system {

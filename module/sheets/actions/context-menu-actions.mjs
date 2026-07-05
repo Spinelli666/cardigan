@@ -117,34 +117,34 @@ export class ContextMenuActions {
 
     if (item.type === "arma" && item.system.equipped) {
       options.push({
-        name: isExpanded ? "Recolher" : "Expandir",
+        label: isExpanded ? "Recolher" : "Expandir",
         icon: isExpanded ? '<i class="fa-solid fa-compress fa-fw"></i>' : '<i class="fa-solid fa-expand fa-fw"></i>',
-        condition: () => true,
-        callback: li => ContextMenuActions.onAction(li, "toggleExpand", item, sheet, itemContainer)
+        visible: () => true,
+        onClick: li => ContextMenuActions.onAction(li, "toggleExpand", item, sheet, itemContainer)
       });
     }
 
     options.push({
-      name: "Editar",
+      label: "Editar",
       icon: '<i class="fa-solid fa-pen-to-square fa-fw"></i>',
-      condition: () => item.isOwner,
-      callback: li => ContextMenuActions.onAction(li, "edit", item, sheet)
+      visible: () => item.isOwner,
+      onClick: li => ContextMenuActions.onAction(li, "edit", item, sheet)
     });
 
     if (item.type === "arma") {
       if (item.system.equipped) {
         options.push({
-          name: game.i18n.localize("CARDIGAN.Tooltip.Unequip"),
+          label: game.i18n.localize("CARDIGAN.Tooltip.Unequip"),
           icon: '<i class="fa-solid fa-shield fa-fw"></i>',
-          condition: () => item.isOwner,
-          callback: li => ContextMenuActions.onAction(li, "unequip", item, sheet)
+          visible: () => item.isOwner,
+          onClick: li => ContextMenuActions.onAction(li, "unequip", item, sheet)
         });
       } else {
         options.push({
-          name: game.i18n.localize("CARDIGAN.Tooltip.Equip"),
+          label: game.i18n.localize("CARDIGAN.Tooltip.Equip"),
           icon: '<i class="fa-solid fa-hand-fist fa-fw"></i>',
-          condition: () => item.isOwner,
-          callback: li => ContextMenuActions.onAction(li, "equip", item, sheet)
+          visible: () => item.isOwner,
+          onClick: li => ContextMenuActions.onAction(li, "equip", item, sheet)
         });
       }
     }
@@ -152,44 +152,44 @@ export class ContextMenuActions {
     if (item.type === "armadura") {
       if (item.system.equipped) {
         options.push({
-          name: game.i18n.localize("CARDIGAN.Tooltip.Unequip"),
+          label: game.i18n.localize("CARDIGAN.Tooltip.Unequip"),
           icon: '<i class="fa-solid fa-shield-slash fa-fw"></i>',
-          condition: () => item.isOwner,
-          callback: li => ContextMenuActions.onAction(li, "unequipArmor", item, sheet)
+          visible: () => item.isOwner,
+          onClick: li => ContextMenuActions.onAction(li, "unequipArmor", item, sheet)
         });
       } else {
         options.push({
-          name: game.i18n.localize("CARDIGAN.Tooltip.Equip"),
+          label: game.i18n.localize("CARDIGAN.Tooltip.Equip"),
           icon: '<i class="fa-solid fa-shield fa-fw"></i>',
-          condition: () => item.isOwner,
-          callback: li => ContextMenuActions.onAction(li, "equipArmor", item, sheet)
+          visible: () => item.isOwner,
+          onClick: li => ContextMenuActions.onAction(li, "equipArmor", item, sheet)
         });
       }
     }
 
     if (item.type === "arma") {
       options.push({
-        name: "Mostrar no Chat",
+        label: "Mostrar no Chat",
         icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
-        condition: () => item.type === "arma",
-        callback: li => ContextMenuActions.onAction(li, "showInChat", item, sheet)
+        visible: () => item.type === "arma",
+        onClick: li => ContextMenuActions.onAction(li, "showInChat", item, sheet)
       });
     }
 
     if (item.type === "armadura") {
       options.push({
-        name: "Mostrar no Chat",
+        label: "Mostrar no Chat",
         icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
-        condition: () => item.type === "armadura",
-        callback: li => ContextMenuActions.onAction(li, "showInChat", item, sheet)
+        visible: () => item.type === "armadura",
+        onClick: li => ContextMenuActions.onAction(li, "showInChat", item, sheet)
       });
     }
 
     options.push({
-      name: "Excluir",
+      label: "Excluir",
       icon: '<i class="fa-solid fa-trash fa-fw"></i>',
-      condition: () => item.isOwner,
-      callback: li => ContextMenuActions.onAction(li, "delete", item, sheet)
+      visible: () => item.isOwner,
+      onClick: li => ContextMenuActions.onAction(li, "delete", item, sheet)
     });
 
     return options;
