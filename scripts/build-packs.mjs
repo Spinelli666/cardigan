@@ -1,10 +1,21 @@
 ﻿import { compilePack } from "@foundryvtt/foundryvtt-cli";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const SYSTEM_ROOT = path.resolve(__dirname, '..');
+
+// Remove legacy Portuguese-named pack directories if they still exist on disk
+const LEGACY_PACKS = ['efeitos-cardigan', 'racas-cardigan', 'equipamentos-cardigan'];
+for (const name of LEGACY_PACKS) {
+  const dir = path.join(SYSTEM_ROOT, 'packs', name);
+  if (fs.existsSync(dir)) {
+    fs.rmSync(dir, { recursive: true, force: true });
+    console.log(`🗑️  Removido diretório legado: packs/${name}`);
+  }
+}
 
 console.log("Compilando compêndios do sistema Cardigan...");
 
