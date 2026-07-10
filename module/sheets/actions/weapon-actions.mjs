@@ -1,6 +1,7 @@
 import { buildRollFormula } from '../../helpers/config.mjs';
 import { ChatMessageHelper } from '../../helpers/chat-messages.mjs';
 import { AdvantageSelectionDialog } from '../../applications/advantage-selection-dialog.mjs';
+import { getCoreRollMode } from '../../helpers/roll-mode.mjs';
 
 /**
  * Weapon Actions Module
@@ -491,7 +492,7 @@ export class WeaponActions {
     }
 
     // Use player's roll mode setting (GM can choose blind manually)
-    const rollMode = game.settings.get('core', 'rollMode');
+    const rollMode = getCoreRollMode();
 
     // Build modifiers array with critical and ammunition messages
     const modifiers = [];

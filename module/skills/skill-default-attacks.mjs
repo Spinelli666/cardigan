@@ -1,5 +1,6 @@
 import { buildRollFormula } from '../helpers/config.mjs';
 import { ChatMessageHelper } from '../helpers/chat-messages.mjs';
+import { getCoreRollMode, applyRollModeToMessageData } from '../helpers/roll-mode.mjs';
 
 /**
  * Check ammunition and consume it for ranged weapons
@@ -272,7 +273,7 @@ export async function performDefaultPrimaryAttack(actor, skillName) {
           };
         }
 
-        const rollMode = game.settings.get('core', 'rollMode');
+        const rollMode = getCoreRollMode();
 
         const messageData = {
           speaker: { alias: actor.name },
@@ -281,7 +282,7 @@ export async function performDefaultPrimaryAttack(actor, skillName) {
           flags: flags
         };
 
-        ChatMessage.applyRollMode(messageData, rollMode);
+        applyRollModeToMessageData(messageData, rollMode);
 
         await ChatMessage.create(messageData);
       }
@@ -374,7 +375,7 @@ export async function performDefaultPrimaryAttack(actor, skillName) {
       };
     }
 
-    const rollMode = game.settings.get('core', 'rollMode');
+    const rollMode = getCoreRollMode();
 
     const messageData = {
       speaker: { alias: actor.name },
@@ -383,7 +384,7 @@ export async function performDefaultPrimaryAttack(actor, skillName) {
       flags: flags
     };
 
-    ChatMessage.applyRollMode(messageData, rollMode);
+    applyRollModeToMessageData(messageData, rollMode);
 
     await ChatMessage.create(messageData);
 
@@ -565,7 +566,7 @@ export async function performDefaultSecondaryAttack(actor, skillName) {
           };
         }
 
-        const rollMode = game.settings.get('core', 'rollMode');
+        const rollMode = getCoreRollMode();
 
         const messageData = {
           speaker: { alias: actor.name },
@@ -574,7 +575,7 @@ export async function performDefaultSecondaryAttack(actor, skillName) {
           flags: flags
         };
 
-        ChatMessage.applyRollMode(messageData, rollMode);
+        applyRollModeToMessageData(messageData, rollMode);
 
         await ChatMessage.create(messageData);
       }
@@ -659,7 +660,7 @@ export async function performDefaultSecondaryAttack(actor, skillName) {
       };
     }
 
-    const rollMode = game.settings.get('core', 'rollMode');
+    const rollMode = getCoreRollMode();
 
     const messageData = {
       speaker: { alias: actor.name },
@@ -668,7 +669,7 @@ export async function performDefaultSecondaryAttack(actor, skillName) {
       flags: flags
     };
 
-    ChatMessage.applyRollMode(messageData, rollMode);
+    applyRollModeToMessageData(messageData, rollMode);
 
     await ChatMessage.create(messageData);
 
@@ -871,7 +872,7 @@ export async function performUnifiedSkillAttack(actor, skillName) {
       };
     }
 
-    const rollMode = game.settings.get('core', 'rollMode');
+    const rollMode = getCoreRollMode();
 
     await ChatMessageHelper.createRollMessage({
       actor: actor,

@@ -1,3 +1,5 @@
+import { getCoreRollMode, applyRollModeToMessageData } from './roll-mode.mjs';
+
 /**
  * Chat Message Helper
  * Centralizes custom chat message rendering for rolls
@@ -161,7 +163,7 @@ export class ChatMessageHelper {
     });
     
     // Use provided rollMode or get from settings
-    const effectiveRollMode = rollMode || game.settings.get('core', 'rollMode');
+    const effectiveRollMode = rollMode || getCoreRollMode();
 
     // Store display metadata in flags so whisper placeholder can reconstruct the visual
     flags.cardigan = {
@@ -184,7 +186,7 @@ export class ChatMessageHelper {
     };
     
     // Apply roll mode using Foundry's official API method
-    ChatMessage.applyRollMode(messageData, effectiveRollMode);
+    applyRollModeToMessageData(messageData, effectiveRollMode);
     
     // Create and return the chat message
     return await ChatMessage.create(messageData);

@@ -15,6 +15,7 @@ export class CommonItemListeners {
     this.setupWeightSelector(sheet);
     this.setupSkillAbilityDropdown(sheet);
     this.setupSkillTestAddButton(sheet);
+    this.setupEffectsSectionAddButton(sheet);
     LifeEnergyDialogListeners.setup(sheet);
     this.setupFractureToggle(sheet);
     this.setupFractureModifierSelector(sheet);
@@ -175,6 +176,124 @@ export class CommonItemListeners {
       });
 
       syncSelection();
+    });
+  }
+
+  /**
+   * Setup add button for consumable effects section (Attributes tab).
+   * Opens the effects compendium selection dialog directly and renders
+   * selected effects into consumable-item-effects-added-content.
+   * @param {CardiganSystemItemSheet} sheet - The item sheet instance
+   */
+  static setupEffectsSectionAddButton(sheet) {
+    if (sheet.item.type !== 'item-consumivel') return;
+
+    const addButton = sheet.element?.querySelector('.consumable-item-effects-add-button');
+    if (!addButton) return;
+
+    const addedContentContainer = sheet.element?.querySelector('.consumable-item-effects-added-content');
+
+    const getPersistedEffects = () => {
+      const effects = sheet.item.system?.effectsSectionAddedEffects;
+      return Array.isArray(effects) ? effects : [];
+    };
+
+    const normalizeRoundsValue = (rounds) => {
+      if (rounds === '∞' || rounds === 'infinito') return 'infinito';
+
+      const parsedRounds = Number.parseInt(rounds, 10);
+      if (Number.isNaN(parsedRounds)) return '0';
+
+      const clampedRounds = Math.max(0, Math.min(5, parsedRounds));
+      return String(clampedRounds);
+    };
+
+    const renderAddedEffects = (effects = []) => {
+      if (!addedContentContainer) return;
+      addedContentContainer.innerHTML = '';
+
+      if (!effects.length) {
+        addedContentContainer.classList.add('hidden');
+        return;
+      }
+
+      addedContentContainer.classList.remove('hidden');
+
+      effects.forEach((effect) => {
+        const item = document.createElement('div');
+        item.className = 'consumable-item-effects-added-item';
+
+        const icon = document.createElement('img');
+        icon.className = 'consumable-item-effects-added-icon';
+        icon.src = effect.img || 'icons/svg/aura.svg';
+        icon.alt = effect.name || 'Efeito';
+
+        const name = document.createElement('span');
+        name.className = 'consumable-item-effects-added-name';
+        name.textContent = effect.name || 'Efeito sem nome';
+
+        const rounds = document.createElement('span');
+        rounds.className = 'consumable-item-effects-added-rounds';
+
+        const clock = document.createElement('img');
+        clock.className = 'consumable-item-effects-added-clock';
+        clock.src = 'systems/cardigan/assets/images/decorative/icons/icon-clock.svg';
+        clock.alt = 'Rodadas';
+
+        const roundsValue = document.createElement('span');
+        roundsValue.className = 'consumable-item-effects-added-rounds-value';
+        if (effect.rounds === 'infinito' || effect.rounds === '∞') {
+          const infiniteIcon = document.createElement('div');
+          infiniteIcon.className = 'rounds-infinite-icon';
+          roundsValue.appendChild(infiniteIcon);
+        } else {
+          roundsValue.textContent = effect.rounds || '0';
+        }
+
+        rounds.appendChild(clock);
+        rounds.appendChild(roundsValue);
+
+        item.appendChild(icon);
+        item.appendChild(name);
+        item.appendChild(rounds);
+
+        addedContentContainer.appendChild(item);
+      });
+    };
+
+    renderAddedEffects(getPersistedEffects());
+
+    addButton.addEventListener('click', async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      try {
+        const { default: EffectsCompendiumSelectionDialog } = await import('../../applications/effects-compendium-selection-dialog.mjs');
+        const actor = sheet.item?.actor ?? sheet.item?.parent ?? null;
+
+        await EffectsCompendiumSelectionDialog.show(actor, {
+          createOnActor: false,
+          requireSelection: false,
+          initialSelection: getPersistedEffects().map((effect) => ({
+            uuid: effect.uuid,
+            rounds: effect.rounds
+          })),
+          onEffectsAdded: async (effects) => {
+            const payload = effects.map((effect) => ({
+              uuid: effect.uuid,
+              name: effect.name,
+              img: effect.img,
+              rounds: normalizeRoundsValue(effect.roundsValue ?? effect.rounds)
+            }));
+
+            await sheet.item.update({ 'system.effectsSectionAddedEffects': payload });
+            renderAddedEffects(payload);
+          }
+        });
+      } catch (error) {
+        console.error('[CARDIGAN ERROR] Error opening effects-compendium-selection-dialog:', error);
+        ui.notifications.error(`Erro ao abrir dialog de efeitos: ${error.message}`);
+      }
     });
   }
 

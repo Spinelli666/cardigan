@@ -1,4 +1,5 @@
 import { EffectsApplicationDialog } from '../applications/effects-application-dialog.mjs';
+import { getCoreRollMode } from '../helpers/roll-mode.mjs';
 
 /**
  * Base Skill Class - Foundation for all skills in the Cardigan system
@@ -1032,7 +1033,7 @@ export class BaseSkill {
         await roll.toMessage({
           speaker: ChatMessage.getSpeaker({ actor }),
           flavor: finalFlavor,
-          rollMode: game.settings.get('core', 'rollMode'),
+          rollMode: getCoreRollMode(),
           flags: flags
         });
 
@@ -1118,7 +1119,7 @@ export class BaseSkill {
         await roll.toMessage({
           speaker: ChatMessage.getSpeaker({ actor }),
           flavor: finalFlavor,
-          rollMode: game.settings.get('core', 'rollMode'),
+          rollMode: getCoreRollMode(),
           flags: flags
         });
 

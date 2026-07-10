@@ -306,6 +306,17 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       label: "CARDIGAN.ItemConsumivel.HasEffectsSection"
     });
 
+    // Effects added directly via the Attributes tab effects block
+    schema.effectsSectionAddedEffects = new fields.ArrayField(
+      new fields.SchemaField({
+        uuid: new fields.StringField({ required: true }),
+        name: new fields.StringField({ required: true }),
+        img: new fields.StringField({ required: false, initial: '' }),
+        rounds: new fields.StringField({ required: false, initial: '0' })
+      }),
+      { initial: [] }
+    );
+
     schema.temporarySkillBonus = new fields.ArrayField(
       new fields.SchemaField({
         ability: new fields.StringField({

@@ -1,4 +1,5 @@
 ﻿import BaseEffect from '../base-effect.mjs';
+import { getCoreRollMode } from '../../helpers/roll-mode.mjs';
 
 /**
  * Eletrocutado Effect
@@ -155,7 +156,7 @@ export class EletrocutadoEffect extends BaseEffect {
     await roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: actor }),
       flavor: flavor,
-      rollMode: game.settings.get('core', 'rollMode')
+      rollMode: getCoreRollMode()
     });
 
     // Wait for Dice So Nice animation to complete (if module is active)

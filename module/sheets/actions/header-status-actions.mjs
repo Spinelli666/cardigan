@@ -1,5 +1,6 @@
 import { AdvantageSelectionDialog } from '../../applications/advantage-selection-dialog.mjs';
 import { ChatMessageHelper } from '../../helpers/chat-messages.mjs';
+import { getCoreRollMode } from '../../helpers/roll-mode.mjs';
 
 /**
  * Header Status Actions Module
@@ -355,7 +356,7 @@ export class HeaderStatusActions {
       const chatMessage = await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: sheet.document }),
         flavor: flavorMessage,
-        rollMode: game.settings.get('core', 'rollMode'),
+        rollMode: getCoreRollMode(),
         flags: flags
       });
       

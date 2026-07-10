@@ -13,6 +13,8 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
     this.actor = options.actor;
     this.onEffectsAdded = options.onEffectsAdded;
     this.createOnActor = options.createOnActor !== false;
+    this.requireSelection = options.requireSelection !== false;
+    this.initialSelection = Array.isArray(options.initialSelection) ? options.initialSelection : [];
   }
 
   /** @override */
@@ -46,6 +48,8 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
   actor;
   onEffectsAdded;
   createOnActor;
+  requireSelection;
+  initialSelection;
 
   /** @override */
   async _prepareContext(options) {
@@ -131,6 +135,29 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
     if (closeBtn) {
       closeBtn.dataset.tooltip = 'Fechar Janela';
       closeBtn.dataset.tooltipClass = 'cardigan-tooltip';
+    }
+
+    // Pre-select effects already added elsewhere, restoring their rounds.
+    // Unchecking one here removes it from the caller's list on confirm.
+    if (this.initialSelection.length) {
+      this.element.querySelectorAll('.effect-item').forEach(item => {
+        const existing = this.initialSelection.find(entry => entry.uuid === item.dataset.effectUuid);
+        if (!existing) return;
+
+        item.classList.add('selected');
+
+        const rounds = existing.rounds === 'infinito' ? '∞' : (existing.rounds ?? '0');
+        item.dataset.rounds = rounds;
+
+        const roundsButton = item.querySelector('.rounds-button');
+        if (roundsButton) {
+          if (rounds === '∞') {
+            roundsButton.innerHTML = '<div class="rounds-infinite-icon"></div>';
+          } else {
+            roundsButton.textContent = rounds;
+          }
+        }
+      });
     }
 
     // Add search functionality
@@ -223,8 +250,8 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
     
     const selectedItems = this.element.querySelectorAll('.effect-item.selected');
     const selectedUUIDs = Array.from(selectedItems).map(item => item.dataset.effectUuid);
-    
-    if (selectedUUIDs.length === 0) {
+
+    if (selectedUUIDs.length === 0 && this.requireSelection) {
       ui.notifications.warn('Nenhum efeito selecionado');
       return;
     }

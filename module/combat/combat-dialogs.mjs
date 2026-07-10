@@ -1,5 +1,6 @@
 ﻿import { buildRollFormula } from '../helpers/config.mjs';
 import { ChatMessageHelper } from '../helpers/chat-messages.mjs';
+import { getCoreRollMode } from '../helpers/roll-mode.mjs';
 // Import weapon property classes for combat effects
 import { Ferir } from '../weapon-properties/properties/wound.mjs';
 import { Traspassar } from '../weapon-properties/properties/pierce.mjs';
@@ -373,7 +374,7 @@ export async function createAttackerResultDialog(data) {
             label: 'PRECISÃO',
             rollType: rollType,
             rollDescription: rollDescription,
-            rollMode: game.settings.get('core', 'rollMode'),
+            rollMode: getCoreRollMode(),
             flags: {
               cardigan: {
                 criticalSuccess: criticalSuccess,

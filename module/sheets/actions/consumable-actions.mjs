@@ -1,4 +1,6 @@
-﻿/**
+﻿import { getCoreRollMode } from '../../helpers/roll-mode.mjs';
+
+/**
  * Consumable Actions Module
  * Handles consumable item consumption, skill checks, critical effects and temporary modifiers.
  */
@@ -103,6 +105,11 @@ export class ConsumableActions {
       const configuredSkillTestEffects = await ConsumableActions.getConfiguredSkillTestEffects(item);
       if (rollResult && configuredSkillTestEffects.length > 0) {
         await ConsumableActions.applyConfiguredSkillTestEffects(configuredSkillTestEffects, rollResult, sheet);
+      }
+
+      const configuredEffectsSectionEffects = await ConsumableActions.getConfiguredEffectsSectionEffects(item);
+      if (item.system.hasEffectsSection && configuredEffectsSectionEffects.length > 0) {
+        await ConsumableActions.applyConfiguredEffectsSectionEffects(configuredEffectsSectionEffects, sheet);
       }
 
       const configuredSkillTestSkills = await ConsumableActions.getConfiguredSkillTestSkills(item);
@@ -703,6 +710,56 @@ export class ConsumableActions {
       const applyByCriticalHit = rollResult.isCriticalHit && configuredEffect.criticalHit;
       const applyByCriticalFailure = rollResult.isCriticalFailure && configuredEffect.criticalFailure;
       if (!applyByCriticalHit && !applyByCriticalFailure) continue;
+
+      const sourceDocument = await fromUuid(configuredEffect.uuid);
+      if (!sourceDocument) continue;
+
+      const effectName = sourceDocument.name || configuredEffect.name;
+      const alreadyActive = sheet.document.items.find((ownedItem) =>
+        ownedItem.type === 'efeito' &&
+        ownedItem.name === effectName &&
+        !ownedItem.system?.consumableTracking?.isTrackingEffect
+      );
+      if (alreadyActive) continue;
+
+      const itemData = foundry.utils.deepClone(sourceDocument.toObject());
+      if (!itemData.system) itemData.system = {};
+      itemData.system.rounds = normalizeRoundsValue(configuredEffect.rounds);
+
+      await sheet.document.createEmbeddedDocuments('Item', [itemData]);
+    }
+  }
+
+  /**
+   * Load configured effects from the Attributes tab effects block.
+   * @param {Item} item
+   * @returns {Promise<Array>}
+   */
+  static async getConfiguredEffectsSectionEffects(item) {
+    const effects = item.system?.effectsSectionAddedEffects;
+    return Array.isArray(effects) ? effects : [];
+  }
+
+  /**
+   * Apply effects configured in the Attributes tab effects block.
+   * Unlike skill-test effects, these apply unconditionally on consumption
+   * (no critical hit/failure requirement).
+   * @param {Array} configuredEffects
+   * @param {CardiganSystemActorSheet} sheet
+   */
+  static async applyConfiguredEffectsSectionEffects(configuredEffects, sheet) {
+    const normalizeRoundsValue = (rounds) => {
+      if (rounds === '∞' || rounds === 'infinito') return 'infinito';
+
+      const parsedRounds = Number.parseInt(rounds, 10);
+      if (Number.isNaN(parsedRounds)) return '0';
+
+      const clampedRounds = Math.max(0, Math.min(5, parsedRounds));
+      return String(clampedRounds);
+    };
+
+    for (const configuredEffect of configuredEffects) {
+      if (!configuredEffect?.uuid) continue;
 
       const sourceDocument = await fromUuid(configuredEffect.uuid);
       if (!sourceDocument) continue;
@@ -1472,7 +1529,7 @@ export class ConsumableActions {
       await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: sheet.document }),
         flavor: `Health Modifier (${modifierType === 'add' ? 'Healing' : 'Damage'})`,
-        rollMode: game.settings.get('core', 'rollMode')
+        rollMode: getCoreRollMode()
       });
 
       console.log("[HEALTH MODIFIER] Health modifier processed successfully");
@@ -1645,7 +1702,7 @@ export class ConsumableActions {
       await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: sheet.document }),
         flavor: `Energy Modifier (${modifierType === 'add' ? 'Restoration' : 'Drain'})`,
-        rollMode: game.settings.get('core', 'rollMode')
+        rollMode: getCoreRollMode()
       });
 
       console.log("[ENERGY MODIFIER] Energy modifier processed successfully");
