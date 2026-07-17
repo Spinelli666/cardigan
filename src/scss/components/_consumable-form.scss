@@ -42,12 +42,27 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
     }
 
     .header-control.fa-xmark {
+      position: relative;
+      z-index: 11;
       opacity: 0;
       transition: opacity 0.2s ease;
+      outline: none;
+      color: #FFB75C;
+
+      &:hover {
+        background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+        border-radius: 5px;
+        outline: none;
+        color: #FFB75C;
+      }
     }
 
     &:hover .header-control.fa-xmark {
       opacity: 1;
+    }
+
+    .header-control.fa-ellipsis-vertical {
+      display: none !important;
     }
   }
 
@@ -282,7 +297,8 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           justify-content: center;
           align-items: center;
           cursor: pointer;
-          outline: none;
+          outline: none !important;
+          outline-color: transparent !important;
 
           .consumable-item-life-energy-add-icon {
             width: 11px;
@@ -446,7 +462,8 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           justify-content: center;
           align-items: center;
           cursor: pointer;
-          outline: none;
+          outline: none !important;
+          outline-color: transparent !important;
 
           .consumable-item-effects-add-icon {
             width: 11px;
@@ -711,7 +728,8 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
           justify-content: center;
           align-items: center;
           cursor: pointer;
-          outline: none;
+          outline: none !important;
+          outline-color: transparent !important;
 
           .consumable-item-skill-test-add-icon {
             width: 11px;

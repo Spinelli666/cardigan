@@ -696,19 +696,21 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const dexterityCheckbox = this.element.querySelector('input[name="system.damage.useDexterity"]');
 
     if (strengthCheckbox && dexterityCheckbox) {
+      // Just uncheck the other box in the DOM; Foundry's own change handler
+      // (already bubbling from this same event) picks up both fields' current
+      // state and persists them in a single update. Dispatching a second
+      // synthetic "change" here used to trigger an overlapping form submit
+      // cycle against a form that could already be mid re-render, causing
+      // "Cannot read properties of null" in Foundry's #processFormFields.
       strengthCheckbox.addEventListener('change', (event) => {
         if (event.target.checked) {
           dexterityCheckbox.checked = false;
-          // Trigger change event to update the data
-          dexterityCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
         }
       });
 
       dexterityCheckbox.addEventListener('change', (event) => {
         if (event.target.checked) {
           strengthCheckbox.checked = false;
-          // Trigger change event to update the data
-          strengthCheckbox.dispatchEvent(new Event('change', { bubbles: true }));
         }
       });
     }

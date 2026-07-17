@@ -45,7 +45,8 @@
       color: #FFB75C;
 
       &:hover {
-        background: none;
+        background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+        border-radius: 5px;
         outline: none;
         color: #cf944cda;
       }
@@ -53,6 +54,10 @@
 
     &:hover .header-control.fa-xmark {
       opacity: 1;
+    }
+
+    .header-control.fa-ellipsis-vertical {
+      display: none !important;
     }
   }
   

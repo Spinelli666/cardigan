@@ -1045,11 +1045,24 @@
   right: -2.5%;
 }
 .application.sheet.cardigan.item.item-type-comum .window-header .header-control.fa-xmark {
+  position: relative;
+  z-index: 11;
   opacity: 0;
   transition: opacity 0.2s ease;
+  outline: none;
+  color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-comum .window-header .header-control.fa-xmark:hover {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  border-radius: 5px;
+  outline: none;
+  color: #FFB75C;
 }
 .application.sheet.cardigan.item.item-type-comum .window-header:hover .header-control.fa-xmark {
   opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-comum .window-header .header-control.fa-ellipsis-vertical {
+  display: none !important;
 }
 .application.sheet.cardigan.item.item-type-comum .window-resize-handle {
   cursor: ns-resize;
@@ -1319,11 +1332,24 @@
   right: -2.5%;
 }
 .application.sheet.cardigan.item.item-type-ingredient .window-header .header-control.fa-xmark {
+  position: relative;
+  z-index: 11;
   opacity: 0;
   transition: opacity 0.2s ease;
+  outline: none;
+  color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-ingredient .window-header .header-control.fa-xmark:hover {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  border-radius: 5px;
+  outline: none;
+  color: #FFB75C;
 }
 .application.sheet.cardigan.item.item-type-ingredient .window-header:hover .header-control.fa-xmark {
   opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-ingredient .window-header .header-control.fa-ellipsis-vertical {
+  display: none !important;
 }
 .application.sheet.cardigan.item.item-type-ingredient .window-resize-handle {
   cursor: ns-resize;
@@ -1591,11 +1617,24 @@
   right: -2.5%;
 }
 .application.sheet.cardigan.item.item-type-municao .window-header .header-control.fa-xmark {
+  position: relative;
+  z-index: 11;
   opacity: 0;
   transition: opacity 0.2s ease;
+  outline: none;
+  color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-municao .window-header .header-control.fa-xmark:hover {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  border-radius: 5px;
+  outline: none;
+  color: #FFB75C;
 }
 .application.sheet.cardigan.item.item-type-municao .window-header:hover .header-control.fa-xmark {
   opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-municao .window-header .header-control.fa-ellipsis-vertical {
+  display: none !important;
 }
 .application.sheet.cardigan.item.item-type-municao .window-resize-handle {
   cursor: ns-resize;
@@ -1909,11 +1948,24 @@
   right: -2.5%;
 }
 .application.sheet.cardigan.item.item-type-consumivel .window-header .header-control.fa-xmark {
+  position: relative;
+  z-index: 11;
   opacity: 0;
   transition: opacity 0.2s ease;
+  outline: none;
+  color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-consumivel .window-header .header-control.fa-xmark:hover {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  border-radius: 5px;
+  outline: none;
+  color: #FFB75C;
 }
 .application.sheet.cardigan.item.item-type-consumivel .window-header:hover .header-control.fa-xmark {
   opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-consumivel .window-header .header-control.fa-ellipsis-vertical {
+  display: none !important;
 }
 .application.sheet.cardigan.item.item-type-consumivel .window-resize-handle {
   cursor: ns-resize;
@@ -2167,7 +2219,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  outline: none;
+  outline: none !important;
+  outline-color: transparent !important;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-life-energy-system .consumable-item-life-energy-add-button .consumable-item-life-energy-add-icon,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-life-energy-system .consumable-item-life-energy-add-button .consumable-item-life-energy-add-icon,
@@ -2371,7 +2424,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  outline: none;
+  outline: none !important;
+  outline-color: transparent !important;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-effects-system .consumable-item-effects-add-button .consumable-item-effects-add-icon,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-effects-system .consumable-item-effects-add-button .consumable-item-effects-add-icon,
@@ -2708,7 +2762,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  outline: none;
+  outline: none !important;
+  outline-color: transparent !important;
 }
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid > .consumable-item-right-grid .consumable-item-skill-test-system .consumable-item-skill-test-add-button .consumable-item-skill-test-add-icon,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-add-button .consumable-item-skill-test-add-icon,
@@ -3991,11 +4046,24 @@
   right: -2.5%;
 }
 .application.sheet.cardigan.item.item-type-armadura .window-header .header-control.fa-xmark {
+  position: relative;
+  z-index: 11;
   opacity: 0;
   transition: opacity 0.2s ease;
+  outline: none;
+  color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-armadura .window-header .header-control.fa-xmark:hover {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  border-radius: 5px;
+  outline: none;
+  color: #FFB75C;
 }
 .application.sheet.cardigan.item.item-type-armadura .window-header:hover .header-control.fa-xmark {
   opacity: 1;
+}
+.application.sheet.cardigan.item.item-type-armadura .window-header .header-control.fa-ellipsis-vertical {
+  display: none !important;
 }
 .application.sheet.cardigan.item.item-type-armadura .window-resize-handle {
   cursor: ns-resize;
@@ -25146,12 +25214,16 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   color: #FFB75C;
 }
 .cardigan.dialog.effects-selection .window-header .header-control.fa-xmark:hover {
-  background: none;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  border-radius: 5px;
   outline: none;
   color: rgba(207, 148, 76, 0.8549019608);
 }
 .cardigan.dialog.effects-selection .window-header:hover .header-control.fa-xmark {
   opacity: 1;
+}
+.cardigan.dialog.effects-selection .window-header .header-control.fa-ellipsis-vertical {
+  display: none !important;
 }
 .cardigan.dialog.effects-selection .window-content {
   padding: 0 !important;
@@ -25576,17 +25648,21 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   opacity: 0;
   transition: opacity 0.2s ease;
   position: relative;
-  top: 9px;
+  top: 10px;
   outline: none;
   color: #FFB75C;
 }
 .dialog.cardigan-skill-test-add-dialog .window-header .header-control.fa-xmark:hover {
-  background: none;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  border-radius: 5px;
   outline: none;
   color: rgba(207, 148, 76, 0.8549019608);
 }
 .dialog.cardigan-skill-test-add-dialog .window-header:hover .header-control.fa-xmark {
   opacity: 1;
+}
+.dialog.cardigan-skill-test-add-dialog .window-header .header-control.fa-ellipsis-vertical {
+  display: none !important;
 }
 .dialog.cardigan-skill-test-add-dialog .window-content {
   background: transparent;
@@ -26067,13 +26143,18 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control.fa-xmark:hover,
 .dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control.fa-xmark:hover {
-  background: none;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  border-radius: 5px;
   outline: none;
   color: rgba(207, 148, 76, 0.8549019608);
 }
 .application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header:hover .header-control.fa-xmark,
 .dialog.cardigan-skill-test-abilities-selection-dialog .window-header:hover .header-control.fa-xmark {
   opacity: 1;
+}
+.application.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control.fa-ellipsis-vertical,
+.dialog.cardigan-skill-test-abilities-selection-dialog .window-header .header-control.fa-ellipsis-vertical {
+  display: none !important;
 }
 .application.dialog.cardigan-skill-test-abilities-selection-dialog .window-content,
 .dialog.cardigan-skill-test-abilities-selection-dialog .window-content {
@@ -26233,6 +26314,24 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 .dialog.cardigan-life-energy-add-dialog .window-header .window-title {
   display: none;
+}
+.dialog.cardigan-life-energy-add-dialog .window-header .header-control.fa-xmark {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  outline: none;
+  color: #FFB75C;
+}
+.dialog.cardigan-life-energy-add-dialog .window-header .header-control.fa-xmark:hover {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  border-radius: 5px;
+  outline: none;
+  color: rgba(207, 148, 76, 0.8549019608);
+}
+.dialog.cardigan-life-energy-add-dialog .window-header:hover .header-control.fa-xmark {
+  opacity: 1;
+}
+.dialog.cardigan-life-energy-add-dialog .window-header .header-control.fa-ellipsis-vertical {
+  display: none !important;
 }
 .dialog.cardigan-life-energy-add-dialog .window-content {
   background: transparent;
