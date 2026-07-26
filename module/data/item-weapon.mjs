@@ -124,16 +124,31 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
 
   prepareDerivedData() {
     super.prepareDerivedData();
-    
+
     // Clean invalid properties from array
     this._cleanProperties();
-    
+
     // Automatically set equipped based on hand usage
     // A weapon is equipped if it's in at least one hand
     this.equipped = this.rightHand || this.leftHand;
 
     // Calculate damage total with ability modifier
     this._calculateDamageTotal();
+
+    // Protection is only enabled when its value is non-zero
+    this._syncProtectionEnabledState();
+  }
+
+  /** Derive protection.enabled from protection.value, so the info-badge only shows when value > 0 */
+  _syncProtectionEnabledState() {
+    const protection = this.protection ?? { enabled: false, value: 0 };
+    const numericValue = Number(protection.value ?? 0);
+    const normalizedValue = Number.isFinite(numericValue) ? numericValue : 0;
+
+    protection.value = normalizedValue;
+    protection.enabled = normalizedValue !== 0;
+
+    this.protection = protection;
   }
 
   /** Remove invalid properties from array */

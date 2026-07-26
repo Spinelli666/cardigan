@@ -3,8 +3,10 @@ import SkillEnhancementConfigDialog from '../applications/skill-enhancement-conf
 import SkillLinkedSkillsDialog from '../applications/skill-linked-skills-dialog.mjs';
 import RacialSkillsSelectionDialog from '../applications/racial-skills-selection-dialog.mjs';
 import { ArmorItemListeners } from './listeners/armor-item-listeners.mjs';
+import { WeaponItemListeners } from './listeners/weapon-item-listeners.mjs';
 import { CommonItemListeners } from './listeners/common-item-listeners.mjs';
 import { ArmorContext } from './parts/armor-context.mjs';
+import { WeaponContext } from './parts/weapon-context.mjs';
 import { ArmorSheetBehavior } from './parts/armor-sheet-behavior.mjs';
 import { AmmunitionSheetBehavior } from './parts/ammunition-sheet-behavior.mjs';
 import { IngredientSheetBehavior } from './parts/ingredient-sheet-behavior.mjs';
@@ -72,8 +74,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       removeSkillActionType: this._removeSkillActionType,
       addSpellCategory: this._addSpellCategory,
       removeSpellCategory: this._removeSpellCategory,
-      addSkillBonus: this._addSkillBonus,
-      removeSkillBonus: this._removeSkillBonus,
       addEffect: this._addEffect,
       removeEffect: this._removeEffect,
       'use-item': this._useConsumableItem,
@@ -197,6 +197,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       case 'arma':
         // Weapon: PROPRIEDADES tab first, then DESCRIÇÃO
         options.parts = ['header', 'tabs', 'attributesArma', 'description'];
+        options.position ??= {};
+        options.position.width = 400.444;
+        options.position.height = 520.333;
         break;
       case 'armadura':
         options.parts.push('attributesArmadura');
@@ -254,10 +257,16 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         context.tab = context.tabs[partId];
         context.consumableSkillBonusRows = this._prepareConsumableSkillBonusRows();
         break;
+      case 'attributesArma': {
+        // Necessary for preserving active tab on re-render
+        context.tab = context.tabs[partId];
+
+        WeaponContext.prepareAttributesData(context, this.item);
+        break;
+      }
       case 'attributesItemComum':
       case 'attributesItemMunicao':
       case 'attributesEfeito':
-      case 'attributesArma':
       case 'attributesSkill':
       case 'attributesItemRecipe':
       case 'attributesItemIngredient':
@@ -717,29 +726,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Setup conditional visibility for weapon protection
-   * @private
-   */
-  _setupConditionalProtection() {
-    const protectionCheckbox = this.element.querySelector('input[name="system.protection.enabled"]');
-    const protectionValueSection = this.element.querySelector('.protection-value-section');
-
-    if (!protectionCheckbox || !protectionValueSection) return;
-
-    // Function to update visibility based on checkbox
-    const updateVisibility = () => {
-      const isEnabled = protectionCheckbox.checked;
-      protectionValueSection.style.display = isEnabled ? 'block' : 'none';
-    };
-
-    // Set up event listener
-    protectionCheckbox.addEventListener('change', updateVisibility);
-
-    // Initial setup
-    updateVisibility();
-  }
-
-  /**
    * Setup mutually exclusive checkboxes for effect apply/remove
    * @private
    */
@@ -1029,66 +1015,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const finalCategories = newCategories.filter(cat => cat && cat.trim() !== '');
     
     return this.submit({ updateData: { 'system.spellCategories': finalCategories } });
-  }
-
-  /**
-   * Handle adding a new skill bonus
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _addSkillBonus(event, target) {
-    event.preventDefault();
-    
-    const item = this.item;
-    if (item.type !== 'arma') {
-      return;
-    }
-
-    const currentSkillBonuses = item.system.toObject().skillBonuses || [];
-    // Filter out any incomplete or invalid entries
-    const filteredSkillBonuses = currentSkillBonuses.filter(sb => 
-      sb && sb.skill && typeof sb.skill === 'string' && sb.skill.trim() !== ''
-    );
-    
-    // Always use 'accuracy' as default skill to ensure valid data
-    const newSkillBonuses = [...filteredSkillBonuses, { skill: 'accuracy', bonus: 0 }];
-    
-    // Use direct update instead of form submit to avoid full document validation
-    const updateResult = await item.update({ 'system.skillBonuses': newSkillBonuses });
-    // Se o item pertence a um ator, dispara update() no ator para garantir recálculo igual arma
-    if (item.parent && typeof item.parent.update === 'function') {
-      await item.parent.update({});
-    }
-    return updateResult;
-  }
-
-  /**
-   * Handle removing a skill bonus
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _removeSkillBonus(event, target) {
-    event.preventDefault();
-    const item = this.item;
-    if (item.type !== 'arma') return;
-
-    const index = parseInt(target.dataset.index);
-    if (isNaN(index)) return;
-
-    const currentSkillBonuses = item.system.toObject().skillBonuses || [];
-    
-    // Remove the skill bonus at the specified index
-    const newSkillBonuses = currentSkillBonuses.filter((_, i) => i !== index);
-    
-    // Filter out any invalid entries and use the clean array
-    const finalSkillBonuses = newSkillBonuses.filter(sb => 
-      sb && typeof sb.skill === 'string' && sb.skill.trim() !== ''
-    );
-    
-    // Use direct update instead of form submit to avoid full document validation
-    return item.update({ 'system.skillBonuses': finalSkillBonuses });
   }
 
   /**
@@ -3081,10 +3007,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     // Manual setup for ingredient buttons (fallback)
     this._setupIngredientListeners();
-    
-    // Setup conditional visibility for weapon protection
-    this._setupConditionalProtection();
-    
+
     // Setup mutually exclusive checkboxes for effect apply/remove
     this._setupEffectCheckboxes();
     
@@ -3124,6 +3047,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup armor bonus toggle visibility for consumable items
     CommonItemListeners.initialize(this);
     ArmorItemListeners.initialize(this);
+    WeaponItemListeners.initialize(this);
     
     // Setup movement boost toggle visibility for consumable items
     this._setupMovementBoostToggle();

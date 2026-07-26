@@ -1,0 +1,218 @@
+@mixin input-container {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 11px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+@mixin gradient-number-input {
+  @include gradient-text();
+  caret-color: $color-gold-light;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  padding: 0px;
+  font-size: 12px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+@mixin focus-gradient-input {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+  @include gradient-text($color-gradient-text-focus);
+  text-shadow: 0px 0px 3px rgba($color-gold-light, 0.4);
+}
+
+.application.sheet.cardigan.item.item-type-arma {
+  .armor-extra-properties {
+    margin-top: 8.4px;
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+
+    .armor-extra-property.armor-durability-property {
+      padding: 5px;
+      background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+    }
+
+    .weapon-extra-property.weapon-protection-property,
+    .weapon-extra-property.weapon-price-property,
+    .weapon-extra-property.weapon-damage-property {
+      padding: 5px;
+      background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+    }
+
+    .armor-extra-property.armor-durability-property {
+      width: 78px;
+    }
+
+    .weapon-extra-property.weapon-damage-property {
+      width: 78px;
+    }
+
+    .armor-extra-content,
+    .weapon-extra-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .armor-extra-icon,
+    .weapon-extra-icon {
+      width: 22px;
+      height: 22px;
+      min-width: 16px;
+      object-fit: contain;
+      cursor: default;
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        transform: none !important;
+        filter: none !important;
+      }
+    }
+
+    .weapon-price-input-wrapper {
+      @include input-container;
+
+      > input[type='number'] {
+        @include gradient-number-input;
+        min-height: 18px !important;
+        height: 18px !important;
+        width: 18px !important;
+
+        &:focus {
+          @include focus-gradient-input;
+        }
+
+        &:focus-visible {
+          outline: none !important;
+          border: none;
+          box-shadow: none;
+        }
+      }
+
+      > input[name='system.price'] {
+        width: 34px !important;
+      }
+
+      &.weapon-extra-panel {
+        width: 42px;
+        display: flex;
+
+        &:focus-within {
+          border-color: #FFB75C;
+        }
+      }
+    }
+
+    .weapon-damage-input-wrapper {
+      @include input-container;
+
+      > input[type='text'] {
+        @include gradient-number-input;
+        min-height: 18px !important;
+        height: 18px !important;
+        width: 36px !important;
+
+        &:focus {
+          @include focus-gradient-input;
+        }
+
+        &:focus-visible {
+          outline: none !important;
+          border: none;
+          box-shadow: none;
+        }
+      }
+    }
+
+    .weapon-protection-input-wrapper {
+      @include input-container;
+
+      > input[type='number'] {
+        @include gradient-number-input;
+        min-height: 18px !important;
+        height: 18px !important;
+        width: 18px !important;
+
+        &:focus {
+          @include focus-gradient-input;
+        }
+
+        &:focus-visible {
+          outline: none !important;
+          border: none;
+          box-shadow: none;
+        }
+      }
+
+      &.weapon-extra-panel {
+        width: 42px;
+        display: flex;
+
+        &:focus-within {
+          border-color: #FFB75C;
+        }
+      }
+    }
+
+    .durability-container {
+      @include input-container;
+      width: 42px;
+      height: 20px;
+      gap: 0px !important;
+      margin-top: 0;
+
+      input {
+        @include gradient-number-input;
+        min-height: 17px !important;
+        height: 17px !important;
+        width: 17px !important;
+
+        &:focus {
+          @include focus-gradient-input;
+        }
+
+        &:focus-visible {
+          outline: none !important;
+          border: none;
+          box-shadow: none;
+        }
+      }
+
+      span {
+        color: var(--cardigan-c-beige, #f4f1e8);
+        font-weight: bold;
+        line-height: 1;
+        filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+      }
+    }
+
+    .durability-container--expanded {
+      width: auto;
+      align-items: center;
+      padding: 0 4px;
+    }
+
+    .durability-divider {
+      width: auto;
+      height: 16px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+      flex-shrink: 0;
+    }
+  }
+}

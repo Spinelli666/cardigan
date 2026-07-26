@@ -3905,6 +3905,18 @@
 .application.sheet.cardigan.item.item-type-arma .window-resize-handle {
   cursor: ns-resize;
 }
+.application.sheet.cardigan.item.item-type-arma .attributesArma {
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 8px 6px 12px;
+  max-height: calc(100% - 140px);
+  padding-right: 12px;
+}
+.application.sheet.cardigan.item.item-type-arma .tab.item-type-arma.active {
+  scrollbar-width: none;
+  scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);
+  scrollbar-gutter: stable;
+}
 .application.sheet.cardigan.item.item-type-arma .sheet-header {
   display: flex;
   flex-direction: column;
@@ -3980,6 +3992,458 @@
   text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
 }
 .application.sheet.cardigan.item.item-type-arma .sheet-header .header-fields .document-name input:focus-visible {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties {
+  margin-top: 8.4px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .armor-extra-property.armor-durability-property {
+  padding: 5px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-extra-property.weapon-protection-property,
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-extra-property.weapon-price-property,
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-extra-property.weapon-damage-property {
+  padding: 5px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .armor-extra-property.armor-durability-property {
+  width: 78px;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-extra-property.weapon-damage-property {
+  width: 78px;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .armor-extra-content,
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-extra-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .armor-extra-icon,
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-extra-icon {
+  width: 22px;
+  height: 22px;
+  min-width: 16px;
+  object-fit: contain;
+  cursor: default;
+  transition: opacity 0.2s ease;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .armor-extra-icon:hover,
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-extra-icon:hover {
+  transform: none !important;
+  filter: none !important;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-price-input-wrapper {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 11px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-price-input-wrapper > input[type=number] {
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  caret-color: #FFB75C;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  padding: 0px;
+  font-size: 12px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  min-height: 18px !important;
+  height: 18px !important;
+  width: 18px !important;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-price-input-wrapper > input[type=number]:focus {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-price-input-wrapper > input[type=number]:focus-visible {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-price-input-wrapper > input[name="system.price"] {
+  width: 34px !important;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-price-input-wrapper.weapon-extra-panel {
+  width: 42px;
+  display: flex;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-price-input-wrapper.weapon-extra-panel:focus-within {
+  border-color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-damage-input-wrapper {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 11px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-damage-input-wrapper > input[type=text] {
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  caret-color: #FFB75C;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  padding: 0px;
+  font-size: 12px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  min-height: 18px !important;
+  height: 18px !important;
+  width: 36px !important;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-damage-input-wrapper > input[type=text]:focus {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-damage-input-wrapper > input[type=text]:focus-visible {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-protection-input-wrapper {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 11px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-protection-input-wrapper > input[type=number] {
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  caret-color: #FFB75C;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  padding: 0px;
+  font-size: 12px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  min-height: 18px !important;
+  height: 18px !important;
+  width: 18px !important;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-protection-input-wrapper > input[type=number]:focus {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-protection-input-wrapper > input[type=number]:focus-visible {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-protection-input-wrapper.weapon-extra-panel {
+  width: 42px;
+  display: flex;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .weapon-protection-input-wrapper.weapon-extra-panel:focus-within {
+  border-color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .durability-container {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 11px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 42px;
+  height: 20px;
+  gap: 0px !important;
+  margin-top: 0;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .durability-container input {
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  caret-color: #FFB75C;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  padding: 0px;
+  font-size: 12px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  min-height: 17px !important;
+  height: 17px !important;
+  width: 17px !important;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .durability-container input:focus {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+  background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .durability-container input:focus-visible {
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .durability-container span {
+  color: var(--cardigan-c-beige, #f4f1e8);
+  font-weight: bold;
+  line-height: 1;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .durability-container--expanded {
+  width: auto;
+  align-items: center;
+  padding: 0 4px;
+}
+.application.sheet.cardigan.item.item-type-arma .armor-extra-properties .durability-divider {
+  width: auto;
+  height: 16px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+  flex-shrink: 0;
+}
+
+.application.sheet.cardigan.item.item-type-arma .weapon-top-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  align-items: start;
+  justify-content: center;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-top-grid > .weapon-properties {
+  flex: 1 1 0;
+  min-width: 0;
+  transform: translateX(-12px);
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-top-grid > .weapon-skill-bonuses {
+  flex: 0 0 auto;
+  align-self: flex-start;
+}
+@media (max-width: 900px) {
+  .application.sheet.cardigan.item.item-type-arma .weapon-top-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  .application.sheet.cardigan.item.item-type-arma .weapon-top-grid > .weapon-skill-bonuses {
+    width: min(100%, 340px);
+  }
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-properties-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  padding-left: 4px;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-category-toggles {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-category-btn {
+  height: 34px;
+  width: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  border: 1.5px solid #c0863b;
+  border-radius: 12px;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  aspect-ratio: 1;
+  position: relative;
+  overflow: hidden;
+  outline: none !important;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-category-btn img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  opacity: 0.4;
+  transition: opacity 0.2s ease, filter 0.15s ease, transform 0.15s ease;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.6));
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-category-btn:hover img {
+  opacity: 0.6;
+  filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.5));
+  transform: scale(1.08);
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-category-btn:active img {
+  transform: scale(0.95);
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-category-btn[data-selected] {
+  border-color: #FFB75C;
+  border-width: 2px;
+  box-shadow: 0 0 12px rgba(255, 183, 92, 0.4), inset 0 0 8px rgba(255, 183, 92, 0.1);
+  background: linear-gradient(135deg, rgba(255, 183, 92, 0.08) 0%, rgba(255, 183, 92, 0.04) 100%);
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-category-btn[data-selected] img {
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(255, 183, 92, 0.8));
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-category-btn[data-selected]:hover img {
+  filter: drop-shadow(0 0 12px rgb(255, 183, 92));
+  transform: scale(1.12);
+}
+
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses {
+  width: 100%;
+  min-width: 150px;
+  max-width: 150px;
+  transform: translateX(-16px);
+  margin-inline: auto;
+  border: 1px solid #FFB75C;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table {
+  width: 100%;
+  margin: 0 !important;
+  border-collapse: collapse;
+  background: transparent;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table .weapon-skill-bonus-row {
+  border-bottom: 1px solid #FFB75C;
+  background: transparent;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table .weapon-skill-bonus-row > th,
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table .weapon-skill-bonus-row > td {
+  padding-top: 1.2px !important;
+  padding-bottom: 1.2px !important;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table .weapon-skill-bonus-row:last-child {
+  border-bottom: none;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table th,
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table td {
+  padding: 0 11px;
+  vertical-align: middle;
+  background: transparent;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table th {
+  width: 72%;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 2.4;
+  text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table td {
+  width: 28%;
+  text-align: right;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table input[type=number] {
+  width: 44px;
+  min-height: 18px;
+  height: 18px;
+  font-size: 10px;
+  line-height: 1;
+  text-align: center;
+  border: 1px solid rgba(201, 199, 184, 0.35);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--cardigan-c-beige, #f4f1e8);
+  padding: 0 2px;
+  margin: 0;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table .weapon-skill-bonus-input-wrapper {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1px solid rgba(255, 183, 92, 0.2);
+  border-radius: 9px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table .weapon-skill-bonus-input-wrapper:focus-within {
+  border-color: #FFB75C;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table .weapon-skill-bonus-input-wrapper input[type=number] {
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  caret-color: #FFB75C;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  font-size: 12px;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  border-radius: 6px;
+  min-height: 20px !important;
+  height: 22px !important;
+  width: 22px !important;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table .weapon-skill-bonus-input-wrapper input[type=number]:focus {
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  outline: none !important;
+  border: none;
+  box-shadow: none;
+}
+.application.sheet.cardigan.item.item-type-arma .weapon-skill-bonuses-table .weapon-skill-bonus-input-wrapper input[type=number]:focus-visible {
   outline: none !important;
   border: none;
   box-shadow: none;
