@@ -75,6 +75,8 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
         new fields.StringField({ required: true, blank: true }),
         { initial: [] }
       ),
+      // Visual toggle for the Weapon Properties section
+      hasPropertiesSection: new fields.BooleanField({ required: true, initial: false }),
       rightHand: new fields.BooleanField({ required: true, initial: false }),
       leftHand: new fields.BooleanField({ required: true, initial: false }),
       weight: new fields.StringField({

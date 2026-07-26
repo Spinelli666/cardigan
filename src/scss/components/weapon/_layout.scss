@@ -12,6 +12,10 @@
       flex: 1 1 0;
       min-width: 0;
       transform: translateX(-12px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     > .weapon-skill-bonuses {

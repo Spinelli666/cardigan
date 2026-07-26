@@ -697,9 +697,6 @@
     "WeaponsTable": "Weapons Table",
     "WeaponProperties": "Weapon Properties",
     "MagicalArtifact": "Magical Artifact",
-    "AddProperty": "Add Property",
-    "RemoveProperty": "Remove Property",
-    "SelectProperty": "Select Property",
     "AddActionType": "Add Action Type",
     "RemoveActionType": "Remove Action Type",
     "SelectActionType": "Select Action Type",
@@ -729,7 +726,6 @@
       "Extensao": "Extensão",
       "Ignite": "Incendiar",
       "Impact": "Impacto",
-      "Pente": "Pente",
       "Perfurar": "Perfurar",
       "Pierce": "Traspassar",
       "QueimaRoupa": "Queima-Roupa",
@@ -739,6 +735,10 @@
       "Unico": "Único",
       "Vorpal": "Vorpal",
       "Wound": "Ferir"
+    },
+    "WeaponPropertyTooltip": {
+      "SaqueRapido": "Seu primeiro ataque contra um alvo possui ::systems/cardigan/assets/images/decorative/icons/icon-enhanced-advantage.svg::<strong>Vantagem Aprimorada</strong>.",
+      "Bomba": "Explode em uma área (7x7m), causando o dano da arma a todos até 3m da Bomba. Aplica 1 ⛓️‍💥Fratura e 🔥Incendiado² ou outros ::systems/cardigan/assets/images/effects/effects.webp::Efeitos, dependendo do tipo de Bomba. Um personagem dentro da área de explosão pode optar por testar Vigor para receber apenas metade do dano da Bomba, mas nesse caso receberá instantaneamente seus ::systems/cardigan/assets/images/effects/effects.webp::Efeitos Negativos."
     },
     "ArmorType": {
       "Cabeca": "Head",

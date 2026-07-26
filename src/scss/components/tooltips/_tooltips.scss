@@ -132,3 +132,16 @@
   box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.6) !important;
 }
 
+/* Weapon Property Tooltips */
+#tooltip.cardigan-tooltip.weapon-property-tooltip,
+.locked-tooltip.cardigan-tooltip.weapon-property-tooltip {
+  text-align: center !important;
+  text-transform: none !important;
+  font-weight: normal !important;
+
+  img {
+    max-height: 12px !important;
+    max-width: 12px !important;
+  }
+}
+

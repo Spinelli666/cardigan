@@ -68,8 +68,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       createDoc: this._createEffect,
       deleteDoc: this._deleteEffect,
       toggleEffect: this._toggleEffect,
-      addWeaponProperty: this._addWeaponProperty,
-      removeWeaponProperty: this._removeWeaponProperty,
       addSkillActionType: this._addSkillActionType,
       removeSkillActionType: this._removeSkillActionType,
       addSpellCategory: this._addSpellCategory,
@@ -863,54 +861,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   static async _toggleEffect(event, target) {
     const effect = this._getEffect(target);
     await effect.update({ disabled: !effect.disabled });
-  }
-
-  /**
-   * Handle adding a new weapon property
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _addWeaponProperty(event, target) {
-    event.preventDefault();
-    
-    const item = this.item;
-    if (item.type !== 'arma') {
-      return;
-    }
-
-    const currentProperties = item.system.toObject().properties || [];
-    // Filter out any empty strings to avoid duplicates
-    const filteredProperties = currentProperties.filter(prop => prop && prop.trim() !== '');
-    const newProperties = [...filteredProperties, ''];
-    
-    
-    return this.submit({ updateData: { 'system.properties': newProperties } });
-  }
-
-  /**
-   * Handle removing a weapon property
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _removeWeaponProperty(event, target) {
-    event.preventDefault();
-    const item = this.item;
-    if (item.type !== 'arma') return;
-
-    const index = parseInt(target.dataset.index);
-    if (isNaN(index)) return;
-
-    const currentProperties = item.system.toObject().properties || [];
-    
-    // Remove the property at the specified index
-    const newProperties = currentProperties.filter((_, i) => i !== index);
-    
-    // Filter out any empty strings and use the clean array
-    const finalProperties = newProperties.filter(prop => prop && prop.trim() !== '');
-    
-    return this.submit({ updateData: { 'system.properties': finalProperties } });
   }
 
   /**
@@ -1873,6 +1823,27 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         lifeEnergySection.classList.remove('hidden');
       } else {
         lifeEnergySection.classList.add('hidden');
+      }
+    });
+  }
+
+  /**
+   * Setup weapon properties section toggle visibility
+   * @private
+   */
+  _setupWeaponPropertiesToggle() {
+    const toggle = this.element.querySelector('[data-weapon-properties-toggle]');
+    const propertiesSection = this.element.querySelector('[data-weapon-properties-section]');
+
+    if (!toggle || !propertiesSection) return;
+
+    toggle.addEventListener('change', (event) => {
+      const isChecked = event.target.checked;
+
+      if (isChecked) {
+        propertiesSection.classList.remove('hidden');
+      } else {
+        propertiesSection.classList.add('hidden');
       }
     });
   }
@@ -3019,6 +2990,9 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     this._setupSkillCheckAdvantageControls();
     this._setupLifeEnergyToggle();
     this._setupEffectsSystemToggle();
+
+    // Setup weapon properties section toggle visibility
+    this._setupWeaponPropertiesToggle();
 
     // Setup effects toggle visibility for consumable items
     this._setupEffectsToggle();
