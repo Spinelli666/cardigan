@@ -186,31 +186,48 @@ export class WeaponItemListeners {
 
   /** Weapon property keys (excluding mechanical-only ones not offered in the picker) and their localization suffixes */
   static PROPERTY_LABEL_KEYS = {
-    bomba: 'Bomba',
+    bomba: 'Bomb',
     accurate: 'Accurate',
-    colateral: 'Colateral',
+    colateral: 'Collateral',
     blunt: 'Blunt',
-    discreto: 'Discreto',
-    duelar: 'Duelar',
+    discreto: 'Stealthy',
+    duelar: 'Riposte',
     electrify: 'Electrify',
-    extensao: 'Extensao',
+    extensao: 'Reach',
     wound: 'Wound',
     impact: 'Impact',
     ignite: 'Ignite',
-    perfurar: 'Perfurar',
-    queimaroupa: 'QueimaRoupa',
-    rajada: 'Rajada',
-    recarga: 'Recarga',
-    saquerapido: 'SaqueRapido',
+    perfurar: 'Penetrate',
+    queimaroupa: 'PointBlank',
+    rajada: 'Burst',
+    recarga: 'Reload',
+    saquerapido: 'QuickDraw',
     pierce: 'Pierce',
-    unico: 'Unico',
+    unico: 'Unique',
     vorpal: 'Vorpal'
   };
 
   /** Weapon property keys that have a rich tooltip in CARDIGAN.WeaponPropertyTooltip */
   static PROPERTY_TOOLTIP_KEYS = {
-    saquerapido: 'SaqueRapido',
-    bomba: 'Bomba'
+    saquerapido: 'QuickDraw',
+    bomba: 'Bomb',
+    accurate: 'Accurate',
+    colateral: 'Collateral',
+    blunt: 'Blunt',
+    discreto: 'Stealthy',
+    queimaroupa: 'PointBlank',
+    duelar: 'Riposte',
+    electrify: 'Electrify',
+    extensao: 'Reach',
+    wound: 'Wound',
+    impact: 'Impact',
+    ignite: 'Ignite',
+    perfurar: 'Penetrate',
+    rajada: 'Burst',
+    recarga: 'Reload',
+    pierce: 'Pierce',
+    unico: 'Unique',
+    vorpal: 'Vorpal'
   };
 
   /**

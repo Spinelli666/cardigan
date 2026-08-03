@@ -138,10 +138,77 @@
   text-align: center !important;
   text-transform: none !important;
   font-weight: normal !important;
+  border-radius: 8px !important;
+  background: linear-gradient(0deg, rgba(255, 183, 92, 0.35) 0%, rgba(29, 91, 102, 0.65) 40%) !important;
 
   img {
     max-height: 12px !important;
     max-width: 12px !important;
+  }
+
+  img[src*="dice-difficult.webp"] {
+    max-height: 18px !important;
+    max-width: 18px !important;
+  }
+
+  img[src*="effects.webp"] {
+    max-height: 21px !important;
+    max-width: 21px !important;
+  }
+
+  img[src*="icon-critical.svg"] {
+    max-height: 18px !important;
+    max-width: 18px !important;
+  }
+
+  img[src*="evasion-defense.webp"],
+  img[src*="accuracy-attack.webp"] {
+    max-height: 18px !important;
+    max-width: 18px !important;
+  }
+
+  img[src*="simple-action.webp"] {
+    max-height: 18px !important;
+    max-width: 18px !important;
+  }
+
+  img[src*="icon-disadvantage.svg"],
+  img[src*="icon-advantage.svg"] {
+    max-height: 16px !important;
+    max-width: 16px !important;
+  }
+
+  img[src*="ammunition.webp"],
+  img[src*="icon-recharge.svg"],
+  img[src*="shield.webp"] {
+    max-height: 18px !important;
+    max-width: 18px !important;
+  }
+
+  code {
+    background: rgba(0, 0, 0, 0.35) !important;
+    padding: 1px 6px !important;
+    border-radius: 4px !important;
+    font-family: 'Courier New', monospace !important;
+    font-size: 12px !important;
+    color: #FFB75C !important;
+  }
+
+  .tooltip-value-red {
+    color: #ff4d4d !important;
+    font-weight: bold !important;
+  }
+
+  .tooltip-bold-yellow {
+    color: #ffdc82 !important;
+  }
+
+  .tooltip-ability-name {
+    background: linear-gradient(180deg, #8C063E 0%, #E17F00 75%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
   }
 }
 
