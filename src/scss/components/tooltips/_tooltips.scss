@@ -135,6 +135,9 @@
 /* Weapon Property Tooltips */
 #tooltip.cardigan-tooltip.weapon-property-tooltip,
 .locked-tooltip.cardigan-tooltip.weapon-property-tooltip {
+  font-size: 11px !important;
+  padding: 14px 14px !important;
+  max-width: 420px !important;
   text-align: center !important;
   text-transform: none !important;
   font-weight: normal !important;
@@ -190,7 +193,7 @@
     padding: 1px 6px !important;
     border-radius: 4px !important;
     font-family: 'Courier New', monospace !important;
-    font-size: 12px !important;
+    font-size: 11px !important;
     color: #FFB75C !important;
   }
 

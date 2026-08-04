@@ -72,8 +72,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
       removeSkillActionType: this._removeSkillActionType,
       addSpellCategory: this._addSpellCategory,
       removeSpellCategory: this._removeSpellCategory,
-      addEffect: this._addEffect,
-      removeEffect: this._removeEffect,
       'use-item': this._useConsumableItem,
       addIngredient: this._addIngredient,
       removeIngredient: this._removeIngredient,
@@ -125,9 +123,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     },
     attributesItemConsumivel: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-consumable.hbs',
-    },
-    modifiersItemConsumivel: {
-      template: 'systems/cardigan/templates/item/attribute-parts/item-consumable-modifiers.hbs',
     },
     attributesEfeito: {
       template: 'systems/cardigan/templates/item/attribute-parts/effect.hbs',
@@ -183,7 +178,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         options.position.height = 440.444;
         break;
       case 'item-consumivel':
-        options.parts = ['header', 'tabs', 'attributesItemConsumivel', 'modifiersItemConsumivel', 'description'];
+        options.parts = ['header', 'tabs', 'attributesItemConsumivel', 'description'];
         options.position ??= {};
         options.position.width = 400.444;
         options.position.height = 671.556;
@@ -301,12 +296,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         context.tab = context.tabs[partId];
         // Add ingredients list for the recipe
         context.ingredients = this.item.system.requiredIngredients || [];
-        break;
-      case 'modifiersItemConsumivel':
-        // Necessary for preserving active tab on re-render
-        context.tab = context.tabs[partId];
-        // Load available effects from compendium for dropdowns
-        context.availableEffects = await this._loadAvailableEffects();
         break;
       case 'description':
         context.tab = context.tabs[partId];
@@ -607,10 +596,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         case 'ingredientsItemRecipe':
           tab.id = 'ingredients';
           tab.label += 'Ingredients';
-          break;
-        case 'modifiersItemConsumivel':
-          tab.id = 'modifiers';
-          tab.label = 'MODIFICADORES';
           break;
         case 'effects':
           tab.id = 'effects';
@@ -1700,91 +1685,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   #dragDrop;
 
   /**
-   * Handle adding a new effect to a consumable item
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _addEffect(event, target) {
-    event.preventDefault();
-    const item = this.item;
-    if (item.type !== 'item-consumivel') return;
-
-    const currentEffects = item.system.toObject().effects || [];
-    // Filter out any incomplete or invalid entries
-    const filteredEffects = currentEffects.filter(effect => 
-      effect && effect.effectId && typeof effect.effectId === 'string' && effect.effectId.trim() !== ''
-    );
-    
-    const newEffects = [...filteredEffects, { effectId: '', apply: false, remove: false }];
-    
-      currentEffects,
-      filteredEffects,
-      newEffects
-    
-    return this.submit({ updateData: { 'system.effects': newEffects } });
-  }
-
-  /**
-   * Handle removing an effect from a consumable item
-   * @param {PointerEvent} event   The originating click event
-   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
-   * @protected
-   */
-  static async _removeEffect(event, target) {
-    event.preventDefault();
-    const item = this.item;
-    if (item.type !== 'item-consumivel') return;
-
-    const index = parseInt(target.dataset.index);
-    if (isNaN(index)) return;
-
-    const currentEffects = item.system.toObject().effects || [];
-    
-    // Remove the effect at the specified index
-    const newEffects = currentEffects.filter((_, i) => i !== index);
-    
-    // Filter out any invalid entries (effects with empty effectId)
-    const finalEffects = newEffects.filter(effect => 
-      effect && typeof effect.effectId === 'string' && effect.effectId.trim() !== ''
-    );
-    
-      index,
-      currentEffects,
-      newEffects,
-      finalEffects
-    
-    return this.submit({ updateData: { 'system.effects': finalEffects } });
-  }
-
-  /**
-   * Load available effects from the compendium
-   * @returns {Promise<Array>} Array of effect objects with id and name
-   * @private
-   */
-  async _loadAvailableEffects() {
-    try {
-      const pack = game.packs.get("cardigan.effects-cardigan");
-      if (!pack) {
-        console.warn('[CARDIGAN] Effects compendium not found!');
-        return [];
-      }
-
-      // Load the compendium index
-      await pack.getIndex();
-      
-      // Return array of effects with id and name for dropdowns
-      return pack.index.map(effect => ({
-        id: effect._id,
-        name: effect.name
-      })).sort((a, b) => a.name.localeCompare(b.name));
-    } catch (error) {
-      console.error('[CARDIGAN] Error loading effects from compendium:', error);
-      return [];
-    }
-  }
-
-  /**
    * Setup skill check toggle visibility for consumable items
    * @private
    */
@@ -1911,28 +1811,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Setup effects toggle visibility for consumable items
-   * @private
-   */
-  _setupEffectsToggle() {
-    const toggle = this.element.querySelector('[data-effects-toggle]');
-    const effectsSection = this.element.querySelector('[data-effects-section]');
-    
-    if (!toggle || !effectsSection) return;
-    
-    // Add event listener for the toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        effectsSection.classList.remove('hidden');
-      } else {
-        effectsSection.classList.add('hidden');
-      }
-    });
-  }
-
-  /**
    * Setup critical failure effects toggle visibility for consumable items
    * @private
    */
@@ -2043,100 +1921,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   }
 
   /**
-   * Setup health modifier toggle visibility for consumable items
-   * @private
-   */
-  _setupHealthModifierToggle() {
-    const toggle = this.element.querySelector('[data-health-modifier-toggle]');
-    const healthModifierSection = this.element.querySelector('[data-health-modifier-section]');
-    
-    if (!toggle || !healthModifierSection) return;
-    
-    // Add event listener for the toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        healthModifierSection.classList.remove('hidden');
-      } else {
-        healthModifierSection.classList.add('hidden');
-      }
-    });
-
-    // Setup skill toggle within health modifier section
-    this._setupHealthModifierSkillToggle();
-  }
-
-  /**
-   * Setup health modifier skill toggle visibility
-   * @private
-   */
-  _setupHealthModifierSkillToggle() {
-    const toggle = this.element.querySelector('[data-health-modifier-skill-toggle]');
-    const skillSection = this.element.querySelector('[data-health-modifier-skill-section]');
-    
-    if (!toggle || !skillSection) return;
-    
-    // Add event listener for the skill toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        skillSection.classList.remove('hidden');
-      } else {
-        skillSection.classList.add('hidden');
-      }
-    });
-  }
-
-  /**
-   * Setup energy modifier toggle visibility for consumable items
-   * @private
-   */
-  _setupEnergyModifierToggle() {
-    const toggle = this.element.querySelector('[data-energy-modifier-toggle]');
-    const energyModifierSection = this.element.querySelector('[data-energy-modifier-section]');
-    
-    if (!toggle || !energyModifierSection) return;
-    
-    // Add event listener for the toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        energyModifierSection.classList.remove('hidden');
-      } else {
-        energyModifierSection.classList.add('hidden');
-      }
-    });
-
-    // Setup skill toggle within energy modifier section
-    this._setupEnergyModifierSkillToggle();
-  }
-
-  /**
-   * Setup energy modifier skill toggle visibility
-   * @private
-   */
-  _setupEnergyModifierSkillToggle() {
-    const toggle = this.element.querySelector('[data-energy-modifier-skill-toggle]');
-    const skillSection = this.element.querySelector('[data-energy-modifier-skill-section]');
-    
-    if (!toggle || !skillSection) return;
-    
-    // Add event listener for the skill toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        skillSection.classList.remove('hidden');
-      } else {
-        skillSection.classList.add('hidden');
-      }
-    });
-  }
-
-  /**
    * Creates drag & drop handlers for this application
    * @returns {foundry.applications.ux.DragDrop[]}     An array of DragDrop handlers
    * @private
@@ -2153,53 +1937,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
         drop: this._onDrop.bind(this),
       };
       return new foundry.applications.ux.DragDrop(d);
-    });
-  }
-
-  /**
-   * Setup energy modifier toggle visibility for consumable items
-   * @private
-   */
-  _setupEnergyModifierToggle() {
-    const toggle = this.element.querySelector('[data-energy-modifier-toggle]');
-    const energyModifierSection = this.element.querySelector('[data-energy-modifier-section]');
-    
-    if (!toggle || !energyModifierSection) return;
-    
-    // Add event listener for the toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        energyModifierSection.classList.remove('hidden');
-      } else {
-        energyModifierSection.classList.add('hidden');
-      }
-    });
-
-    // Setup skill toggle within energy modifier section
-    this._setupEnergyModifierSkillToggle();
-  }
-
-  /**
-   * Setup energy modifier skill toggle visibility
-   * @private
-   */
-  _setupEnergyModifierSkillToggle() {
-    const toggle = this.element.querySelector('[data-energy-modifier-skill-toggle]');
-    const skillSection = this.element.querySelector('[data-energy-modifier-skill-section]');
-    
-    if (!toggle || !skillSection) return;
-    
-    // Add event listener for the skill toggle checkbox
-    toggle.addEventListener('change', (event) => {
-      const isChecked = event.target.checked;
-      
-      if (isChecked) {
-        skillSection.classList.remove('hidden');
-      } else {
-        skillSection.classList.add('hidden');
-      }
     });
   }
 
@@ -2994,9 +2731,6 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     // Setup weapon properties section toggle visibility
     this._setupWeaponPropertiesToggle();
 
-    // Setup effects toggle visibility for consumable items
-    this._setupEffectsToggle();
-    
     // Setup critical failure effects toggle visibility for consumable items
     this._setupCriticalFailureEffectsToggle();
     
@@ -3011,13 +2745,7 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     // Setup temporary skill bonus toggle visibility for consumable items
     this._setupTemporarySkillBonusToggle();
-    
-    // Setup health modifier toggle visibility for consumable items
-    this._setupHealthModifierToggle();
-    
-    // Setup energy modifier toggle visibility for consumable items
-    this._setupEnergyModifierToggle();
-    
+
     // Setup armor bonus toggle visibility for consumable items
     CommonItemListeners.initialize(this);
     ArmorItemListeners.initialize(this);

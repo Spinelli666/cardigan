@@ -138,16 +138,6 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       }
     });
 
-    // Effects system (similar to skillBonuses from weapons)
-    schema.effects = new fields.ArrayField(
-      new fields.SchemaField({
-        effectId: new fields.StringField({ required: true, blank: true, initial: "" }),
-        apply: new fields.BooleanField({ required: true, initial: false }),
-        remove: new fields.BooleanField({ required: true, initial: false })
-      }),
-      { initial: [] }
-    );
-
     // Controls whether skill check section is enabled
     schema.hasSkillCheck = new fields.BooleanField({
       required: true,
@@ -654,13 +644,6 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
       label: "CARDIGAN.ItemConsumivel.CriticalHitBoostAmount"
     });
 
-    // Controls whether effects section is enabled
-    schema.hasEffects = new fields.BooleanField({
-      required: true,
-      initial: false,
-      label: "CARDIGAN.ItemConsumivel.HasEffects"
-    });
-
     // Modifiers system
     // NOTE: statusEffects is kept for the schema v1 PT->EN migration (see module/migration/migrate-world.mjs),
     // and usage.consumeOnUse is read by _useConsumableItem in item-sheet.mjs.
@@ -797,13 +780,6 @@ export default class CardiganSystemItemConsumivel extends CardiganSystemItemBase
     if (Array.isArray(this.skillTestAddedEffects)) {
       this.skillTestAddedEffects = this.skillTestAddedEffects.filter(
         effect => effect.uuid && effect.name
-      );
-    }
-
-    // Clean base effects
-    if (Array.isArray(this.effects)) {
-      this.effects = this.effects.filter(
-        effect => effect.effectId
       );
     }
 

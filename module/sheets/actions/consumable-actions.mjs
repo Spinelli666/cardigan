@@ -161,53 +161,6 @@ export class ConsumableActions {
         }
       }
 
-      const effects = item.system.effects || [];
-      for (const effect of effects) {
-        if (!effect.effectId || (!effect.apply && !effect.remove)) continue;
-
-        const pack = game.packs.get("cardigan.effects-cardigan");
-        const effectDocument = await pack.getDocument(effect.effectId);
-
-        if (!effectDocument) {
-          console.warn(`Effect ${effect.effectId} not found in compendium`);
-          continue;
-        }
-
-        const effectName = effectDocument.name;
-
-        if (effect.apply) {
-          const existingEffect = sheet.document.items.find(i =>
-            i.type === 'efeito' &&
-            i.name === effectName &&
-            !i.system.consumableTracking?.isTrackingEffect
-          );
-
-          if (existingEffect) {
-            messages.push(`Effect ${effectName} was already active`);
-          } else {
-            const effectData = foundry.utils.deepClone(effectDocument.toObject());
-            effectData._id = foundry.utils.randomID();
-
-            await sheet.document.createEmbeddedDocuments("Item", [effectData]);
-            appliedEffects.push(effect.effectId);
-            messages.push(`Applied effect: ${effectName}`);
-          }
-        } else if (effect.remove) {
-          const existingEffect = sheet.document.items.find(i =>
-            i.type === 'efeito' &&
-            i.name === effectName &&
-            !i.system.consumableTracking?.isTrackingEffect
-          );
-
-          if (existingEffect) {
-            await existingEffect.delete();
-            messages.push(`Removed effect: ${effectName}`);
-          } else {
-            messages.push(`Effect ${effectName} was not active`);
-          }
-        }
-      }
-
       if (item.system.hasTemporarySkillBonus && item.system.temporarySkillBonus?.length > 0) {
         const validBonuses = item.system.temporarySkillBonus.filter(bonus =>
           bonus.ability && bonus.ability.trim() !== "" && bonus.value && bonus.value !== 0
