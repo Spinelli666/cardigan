@@ -21,13 +21,11 @@
       "total": "18"
     },
     "properties": [
-      "queima-roupa",
+      "queimaroupa",
       "colateral",
-      "pente",
-      "recarga",
-      "wound",
-      "impact"
+      "recarga"
     ],
+    "hasPropertiesSection": true,
     "rightHand": false,
     "leftHand": false,
     "weight": "heavy",

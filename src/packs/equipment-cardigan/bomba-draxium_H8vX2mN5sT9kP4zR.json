@@ -22,8 +22,10 @@
     },
     "properties": [
       "bomba",
+      "electrify",
       "unico"
     ],
+    "hasPropertiesSection": true,
     "rightHand": false,
     "leftHand": false,
     "weight": "light",

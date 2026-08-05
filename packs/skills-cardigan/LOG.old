@@ -1,3 +1,22 @@
-2026/08/03-23:10:09.556 3a48 Recovering log #1430
-2026/08/03-23:10:09.596 3a48 Delete type=0 #1430
-2026/08/03-23:10:09.596 3a48 Delete type=3 #1429
+2026/08/04-21:39:58.658 2514 Recovering log #1478
+2026/08/04-21:39:58.707 2514 Delete type=0 #1478
+2026/08/04-21:39:58.707 2514 Delete type=3 #1476
+2026/08/04-21:39:58.766 3fcc Level-0 table #1482: started
+2026/08/04-21:39:58.824 3fcc Level-0 table #1482: 71528 bytes OK
+2026/08/04-21:39:58.848 3fcc Delete type=0 #1480
+2026/08/04-21:39:58.848 3fcc Manual compaction at level-0 from '!folders!QcRacDwarf3GzTk1' @ 72057594037927935 : 1 .. '!items!Y7zZ0aA3bB6cC9dD' @ 0 : 0; will stop at '!items!Y7zZ0aA3bB6cC9dD' @ 1222 : 1
+2026/08/04-21:39:58.848 3fcc Compacting 2@0 + 0@1 files
+2026/08/04-21:39:58.884 3fcc Generated table #1483@0: 76 keys, 71528 bytes
+2026/08/04-21:39:58.884 3fcc Compacted 2@0 + 0@1 files => 71528 bytes
+2026/08/04-21:39:58.907 3fcc compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/08/04-21:39:58.907 3fcc Delete type=2 #1477
+2026/08/04-21:39:58.907 3fcc Delete type=2 #1482
+2026/08/04-21:39:58.908 3fcc Manual compaction at level-0 from '!items!Y7zZ0aA3bB6cC9dD' @ 1222 : 1 .. '!items!Y7zZ0aA3bB6cC9dD' @ 0 : 0; will stop at (end)
+2026/08/04-21:39:58.908 3fcc Manual compaction at level-1 from '!folders!QcRacDwarf3GzTk1' @ 72057594037927935 : 1 .. '!items!Y7zZ0aA3bB6cC9dD' @ 0 : 0; will stop at '!items!Y7zZ0aA3bB6cC9dD' @ 1252 : 1
+2026/08/04-21:39:58.908 3fcc Compacting 1@1 + 1@2 files
+2026/08/04-21:39:58.946 3fcc Generated table #1484@1: 76 keys, 71528 bytes
+2026/08/04-21:39:58.946 3fcc Compacted 1@1 + 1@2 files => 71528 bytes
+2026/08/04-21:39:58.959 3fcc compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/08/04-21:39:58.960 3fcc Delete type=2 #1473
+2026/08/04-21:39:58.960 3fcc Delete type=2 #1483
+2026/08/04-21:39:58.961 3fcc Manual compaction at level-1 from '!items!Y7zZ0aA3bB6cC9dD' @ 1252 : 1 .. '!items!Y7zZ0aA3bB6cC9dD' @ 0 : 0; will stop at (end)

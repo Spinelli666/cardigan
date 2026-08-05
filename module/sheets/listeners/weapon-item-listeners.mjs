@@ -241,6 +241,47 @@ export class WeaponItemListeners {
     const addButton = sheet.element?.querySelector('.weapon-properties-add-button');
     if (!addButtonContainer && !addButton) return;
 
+    const addedContentContainer = sheet.element?.querySelector('.weapon-properties-added-content');
+
+    const renderAddedProperties = async (values = []) => {
+      if (!addedContentContainer) return;
+      addedContentContainer.innerHTML = '';
+
+      if (!values.length) {
+        addedContentContainer.classList.add('hidden');
+        return;
+      }
+
+      addedContentContainer.classList.remove('hidden');
+
+      for (const value of values) {
+        const labelKey = this.PROPERTY_LABEL_KEYS[value];
+        if (!labelKey) continue;
+
+        const item = document.createElement('div');
+        item.className = 'weapon-properties-added-item';
+
+        const name = document.createElement('span');
+        name.className = 'weapon-properties-added-name';
+        name.textContent = game.i18n.localize(`CARDIGAN.WeaponProperty.${labelKey}`);
+
+        const tooltipKey = this.PROPERTY_TOOLTIP_KEYS[value];
+        if (tooltipKey) {
+          const tooltip = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+            game.i18n.localize(`CARDIGAN.WeaponPropertyTooltip.${tooltipKey}`),
+            { async: true }
+          );
+          name.dataset.tooltip = tooltip;
+          name.dataset.tooltipClass = 'cardigan-tooltip weapon-property-tooltip';
+        }
+
+        item.appendChild(name);
+        addedContentContainer.appendChild(item);
+      }
+    };
+
+    renderAddedProperties(sheet.item.system.properties ?? []);
+
     const openDialog = async (event) => {
       event.preventDefault();
       event.stopPropagation();
@@ -327,6 +368,7 @@ export class WeaponItemListeners {
         const selected = Array.from(dialog.element?.querySelectorAll('.property-item.selected') ?? [])
           .map((item) => item.dataset.propertyValue);
         await sheet.item.update({ 'system.properties': selected });
+        renderAddedProperties(selected);
         dialog.close();
       });
     };

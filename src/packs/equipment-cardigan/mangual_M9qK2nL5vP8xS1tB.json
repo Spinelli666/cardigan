@@ -24,6 +24,7 @@
       "impact",
       "extensao"
     ],
+    "hasPropertiesSection": true,
     "rightHand": false,
     "leftHand": false,
     "weight": "light",

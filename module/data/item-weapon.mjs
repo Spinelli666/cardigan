@@ -27,11 +27,22 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
   static VALID_PROPERTIES = [
     'accurate',
     'blunt',
+    'bomba',
+    'colateral',
+    'discreto',
+    'duelar',
     'electrify',
+    'extensao',
     'wound',
     'impact',
     'ignite',
+    'perfurar',
+    'queimaroupa',
+    'rajada',
+    'recarga',
+    'saquerapido',
     'pierce',
+    'unico',
     'vorpal'
   ];
 

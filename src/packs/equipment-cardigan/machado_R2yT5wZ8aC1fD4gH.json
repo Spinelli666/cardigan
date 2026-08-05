@@ -24,6 +24,7 @@
       "wound",
       "vorpal"
     ],
+    "hasPropertiesSection": true,
     "rightHand": false,
     "leftHand": false,
     "weight": "light",

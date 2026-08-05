@@ -22,11 +22,9 @@
     },
     "properties": [
       "perfurar",
-      "pente",
-      "recarga",
-      "wound",
-      "impact"
+      "recarga"
     ],
+    "hasPropertiesSection": true,
     "rightHand": false,
     "leftHand": false,
     "weight": "heavy",

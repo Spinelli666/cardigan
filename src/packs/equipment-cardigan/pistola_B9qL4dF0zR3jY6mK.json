@@ -23,11 +23,11 @@
     "properties": [
       "accurate",
       "discreto",
-      "pente",
       "recarga",
       "wound",
       "impact"
     ],
+    "hasPropertiesSection": true,
     "rightHand": false,
     "leftHand": false,
     "weight": "light",

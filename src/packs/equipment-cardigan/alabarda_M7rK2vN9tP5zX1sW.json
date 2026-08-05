@@ -21,9 +21,10 @@
       "total": "14"
     },
     "properties": [
-      "perfurar",
+      "pierce",
       "extensao"
     ],
+    "hasPropertiesSection": true,
     "rightHand": false,
     "leftHand": false,
     "weight": "heavy",

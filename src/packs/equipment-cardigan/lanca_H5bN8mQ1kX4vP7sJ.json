@@ -24,6 +24,7 @@
       "perfurar",
       "vorpal"
     ],
+    "hasPropertiesSection": true,
     "rightHand": false,
     "leftHand": false,
     "weight": "light",

@@ -24,6 +24,7 @@
       "accurate",
       "wound"
     ],
+    "hasPropertiesSection": true,
     "rightHand": false,
     "leftHand": false,
     "weight": "light",
