@@ -42,7 +42,8 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
       right: -2.5%;
     }
 
-    .header-control.fa-xmark {
+    .header-control.fa-xmark,
+    .header-control.fa-download {
       position: relative;
       z-index: 11;
       opacity: 0;
@@ -58,7 +59,8 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
       }
     }
 
-    &:hover .header-control.fa-xmark {
+    &:hover .header-control.fa-xmark,
+    &:hover .header-control.fa-download {
       opacity: 1;
     }
 

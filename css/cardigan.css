@@ -1044,7 +1044,8 @@
   bottom: -45px;
   right: -2.5%;
 }
-.application.sheet.cardigan.item.item-type-comum .window-header .header-control.fa-xmark {
+.application.sheet.cardigan.item.item-type-comum .window-header .header-control.fa-xmark,
+.application.sheet.cardigan.item.item-type-comum .window-header .header-control.fa-download {
   position: relative;
   z-index: 11;
   opacity: 0;
@@ -1052,13 +1053,14 @@
   outline: none;
   color: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-comum .window-header .header-control.fa-xmark:hover {
+.application.sheet.cardigan.item.item-type-comum .window-header .header-control.fa-xmark:hover,
+.application.sheet.cardigan.item.item-type-comum .window-header .header-control.fa-download:hover {
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
   border-radius: 5px;
   outline: none;
   color: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-comum .window-header:hover .header-control.fa-xmark {
+.application.sheet.cardigan.item.item-type-comum .window-header:hover .header-control.fa-xmark, .application.sheet.cardigan.item.item-type-comum .window-header:hover .header-control.fa-download {
   opacity: 1;
 }
 .application.sheet.cardigan.item.item-type-comum .window-header .header-control.fa-ellipsis-vertical {
@@ -1331,7 +1333,8 @@
   bottom: -45px;
   right: -2.5%;
 }
-.application.sheet.cardigan.item.item-type-ingredient .window-header .header-control.fa-xmark {
+.application.sheet.cardigan.item.item-type-ingredient .window-header .header-control.fa-xmark,
+.application.sheet.cardigan.item.item-type-ingredient .window-header .header-control.fa-download {
   position: relative;
   z-index: 11;
   opacity: 0;
@@ -1339,13 +1342,14 @@
   outline: none;
   color: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-ingredient .window-header .header-control.fa-xmark:hover {
+.application.sheet.cardigan.item.item-type-ingredient .window-header .header-control.fa-xmark:hover,
+.application.sheet.cardigan.item.item-type-ingredient .window-header .header-control.fa-download:hover {
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
   border-radius: 5px;
   outline: none;
   color: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-ingredient .window-header:hover .header-control.fa-xmark {
+.application.sheet.cardigan.item.item-type-ingredient .window-header:hover .header-control.fa-xmark, .application.sheet.cardigan.item.item-type-ingredient .window-header:hover .header-control.fa-download {
   opacity: 1;
 }
 .application.sheet.cardigan.item.item-type-ingredient .window-header .header-control.fa-ellipsis-vertical {
@@ -1616,7 +1620,8 @@
   bottom: -45px;
   right: -2.5%;
 }
-.application.sheet.cardigan.item.item-type-municao .window-header .header-control.fa-xmark {
+.application.sheet.cardigan.item.item-type-municao .window-header .header-control.fa-xmark,
+.application.sheet.cardigan.item.item-type-municao .window-header .header-control.fa-download {
   position: relative;
   z-index: 11;
   opacity: 0;
@@ -1624,13 +1629,14 @@
   outline: none;
   color: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-municao .window-header .header-control.fa-xmark:hover {
+.application.sheet.cardigan.item.item-type-municao .window-header .header-control.fa-xmark:hover,
+.application.sheet.cardigan.item.item-type-municao .window-header .header-control.fa-download:hover {
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
   border-radius: 5px;
   outline: none;
   color: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-municao .window-header:hover .header-control.fa-xmark {
+.application.sheet.cardigan.item.item-type-municao .window-header:hover .header-control.fa-xmark, .application.sheet.cardigan.item.item-type-municao .window-header:hover .header-control.fa-download {
   opacity: 1;
 }
 .application.sheet.cardigan.item.item-type-municao .window-header .header-control.fa-ellipsis-vertical {
@@ -1947,7 +1953,8 @@
   bottom: -45px;
   right: -2.5%;
 }
-.application.sheet.cardigan.item.item-type-consumivel .window-header .header-control.fa-xmark {
+.application.sheet.cardigan.item.item-type-consumivel .window-header .header-control.fa-xmark,
+.application.sheet.cardigan.item.item-type-consumivel .window-header .header-control.fa-download {
   position: relative;
   z-index: 11;
   opacity: 0;
@@ -1955,13 +1962,14 @@
   outline: none;
   color: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-consumivel .window-header .header-control.fa-xmark:hover {
+.application.sheet.cardigan.item.item-type-consumivel .window-header .header-control.fa-xmark:hover,
+.application.sheet.cardigan.item.item-type-consumivel .window-header .header-control.fa-download:hover {
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
   border-radius: 5px;
   outline: none;
   color: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-consumivel .window-header:hover .header-control.fa-xmark {
+.application.sheet.cardigan.item.item-type-consumivel .window-header:hover .header-control.fa-xmark, .application.sheet.cardigan.item.item-type-consumivel .window-header:hover .header-control.fa-download {
   opacity: 1;
 }
 .application.sheet.cardigan.item.item-type-consumivel .window-header .header-control.fa-ellipsis-vertical {
@@ -3895,7 +3903,8 @@
   bottom: -45px;
   right: -2.5%;
 }
-.application.sheet.cardigan.item.item-type-arma .window-header .header-control.fa-xmark {
+.application.sheet.cardigan.item.item-type-arma .window-header .header-control.fa-xmark,
+.application.sheet.cardigan.item.item-type-arma .window-header .header-control.fa-download {
   position: relative;
   z-index: 11;
   opacity: 0;
@@ -3903,13 +3912,14 @@
   outline: none;
   color: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-arma .window-header .header-control.fa-xmark:hover {
+.application.sheet.cardigan.item.item-type-arma .window-header .header-control.fa-xmark:hover,
+.application.sheet.cardigan.item.item-type-arma .window-header .header-control.fa-download:hover {
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
   border-radius: 5px;
   outline: none;
   color: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-arma .window-header:hover .header-control.fa-xmark {
+.application.sheet.cardigan.item.item-type-arma .window-header:hover .header-control.fa-xmark, .application.sheet.cardigan.item.item-type-arma .window-header:hover .header-control.fa-download {
   opacity: 1;
 }
 .application.sheet.cardigan.item.item-type-arma .window-resize-handle {
@@ -4728,7 +4738,8 @@
   bottom: -45px;
   right: -2.5%;
 }
-.application.sheet.cardigan.item.item-type-armadura .window-header .header-control.fa-xmark {
+.application.sheet.cardigan.item.item-type-armadura .window-header .header-control.fa-xmark,
+.application.sheet.cardigan.item.item-type-armadura .window-header .header-control.fa-download {
   position: relative;
   z-index: 11;
   opacity: 0;
@@ -4736,13 +4747,14 @@
   outline: none;
   color: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-armadura .window-header .header-control.fa-xmark:hover {
+.application.sheet.cardigan.item.item-type-armadura .window-header .header-control.fa-xmark:hover,
+.application.sheet.cardigan.item.item-type-armadura .window-header .header-control.fa-download:hover {
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
   border-radius: 5px;
   outline: none;
   color: #FFB75C;
 }
-.application.sheet.cardigan.item.item-type-armadura .window-header:hover .header-control.fa-xmark {
+.application.sheet.cardigan.item.item-type-armadura .window-header:hover .header-control.fa-xmark, .application.sheet.cardigan.item.item-type-armadura .window-header:hover .header-control.fa-download {
   opacity: 1;
 }
 .application.sheet.cardigan.item.item-type-armadura .window-header .header-control.fa-ellipsis-vertical {
