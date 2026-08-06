@@ -12647,6 +12647,9 @@
 .cardigan .backpack-table li.item:last-child {
   border-bottom: 1px solid #FFB75C;
 }
+.cardigan .backpack-table li.item.description-expanded {
+  border-radius: 15px 15px 0 0;
+}
 .cardigan .backpack-table li.item.durability-broken {
   background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(245, 0, 4, 0.19) 100%);
 }
@@ -12727,6 +12730,21 @@
 }
 .cardigan .backpack-table li.item.is-search-hidden {
   display: none !important;
+}
+.cardigan .backpack-table li.backpack-item-description-row {
+  display: none;
+  width: 100%;
+  min-height: 32px;
+  margin-top: -4px;
+  margin-bottom: 4px;
+  padding: 8px 10px;
+  border: 1px solid #FFB75C;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+}
+.cardigan .backpack-table li.backpack-item-description-row.expanded {
+  display: block;
 }
 .cardigan .backpack-table .item-image {
   margin-left: 0;

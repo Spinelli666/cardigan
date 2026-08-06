@@ -89,6 +89,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       editDoc: this._editDoc,
       deleteDoc: this._deleteDoc,
       toggleExpand: this._onToggleExpand,
+      toggleBackpackItemExpand: this._onToggleBackpackItemExpand,
       roll: this._onRoll,
       rollDeathDie: this._onRollDeathDie,
       resetGiftOfLife: this._onResetGiftOfLife,
@@ -1228,6 +1229,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   static async _onToggleExpand(event, target) {
     return ItemExpand.onToggleExpand(this, event, target);
+  }
+
+  /**
+   * Handle toggling the expand/collapse state of a backpack row's description.
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onToggleBackpackItemExpand(event, target) {
+    return ItemExpand.onToggleBackpackExpand(this, event, target);
   }
 
   /**

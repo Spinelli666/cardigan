@@ -636,6 +636,12 @@ ol.items-list.backpack-table > li.item.items-header {
       border-bottom: 1px solid #FFB75C;
     }
 
+    // When this item's description row below it is expanded, merge the two rows visually
+    // by dropping this row's bottom border/radius.
+    &.description-expanded {
+      border-radius: 15px 15px 0 0;
+    }
+
     &.durability-broken {
       background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(245, 0, 4, 0.19) 100%);
     }
@@ -746,6 +752,25 @@ ol.items-list.backpack-table > li.item.items-header {
 
   li.item.is-search-hidden {
     display: none !important;
+  }
+
+  // Empty description row shown below a backpack item when its name is clicked.
+  // Content is intentionally blank for now — filled in later.
+  li.backpack-item-description-row {
+    display: none;
+    width: 100%;
+    min-height: 32px;
+    margin-top: -4px;
+    margin-bottom: 4px;
+    padding: 8px 10px;
+    border: 1px solid #FFB75C;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+
+    &.expanded {
+      display: block;
+    }
   }
 
   // Imagem do item: fora do item-name, tamanho fixo

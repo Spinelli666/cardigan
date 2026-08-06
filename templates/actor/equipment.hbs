@@ -230,7 +230,7 @@
           </div>
           <div class='item-name-group'>
             <div class='item-name {{#if (and (or (eq item.type "arma") (eq item.type "armadura")) (eq item.system.durability.current 0))}}item-name-broken{{/if}}'>
-              <div>{{item.name}}</div>
+              <div class="weapon-name-hover" data-action="toggleBackpackItemExpand" data-item-id="{{item._id}}">{{item.name}}</div>
             </div>
             {{#if (eq item.type "armadura")}}
               <div class='item-single-heavy'>
@@ -379,6 +379,9 @@
               </button>
             {{/if}}
           </div>
+        </li>
+        <li class="backpack-item-description-row" data-item-id="{{item._id}}">
+          <div class="wrapper"></div>
         </li>
       {{/each}}
       </ol>

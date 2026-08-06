@@ -170,6 +170,31 @@ export class ItemExpand {
   }
 
   /**
+   * Toggle expand/collapse for a backpack row's description.
+   * Content is intentionally empty for now (to be filled in later); this only manages the show/hide state.
+   * Called by _onToggleBackpackItemExpand (static wrapper).
+   * @param {ActorSheet} sheet
+   * @param {PointerEvent} event
+   * @param {HTMLElement} target
+   */
+  static async onToggleBackpackExpand(sheet, event, target) {
+    event.preventDefault();
+
+    const itemId = target.dataset.itemId;
+    if (!itemId) return;
+
+    const descriptionRow = sheet.element.querySelector(`.backpack-item-description-row[data-item-id="${itemId}"]`);
+    if (!descriptionRow) return;
+
+    const itemRow = target.closest('li.item');
+
+    const expanded = sheet.expandedSections.get(itemId);
+    descriptionRow.classList.toggle('expanded', !expanded);
+    itemRow?.classList.toggle('description-expanded', !expanded);
+    sheet.expandedSections.set(itemId, !expanded);
+  }
+
+  /**
    * Static action handler for DEFAULT_OPTIONS.actions toggleExpand.
    * Called by _onToggleExpand (static wrapper) with `this` bound to the sheet instance.
    * @param {ActorSheet} sheet
