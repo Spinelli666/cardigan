@@ -28,6 +28,7 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
     'accurate',
     'blunt',
     'bomba',
+    'chicote',
     'colateral',
     'discreto',
     'duelar',

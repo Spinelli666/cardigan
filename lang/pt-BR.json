@@ -720,6 +720,7 @@
       "Blunt": "Contundente",
       "Bomb": "Bomba",
       "Collateral": "Colateral",
+      "Whip": "Chicote",
       "Stealthy": "Discreto",
       "Riposte": "Duelar",
       "Electrify": "Eletrocutar",
@@ -739,6 +740,7 @@
     "WeaponPropertyTooltip": {
       "Accurate": "Aumenta a ::systems/cardigan/assets/images/decorative/icons/icon-critical.svg::<strong class=\"tooltip-bold-yellow\">Chance Crítica</strong> em <code><strong class=\"tooltip-bold-yellow\">1</strong></code>, tornando mais fácil dobrar o dano causado.",
       "Collateral": "Dissipa <strong class=\"tooltip-bold-yellow\">metade</strong> do ::systems/cardigan/assets/images/decorative/accuracy-attack.webp::<strong class=\"tooltip-bold-yellow\">Dano Total</strong> à alvos adjacentes ao alvo acertado por esta arma.",
+      "Whip": "Pode usar ::systems/cardigan/assets/images/types-actions/double-action.webp:: <code><strong class=\"tooltip-bold-yellow\">Atacar</strong></code> ou ::systems/cardigan/assets/images/types-actions/double-action.webp:: <code><strong class=\"tooltip-bold-yellow\">Agarrar</strong></code> com essa Arma à <strong class=\"tooltip-bold-yellow\">5m</strong> de distância. Se tirar um Acerto Crítico em ::systems/cardigan/assets/images/types-actions/double-action.webp:: <code><strong class=\"tooltip-bold-yellow\">Agarrar</strong></code>, pode opcionalmente causar <code><strong class=\"tooltip-bold-yellow\">👋Desarmado</strong></code> ::systems/cardigan/assets/images/others/dice-difficult.webp::<span class=\"tooltip-value-red\">16</span> no alvo.",
       "Blunt": "Acerto Crítico aplica <code><strong class=\"tooltip-bold-yellow\">🏃🏽‍♂️Caído</strong></code> ::systems/cardigan/assets/images/others/dice-difficult.webp::<span class=\"tooltip-value-red\">16</span>.",
       "Stealthy": "Após realizar um <em>ataque furtivo</em> com esta arma pode rolar um teste de ::systems/cardigan/assets/images/types-actions/simple-action.webp::⬩  <code><strong class=\"tooltip-bold-yellow\">👤  Ocultar </strong></code> <code><strong class=\"tooltip-bold-yellow\">(FURT)</strong></code> com ::systems/cardigan/assets/images/decorative/icons/icon-advantage.svg:: <strong class=\"tooltip-bold-yellow\">Vantagem</strong> para retomar o estado furtivo.",
       "QuickDraw": "Seu primeiro ataque contra um alvo possui ::systems/cardigan/assets/images/decorative/icons/icon-enhanced-advantage.svg::<strong class=\"tooltip-bold-yellow\">Vantagem Aprimorada</strong>.",
