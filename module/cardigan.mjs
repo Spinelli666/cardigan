@@ -19,6 +19,8 @@ import { initializeEffects } from './effects/index.mjs';
 import { initializeRaces } from './races/index.mjs';
 // Import Weapon Properties System
 import { initializeWeaponProperties } from './weapon-properties/index.mjs';
+// Import Roll Text Enrichers
+import { initializeRollEnrichers } from './text-enrichers/index.mjs';
 // Import Tooltips System
 import CardiganTooltipManager from './tooltips/tooltip-manager.mjs';
 // Import Hooks
@@ -264,6 +266,9 @@ Hooks.once('setup', async () => {
       return img;
     }
   });
+
+  // Enrichers para @Teste[atributo] / @Pericia[nome] clicáveis nas descrições
+  initializeRollEnrichers();
 });
 
 /* -------------------------------------------- */

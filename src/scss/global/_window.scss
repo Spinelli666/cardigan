@@ -153,6 +153,34 @@
   }
 }
 
+// Foundry core CSS bug: inside its own "compatibility" @layer, `button.toggle:enabled`
+// (display: block) out-specificities `prose-mirror button.toggle` (display: none), which
+// skips the "elements.forms" layer's flex/centering for the editor's edit-toggle button —
+// leaving its icon uncentered/off-kilter. This file isn't layered, so it always wins over
+// Foundry's @layer rules regardless of their specificity — restore the flex centering here.
+prose-mirror button.toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+// Only reveal the edit-toggle button while hovering the editor content (or the button
+// itself, so it doesn't vanish right as the cursor reaches it).
+prose-mirror:has(.editor-content:hover) button.toggle,
+prose-mirror:has(button.toggle:hover) button.toggle {
+  display: flex;
+}
+
+// ...but keep it hidden while the ProseMirror toolbar (menu-container) is open — the
+// editor is already active at that point, so the edit-toggle button is redundant.
+// !important is required here: while typing, the cursor sits inside .editor-content, so
+// the hover-reveal rule above is ALSO matching at the same time, and its `:hover` pseudo-
+// class inside :has() gives it higher specificity than a plain class selector — it would
+// otherwise win and keep the button visible even with the toolbar open.
+prose-mirror:has(.menu-container) button.toggle {
+  display: none !important;
+}
+
 .rollable {
   &:hover,
   &:focus {

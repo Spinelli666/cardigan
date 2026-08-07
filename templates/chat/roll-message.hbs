@@ -62,5 +62,12 @@
       {{/if}}
     </div>
 
+    {{#if hasDC}}
+      <div class='roll-dc-result {{#if isSuccess}}success{{else}}failure{{/if}}'>
+        <span class='dc-label'>CD {{dc}}</span>
+        <span class='dc-outcome'>{{#if isSuccess}}Sucesso{{else}}Falha{{/if}}</span>
+      </div>
+    {{/if}}
+
   </div>
 </div>

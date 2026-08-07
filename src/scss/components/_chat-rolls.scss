@@ -185,6 +185,40 @@
       }
     }
 
+    // DC comparison result (from roll-link enrichers with an explicit dc)
+    .roll-dc-result {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      padding: 3px 12px;
+      border-radius: 8px;
+      font-family: 'Alatsi', sans-serif;
+      font-size: 12px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+      .dc-label {
+        opacity: 0.85;
+      }
+
+      .dc-outcome {
+        font-weight: bold;
+      }
+
+      &.success {
+        border: 2px solid #2E9E4D;
+        background: linear-gradient(90deg, rgba(92, 255, 127, 0.19) 0%, rgba(46, 158, 77, 0.19) 100%);
+        color: #5CFF7F;
+      }
+
+      &.failure {
+        border: 2px solid #8B0011;
+        background: linear-gradient(90deg, rgba(255, 0, 30, 0.19) 0%, rgba(139, 0, 17, 0.19) 100%);
+        color: #FF001E;
+      }
+    }
+
     // Dice Result Container (vertical layout)
     .dice-result-container {
       display: flex;

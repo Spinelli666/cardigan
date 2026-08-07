@@ -424,6 +424,17 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const armorDurabilityHandled = await ArmorSheetBehavior.handleDurabilityChange(this, event);
     if (armorDurabilityHandled) return;
 
+    // <prose-mirror> editors (e.g. the Description tab) persist their own value on save.
+    // Letting the generic submitOnChange form-submit run at the same time races with the
+    // editor's own document update/re-render and can leave Foundry's submit pipeline holding
+    // a detached <form> reference (crash in #processFormFields: "Cannot read properties of null").
+    // Persist the field ourselves and skip the generic submit path for this event.
+    const proseMirrorTarget = event.target?.closest?.('prose-mirror');
+    if (proseMirrorTarget?.name) {
+      await this.document.update({ [proseMirrorTarget.name]: proseMirrorTarget.value });
+      return;
+    }
+
     // CRITICAL: Clean up empty resultItems BEFORE calling super (which validates)
     if (this.item.type === 'item-recipe') {
       const currentResultItems = this.item.system?.resultItems;
