@@ -160,6 +160,22 @@ Detalhes completos e exemplos de código em `FUTURE_INVESTIGATIONS.md`.
 
 ---
 
+## 🟢 Hipótese / investigação não confirmada — Redução de `!important` no SCSS de equipamento
+
+**Status:** Documentado em 10/08/2026, **decisão atual é não agir agora**. Feedback recebido de terceiros (fórum), sem ligação com bug ativo.
+
+**Situação:**
+- `src/scss/components/equipment/` tem 68 ocorrências de `!important`.
+- `src/scss/` inteiro tem 55 arquivos com pelo menos um `!important`.
+- Origem provável: mesmas classes (`.item-ammunition`, `.item-quantity`, etc.) redefinidas em múltiplos arquivos para contextos visuais diferentes (mochila em `_backpack.scss` vs. arma equipada em `_equipament-banner.scss`), gerando conflitos de especificidade resolvidos com `!important` em vez de seletores mais específicos.
+
+**Decisão temporária (vigente):**
+- Não fazer refatoração ampla agora — 55 arquivos é escopo grande, alto risco de regressão visual, sem relação com o bug de "pulo" de sub-pixel investigado no mesmo dia (`!important` afeta apenas especificidade de cascata, não arredondamento/renderização).
+- Se retomada, seguir o padrão cirúrgico já usado no projeto (ver refatorações concluídas acima): um componente/arquivo por vez, nunca reescrita geral.
+- Antes de remover qualquer `!important`, mapear por que foi introduzido (provável conflito de especificidade entre `_backpack.scss` e `_equipament-banner.scss` reaplicando a mesma classe) para não quebrar overrides intencionais.
+
+---
+
 ## Como usar este arquivo
 
 - Antes de iniciar qualquer refatoração de sheets/skills/effects/weapon-properties, releia a seção correspondente aqui **e** em `FUTURE_INVESTIGATIONS.md` para contexto completo (exemplos de código-alvo, comparações com outros sistemas).

@@ -1,3 +1,8 @@
-2026/08/09-20:24:01.211 2f64 Recovering log #1562
-2026/08/09-20:24:01.411 2f64 Delete type=0 #1562
-2026/08/09-20:24:01.411 2f64 Delete type=3 #1561
+2026/08/09-22:26:41.701 3e58 Recovering log #1564
+2026/08/09-22:26:41.768 3e58 Delete type=0 #1564
+2026/08/09-22:26:41.776 3e58 Delete type=3 #1563
+2026/08/09-23:55:48.215 333c Level-0 table #1568: started
+2026/08/09-23:55:48.215 333c Level-0 table #1568: 0 bytes OK
+2026/08/09-23:55:48.232 333c Delete type=0 #1566
+2026/08/09-23:55:48.257 333c Manual compaction at level-0 from '!folders!QcRacDwarf3GzTk1' @ 72057594037927935 : 1 .. '!items!Y7zZ0aA3bB6cC9dD' @ 0 : 0; will stop at (end)
+2026/08/09-23:55:48.257 333c Manual compaction at level-1 from '!folders!QcRacDwarf3GzTk1' @ 72057594037927935 : 1 .. '!items!Y7zZ0aA3bB6cC9dD' @ 0 : 0; will stop at (end)
