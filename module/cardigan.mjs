@@ -35,6 +35,8 @@ import { handleMerchantTradeRequest, handleMerchantTradeAccepted, handleMerchant
 import { closeAttackDialogForAttacker, showDamageNotification, showArmorDurabilityNotification, createAttackerResultDialog, showArmorDurabilityDialog, createGMEvasionNotification } from './combat/combat-dialogs.mjs';
 // Import Migration
 import { migrateWorldData } from './migration/migrate-world.mjs';
+// [STYLELAB] Ferramenta de dev temporária — ver module/dev-tools/style-lab.mjs para remoção
+import { CardiganStyleLab, registerStyleLabKeybinding, registerStyleLabSocket, mountStyleLabLauncher } from './dev-tools/style-lab.mjs';
 
 
 
@@ -57,6 +59,7 @@ globalThis.cardigan = {
     rollItemMacro,
   },
   models,
+  styleLab: CardiganStyleLab, // [STYLELAB]
 };
 
 Hooks.once('init', function () {
@@ -148,6 +151,9 @@ Hooks.once('init', function () {
 
   // Initialize Weapon Properties System
   initializeWeaponProperties();
+
+  // [STYLELAB] Registra o atalho Ctrl+Shift+L da ferramenta de dev temporária
+  registerStyleLabKeybinding();
 
   // Register schema version setting (used by the migration system)
   game.settings.register('cardigan', 'schemaVersion', {
@@ -347,7 +353,12 @@ Hooks.once('ready', function () {
 
   // Initialize Cardigan tooltip system
   CardiganTooltipManager.initialize();
-  
+
+  // [STYLELAB] Sincroniza os overrides de estilo com outros clientes na mesa (efêmero)
+  registerStyleLabSocket();
+  // [STYLELAB] Botão flutuante para abrir a ferramenta de dev sem precisar do console
+  mountStyleLabLauncher();
+
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => createDocMacro(data, slot));
   

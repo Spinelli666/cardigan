@@ -35,7 +35,7 @@
   </div>
   {{#unless item.system.isUnarmed}}
     {{#if (or item.system.ranged item.system.isFirearm)}}
-      <div class='item-ammunition'>
+      <div class='item-ammunition' draggable='false'>
         {{#if item.system.isFirearm}}
           <span class='ammunition-firearm ammunition-display' data-weapon-id='{{item._id}}'>
             <span class='ammunition-current'>{{item.system.loadedAmmo}}</span>

@@ -383,10 +383,9 @@ prose-mirror:has(.menu-container) button.toggle {
 /*  Chat Messages                     */
 /* ---------------------------------- */
 .chat-message {
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
-  box-shadow: 0 0 12px rgba(212, 168, 74, 0.6), 0 0 28px rgba(212, 168, 74, 0.3);
 }
 .chat-message.whisper {
   box-shadow: 0 0 10px rgba(156, 106, 47, 0.55), 0 0 22px rgba(156, 106, 47, 0.25);
@@ -1089,7 +1088,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .application.sheet.cardigan.item.item-type-comum {
   min-width: 400.444px;
   width: 400.444px;
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -1330,7 +1329,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
   border: 1.5px solid #c0863b;
   border-radius: 12px;
   padding: 5px;
@@ -1378,7 +1377,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   width: 400.444px;
   height: 440.445px;
   min-height: 440.445px;
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -1619,7 +1618,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
   border: 1.5px solid #c0863b;
   border-radius: 12px;
   padding: 5px;
@@ -1665,7 +1664,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .application.sheet.cardigan.item.item-type-municao {
   min-width: 400.444px;
   width: 400.444px;
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -1951,7 +1950,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
   border: 1.5px solid #c0863b;
   border-radius: 12px;
   padding: 5px;
@@ -1998,7 +1997,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   min-width: 450.444px;
   width: 450.444px;
   height: 671.556px;
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -3947,7 +3946,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 
 /* Weapon form styles */
 .application.sheet.cardigan.item.item-type-arma {
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -4593,7 +4592,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
   border: 1.5px solid #c0863b;
   border-radius: 12px;
   padding: 5px;
@@ -4783,7 +4782,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .application.sheet.cardigan.item.item-type-armadura {
   min-width: 400.444px;
   width: 400.444px;
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -5243,7 +5242,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
   border: 1.5px solid #c0863b;
   border-radius: 12px;
   padding: 5px;
@@ -6751,7 +6750,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   padding: 2px 5px;
   border: 1px solid #FFB75C;
   border-radius: 15px;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
 }
 .cardigan .proficiencies-effects-container .effects-list .effect-image {
   margin-left: 4px;
@@ -7309,7 +7308,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   padding: 2px 5px;
   border: 1px solid #FFB75C;
   border-radius: 15px;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
 }
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item.durability-broken,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item.durability-broken,
@@ -8737,7 +8736,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-durability .durability-icon,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-durability .durability-icon {
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.8;
   transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
   will-change: transform, filter;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
@@ -9008,8 +9007,8 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-durability .durability-icon,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-durability .durability-icon,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-durability .durability-icon {
-  width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
   flex-shrink: 0;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
 }
@@ -10309,7 +10308,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   border: 1px solid #FFB75C;
   border-radius: 15px;
   border-bottom: 1px solid #FFB75C;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
   flex: 1;
   min-width: 0;
 }
@@ -10468,7 +10467,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability .durability-icon {
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.8;
   transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
   will-change: transform, filter;
 }
@@ -10493,8 +10492,8 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   -webkit-text-fill-color: transparent;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability .durability-icon {
-  width: 18px;
-  height: 18px;
+  width: 21px;
+  height: 21px;
   flex-shrink: 0;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
 }
@@ -12710,7 +12709,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   border: 1px solid #FFB75C;
   border-radius: 15px;
   border-bottom: 1px solid #FFB75C;
-  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
 }
 .cardigan .backpack-table li.item:last-child {
   border-bottom: 1px solid #FFB75C;
@@ -13058,7 +13057,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 }
 .cardigan .backpack-table .item-durability .durability-icon {
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.8;
   transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
   will-change: transform, filter;
 }
@@ -13083,8 +13082,8 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   -webkit-text-fill-color: transparent;
 }
 .cardigan .backpack-table .item-durability .durability-icon {
-  width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
   flex-shrink: 0;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
 }
@@ -15530,356 +15529,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
     min-height: 80px;
     padding: 15px;
   }
-}
-.cardigan .armor-type-selection {
-  padding: 1rem;
-}
-.cardigan .armor-type-selection h3 {
-  margin: 0 0 0.5rem 0;
-  color: var(--cardigan-c-beige);
-  text-align: center;
-}
-.cardigan .armor-type-selection .dialog-description {
-  margin: 0 0 1rem 0;
-  color: var(--cardigan-c-beige);
-  text-align: center;
-  font-size: 0.9rem;
-}
-.cardigan .armor-type-selection .armor-types-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-.cardigan .armor-type-selection .armor-type-option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  border: 2px solid #444;
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-height: 80px;
-  justify-content: center;
-}
-.cardigan .armor-type-selection .armor-type-option:hover, .cardigan .armor-type-selection .armor-type-option.hovered {
-  border-color: var(--cardigan-c-beige);
-  background: rgba(var(--cardigan-c-beige), 0.1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.cardigan .armor-type-selection .armor-type-icon {
-  font-size: 1.5rem;
-  color: var(--cardigan-c-beige);
-  margin-bottom: 0.5rem;
-}
-.cardigan .armor-type-selection .armor-type-label {
-  font-size: 0.85rem;
-  color: var(--cardigan-c-beige);
-  text-align: center;
-  font-weight: 500;
-}
-.cardigan .armor-type-selection .dialog-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-}
-.cardigan .armor-type-selection .cancel-button {
-  padding: 0.5rem 1rem;
-  border: 1px solid #444;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.3);
-  color: var(--cardigan-c-beige);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.cardigan .armor-type-selection .cancel-button:hover {
-  background: rgba(var(--cardigan-c-beige), 0.1);
-  border-color: var(--cardigan-c-beige);
-}
-.cardigan .backpack-type-selection {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.95));
-  border: 2px solid var(--cardigan-c-beige);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-}
-.cardigan .backpack-type-selection .dialog-header {
-  text-align: center;
-  margin-bottom: 25px;
-  padding: 20px;
-  background: linear-gradient(135deg, rgba(var(--cardigan-c-beige), 0.15), rgba(var(--cardigan-c-beige), 0.05));
-  border-radius: 10px 10px 0 0;
-  border-bottom: 2px solid rgba(var(--cardigan-c-beige), 0.3);
-}
-.cardigan .backpack-type-selection .dialog-header h2 {
-  color: var(--cardigan-c-beige);
-  font-size: 1.5em;
-  margin-bottom: 8px;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-  letter-spacing: 0.5px;
-}
-.cardigan .backpack-type-selection .dialog-header p {
-  color: rgba(var(--cardigan-c-beige), 0.85);
-  font-size: 1rem;
-  line-height: 1.4;
-  margin: 0;
-  font-style: italic;
-}
-.cardigan .backpack-type-selection .dialog-content {
-  padding: 20px;
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-options {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  margin-bottom: 25px;
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-  border: 2px solid rgba(var(--cardigan-c-beige), 0.3);
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(10, 10, 20, 0.4));
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(var(--cardigan-c-beige), 0.1), transparent);
-  transition: left 0.5s ease;
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option:hover {
-  border-color: var(--cardigan-c-beige);
-  background: linear-gradient(135deg, rgba(var(--cardigan-c-beige), 0.2), rgba(var(--cardigan-c-beige), 0.1));
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 25px rgba(var(--cardigan-c-beige), 0.3);
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option:hover::before {
-  left: 100%;
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option:hover .type-icon {
-  transform: scale(1.15) rotate(5deg);
-  background: linear-gradient(135deg, rgba(var(--cardigan-c-beige), 0.4), rgba(var(--cardigan-c-beige), 0.2));
-  box-shadow: 0 0 20px rgba(var(--cardigan-c-beige), 0.4);
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option:hover .type-name {
-  color: var(--cardigan-c-beige);
-  text-shadow: 0 0 10px rgba(var(--cardigan-c-beige), 0.5);
-  filter: brightness(1.15);
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option:hover .type-description {
-  color: rgba(var(--cardigan-c-beige), 0.9);
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option:active {
-  transform: translateY(-1px) scale(1.01);
-  box-shadow: 0 4px 15px rgba(var(--cardigan-c-beige), 0.4);
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option .type-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(var(--cardigan-c-beige), 0.25), rgba(var(--cardigan-c-beige), 0.15));
-  border: 3px solid rgba(var(--cardigan-c-beige), 0.4);
-  font-size: 1.8rem;
-  color: var(--cardigan-c-beige);
-  flex-shrink: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: inset 0 2px 4px rgba(var(--cardigan-c-beige), 0.1);
-  position: relative;
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option .type-icon::after {
-  content: "";
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  height: 80%;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
-  pointer-events: none;
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option .type-details {
-  flex: 1;
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option .type-details .type-name {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: var(--cardigan-c-beige);
-  margin: 0 0 8px 0;
-  transition: all 0.3s ease;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-  letter-spacing: 0.3px;
-}
-.cardigan .backpack-type-selection .dialog-content .backpack-type-option .type-details .type-description {
-  font-size: 1rem;
-  color: rgba(var(--cardigan-c-beige), 0.75);
-  line-height: 1.4;
-  margin: 0;
-  transition: all 0.3s ease;
-}
-.cardigan .backpack-type-selection .dialog-footer {
-  text-align: center;
-  padding: 20px;
-  border-top: 2px solid rgba(var(--cardigan-c-beige), 0.2);
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(10, 10, 20, 0.2));
-  border-radius: 0 0 10px 10px;
-}
-.cardigan .backpack-type-selection .dialog-footer .cancel-button {
-  padding: 12px 24px;
-  border: 2px solid rgba(var(--cardigan-c-beige), 0.4);
-  border-radius: 8px;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(20, 20, 30, 0.4));
-  color: var(--cardigan-c-beige);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-  font-weight: 500;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-}
-.cardigan .backpack-type-selection .dialog-footer .cancel-button i {
-  margin-right: 8px;
-  font-size: 0.9rem;
-}
-.cardigan .backpack-type-selection .dialog-footer .cancel-button:hover {
-  background: linear-gradient(135deg, rgba(var(--cardigan-c-beige), 0.15), rgba(var(--cardigan-c-beige), 0.05));
-  border-color: var(--cardigan-c-beige);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(var(--cardigan-c-beige), 0.2);
-}
-.cardigan .backpack-type-selection .dialog-footer .cancel-button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(var(--cardigan-c-beige), 0.3);
-}
-.cardigan .backpack-type-header {
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(68, 68, 68, 0.5);
-}
-.cardigan .backpack-common-header,
-.cardigan .backpack-ammunition-header,
-.cardigan .backpack-consumable-header {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-.cardigan .backpack-common-header h3,
-.cardigan .backpack-ammunition-header h3,
-.cardigan .backpack-consumable-header h3 {
-  color: var(--cardigan-c-beige);
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-.cardigan .backpack-common-header h3 i,
-.cardigan .backpack-ammunition-header h3 i,
-.cardigan .backpack-consumable-header h3 i {
-  font-size: 1.1rem;
-}
-.cardigan .backpack-common-header .item-subtitle,
-.cardigan .backpack-ammunition-header .item-subtitle,
-.cardigan .backpack-consumable-header .item-subtitle {
-  color: rgba(var(--cardigan-c-beige), 0.7);
-  font-size: 0.9rem;
-  margin: 0;
-  font-style: italic;
-}
-.cardigan .backpack-form-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
-  border: 1px solid rgba(68, 68, 68, 0.3);
-}
-.cardigan .backpack-form-section .form-group {
-  flex: 1;
-  min-width: 200px;
-}
-.cardigan .backpack-form-section .form-group.full-width {
-  flex: 100%;
-}
-.cardigan .backpack-form-section .form-group label {
-  display: block;
-  color: var(--cardigan-c-beige);
-  font-weight: bold;
-  margin-bottom: 0.25rem;
-  font-size: 0.9rem;
-}
-.cardigan .backpack-form-section .form-group .checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: normal;
-  cursor: pointer;
-}
-.cardigan .backpack-form-section .form-group .checkbox-label input[type=checkbox] {
-  margin: 0;
-}
-.cardigan .backpack-form-section .form-group .form-fields {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.cardigan .backpack-form-section .form-group .form-fields input, .cardigan .backpack-form-section .form-group .form-fields select, .cardigan .backpack-form-section .form-group .form-fields textarea {
-  flex: 1;
-  padding: 0.375rem 0.75rem;
-  border: 1px solid #555;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.4);
-  color: var(--cardigan-c-beige);
-  font-size: 0.9rem;
-}
-.cardigan .backpack-form-section .form-group .form-fields input:focus, .cardigan .backpack-form-section .form-group .form-fields select:focus, .cardigan .backpack-form-section .form-group .form-fields textarea:focus {
-  border-color: var(--cardigan-c-beige);
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(var(--cardigan-c-beige), 0.2);
-}
-.cardigan .backpack-form-section .form-group .form-fields input::placeholder, .cardigan .backpack-form-section .form-group .form-fields select::placeholder, .cardigan .backpack-form-section .form-group .form-fields textarea::placeholder {
-  color: rgba(var(--cardigan-c-beige), 0.5);
-}
-.cardigan .backpack-form-section .form-group .form-fields textarea {
-  resize: vertical;
-  min-height: 80px;
-  line-height: 1.4;
-}
-.cardigan .backpack-form-section .form-group .form-fields .unit {
-  color: rgba(var(--cardigan-c-beige), 0.7);
-  font-size: 0.85rem;
-  white-space: nowrap;
-}
-.cardigan .backpack-form-section .form-group .form-fields .help-text {
-  color: rgba(var(--cardigan-c-beige), 0.6);
-  font-size: 0.8rem;
-  font-style: italic;
-  flex: 100%;
-  margin-top: 0.25rem;
-}
-.cardigan .backpack-roll-section {
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 2px solid rgba(68, 68, 68, 0.5);
-}
-.cardigan .backpack-roll-section .resource {
-  margin-bottom: 1rem;
 }
 .cardigan .general-items-selection .window-content {
   padding: 0;
@@ -20745,7 +20394,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 
 .advantage-selection-dialog {
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -21803,150 +21452,6 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   margin-top: 16px;
   padding-top: 16px;
   border-top: 1px solid #ddd;
-}
-
-/* ===================================== */
-/*  TRADE SYSTEM - PLAYER SELECTION     */
-/* ===================================== */
-.player-selection-dialog {
-  padding: 0;
-}
-.player-selection-dialog .instruction {
-  margin: 0 0 20px 0;
-  font-size: 15px;
-  color: var(--color-text-dark-primary, #191813);
-  text-align: center;
-  font-weight: 500;
-  line-height: 1.5;
-}
-.player-selection-dialog .player-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  max-height: 450px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 4px;
-  /* Custom scrollbar */
-}
-.player-selection-dialog .player-list::-webkit-scrollbar {
-  width: 8px;
-}
-.player-selection-dialog .player-list::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-}
-.player-selection-dialog .player-list::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-}
-.player-selection-dialog .player-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.4);
-}
-.player-selection-dialog .player-option {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  border: 2px solid var(--color-border-light-2, #d5cfc5);
-  border-radius: 8px;
-  background: #2a2a2a;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.player-selection-dialog .player-option::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  transition: left 0.5s;
-}
-.player-selection-dialog .player-option:hover {
-  border-color: var(--color-border-highlight, #4caf50);
-  background: #1e1e1e;
-  transform: translateX(6px) scale(1.02);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15), 0 2px 4px rgba(0, 0, 0, 0.08);
-}
-.player-selection-dialog .player-option:hover::before {
-  left: 100%;
-}
-.player-selection-dialog .player-option:hover .player-avatar {
-  border-color: var(--color-border-highlight, #4caf50);
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-  transform: scale(1.05);
-}
-.player-selection-dialog .player-option:hover .select-player-btn {
-  background: linear-gradient(135deg, #45a049 0%, #388e3c 100%);
-  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-.player-selection-dialog .player-option:active {
-  transform: translateX(4px) scale(0.98);
-}
-.player-selection-dialog .player-avatar {
-  width: 56px;
-  height: 56px;
-  min-width: 56px;
-  border-radius: 50%;
-  border: 3px solid var(--color-border-light-1, #b5b3a4);
-  object-fit: cover;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.5);
-}
-.player-selection-dialog .player-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-.player-selection-dialog .player-name {
-  font-weight: 700;
-  font-size: 17px;
-  color: #e8e6e0;
-  line-height: 1.3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.player-selection-dialog .player-owner {
-  font-size: 13px;
-  color: #b0b0b0;
-  font-weight: 400;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.player-selection-dialog .player-owner::before {
-  content: "👤";
-  font-size: 11px;
-}
-.player-selection-dialog .select-player-btn {
-  padding: 10px 18px;
-  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-}
-.player-selection-dialog .select-player-btn i {
-  font-size: 15px;
-}
-.player-selection-dialog .select-player-btn:active {
-  transform: scale(0.95);
-  box-shadow: 0 1px 3px rgba(76, 175, 80, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* ===================================== */
@@ -24416,7 +23921,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 .cardigan.dialog.effects-selection {
   min-width: 630px;
   max-height: 580px;
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -24739,7 +24244,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 
 .dialog.cardigan-weight-selection-dialog {
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -24762,6 +24267,24 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+.dialog.cardigan-weight-selection-dialog .window-header .header-control.fa-xmark {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  outline: none;
+  color: #FFB75C;
+}
+.dialog.cardigan-weight-selection-dialog .window-header .header-control.fa-xmark:hover {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  border-radius: 5px;
+  outline: none;
+  color: rgba(207, 148, 76, 0.8549019608);
+}
+.dialog.cardigan-weight-selection-dialog .window-header:hover .header-control.fa-xmark {
+  opacity: 1;
+}
+.dialog.cardigan-weight-selection-dialog .window-header .header-control.fa-ellipsis-vertical {
+  display: none !important;
 }
 .dialog.cardigan-weight-selection-dialog .window-content {
   background: transparent;
@@ -24869,7 +24392,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 
 .dialog.cardigan-weapon-damage-dialog {
   width: 390px;
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -25044,7 +24567,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 }
 
 .dialog.cardigan-skill-test-add-dialog {
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -25507,7 +25030,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 
 .application.dialog.cardigan-skill-test-abilities-selection-dialog,
 .dialog.cardigan-skill-test-abilities-selection-dialog {
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -25716,7 +25239,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 
 .dialog.cardigan-life-energy-add-dialog {
   width: 620px;
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -26408,7 +25931,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 /* ---------------------------------- */
 .dialog.cardigan-weapon-properties-dialog {
   min-width: 420px;
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -26617,7 +26140,7 @@ body .locked-tooltip.proficiency-tooltip.cardigan-tooltip {
   min-width: 250px !important;
   height: 220px !important;
   padding: 0px !important;
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%) !important;
+  background: linear-gradient(0deg, rgba(52, 108, 143, 0.6) 9%, rgba(34, 69, 91, 0.6) 51%, rgba(24, 49, 65, 0.6) 86%) !important;
   border: 3px solid #c0863b !important;
   border-radius: 10px !important;
   box-shadow: 0 0 30px rgba(255, 183, 92, 0.4), 0 4px 12px rgba(0, 0, 0, 0.6) !important;
@@ -26684,7 +26207,7 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
   height: auto !important;
   min-height: 150px !important;
   padding: 0px !important;
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%) !important;
+  background: linear-gradient(0deg, rgba(52, 108, 143, 0.8) 9%, rgba(34, 69, 91, 0.8) 51%, rgba(24, 49, 65, 0.8) 86%) !important;
   border: 3px solid #c0863b !important;
   border-radius: 10px !important;
   box-shadow: 0 0 30px rgba(255, 183, 92, 0.4), 0 4px 12px rgba(0, 0, 0, 0.6) !important;
@@ -26804,7 +26327,7 @@ body .locked-tooltip.effect-tooltip.cardigan-tooltip {
 /* Locked tooltip container for dice formulas */
 body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   padding: 8px 12px !important;
-  background: linear-gradient(0deg, rgba(255, 183, 92, 0.6) 0%, rgba(29, 91, 102, 0.6) 50%) !important;
+  background: linear-gradient(0deg, rgba(52, 108, 143, 0.6) 9%, rgba(34, 69, 91, 0.6) 51%, rgba(24, 49, 65, 0.6) 86%) !important;
   border: 2px solid #c0863b !important;
   border-radius: 8px !important;
   box-shadow: 0 0 20px rgba(255, 183, 92, 0.3), 0 4px 10px rgba(0, 0, 0, 0.5) !important;
@@ -26845,7 +26368,7 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   font-family: "Alatsi", sans-serif !important;
   font-size: 14px !important;
   color: #FFB75C !important;
-  background: linear-gradient(0deg, rgba(255, 183, 92, 0.5) 0%, rgba(29, 91, 102, 0.5) 50%) !important;
+  background: linear-gradient(0deg, rgba(52, 108, 143, 0.6) 9%, rgba(34, 69, 91, 0.6) 51%, rgba(24, 49, 65, 0.6) 86%) !important;
   text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25) !important;
   backdrop-filter: blur(4px) !important;
   border: 2px solid #c0863b !important;
@@ -26870,7 +26393,7 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   font-size: 14px !important;
   color: #FFB75C !important;
   backdrop-filter: blur(6px) !important;
-  background: linear-gradient(0deg, rgba(255, 183, 92, 0.4) 0%, rgba(29, 91, 102, 0.4) 50%) !important;
+  background: linear-gradient(0deg, rgba(52, 108, 143, 0.6) 9%, rgba(34, 69, 91, 0.6) 51%, rgba(24, 49, 65, 0.6) 86%) !important;
   text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25) !important;
   border: 2px solid #c0863b !important;
   border-radius: 7px !important;
@@ -26972,7 +26495,7 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   text-transform: none !important;
   font-weight: normal !important;
   border-radius: 8px !important;
-  background: linear-gradient(0deg, rgba(255, 183, 92, 0.35) 0%, rgba(29, 91, 102, 0.65) 40%) !important;
+  background: linear-gradient(0deg, rgba(52, 108, 143, 0.6) 9%, rgba(34, 69, 91, 0.6) 51%, rgba(24, 49, 65, 0.6) 86%) !important;
 }
 #tooltip.cardigan-tooltip.weapon-property-tooltip img,
 .locked-tooltip.cardigan-tooltip.weapon-property-tooltip img {

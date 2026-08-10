@@ -7,7 +7,11 @@
       "Bash(node --check \"c:/Users/berna/AppData/Local/FoundryVTT/Data/systems/cardigan/module/text-enrichers/index.mjs\")",
       "Bash(node --check \"c:/Users/berna/AppData/Local/FoundryVTT/Data/systems/cardigan/module/cardigan.mjs\")",
       "Bash(npm run *)",
-      "Bash(echo \"EXIT:$?\")"
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(rm \"c:/Users/berna/AppData/Local/FoundryVTT/Data/systems/cardigan/templates/actor/partials/tab-navigation.hbs\" && echo \"removed\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\berna\\AppData\\Local\\FoundryVTT\\Data\\systems\\cardigan\\templates\\actor\\partials"
     ]
   }
 }
