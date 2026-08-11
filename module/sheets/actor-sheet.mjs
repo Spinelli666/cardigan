@@ -138,8 +138,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       template: 'systems/cardigan/templates/actor/header.hbs',
     },
     tabs: {
-      // Foundry-provided generic template
-      template: 'templates/generic/tab-navigation.hbs',
+      template: 'systems/cardigan/templates/actor/partials/tab-navigation.hbs',
     },
     proficiencies: {
       template: 'systems/cardigan/templates/actor/proficiencies.hbs',
@@ -181,31 +180,38 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   /** @override */
   async _renderFrame(options) {
     const frame = await super._renderFrame(options);
-    
+
+    // Wrapper that clips the decorative frame images to the window's own box.
+    // Needed because .application (Foundry core) had overflow:hidden overridden
+    // to visible so the vertical tab rail (.sheet-tabs) can bleed past the right
+    // border — this wrapper reproduces that same clip, scoped only to the artwork.
+    let moldurasWrapper = frame.querySelector('.moldura-clip-wrapper');
+    if (!moldurasWrapper) {
+      moldurasWrapper = document.createElement('div');
+      moldurasWrapper.className = 'moldura-clip-wrapper';
+      frame.insertBefore(moldurasWrapper, frame.firstChild);
+    }
+
     // Add decorative left frame to the window frame (persists through minimize/maximize)
-    const existingLeftFrame = frame.querySelector('.moldura-esquerda-overlay');
+    const existingLeftFrame = moldurasWrapper.querySelector('.moldura-esquerda-overlay');
     if (!existingLeftFrame) {
       const leftFrame = document.createElement('img');
       leftFrame.className = 'moldura-esquerda-overlay';
       leftFrame.src = 'systems/cardigan/assets/images/decorative/left-frame.webp';
       leftFrame.alt = 'Moldura Esquerda';
-      
-      // Insert at the beginning of the frame
-      frame.insertBefore(leftFrame, frame.firstChild);
+      moldurasWrapper.appendChild(leftFrame);
     }
-    
+
     // Add decorative right frame to the window frame (persists through minimize/maximize)
-    const existingRightFrame = frame.querySelector('.moldura-direita-overlay');
+    const existingRightFrame = moldurasWrapper.querySelector('.moldura-direita-overlay');
     if (!existingRightFrame) {
       const rightFrame = document.createElement('img');
       rightFrame.className = 'moldura-direita-overlay';
       rightFrame.src = 'systems/cardigan/assets/images/decorative/right-frame.webp';
       rightFrame.alt = 'Moldura Direita';
-      
-      // Insert after left frame
-      frame.insertBefore(rightFrame, frame.children[1]);
+      moldurasWrapper.appendChild(rightFrame);
     }
-    
+
     return frame;
   }
 
@@ -316,22 +322,27 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         case 'proficiencies':
           tab.id = 'proficiencies';
           tab.label += 'Proficiencies';
+          tab.icon = 'fa-solid fa-star';
           break;
         case 'equipment':
           tab.id = 'equipment';
           tab.label += 'Equipment';
+          tab.icon = 'fa-solid fa-shield-halved';
           break;
         case 'skills':
           tab.id = 'skills';
           tab.label += 'Skills';
+          tab.icon = 'fa-solid fa-bolt';
           break;
         case 'professions':
           tab.id = 'professions';
           tab.label += 'Professions';
+          tab.icon = 'fa-solid fa-hammer';
           break;
         case 'biography':
           tab.id = 'biography';
           tab.label += 'Biography';
+          tab.icon = 'fa-solid fa-book';
           break;
         default:
           // Unknown part, skip it

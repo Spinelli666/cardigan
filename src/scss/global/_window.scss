@@ -5,12 +5,32 @@
 .application.cardigan.actor,
 .cardigan.actor.sheet {
   border: 5px solid #b07b36 !important;
-  border-radius: 14px;
   background: transparent !important;
-  
+  // Sobrescreve o overflow:hidden do .application do Foundry core (este arquivo
+  // não usa @layer, então vence a regra do core independente de especificidade —
+  // mesmo princípio já usado no override do botão do ProseMirror, mais abaixo).
+  // Necessário pra .sheet-tabs (navbar de abas vertical) vazar pra fora da borda.
+  overflow: visible;
+
   // REMOVIDO: container-type cria novo stacking context que isola z-index
   // container-type: size;
   // container-name: actor-sheet;
+
+  // Wrapper que recorta as molduras decorativas exatamente na caixa da janela,
+  // reproduzindo o overflow:hidden que o .application tinha antes — isolado só
+  // pra elas, sem impedir a navbar de abas de vazar (ver overflow:visible acima).
+  .moldura-clip-wrapper {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    // 9px = 14px (border-radius do .application) - 5px (largura da borda dele).
+    // O overflow:hidden original recortava no raio efetivo do padding-box (raio
+    // menos a borda), não nos 14px cheios — o wrapper não tem borda própria,
+    // então precisa desse valor já reduzido pra recortar no mesmo lugar de antes.
+    border-radius: 9px;
+    pointer-events: none;
+    z-index: 1000; // Fica acima do window-header (z-index ~100)
+  }
 
   // Moldura decorativa - fora do window-content, acima de tudo
   .moldura-esquerda-overlay {
@@ -18,8 +38,6 @@
     top: -92px;
     left: -105px;
     height: 281.05px;
-    pointer-events: none; // Não interfere com cliques
-    z-index: 1000; // Fica acima do window-header (z-index ~100)
   }
 
   .moldura-direita-overlay {
@@ -27,13 +45,10 @@
     top: -92px;
     right: -105px;
     height: 281.05px;
-    pointer-events: none; // Não interfere com cliques
-    z-index: 1000; // Fica acima do window-header (z-index ~100)
   }
 
   // Ocultar molduras quando minimizado
-  &.minimized .moldura-esquerda-overlay,
-  &.minimized .moldura-direita-overlay {
+  &.minimized .moldura-clip-wrapper {
     display: none;
   }
 
@@ -55,6 +70,7 @@
     position: relative;
     z-index: 50; // Acima do window-header
     margin-top: 0px; // Remove o offset negativo
+    overflow: visible; // Permite a navbar de abas (.sheet-tabs) vazar pra fora da borda direita
   }
 
   .window-header {

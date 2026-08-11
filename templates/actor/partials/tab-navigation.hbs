@@ -1,0 +1,17 @@
+{{!-- tab-navigation.hbs: navbar de abas vertical, ícone-only, vazando pela borda direita da janela --}}
+{{!-- Parâmetros: tabs --}}
+<nav class="sheet-tabs tabs" data-group="primary">
+  {{#each tabs as |tab|}}
+  <a
+    data-action="tab"
+    data-group="{{tab.group}}"
+    data-tab="{{tab.id}}"
+    class="tab-rail-btn {{tab.cssClass}}"
+    data-tooltip="{{tab.label}}"
+    data-tooltip-class="cardigan-tooltip"
+    data-tooltip-direction="LEFT"
+  >
+    <i class="{{tab.icon}}" inert></i>
+  </a>
+  {{/each}}
+</nav>
