@@ -5,7 +5,8 @@
 .application.cardigan.actor,
 .cardigan.actor.sheet {
   border: 5px solid #b07b36 !important;
-  background: transparent !important;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(17, 42, 53, 0.95) 0%, rgba(33, 82, 104, 0.9) 50%, rgba(17, 42, 53, 0.95) 100%) !important;
   // Sobrescreve o overflow:hidden do .application do Foundry core (este arquivo
   // não usa @layer, então vence a regra do core independente de especificidade —
   // mesmo princípio já usado no override do botão do ProseMirror, mais abaixo).
@@ -64,7 +65,7 @@
     width: 100%;
     height: 100%;
     transition: opacity 0.2s ease, transform 0.2s ease;
-    background: rgba(14, 41, 56, 0.9);
+    border-radius: 14px;
     // backdrop-filter: none !important; // Remove blur do Foundry
     // -webkit-backdrop-filter: none !important; // Remove blur WebKit
     position: relative;
