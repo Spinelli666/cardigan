@@ -5801,6 +5801,20 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   -webkit-text-fill-color: transparent;
   text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
 }
+.cardigan.actor .sheet-header .header-bottom-section::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: -11px;
+  right: -8px;
+  height: 8px;
+  background-image: url("/systems/cardigan/assets/images/decorative/border.webp");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
+}
 .cardigan.item .sheet-header {
   flex-direction: row;
   align-items: center;
@@ -6304,16 +6318,16 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   text-align: left;
 }
 .cardigan .proficiencies-tab-main {
-  padding: 15px 10px 10px 10px;
+  padding: 25px 10px 10px 10px;
   position: relative;
 }
 .cardigan .proficiencies-tab-main::after {
   content: "";
   position: absolute;
   bottom: -10px;
-  left: -8px;
+  left: 25px;
   right: -8px;
-  width: calc(100% + 16px);
+  width: calc(100% - 48px);
   height: 8px;
   background-image: url("/systems/cardigan/assets/images/decorative/border.webp");
   background-repeat: no-repeat;
@@ -6556,14 +6570,14 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 }
 .cardigan .proficiencies-divider-top-left {
   position: absolute;
-  top: 271px;
+  top: 245px;
   left: -15px;
   width: 110px;
   opacity: 0.8;
 }
 .cardigan .proficiencies-divider-top-right {
   position: absolute;
-  top: 271px;
+  top: 245px;
   right: -15px;
   width: 110px;
   opacity: 0.8;

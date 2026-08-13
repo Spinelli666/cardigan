@@ -264,6 +264,22 @@
           }
         }
       }
+
+      // Borda inferior decorativa
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: -11px;
+        right: -8px;
+        height: 8px;
+        background-image: url('/systems/cardigan/assets/images/decorative/border.webp');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-position: center;
+        pointer-events: none;
+        z-index: 1;
+      }
     }
   }
 }
