@@ -1,5 +1,1 @@
-2026/08/14-22:54:40.511 3e18 Log #1586: 0 ops saved to Table #1587 OK
-2026/08/14-22:54:40.512 3e18 Archiving C:\Users\berna\AppData\Local\FoundryVTT\Data\systems\cardigan\packs\skills-cardigan/001586.log: OK
-2026/08/14-22:54:40.540 3e18 Table #1544: 76 entries OK
-2026/08/14-22:54:40.617 3e18 Archiving C:\Users\berna\AppData\Local\FoundryVTT\Data\systems\cardigan\packs\skills-cardigan/MANIFEST-001585: OK
-2026/08/14-22:54:40.680 3e18 **** Repaired leveldb C:\Users\berna\AppData\Local\FoundryVTT\Data\systems\cardigan\packs\skills-cardigan; recovered 1 files; 73965 bytes. Some data may have been lost. ****
+2026/08/14-22:54:40.829 3e18 Delete type=3 #1
