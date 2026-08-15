@@ -173,6 +173,14 @@ ol.items-list.equipament-table > li.item.items-header {
     flex: 1;
     width: 460px;
     padding: 0px 4px 4px 4px;
+    overflow: visible;
+
+    // Spacing between multiple equipped items in the same slot (e.g. accessories).
+    // Targets the <li> itself since each item is now a collapsible row (li.item > .item-row),
+    // so the pill classes below (.head-armor-item etc.) are no longer direct siblings.
+    li.item + li.item {
+      margin-top: 4px;
+    }
 
     .head-armor-item,
     .torso-armor-item,
@@ -190,15 +198,6 @@ ol.items-list.equipament-table > li.item.items-header {
 
       &.durability-broken {
         background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(245, 0, 4, 0.19) 100%);
-      }
-
-      & + .head-armor-item,
-      & + .torso-armor-item,
-      & + .arms-armor-item,
-      & + .legs-armor-item,
-      & + .feet-armor-item,
-      & + .accessories-armor-item {
-        margin-top: 4px;
       }
 
       .item-name-group {

@@ -76,8 +76,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       controls: [
         {
           icon: 'fa-solid fa-cog',
-          label: 'SHEETS.DefaultDocumentSheet',
-          action: 'showSheetConfig'
+          label: 'SHEETS.ConfigureSheet',
+          action: 'configureSheet'
         }
       ]
     },

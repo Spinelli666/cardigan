@@ -366,11 +366,14 @@
 
       {{! Window control buttons - replicando os botões do window-header }}
       <div class='window-controls-custom'>
-        {{! Botão de alternar controles (se existir) }}
-        <button type='button' class='control-btn toggle-controls-btn' data-action='toggleControls' title='Alternar Controles'>
+        {{! Botão de alternar controles: casa com o seletor nativo do Foundry
+            (.header-control[data-action="toggleControls"]), então o ContextMenu
+            já registrado pelo core em _attachFrameListeners abre normalmente,
+            mesmo com o .window-header nativo escondido. }}
+        <button type='button' class='control-btn header-control toggle-controls-btn' data-action='toggleControls' title='Alternar Controles'>
           <i class='fas fa-ellipsis-vertical'></i>
         </button>
-        
+
         {{! Botão de fechar }}
         <button type='button' class='control-btn close-btn' data-action='close' title='Fechar'>
           <i class='fas fa-xmark'></i>

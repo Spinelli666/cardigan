@@ -63,19 +63,6 @@ export class WindowControlsListeners {
   static setupCustomControls(sheet) {
     WindowControlsListeners.enableWindowDrag(sheet);
 
-    const toggleControlsBtn = sheet.element.querySelector('.toggle-controls-btn');
-    if (toggleControlsBtn) {
-      toggleControlsBtn.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const dropdown = sheet.element.querySelector('.controls-dropdown');
-        if (dropdown) {
-          dropdown.classList.toggle('expanded');
-        }
-      });
-    }
-
     const controlsDiv = sheet.element.querySelector('.window-controls-custom');
     if (controlsDiv) {
       controlsDiv.addEventListener('dblclick', (event) => {
