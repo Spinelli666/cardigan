@@ -11,7 +11,11 @@
     data-tooltip-class="cardigan-tooltip"
     data-tooltip-direction="LEFT"
   >
-    <i class="{{tab.icon}}" inert></i>
+    {{#if tab.iconImage}}
+      <img src="{{tab.iconImage}}" class="tab-rail-icon" alt="" inert />
+    {{else}}
+      <i class="{{tab.icon}}" inert></i>
+    {{/if}}
   </a>
   {{/each}}
 </nav>

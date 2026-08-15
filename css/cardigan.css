@@ -5849,8 +5849,8 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 }
 .cardigan .sheet-tabs {
   position: absolute;
-  top: 50%;
-  right: -48px;
+  top: 48%;
+  right: -35px;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
@@ -5860,31 +5860,37 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   border: none;
 }
 .cardigan .sheet-tabs .tab-rail-btn {
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
-  border: 1.5px solid #c0863b;
-  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(17, 42, 53, 0.95) 0%, rgba(33, 82, 104, 0.9) 50%, rgba(17, 42, 53, 0.95) 100%) !important;
+  border: 2.5px solid #b07b36;
+  border-left: none;
+  border-radius: 0 9px 9px 0;
   transition: all 0.2s ease;
 }
 .cardigan .sheet-tabs .tab-rail-btn i {
-  font-size: 18px;
+  font-size: 14px;
   background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.cardigan .sheet-tabs .tab-rail-btn:hover {
-  border-color: #FFB75C;
+.cardigan .sheet-tabs .tab-rail-btn .tab-rail-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 .cardigan .sheet-tabs .tab-rail-btn:hover i {
   filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.6));
 }
+.cardigan .sheet-tabs .tab-rail-btn:hover .tab-rail-icon {
+  filter: drop-shadow(0 0 6px rgba(255, 183, 92, 0.6));
+}
 .cardigan .sheet-tabs .tab-rail-btn.active {
-  border-color: #FFB75C;
+  transform: scale(1.1);
   box-shadow: 0 0 12px rgba(255, 183, 92, 0.4);
 }
 .cardigan .sheet-tabs .tab-rail-btn.active i {
@@ -5892,6 +5898,9 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.cardigan .sheet-tabs .tab-rail-btn.active .tab-rail-icon {
+  filter: drop-shadow(0 0 4px rgba(255, 165, 0, 0.8));
 }
 .cardigan .tab {
   overflow-y: auto;
@@ -6902,6 +6911,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 6px;
 }
 .cardigan .tab.equipment .money-business-banner .money-inner {
   display: flex;

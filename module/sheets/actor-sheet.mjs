@@ -312,6 +312,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         id: '',
         // FontAwesome Icon, if you so choose
         icon: '',
+        // Image path, takes precedence over the FontAwesome icon when set
+        iconImage: '',
         // Run through localization
         label: 'CARDIGAN.Actor.Tabs.',
       };
@@ -322,17 +324,17 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         case 'proficiencies':
           tab.id = 'proficiencies';
           tab.label += 'Proficiencies';
-          tab.icon = 'fa-solid fa-star';
+          tab.iconImage = 'systems/cardigan/assets/images/decorative/icons/icon-nav-proficiencies.svg';
           break;
         case 'equipment':
           tab.id = 'equipment';
           tab.label += 'Equipment';
-          tab.icon = 'fa-solid fa-shield-halved';
+          tab.iconImage = 'systems/cardigan/assets/images/decorative/icons/icon-nav-equipaments.svg';
           break;
         case 'skills':
           tab.id = 'skills';
           tab.label += 'Skills';
-          tab.icon = 'fa-solid fa-bolt';
+          tab.iconImage = 'systems/cardigan/assets/images/types-actions/double-action.webp';
           break;
         case 'professions':
           tab.id = 'professions';
