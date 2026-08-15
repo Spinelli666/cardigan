@@ -72,6 +72,11 @@
     min-height: 0;
     font-family: 'Alatsi', sans-serif !important;
   }
+
+  // Vertical icon-rail tab navigation - actor sheet only (leaks into item
+  // sheets/dialogs if imported under the bare .cardigan scope below, since
+  // they share the "cardigan" class too).
+  @import 'components/navigation/tabs';
 }
 
 /* Item sheet specific layout - Remove padding from window-content */
@@ -84,19 +89,23 @@
 /* Armor sheet header root styling must stay outside .cardigan scope */
 @import 'components/armor';
 
+/* Legacy horizontal tab nav - item sheets/dialogs only, excludes .actor
+   explicitly so it can never leak into the actor sheet's vertical rail
+   regardless of specificity (see components/navigation/tabs, actor-scoped) */
+@import 'components/navigation/tabs-legacy';
+
 /* Styles limited to cardigan sheets */
 .cardigan {
   // Tab visibility control for item sheets
   .tab:not(.active) {
     display: none !important;
   }
-  
+
   .tab.active {
     display: block !important;
   }
 
   @import 'components/forms';
-  @import 'components/navigation/tabs';
   @import 'components/resource';
   @import 'components/items';
   @import 'components/item-effect';

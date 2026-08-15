@@ -42,16 +42,28 @@
       background-clip: text;
     }
 
-    .header-control,
-    button.header-control {
-      position: relative;
-      right: 5px;
-      top: 6px;
+    .header-control.fa-ellipsis-vertical {
+      display: none !important;
+    }
 
-      i.fa-xmark,
-      &.fa-xmark {
-        color: #FFB75C !important;
+    .header-control.fa-xmark {
+      position: relative;
+      z-index: 11;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      outline: none;
+      color: #FFB75C;
+
+      &:hover {
+        background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+        border-radius: 5px;
+        outline: none;
+        color: #FFB75C;
       }
+    }
+
+    &:hover .header-control.fa-xmark {
+      opacity: 1;
     }
   }
 
