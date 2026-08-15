@@ -87,9 +87,16 @@
     background: rgba(14, 41, 56, 0.9) !important;
     border: 5px solid #b07b36 !important;
     transition: all 0.2s ease;
-    
+    // O ApplicationV2 core define height/max-height inline via JS ao minimizar
+    // (style.height em px vindo do tamanho anterior, style.maxHeight = var(--header-height)) -
+    // como são inline styles sem !important, só um !important aqui consegue vencer.
+    max-height: none !important;
+    height: 45px !important;
+
     .window-header {
       display: flex !important; // Mostra o header quando minimizado
+      background: none; // Sem fundo próprio - usa o background do .application.minimized
+      border-bottom: none; // Sem linha divisória, já que não há window-content visível
       cursor: grab; // Cursor para indicar que pode arrastar
       padding-bottom: 3px;
       
@@ -101,16 +108,35 @@
         display: block;
         flex: 1;
         font-size: 11px !important;
+        color: #FFB75C;
       }
-      
+
       .header-control {
         // Esconde todos os botões exceto o de fechar
         display: none;
-        
-        // Mostra apenas o botão de fechar (ícone fa-xmark)
+
+        // Mostra apenas o botão de fechar (ícone fa-xmark), no mesmo padrão
+        // visual usado nos botões de fechar dos outros dialogs do sistema.
         &.fa-xmark {
           display: block;
+          position: relative;
+          z-index: 11;
+          opacity: 0;
+          transition: opacity 0.2s ease;
+          outline: none;
+          color: #FFB75C;
+
+          &:hover {
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+            border-radius: 5px;
+            outline: none;
+            color: #FFB75C;
+          }
         }
+      }
+
+      &:hover .header-control.fa-xmark {
+        opacity: 1;
       }
     }
   }

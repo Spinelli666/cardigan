@@ -87,10 +87,14 @@
   background: rgba(14, 41, 56, 0.9) !important;
   border: 5px solid #b07b36 !important;
   transition: all 0.2s ease;
+  max-height: none !important;
+  height: 45px !important;
 }
 .application.cardigan.actor.minimized .window-header,
 .cardigan.actor.sheet.minimized .window-header {
   display: flex !important;
+  background: none;
+  border-bottom: none;
   cursor: grab;
   padding-bottom: 3px;
 }
@@ -103,6 +107,7 @@
   display: block;
   flex: 1;
   font-size: 11px !important;
+  color: #FFB75C;
 }
 .application.cardigan.actor.minimized .window-header .header-control,
 .cardigan.actor.sheet.minimized .window-header .header-control {
@@ -111,6 +116,23 @@
 .application.cardigan.actor.minimized .window-header .header-control.fa-xmark,
 .cardigan.actor.sheet.minimized .window-header .header-control.fa-xmark {
   display: block;
+  position: relative;
+  z-index: 11;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  outline: none;
+  color: #FFB75C;
+}
+.application.cardigan.actor.minimized .window-header .header-control.fa-xmark:hover,
+.cardigan.actor.sheet.minimized .window-header .header-control.fa-xmark:hover {
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  border-radius: 5px;
+  outline: none;
+  color: #FFB75C;
+}
+.application.cardigan.actor.minimized .window-header:hover .header-control.fa-xmark,
+.cardigan.actor.sheet.minimized .window-header:hover .header-control.fa-xmark {
+  opacity: 1;
 }
 
 .window-app {
