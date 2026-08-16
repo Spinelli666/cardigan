@@ -773,38 +773,115 @@ ol.items-list.backpack-table > li.item.items-header {
     }
 
     .consumable-item-summary {
-      .consumable-summary-header {
-        display: flex;
-        align-items: center;
-        padding-top: 5px;
-        padding-right: 5px;
-
-        .consumable-summary-weight {
-          display: flex;
-          align-items: center;
-          gap: 2px;
-          margin-left: auto;
-        }
-
-        .consumable-summary-weight-icon {
-          width: 18px;
-          height: 18px;
-        }
-
-        .consumable-summary-weight-text {
-          font-size: 12px;
-          letter-spacing: 0.5px;
-          background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-      }
-
       .consumable-summary-body {
         min-height: 18px;
         color: rgba(255, 255, 255, 0.85);
         font-size: 12px;
+
+        .consumable-summary-description {
+          padding: 5px 20px 0px 20px;
+
+          p {
+            text-align: center;
+            font-size: 10px;
+
+            &::before,
+            &::after {
+              content: '"';
+              background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            }
+
+            .gradient-word {
+              background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            }
+          }
+        }
+
+        .consumable-summary-description-border {
+          display: block;
+          width: 550px;
+          max-width: 100%;
+          height: 8px;
+          margin: 2px auto 0;
+        }
+
+        .consumable-summary-header {
+          display: flex;
+          align-items: center;
+          padding-top: 5px;
+          padding-right: 5px;
+
+          .consumable-summary-header-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: auto;
+          }
+
+          .consumable-summary-profession-icon {
+            width: 15px;
+            height: 15px;
+
+            &.consumable-summary-profession-icon--general {
+              width: 18px;
+              height: 18px;
+            }
+          }
+
+          .consumable-summary-divider {
+            font-size: 10px;
+            color: rgba(255, 183, 92, 0.8);
+          }
+
+          .consumable-summary-price {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+
+          .consumable-summary-price-icon {
+            width: 18px;
+            height: 18px;
+          }
+
+          .consumable-summary-price-text {
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+
+          .consumable-summary-weight {
+            display: flex;
+            align-items: center;
+            gap: 1px;
+          }
+
+          .consumable-summary-weight-icon {
+            width: 15px;
+            height: 15px;
+          }
+
+          .consumable-summary-weight-text {
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+        }
+
+        // .consumable-summary-info holds all item-specific info (modifiers, effects, etc.)
+        // — filled in later, no styles needed yet.
       }
     }
   }

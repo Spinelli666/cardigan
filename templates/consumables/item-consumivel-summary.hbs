@@ -1,19 +1,45 @@
 {{!-- Consumable Item Summary — rendered inside the backpack's expandable description row --}}
 <div class="consumable-item-summary">
-  <div class="consumable-summary-header">
-    <div class="consumable-summary-weight">
-      <img class="consumable-summary-weight-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weight.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-tooltip="Peso" data-tooltip-class='cardigan-tooltip' />
-      <span class="consumable-summary-weight-text">
-        {{#if (eq system.weight "light")}}{{localize "CARDIGAN.WeightLight"}}
-        {{else if (eq system.weight "medium")}}{{localize "CARDIGAN.WeightMedium"}}
-        {{else if (eq system.weight "heavy")}}{{localize "CARDIGAN.WeightHeavy"}}
-        {{else if (eq system.weight "very-heavy")}}{{localize "CARDIGAN.WeightVeryHeavy"}}
-        {{/if}}
-      </span>
-    </div>
-  </div>
-
   <div class="consumable-summary-body">
-    {{!-- Content to be filled in later --}}
+    {{#if enrichedDescription}}
+    <div class="consumable-summary-description">
+      {{{enrichedDescription}}}
+    </div>
+    <img class="consumable-summary-description-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+    {{/if}}
+
+    <div class="consumable-summary-header">
+      <div class="consumable-summary-header-right">
+        <img class="consumable-summary-profession-icon{{#if (eq system.profession "alchemy")}}{{else if (eq system.profession "blacksmithing")}}{{else if (eq system.profession "culinary")}}{{else if (eq system.profession "tailoring")}}{{else if (eq system.profession "tecnomagic")}}{{else}} consumable-summary-profession-icon--general{{/if}}"
+          src="systems/cardigan/assets/images/profession/{{#if (eq system.profession "alchemy")}}icon-alchemy.svg{{else if (eq system.profession "blacksmithing")}}icon-blacksmithing.svg{{else if (eq system.profession "culinary")}}icon-culinary.svg{{else if (eq system.profession "tailoring")}}icon-tailoring.svg{{else if (eq system.profession "tecnomagic")}}icon-technomagic.svg{{else}}icon-profession.webp{{/if}}"
+          alt="{{localize (concat 'CARDIGAN.ItemIngredient.Professions.' (capitalize system.profession))}}"
+          data-tooltip="{{localize (concat 'CARDIGAN.ItemIngredient.Professions.' (capitalize system.profession))}}"
+          data-tooltip-class='cardigan-tooltip' />
+
+        <span class="consumable-summary-divider">⬩</span>
+
+        <div class="consumable-summary-price">
+          <img class="consumable-summary-price-icon" src="systems/cardigan/assets/images/decorative/icons/icon-coins.svg" alt="{{localize 'CARDIGAN.Price'}}" data-tooltip="Preço" data-tooltip-class='cardigan-tooltip' />
+          <span class="consumable-summary-price-text">{{system.price}}</span>
+        </div>
+
+        <span class="consumable-summary-divider">⬩</span>
+
+        <div class="consumable-summary-weight">
+          <img class="consumable-summary-weight-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weight.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-tooltip="Peso" data-tooltip-class='cardigan-tooltip' />
+          <span class="consumable-summary-weight-text">
+            {{#if (eq system.weight "light")}}{{localize "CARDIGAN.WeightLight"}}
+            {{else if (eq system.weight "medium")}}{{localize "CARDIGAN.WeightMedium"}}
+            {{else if (eq system.weight "heavy")}}{{localize "CARDIGAN.WeightHeavy"}}
+            {{else if (eq system.weight "very-heavy")}}{{localize "CARDIGAN.WeightVeryHeavy"}}
+            {{/if}}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="consumable-summary-info">
+      {{!-- Content to be filled in later --}}
+    </div>
   </div>
 </div>

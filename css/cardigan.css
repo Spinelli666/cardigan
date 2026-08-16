@@ -2847,7 +2847,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:first-child .consumable-item-skill-test-system .consumable-item-skill-test-add-button-container,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:nth-child(2) .consumable-item-skill-test-system .consumable-item-skill-test-add-button-container,
 .application.sheet.cardigan.item.item-type-consumivel .consumable-item-top-grid ~ .consumable-item-bottom-grid > .consumable-item-bottom-column:nth-child(3) .consumable-item-skill-test-system .consumable-item-skill-test-add-button-container {
-  margin-top: 2px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12701,34 +12700,95 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .backpack-table li.backpack-item-description-row.expanded {
   display: block;
 }
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-header {
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body {
+  min-height: 18px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description {
+  padding: 5px 20px 0px 20px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p {
+  text-align: center;
+  font-size: 10px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::before, .cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::after {
+  content: '"';
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p .gradient-word {
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description-border {
+  display: block;
+  width: 550px;
+  max-width: 100%;
+  height: 8px;
+  margin: 2px auto 0;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header {
   display: flex;
   align-items: center;
   padding-top: 5px;
   padding-right: 5px;
 }
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-header .consumable-summary-weight {
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-right {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   margin-left: auto;
 }
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-header .consumable-summary-weight-icon {
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon {
+  width: 15px;
+  height: 15px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon.consumable-summary-profession-icon--general {
   width: 18px;
   height: 18px;
 }
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-header .consumable-summary-weight-text {
-  font-size: 14px;
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-divider {
+  font-size: 10px;
+  color: rgba(255, 183, 92, 0.8);
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-icon {
+  width: 18px;
+  height: 18px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-text {
+  font-size: 12px;
   letter-spacing: 0.5px;
   background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body {
-  min-height: 18px;
-  color: rgba(255, 255, 255, 0.85);
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-icon {
+  width: 15px;
+  height: 15px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-text {
   font-size: 12px;
+  letter-spacing: 0.5px;
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 .cardigan .backpack-table .item-image {
   margin-left: 0;
