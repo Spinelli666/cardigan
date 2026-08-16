@@ -21,6 +21,10 @@ export default class CardiganSystemItemIngredient extends CardiganSystemItemBase
     const requiredInteger = { required: true, nullable: false, integer: true };
     const schema = super.defineSchema();
 
+    // Mechanical/rules-facing description, shown alongside the flavor description
+    // in a second "Descrição Sistemática" section within the Descrição tab.
+    schema.systematicDescription = new fields.HTMLField();
+
     schema.quantity = new fields.NumberField({
       ...requiredInteger,
       initial: 1,

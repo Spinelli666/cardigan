@@ -54,6 +54,9 @@ export default class CardiganSystemArma extends CardiganSystemItemBase {
 
     return {
       ...super.defineSchema(),
+      // Mechanical/rules-facing description, shown alongside the flavor description
+      // in a second "Descrição Sistemática" section within the Descrição tab.
+      systematicDescription: new fields.HTMLField(),
       melee: new fields.BooleanField({ required: true, initial: false }),
       ranged: new fields.BooleanField({ required: true, initial: false }),
       isFirearm: new fields.BooleanField({ required: true, initial: false }),

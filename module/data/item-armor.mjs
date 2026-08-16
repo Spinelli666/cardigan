@@ -26,7 +26,11 @@ export default class ArmorData extends BaseItemData {
     
     return {
       ...parentSchema,
-      
+
+      // Mechanical/rules-facing description, shown alongside the flavor description
+      // in a second "Descrição Sistemática" section within the Descrição tab.
+      systematicDescription: new fields.HTMLField(),
+
       armorType: new StringField({
         required: true,
         initial: "torso",

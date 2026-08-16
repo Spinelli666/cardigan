@@ -328,6 +328,19 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
             relativeTo: this.item,
           }
         );
+        // All item types except race also get a second, mechanical/rules-facing
+        // description field, rendered as a second section within this same tab
+        // (see description.hbs).
+        if (this.item.type !== 'race') {
+          context.enrichedSystematicDescription = await foundry.applications.ux.TextEditor.enrichHTML(
+            this.item.system.systematicDescription,
+            {
+              secrets: this.document.isOwner,
+              rollData: this.item.getRollData(),
+              relativeTo: this.item,
+            }
+          );
+        }
         break;
       case 'effects':
         context.tab = context.tabs[partId];

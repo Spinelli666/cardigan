@@ -17,6 +17,10 @@ export default class CardiganSystemSkill extends CardiganSystemItemBase {
       label: 'CARDIGAN.Item.base.description'
     });
 
+    // Mechanical/rules-facing description, shown alongside the flavor description
+    // in a second "Descrição Sistemática" section within the Descrição tab.
+    schema.systematicDescription = new fields.HTMLField();
+
     // Skill Action Types - agora permite múltiplas seleções
     schema.skillActionTypes = new fields.ArrayField(
       new fields.StringField({

@@ -78,6 +78,10 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
     scrollbar-gutter: stable;
   }
 
+  // Descrição tab's "Descrição Roleplay" / "Descrição Sistemática" title styling and
+  // prose-mirror gradient text are shared by every item type (except race) — see
+  // components/_item-description-tab.scss.
+
   .sheet-header {
     display: flex;
     flex-direction: column;

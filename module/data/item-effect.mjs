@@ -16,6 +16,10 @@ export default class CardiganSystemEfeito extends CardiganSystemItemBase {
     const fields = foundry.data.fields;
     const schema = super.defineSchema();
 
+    // Mechanical/rules-facing description, shown alongside the flavor description
+    // in a second "Descrição Sistemática" section within the Descrição tab.
+    schema.systematicDescription = new fields.HTMLField();
+
     schema.effectType = new fields.StringField({
       required: true,
       blank: false,
