@@ -171,7 +171,8 @@ export class ItemExpand {
 
   /**
    * Toggle expand/collapse for a backpack row's description.
-   * Content is intentionally empty for now (to be filled in later); this only manages the show/hide state.
+   * Only item-consumivel items render real content (item-consumivel-summary.hbs) for now;
+   * other backpack item types just toggle the empty row, to be filled in later.
    * Called by _onToggleBackpackItemExpand (static wrapper).
    * @param {ActorSheet} sheet
    * @param {PointerEvent} event
@@ -187,8 +188,29 @@ export class ItemExpand {
     if (!descriptionRow) return;
 
     const itemRow = target.closest('li.item');
+    const wrapper = descriptionRow.querySelector('.wrapper');
 
     const expanded = sheet.expandedSections.get(itemId);
+
+    if (expanded) {
+      if (wrapper) wrapper.innerHTML = '';
+    } else {
+      const item = sheet.document.items.get(itemId);
+      if (item?.type === 'item-consumivel' && wrapper) {
+        try {
+          const template = "systems/cardigan/templates/consumables/item-consumivel-summary.hbs";
+          const content = await foundry.applications.handlebars.renderTemplate(template, {
+            item,
+            system: item.system,
+            config: CONFIG.CARDIGAN
+          });
+          wrapper.innerHTML = content;
+        } catch (error) {
+          console.error("Error rendering consumable summary:", error);
+        }
+      }
+    }
+
     descriptionRow.classList.toggle('expanded', !expanded);
     itemRow?.classList.toggle('description-expanded', !expanded);
     sheet.expandedSections.set(itemId, !expanded);

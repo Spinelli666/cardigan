@@ -754,15 +754,15 @@ ol.items-list.backpack-table > li.item.items-header {
     display: none !important;
   }
 
-  // Empty description row shown below a backpack item when its name is clicked.
-  // Content is intentionally blank for now — filled in later.
+  // Description row shown below a backpack item when its name is clicked.
+  // Only item-consumivel rows render real content (consumable-item-summary); other
+  // types keep this empty for now — see ItemExpand.onToggleBackpackExpand.
   li.backpack-item-description-row {
     display: none;
     width: 100%;
     min-height: 32px;
     margin-top: -4px;
     margin-bottom: 4px;
-    padding: 8px 10px;
     border: 1px solid #FFB75C;
     border-top: none;
     border-radius: 0 0 15px 15px;
@@ -770,6 +770,42 @@ ol.items-list.backpack-table > li.item.items-header {
 
     &.expanded {
       display: block;
+    }
+
+    .consumable-item-summary {
+      .consumable-summary-header {
+        display: flex;
+        align-items: center;
+        padding-top: 5px;
+        padding-right: 5px;
+
+        .consumable-summary-weight {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+          margin-left: auto;
+        }
+
+        .consumable-summary-weight-icon {
+          width: 18px;
+          height: 18px;
+        }
+
+        .consumable-summary-weight-text {
+          font-size: 12px;
+          letter-spacing: 0.5px;
+          background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+      }
+
+      .consumable-summary-body {
+        min-height: 18px;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 12px;
+      }
     }
   }
 
