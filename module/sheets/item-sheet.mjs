@@ -114,45 +114,61 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
   static PARTS = {
     header: { template: 'systems/cardigan/templates/item/header.hbs' },
     tabs: { template: 'templates/generic/tab-navigation.hbs' },
-    description: { template: 'systems/cardigan/templates/item/description.hbs' },
+    description: {
+      template: 'systems/cardigan/templates/item/description.hbs',
+      scrollable: [''],
+    },
     attributesItemComum: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-common.hbs',
+      scrollable: [''],
     },
     attributesItemMunicao: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-ammunition.hbs',
+      scrollable: [''],
     },
     attributesItemConsumivel: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-consumable.hbs',
+      scrollable: [''],
     },
     attributesEfeito: {
       template: 'systems/cardigan/templates/item/attribute-parts/effect.hbs',
+      scrollable: [''],
     },
     attributesArma: {
       template: 'systems/cardigan/templates/item/attribute-parts/weapon.hbs',
+      scrollable: [''],
     },
     attributesArmadura: {
       template: 'systems/cardigan/templates/item/attribute-parts/armor.hbs',
+      scrollable: [''],
     },
     attributesSkill: {
       template: 'systems/cardigan/templates/item/attribute-parts/skill.hbs',
+      scrollable: [''],
     },
     enhancementsSkill: {
       template: 'systems/cardigan/templates/item/attribute-parts/skill-enhancements.hbs',
+      scrollable: [''],
     },
     attributesRace: {
       template: 'systems/cardigan/templates/item/attribute-parts/race.hbs',
+      scrollable: [''],
     },
     attributesItemRecipe: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-recipe.hbs',
+      scrollable: [''],
     },
     ingredientsItemRecipe: {
       template: 'systems/cardigan/templates/item/attribute-parts/ingredients-item-recipe.hbs',
+      scrollable: [''],
     },
     attributesItemIngredient: {
       template: 'systems/cardigan/templates/item/attribute-parts/item-ingredient.hbs',
+      scrollable: [''],
     },
     effects: {
       template: 'systems/cardigan/templates/item/effects.hbs',
+      scrollable: [''],
     },
   };
 
@@ -432,6 +448,29 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     const proseMirrorTarget = event.target?.closest?.('prose-mirror');
     if (proseMirrorTarget?.name) {
       await this.document.update({ [proseMirrorTarget.name]: proseMirrorTarget.value });
+      return;
+    }
+
+    // Skill test advantage/disadvantage toggles (consumable items): these are mutually
+    // exclusive checkboxes already handled client-side by _setupSkillCheckAdvantageControls
+    // (visual checked state + is-selected class). Letting the generic submitOnChange path
+    // run here would re-render the whole sheet on every click, resetting scroll to the top
+    // of the tab. Persist the field ourselves with render:false instead.
+    const SKILL_CHECK_ADVANTAGE_FIELDS = [
+      'system.skillCheckEnhancedDisadvantage',
+      'system.skillCheckDisadvantage',
+      'system.skillCheckAdvantage',
+      'system.skillCheckEnhancedAdvantage',
+    ];
+    const advantageFieldName = event.target?.name;
+    if (advantageFieldName && SKILL_CHECK_ADVANTAGE_FIELDS.includes(advantageFieldName)) {
+      const updateData = { [advantageFieldName]: event.target.checked };
+      if (event.target.checked) {
+        for (const field of SKILL_CHECK_ADVANTAGE_FIELDS) {
+          if (field !== advantageFieldName) updateData[field] = false;
+        }
+      }
+      await this.item.update(updateData, { render: false });
       return;
     }
 
