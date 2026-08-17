@@ -38,8 +38,61 @@
       </div>
     </div>
 
+    {{#if hasAnyInfo}}
     <div class="consumable-summary-info">
-      {{!-- Content to be filled in later --}}
+      {{#if hasAnyProperty}}
+      <div class="consumable-summary-properties">
+        {{#if hasArmorBonus}}
+        <div class="consumable-summary-armor">
+          <img class="consumable-summary-armor-icon" src="systems/cardigan/assets/images/decorative/icons/icon-armor.svg" alt="{{localize 'CARDIGAN.Armor'}}" data-tooltip="Bônus de Armadura" data-tooltip-class='cardigan-tooltip' />
+          <div class="consumable-summary-armor-value">
+            <span class="consumable-summary-armor-text">{{system.armorBonusAmount}}</span>
+          </div>
+        </div>
+        {{#if showArmorBorder}}
+        <img class="consumable-summary-armor-border" src="systems/cardigan/assets/images/decorative/border-2.webp" alt="Borda decorativa" />
+        {{/if}}
+        {{/if}}
+
+        {{#if hasMovementBonus}}
+        <div class="consumable-summary-movement">
+          <img class="consumable-summary-movement-icon" src="systems/cardigan/assets/images/decorative/icons/icon-movement.svg" alt="{{localize 'CARDIGAN.MovementBonus'}}" data-tooltip="Bônus de Movimento" data-tooltip-class='cardigan-tooltip' />
+          <div class="consumable-summary-movement-value">
+            <span class="consumable-summary-movement-text">{{system.movementBonus.bonus}}</span>
+          </div>
+        </div>
+        {{#if showMovementBorder}}
+        <img class="consumable-summary-movement-border" src="systems/cardigan/assets/images/decorative/border-2.webp" alt="Borda decorativa" />
+        {{/if}}
+        {{/if}}
+
+        {{#if hasCriticalBonus}}
+        <div class="consumable-summary-critical">
+          <img class="consumable-summary-critical-icon" src="systems/cardigan/assets/images/decorative/icons/icon-critical.svg" alt="{{localize 'CARDIGAN.ItemConsumivel.CriticalHitBoostAmount'}}" data-tooltip="Bônus de Crítico" data-tooltip-class='cardigan-tooltip' />
+          <div class="consumable-summary-critical-value">
+            <span class="consumable-summary-critical-text">{{system.criticalHitBoostAmount}}</span>
+          </div>
+        </div>
+        {{/if}}
+      </div>
+      {{/if}}
+
+      {{#if hasAnyStatus}}
+      <div class="consumable-summary-status">
+        {{#each statusRows as |row|}}
+        <div class="consumable-summary-status-item">
+          <img class="consumable-summary-status-icon" src="systems/cardigan/assets/images/decorative/icons/{{row.icon}}" alt="{{row.label}}" data-tooltip="{{row.label}}" data-tooltip-class='cardigan-tooltip' />
+          <div class="consumable-summary-status-value">
+            <span class="consumable-summary-status-text">{{row.displayValue}}</span>
+          </div>
+        </div>
+        {{#if row.showBorder}}
+        <img class="consumable-summary-status-border" src="systems/cardigan/assets/images/decorative/border-2.webp" alt="Borda decorativa" />
+        {{/if}}
+        {{/each}}
+      </div>
+      {{/if}}
     </div>
+    {{/if}}
   </div>
 </div>

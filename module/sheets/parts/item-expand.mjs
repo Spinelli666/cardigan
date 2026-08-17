@@ -199,17 +199,62 @@ export class ItemExpand {
       if (item?.type === 'item-consumivel' && wrapper) {
         try {
           const template = "systems/cardigan/templates/consumables/item-consumivel-summary.hbs";
+          const rawDescription = item.system.description || '';
+          // ProseMirror saves an empty editor as "<p></p>" rather than "", which is
+          // truthy as a string — strip tags before checking so an untouched/cleared
+          // description correctly hides the summary/border instead of rendering blank.
+          const hasDescription = rawDescription.replace(/<[^>]*>/g, '').trim().length > 0;
+          // Only show a property row (and its divider) when its value is non-zero.
+          const hasArmorBonus = Number(item.system.armorBonusAmount) !== 0;
+          const hasMovementBonus = Number(item.system.movementBonus?.bonus) !== 0;
+          const hasCriticalBonus = Number(item.system.criticalHitBoostAmount) !== 0;
+
+          // Status ailment modifiers: "decrease" (remove) shows as a negative number,
+          // "increase" (add) shows as a positive number. Only rendered when active.
+          const statusDefs = [
+            { hasFlag: 'hasFractureModifier', typeFlag: 'fractureModifierType', amountFlag: 'fractureModifierAmount', icon: 'icon-fracture.svg', label: 'Fratura' },
+            { hasFlag: 'hasToxicityModifier', typeFlag: 'toxicityModifierType', amountFlag: 'toxicityModifierAmount', icon: 'icon-toxic.svg', label: 'Toxicidade' },
+            { hasFlag: 'hasSanityModifier', typeFlag: 'sanityModifierType', amountFlag: 'sanityModifierAmount', icon: 'icon-sanity.svg', label: 'Sanidade' },
+            { hasFlag: 'hasFoodModifier', typeFlag: 'foodModifierType', amountFlag: 'foodModifierAmount', icon: 'icon-hunger.svg', label: 'Fome' },
+            { hasFlag: 'hasWaterModifier', typeFlag: 'waterModifierType', amountFlag: 'waterModifierAmount', icon: 'icon-thirst.svg', label: 'Sede' }
+          ];
+          const statusRows = statusDefs
+            .map(def => {
+              const amount = Number(item.system[def.amountFlag]) || 0;
+              const isDecrease = item.system[def.typeFlag] === 'decrease';
+              const value = item.system[def.hasFlag] ? (isDecrease ? -amount : amount) : 0;
+              return { icon: def.icon, label: def.label, value, displayValue: value > 0 ? `+${value}` : `${value}` };
+            })
+            .filter(row => row.value !== 0);
+          statusRows.forEach((row, index) => {
+            row.showBorder = index < statusRows.length - 1;
+          });
+          const hasAnyStatus = statusRows.length > 0;
+          const hasAnyProperty = hasArmorBonus || hasMovementBonus || hasCriticalBonus;
+
           const content = await foundry.applications.handlebars.renderTemplate(template, {
             item,
             system: item.system,
             config: CONFIG.CARDIGAN,
-            enrichedDescription: await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description || "", {
-              secrets: item.isOwner,
-              documents: true,
-              links: true,
-              rolls: true,
-              rollData: item.getRollData?.() || {}
-            })
+            hasArmorBonus,
+            hasMovementBonus,
+            hasCriticalBonus,
+            hasAnyProperty,
+            // A border only makes sense between two visible rows, never trailing after the last one.
+            showArmorBorder: hasArmorBonus && (hasMovementBonus || hasCriticalBonus),
+            showMovementBorder: hasMovementBonus && hasCriticalBonus,
+            statusRows,
+            hasAnyStatus,
+            hasAnyInfo: hasAnyProperty || hasAnyStatus,
+            enrichedDescription: hasDescription
+              ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(rawDescription, {
+                  secrets: item.isOwner,
+                  documents: true,
+                  links: true,
+                  rolls: true,
+                  rollData: item.getRollData?.() || {}
+                })
+              : ''
           });
           wrapper.innerHTML = content;
           ItemExpand._wrapDescriptionWordsInGradientSpans(wrapper);
