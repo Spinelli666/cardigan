@@ -9,6 +9,24 @@
     {{/if}}
 
     <div class="consumable-summary-header">
+      <div class="consumable-summary-header-left">
+        {{#if system.hasSkillCheck}}
+        <div class="consumable-summary-header-badge" data-tooltip-type="consumable-skill-test">
+          <span class="consumable-summary-header-badge-text">TESTE DE PERÍCIA</span>
+        </div>
+        {{/if}}
+        {{#if system.hasLifeEnergySection}}
+        <div class="consumable-summary-header-badge" data-tooltip-type="consumable-life-energy">
+          <span class="consumable-summary-header-badge-text">VIDA &amp; ENERGIA</span>
+        </div>
+        {{/if}}
+        {{#if system.hasEffectsSection}}
+        <div class="consumable-summary-header-badge" data-tooltip-type="consumable-effects">
+          <span class="consumable-summary-header-badge-text">EFEITOS</span>
+        </div>
+        {{/if}}
+      </div>
+
       <div class="consumable-summary-header-right">
         <img class="consumable-summary-profession-icon{{#if (eq system.profession "alchemy")}}{{else if (eq system.profession "blacksmithing")}}{{else if (eq system.profession "culinary")}}{{else if (eq system.profession "tailoring")}}{{else if (eq system.profession "tecnomagic")}}{{else}} consumable-summary-profession-icon--general{{/if}}"
           src="systems/cardigan/assets/images/profession/{{#if (eq system.profession "alchemy")}}icon-alchemy.svg{{else if (eq system.profession "blacksmithing")}}icon-blacksmithing.svg{{else if (eq system.profession "culinary")}}icon-culinary.svg{{else if (eq system.profession "tailoring")}}icon-tailoring.svg{{else if (eq system.profession "tecnomagic")}}icon-technomagic.svg{{else}}icon-profession.webp{{/if}}"

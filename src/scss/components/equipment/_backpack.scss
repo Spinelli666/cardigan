@@ -814,8 +814,35 @@ ol.items-list.backpack-table > li.item.items-header {
         .consumable-summary-header {
           display: flex;
           align-items: center;
-          padding-top: 5px;
-          padding-right: 5px;
+          padding: 5px 5px 0px 5px;
+
+          .consumable-summary-header-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+          }
+
+          .consumable-summary-header-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(255, 183, 92, 0.2);
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          }
+
+          .consumable-summary-header-badge-text {
+            font-size: 9px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
 
           .consumable-summary-header-right {
             display: flex;
@@ -887,7 +914,7 @@ ol.items-list.backpack-table > li.item.items-header {
           align-items: flex-start;
           justify-content: center;
           gap: 10px;
-          padding: 10px 5px 5px 5px;
+          padding: 12px 5px 5px 5px;
         }
 
         .consumable-summary-properties {

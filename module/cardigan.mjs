@@ -176,6 +176,7 @@ Hooks.once('init', function () {
     'systems/cardigan/templates/actor/partials/weapon-reload-ammo.hbs',
     'systems/cardigan/templates/actor/partials/armor-section-container.hbs',
     'systems/cardigan/templates/dialogs/partials/life-energy-add-section.hbs',
+    'systems/cardigan/templates/dialogs/partials/life-energy-added-row.hbs',
     'systems/cardigan/templates/partials/ability-dropdown.hbs',
   ]);
 });

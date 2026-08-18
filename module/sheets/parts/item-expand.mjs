@@ -1,3 +1,5 @@
+import CardiganTooltipManager from '../../tooltips/tooltip-manager.mjs';
+
 export class ItemExpand {
 
   /**
@@ -258,6 +260,7 @@ export class ItemExpand {
           });
           wrapper.innerHTML = content;
           ItemExpand._wrapDescriptionWordsInGradientSpans(wrapper);
+          CardiganTooltipManager.attachConsumableBadgeTooltips(wrapper, item);
         } catch (error) {
           console.error("Error rendering consumable summary:", error);
         }
