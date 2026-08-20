@@ -91,6 +91,23 @@
             <span class="consumable-summary-critical-text">{{system.criticalHitBoostAmount}}</span>
           </div>
         </div>
+        {{#if showCriticalBorder}}
+        <img class="consumable-summary-critical-border" src="systems/cardigan/assets/images/decorative/border-2.webp" alt="Borda decorativa" />
+        {{/if}}
+        {{/if}}
+
+        {{#if hasSkillBonuses}}
+        <div class="consumable-summary-skill-bonuses">
+          {{#each skillBonusRows as |row|}}
+          <div class="consumable-summary-skill-bonus-item">
+            <span class="consumable-summary-skill-bonus-value">{{row.displayValue}}</span>
+            <span class="consumable-summary-skill-bonus-label">{{row.abbr}}</span>
+          </div>
+          {{#if row.showBorder}}
+          <img class="consumable-summary-critical-border" src="systems/cardigan/assets/images/decorative/border-2.webp" alt="Borda decorativa" />
+          {{/if}}
+          {{/each}}
+        </div>
         {{/if}}
       </div>
       {{/if}}

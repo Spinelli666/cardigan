@@ -27,6 +27,13 @@
     border: 2.5px solid #b07b36;
     border-left: none;
     border-radius: 0 9px 9px 0;
+    // Fake a 3-sided box-shadow (top, bottom, right) since box-shadow has no per-side
+    // omission — each shadow is pushed toward its side with a negative spread so it
+    // doesn't wrap around to the left.
+    box-shadow:
+      0 -5px 10px -5px #000,
+      0 5px 10px -5px #000,
+      5px 0 10px -5px #000;
     transition: all 0.2s ease;
 
     i {
@@ -55,7 +62,11 @@
 
     &.active {
       transform: scale(1.1);
-      box-shadow: 0 0 12px rgba(255, 183, 92, 0.4);
+      box-shadow:
+        0 -5px 10px -5px #000,
+        0 5px 10px -5px #000,
+        5px 0 10px -5px #000,
+        0 0 12px rgba(255, 183, 92, 0.4);
 
       i {
         background: linear-gradient(180deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);

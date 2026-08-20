@@ -213,6 +213,40 @@ export class ItemExpand {
           const hasMovementBonus = Number(item.system.movementBonus?.bonus) !== 0;
           const hasCriticalBonus = Number(item.system.criticalHitBoostAmount) !== 0;
 
+          // Skill bonuses from the item's own "consumable-skill-bonuses-table" (flags.cardigan.consumableSkillBonuses),
+          // shown abbreviated — same key order/abbreviations as _prepareConsumableSkillBonusRows in item-sheet.mjs.
+          const skillAbbreviations = [
+            { key: 'accuracy', abbr: 'PRE' },
+            { key: 'evasion', abbr: 'EVA' },
+            { key: 'strength', abbr: 'FOR' },
+            { key: 'dexterity', abbr: 'DES' },
+            { key: 'stamina', abbr: 'VIG' },
+            { key: 'stealth', abbr: 'FUR' },
+            { key: 'persuasion', abbr: 'PER' },
+            { key: 'intelligence', abbr: 'INT' },
+            { key: 'psionics', abbr: 'PSI' }
+          ];
+          const rawSkillBonuses = await item.getFlag('cardigan', 'consumableSkillBonuses');
+          const skillBonusList = Array.isArray(rawSkillBonuses)
+            ? rawSkillBonuses
+            : (rawSkillBonuses && typeof rawSkillBonuses === 'object' ? Object.values(rawSkillBonuses) : []);
+          const skillBonusByKey = skillBonusList.reduce((acc, entry) => {
+            if (!entry || typeof entry.skill !== 'string') return acc;
+            const key = entry.skill.trim();
+            if (!key) return acc;
+            const numericBonus = Number(entry.bonus ?? 0);
+            acc[key] = Number.isFinite(numericBonus) ? numericBonus : 0;
+            return acc;
+          }, {});
+          const skillBonusRows = skillAbbreviations
+            .map(row => ({ abbr: row.abbr, value: skillBonusByKey[row.key] ?? 0 }))
+            .filter(row => row.value !== 0)
+            .map(row => ({ ...row, displayValue: row.value > 0 ? `+${row.value}` : `${row.value}` }));
+          skillBonusRows.forEach((row, index) => {
+            row.showBorder = index < skillBonusRows.length - 1;
+          });
+          const hasSkillBonuses = skillBonusRows.length > 0;
+
           // Status ailment modifiers: "decrease" (remove) shows as a negative number,
           // "increase" (add) shows as a positive number. Only rendered when active.
           const statusDefs = [
@@ -234,7 +268,7 @@ export class ItemExpand {
             row.showBorder = index < statusRows.length - 1;
           });
           const hasAnyStatus = statusRows.length > 0;
-          const hasAnyProperty = hasArmorBonus || hasMovementBonus || hasCriticalBonus;
+          const hasAnyProperty = hasArmorBonus || hasMovementBonus || hasCriticalBonus || hasSkillBonuses;
 
           const content = await foundry.applications.handlebars.renderTemplate(template, {
             item,
@@ -243,10 +277,13 @@ export class ItemExpand {
             hasArmorBonus,
             hasMovementBonus,
             hasCriticalBonus,
+            skillBonusRows,
+            hasSkillBonuses,
             hasAnyProperty,
             // A border only makes sense between two visible rows, never trailing after the last one.
-            showArmorBorder: hasArmorBonus && (hasMovementBonus || hasCriticalBonus),
-            showMovementBorder: hasMovementBonus && hasCriticalBonus,
+            showArmorBorder: hasArmorBonus && (hasMovementBonus || hasCriticalBonus || hasSkillBonuses),
+            showMovementBorder: hasMovementBonus && (hasCriticalBonus || hasSkillBonuses),
+            showCriticalBorder: hasCriticalBonus && hasSkillBonuses,
             statusRows,
             hasAnyStatus,
             hasAnyInfo: hasAnyProperty || hasAnyStatus,

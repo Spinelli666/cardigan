@@ -951,7 +951,7 @@ ol.items-list.backpack-table > li.item.items-header {
           justify-content: center;
           background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
           width: 120px;
-          padding: 5px;
+          padding: 8px 5px;
           border-radius: 10px;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 
@@ -1034,6 +1034,46 @@ ol.items-list.backpack-table > li.item.items-header {
 
           .consumable-summary-movement-text,
           .consumable-summary-critical-text {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+
+          .consumable-summary-critical-border {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: 3px;
+            margin: 5px auto 5px;
+          }
+
+          .consumable-summary-skill-bonuses {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+          }
+
+          .consumable-summary-skill-bonus-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 70px;
+            min-height: 22px;
+            padding: 0 6px;
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+            border: 1.5px solid rgba(255, 183, 92, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          }
+
+          .consumable-summary-skill-bonus-value,
+          .consumable-summary-skill-bonus-label {
             font-size: 14px;
             letter-spacing: 0.5px;
             text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
