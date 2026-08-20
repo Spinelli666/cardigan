@@ -206,6 +206,8 @@ export class ItemExpand {
           // truthy as a string — strip tags before checking so an untouched/cleared
           // description correctly hides the summary/border instead of rendering blank.
           const hasDescription = rawDescription.replace(/<[^>]*>/g, '').trim().length > 0;
+          const rawSystematicDescription = item.system.systematicDescription || '';
+          const hasSystematicDescription = rawSystematicDescription.replace(/<[^>]*>/g, '').trim().length > 0;
           // Only show a property row (and its divider) when its value is non-zero.
           const hasArmorBonus = Number(item.system.armorBonusAmount) !== 0;
           const hasMovementBonus = Number(item.system.movementBonus?.bonus) !== 0;
@@ -256,6 +258,15 @@ export class ItemExpand {
                   rolls: true,
                   rollData: item.getRollData?.() || {}
                 })
+              : '',
+            enrichedSystematicDescription: hasSystematicDescription
+              ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(rawSystematicDescription, {
+                  secrets: item.isOwner,
+                  documents: true,
+                  links: true,
+                  rolls: true,
+                  rollData: item.getRollData?.() || {}
+                })
               : ''
           });
           wrapper.innerHTML = content;
@@ -281,7 +292,7 @@ export class ItemExpand {
    * @param {HTMLElement} wrapper
    */
   static _wrapDescriptionWordsInGradientSpans(wrapper) {
-    const paragraphs = wrapper.querySelectorAll('.consumable-summary-description p');
+    const paragraphs = wrapper.querySelectorAll('.consumable-summary-description p, .consumable-summary-systematic-description p');
     for (const p of paragraphs) {
       const walker = document.createTreeWalker(p, NodeFilter.SHOW_TEXT);
       const textNodes = [];
