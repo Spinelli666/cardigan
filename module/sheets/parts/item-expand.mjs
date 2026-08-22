@@ -1,5 +1,3 @@
-import CardiganTooltipManager from '../../tooltips/tooltip-manager.mjs';
-
 export class ItemExpand {
 
   /**
@@ -270,6 +268,87 @@ export class ItemExpand {
           const hasAnyStatus = statusRows.length > 0;
           const hasAnyProperty = hasArmorBonus || hasMovementBonus || hasCriticalBonus || hasSkillBonuses;
 
+          // Tooltip content (rendered to an HTML string and embedded via data-tooltip-html) for
+          // the "Vida & Energia" / "Efeitos" / "Teste de Perícia" header badges — uses Foundry's
+          // native tooltip mechanism (game.tooltip), not custom JS: middle-click locks it, right-click
+          // dismisses the locked one, moving away auto-dismisses. Same source data as the item's own
+          // Propriedades tab (life-energy-dialog-listeners.mjs / common-item-listeners.mjs).
+          const getAbilityAbbreviation = (ability) => {
+            const key = CONFIG.CARDIGAN.abilities[ability];
+            return key ? game.i18n.localize(key) : '';
+          };
+          const buildLifeEnergyFormula = (dice, quantity, bonus, addSkill, skill, doubleSkill) => {
+            const diceFaces = (dice || '1d20').replace(/^1/, '');
+            const qty = Math.max(1, parseInt(quantity, 10) || 1);
+            let formula = `${qty}${diceFaces}`;
+            const bonusValue = Number(bonus) || 0;
+            if (bonusValue !== 0) formula += ` + ${bonusValue}`;
+            if (addSkill) {
+              const abbr = getAbilityAbbreviation(skill);
+              formula += ` + (${abbr}${doubleSkill ? ' * 2' : ''})`;
+            }
+            return formula;
+          };
+          const lifeEnergyEntries = [];
+          if (item.system.hasHealthModifier) {
+            lifeEnergyEntries.push({
+              icon: 'icon-health.svg',
+              alt: 'Vida',
+              formula: buildLifeEnergyFormula(item.system.healthModifierDice, item.system.healthModifierQuantity, item.system.healthModifierAdditionalBonus, item.system.healthModifierAddSkill, item.system.healthModifierSkill, item.system.healthModifierDoubleSkill),
+              isTemporary: item.system.healthModifierIsTemporary ?? false,
+              isDecrease: item.system.healthModifierType === 'subtract',
+              tempLabel: 'PVT'
+            });
+          }
+          if (item.system.hasEnergyModifier) {
+            lifeEnergyEntries.push({
+              icon: 'icon-energy.svg',
+              alt: 'Energia',
+              formula: buildLifeEnergyFormula(item.system.energyModifierDice, item.system.energyModifierQuantity, item.system.energyModifierAdditionalBonus, item.system.energyModifierAddSkill, item.system.energyModifierSkill, item.system.energyModifierDoubleSkill),
+              isTemporary: item.system.energyModifierIsTemporary ?? false,
+              isDecrease: item.system.energyModifierType === 'subtract',
+              tempLabel: 'PET'
+            });
+          }
+          const lifeEnergyTooltipHtml = lifeEnergyEntries.length
+            ? await foundry.applications.handlebars.renderTemplate('systems/cardigan/templates/tooltips/consumable-life-energy-tooltip.hbs', { entries: lifeEnergyEntries })
+            : '';
+
+          const effectsSectionEffects = Array.isArray(item.system.effectsSectionAddedEffects) ? item.system.effectsSectionAddedEffects : [];
+          const effectsTooltipHtml = effectsSectionEffects.length
+            ? await foundry.applications.handlebars.renderTemplate('systems/cardigan/templates/tooltips/consumable-effects-tooltip.hbs', { effects: effectsSectionEffects })
+            : '';
+
+          const skillTestOptions = [
+            { key: 'accuracy', label: 'Precisão' },
+            { key: 'evasion', label: 'Evasão' },
+            { key: 'strength', label: 'Força' },
+            { key: 'dexterity', label: 'Destreza' },
+            { key: 'stamina', label: 'Vigor' },
+            { key: 'persuasion', label: 'Persuasão' },
+            { key: 'intelligence', label: 'Inteligência' },
+            { key: 'stealth', label: 'Furtividade' }
+          ];
+          const skillTestEffects = Array.isArray(item.system.skillTestAddedEffects) ? item.system.skillTestAddedEffects : [];
+          const rawSkillTestSkills = await item.getFlag('cardigan', 'skillTestAddedSkills');
+          const skillTestSkills = (Array.isArray(rawSkillTestSkills) ? rawSkillTestSkills : [])
+            .map(entry => {
+              const key = typeof entry === 'string' ? entry : entry?.key;
+              const skillData = skillTestOptions.find(option => option.key === key);
+              if (!skillData) return null;
+              const value = Number(entry?.skillValue ?? entry?.value ?? 0) || 0;
+              return {
+                label: skillData.label,
+                displayValue: value > 0 ? `+${value}` : `${value}`,
+                criticalFailure: Boolean(entry?.criticalFailure),
+                criticalHit: Boolean(entry?.criticalHit)
+              };
+            })
+            .filter(Boolean);
+          const skillTestTooltipHtml = (skillTestEffects.length || skillTestSkills.length)
+            ? await foundry.applications.handlebars.renderTemplate('systems/cardigan/templates/tooltips/consumable-skill-test-tooltip.hbs', { effects: skillTestEffects, skills: skillTestSkills })
+            : '';
+
           const content = await foundry.applications.handlebars.renderTemplate(template, {
             item,
             system: item.system,
@@ -280,6 +359,9 @@ export class ItemExpand {
             skillBonusRows,
             hasSkillBonuses,
             hasAnyProperty,
+            lifeEnergyTooltipHtml,
+            effectsTooltipHtml,
+            skillTestTooltipHtml,
             // A border only makes sense between two visible rows, never trailing after the last one.
             showArmorBorder: hasArmorBonus && (hasMovementBonus || hasCriticalBonus || hasSkillBonuses),
             showMovementBorder: hasMovementBonus && (hasCriticalBonus || hasSkillBonuses),
@@ -308,7 +390,6 @@ export class ItemExpand {
           });
           wrapper.innerHTML = content;
           ItemExpand._wrapDescriptionWordsInGradientSpans(wrapper);
-          CardiganTooltipManager.attachConsumableBadgeTooltips(wrapper, item);
         } catch (error) {
           console.error("Error rendering consumable summary:", error);
         }

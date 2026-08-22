@@ -11,17 +11,17 @@
     <div class="consumable-summary-header">
       <div class="consumable-summary-header-left">
         {{#if system.hasSkillCheck}}
-        <div class="consumable-summary-header-badge" data-tooltip-type="consumable-skill-test">
+        <div class="consumable-summary-header-badge" data-tooltip-html="{{skillTestTooltipHtml}}" data-tooltip-class="cardigan-tooltip consumable-badge-tooltip" data-tooltip-direction="DOWN">
           <span class="consumable-summary-header-badge-text">TESTE DE PERÍCIA</span>
         </div>
         {{/if}}
         {{#if system.hasLifeEnergySection}}
-        <div class="consumable-summary-header-badge" data-tooltip-type="consumable-life-energy">
+        <div class="consumable-summary-header-badge" data-tooltip-html="{{lifeEnergyTooltipHtml}}" data-tooltip-class="cardigan-tooltip consumable-badge-tooltip" data-tooltip-direction="DOWN">
           <span class="consumable-summary-header-badge-text">VIDA &amp; ENERGIA</span>
         </div>
         {{/if}}
         {{#if system.hasEffectsSection}}
-        <div class="consumable-summary-header-badge" data-tooltip-type="consumable-effects">
+        <div class="consumable-summary-header-badge" data-tooltip-html="{{effectsTooltipHtml}}" data-tooltip-class="cardigan-tooltip consumable-badge-tooltip" data-tooltip-direction="DOWN">
           <span class="consumable-summary-header-badge-text">EFEITOS</span>
         </div>
         {{/if}}

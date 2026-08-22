@@ -1,17 +1,25 @@
 // -----------------------------------------
 // Tooltip dos badges "Vida & Energia" / "Efeitos" / "Teste de Perícia" mostrados
-// no resumo do item consumível na mochila (ver CardiganTooltipManager.attachConsumableBadgeTooltips).
+// no resumo do item consumível na mochila. Usa o tooltip NATIVO do Foundry
+// (data-tooltip-html / game.tooltip) — fixa com clique do meio, fecha com botão
+// direito, sem nenhum JS customizado nosso pra abrir/fechar.
 // Vive fora do escopo .application.sheet.cardigan.item.item-type-consumivel (o
-// tooltip é anexado direto no <body>), então repete aqui os estilos necessários
-// da linha de Vida/Energia (consumable-item-life-energy-added-*) e define os
-// estilos genéricos de lista usados pelos tooltips de Efeitos/Teste de Perícia.
+// tooltip nativo é anexado direto no <body>), então repete aqui os estilos
+// necessários da linha de Vida/Energia (consumable-item-life-energy-added-*) e
+// das linhas de Efeitos/Teste de Perícia (consumable-item-effects-added-*,
+// consumable-item-skill-test-added-*).
 // -----------------------------------------
 
-.locked-tooltip.consumable-badge-tooltip.cardigan-tooltip {
+#tooltip.cardigan-tooltip.consumable-badge-tooltip,
+.locked-tooltip.cardigan-tooltip.consumable-badge-tooltip {
   text-transform: none !important;
   border-radius: 20px !important;
   border-color: #c0863b !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+
+  &.locked-tooltip {
+    border-color: #FFB75C !important;
+  }
 
   .consumable-badge-tooltip-content {
     .consumable-badge-tooltip-list {
@@ -315,8 +323,7 @@
       min-width: 22px;
     }
 
-    // Ícone de "rodadas infinitas" compartilhado entre Efeitos e Teste de Perícia
-    // (mesmo elemento .rounds-infinite-icon usado pelo form via JS).
+    // Ícone de "rodadas infinitas" compartilhado entre Efeitos e Teste de Perícia.
     .rounds-infinite-icon {
       vertical-align: middle;
       display: inline-block;

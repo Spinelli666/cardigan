@@ -223,7 +223,13 @@
             <a class='rollable' data-roll-type='item' data-action='roll'>
               <img
                 src='{{item.img}}'
+                {{#if (eq item.type "item-consumivel")}}
+                data-tooltip="<div class='item-preview-tooltip-content'><img src='{{item.img}}' alt='{{item.name}}' class='item-preview-tooltip-image' /><span class='item-preview-tooltip-name'>{{item.name}}</span></div><div class='item-preview-tooltip-footer'>{{localize 'CARDIGAN.Tooltip.MiddleClickToLock'}}</div>"
+                data-tooltip-class='cardigan-tooltip item-preview-tooltip'
+                data-tooltip-direction='UP'
+                {{else}}
                 title='{{item.name}}'
+                {{/if}}
                 width='24'
                 height='24'
               />
