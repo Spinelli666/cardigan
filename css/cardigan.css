@@ -27086,34 +27086,204 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
 }
 
 /* Item Preview Tooltip (mochila) — tooltip padrão do Foundry (game.tooltip / data-tooltip),
-   fixável com o clique do meio, nativo do core. Por enquanto só mostra imagem + nome. */
+   fixável com o clique do meio, nativo do core. Mesmo estilo visual do tooltip de Efeito
+   (templates/tooltips/effect-tooltip.hbs + .effect-tooltip em _rich-tooltips.scss),
+   só sem a descrição — por enquanto mostra apenas ícone + nome. */
 #tooltip.cardigan-tooltip.item-preview-tooltip,
 .locked-tooltip.cardigan-tooltip.item-preview-tooltip {
   text-transform: none !important;
-  padding: 8px 12px !important;
+  max-width: 300px !important;
+  min-width: 250px !important;
+  padding: 0px !important;
+  overflow: hidden !important;
+  background: linear-gradient(0deg, rgba(52, 108, 143, 0.8) 9%, rgba(34, 69, 91, 0.8) 51%, rgba(24, 49, 65, 0.8) 86%) !important;
+  border: 3px solid #c0863b !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
 }
-#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-content,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-content {
+#tooltip.cardigan-tooltip.item-preview-tooltip.locked-tooltip,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip.locked-tooltip {
+  border-color: #FFB75C !important;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip.locked-tooltip .item-preview-tooltip-footer,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip.locked-tooltip .item-preview-tooltip-footer {
+  display: none;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-inner,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-inner {
+  position: relative;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .divider-left,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .divider-left {
+  position: absolute;
+  top: -14px;
+  left: -7px;
+  width: 25%;
+  height: auto;
+  opacity: 0.8;
+  transform: rotate(224deg);
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .divider-right,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .divider-right {
+  position: absolute;
+  top: -14px;
+  right: -7px;
+  width: 25%;
+  height: auto;
+  opacity: 0.8;
+  transform: rotate(134deg) scaleX(-1);
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-icon,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 8px auto 8px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 4px solid #c9934a;
+  padding: 12px;
+  background: #2D353A;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.6);
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-icon img,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-header,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-header {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-title,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-title {
+  margin: 0;
+  font-family: "Alatsi", sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  background: linear-gradient(180deg, #FFB75C 22.19%, #996E37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description {
+  padding: 0 20px 4px;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p {
+  margin: 0;
+  text-align: center;
+  font-size: 10px;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p::before, #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p::after,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p::before,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p::after {
+  content: '"';
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-description-border,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-description-border {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 8px;
+  margin: 2px auto 5px;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 5px !important;
+  margin: 0px 100px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35) !important;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-item,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
 }
-#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-image,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-image {
-  width: 32px;
-  height: 32px;
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-icon,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-icon {
+  width: 20px;
+  height: 20px;
   object-fit: contain;
-  border-radius: 4px;
   flex-shrink: 0;
 }
-#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-name,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-name {
-  font-size: 13px;
-  line-height: 1.2;
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-value,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 42px;
+  height: 22px;
+  padding: 0 8px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-text,
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-abbr,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-text,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-abbr {
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-border,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-border {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 3px;
+  margin: 2px auto;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-info-border,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-info-border {
+  display: block;
+  width: 95%;
+  max-width: 100%;
+  height: 15px;
+  margin: 5px auto 0px;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description {
+  background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
+  padding: 0px 10px;
+  border: 1px solid #FFB75C;
+  border-radius: 10px;
+  margin: 7px 20px 15px;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description p,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description p {
+  text-align: center;
+  font-size: 10px;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-footer,
 .locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-footer {
-  margin-top: 6px;
+  margin: 0 20px 16px;
   padding-top: 6px;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   font-size: 10px;

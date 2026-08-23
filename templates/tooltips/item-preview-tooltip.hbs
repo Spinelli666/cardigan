@@ -1,0 +1,39 @@
+{{!-- Item preview tooltip (mochila) — hover no ícone de um item-consumivel. Renderizado via
+      ConsumablePreviewTooltip._buildTooltipHtml e injetado em data-tooltip-html. --}}
+<div class='item-preview-tooltip-inner'>
+  <img src='systems/cardigan/assets/images/decorative/divider.webp' alt='divider' class='divider-left' />
+  <img src='systems/cardigan/assets/images/decorative/divider.webp' alt='divider' class='divider-right' />
+  <div class='tooltip-icon'>
+    <img src='{{item.img}}' alt='{{item.name}}' />
+  </div>
+  <div class='tooltip-header'>
+    <h2 class='tooltip-title'>{{item.name}}</h2>
+  </div>
+  {{#if hasDescription}}
+  <div class='item-preview-tooltip-description'>{{{description}}}</div>
+  {{/if}}
+  <img class='consumable-summary-description-border' src='systems/cardigan/assets/images/decorative/border.webp' alt='Borda decorativa' />
+  {{#if hasInfoRows}}
+  <div class='item-preview-tooltip-info'>
+    {{#each infoRows}}
+    <div class='item-preview-tooltip-info-item item-preview-tooltip-info-item--{{this.kind}}'>
+      {{#if this.icon}}
+      <img class='item-preview-tooltip-info-icon' src='systems/cardigan/assets/images/decorative/icons/{{this.icon}}' alt='{{this.label}}' />
+      {{/if}}
+      <div class='item-preview-tooltip-info-value'>
+        <span class='item-preview-tooltip-info-text'>{{this.displayValue}}</span>
+        {{#if this.abbr}}<span class='item-preview-tooltip-info-abbr'>{{this.abbr}}</span>{{/if}}
+      </div>
+    </div>
+    {{#if this.showBorder}}
+    <img class='item-preview-tooltip-info-border' src='systems/cardigan/assets/images/decorative/border-2.webp' alt='Borda decorativa' />
+    {{/if}}
+    {{/each}}
+  </div>
+  <img class='consumable-summary-info-border' src='systems/cardigan/assets/images/decorative/border-description.png' alt='Borda decorativa' />
+  {{#if hasSystematicDescription}}
+  <div class='consumable-summary-systematic-description'>{{{enrichedSystematicDescription}}}</div>
+  {{/if}}
+  {{/if}}
+  <div class='item-preview-tooltip-footer'>{{localize 'CARDIGAN.Tooltip.MiddleClickToLock'}}</div>
+</div>
