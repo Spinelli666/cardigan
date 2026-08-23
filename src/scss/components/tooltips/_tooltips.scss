@@ -229,8 +229,9 @@
   }
 
   // Same style as .consumable-summary-description (backpack expandable box), copied here
-  // since the tooltip lives outside that scope. No per-word gradient split (that's JS-driven
-  // in item-expand.mjs) — the gradient applies to the whole paragraph.
+  // since the tooltip lives outside that scope. Per-word gradient spans (.gradient-word) are
+  // applied via wrapWordsInGradientSpans() in consumable-preview-tooltip.mjs, same helper the
+  // expandable box uses, so multi-line text doesn't fade top-to-bottom.
   .item-preview-tooltip-description {
     padding: 0 20px 4px;
 
@@ -242,6 +243,13 @@
       &::before,
       &::after {
         content: '"';
+        background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .gradient-word {
         background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -339,16 +347,44 @@
     p {
       text-align: center;
       font-size: 10px;
+
+      .gradient-word {
+        background: linear-gradient(180deg, #FFB75C 40.19%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
     }
   }
 
   .item-preview-tooltip-footer {
-    margin: 0 20px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 0 20px 10px;
     padding-top: 6px;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
     font-size: 10px;
-    opacity: 0.7;
     text-align: center;
+  }
+
+  .item-preview-tooltip-footer-icon {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+    background: linear-gradient(180deg, #FFB75C 40.19%, #996E37 100%);
+    -webkit-mask: url('/systems/cardigan/assets/images/decorative/icons/mouse-solid.svg') no-repeat center;
+    mask: url('/systems/cardigan/assets/images/decorative/icons/mouse-solid.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+
+  .item-preview-tooltip-footer-text {
+    background: linear-gradient(180deg, #FFB75C 40.19%, #996E37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 

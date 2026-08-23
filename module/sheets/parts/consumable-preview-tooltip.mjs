@@ -1,3 +1,5 @@
+import { wrapWordsInGradientSpans } from '../../helpers/gradient-text.mjs';
+
 /**
  * Builds and attaches the native Foundry tooltip (data-tooltip-html) shown when hovering an
  * item-consumivel's icon in the backpack list. The content needs async data (skill bonus flag
@@ -62,7 +64,7 @@ export class ConsumablePreviewTooltip {
 
     const infoRows = await this._buildInfoRows(item);
 
-    return foundry.applications.handlebars.renderTemplate('systems/cardigan/templates/tooltips/item-preview-tooltip.hbs', {
+    const content = await foundry.applications.handlebars.renderTemplate('systems/cardigan/templates/tooltips/item-preview-tooltip.hbs', {
       item,
       hasDescription,
       description,
@@ -71,6 +73,11 @@ export class ConsumablePreviewTooltip {
       hasSystematicDescription,
       enrichedSystematicDescription
     });
+
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = content;
+    wrapWordsInGradientSpans(wrapper, '.item-preview-tooltip-description p, .consumable-summary-systematic-description p');
+    return wrapper.innerHTML;
   }
 
   /**
