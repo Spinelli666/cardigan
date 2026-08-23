@@ -437,26 +437,40 @@ prose-mirror:has(.menu-container) button.toggle {
   margin-top: 0;
 }
 
+.cardigan-chat .message-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin-top: 20px;
+}
 .cardigan-chat .message-metadata {
   margin-top: 0;
-  display: block;
-  justify-content: unset;
-}
-.cardigan-chat.cardigan-roll-message .message-metadata, .cardigan-chat.cardigan-effect-message .message-metadata {
   display: flex;
   justify-content: center;
+}
+.cardigan-chat.cardigan-roll-message .message-footer, .cardigan-chat.cardigan-effect-message .message-footer {
   margin-top: 0;
 }
-.cardigan-chat.cardigan-roll-message:has(.actor-header .actor-name) .message-metadata {
+.cardigan-chat.cardigan-roll-message:has(.actor-header .actor-name) .message-footer {
   margin-top: 20px;
 }
-.cardigan-chat.cardigan-roll-message:has(.actor-header.special-action):not(:has(.cardigan-evasion-section)) .message-metadata {
+.cardigan-chat.cardigan-roll-message:has(.actor-header.special-action):not(:has(.cardigan-evasion-section)) .message-footer {
   margin-top: 20px;
+}
+.cardigan-chat.cardigan-item-preview-message .message-footer {
+  margin-top: 0px;
 }
 .cardigan-chat .message-sender {
+  display: inline;
+  margin: 0;
+  font-size: 10px;
   font-family: "Alatsi", sans-serif !important;
   color: #FFB75C;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.cardigan-chat .message-sender::after {
+  content: "-";
+  margin: 0 4px;
 }
 .cardigan-chat .message-content {
   font-family: "Alatsi", sans-serif !important;
@@ -13066,6 +13080,38 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   align-items: center;
   justify-content: center;
   position: relative;
+}
+.cardigan .backpack-table .item-image img {
+  transition: opacity 0.2s ease;
+}
+.cardigan .backpack-table .item-image .chat-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 19px;
+  height: 19px;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+.cardigan .backpack-table .item-image .chat-icon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #FFB75C, #996E37);
+  -webkit-mask: url("../assets/images/decorative/icons/icon-chat.svg") center/contain no-repeat;
+  mask: url("../assets/images/decorative/icons/icon-chat.svg") center/contain no-repeat;
+}
+.cardigan .backpack-table .item-image:hover img {
+  opacity: 0;
+}
+.cardigan .backpack-table .item-image:hover .chat-icon {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.15);
 }
 .cardigan .backpack-table .item-name-group {
   display: flex;
@@ -27101,18 +27147,6 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   border-radius: 10px !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
 }
-#tooltip.cardigan-tooltip.item-preview-tooltip.locked-tooltip,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip.locked-tooltip {
-  border-color: #FFB75C !important;
-}
-#tooltip.cardigan-tooltip.item-preview-tooltip.locked-tooltip .item-preview-tooltip-footer,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip.locked-tooltip .item-preview-tooltip-footer {
-  display: none;
-}
-#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-inner,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-inner {
-  position: relative;
-}
 #tooltip.cardigan-tooltip.item-preview-tooltip .divider-left,
 .locked-tooltip.cardigan-tooltip.item-preview-tooltip .divider-left {
   position: absolute;
@@ -27133,8 +27167,25 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   opacity: 0.8;
   transform: rotate(134deg) scaleX(-1);
 }
+
+#tooltip.cardigan-tooltip.item-preview-tooltip.locked-tooltip,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip.locked-tooltip,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner.locked-tooltip {
+  border-color: #FFB75C !important;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip.locked-tooltip .item-preview-tooltip-footer,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip.locked-tooltip .item-preview-tooltip-footer,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner.locked-tooltip .item-preview-tooltip-footer {
+  display: none;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-inner,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-inner,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-inner {
+  position: relative;
+}
 #tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-icon,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-icon {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-icon,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .tooltip-icon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27148,13 +27199,15 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.6);
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-icon img,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-icon img {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-icon img,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .tooltip-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-header,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-header {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-header,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .tooltip-header {
   display: flex;
   justify-content: center;
   position: relative;
@@ -27162,7 +27215,8 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   margin-bottom: 5px;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-title,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-title {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .tooltip-title,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .tooltip-title {
   margin: 0;
   font-family: "Alatsi", sans-serif;
   font-size: 18px;
@@ -27174,18 +27228,22 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-description {
   padding: 0 20px 4px;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-description p {
   margin: 0;
   text-align: center;
   font-size: 10px;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p::before, #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p::after,
 .locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p::before,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p::after {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p::after,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-description p::before,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-description p::after {
   content: '"';
   background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
   -webkit-background-clip: text;
@@ -27193,14 +27251,16 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   background-clip: text;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p .gradient-word,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p .gradient-word {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-description p .gradient-word,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-description p .gradient-word {
   background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-description-border,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-description-border {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-description-border,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .consumable-summary-description-border {
   display: block;
   width: 100%;
   max-width: 100%;
@@ -27208,7 +27268,8 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   margin: 2px auto 5px;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27220,7 +27281,8 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35) !important;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-item,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-item {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-item,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info-item {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27228,14 +27290,16 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   width: 100%;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-icon,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-icon {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-icon,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info-icon {
   width: 20px;
   height: 20px;
   object-fit: contain;
   flex-shrink: 0;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-value,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-value {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-value,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info-value {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27251,7 +27315,9 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-text,
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-abbr,
 .locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-text,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-abbr {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-abbr,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info-text,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info-abbr {
   font-size: 12px;
   letter-spacing: 0.5px;
   background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
@@ -27260,7 +27326,8 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   background-clip: text;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-border,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-border {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-border,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info-border {
   display: block;
   width: 100%;
   max-width: 100%;
@@ -27268,7 +27335,8 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   margin: 2px auto;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-info-border,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-info-border {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-info-border,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .consumable-summary-info-border {
   display: block;
   width: 95%;
   max-width: 100%;
@@ -27276,7 +27344,8 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   margin: 5px auto 0px;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .consumable-summary-systematic-description {
   background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
   padding: 0px 10px;
   border: 1px solid #FFB75C;
@@ -27284,19 +27353,22 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   margin: 7px 20px 15px;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description p,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description p {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description p,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .consumable-summary-systematic-description p {
   text-align: center;
   font-size: 10px;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description p .gradient-word,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description p .gradient-word {
-  background: linear-gradient(180deg, #FFB75C 40.19%, #996E37 100%);
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-systematic-description p .gradient-word,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .consumable-summary-systematic-description p .gradient-word {
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-footer,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-footer {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-footer,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-footer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27308,7 +27380,8 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   text-align: center;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-footer-icon,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-footer-icon {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-footer-icon,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-footer-icon {
   width: 10px;
   height: 10px;
   flex-shrink: 0;
@@ -27319,11 +27392,72 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   mask-size: contain;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-footer-text,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-footer-text {
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-footer-text,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-footer-text {
   background: linear-gradient(180deg, #FFB75C 40.19%, #996E37 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Foundry message-header for item preview (consumable) chat messages only */
+.chat-message:has(.item-preview-tooltip-inner) .message-header.flexrow {
+  position: absolute;
+}
+
+.chat-message.message.flexcol.cardigan-item-preview-message {
+  padding-top: 0px;
+}
+
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info {
+  margin: 0px 88px;
+}
+
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-description p::before, .cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-description p::after {
+  background: linear-gradient(180deg, #FFB75C 55.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-description p .gradient-word {
+  background: linear-gradient(180deg, #FFB75C 55.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .consumable-summary-systematic-description p .gradient-word {
+  background: linear-gradient(180deg, #FFB75C 55.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-item-preview-message .message-header {
+  position: relative;
+}
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-item-preview-message .message-header .message-divider-1 {
+  position: absolute;
+  bottom: 0;
+  left: 115px;
+  width: 100%;
+  height: 70px;
+  object-fit: contain;
+  pointer-events: none;
+  transform: rotate(138deg) scaleX(-1);
+  top: -8px;
+  opacity: 0.6;
+}
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-item-preview-message .message-header .message-divider-2 {
+  position: absolute;
+  bottom: 0;
+  right: 115px;
+  width: 100%;
+  height: 70px;
+  object-fit: contain;
+  pointer-events: none;
+  transform: rotate(224deg);
+  top: -8px;
+  opacity: 0.6;
 }
 
 /* Weapon Property Tooltips */

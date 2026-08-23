@@ -173,9 +173,8 @@ export class ItemExpand {
 
   /**
    * Toggle expand/collapse for a backpack row's description.
-   * Only item-consumivel items render real content (item-consumivel-summary.hbs) for now;
-   * other backpack item types just toggle the empty row, to be filled in later.
-   * Called by _onToggleBackpackItemExpand (static wrapper).
+   * Called by _onToggleBackpackItemExpand (static wrapper) with the DOM event/target,
+   * or directly by the context menu's "Expandir" action with just the item id.
    * @param {ActorSheet} sheet
    * @param {PointerEvent} event
    * @param {HTMLElement} target
@@ -186,10 +185,21 @@ export class ItemExpand {
     const itemId = target.dataset.itemId;
     if (!itemId) return;
 
+    return ItemExpand.toggleBackpackExpandById(sheet, itemId);
+  }
+
+  /**
+   * Toggle expand/collapse for a backpack row's description, by item id.
+   * Only item-consumivel items render real content (item-consumivel-summary.hbs) for now;
+   * other backpack item types just toggle the empty row, to be filled in later.
+   * @param {ActorSheet} sheet
+   * @param {string} itemId
+   */
+  static async toggleBackpackExpandById(sheet, itemId) {
     const descriptionRow = sheet.element.querySelector(`.backpack-item-description-row[data-item-id="${itemId}"]`);
     if (!descriptionRow) return;
 
-    const itemRow = target.closest('li.item');
+    const itemRow = sheet.element.querySelector(`li.item[data-item-id="${itemId}"]`);
     const wrapper = descriptionRow.querySelector('.wrapper');
 
     const expanded = sheet.expandedSections.get(itemId);

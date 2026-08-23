@@ -1,8 +1,10 @@
 {{!-- Item preview tooltip (mochila) — hover no ícone de um item-consumivel. Renderizado via
       ConsumablePreviewTooltip._buildTooltipHtml e injetado em data-tooltip-html. --}}
 <div class='item-preview-tooltip-inner'>
+  {{#unless hideDividers}}
   <img src='systems/cardigan/assets/images/decorative/divider.webp' alt='divider' class='divider-left' />
   <img src='systems/cardigan/assets/images/decorative/divider.webp' alt='divider' class='divider-right' />
+  {{/unless}}
   <div class='tooltip-icon'>
     <img src='{{item.img}}' alt='{{item.name}}' />
   </div>
@@ -35,8 +37,10 @@
   <div class='consumable-summary-systematic-description'>{{{enrichedSystematicDescription}}}</div>
   {{/if}}
   {{/if}}
+  {{#unless hideFooter}}
   <div class='item-preview-tooltip-footer'>
     <div class='item-preview-tooltip-footer-icon'></div>
     <span class='item-preview-tooltip-footer-text'>{{localize 'CARDIGAN.Tooltip.MiddleClickToLock'}}</span>
   </div>
+  {{/unless}}
 </div>

@@ -1,6 +1,7 @@
 import { AdvantageSelectionDialog } from '../../applications/advantage-selection-dialog.mjs';
 import { ChatMessageHelper } from '../../helpers/chat-messages.mjs';
 import { getCoreRollMode } from '../../helpers/roll-mode.mjs';
+import { ConsumablePreviewTooltip } from '../parts/consumable-preview-tooltip.mjs';
 
 /**
  * Header Status Actions Module
@@ -51,8 +52,9 @@ export class HeaderStatusActions {
       case 'item':
         const itemId = element.closest('[data-item-id]')?.dataset.itemId;
         const item = sheet.document.items.get(itemId);
-        if (item) return item.roll();
-        break;
+        if (!item) break;
+        if (item.type === 'item-consumivel') return ConsumablePreviewTooltip.postToChat(item, sheet.document);
+        return item.roll();
     }
 
     // Handle rolls that supply the formula directly.

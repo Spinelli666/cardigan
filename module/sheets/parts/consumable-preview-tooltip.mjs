@@ -33,10 +33,31 @@ export class ConsumablePreviewTooltip {
   }
 
   /**
+   * Posts the item's preview tooltip (same content/styling as the backpack hover tooltip,
+   * minus the "click to lock" footer, which only makes sense in the floating tooltip) as a
+   * chat message. Used by the image click and the "Mostrar no Chat" context menu action.
    * @param {Item} item
+   * @param {Actor} actor
+   * @returns {Promise<ChatMessage>}
+   */
+  static async postToChat(item, actor) {
+    const content = await this._buildTooltipHtml(item, { hideFooter: true, hideDividers: true });
+
+    return ChatMessage.create({
+      content,
+      speaker: ChatMessage.getSpeaker({ actor }),
+      style: CONST.CHAT_MESSAGE_STYLES.OTHER
+    });
+  }
+
+  /**
+   * @param {Item} item
+   * @param {object} [options]
+   * @param {boolean} [options.hideFooter] - Omit the "click to lock" footer (used when posting to chat).
+   * @param {boolean} [options.hideDividers] - Omit the decorative dividers (used when posting to chat).
    * @returns {Promise<string>}
    */
-  static async _buildTooltipHtml(item) {
+  static async _buildTooltipHtml(item, { hideFooter = false, hideDividers = false } = {}) {
     const rawDescription = item.system.description || '';
     // ProseMirror saves an empty editor as "<p></p>" rather than "" — strip tags before checking.
     const hasDescription = rawDescription.replace(/<[^>]*>/g, '').trim().length > 0;
@@ -71,7 +92,9 @@ export class ConsumablePreviewTooltip {
       infoRows,
       hasInfoRows: infoRows.length > 0,
       hasSystematicDescription,
-      enrichedSystematicDescription
+      enrichedSystematicDescription,
+      hideFooter,
+      hideDividers
     });
 
     const wrapper = document.createElement('div');

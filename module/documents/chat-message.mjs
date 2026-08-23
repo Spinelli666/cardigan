@@ -31,14 +31,10 @@ export class CardiganChatMessage extends ChatMessage {
     const messageContent = html.querySelector(".message-content");
     if (!messageHeader || !messageContent) return;
 
-    // Check if it's a roll message or effect message
+    // Check if it's a roll message, effect message or item preview (consumable) message
     const isRollMessage = html.querySelector(".cardigan-roll-chat-message");
     const isEffectMessage = html.querySelector(".cardigan-effect-chat-message");
-    
-    if (!isRollMessage && !isEffectMessage) {
-      // Not a roll or effect message - skip dividers
-      return;
-    }
+    const isItemPreviewMessage = html.querySelector(".item-preview-tooltip-inner");
 
     // Mark message type for CSS targeting
     if (isRollMessage) {
@@ -47,11 +43,27 @@ export class CardiganChatMessage extends ChatMessage {
     if (isEffectMessage) {
       html.classList.add("cardigan-effect-message");
     }
+    if (isItemPreviewMessage) {
+      html.classList.add("cardigan-item-preview-message");
+    }
 
-    // Move message-metadata from header to content
+    // Move sender name and message-metadata from header into a single footer row
+    // appended to the content, so "[Nome] - [Tempo]" shows at the bottom of the
+    // card instead of the default Foundry header (roll/effect messages already
+    // hide the sender name via CSS, so this only visibly affects generic cards).
+    const messageSender = messageHeader.querySelector(".message-sender");
     const messageMetadata = messageHeader.querySelector(".message-metadata");
-    if (messageMetadata) {
-      messageContent.appendChild(messageMetadata);
+    if (messageSender || messageMetadata) {
+      const messageFooter = document.createElement("div");
+      messageFooter.classList.add("message-footer");
+      if (messageSender) messageFooter.appendChild(messageSender);
+      if (messageMetadata) messageFooter.appendChild(messageMetadata);
+      messageContent.appendChild(messageFooter);
+    }
+
+    if (!isRollMessage && !isEffectMessage && !isItemPreviewMessage) {
+      // Not a roll, effect or item preview message - skip dividers
+      return;
     }
 
     // Check if dividers already exist

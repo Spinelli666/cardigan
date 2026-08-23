@@ -38,41 +38,64 @@
 
 // Cardigan chat messages (all types)
 .cardigan-chat {
-  // No margin-top, no flex centering on metadata for regular cardigan messages
-  .message-metadata {
-    margin-top: 0;
-    display: block;
-    justify-content: unset;
+  // Sender name + metadata are wrapped into .message-footer by CardiganChatMessage,
+  // so "[Nome] - [Tempo]" shows on a single line at the bottom of the card instead
+  // of the default header.
+  .message-footer {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-top: 20px;
   }
 
-  // Re-apply flex centering for roll/effect messages (metadata moved into message-content)
+  .message-metadata {
+    margin-top: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  // Roll/effect messages hide the sender name (see _chat-rolls.scss / _effect-message.scss)
+  // via display:none !important, so only the "-" separator needs hiding alongside it.
   &.cardigan-roll-message,
   &.cardigan-effect-message {
-    .message-metadata {
-      display: flex;
-      justify-content: center;
+    .message-footer {
       margin-top: 0;
     }
   }
 
   // Simple skill test rolls (no attack/joint): show margin-top
   &.cardigan-roll-message:has(.actor-header .actor-name) {
-    .message-metadata {
+    .message-footer {
       margin-top: 20px;
     }
   }
 
   // Attack/joint rolls without evasion section: show margin-top
   &.cardigan-roll-message:has(.actor-header.special-action):not(:has(.cardigan-evasion-section)) {
-    .message-metadata {
+    .message-footer {
       margin-top: 20px;
     }
   }
 
+  // Item preview (consumable) messages: no top margin
+  &.cardigan-item-preview-message {
+    .message-footer {
+      margin-top: 0px;
+    }
+  }
+
   .message-sender {
+    display: inline;
+    margin: 0;
+    font-size: 10px;
     font-family: 'Alatsi', sans-serif !important;
     color: #FFB75C;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+
+    &::after {
+      content: '-';
+      margin: 0 4px;
+    }
   }
 
   .message-content {

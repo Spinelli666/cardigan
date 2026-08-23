@@ -1,5 +1,7 @@
 import ContextMenu5e from '../../applications/context-menu.mjs';
 import { EquipmentActions } from './equipment-actions.mjs';
+import { ItemExpand } from '../parts/item-expand.mjs';
+import { ConsumablePreviewTooltip } from '../parts/consumable-preview-tooltip.mjs';
 
 export class ContextMenuActions {
 
@@ -124,6 +126,19 @@ export class ContextMenuActions {
       });
     }
 
+    // Backpack table rows use a separate expand mechanism (sibling .backpack-item-description-row)
+    // instead of the .item.collapsible wrapper used by the equipped weapon banner.
+    const backpackDescriptionRow = sheet.element.querySelector(`.backpack-item-description-row[data-item-id="${item.id}"]`);
+    if (backpackDescriptionRow) {
+      const isBackpackExpanded = !!sheet.expandedSections.get(item.id);
+      options.push({
+        label: isBackpackExpanded ? "Recolher" : "Expandir",
+        icon: isBackpackExpanded ? '<i class="fa-solid fa-compress fa-fw"></i>' : '<i class="fa-solid fa-expand fa-fw"></i>',
+        visible: () => true,
+        onClick: () => ItemExpand.toggleBackpackExpandById(sheet, item.id)
+      });
+    }
+
     options.push({
       label: "Editar",
       icon: '<i class="fa-solid fa-pen-to-square fa-fw"></i>',
@@ -185,6 +200,15 @@ export class ContextMenuActions {
       });
     }
 
+    if (item.type !== "arma" && item.type !== "armadura") {
+      options.push({
+        label: "Mostrar no Chat",
+        icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
+        visible: () => item.isOwner,
+        onClick: li => ContextMenuActions.onAction(li, "showInChat", item, sheet)
+      });
+    }
+
     options.push({
       label: "Excluir",
       icon: '<i class="fa-solid fa-trash fa-fw"></i>',
@@ -236,7 +260,8 @@ export class ContextMenuActions {
       case "showInChat":
         if (item.type === "arma") return ContextMenuActions.showWeaponInChat(item, sheet.document);
         else if (item.type === "armadura") return ContextMenuActions.showArmorInChat(item, sheet.document);
-        return null;
+        else if (item.type === "item-consumivel") return ConsumablePreviewTooltip.postToChat(item, sheet.document);
+        return item.roll();
       case "delete":
         if (item.type === "efeito") {
           const autoManagedEffects = {
