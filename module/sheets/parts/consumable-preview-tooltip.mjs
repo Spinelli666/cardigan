@@ -115,17 +115,17 @@ export class ConsumablePreviewTooltip {
 
     const armorBonus = Number(item.system.armorBonusAmount) || 0;
     if (armorBonus !== 0) {
-      rows.push({ kind: 'armor', icon: 'icon-armor.svg', label: 'Bônus de Armadura', displayValue: String(armorBonus) });
+      rows.push({ kind: 'armor', icon: 'icon-armor.svg', label: 'Bônus de Armadura', displayValue: armorBonus > 0 ? `+${armorBonus}` : `${armorBonus}` });
     }
 
     const movementBonus = Number(item.system.movementBonus?.bonus) || 0;
     if (movementBonus !== 0) {
-      rows.push({ kind: 'movement', icon: 'icon-movement.svg', label: 'Bônus de Movimento', displayValue: String(movementBonus) });
+      rows.push({ kind: 'movement', icon: 'icon-movement.svg', label: 'Bônus de Movimento', displayValue: movementBonus > 0 ? `+${movementBonus}` : `${movementBonus}` });
     }
 
     const criticalBonus = Number(item.system.criticalHitBoostAmount) || 0;
     if (criticalBonus !== 0) {
-      rows.push({ kind: 'critical', icon: 'icon-critical.svg', label: 'Bônus de Crítico', displayValue: String(criticalBonus) });
+      rows.push({ kind: 'critical', icon: 'icon-critical.svg', label: 'Bônus de Crítico', displayValue: criticalBonus > 0 ? `+${criticalBonus}` : `${criticalBonus}` });
     }
 
     const skillAbbreviations = [

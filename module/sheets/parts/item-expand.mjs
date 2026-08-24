@@ -219,9 +219,15 @@ export class ItemExpand {
           const rawSystematicDescription = item.system.systematicDescription || '';
           const hasSystematicDescription = rawSystematicDescription.replace(/<[^>]*>/g, '').trim().length > 0;
           // Only show a property row (and its divider) when its value is non-zero.
-          const hasArmorBonus = Number(item.system.armorBonusAmount) !== 0;
-          const hasMovementBonus = Number(item.system.movementBonus?.bonus) !== 0;
-          const hasCriticalBonus = Number(item.system.criticalHitBoostAmount) !== 0;
+          const armorBonusAmount = Number(item.system.armorBonusAmount) || 0;
+          const movementBonusAmount = Number(item.system.movementBonus?.bonus) || 0;
+          const criticalBonusAmount = Number(item.system.criticalHitBoostAmount) || 0;
+          const hasArmorBonus = armorBonusAmount !== 0;
+          const hasMovementBonus = movementBonusAmount !== 0;
+          const hasCriticalBonus = criticalBonusAmount !== 0;
+          const displayArmorBonus = armorBonusAmount > 0 ? `+${armorBonusAmount}` : `${armorBonusAmount}`;
+          const displayMovementBonus = movementBonusAmount > 0 ? `+${movementBonusAmount}` : `${movementBonusAmount}`;
+          const displayCriticalBonus = criticalBonusAmount > 0 ? `+${criticalBonusAmount}` : `${criticalBonusAmount}`;
 
           // Skill bonuses from the item's own "consumable-skill-bonuses-table" (flags.cardigan.consumableSkillBonuses),
           // shown abbreviated — same key order/abbreviations as _prepareConsumableSkillBonusRows in item-sheet.mjs.
@@ -252,9 +258,6 @@ export class ItemExpand {
             .map(row => ({ abbr: row.abbr, value: skillBonusByKey[row.key] ?? 0 }))
             .filter(row => row.value !== 0)
             .map(row => ({ ...row, displayValue: row.value > 0 ? `+${row.value}` : `${row.value}` }));
-          skillBonusRows.forEach((row, index) => {
-            row.showBorder = index < skillBonusRows.length - 1;
-          });
           const hasSkillBonuses = skillBonusRows.length > 0;
 
           // Status ailment modifiers: "decrease" (remove) shows as a negative number,
@@ -274,11 +277,24 @@ export class ItemExpand {
               return { icon: def.icon, label: def.label, value, displayValue: value > 0 ? `+${value}` : `${value}` };
             })
             .filter(row => row.value !== 0);
-          statusRows.forEach((row, index) => {
-            row.showBorder = index < statusRows.length - 1;
-          });
           const hasAnyStatus = statusRows.length > 0;
           const hasAnyProperty = hasArmorBonus || hasMovementBonus || hasCriticalBonus || hasSkillBonuses;
+
+          // Flatten armor/movement/critical/skill/status into one ordered list, then chunk
+          // into rows of 4 — each row is its own flex line, centered by its parent
+          // (.consumable-summary-properties has align-items: center), so a shorter trailing
+          // row (e.g. a single leftover item) centers under the fuller rows above it.
+          const propertyEntries = [];
+          if (hasArmorBonus) propertyEntries.push({ kind: 'armor', displayValue: displayArmorBonus });
+          if (hasMovementBonus) propertyEntries.push({ kind: 'movement', displayValue: displayMovementBonus });
+          if (hasCriticalBonus) propertyEntries.push({ kind: 'critical', displayValue: displayCriticalBonus });
+          for (const row of skillBonusRows) propertyEntries.push({ kind: 'skill', displayValue: row.displayValue, abbr: row.abbr });
+          for (const row of statusRows) propertyEntries.push({ kind: 'status', displayValue: row.displayValue, icon: row.icon, label: row.label });
+
+          const propertyRows = [];
+          for (let i = 0; i < propertyEntries.length; i += 4) {
+            propertyRows.push(propertyEntries.slice(i, i + 4));
+          }
 
           // Tooltip content (rendered to an HTML string and embedded via data-tooltip-html) for
           // the "Vida & Energia" / "Efeitos" / "Teste de Perícia" header badges — uses Foundry's
@@ -365,21 +381,10 @@ export class ItemExpand {
             item,
             system: item.system,
             config: CONFIG.CARDIGAN,
-            hasArmorBonus,
-            hasMovementBonus,
-            hasCriticalBonus,
-            skillBonusRows,
-            hasSkillBonuses,
-            hasAnyProperty,
+            propertyRows,
             lifeEnergyTooltipHtml,
             effectsTooltipHtml,
             skillTestTooltipHtml,
-            // A border only makes sense between two visible rows, never trailing after the last one.
-            showArmorBorder: hasArmorBonus && (hasMovementBonus || hasCriticalBonus || hasSkillBonuses),
-            showMovementBorder: hasMovementBonus && (hasCriticalBonus || hasSkillBonuses),
-            showCriticalBorder: hasCriticalBonus && hasSkillBonuses,
-            statusRows,
-            hasAnyStatus,
             hasAnyInfo: hasAnyProperty || hasAnyStatus,
             enrichedDescription: hasDescription
               ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(rawDescription, {

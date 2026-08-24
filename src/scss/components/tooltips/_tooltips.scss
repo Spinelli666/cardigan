@@ -274,8 +274,8 @@
 
   // Linhas combinadas de armadura/deslocamento/crítico + bônus de perícia + status
   // (Fratura/Toxicidade/Sanidade/Fome/Sede) — tudo junto numa lista só (ver
-  // ConsumablePreviewTooltip._buildInfoRows), ao contrário da caixa expansível da mochila
-  // que usa duas divs separadas (consumable-summary-properties / consumable-summary-status).
+  // ConsumablePreviewTooltip._buildInfoRows), mesmo padrão usado na caixa expansível da
+  // mochila (consumable-summary-properties, ver _backpack.scss).
   .item-preview-tooltip-info {
     display: flex;
     flex-direction: column;
@@ -405,6 +405,31 @@
 
 .cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info {
   margin: 0px 88px;
+}
+
+// Clicar no header expande/recolhe o resto da mensagem (ver renderChatMessageHTML em
+// chat-hooks.mjs) — por padrão só ícone + header + footer aparecem.
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner {
+  .tooltip-header {
+    cursor: pointer;
+
+    .tooltip-title {
+      transition: all 0.2s;
+    }
+
+    // Same hover glow as .race-placeholder (_forms.scss) — brighter gradient + soft glow
+    &:hover .tooltip-title {
+      background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+    }
+  }
+
+  .item-preview-tooltip-body {
+    display: none;
+  }
 }
 
 // Descrição roleplay e sistemática: gradiente mais claro (55.19% em vez de 20.19%/40.19%),

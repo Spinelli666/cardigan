@@ -948,25 +948,30 @@ ol.items-list.backpack-table > li.item.items-header {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
-          background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
-          width: 120px;
+          gap: 8px;
           padding: 8px 5px;
-          border-radius: 10px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 
-          .consumable-summary-armor {
+          .consumable-summary-properties-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+          }
+
+          // Card wrapper around each characteristic (armor/movement/critical/skill/status) —
+          // holds the background/border-radius/box-shadow so .consumable-summary-property-item
+          // itself stays a plain layout row (no nested card-in-card look).
+          .consumable-summary-property-box {
+            padding: 5px;
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          }
+
+          .consumable-summary-property-item {
             display: flex;
             align-items: center;
             gap: 6px;
-          }
-
-          .consumable-summary-armor-border {
-            display: block;
-            width: 100%;
-            max-width: 100%;
-            height: 3px;
-            margin: 5px auto 5px;
           }
 
           .consumable-summary-armor-icon {
@@ -995,21 +1000,6 @@ ol.items-list.backpack-table > li.item.items-header {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-          }
-
-          .consumable-summary-movement-border {
-            display: block;
-            width: 100%;
-            max-width: 100%;
-            height: 3px;
-            margin: 5px auto 5px;
-          }
-
-          .consumable-summary-movement,
-          .consumable-summary-critical {
-            display: flex;
-            align-items: center;
-            gap: 6px;
           }
 
           .consumable-summary-movement-icon,
@@ -1043,26 +1033,8 @@ ol.items-list.backpack-table > li.item.items-header {
             background-clip: text;
           }
 
-          .consumable-summary-critical-border {
-            display: block;
-            width: 100%;
-            max-width: 100%;
-            height: 3px;
-            margin: 5px auto 5px;
-          }
-
-          .consumable-summary-skill-bonuses {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-          }
-
-          .consumable-summary-skill-bonus-item {
-            display: flex;
-            align-items: center;
+          .consumable-summary-property-item--skill {
             justify-content: center;
-            gap: 6px;
             width: 70px;
             min-height: 22px;
             padding: 0 6px;
@@ -1081,25 +1053,6 @@ ol.items-list.backpack-table > li.item.items-header {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-          }
-
-        }
-
-        .consumable-summary-status {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
-          width: 120px;
-          padding: 5px;
-          border-radius: 10px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
-
-          .consumable-summary-status-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
           }
 
           .consumable-summary-status-icon {
@@ -1130,13 +1083,6 @@ ol.items-list.backpack-table > li.item.items-header {
             background-clip: text;
           }
 
-          .consumable-summary-status-border {
-            display: block;
-            width: 100%;
-            max-width: 100%;
-            height: 3px;
-            margin: 5px auto 5px;
-          }
         }
       }
     }

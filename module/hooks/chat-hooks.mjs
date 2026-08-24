@@ -103,6 +103,25 @@ Hooks.on('renderChatMessageHTML', (message, html) => {
   });
 });
 
+/**
+ * Add toggle functionality to item preview (consumable) chat messages: click the
+ * header to expand/collapse the description/info/systematic description body.
+ * Default (collapsed) state only shows the icon, header and footer.
+ */
+Hooks.on('renderChatMessageHTML', (message, html) => {
+  const itemPreview = html.querySelector('.item-preview-tooltip-inner');
+  if (!itemPreview) return;
+
+  const header = itemPreview.querySelector('.tooltip-header');
+  const body = itemPreview.querySelector('.item-preview-tooltip-body');
+  if (!header || !body) return;
+
+  header.addEventListener('click', () => {
+    const isHidden = body.style.display !== 'block';
+    body.style.display = isHidden ? 'block' : 'none';
+  });
+});
+
 /* -------------------------------------------- */
 /*  Evasion System Hooks                        */
 /* -------------------------------------------- */

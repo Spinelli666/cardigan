@@ -458,7 +458,7 @@ prose-mirror:has(.menu-container) button.toggle {
   margin-top: 20px;
 }
 .cardigan-chat.cardigan-item-preview-message .message-footer {
-  margin-top: 0px;
+  margin-top: 8px;
 }
 .cardigan-chat .message-sender {
   display: inline;
@@ -12902,24 +12902,25 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
-  width: 120px;
+  gap: 8px;
   padding: 8px 5px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-properties-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-box {
+  padding: 5px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 }
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor {
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item {
   display: flex;
   align-items: center;
   gap: 6px;
-}
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-border {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  height: 3px;
-  margin: 5px auto 5px;
 }
 .cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-icon {
   width: 22px;
@@ -12945,19 +12946,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-border {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  height: 3px;
-  margin: 5px auto 5px;
-}
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement,
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical {
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 .cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-icon,
 .cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-icon {
@@ -12987,24 +12975,8 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-border {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  height: 3px;
-  margin: 5px auto 5px;
-}
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonuses {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-item {
-  display: flex;
-  align-items: center;
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item--skill {
   justify-content: center;
-  gap: 6px;
   width: 70px;
   min-height: 22px;
   padding: 0 6px;
@@ -13023,27 +12995,11 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-status {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
-  width: 120px;
-  padding: 5px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
-}
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-status .consumable-summary-status-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-status .consumable-summary-status-icon {
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-icon {
   width: 22px;
   height: 22px;
 }
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-status .consumable-summary-status-value {
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-value {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13055,7 +13011,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 }
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-status .consumable-summary-status-text {
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-text {
   font-size: 14px;
   letter-spacing: 0.5px;
   text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
@@ -13063,13 +13019,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-status .consumable-summary-status-border {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  height: 3px;
-  margin: 5px auto 5px;
 }
 .cardigan .backpack-table .item-image {
   margin-left: 0;
@@ -27411,6 +27360,23 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
 
 .cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info {
   margin: 0px 88px;
+}
+
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .tooltip-header {
+  cursor: pointer;
+}
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .tooltip-header .tooltip-title {
+  transition: all 0.2s;
+}
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .tooltip-header:hover .tooltip-title {
+  background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+}
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-body {
+  display: none;
 }
 
 .cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-description p::before, .cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-description p::after {
