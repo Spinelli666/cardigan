@@ -18,19 +18,22 @@
     <img class='consumable-summary-description-border' src='systems/cardigan/assets/images/decorative/border.webp' alt='Borda decorativa' />
     {{#if hasInfoRows}}
     <div class='item-preview-tooltip-info'>
-      {{#each infoRows}}
-      <div class='item-preview-tooltip-info-item item-preview-tooltip-info-item--{{this.kind}}'>
-        {{#if this.icon}}
-        <img class='item-preview-tooltip-info-icon' src='systems/cardigan/assets/images/decorative/icons/{{this.icon}}' alt='{{this.label}}' />
-        {{/if}}
-        <div class='item-preview-tooltip-info-value'>
-          <span class='item-preview-tooltip-info-text'>{{this.displayValue}}</span>
-          {{#if this.abbr}}<span class='item-preview-tooltip-info-abbr'>{{this.abbr}}</span>{{/if}}
+      {{#each infoRowGroups as |group|}}
+      <div class='item-preview-tooltip-info-row'>
+        {{#each group as |row|}}
+        <div class='item-preview-tooltip-info-box'>
+          <div class='item-preview-tooltip-info-item item-preview-tooltip-info-item--{{row.kind}}'>
+            {{#if row.icon}}
+            <img class='item-preview-tooltip-info-icon' src='systems/cardigan/assets/images/decorative/icons/{{row.icon}}' alt='{{row.label}}' />
+            {{/if}}
+            <div class='item-preview-tooltip-info-value'>
+              <span class='item-preview-tooltip-info-text'>{{row.displayValue}}</span>
+              {{#if row.abbr}}<span class='item-preview-tooltip-info-abbr'>{{row.abbr}}</span>{{/if}}
+            </div>
+          </div>
         </div>
+        {{/each}}
       </div>
-      {{#if this.showBorder}}
-      <img class='item-preview-tooltip-info-border' src='systems/cardigan/assets/images/decorative/border-2.webp' alt='Borda decorativa' />
-      {{/if}}
       {{/each}}
     </div>
     <img class='consumable-summary-info-border' src='systems/cardigan/assets/images/decorative/border-description.png' alt='Borda decorativa' />

@@ -274,18 +274,41 @@
 
   // Linhas combinadas de armadura/deslocamento/crítico + bônus de perícia + status
   // (Fratura/Toxicidade/Sanidade/Fome/Sede) — tudo junto numa lista só (ver
-  // ConsumablePreviewTooltip._buildInfoRows), mesmo padrão usado na caixa expansível da
-  // mochila (consumable-summary-properties, ver _backpack.scss).
+  // ConsumablePreviewTooltip._buildInfoRows), agrupadas em linhas de 2 (ver
+  // ConsumablePreviewTooltip._buildTooltipHtml), mesmo padrão usado na caixa expansível da
+  // mochila (consumable-summary-properties, ver _backpack.scss) — cada característica tem
+  // seu próprio card (.item-preview-tooltip-info-box) e align-items: center centraliza uma
+  // linha final mais curta (número ímpar de características).
   .item-preview-tooltip-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     padding: 8px 5px !important;
-    margin: 0px 100px;
+  }
+
+  .item-preview-tooltip-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  // flex-shrink: 0 nos três níveis — sem isso, o flexbox comprime a caixa abaixo do
+  // conteúdo quando as duas colunas da linha não cabem no espaço disponível, e o texto
+  // (ex: "+2 FOR") quebra letra a letra em vez de a linha simplesmente ficar mais larga.
+  .item-preview-tooltip-info-box {
+    flex-shrink: 0;
+    padding: 5px;
     background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
-    border-radius: 10px !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35) !important;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  }
+
+  // Bônus de perícia (ex: "+1 FOR", "+1 PSI") — largura fixa, igual ao
+  // consumable-summary-property-item--skill da caixa expansível (_backpack.scss).
+  .item-preview-tooltip-info-box:has(.item-preview-tooltip-info-item--skill) {
+    width: 78px;
   }
 
   .item-preview-tooltip-info-item {
@@ -293,7 +316,7 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    width: 100%;
+    flex-shrink: 0;
   }
 
   .item-preview-tooltip-info-icon {
@@ -315,24 +338,18 @@
     border: 1.5px solid rgba(255, 183, 92, 0.2);
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+    flex-shrink: 0;
   }
 
   .item-preview-tooltip-info-text,
   .item-preview-tooltip-info-abbr {
     font-size: 12px;
     letter-spacing: 0.5px;
+    white-space: nowrap;
     background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-  }
-
-  .item-preview-tooltip-info-border {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: 3px;
-    margin: 2px auto;
   }
 
   .consumable-summary-info-border {
@@ -401,10 +418,6 @@
 
 .chat-message.message.flexcol.cardigan-item-preview-message {
   padding-top: 0px;
-}
-
-.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info {
-  margin: 0px 88px;
 }
 
 // Clicar no header expande/recolhe o resto da mensagem (ver renderChatMessageHTML em

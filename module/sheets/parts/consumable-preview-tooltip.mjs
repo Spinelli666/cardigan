@@ -84,12 +84,20 @@ export class ConsumablePreviewTooltip {
       : '';
 
     const infoRows = await this._buildInfoRows(item);
+    // Rows of 2 — each row is its own centered flex line, so a shorter trailing row
+    // (an odd number of characteristics) centers under the fuller rows above it
+    // (see .item-preview-tooltip-info in _tooltips.scss, same pattern as the backpack's
+    // expandable box — consumable-summary-properties in _backpack.scss).
+    const infoRowGroups = [];
+    for (let i = 0; i < infoRows.length; i += 2) {
+      infoRowGroups.push(infoRows.slice(i, i + 2));
+    }
 
     const content = await foundry.applications.handlebars.renderTemplate('systems/cardigan/templates/tooltips/item-preview-tooltip.hbs', {
       item,
       hasDescription,
       description,
-      infoRows,
+      infoRowGroups,
       hasInfoRows: infoRows.length > 0,
       hasSystematicDescription,
       enrichedSystematicDescription,
@@ -173,10 +181,6 @@ export class ConsumablePreviewTooltip {
         rows.push({ kind: 'status', icon: def.icon, label: def.label, displayValue: value > 0 ? `+${value}` : `${value}` });
       }
     }
-
-    rows.forEach((row, index) => {
-      row.showBorder = index < rows.length - 1;
-    });
 
     return rows;
   }

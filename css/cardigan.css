@@ -27222,12 +27222,30 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   padding: 8px 5px !important;
-  margin: 0px 100px;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-row,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-row,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-box,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-box,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info-box {
+  flex-shrink: 0;
+  padding: 5px;
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
-  border-radius: 10px !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35) !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-box:has(.item-preview-tooltip-info-item--skill),
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-box:has(.item-preview-tooltip-info-item--skill),
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info-box:has(.item-preview-tooltip-info-item--skill) {
+  width: 78px;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-item,
 .locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-item,
@@ -27236,7 +27254,7 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  width: 100%;
+  flex-shrink: 0;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-icon,
 .locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-icon,
@@ -27260,6 +27278,7 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   border: 1.5px solid rgba(255, 183, 92, 0.2);
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-text,
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-abbr,
@@ -27269,19 +27288,11 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
 .cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info-abbr {
   font-size: 12px;
   letter-spacing: 0.5px;
+  white-space: nowrap;
   background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-border,
-.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-border,
-.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info-border {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  height: 3px;
-  margin: 2px auto;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-info-border,
 .locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-info-border,
@@ -27356,10 +27367,6 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
 
 .chat-message.message.flexcol.cardigan-item-preview-message {
   padding-top: 0px;
-}
-
-.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info {
-  margin: 0px 88px;
 }
 
 .cardigan-item-preview-message .message-content .item-preview-tooltip-inner .tooltip-header {
