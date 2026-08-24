@@ -281,7 +281,7 @@ export class ItemExpand {
           const hasAnyProperty = hasArmorBonus || hasMovementBonus || hasCriticalBonus || hasSkillBonuses;
 
           // Flatten armor/movement/critical/skill/status into one ordered list, then chunk
-          // into rows of 4 — each row is its own flex line, centered by its parent
+          // into rows of 3 — each row is its own flex line, centered by its parent
           // (.consumable-summary-properties has align-items: center), so a shorter trailing
           // row (e.g. a single leftover item) centers under the fuller rows above it.
           const propertyEntries = [];
@@ -292,8 +292,8 @@ export class ItemExpand {
           for (const row of statusRows) propertyEntries.push({ kind: 'status', displayValue: row.displayValue, icon: row.icon, label: row.label });
 
           const propertyRows = [];
-          for (let i = 0; i < propertyEntries.length; i += 4) {
-            propertyRows.push(propertyEntries.slice(i, i + 4));
+          for (let i = 0; i < propertyEntries.length; i += 3) {
+            propertyRows.push(propertyEntries.slice(i, i + 3));
           }
 
           // Tooltip content (rendered to an HTML string and embedded via data-tooltip-html) for
