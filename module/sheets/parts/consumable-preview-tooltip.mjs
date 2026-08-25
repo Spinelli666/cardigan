@@ -1,4 +1,5 @@
 import { wrapWordsInGradientSpans } from '../../helpers/gradient-text.mjs';
+import { buildHeaderBadgeTooltips } from './consumable-header-badges.mjs';
 
 /**
  * Builds and attaches the native Foundry tooltip (data-tooltip-html) shown when hovering an
@@ -93,14 +94,24 @@ export class ConsumablePreviewTooltip {
       infoRowGroups.push(infoRows.slice(i, i + 2));
     }
 
+    // Same "Teste de Perícia" / "Vida & Energia" / "Efeitos" badges as the backpack's
+    // expandable box header (consumable-summary-header-left in item-expand.mjs), shown here
+    // centered instead of left-aligned (see .item-preview-tooltip-badges in _tooltips.scss).
+    const { lifeEnergyTooltipHtml, effectsTooltipHtml, skillTestTooltipHtml } = await buildHeaderBadgeTooltips(item);
+
     const content = await foundry.applications.handlebars.renderTemplate('systems/cardigan/templates/tooltips/item-preview-tooltip.hbs', {
       item,
+      system: item.system,
       hasDescription,
       description,
       infoRowGroups,
       hasInfoRows: infoRows.length > 0,
       hasSystematicDescription,
       enrichedSystematicDescription,
+      hasHeaderBadges: Boolean(item.system.hasSkillCheck || item.system.hasLifeEnergySection || item.system.hasEffectsSection),
+      lifeEnergyTooltipHtml,
+      effectsTooltipHtml,
+      skillTestTooltipHtml,
       hideFooter,
       hideDividers
     });

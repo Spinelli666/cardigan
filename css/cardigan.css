@@ -27170,6 +27170,7 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   font-family: "Alatsi", sans-serif;
   font-size: 18px;
   font-weight: normal;
+  line-height: 1.3;
   background: linear-gradient(180deg, #FFB75C 22.19%, #996E37 100%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -27215,6 +27216,40 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   max-width: 100%;
   height: 8px;
   margin: 2px auto 5px;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-badges,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-badges,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-header-badge,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-header-badge,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .consumable-summary-header-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-header-badge-text,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .consumable-summary-header-badge-text,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .consumable-summary-header-badge-text {
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info,
 .locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info,

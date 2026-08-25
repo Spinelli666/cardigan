@@ -17,12 +17,15 @@ export class LifeEnergyDialogListeners {
     const addedContentContainer = sheet.element?.querySelector('.consumable-item-life-energy-added-content');
     if (!addButtonContainer && !addButton) return;
 
-    const getAbilityAbbreviation = (ability) => {
-      const key = CONFIG.CARDIGAN.abilities[ability];
-      return key ? game.i18n.localize(key) : '';
+    // Full skill name (e.g. "Precisão"), title-cased from the all-caps ".full" localization
+    // string (used elsewhere as-is, but here we want "2xPrecisão", not "2xPRECISÃO").
+    const getSkillDisplayName = (ability) => {
+      const key = `CARDIGAN.Ability.${ability.charAt(0).toUpperCase()}${ability.slice(1)}.full`;
+      const raw = game.i18n.localize(key);
+      return raw ? raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase() : '';
     };
 
-    // Life formula: "{quantity}{diceFaces} + {bonus} + ({ABBR}[ * 2])"
+    // Life formula: "{quantity}{diceFaces} + {bonus} + [2x]{SkillName}"
     const buildLifeFormula = (sys) => {
       if (!sys.hasHealthModifier) return null;
 
@@ -34,14 +37,14 @@ export class LifeEnergyDialogListeners {
       if (bonus !== 0) formula += ` + ${bonus}`;
 
       if (sys.healthModifierAddSkill) {
-        const abbr = getAbilityAbbreviation(sys.healthModifierSkill);
-        formula += ` + (${abbr}${sys.healthModifierDoubleSkill ? ' * 2' : ''})`;
+        const skillName = getSkillDisplayName(sys.healthModifierSkill);
+        formula += ` + ${sys.healthModifierDoubleSkill ? '2x' : ''}${skillName}`;
       }
 
       return formula;
     };
 
-    // Energy formula: "{quantity}{diceFaces} + {bonus} + ({ABBR}[ * 2])"
+    // Energy formula: "{quantity}{diceFaces} + {bonus} + [2x]{SkillName}"
     const buildEnergyFormula = (sys) => {
       if (!sys.hasEnergyModifier) return null;
 
@@ -53,8 +56,8 @@ export class LifeEnergyDialogListeners {
       if (bonus !== 0) formula += ` + ${bonus}`;
 
       if (sys.energyModifierAddSkill) {
-        const abbr = getAbilityAbbreviation(sys.energyModifierSkill);
-        formula += ` + (${abbr}${sys.energyModifierDoubleSkill ? ' * 2' : ''})`;
+        const skillName = getSkillDisplayName(sys.energyModifierSkill);
+        formula += ` + ${sys.energyModifierDoubleSkill ? '2x' : ''}${skillName}`;
       }
 
       return formula;
