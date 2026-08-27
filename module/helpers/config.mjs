@@ -1,3 +1,5 @@
+import { buildArmorInfoBadges } from "../sheets/parts/armor-info-badges.mjs";
+
 export const CARDIGAN = {};
 
 /**
@@ -207,6 +209,16 @@ export function registerHandlebarsHelpers() {
    * @param {Object} armor - Armor item object
    * @returns {string} - HTML string for armor tooltip
    */
+  /**
+   * Priority-ordered, capped (max 3) list of info badges for an armadura item, shown in the
+   * backpack row's .item-information div and the equipped-armor-item slot.
+   * @param {Item} item - Armor item
+   * @returns {Array<object>} - Badge entries, most important first
+   */
+  Handlebars.registerHelper('armorInfoBadges', function(item) {
+    return buildArmorInfoBadges(item);
+  });
+
   Handlebars.registerHelper('armorTooltip', function(armor) {
     if (!armor) return '';
     

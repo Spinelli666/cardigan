@@ -260,6 +260,11 @@ ol.items-list.equipament-table > li.item.items-header {
         padding-left: 2px;
         margin-right: 16px;
         gap: 2px;
+        transition: transform 0.15s ease;
+
+        &:has(+ .item-durability.is-durability-expanded) {
+          transform: translateX(-16px);
+        }
 
         .info-badge {
           display: inline-flex;
@@ -295,6 +300,7 @@ ol.items-list.equipament-table > li.item.items-header {
 
           &.backpack,
           &.energy-bonus,
+          &.life-bonus,
           &.movement-bonus,
           &.protection,
           &.weather,
@@ -716,6 +722,11 @@ ol.items-list.equipament-table > li.item.items-header {
         justify-content: center;
         min-width: 0;
         flex: 0 0 auto;
+        transition: transform 0.15s ease;
+
+        &:has(+ .item-durability.is-durability-expanded) {
+          transform: translateX(-16px);
+        }
       }
 
       .item-ammunition {

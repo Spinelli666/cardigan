@@ -755,8 +755,9 @@ ol.items-list.backpack-table > li.item.items-header {
   }
 
   // Description row shown below a backpack item when its name is clicked.
-  // Only item-consumivel rows render real content (consumable-item-summary); other
-  // types keep this empty for now — see ItemExpand.onToggleBackpackExpand.
+  // item-consumivel and armadura rows render real content (consumable-item-summary,
+  // see .consumable-summary-* below); other types keep this empty for now —
+  // see ItemExpand.toggleBackpackExpandById.
   li.backpack-item-description-row {
     display: none;
     width: 100%;
@@ -972,6 +973,46 @@ ol.items-list.backpack-table > li.item.items-header {
             display: flex;
             align-items: center;
             gap: 6px;
+          }
+
+          // Generic icon/value/text used by armor's backpack summary (armor-backpack-summary.hbs)
+          // — armor entries aren't split per-kind classes like the consumable ones above, since
+          // there's no legacy markup to stay compatible with.
+          .consumable-summary-property-icon {
+            width: 22px;
+            height: 22px;
+          }
+
+          .consumable-summary-property-value {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            min-width: 42px;
+            height: 22px;
+            padding: 0 6px;
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+            border: 1.5px solid rgba(255, 183, 92, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          }
+
+          .consumable-summary-property-divider {
+            width: 6px;
+            height: 14px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+          }
+
+          .consumable-summary-property-text,
+          .consumable-summary-property-abbr {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
           }
 
           .consumable-summary-armor-icon {
@@ -1261,6 +1302,11 @@ ol.items-list.backpack-table > li.item.items-header {
     flex: 0 0 88px;
     padding-left: 2px;
     margin-right: 16px;
+    transition: transform 0.15s ease;
+
+    &:has(+ .item-durability.is-durability-expanded) {
+      transform: translateX(-16px);
+    }
 
     .info-badge {
       display: inline-flex;
@@ -1296,6 +1342,7 @@ ol.items-list.backpack-table > li.item.items-header {
 
       &.backpack,
       &.energy-bonus,
+      &.life-bonus,
       &.movement-bonus,
       &.protection,
       &.weather,

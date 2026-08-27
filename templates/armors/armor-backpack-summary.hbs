@@ -1,0 +1,100 @@
+{{!-- Armor Backpack Summary — rendered inside the backpack's expandable description row.
+      Same layout/classes as consumables/item-consumivel-summary.hbs (see _backpack.scss).
+      The header-right icon slot shows the armor type (head/torso/arms/legs/feet/accessories)
+      instead of a profession, plus the single/stylish/magicalArtifact toggles when active. There
+      are no skill-test/life-energy/effects header badges, since armor has no equivalent fields. --}}
+<div class="consumable-item-summary">
+  <div class="consumable-summary-body">
+    {{#if enrichedDescription}}
+    <div class="consumable-summary-description">
+      {{{enrichedDescription}}}
+    </div>
+    <img class="consumable-summary-description-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+    {{/if}}
+
+    <div class="consumable-summary-header">
+      <div class="consumable-summary-header-right">
+        {{#if system.single}}
+        <img class="consumable-summary-profession-icon" src="systems/cardigan/assets/images/decorative/icons/icon-single-equipped.svg" alt="{{localize 'CARDIGAN.Single'}}" data-tooltip="Único" data-tooltip-class='cardigan-tooltip' />
+        <span class="consumable-summary-divider">⬩</span>
+        {{/if}}
+
+        {{#if system.stylish}}
+        <img class="consumable-summary-profession-icon" src="systems/cardigan/assets/images/decorative/icons/icon-stylish.svg" alt="{{localize 'CARDIGAN.Stylish'}}" data-tooltip="Estiloso" data-tooltip-class='cardigan-tooltip' />
+        <span class="consumable-summary-divider">⬩</span>
+        {{/if}}
+
+        {{#if system.magicalArtifact}}
+        <img class="consumable-summary-profession-icon" src="systems/cardigan/assets/images/decorative/icons/icon-paranormal-artifact.svg" alt="{{localize 'CARDIGAN.MagicalArtifact'}}" data-tooltip="Artefato Mágico" data-tooltip-class='cardigan-tooltip' />
+        <span class="consumable-summary-divider">⬩</span>
+        {{/if}}
+
+        <img class="consumable-summary-profession-icon"
+          src="systems/cardigan/assets/images/armor/{{#if (eq system.armorType "head")}}head.webp{{else if (eq system.armorType "accessories")}}charm.webp{{else if (eq system.armorType "arms")}}gauntlets.webp{{else if (eq system.armorType "legs")}}leggings.webp{{else if (eq system.armorType "feet")}}boots.webp{{else}}chest.webp{{/if}}"
+          alt="{{#if (eq system.armorType "head")}}{{localize 'CARDIGAN.ArmorType.Cabeca'}}{{else if (eq system.armorType "accessories")}}{{localize 'CARDIGAN.ArmorType.Acessorios'}}{{else if (eq system.armorType "arms")}}{{localize 'CARDIGAN.ArmorType.Bracos'}}{{else if (eq system.armorType "legs")}}{{localize 'CARDIGAN.ArmorType.Pernas'}}{{else if (eq system.armorType "feet")}}{{localize 'CARDIGAN.ArmorType.Pes'}}{{else}}{{localize 'CARDIGAN.ArmorType.Torso'}}{{/if}}"
+          data-tooltip="{{#if (eq system.armorType "head")}}Cabeça{{else if (eq system.armorType "accessories")}}Acessórios{{else if (eq system.armorType "arms")}}Braços{{else if (eq system.armorType "legs")}}Pernas{{else if (eq system.armorType "feet")}}Pés{{else}}Torso{{/if}}"
+          data-tooltip-class='cardigan-tooltip' />
+
+        <span class="consumable-summary-divider">⬩</span>
+
+        <div class="consumable-summary-price">
+          <img class="consumable-summary-price-icon" src="systems/cardigan/assets/images/decorative/icons/icon-coins.svg" alt="{{localize 'CARDIGAN.Price'}}" data-tooltip="Preço" data-tooltip-class='cardigan-tooltip' />
+          <span class="consumable-summary-price-text">{{system.price}}</span>
+        </div>
+
+        <span class="consumable-summary-divider">⬩</span>
+
+        <div class="consumable-summary-weight">
+          <img class="consumable-summary-weight-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weight.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-tooltip="Peso" data-tooltip-class='cardigan-tooltip' />
+          <span class="consumable-summary-weight-text">
+            {{#if (eq system.weight "light")}}{{localize "CARDIGAN.WeightLight"}}
+            {{else if (eq system.weight "heavy")}}{{localize "CARDIGAN.WeightHeavy"}}
+            {{/if}}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    {{#if hasAnyInfo}}
+    <div class="consumable-summary-info">
+      <div class="consumable-summary-properties">
+        {{#each propertyRows as |row|}}
+        <div class="consumable-summary-properties-row">
+          {{#each row as |entry|}}
+          <div class="consumable-summary-property-box">
+            <div class="consumable-summary-property-item{{#if entry.abbr}} consumable-summary-property-item--skill{{/if}}">
+              {{#if entry.icon}}
+              <img class="consumable-summary-property-icon" src="systems/cardigan/assets/images/decorative/icons/{{entry.icon}}" alt="{{entry.label}}" data-tooltip="{{entry.label}}" data-tooltip-class='cardigan-tooltip' />
+              {{/if}}
+              {{#if (eq entry.kind "durability")}}
+              <div class="consumable-summary-property-value">
+                <span class="consumable-summary-property-text">{{entry.current}}</span>
+                <img class="consumable-summary-property-divider" src="systems/cardigan/assets/images/decorative/field-divider.svg" alt="/" />
+                <span class="consumable-summary-property-text">{{entry.max}}</span>
+              </div>
+              {{else if entry.abbr}}
+              <span class="consumable-summary-property-text">{{entry.displayValue}}</span>
+              <span class="consumable-summary-property-abbr">{{entry.abbr}}</span>
+              {{else}}
+              {{#unless entry.iconOnly}}
+              <div class="consumable-summary-property-value">
+                <span class="consumable-summary-property-text">{{entry.displayValue}}</span>
+              </div>
+              {{/unless}}
+              {{/if}}
+            </div>
+          </div>
+          {{/each}}
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+    {{#if enrichedSystematicDescription}}
+    <img class="consumable-summary-info-border" src="systems/cardigan/assets/images/decorative/border-description.png" alt="Borda decorativa" />
+    <div class="consumable-summary-systematic-description">
+      {{{enrichedSystematicDescription}}}
+    </div>
+    {{/if}}
+  </div>
+</div>

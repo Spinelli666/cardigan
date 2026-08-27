@@ -1,5 +1,6 @@
 import { wrapWordsInGradientSpans } from '../../helpers/gradient-text.mjs';
 import { buildHeaderBadgeTooltips } from './consumable-header-badges.mjs';
+import { buildArmorPropertyEntries } from './armor-property-rows.mjs';
 
 export class ItemExpand {
 
@@ -191,8 +192,9 @@ export class ItemExpand {
 
   /**
    * Toggle expand/collapse for a backpack row's description, by item id.
-   * Only item-consumivel items render real content (item-consumivel-summary.hbs) for now;
-   * other backpack item types just toggle the empty row, to be filled in later.
+   * item-consumivel (item-consumivel-summary.hbs) and armadura (armor-backpack-summary.hbs)
+   * render real content; other backpack item types just toggle the empty row, to be filled
+   * in later.
    * @param {ActorSheet} sheet
    * @param {string} itemId
    */
@@ -331,6 +333,50 @@ export class ItemExpand {
           wrapWordsInGradientSpans(wrapper, '.consumable-summary-description p, .consumable-summary-systematic-description p');
         } catch (error) {
           console.error("Error rendering consumable summary:", error);
+        }
+      } else if (item?.type === 'armadura' && wrapper) {
+        try {
+          const template = "systems/cardigan/templates/armors/armor-backpack-summary.hbs";
+          const rawDescription = item.system.description || '';
+          const hasDescription = rawDescription.replace(/<[^>]*>/g, '').trim().length > 0;
+          const rawSystematicDescription = item.system.systematicDescription || '';
+          const hasSystematicDescription = rawSystematicDescription.replace(/<[^>]*>/g, '').trim().length > 0;
+
+          const armorEntries = buildArmorPropertyEntries(item);
+          const armorPropertyRows = [];
+          for (let i = 0; i < armorEntries.length; i += 3) {
+            armorPropertyRows.push(armorEntries.slice(i, i + 3));
+          }
+
+          const content = await foundry.applications.handlebars.renderTemplate(template, {
+            item,
+            system: item.system,
+            config: CONFIG.CARDIGAN,
+            propertyRows: armorPropertyRows,
+            hasAnyInfo: armorEntries.length > 0,
+            enrichedDescription: hasDescription
+              ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(rawDescription, {
+                  secrets: item.isOwner,
+                  documents: true,
+                  links: true,
+                  rolls: true,
+                  rollData: item.getRollData?.() || {}
+                })
+              : '',
+            enrichedSystematicDescription: hasSystematicDescription
+              ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(rawSystematicDescription, {
+                  secrets: item.isOwner,
+                  documents: true,
+                  links: true,
+                  rolls: true,
+                  rollData: item.getRollData?.() || {}
+                })
+              : ''
+          });
+          wrapper.innerHTML = content;
+          wrapWordsInGradientSpans(wrapper, '.consumable-summary-description p, .consumable-summary-systematic-description p');
+        } catch (error) {
+          console.error("Error rendering armor summary:", error);
         }
       }
     }

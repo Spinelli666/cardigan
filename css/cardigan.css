@@ -7907,6 +7907,45 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   padding-left: 2px;
   margin-right: 16px;
   gap: 2px;
+  transition: transform 0.15s ease;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information:has(+ .item-durability.is-durability-expanded),
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information:has(+ .item-durability.is-durability-expanded) {
+  transform: translateX(-16px);
 }
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge,
@@ -8077,213 +8116,248 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   height: 20px;
   object-fit: contain;
 }
-.cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-display, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-display, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-display, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.protection .bonus-display, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.weather .bonus-display, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-display, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-display, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.life-bonus .bonus-display, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-display, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.protection .bonus-display, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.weather .bonus-display, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.weather .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.skill-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information .info-badge.backpack .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information .info-badge.energy-bonus .bonus-display,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information .info-badge.life-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information .info-badge.movement-bonus .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information .info-badge.protection .bonus-display,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information .info-badge.weather .bonus-display,
@@ -8298,213 +8372,248 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   border-radius: 7px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 }
-.cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-value, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-value, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-value, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.protection .bonus-value, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.weather .bonus-value, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-value, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-value, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.life-bonus .bonus-value, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-value, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.protection .bonus-value, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.weather .bonus-value, .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .arms-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .legs-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .feet-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .accessories-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .torso-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .arms-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .legs-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .feet-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table .accessories-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .torso-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .arms-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .legs-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .feet-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .arms-armor-table .accessories-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .torso-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .arms-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .legs-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .feet-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table .accessories-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .torso-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .arms-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .legs-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .feet-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table .accessories-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .head-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .torso-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .arms-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .legs-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.weather .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-information .info-badge.skill-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information .info-badge.backpack .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information .info-badge.energy-bonus .bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information .info-badge.life-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information .info-badge.movement-bonus .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information .info-badge.protection .bonus-value,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-information .info-badge.weather .bonus-value,
@@ -10307,6 +10416,10 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   justify-content: center;
   min-width: 0;
   flex: 0 0 auto;
+  transition: transform 0.15s ease;
+}
+.cardigan .tab.equipment .equipament-table li.item .item-row .item-information:has(+ .item-durability.is-durability-expanded) {
+  transform: translateX(-16px);
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-ammunition {
   background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
@@ -12922,6 +13035,39 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   align-items: center;
   gap: 6px;
 }
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-icon {
+  width: 22px;
+  height: 22px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 42px;
+  height: 22px;
+  padding: 0 6px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-divider {
+  width: 6px;
+  height: 14px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-text,
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-abbr {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 .cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-icon {
   width: 22px;
   height: 22px;
@@ -13168,6 +13314,10 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   flex: 0 0 88px;
   padding-left: 2px;
   margin-right: 16px;
+  transition: transform 0.15s ease;
+}
+.cardigan .backpack-table .item-information:has(+ .item-durability.is-durability-expanded) {
+  transform: translateX(-16px);
 }
 .cardigan .backpack-table .item-information .info-badge {
   display: inline-flex;
@@ -13198,7 +13348,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   height: 20px;
   object-fit: contain;
 }
-.cardigan .backpack-table .item-information .info-badge.backpack .bonus-display, .cardigan .backpack-table .item-information .info-badge.energy-bonus .bonus-display, .cardigan .backpack-table .item-information .info-badge.movement-bonus .bonus-display, .cardigan .backpack-table .item-information .info-badge.protection .bonus-display, .cardigan .backpack-table .item-information .info-badge.weather .bonus-display, .cardigan .backpack-table .item-information .info-badge.skill-bonus .bonus-display {
+.cardigan .backpack-table .item-information .info-badge.backpack .bonus-display, .cardigan .backpack-table .item-information .info-badge.energy-bonus .bonus-display, .cardigan .backpack-table .item-information .info-badge.life-bonus .bonus-display, .cardigan .backpack-table .item-information .info-badge.movement-bonus .bonus-display, .cardigan .backpack-table .item-information .info-badge.protection .bonus-display, .cardigan .backpack-table .item-information .info-badge.weather .bonus-display, .cardigan .backpack-table .item-information .info-badge.skill-bonus .bonus-display {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -13209,7 +13359,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   border-radius: 7px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 }
-.cardigan .backpack-table .item-information .info-badge.backpack .bonus-value, .cardigan .backpack-table .item-information .info-badge.energy-bonus .bonus-value, .cardigan .backpack-table .item-information .info-badge.movement-bonus .bonus-value, .cardigan .backpack-table .item-information .info-badge.protection .bonus-value, .cardigan .backpack-table .item-information .info-badge.weather .bonus-value, .cardigan .backpack-table .item-information .info-badge.skill-bonus .bonus-value {
+.cardigan .backpack-table .item-information .info-badge.backpack .bonus-value, .cardigan .backpack-table .item-information .info-badge.energy-bonus .bonus-value, .cardigan .backpack-table .item-information .info-badge.life-bonus .bonus-value, .cardigan .backpack-table .item-information .info-badge.movement-bonus .bonus-value, .cardigan .backpack-table .item-information .info-badge.protection .bonus-value, .cardigan .backpack-table .item-information .info-badge.weather .bonus-value, .cardigan .backpack-table .item-information .info-badge.skill-bonus .bonus-value {
   font-size: 10px;
   line-height: 1;
   text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
@@ -27251,6 +27401,26 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-armor-badges,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-armor-badges,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-armor-badges {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-armor-badges .consumable-summary-profession-icon,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-armor-badges .consumable-summary-profession-icon,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-armor-badges .consumable-summary-profession-icon {
+  width: 15px;
+  height: 15px;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-armor-badges .consumable-summary-divider,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-armor-badges .consumable-summary-divider,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-armor-badges .consumable-summary-divider {
+  font-size: 10px;
+  color: rgba(255, 183, 92, 0.8);
+}
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info,
 .locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info,
 .cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info {
@@ -27314,6 +27484,14 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
   flex-shrink: 0;
+}
+#tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-divider,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-divider,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner .item-preview-tooltip-info-divider {
+  width: 6px;
+  height: 14px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
 }
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-text,
 #tooltip.cardigan-tooltip.item-preview-tooltip .item-preview-tooltip-info-abbr,
@@ -27393,6 +27571,10 @@ body .locked-tooltip.dice-formula-tooltip.cardigan-tooltip {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.item-preview-tooltip-inner:not(.is-chat-message) .item-preview-tooltip-badges:has(.item-preview-tooltip-armor-badges) {
+  padding-right: 10px;
 }
 
 /* Foundry message-header for item preview (consumable) chat messages only */

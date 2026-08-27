@@ -223,7 +223,7 @@
             <a class='rollable' data-roll-type='item' data-action='roll'>
               <img
                 src='{{item.img}}'
-                {{#if (eq item.type "item-consumivel")}}
+                {{#if (or (eq item.type "item-consumivel") (eq item.type "armadura"))}}
                 data-tooltip-class='cardigan-tooltip item-preview-tooltip'
                 data-tooltip-direction='LEFT'
                 {{else}}

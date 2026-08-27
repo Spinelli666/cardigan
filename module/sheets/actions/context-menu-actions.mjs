@@ -2,6 +2,7 @@ import ContextMenu5e from '../../applications/context-menu.mjs';
 import { EquipmentActions } from './equipment-actions.mjs';
 import { ItemExpand } from '../parts/item-expand.mjs';
 import { ConsumablePreviewTooltip } from '../parts/consumable-preview-tooltip.mjs';
+import { ArmorPreviewTooltip } from '../parts/armor-preview-tooltip.mjs';
 
 export class ContextMenuActions {
 
@@ -70,38 +71,13 @@ export class ContextMenuActions {
   }
 
   /**
-   * Show armor information in chat.
+   * Show armor information in chat — same rich card as the backpack hover tooltip.
    * @param {Item} armor - The armor item to show
    * @param {Actor} document - The actor document (used for speaker)
    * @returns {Promise<ChatMessage>}
    */
   static async showArmorInChat(armor, document) {
-    const armorData = armor.system;
-    const armorHtml = `
-      <div style="padding: 8px;">
-        <p><strong>Tipo:</strong> ${armorData.armorType || 'N/A'}</p>
-        <p><strong>Defesa:</strong> ${armorData.armor || 'N/A'}</p>
-        <p><strong>Durabilidade:</strong> ${armorData.currentDurability || 0}/${armorData.maxDurability || 0}</p>
-        ${armorData.description ? `<p><strong>Descrição:</strong> ${armorData.description}</p>` : ''}
-      </div>
-    `;
-
-    const messageData = {
-      user: game.user.id,
-      speaker: ChatMessage.getSpeaker({ actor: document }),
-      content: `<div class="armor-chat-display" style="background: linear-gradient(135deg, #2c2c2c, #1a1a1a); border: 2px solid #c9c7b8; border-radius: 8px; padding: 12px; margin: 8px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
-        <div style="text-align: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #c9c7b8;">
-          <h3 style="margin: 0; color: #f0f0e0; font-size: 16px;">
-            <i class="fas fa-shield-alt" style="margin-right: 6px; color: #c9c7b8;"></i>
-            Informações da Armadura
-          </h3>
-        </div>
-        ${armorHtml}
-      </div>`,
-      style: CONST.CHAT_MESSAGE_STYLES.OTHER
-    };
-
-    return ChatMessage.create(messageData);
+    return ArmorPreviewTooltip.postToChat(armor, document);
   }
 
   /**

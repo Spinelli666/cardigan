@@ -286,6 +286,7 @@
     flex-wrap: wrap;
     gap: 6px;
     margin-bottom: 5px;
+
   }
 
   .consumable-summary-header-badge {
@@ -308,6 +309,26 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  // Ícones de armadura (Único/Pesado/Artefato Mágico/Estiloso) — mesmo padrão do
+  // header-right da caixa expansível (armor-backpack-summary.hbs, ver _backpack.scss), mas
+  // alinhados à direita (margin-left: auto) em vez de centralizados como os demais badges.
+  .item-preview-tooltip-armor-badges {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+  }
+
+  .item-preview-tooltip-armor-badges .consumable-summary-profession-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .item-preview-tooltip-armor-badges .consumable-summary-divider {
+    font-size: 10px;
+    color: rgba(255, 183, 92, 0.8);
   }
 
   // Linhas combinadas de armadura/deslocamento/crítico + bônus de perícia + status
@@ -379,6 +400,13 @@
     flex-shrink: 0;
   }
 
+  .item-preview-tooltip-info-divider {
+    width: 6px;
+    height: 14px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+  }
+
   .item-preview-tooltip-info-text,
   .item-preview-tooltip-info-abbr {
     font-size: 12px;
@@ -447,6 +475,14 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+}
+
+// Armor tooltip only (armorBadgeIcons pushed to the right via item-preview-tooltip-armor-badges)
+// — .item-preview-tooltip-inner is the floating/locked tooltip's own root here, but IS the chat
+// message's root when hideFooter is true (see .is-chat-message in item-preview-tooltip.hbs), so
+// this exclusion works for both without needing the 3-way ancestor selector above.
+.item-preview-tooltip-inner:not(.is-chat-message) .item-preview-tooltip-badges:has(.item-preview-tooltip-armor-badges) {
+  padding-right: 10px;
 }
 
 /* Foundry message-header for item preview (consumable) chat messages only */

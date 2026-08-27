@@ -31,6 +31,7 @@ import { ItemExpand } from './parts/item-expand.mjs';
 import { DeleteActions } from './actions/delete-actions.mjs';
 import CardiganTooltipManager from '../tooltips/tooltip-manager.mjs';
 import { ConsumablePreviewTooltip } from './parts/consumable-preview-tooltip.mjs';
+import { ArmorPreviewTooltip } from './parts/armor-preview-tooltip.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -410,7 +411,10 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     // Monta o tooltip de preview de item-consumivel na mochila (async: flag de bônus de
     // perícia + enrichHTML) — não é aguardado, _onRender não é async (ver JSDoc acima).
     ConsumablePreviewTooltip.attach(this.element, this.actor);
-    
+
+    // Mesmo tooltip de preview, agora para itens de armadura na mochila.
+    ArmorPreviewTooltip.attach(this.element, this.actor);
+
     // NOTE: Profession table toggles are handled automatically by Foundry's form system
     // The checkboxes update system.details.show*Table which triggers a re-render
     // No manual event listeners needed

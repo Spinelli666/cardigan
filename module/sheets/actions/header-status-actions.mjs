@@ -2,6 +2,7 @@ import { AdvantageSelectionDialog } from '../../applications/advantage-selection
 import { ChatMessageHelper } from '../../helpers/chat-messages.mjs';
 import { getCoreRollMode } from '../../helpers/roll-mode.mjs';
 import { ConsumablePreviewTooltip } from '../parts/consumable-preview-tooltip.mjs';
+import { ArmorPreviewTooltip } from '../parts/armor-preview-tooltip.mjs';
 
 /**
  * Header Status Actions Module
@@ -54,6 +55,7 @@ export class HeaderStatusActions {
         const item = sheet.document.items.get(itemId);
         if (!item) break;
         if (item.type === 'item-consumivel') return ConsumablePreviewTooltip.postToChat(item, sheet.document);
+        if (item.type === 'armadura') return ArmorPreviewTooltip.postToChat(item, sheet.document);
         return item.roll();
     }
 

@@ -1,6 +1,6 @@
 {{!-- Item preview tooltip (mochila) — hover no ícone de um item-consumivel. Renderizado via
       ConsumablePreviewTooltip._buildTooltipHtml e injetado em data-tooltip-html. --}}
-<div class='item-preview-tooltip-inner'>
+<div class='item-preview-tooltip-inner{{#if hideFooter}} is-chat-message{{/if}}'>
   {{#unless hideDividers}}
   <img src='systems/cardigan/assets/images/decorative/divider.webp' alt='divider' class='divider-left' />
   <img src='systems/cardigan/assets/images/decorative/divider.webp' alt='divider' class='divider-right' />
@@ -33,6 +33,14 @@
         <span class='consumable-summary-header-badge-text'>TESTE DE PERÍCIA</span>
       </div>
       {{/if}}
+      {{#if armorBadgeIcons.length}}
+      <div class='item-preview-tooltip-armor-badges'>
+        {{#each armorBadgeIcons as |badge|}}
+        <img class='consumable-summary-profession-icon' src='systems/cardigan/assets/images/decorative/icons/{{badge.icon}}' alt='{{badge.label}}' data-tooltip='{{badge.label}}' data-tooltip-class='cardigan-tooltip' />
+        {{#unless @last}}<span class='consumable-summary-divider'>⬩</span>{{/unless}}
+        {{/each}}
+      </div>
+      {{/if}}
     </div>
     {{/if}}
     {{#if hasInfoRows}}
@@ -43,12 +51,22 @@
         <div class='item-preview-tooltip-info-box'>
           <div class='item-preview-tooltip-info-item item-preview-tooltip-info-item--{{row.kind}}'>
             {{#if row.icon}}
-            <img class='item-preview-tooltip-info-icon' src='systems/cardigan/assets/images/decorative/icons/{{row.icon}}' alt='{{row.label}}' />
+            <img class='item-preview-tooltip-info-icon' src='systems/cardigan/assets/images/decorative/icons/{{row.icon}}' alt='{{row.label}}' data-tooltip='{{row.label}}' data-tooltip-class='cardigan-tooltip' />
             {{/if}}
+            {{#if (eq row.kind "durability")}}
+            <div class='item-preview-tooltip-info-value'>
+              <span class='item-preview-tooltip-info-text'>{{row.current}}</span>
+              <img class='item-preview-tooltip-info-divider' src='systems/cardigan/assets/images/decorative/field-divider.svg' alt='/' />
+              <span class='item-preview-tooltip-info-text'>{{row.max}}</span>
+            </div>
+            {{else}}
+            {{#unless row.iconOnly}}
             <div class='item-preview-tooltip-info-value'>
               <span class='item-preview-tooltip-info-text'>{{row.displayValue}}</span>
               {{#if row.abbr}}<span class='item-preview-tooltip-info-abbr'>{{row.abbr}}</span>{{/if}}
             </div>
+            {{/unless}}
+            {{/if}}
           </div>
         </div>
         {{/each}}
