@@ -4,16 +4,16 @@ export { BaseWeaponProperty } from './base-weapon-property.mjs';
 export { WeaponPropertyManager } from './weapon-property-manager.mjs';
 
 // Import individual property implementations
-import { Certeiro } from './properties/certeiro.mjs';
+import { Certeiro } from './properties/precise.mjs';
 import { Vorpal } from './properties/vorpal.mjs';
-import { Ferir } from './properties/ferir.mjs';
-import { Traspassar } from './properties/traspassar.mjs';
-import { Contundente } from './properties/contundente.mjs';
-import { Incendiar } from './properties/incendiar.mjs';
-import { Eletrocutar } from './properties/eletrocutar.mjs';
-import { Impacto } from './properties/impacto.mjs';
+import { Ferir } from './properties/wound.mjs';
+import { Traspassar } from './properties/pierce.mjs';
+import { Contundente } from './properties/blunt.mjs';
+import { Incendiar } from './properties/ignite.mjs';
+import { Eletrocutar } from './properties/electrocute.mjs';
+import { Impacto } from './properties/impact.mjs';
 // import { Perfurar } from './properties/perfurar.mjs';
-// import { Incendiar } from './properties/incendiar.mjs';
+// import { Incendiar } from './properties/ignite.mjs';
 // import { Eletrecutar } from './properties/eletrecutar.mjs';
 // import { Colateral } from './properties/colateral.mjs';
 

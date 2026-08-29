@@ -1,0 +1,50 @@
+// -----------------------------------------
+// Descrição tab: "Descrição Roleplay" / "Descrição Sistemática" section titles
+// -----------------------------------------
+// Shared by every item type's Descrição tab except race (see templates/item/description.hbs
+// and CardiganSystemItemSheet#_preparePartContext's 'description' case).
+
+.application.sheet.cardigan.item {
+  .tab[data-tab="description"].active {
+    scrollbar-width: none;
+    scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);
+    scrollbar-gutter: stable;
+
+    prose-mirror .editor-content {
+      padding: 0rem 0.5rem;
+      background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .consumable-item-check-skill-wrapper {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .consumable-item-check-skill {
+      justify-content: center;
+      width: 100%;
+    }
+
+    .consumable-item-check-skill p {
+      text-align: center;
+      font-size: 16px;
+      margin-block-end: 0 !important;
+      background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .description-systematic-title-border,
+    .description-roleplay-title-border {
+      display: block;
+      width: 350px;
+      max-width: 100%;
+      height: 8px;
+      margin: 2px auto 0;
+    }
+  }
+}

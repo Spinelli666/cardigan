@@ -1,3 +1,5 @@
+import { buildArmorInfoBadges } from "../sheets/parts/armor-info-badges.mjs";
+
 export const CARDIGAN = {};
 
 /**
@@ -33,11 +35,11 @@ CARDIGAN.abilityAbbreviations = {
  * @type {Object}
  */
 CARDIGAN.skillTypes = {
-  passiva: 'CARDIGAN.Item.Skill.Types.Passiva',
+  passive: 'CARDIGAN.Item.Skill.Types.Passive',
   'long-action': 'CARDIGAN.Item.Skill.Types.LongAction',
-  foco: 'CARDIGAN.Item.Skill.Types.Foco',
+  focus: 'CARDIGAN.Item.Skill.Types.Focus',
   'short-action': 'CARDIGAN.Item.Skill.Types.ShortAction',
-  reacao: 'CARDIGAN.Item.Skill.Types.Reacao'
+  reaction: 'CARDIGAN.Item.Skill.Types.Reaction'
 };
 
 /**
@@ -45,12 +47,19 @@ CARDIGAN.skillTypes = {
  * @type {Object}
  */
 CARDIGAN.skillClasses = {
-  andarilho: 'CARDIGAN.Item.Skill.Classes.Andarilho',
-  guerreiro: 'CARDIGAN.Item.Skill.Classes.Guerreiro',
-  ladino: 'CARDIGAN.Item.Skill.Classes.Ladino',
-  feiticeiro: 'CARDIGAN.Item.Skill.Classes.Feiticeiro',
-  raciais: 'CARDIGAN.Item.Skill.Classes.Raciais',
-  unicas: 'CARDIGAN.Item.Skill.Classes.Unicas'
+  wanderer: 'CARDIGAN.Item.Skill.Classes.Wanderer',
+  warrior: 'CARDIGAN.Item.Skill.Classes.Warrior',
+  rogue: 'CARDIGAN.Item.Skill.Classes.Rogue',
+  sorcerer: 'CARDIGAN.Item.Skill.Classes.Sorcerer',
+  racial: 'CARDIGAN.Item.Skill.Classes.Racial',
+  unique: 'CARDIGAN.Item.Skill.Classes.Unique'
+};
+
+CARDIGAN.spellCategories = {
+  neutral: 'CARDIGAN.Item.Skill.SpellCategory.Neutral',
+  fae: 'CARDIGAN.Item.Skill.SpellCategory.Fae',
+  chaos: 'CARDIGAN.Item.Skill.SpellCategory.Chaos',
+  necromancy: 'CARDIGAN.Item.Skill.SpellCategory.Necromancy'
 };
 
 /**
@@ -69,9 +78,9 @@ CARDIGAN.skillRanks = {
  * The set of Effect Types used within the system.
  * @type {Object}
  */
-CARDIGAN.efeitoTypes = {
-  positivo: 'CARDIGAN.Item.Efeito.Types.Positivo',
-  negativo: 'CARDIGAN.Item.Efeito.Types.Negativo'
+CARDIGAN.effectTypes = {
+  positive: 'CARDIGAN.Item.Efeito.Types.Positive',
+  negative: 'CARDIGAN.Item.Efeito.Types.Negative'
 };
 
 /**
@@ -121,8 +130,8 @@ export function registerHandlebarsHelpers() {
     
     // Add weight icon
     const weightIcon = '🎒'; // Backpack icon
-    const weightText = weapon.system.weight === 'leve' ? 'Leve' : 'Pesado';
-    
+    const weightText = weapon.system.weight === 'light' ? 'Leve' : 'Pesado';
+
     // Build the complete content with icons above the name
     content = `${typeIcons} ${weightIcon} ${weightText}\n${weapon.name}`;
     
@@ -155,7 +164,7 @@ export function registerHandlebarsHelpers() {
     }
     
     // Generate weight info
-    const weightText = weapon.system.weight === 'leve' ? 'Leve' : 'Pesado';
+    const weightText = weapon.system.weight === 'light' ? 'Leve' : 'Pesado';
     const weightHTML = '<i class="fas fa-backpack"></i><span>' + weightText + '</span>';
     
     // Build complete HTML
@@ -200,11 +209,21 @@ export function registerHandlebarsHelpers() {
    * @param {Object} armor - Armor item object
    * @returns {string} - HTML string for armor tooltip
    */
+  /**
+   * Priority-ordered, capped (max 3) list of info badges for an armadura item, shown in the
+   * backpack row's .item-information div and the equipped-armor-item slot.
+   * @param {Item} item - Armor item
+   * @returns {Array<object>} - Badge entries, most important first
+   */
+  Handlebars.registerHelper('armorInfoBadges', function(item) {
+    return buildArmorInfoBadges(item);
+  });
+
   Handlebars.registerHelper('armorTooltip', function(armor) {
     if (!armor) return '';
     
     // Generate weight info
-    const weightText = armor.system.weight === 'leve' ? 'Leve' : 'Pesado';
+    const weightText = armor.system.weight === 'light' ? 'Leve' : 'Pesado';
     const weightHTML = '<i class="fas fa-backpack"></i><span>' + weightText + '</span>';
     
     // Generate special properties icons
@@ -350,13 +369,13 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('calculateItemSpaces', function(weight, quantity) {
     if (!weight || quantity <= 0) return 0;
     switch (weight) {
-      case 'leve':
+      case 'light':
         return Math.floor(quantity / 10);
-      case 'medio':
+      case 'medium':
         return quantity;
-      case 'pesado':
+      case 'heavy':
         return quantity * 2;
-      case 'muito-pesado':
+      case 'very-heavy':
         return quantity * 4;
       default:
         return 0;
@@ -366,13 +385,13 @@ export function registerHandlebarsHelpers() {
   Handlebars.registerHelper('abbreviateWeight', function(weight) {
     if (!weight) return '';
     switch (weight) {
-      case 'leve':
+      case 'light':
         return 'L';
-      case 'medio':
+      case 'medium':
         return 'M';
-      case 'pesado':
+      case 'heavy':
         return 'P';
-      case 'muito-pesado':
+      case 'very-heavy':
         return 'MP';
       default:
         return weight.toUpperCase();

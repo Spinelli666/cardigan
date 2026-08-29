@@ -1,0 +1,88 @@
+{{!-- Item preview tooltip (mochila) — hover no ícone de um item-consumivel. Renderizado via
+      ConsumablePreviewTooltip._buildTooltipHtml e injetado em data-tooltip-html. --}}
+<div class='item-preview-tooltip-inner{{#if hideFooter}} is-chat-message{{/if}}'>
+  {{#unless hideDividers}}
+  <img src='systems/cardigan/assets/images/decorative/divider.webp' alt='divider' class='divider-left' />
+  <img src='systems/cardigan/assets/images/decorative/divider.webp' alt='divider' class='divider-right' />
+  {{/unless}}
+  <div class='tooltip-icon'>
+    <img src='{{item.img}}' alt='{{item.name}}' />
+  </div>
+  <div class='tooltip-header'>
+    <h2 class='tooltip-title'>{{item.name}}</h2>
+  </div>
+  <div class='item-preview-tooltip-body'>
+    {{#if hasDescription}}
+    <div class='item-preview-tooltip-description'>{{{description}}}</div>
+    {{/if}}
+    <img class='consumable-summary-description-border' src='systems/cardigan/assets/images/decorative/border.webp' alt='Borda decorativa' />
+    {{#if hasHeaderBadges}}
+    <div class='item-preview-tooltip-badges'>
+      {{#if system.hasLifeEnergySection}}
+      <div class='consumable-summary-header-badge' data-tooltip-html='{{lifeEnergyTooltipHtml}}' data-tooltip-class='cardigan-tooltip consumable-badge-tooltip' data-tooltip-direction='DOWN'>
+        <span class='consumable-summary-header-badge-text'>VIDA &amp; ENERGIA</span>
+      </div>
+      {{/if}}
+      {{#if system.hasEffectsSection}}
+      <div class='consumable-summary-header-badge' data-tooltip-html='{{effectsTooltipHtml}}' data-tooltip-class='cardigan-tooltip consumable-badge-tooltip' data-tooltip-direction='DOWN'>
+        <span class='consumable-summary-header-badge-text'>EFEITOS</span>
+      </div>
+      {{/if}}
+      {{#if system.hasSkillCheck}}
+      <div class='consumable-summary-header-badge' data-tooltip-html='{{skillTestTooltipHtml}}' data-tooltip-class='cardigan-tooltip consumable-badge-tooltip' data-tooltip-direction='DOWN'>
+        <span class='consumable-summary-header-badge-text'>TESTE DE PERÍCIA</span>
+      </div>
+      {{/if}}
+      {{#if armorBadgeIcons.length}}
+      <div class='item-preview-tooltip-armor-badges'>
+        {{#each armorBadgeIcons as |badge|}}
+        <img class='consumable-summary-profession-icon' src='systems/cardigan/assets/images/decorative/icons/{{badge.icon}}' alt='{{badge.label}}' data-tooltip='{{badge.label}}' data-tooltip-class='cardigan-tooltip' />
+        {{#unless @last}}<span class='consumable-summary-divider'>⬩</span>{{/unless}}
+        {{/each}}
+      </div>
+      {{/if}}
+    </div>
+    {{/if}}
+    {{#if hasInfoRows}}
+    <div class='item-preview-tooltip-info'>
+      {{#each infoRowGroups as |group|}}
+      <div class='item-preview-tooltip-info-row'>
+        {{#each group as |row|}}
+        <div class='item-preview-tooltip-info-box'>
+          <div class='item-preview-tooltip-info-item item-preview-tooltip-info-item--{{row.kind}}'>
+            {{#if row.icon}}
+            <img class='item-preview-tooltip-info-icon' src='systems/cardigan/assets/images/decorative/icons/{{row.icon}}' alt='{{row.label}}' data-tooltip='{{row.label}}' data-tooltip-class='cardigan-tooltip' />
+            {{/if}}
+            {{#if (eq row.kind "durability")}}
+            <div class='item-preview-tooltip-info-value'>
+              <span class='item-preview-tooltip-info-text'>{{row.current}}</span>
+              <img class='item-preview-tooltip-info-divider' src='systems/cardigan/assets/images/decorative/field-divider.svg' alt='/' />
+              <span class='item-preview-tooltip-info-text'>{{row.max}}</span>
+            </div>
+            {{else}}
+            {{#unless row.iconOnly}}
+            <div class='item-preview-tooltip-info-value'>
+              <span class='item-preview-tooltip-info-text'>{{row.displayValue}}</span>
+              {{#if row.abbr}}<span class='item-preview-tooltip-info-abbr'>{{row.abbr}}</span>{{/if}}
+            </div>
+            {{/unless}}
+            {{/if}}
+          </div>
+        </div>
+        {{/each}}
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
+    {{#if hasSystematicDescription}}
+    <img class='consumable-summary-info-border' src='systems/cardigan/assets/images/decorative/border-description.png' alt='Borda decorativa' />
+    <div class='consumable-summary-systematic-description'>{{{enrichedSystematicDescription}}}</div>
+    {{/if}}
+  </div>
+  {{#unless hideFooter}}
+  <div class='item-preview-tooltip-footer'>
+    <div class='item-preview-tooltip-footer-icon'></div>
+    <span class='item-preview-tooltip-footer-text'>{{localize 'CARDIGAN.Tooltip.MiddleClickToLock'}}</span>
+  </div>
+  {{/unless}}
+</div>

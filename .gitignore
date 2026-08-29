@@ -12,6 +12,7 @@ packs/*/CURRENT
 packs/*/LOG
 packs/*/LOG.old
 packs/*/MANIFEST-*
+packs/*/LOCK
 
 # Optional: Compiled CSS (descomente se quiser que seja gerado localmente)
 # css/cardigan.css

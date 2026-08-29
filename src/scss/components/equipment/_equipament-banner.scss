@@ -173,6 +173,14 @@ ol.items-list.equipament-table > li.item.items-header {
     flex: 1;
     width: 460px;
     padding: 0px 4px 4px 4px;
+    overflow: visible;
+
+    // Spacing between multiple equipped items in the same slot (e.g. accessories).
+    // Targets the <li> itself since each item is now a collapsible row (li.item > .item-row),
+    // so the pill classes below (.head-armor-item etc.) are no longer direct siblings.
+    li.item + li.item {
+      margin-top: 4px;
+    }
 
     .head-armor-item,
     .torso-armor-item,
@@ -186,19 +194,10 @@ ol.items-list.equipament-table > li.item.items-header {
       padding: 2px 5px;
       border: 1px solid #FFB75C;
       border-radius: 15px;
-      background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+      background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
 
       &.durability-broken {
         background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(245, 0, 4, 0.19) 100%);
-      }
-
-      & + .head-armor-item,
-      & + .torso-armor-item,
-      & + .arms-armor-item,
-      & + .legs-armor-item,
-      & + .feet-armor-item,
-      & + .accessories-armor-item {
-        margin-top: 4px;
       }
 
       .item-name-group {
@@ -261,6 +260,11 @@ ol.items-list.equipament-table > li.item.items-header {
         padding-left: 2px;
         margin-right: 16px;
         gap: 2px;
+        transition: transform 0.15s ease;
+
+        &:has(+ .item-durability.is-durability-expanded) {
+          transform: translateX(-16px);
+        }
 
         .info-badge {
           display: inline-flex;
@@ -296,6 +300,7 @@ ol.items-list.equipament-table > li.item.items-header {
 
           &.backpack,
           &.energy-bonus,
+          &.life-bonus,
           &.movement-bonus,
           &.protection,
           &.weather,
@@ -351,7 +356,7 @@ ol.items-list.equipament-table > li.item.items-header {
 
         .durability-icon {
           cursor: pointer;
-          opacity: 0.6;
+          opacity: 0.8;
           transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
           will-change: transform, filter;
           filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
@@ -384,8 +389,8 @@ ol.items-list.equipament-table > li.item.items-header {
         }
 
         .durability-icon {
-          width: 20px;
-          height: 20px;
+          width: 21px;
+          height: 21px;
           flex-shrink: 0;
           filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
         }
@@ -652,7 +657,7 @@ ol.items-list.equipament-table > li.item.items-header {
       border: 1px solid #FFB75C;
       border-radius: 15px;
       border-bottom: 1px solid #FFB75C;
-      background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+      background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
       flex: 1;
       min-width: 0;
 
@@ -717,6 +722,11 @@ ol.items-list.equipament-table > li.item.items-header {
         justify-content: center;
         min-width: 0;
         flex: 0 0 auto;
+        transition: transform 0.15s ease;
+
+        &:has(+ .item-durability.is-durability-expanded) {
+          transform: translateX(-16px);
+        }
       }
 
       .item-ammunition {
@@ -834,7 +844,7 @@ ol.items-list.equipament-table > li.item.items-header {
 
         .durability-icon {
           cursor: pointer;
-          opacity: 0.6;
+          opacity: 0.8;
           transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
           will-change: transform, filter;
         }
@@ -870,8 +880,8 @@ ol.items-list.equipament-table > li.item.items-header {
         }
 
         .durability-icon {
-          width: 18px;
-          height: 18px;
+          width: 21px;
+          height: 21px;
           flex-shrink: 0;
           filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
         }

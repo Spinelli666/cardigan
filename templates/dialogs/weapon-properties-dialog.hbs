@@ -1,0 +1,20 @@
+{{!-- weapon-properties-dialog.hbs: dialog shell for weapon property selection --}}
+<div class="weapon-properties-dialog-content weapon-properties">
+  <img src="systems/cardigan/assets/images/decorative/border.webp" class="title-border" alt="">
+
+  <div class="properties-list-wrapper">
+    <div class="properties-grid">
+      {{#each properties as |property|}}
+        <div class="property-item {{#if property.selected}}selected{{/if}}" data-property-value="{{property.value}}">
+          <span class="property-name">{{property.label}}</span>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="dialog-buttons">
+    <button type="button" class="confirm-button" data-action="confirmProperties">
+      Adicionar
+    </button>
+  </div>
+</div>

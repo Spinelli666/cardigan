@@ -8,7 +8,7 @@
     "skillActionTypes": [
       "short-action"
     ],
-    "skillClass": "feiticeiro",
+    "skillClass": "sorcerer",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

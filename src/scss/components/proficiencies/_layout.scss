@@ -13,7 +13,7 @@
 }
 
 .proficiencies-tab-main {
-  padding: 15px 10px 10px 10px;
+  padding: 25px 10px 10px 10px;
   position: relative;
   
   // Borda inferior decorativa
@@ -21,9 +21,9 @@
     content: "";
     position: absolute;
     bottom: -10px;
-    left: -8px;
+    left: 25px;
     right: -8px;
-    width: calc(100% + 16px);
+    width: calc(100% + -48px);
     height: 8px;
     background-image: url('/systems/cardigan/assets/images/decorative/border.webp');
     background-repeat: no-repeat;

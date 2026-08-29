@@ -2,7 +2,16 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:api.github.com)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "PowerShell(cd \"c:\\\\Users\\\\berna\\\\AppData\\\\Local\\\\FoundryVTT\\\\Data\\\\systems\\\\cardigan\"; git restore --staged packs/effects-cardigan/LOCK packs/equipment-cardigan/LOCK packs/races-cardigan/LOCK; git status --short 2>$null | Where-Object { $_ -match \"^[MADR]\" } | Select-Object -First 40)",
+      "Bash(node --check \"c:/Users/berna/AppData/Local/FoundryVTT/Data/systems/cardigan/module/text-enrichers/index.mjs\")",
+      "Bash(node --check \"c:/Users/berna/AppData/Local/FoundryVTT/Data/systems/cardigan/module/cardigan.mjs\")",
+      "Bash(npm run *)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(rm \"c:/Users/berna/AppData/Local/FoundryVTT/Data/systems/cardigan/templates/actor/partials/tab-navigation.hbs\" && echo \"removed\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\berna\\AppData\\Local\\FoundryVTT\\Data\\systems\\cardigan\\templates\\actor\\partials"
     ]
   }
 }

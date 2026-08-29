@@ -630,10 +630,16 @@ ol.items-list.backpack-table > li.item.items-header {
     border: 1px solid #FFB75C;
     border-radius: 15px;
     border-bottom: 1px solid #FFB75C;
-    background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+    background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
 
     &:last-child {
       border-bottom: 1px solid #FFB75C;
+    }
+
+    // When this item's description row below it is expanded, merge the two rows visually
+    // by dropping this row's bottom border/radius.
+    &.description-expanded {
+      border-radius: 15px 15px 0 0;
     }
 
     &.durability-broken {
@@ -748,6 +754,381 @@ ol.items-list.backpack-table > li.item.items-header {
     display: none !important;
   }
 
+  // Description row shown below a backpack item when its name is clicked.
+  // item-consumivel and armadura rows render real content (consumable-item-summary,
+  // see .consumable-summary-* below); other types keep this empty for now —
+  // see ItemExpand.toggleBackpackExpandById.
+  li.backpack-item-description-row {
+    display: none;
+    width: 100%;
+    min-height: 32px;
+    margin-top: -4px;
+    margin-bottom: 4px;
+    border: 1px solid #FFB75C;
+    border-top: none;
+    border-radius: 0 0 15px 15px;
+    background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
+
+    &.expanded {
+      display: block;
+    }
+
+    .consumable-item-summary {
+      .consumable-summary-body {
+        min-height: 18px;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 12px;
+
+        .consumable-summary-description {
+          padding: 5px 20px 0px 20px;
+
+          p {
+            text-align: center;
+            font-size: 10px;
+
+            &::before,
+            &::after {
+              content: '"';
+              background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            }
+
+            .gradient-word {
+              background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            }
+          }
+        }
+
+        .consumable-summary-description-border {
+          display: block;
+          width: 550px;
+          max-width: 100%;
+          height: 8px;
+          margin: 2px auto 0;
+        }
+
+        .consumable-summary-info-border {
+          display: block;
+          width: 390px;
+          max-width: 100%;
+          height: 15px;
+          margin: 2px auto 0px;
+        }
+
+        .consumable-summary-systematic-description {
+          padding: 0px 10px 0px 10px;
+          border: 1px solid #FFB75C;
+          border-radius: 10px;
+          margin: 10px 20px;
+
+          p {
+            text-align: center;
+            font-size: 10px;
+
+            .gradient-word {
+              background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            }
+          }
+        }
+
+        .consumable-summary-header {
+          display: flex;
+          align-items: center;
+          padding: 5px 5px 0px 5px;
+
+          .consumable-summary-header-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+          }
+
+          .consumable-summary-header-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(255, 183, 92, 0.2);
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          }
+
+          .consumable-summary-header-badge-text {
+            font-size: 9px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+
+          .consumable-summary-header-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: auto;
+          }
+
+          .consumable-summary-profession-icon {
+            width: 15px;
+            height: 15px;
+
+            &.consumable-summary-profession-icon--general {
+              width: 18px;
+              height: 18px;
+            }
+          }
+
+          .consumable-summary-divider {
+            font-size: 10px;
+            color: rgba(255, 183, 92, 0.8);
+          }
+
+          .consumable-summary-price {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+
+          .consumable-summary-price-icon {
+            width: 18px;
+            height: 18px;
+          }
+
+          .consumable-summary-price-text {
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+
+          .consumable-summary-weight {
+            display: flex;
+            align-items: center;
+            gap: 1px;
+          }
+
+          .consumable-summary-weight-icon {
+            width: 15px;
+            height: 15px;
+          }
+
+          .consumable-summary-weight-text {
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+        }
+
+        // .consumable-summary-info holds all item-specific info (modifiers, effects, etc.)
+        // — filled in later, no styles needed yet.
+        .consumable-summary-info {
+          display: flex;
+          align-items: flex-start;
+          justify-content: center;
+          gap: 10px;
+          padding: 12px 5px 5px 5px;
+        }
+
+        .consumable-summary-properties {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 5px;
+
+          .consumable-summary-properties-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+          }
+
+          // Card wrapper around each characteristic (armor/movement/critical/skill/status) —
+          // holds the background/border-radius/box-shadow so .consumable-summary-property-item
+          // itself stays a plain layout row (no nested card-in-card look).
+          .consumable-summary-property-box {
+            padding: 5px;
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          }
+
+          .consumable-summary-property-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+          }
+
+          // Generic icon/value/text used by armor's backpack summary (armor-backpack-summary.hbs)
+          // — armor entries aren't split per-kind classes like the consumable ones above, since
+          // there's no legacy markup to stay compatible with.
+          .consumable-summary-property-icon {
+            width: 22px;
+            height: 22px;
+          }
+
+          .consumable-summary-property-value {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            min-width: 42px;
+            height: 22px;
+            padding: 0 6px;
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+            border: 1.5px solid rgba(255, 183, 92, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          }
+
+          .consumable-summary-property-divider {
+            width: 6px;
+            height: 14px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+          }
+
+          .consumable-summary-property-text,
+          .consumable-summary-property-abbr {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+
+          .consumable-summary-armor-icon {
+            width: 22px;
+            height: 22px;
+          }
+
+          .consumable-summary-armor-value {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 42px;
+            height: 22px;
+            padding: 0 6px;
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+            border: 1.5px solid rgba(255, 183, 92, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          }
+
+          .consumable-summary-armor-text {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+
+          .consumable-summary-movement-icon,
+          .consumable-summary-critical-icon {
+            width: 22px;
+            height: 22px;
+          }
+
+          .consumable-summary-movement-value,
+          .consumable-summary-critical-value {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 42px;
+            height: 22px;
+            padding: 0 6px;
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+            border: 1.5px solid rgba(255, 183, 92, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          }
+
+          .consumable-summary-movement-text,
+          .consumable-summary-critical-text {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+
+          .consumable-summary-property-item--skill {
+            justify-content: center;
+            width: 70px;
+            min-height: 22px;
+            padding: 0 6px;
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+            border: 1.5px solid rgba(255, 183, 92, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          }
+
+          .consumable-summary-skill-bonus-value,
+          .consumable-summary-skill-bonus-label {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+
+          .consumable-summary-status-icon {
+            width: 22px;
+            height: 22px;
+          }
+
+          .consumable-summary-status-value {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 42px;
+            height: 22px;
+            padding: 0 6px;
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+            border: 1.5px solid rgba(255, 183, 92, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+          }
+
+          .consumable-summary-status-text {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+
+        }
+      }
+    }
+  }
+
   // Imagem do item: fora do item-name, tamanho fixo
   .item-image {
     margin-left: 0;
@@ -758,6 +1139,47 @@ ol.items-list.backpack-table > li.item.items-header {
     align-items: center;
     justify-content: center;
     position: relative;
+
+    img {
+      transition: opacity 0.2s ease;
+    }
+
+    // Chat icon (invisível por padrão, usa mask igual às perícias/efeitos)
+    .chat-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 19px;
+      height: 19px;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, #FFB75C, #996E37);
+        -webkit-mask: url('../assets/images/decorative/icons/icon-chat.svg') center/contain no-repeat;
+        mask: url('../assets/images/decorative/icons/icon-chat.svg') center/contain no-repeat;
+      }
+    }
+
+    // Efeito no hover
+    &:hover {
+      img {
+        opacity: 0;
+      }
+
+      .chat-icon {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.15);
+      }
+    }
   }
 
   .item-name-group {
@@ -880,6 +1302,11 @@ ol.items-list.backpack-table > li.item.items-header {
     flex: 0 0 88px;
     padding-left: 2px;
     margin-right: 16px;
+    transition: transform 0.15s ease;
+
+    &:has(+ .item-durability.is-durability-expanded) {
+      transform: translateX(-16px);
+    }
 
     .info-badge {
       display: inline-flex;
@@ -915,6 +1342,7 @@ ol.items-list.backpack-table > li.item.items-header {
 
       &.backpack,
       &.energy-bonus,
+      &.life-bonus,
       &.movement-bonus,
       &.protection,
       &.weather,
@@ -1038,7 +1466,7 @@ ol.items-list.backpack-table > li.item.items-header {
 
     .durability-icon {
       cursor: pointer;
-      opacity: 0.6;
+      opacity: 0.8;
       transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
       will-change: transform, filter;
     }
@@ -1074,8 +1502,8 @@ ol.items-list.backpack-table > li.item.items-header {
     }
 
     .durability-icon {
-      width: 20px;
-      height: 20px;
+      width: 21px;
+      height: 21px;
       flex-shrink: 0;
       filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
     }

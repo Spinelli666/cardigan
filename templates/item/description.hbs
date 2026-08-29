@@ -4,11 +4,35 @@
   data-group='primary'
   data-tab='description'
 >
+  {{#unless (eq item.type "race")}}
+  <div class="consumable-item-check-skill-wrapper">
+    <div class="consumable-item-check-skill">
+      <p>DESCRIÇÃO ROLEPLAY</p>
+    </div>
+    <img class="description-roleplay-title-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+  </div>
+  {{/unless}}
+
   {{! Editors must receive enriched text data from getData to properly handle rolls, UUID links, etc. }}
-  {{#if editable}} 
+  {{#if editable}}
     <prose-mirror name="system.description" data-document-u-u-i-d="{{item.uuid}}" value="{{system.description}}" collaborate="true" toggled="true">
       {{{enrichedDescription}}}
     </prose-mirror>
   {{else}} {{{enrichedDescription}}}
   {{/if}}
+
+  {{#unless (eq item.type "race")}}
+  <div class="consumable-item-check-skill-wrapper">
+    <div class="consumable-item-check-skill">
+      <p>DESCRIÇÃO SISTEMÁTICA</p>
+    </div>
+    <img class="description-systematic-title-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+  </div>
+  {{#if editable}}
+    <prose-mirror name="system.systematicDescription" data-document-u-u-i-d="{{item.uuid}}" value="{{system.systematicDescription}}" collaborate="true" toggled="true">
+      {{{enrichedSystematicDescription}}}
+    </prose-mirror>
+  {{else}} {{{enrichedSystematicDescription}}}
+  {{/if}}
+  {{/unless}}
 </section>

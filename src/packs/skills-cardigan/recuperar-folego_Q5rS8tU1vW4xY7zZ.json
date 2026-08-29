@@ -7,9 +7,9 @@
   "system": {
     "skillActionTypes": [
       "long-action",
-      "foco"
+      "focus"
     ],
-    "skillClass": "guerreiro",
+    "skillClass": "warrior",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

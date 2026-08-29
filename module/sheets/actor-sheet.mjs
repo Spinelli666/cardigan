@@ -30,6 +30,8 @@ import { OverridesListeners } from './listeners/overrides-listeners.mjs';
 import { ItemExpand } from './parts/item-expand.mjs';
 import { DeleteActions } from './actions/delete-actions.mjs';
 import CardiganTooltipManager from '../tooltips/tooltip-manager.mjs';
+import { ConsumablePreviewTooltip } from './parts/consumable-preview-tooltip.mjs';
+import { ArmorPreviewTooltip } from './parts/armor-preview-tooltip.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -76,8 +78,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       controls: [
         {
           icon: 'fa-solid fa-cog',
-          label: 'SHEETS.DefaultDocumentSheet',
-          action: 'showSheetConfig'
+          label: 'SHEETS.ConfigureSheet',
+          action: 'configureSheet'
         }
       ]
     },
@@ -89,6 +91,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       editDoc: this._editDoc,
       deleteDoc: this._deleteDoc,
       toggleExpand: this._onToggleExpand,
+      toggleBackpackItemExpand: this._onToggleBackpackItemExpand,
       roll: this._onRoll,
       rollDeathDie: this._onRollDeathDie,
       resetGiftOfLife: this._onResetGiftOfLife,
@@ -137,8 +140,7 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       template: 'systems/cardigan/templates/actor/header.hbs',
     },
     tabs: {
-      // Foundry-provided generic template
-      template: 'templates/generic/tab-navigation.hbs',
+      template: 'systems/cardigan/templates/actor/partials/tab-navigation.hbs',
     },
     proficiencies: {
       template: 'systems/cardigan/templates/actor/proficiencies.hbs',
@@ -180,31 +182,38 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
   /** @override */
   async _renderFrame(options) {
     const frame = await super._renderFrame(options);
-    
+
+    // Wrapper that clips the decorative frame images to the window's own box.
+    // Needed because .application (Foundry core) had overflow:hidden overridden
+    // to visible so the vertical tab rail (.sheet-tabs) can bleed past the right
+    // border — this wrapper reproduces that same clip, scoped only to the artwork.
+    let moldurasWrapper = frame.querySelector('.moldura-clip-wrapper');
+    if (!moldurasWrapper) {
+      moldurasWrapper = document.createElement('div');
+      moldurasWrapper.className = 'moldura-clip-wrapper';
+      frame.insertBefore(moldurasWrapper, frame.firstChild);
+    }
+
     // Add decorative left frame to the window frame (persists through minimize/maximize)
-    const existingLeftFrame = frame.querySelector('.moldura-esquerda-overlay');
+    const existingLeftFrame = moldurasWrapper.querySelector('.moldura-esquerda-overlay');
     if (!existingLeftFrame) {
       const leftFrame = document.createElement('img');
       leftFrame.className = 'moldura-esquerda-overlay';
       leftFrame.src = 'systems/cardigan/assets/images/decorative/left-frame.webp';
       leftFrame.alt = 'Moldura Esquerda';
-      
-      // Insert at the beginning of the frame
-      frame.insertBefore(leftFrame, frame.firstChild);
+      moldurasWrapper.appendChild(leftFrame);
     }
-    
+
     // Add decorative right frame to the window frame (persists through minimize/maximize)
-    const existingRightFrame = frame.querySelector('.moldura-direita-overlay');
+    const existingRightFrame = moldurasWrapper.querySelector('.moldura-direita-overlay');
     if (!existingRightFrame) {
       const rightFrame = document.createElement('img');
       rightFrame.className = 'moldura-direita-overlay';
       rightFrame.src = 'systems/cardigan/assets/images/decorative/right-frame.webp';
       rightFrame.alt = 'Moldura Direita';
-      
-      // Insert after left frame
-      frame.insertBefore(rightFrame, frame.children[1]);
+      moldurasWrapper.appendChild(rightFrame);
     }
-    
+
     return frame;
   }
 
@@ -305,6 +314,8 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         id: '',
         // FontAwesome Icon, if you so choose
         icon: '',
+        // Image path, takes precedence over the FontAwesome icon when set
+        iconImage: '',
         // Run through localization
         label: 'CARDIGAN.Actor.Tabs.',
       };
@@ -315,22 +326,27 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
         case 'proficiencies':
           tab.id = 'proficiencies';
           tab.label += 'Proficiencies';
+          tab.iconImage = 'systems/cardigan/assets/images/decorative/icons/icon-nav-proficiencies.svg';
           break;
         case 'equipment':
           tab.id = 'equipment';
           tab.label += 'Equipment';
+          tab.iconImage = 'systems/cardigan/assets/images/decorative/icons/icon-nav-equipaments.svg';
           break;
         case 'skills':
           tab.id = 'skills';
           tab.label += 'Skills';
+          tab.iconImage = 'systems/cardigan/assets/images/types-actions/double-action.webp';
           break;
         case 'professions':
           tab.id = 'professions';
           tab.label += 'Professions';
+          tab.icon = 'fa-solid fa-hammer';
           break;
         case 'biography':
           tab.id = 'biography';
           tab.label += 'Biography';
+          tab.icon = 'fa-solid fa-book';
           break;
         default:
           // Unknown part, skip it
@@ -391,7 +407,14 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
     
     // Adicionar tooltips ricos de efeitos
     CardiganTooltipManager.attachEffectTooltips(this.element, this.actor);
-    
+
+    // Monta o tooltip de preview de item-consumivel na mochila (async: flag de bônus de
+    // perícia + enrichHTML) — não é aguardado, _onRender não é async (ver JSDoc acima).
+    ConsumablePreviewTooltip.attach(this.element, this.actor);
+
+    // Mesmo tooltip de preview, agora para itens de armadura na mochila.
+    ArmorPreviewTooltip.attach(this.element, this.actor);
+
     // NOTE: Profession table toggles are handled automatically by Foundry's form system
     // The checkboxes update system.details.show*Table which triggers a re-render
     // No manual event listeners needed
@@ -1228,6 +1251,16 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
    */
   static async _onToggleExpand(event, target) {
     return ItemExpand.onToggleExpand(this, event, target);
+  }
+
+  /**
+   * Handle toggling the expand/collapse state of a backpack row's description.
+   * @param {PointerEvent} event   The originating click event
+   * @param {HTMLElement} target   The capturing HTML element which defined a [data-action]
+   * @protected
+   */
+  static async _onToggleBackpackItemExpand(event, target) {
+    return ItemExpand.onToggleBackpackExpand(this, event, target);
   }
 
   /**

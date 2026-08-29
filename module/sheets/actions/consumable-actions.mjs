@@ -1,3 +1,5 @@
+﻿import { getCoreRollMode } from '../../helpers/roll-mode.mjs';
+
 /**
  * Consumable Actions Module
  * Handles consumable item consumption, skill checks, critical effects and temporary modifiers.
@@ -105,6 +107,11 @@ export class ConsumableActions {
         await ConsumableActions.applyConfiguredSkillTestEffects(configuredSkillTestEffects, rollResult, sheet);
       }
 
+      const configuredEffectsSectionEffects = await ConsumableActions.getConfiguredEffectsSectionEffects(item);
+      if (item.system.hasEffectsSection && configuredEffectsSectionEffects.length > 0) {
+        await ConsumableActions.applyConfiguredEffectsSectionEffects(configuredEffectsSectionEffects, sheet);
+      }
+
       const configuredSkillTestSkills = await ConsumableActions.getConfiguredSkillTestSkills(item);
 
       let rollType = 'normal';
@@ -151,53 +158,6 @@ export class ConsumableActions {
 
         if (consumableSkillBonusesResult.messages.length > 0) {
           messages.push(...consumableSkillBonusesResult.messages);
-        }
-      }
-
-      const effects = item.system.effects || [];
-      for (const effect of effects) {
-        if (!effect.effectId || (!effect.apply && !effect.remove)) continue;
-
-        const pack = game.packs.get("cardigan.efeitos-cardigan");
-        const effectDocument = await pack.getDocument(effect.effectId);
-
-        if (!effectDocument) {
-          console.warn(`Effect ${effect.effectId} not found in compendium`);
-          continue;
-        }
-
-        const effectName = effectDocument.name;
-
-        if (effect.apply) {
-          const existingEffect = sheet.document.items.find(i =>
-            i.type === 'efeito' &&
-            i.name === effectName &&
-            !i.system.consumableTracking?.isTrackingEffect
-          );
-
-          if (existingEffect) {
-            messages.push(`Effect ${effectName} was already active`);
-          } else {
-            const effectData = foundry.utils.deepClone(effectDocument.toObject());
-            effectData._id = foundry.utils.randomID();
-
-            await sheet.document.createEmbeddedDocuments("Item", [effectData]);
-            appliedEffects.push(effect.effectId);
-            messages.push(`Applied effect: ${effectName}`);
-          }
-        } else if (effect.remove) {
-          const existingEffect = sheet.document.items.find(i =>
-            i.type === 'efeito' &&
-            i.name === effectName &&
-            !i.system.consumableTracking?.isTrackingEffect
-          );
-
-          if (existingEffect) {
-            await existingEffect.delete();
-            messages.push(`Removed effect: ${effectName}`);
-          } else {
-            messages.push(`Effect ${effectName} was not active`);
-          }
         }
       }
 
@@ -407,13 +367,13 @@ export class ConsumableActions {
       console.log("[CONSUME] Checking movement boost:", {
         hasMovementBoost: item.system.hasMovementBoost,
         movementBoostAmount: item.system.movementBoostAmount,
-        bonusDeslocamento: item.system.bonusDeslocamento
+        movementBonus: item.system.movementBonus
       });
 
       const movementEnabled =
-        item.system?.bonusDeslocamento?.enabled ?? item.system?.hasMovementBoost ?? false;
+        item.system?.movementBonus?.enabled ?? item.system?.hasMovementBoost ?? false;
       const movementAmount = Number(
-        item.system?.bonusDeslocamento?.bonus ?? item.system?.movementBoostAmount ?? 0
+        item.system?.movementBonus?.bonus ?? item.system?.movementBoostAmount ?? 0
       );
 
       if (movementEnabled && movementAmount > 0) {
@@ -536,7 +496,7 @@ export class ConsumableActions {
       const abilityBonus = abilityData.totalBonus || 0;
       const totalModifier = abilityValue + abilityBonus;
 
-      const { CongeladoEffect } = await import('../../effects/effects/congelado.mjs');
+      const { CongeladoEffect } = await import('../../effects/effects/frozen.mjs');
       const congeladoPenalty = CongeladoEffect.getSkillPenalty(sheet.document);
       const finalModifier = totalModifier + congeladoPenalty;
 
@@ -717,7 +677,57 @@ export class ConsumableActions {
 
       const itemData = foundry.utils.deepClone(sourceDocument.toObject());
       if (!itemData.system) itemData.system = {};
-      itemData.system.rodadas = normalizeRoundsValue(configuredEffect.rounds);
+      itemData.system.rounds = normalizeRoundsValue(configuredEffect.rounds);
+
+      await sheet.document.createEmbeddedDocuments('Item', [itemData]);
+    }
+  }
+
+  /**
+   * Load configured effects from the Attributes tab effects block.
+   * @param {Item} item
+   * @returns {Promise<Array>}
+   */
+  static async getConfiguredEffectsSectionEffects(item) {
+    const effects = item.system?.effectsSectionAddedEffects;
+    return Array.isArray(effects) ? effects : [];
+  }
+
+  /**
+   * Apply effects configured in the Attributes tab effects block.
+   * Unlike skill-test effects, these apply unconditionally on consumption
+   * (no critical hit/failure requirement).
+   * @param {Array} configuredEffects
+   * @param {CardiganSystemActorSheet} sheet
+   */
+  static async applyConfiguredEffectsSectionEffects(configuredEffects, sheet) {
+    const normalizeRoundsValue = (rounds) => {
+      if (rounds === '∞' || rounds === 'infinito') return 'infinito';
+
+      const parsedRounds = Number.parseInt(rounds, 10);
+      if (Number.isNaN(parsedRounds)) return '0';
+
+      const clampedRounds = Math.max(0, Math.min(5, parsedRounds));
+      return String(clampedRounds);
+    };
+
+    for (const configuredEffect of configuredEffects) {
+      if (!configuredEffect?.uuid) continue;
+
+      const sourceDocument = await fromUuid(configuredEffect.uuid);
+      if (!sourceDocument) continue;
+
+      const effectName = sourceDocument.name || configuredEffect.name;
+      const alreadyActive = sheet.document.items.find((ownedItem) =>
+        ownedItem.type === 'efeito' &&
+        ownedItem.name === effectName &&
+        !ownedItem.system?.consumableTracking?.isTrackingEffect
+      );
+      if (alreadyActive) continue;
+
+      const itemData = foundry.utils.deepClone(sourceDocument.toObject());
+      if (!itemData.system) itemData.system = {};
+      itemData.system.rounds = normalizeRoundsValue(configuredEffect.rounds);
 
       await sheet.document.createEmbeddedDocuments('Item', [itemData]);
     }
@@ -898,7 +908,7 @@ export class ConsumableActions {
           if (effectId && effectId.trim() !== "") {
             await ConsumableActions.applyCriticalFailureEffect(effectId, sheet);
 
-            const effect = game.packs.find(p => p.metadata.id === "cardigan.efeitos-cardigan")?.index.get(effectId);
+            const effect = game.packs.find(p => p.metadata.id === "cardigan.effects-cardigan")?.index.get(effectId);
             const effectName = effect?.name || effectId;
             criticalFailureMessages.push(`Applied effect: <strong>${effectName}</strong>`);
           }
@@ -946,7 +956,7 @@ export class ConsumableActions {
    */
   static async applyCriticalFailureEffect(effectId, sheet) {
     try {
-      const pack = game.packs.get("cardigan.efeitos-cardigan");
+      const pack = game.packs.get("cardigan.effects-cardigan");
       if (!pack) {
         console.warn("Could not find effects compendium");
         return;
@@ -1005,7 +1015,7 @@ export class ConsumableActions {
           if (effectId && effectId.trim() !== "") {
             await ConsumableActions.applyCriticalHitEffect(effectId, sheet);
 
-            const effect = game.packs.find(p => p.metadata.id === "cardigan.efeitos-cardigan")?.index.get(effectId);
+            const effect = game.packs.find(p => p.metadata.id === "cardigan.effects-cardigan")?.index.get(effectId);
             const effectName = effect?.name || effectId;
             criticalHitMessages.push(`Applied effect: <strong>${effectName}</strong>`);
           }
@@ -1053,7 +1063,7 @@ export class ConsumableActions {
    */
   static async applyCriticalHitEffect(effectId, sheet) {
     try {
-      const pack = game.packs.get("cardigan.efeitos-cardigan");
+      const pack = game.packs.get("cardigan.effects-cardigan");
       if (!pack) {
         console.warn("Could not find effects compendium");
         return;
@@ -1165,7 +1175,7 @@ export class ConsumableActions {
       if (appliedEffects.length > 0) {
         effectDescriptions.push('<strong>Applied Effects:</strong>');
         for (const effectId of appliedEffects) {
-          const pack = game.packs.get("cardigan.efeitos-cardigan");
+          const pack = game.packs.get("cardigan.effects-cardigan");
           if (pack) {
             const effectDoc = await pack.getDocument(effectId);
             const effectName = effectDoc?.name || effectId;
@@ -1299,8 +1309,8 @@ export class ConsumableActions {
         img: originalItem.img,
         system: {
           description: description,
-          rodadas: 'infinito',
-          efeitoType: 'positivo',
+          rounds: 'infinito',
+          effectType: 'positive',
           consumableTracking: {
             isTrackingEffect: true,
             originalItemName: originalItem.name,
@@ -1426,7 +1436,7 @@ export class ConsumableActions {
           name: trackingEffectName,
           type: "efeito",
           system: {
-            rodadas: 'infinito',
+            rounds: 'infinito',
             description: trackingDescription,
             healthBonusValue: healthBonus,
             sourceItemId: item.id,
@@ -1472,7 +1482,7 @@ export class ConsumableActions {
       await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: sheet.document }),
         flavor: `Health Modifier (${modifierType === 'add' ? 'Healing' : 'Damage'})`,
-        rollMode: game.settings.get('core', 'rollMode')
+        rollMode: getCoreRollMode()
       });
 
       console.log("[HEALTH MODIFIER] Health modifier processed successfully");
@@ -1599,7 +1609,7 @@ export class ConsumableActions {
           name: trackingEffectName,
           type: "efeito",
           system: {
-            rodadas: 'infinito',
+            rounds: 'infinito',
             description: trackingDescription,
             energyBonusValue: energyBonus,
             sourceItemId: item.id,
@@ -1645,7 +1655,7 @@ export class ConsumableActions {
       await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: sheet.document }),
         flavor: `Energy Modifier (${modifierType === 'add' ? 'Restoration' : 'Drain'})`,
-        rollMode: game.settings.get('core', 'rollMode')
+        rollMode: getCoreRollMode()
       });
 
       console.log("[ENERGY MODIFIER] Energy modifier processed successfully");
@@ -2277,9 +2287,9 @@ export class ConsumableActions {
       console.log("[MOVEMENT] Actor details:", sheet.document.system.details);
 
       const movementEnabled =
-        item.system?.bonusDeslocamento?.enabled ?? item.system?.hasMovementBoost ?? false;
+        item.system?.movementBonus?.enabled ?? item.system?.hasMovementBoost ?? false;
       const baseAmount = Number(
-        item.system?.bonusDeslocamento?.bonus ?? item.system?.movementBoostAmount ?? 0
+        item.system?.movementBonus?.bonus ?? item.system?.movementBoostAmount ?? 0
       );
       const consumedQuantity = Math.max(1, Number(quantity) || 1);
       const amount = baseAmount * consumedQuantity;

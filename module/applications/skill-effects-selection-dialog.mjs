@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Dialog for selecting custom effects for skills
  */
 export class SkillEffectsSelectionDialog extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.api.ApplicationV2) {
@@ -71,7 +71,7 @@ export class SkillEffectsSelectionDialog extends foundry.applications.api.Handle
       const allEffects = [];
       
       // 1. Load effects from compendium
-      const pack = game.packs.get("cardigan.efeitos-cardigan");
+      const pack = game.packs.get("cardigan.effects-cardigan");
       if (pack) {
         const documents = await pack.getDocuments();
         const compendiumEffects = documents

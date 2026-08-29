@@ -56,10 +56,10 @@ export default class CardiganSystemActorBase extends foundry.abstract
     
     // Character classes
     schema.classes = new fields.SchemaField({
-      andarilho: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
-      guerreiro: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
-      ladino: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
-      feiticeiro: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+      wanderer: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+      warrior: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+      rogue: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
+      sorcerer: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 }),
     });
     
     // Experience points

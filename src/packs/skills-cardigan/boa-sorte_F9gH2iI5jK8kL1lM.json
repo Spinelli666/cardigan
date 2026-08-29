@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/racial.webp",
   "system": {
     "skillActionTypes": [
-      "passiva"
+      "passive"
     ],
-    "skillClass": "raciais",
+    "skillClass": "racial",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

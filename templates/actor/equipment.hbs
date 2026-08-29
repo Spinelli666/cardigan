@@ -49,7 +49,8 @@
     </div>
     <div class='status-display {{#if (gte backpackSpacesOccupied system.backpack.max)}}backpack-full{{/if}}'
       data-tooltip='CARDIGAN.Tooltip.Weight'
-      data-tooltip-class='cardigan-tooltip'>
+      data-tooltip-class='cardigan-tooltip'
+      draggable='false'>
       <input
         type='number'
         name='system.backpack.current'
@@ -222,15 +223,21 @@
             <a class='rollable' data-roll-type='item' data-action='roll'>
               <img
                 src='{{item.img}}'
+                {{#if (or (eq item.type "item-consumivel") (eq item.type "armadura"))}}
+                data-tooltip-class='cardigan-tooltip item-preview-tooltip'
+                data-tooltip-direction='LEFT'
+                {{else}}
                 title='{{item.name}}'
+                {{/if}}
                 width='24'
                 height='24'
               />
             </a>
+            <div class="chat-icon"></div>
           </div>
           <div class='item-name-group'>
             <div class='item-name {{#if (and (or (eq item.type "arma") (eq item.type "armadura")) (eq item.system.durability.current 0))}}item-name-broken{{/if}}'>
-              <div>{{item.name}}</div>
+              <div class="weapon-name-hover" data-action="toggleBackpackItemExpand" data-item-id="{{item._id}}">{{item.name}}</div>
             </div>
             {{#if (eq item.type "armadura")}}
               <div class='item-single-heavy'>
@@ -245,7 +252,7 @@
                     data-tooltip-class='cardigan-tooltip'
                   />
                 {{/if}}
-                {{#if (eq item.system.weight "pesado")}}
+                {{#if (eq item.system.weight "heavy")}}
                   <img
                     src='systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg'
                     alt='{{localize "CARDIGAN.Heavy"}}'
@@ -259,59 +266,7 @@
               </div>
             {{/if}}
           </div>
-          <div class='item-reload-ammunition-wrapper'>
-            <div class='item-reload'>
-              {{#unless item.system.isUnarmed}}
-                {{#if (or item.system.ranged item.system.isFirearm)}}
-                  {{#if @root.editable}}
-                    <a
-                      class='item-control manage-ammunition'
-                      data-tooltip='Gerenciar Munição'
-                      data-tooltip-class='cardigan-tooltip'
-                      data-action='manageAmmunition'
-                      data-item-id='{{item._id}}'
-                    >
-                      <img
-                        src='systems/cardigan/assets/images/decorative/icons/icon-recharge.svg'
-                        alt='Recarregar'
-                        class='reload-icon'
-                        width='20'
-                        height='20'
-                      />
-                    </a>
-                  {{else}}
-                    <img
-                      src='systems/cardigan/assets/images/decorative/icons/icon-recharge.svg'
-                      alt='Reload'
-                      class='reload-icon-readonly'
-                      width='20'
-                      height='20'
-                      title='Reload'
-                    />
-                  {{/if}}
-                {{/if}}
-              {{/unless}}
-            </div>
-            {{#unless item.system.isUnarmed}}
-              {{#if (or item.system.ranged item.system.isFirearm)}}
-                <div class='item-ammunition'>
-                  {{#if item.system.isFirearm}}
-                    <span class='ammunition-firearm ammunition-display' data-weapon-id='{{item._id}}'>
-                      <span class='ammunition-current'>{{item.system.loadedAmmo}}</span>
-                      <img
-                        src='systems/cardigan/assets/images/decorative/field-divider.svg'
-                        alt='/'
-                        class='ammunition-separator-icon'
-                      />
-                      <span class='ammunition-magazine'>{{item.system.magazine}}</span>
-                    </span>
-                  {{else}}
-                    <span class='ammunition-ranged ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}</span>
-                  {{/if}}
-                </div>
-              {{/if}}
-            {{/unless}}
-          </div>
+          {{> "systems/cardigan/templates/actor/partials/weapon-reload-ammo.hbs" item=item}}
           <div class='item-information'>
             {{#if (and (eq item.type "arma") item.system.protection.enabled)}}
               <div class='protection info-badge'>
@@ -431,6 +386,9 @@
               </button>
             {{/if}}
           </div>
+        </li>
+        <li class="backpack-item-description-row" data-item-id="{{item._id}}">
+          <div class="wrapper"></div>
         </li>
       {{/each}}
       </ol>
@@ -557,59 +515,7 @@
             {{item.name}}
           </div>
         </div>
-        <div class='item-reload-ammunition-wrapper'>
-          <div class='item-reload'>
-            {{#unless item.system.isUnarmed}}
-              {{#if (or item.system.ranged item.system.isFirearm)}}
-                {{#if @root.editable}}
-                  <a
-                    class='item-control manage-ammunition'
-                    data-tooltip='Gerenciar Munição'
-                    data-tooltip-class='cardigan-tooltip'
-                    data-action='manageAmmunition'
-                    data-item-id='{{item._id}}'
-                  >
-                    <img
-                      src='systems/cardigan/assets/images/decorative/icons/icon-recharge.svg'
-                      alt='Recarregar'
-                      class='reload-icon'
-                      width='20'
-                      height='20'
-                    />
-                  </a>
-                {{else}}
-                  <img
-                    src='systems/cardigan/assets/images/decorative/icons/icon-recharge.svg'
-                    alt='Reload'
-                    class='reload-icon-readonly'
-                    width='20'
-                    height='20'
-                    title='Reload'
-                  />
-                {{/if}}
-              {{/if}}
-            {{/unless}}
-          </div>
-          {{#unless item.system.isUnarmed}}
-            {{#if (or item.system.ranged item.system.isFirearm)}}
-              <div class='item-ammunition'>
-                {{#if item.system.isFirearm}}
-                  <span class='ammunition-firearm ammunition-display' data-weapon-id='{{item._id}}'>
-                    <span class='ammunition-current'>{{item.system.loadedAmmo}}</span>
-                    <img
-                      src='systems/cardigan/assets/images/decorative/field-divider.svg'
-                      alt='/'
-                      class='ammunition-separator-icon'
-                    />
-                    <span class='ammunition-magazine'>{{item.system.magazine}}</span>
-                  </span>
-                {{else}}
-                  <span class='ammunition-ranged ammunition-display' data-weapon-id='{{item._id}}'>{{item.system.loadedAmmo}}</span>
-                {{/if}}
-              </div>
-            {{/if}}
-          {{/unless}}
-        </div>
+        {{> "systems/cardigan/templates/actor/partials/weapon-reload-ammo.hbs" item=item}}
         <div class='item-information'>
         </div>
         <div class='item-durability {{#if item.system.isUnarmed}}unarmed-durability-hidden{{/if}} {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'>
@@ -665,131 +571,83 @@
 
   {{#if (and system.details.showWeaponsTable hasHeaderArmorEquipped)}}
   <div class="armor-equipament-container">
-    {{#if hasHeadArmorEquipped}}
-    <div class="head-container">
-      <div class='head-title-row'>
-        <img
-          src='systems/cardigan/assets/images/armor/head.webp'
-          alt='Cabeça'
-          class='head-image'
-        />
-        <p>⬩ CABEÇA</p>
-      </div>
+    {{> "systems/cardigan/templates/actor/partials/armor-section-container.hbs"
+      guard=hasHeadArmorEquipped
+      containerClass="head-container"
+      titleRowClass="head-title-row"
+      imgSrc="systems/cardigan/assets/images/armor/head.webp"
+      imgAlt="Cabeça"
+      imgClass="head-image"
+      label="CABEÇA"
+      tableClass="head-armor-table"
+      armorType="head"
+      itemClass="head-armor-item"
+    }}
 
-      <ol class='items-list head-armor-table'>
-        {{#each armaduras as |item id|}}
-          {{#if (eq item.system.armorType "cabeca")}}
-            {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass="head-armor-item"}}
-          {{/if}}
-        {{/each}}
-      </ol>
-    </div>
-    {{/if}}
+    {{> "systems/cardigan/templates/actor/partials/armor-section-container.hbs"
+      guard=hasTorsoArmorEquipped
+      containerClass="torso-container"
+      titleRowClass="torso-title-row"
+      imgSrc="systems/cardigan/assets/images/armor/chest.webp"
+      imgAlt="Torso"
+      imgClass="torso-image"
+      label="TORSO"
+      tableClass="torso-armor-table"
+      armorType="torso"
+      itemClass="torso-armor-item"
+    }}
 
-    {{#if hasTorsoArmorEquipped}}
-    <div class="torso-container">
-      <div class='torso-title-row'>
-        <img
-          src='systems/cardigan/assets/images/armor/chest.webp'
-          alt='Torso'
-          class='torso-image'
-        />
-        <p>⬩ TORSO</p>
-      </div>
+    {{> "systems/cardigan/templates/actor/partials/armor-section-container.hbs"
+      guard=hasArmsArmorEquipped
+      containerClass="arms-container"
+      titleRowClass="arms-title-row"
+      imgSrc="systems/cardigan/assets/images/armor/arms.webp"
+      imgAlt="Braços"
+      imgClass="arms-image"
+      label="BRAÇOS"
+      tableClass="arms-armor-table"
+      armorType="arms"
+      itemClass="arms-armor-item"
+    }}
 
-      <ol class='items-list torso-armor-table'>
-        {{#each armaduras as |item id|}}
-          {{#if (eq item.system.armorType "torso")}}
-            {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass="torso-armor-item"}}
-          {{/if}}
-        {{/each}}
-      </ol>
-    </div>
-    {{/if}}
+    {{> "systems/cardigan/templates/actor/partials/armor-section-container.hbs"
+      guard=hasLegsArmorEquipped
+      containerClass="legs-container"
+      titleRowClass="legs-title-row"
+      imgSrc="systems/cardigan/assets/images/armor/leggings.webp"
+      imgAlt="Pernas"
+      imgClass="legs-image"
+      label="PERNAS"
+      tableClass="legs-armor-table"
+      armorType="legs"
+      itemClass="legs-armor-item"
+    }}
 
-    {{#if hasArmsArmorEquipped}}
-    <div class="arms-container">
-      <div class='arms-title-row'>
-        <img
-          src='systems/cardigan/assets/images/armor/arms.webp'
-          alt='Braços'
-          class='arms-image'
-        />
-        <p>⬩ BRAÇOS</p>
-      </div>
+    {{> "systems/cardigan/templates/actor/partials/armor-section-container.hbs"
+      guard=hasFeetArmorEquipped
+      containerClass="feet-container"
+      titleRowClass="feet-title-row"
+      imgSrc="systems/cardigan/assets/images/armor/boots.webp"
+      imgAlt="Pés"
+      imgClass="feet-image"
+      label="PÉS"
+      tableClass="feet-armor-table"
+      armorType="feet"
+      itemClass="feet-armor-item"
+    }}
 
-      <ol class='items-list arms-armor-table'>
-        {{#each armaduras as |item id|}}
-          {{#if (eq item.system.armorType "bracos")}}
-            {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass="arms-armor-item"}}
-          {{/if}}
-        {{/each}}
-      </ol>
-    </div>
-    {{/if}}
-
-    {{#if hasLegsArmorEquipped}}
-    <div class="legs-container">
-      <div class='legs-title-row'>
-        <img
-          src='systems/cardigan/assets/images/armor/leggings.webp'
-          alt='Pernas'
-          class='legs-image'
-        />
-        <p>⬩ PERNAS</p>
-      </div>
-
-      <ol class='items-list legs-armor-table'>
-        {{#each armaduras as |item id|}}
-          {{#if (eq item.system.armorType "pernas")}}
-            {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass="legs-armor-item"}}
-          {{/if}}
-        {{/each}}
-      </ol>
-    </div>
-    {{/if}}
-
-    {{#if hasFeetArmorEquipped}}
-    <div class="feet-container">
-      <div class='feet-title-row'>
-        <img
-          src='systems/cardigan/assets/images/armor/boots.webp'
-          alt='Pés'
-          class='feet-image'
-        />
-        <p>⬩ PÉS</p>
-      </div>
-
-      <ol class='items-list feet-armor-table'>
-        {{#each armaduras as |item id|}}
-          {{#if (eq item.system.armorType "pes")}}
-            {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass="feet-armor-item"}}
-          {{/if}}
-        {{/each}}
-      </ol>
-    </div>
-    {{/if}}
-
-    {{#if hasAccessoriesArmorEquipped}}
-    <div class="accessories-container">
-      <div class='accessories-title-row'>
-        <img
-          src='systems/cardigan/assets/images/armor/charm.webp'
-          alt='Acessórios'
-          class='accessories-image'
-        />
-        <p>⬩ ACESSÓRIOS</p>
-      </div>
-
-      <ol class='items-list accessories-armor-table'>
-        {{#each armaduras as |item id|}}
-          {{#if (eq item.system.armorType "acessorios")}}
-            {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass="accessories-armor-item"}}
-          {{/if}}
-        {{/each}}
-      </ol>
-    </div>
-    {{/if}}
+    {{> "systems/cardigan/templates/actor/partials/armor-section-container.hbs"
+      guard=hasAccessoriesArmorEquipped
+      containerClass="accessories-container"
+      titleRowClass="accessories-title-row"
+      imgSrc="systems/cardigan/assets/images/armor/charm.webp"
+      imgAlt="Acessórios"
+      imgClass="accessories-image"
+      label="ACESSÓRIOS"
+      tableClass="accessories-armor-table"
+      armorType="accessories"
+      itemClass="accessories-armor-item"
+    }}
   </div>
   {{/if}}
   </div>

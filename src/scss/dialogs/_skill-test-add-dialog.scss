@@ -1,5 +1,5 @@
 .dialog.cardigan-skill-test-add-dialog {
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: $dialog-bg-gradient;
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: "Alatsi", sans-serif;
@@ -19,12 +19,13 @@
       opacity: 0;
       transition: opacity 0.2s ease;
       position: relative;
-      top: 9px;
+      top: 10px;
       outline: none;
       color: #FFB75C;
 
       &:hover {
-        background: none;
+        background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+        border-radius: 5px;
         outline: none;
         color: #cf944cda;
       }
@@ -32,6 +33,10 @@
 
     &:hover .header-control.fa-xmark {
       opacity: 1;
+    }
+
+    .header-control.fa-ellipsis-vertical {
+      display: none !important;
     }
 
   }
@@ -516,7 +521,7 @@
 
 .application.dialog.cardigan-skill-test-abilities-selection-dialog,
 .dialog.cardigan-skill-test-abilities-selection-dialog {
-  background: linear-gradient(180deg, rgba(71, 155, 181, 0.8) 8.69%, rgba(35, 85, 102, 0.8) 51.12%, rgba(25, 53, 66, 0.8) 86.06%);
+  background: $dialog-bg-gradient;
   border: 4px solid #c0863b;
   border-radius: 20px;
   font-family: 'Alatsi', sans-serif;
@@ -564,7 +569,8 @@
       color: #FFB75C;
 
       &:hover {
-        background: none;
+        background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+        border-radius: 5px;
         outline: none;
         color: #cf944cda;
       }
@@ -572,6 +578,10 @@
 
     &:hover .header-control.fa-xmark {
       opacity: 1;
+    }
+
+    .header-control.fa-ellipsis-vertical {
+      display: none !important;
     }
   }
 

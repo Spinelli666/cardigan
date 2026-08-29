@@ -99,41 +99,6 @@ export default class CardiganTooltipManager {
         const hoverTooltips = document.querySelectorAll('.locked-tooltip.effect-tooltip:not(.tooltip-pinned)');
         hoverTooltips.forEach(tooltip => this._removeTooltipWithFade(tooltip, 200));
       });
-      
-      // Click para fixar tooltip rico
-      element.addEventListener('click', async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        
-        // Desativar tooltip nativo se estiver ativo
-        if (game.tooltip) {
-          game.tooltip.deactivate();
-        }
-        
-        // Verificar se já existe um tooltip de hover visível para este efeito
-        const existingHoverTooltip = document.querySelector('.locked-tooltip.effect-tooltip:not(.tooltip-pinned)');
-        
-        if (existingHoverTooltip) {
-          // Se já existe tooltip de hover, apenas adicionar classe pinned
-          existingHoverTooltip.classList.add('tooltip-pinned');
-          
-          // Adicionar listener para fechar ao clicar fora
-          const closeTooltip = (evt) => {
-            if (!existingHoverTooltip.contains(evt.target) && !element.contains(evt.target)) {
-              this._removeTooltipWithFade(existingHoverTooltip, 200);
-              document.removeEventListener('click', closeTooltip);
-            }
-          };
-          
-          // Pequeno delay para não fechar imediatamente com o mesmo click
-          setTimeout(() => {
-            document.addEventListener('click', closeTooltip);
-          }, 100);
-        } else {
-          // Se não existe, criar novo tooltip fixado
-          await this._showRichEffectTooltip(element, effectName, effectDescription, effectImg, true);
-        }
-      });
     });
   }
 

@@ -52,16 +52,16 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
     if (this.itemType === 'weapon' || this.itemType === 'armor') {
       // Only light and heavy for weapons/armors
       weightOptions = [
-        { value: 'leve', label: 'CARDIGAN.Light', description: 'CARDIGAN.WeightDescription.Light' },
-        { value: 'pesado', label: 'CARDIGAN.Heavy', description: 'CARDIGAN.WeightDescription.Heavy' }
+        { value: 'light', label: 'CARDIGAN.Light', description: 'CARDIGAN.WeightDescription.Light' },
+        { value: 'heavy', label: 'CARDIGAN.Heavy', description: 'CARDIGAN.WeightDescription.Heavy' }
       ];
     } else {
-      // All 5 weights for backpack items
+      // All weights for backpack items
       weightOptions = [
-        { value: 'leve', label: 'CARDIGAN.WeightLight', description: 'CARDIGAN.WeightDescription.Light' },
-        { value: 'medio', label: 'CARDIGAN.WeightMedium', description: 'CARDIGAN.WeightDescription.Medium' },
-        { value: 'pesado', label: 'CARDIGAN.WeightHeavy', description: 'CARDIGAN.WeightDescription.Heavy' },
-        { value: 'muito-pesado', label: 'CARDIGAN.WeightVeryHeavy', description: 'CARDIGAN.WeightDescription.VeryHeavy' }
+        { value: 'light', label: 'CARDIGAN.WeightLight', description: 'CARDIGAN.WeightDescription.Light' },
+        { value: 'medium', label: 'CARDIGAN.WeightMedium', description: 'CARDIGAN.WeightDescription.Medium' },
+        { value: 'heavy', label: 'CARDIGAN.WeightHeavy', description: 'CARDIGAN.WeightDescription.Heavy' },
+        { value: 'very-heavy', label: 'CARDIGAN.WeightVeryHeavy', description: 'CARDIGAN.WeightDescription.VeryHeavy' }
       ];
     }
     
@@ -167,15 +167,13 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
    */
   _calculateItemSpaces(weight, quantity) {
     switch (weight) {
-      case 'leve':
+      case 'light':
         return Math.floor(quantity / 10); // 0 spaces, but +1 per 10 items
-      case 'leve':
-        return Math.ceil(quantity / 11); // 1 space per 11 items
-      case 'medio':
+      case 'medium':
         return quantity; // 1 space each
-      case 'pesado':
+      case 'heavy':
         return quantity * 2; // 2 spaces each
-      case 'muito-pesado':
+      case 'very-heavy':
         return quantity * 4; // 4 spaces each
       default:
         return 0;
@@ -192,7 +190,7 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
     if (!backpackItems || !Array.isArray(backpackItems)) return 0;
 
     let totalSpaces = 0;
-    const weightGroups = { 'leve': 0 };
+    const weightGroups = { 'light': 0 };
 
     // Calculate money weight separately (100 coins = 1 space)
     const moneyAmount = this.actor?.system?.money || 0;
@@ -203,15 +201,15 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
       const weight = item.system?.weight;
       const quantity = item.system?.quantity || 1;
 
-      if (weight === 'leve') {
-        weightGroups['leve'] += quantity;
+      if (weight === 'light') {
+        weightGroups['light'] += quantity;
       } else {
         totalSpaces += this._calculateItemSpaces(weight, quantity);
       }
     });
 
     // Apply special rules for weight groups
-    totalSpaces += this._calculateItemSpaces('leve', weightGroups['leve']);
+    totalSpaces += this._calculateItemSpaces('light', weightGroups['light']);
     
     // Add money spaces (100 coins = 1 space)
     totalSpaces += moneySpaces;
@@ -227,10 +225,10 @@ export class WeightSelectionDialog extends api.HandlebarsApplicationMixin(
    */
   _getWeightLabel(weight) {
     const labels = {
-      'leve': 'CARDIGAN.WeightLight',
-      'medio': 'CARDIGAN.WeightMedium', 
-      'pesado': 'CARDIGAN.WeightHeavy',
-      'muito-pesado': 'CARDIGAN.WeightVeryHeavy'
+      'light': 'CARDIGAN.WeightLight',
+      'medium': 'CARDIGAN.WeightMedium',
+      'heavy': 'CARDIGAN.WeightHeavy',
+      'very-heavy': 'CARDIGAN.WeightVeryHeavy'
     };
     return labels[weight] || weight;
   }

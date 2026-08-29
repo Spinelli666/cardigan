@@ -1,5 +1,8 @@
 import ContextMenu5e from '../../applications/context-menu.mjs';
 import { EquipmentActions } from './equipment-actions.mjs';
+import { ItemExpand } from '../parts/item-expand.mjs';
+import { ConsumablePreviewTooltip } from '../parts/consumable-preview-tooltip.mjs';
+import { ArmorPreviewTooltip } from '../parts/armor-preview-tooltip.mjs';
 
 export class ContextMenuActions {
 
@@ -68,38 +71,13 @@ export class ContextMenuActions {
   }
 
   /**
-   * Show armor information in chat.
+   * Show armor information in chat — same rich card as the backpack hover tooltip.
    * @param {Item} armor - The armor item to show
    * @param {Actor} document - The actor document (used for speaker)
    * @returns {Promise<ChatMessage>}
    */
   static async showArmorInChat(armor, document) {
-    const armorData = armor.system;
-    const armorHtml = `
-      <div style="padding: 8px;">
-        <p><strong>Tipo:</strong> ${armorData.armorType || 'N/A'}</p>
-        <p><strong>Defesa:</strong> ${armorData.armor || 'N/A'}</p>
-        <p><strong>Durabilidade:</strong> ${armorData.currentDurability || 0}/${armorData.maxDurability || 0}</p>
-        ${armorData.description ? `<p><strong>Descrição:</strong> ${armorData.description}</p>` : ''}
-      </div>
-    `;
-
-    const messageData = {
-      user: game.user.id,
-      speaker: ChatMessage.getSpeaker({ actor: document }),
-      content: `<div class="armor-chat-display" style="background: linear-gradient(135deg, #2c2c2c, #1a1a1a); border: 2px solid #c9c7b8; border-radius: 8px; padding: 12px; margin: 8px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
-        <div style="text-align: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #c9c7b8;">
-          <h3 style="margin: 0; color: #f0f0e0; font-size: 16px;">
-            <i class="fas fa-shield-alt" style="margin-right: 6px; color: #c9c7b8;"></i>
-            Informações da Armadura
-          </h3>
-        </div>
-        ${armorHtml}
-      </div>`,
-      style: CONST.CHAT_MESSAGE_STYLES.OTHER
-    };
-
-    return ChatMessage.create(messageData);
+    return ArmorPreviewTooltip.postToChat(armor, document);
   }
 
   /**
@@ -117,34 +95,47 @@ export class ContextMenuActions {
 
     if (item.type === "arma" && item.system.equipped) {
       options.push({
-        name: isExpanded ? "Recolher" : "Expandir",
+        label: isExpanded ? "Recolher" : "Expandir",
         icon: isExpanded ? '<i class="fa-solid fa-compress fa-fw"></i>' : '<i class="fa-solid fa-expand fa-fw"></i>',
-        condition: () => true,
-        callback: li => ContextMenuActions.onAction(li, "toggleExpand", item, sheet, itemContainer)
+        visible: () => true,
+        onClick: li => ContextMenuActions.onAction(li, "toggleExpand", item, sheet, itemContainer)
+      });
+    }
+
+    // Backpack table rows use a separate expand mechanism (sibling .backpack-item-description-row)
+    // instead of the .item.collapsible wrapper used by the equipped weapon banner.
+    const backpackDescriptionRow = sheet.element.querySelector(`.backpack-item-description-row[data-item-id="${item.id}"]`);
+    if (backpackDescriptionRow) {
+      const isBackpackExpanded = !!sheet.expandedSections.get(item.id);
+      options.push({
+        label: isBackpackExpanded ? "Recolher" : "Expandir",
+        icon: isBackpackExpanded ? '<i class="fa-solid fa-compress fa-fw"></i>' : '<i class="fa-solid fa-expand fa-fw"></i>',
+        visible: () => true,
+        onClick: () => ItemExpand.toggleBackpackExpandById(sheet, item.id)
       });
     }
 
     options.push({
-      name: "Editar",
+      label: "Editar",
       icon: '<i class="fa-solid fa-pen-to-square fa-fw"></i>',
-      condition: () => item.isOwner,
-      callback: li => ContextMenuActions.onAction(li, "edit", item, sheet)
+      visible: () => item.isOwner,
+      onClick: li => ContextMenuActions.onAction(li, "edit", item, sheet)
     });
 
     if (item.type === "arma") {
       if (item.system.equipped) {
         options.push({
-          name: game.i18n.localize("CARDIGAN.Tooltip.Unequip"),
+          label: game.i18n.localize("CARDIGAN.Tooltip.Unequip"),
           icon: '<i class="fa-solid fa-shield fa-fw"></i>',
-          condition: () => item.isOwner,
-          callback: li => ContextMenuActions.onAction(li, "unequip", item, sheet)
+          visible: () => item.isOwner,
+          onClick: li => ContextMenuActions.onAction(li, "unequip", item, sheet)
         });
       } else {
         options.push({
-          name: game.i18n.localize("CARDIGAN.Tooltip.Equip"),
+          label: game.i18n.localize("CARDIGAN.Tooltip.Equip"),
           icon: '<i class="fa-solid fa-hand-fist fa-fw"></i>',
-          condition: () => item.isOwner,
-          callback: li => ContextMenuActions.onAction(li, "equip", item, sheet)
+          visible: () => item.isOwner,
+          onClick: li => ContextMenuActions.onAction(li, "equip", item, sheet)
         });
       }
     }
@@ -152,44 +143,53 @@ export class ContextMenuActions {
     if (item.type === "armadura") {
       if (item.system.equipped) {
         options.push({
-          name: game.i18n.localize("CARDIGAN.Tooltip.Unequip"),
+          label: game.i18n.localize("CARDIGAN.Tooltip.Unequip"),
           icon: '<i class="fa-solid fa-shield-slash fa-fw"></i>',
-          condition: () => item.isOwner,
-          callback: li => ContextMenuActions.onAction(li, "unequipArmor", item, sheet)
+          visible: () => item.isOwner,
+          onClick: li => ContextMenuActions.onAction(li, "unequipArmor", item, sheet)
         });
       } else {
         options.push({
-          name: game.i18n.localize("CARDIGAN.Tooltip.Equip"),
+          label: game.i18n.localize("CARDIGAN.Tooltip.Equip"),
           icon: '<i class="fa-solid fa-shield fa-fw"></i>',
-          condition: () => item.isOwner,
-          callback: li => ContextMenuActions.onAction(li, "equipArmor", item, sheet)
+          visible: () => item.isOwner,
+          onClick: li => ContextMenuActions.onAction(li, "equipArmor", item, sheet)
         });
       }
     }
 
     if (item.type === "arma") {
       options.push({
-        name: "Mostrar no Chat",
+        label: "Mostrar no Chat",
         icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
-        condition: () => item.type === "arma",
-        callback: li => ContextMenuActions.onAction(li, "showInChat", item, sheet)
+        visible: () => item.type === "arma",
+        onClick: li => ContextMenuActions.onAction(li, "showInChat", item, sheet)
       });
     }
 
     if (item.type === "armadura") {
       options.push({
-        name: "Mostrar no Chat",
+        label: "Mostrar no Chat",
         icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
-        condition: () => item.type === "armadura",
-        callback: li => ContextMenuActions.onAction(li, "showInChat", item, sheet)
+        visible: () => item.type === "armadura",
+        onClick: li => ContextMenuActions.onAction(li, "showInChat", item, sheet)
+      });
+    }
+
+    if (item.type !== "arma" && item.type !== "armadura") {
+      options.push({
+        label: "Mostrar no Chat",
+        icon: '<i class="fa-solid fa-comment-dots fa-fw"></i>',
+        visible: () => item.isOwner,
+        onClick: li => ContextMenuActions.onAction(li, "showInChat", item, sheet)
       });
     }
 
     options.push({
-      name: "Excluir",
+      label: "Excluir",
       icon: '<i class="fa-solid fa-trash fa-fw"></i>',
-      condition: () => item.isOwner,
-      callback: li => ContextMenuActions.onAction(li, "delete", item, sheet)
+      visible: () => item.isOwner,
+      onClick: li => ContextMenuActions.onAction(li, "delete", item, sheet)
     });
 
     return options;
@@ -236,7 +236,8 @@ export class ContextMenuActions {
       case "showInChat":
         if (item.type === "arma") return ContextMenuActions.showWeaponInChat(item, sheet.document);
         else if (item.type === "armadura") return ContextMenuActions.showArmorInChat(item, sheet.document);
-        return null;
+        else if (item.type === "item-consumivel") return ConsumablePreviewTooltip.postToChat(item, sheet.document);
+        return item.roll();
       case "delete":
         if (item.type === "efeito") {
           const autoManagedEffects = {

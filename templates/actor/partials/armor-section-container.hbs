@@ -1,0 +1,22 @@
+{{!-- armor-section-container.hbs: seção de slot de armadura por tipo de corpo (cabeça, torso, braços, pernas, pés, acessórios) --}}
+{{!-- Parâmetros: guard, containerClass, titleRowClass, imgSrc, imgAlt, imgClass, label, tableClass, armorType, itemClass --}}
+{{#if guard}}
+<div class="{{containerClass}}">
+  <div class='{{titleRowClass}}'>
+    <img
+      src='{{imgSrc}}'
+      alt='{{imgAlt}}'
+      class='{{imgClass}}'
+    />
+    <p>⬩ {{label}}</p>
+  </div>
+
+  <ol class='items-list {{tableClass}}'>
+    {{#each armaduras as |item id|}}
+      {{#if (eq item.system.armorType ../armorType)}}
+        {{> "systems/cardigan/templates/actor/partials/equipped-armor-item.hbs" item=item itemClass=../itemClass}}
+      {{/if}}
+    {{/each}}
+  </ol>
+</div>
+{{/if}}

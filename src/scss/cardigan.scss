@@ -22,6 +22,7 @@
 @import 'components/chat/effect-message';
 @import 'components/chat/action-buttons';
 @import 'components/chat-rolls';
+@import 'components/roll-enricher-links';
 
 /* Common item form styles */
 @import 'components/common-item-form';
@@ -38,6 +39,9 @@
 /* Weapon form styles */
 @import 'components/weapon-form';
 
+/* Descrição tab: Roleplay/Sistemática section titles, shared across item types */
+@import 'components/item-description-tab';
+
 
 /* ProseMirror - Comportamento padrão do Foundry VTT */
 /* Sem customizações - deixando o editor funcionar naturalmente */
@@ -47,7 +51,7 @@
   .window-content {
     overflow: hidden;
     padding: 5px;
-    
+
     form {
       height: 100%;
       overflow: hidden;
@@ -69,9 +73,13 @@
   .tab {
     flex: 1;
     min-height: 0;
-    background: linear-gradient(180deg, rgba(118, 212, 255, 0.19) 43.81%, rgba(9, 21, 29, 0.19) 99.96%);
     font-family: 'Alatsi', sans-serif !important;
   }
+
+  // Vertical icon-rail tab navigation - actor sheet only (leaks into item
+  // sheets/dialogs if imported under the bare .cardigan scope below, since
+  // they share the "cardigan" class too).
+  @import 'components/navigation/tabs';
 }
 
 /* Item sheet specific layout - Remove padding from window-content */
@@ -84,22 +92,26 @@
 /* Armor sheet header root styling must stay outside .cardigan scope */
 @import 'components/armor';
 
+/* Legacy horizontal tab nav - item sheets/dialogs only, excludes .actor
+   explicitly so it can never leak into the actor sheet's vertical rail
+   regardless of specificity (see components/navigation/tabs, actor-scoped) */
+@import 'components/navigation/tabs-legacy';
+
 /* Styles limited to cardigan sheets */
 .cardigan {
   // Tab visibility control for item sheets
   .tab:not(.active) {
     display: none !important;
   }
-  
+
   .tab.active {
     display: block !important;
   }
 
   @import 'components/forms';
-  @import 'components/navigation/tabs';
   @import 'components/resource';
   @import 'components/items';
-  @import 'components/item-efeito';
+  @import 'components/item-effect';
   @import 'components/effects';
   @import 'components/proficiencies/index';
   @import 'components/equipment';
@@ -119,7 +131,6 @@
   @import 'components/energy-bar';
   @import 'components/dialogs';
   @import 'components/abilities';
-  @import 'components/consumivel-modifiers';
   @import 'components/recipes';
   @import 'components/skills';
   @import 'components/skill-enhancements';
@@ -145,8 +156,10 @@
 @import 'dialogs/level-up-wizard';
 @import 'dialogs/effects-selection';
 @import 'dialogs/common-item-weight-dialog';
+@import 'dialogs/weapon-damage-dialog';
 @import 'dialogs/skill-test-add-dialog';
 @import 'dialogs/life-energy-add-dialog';
+@import 'dialogs/weapon-properties-dialog';
 
 // Tooltip components - DEVE SER O ÚLTIMO para ter precedência
 @import 'components/tooltips/tooltips';

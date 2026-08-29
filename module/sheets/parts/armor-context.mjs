@@ -25,8 +25,8 @@ export class ArmorContext {
     const system = item?.system ?? {};
 
     context.armorSkillBonusRows = ArmorContext.#prepareSkillBonusRows(system.skillBonuses);
-    context.armorMovementBonus = ArmorContext.#normalizeBonusField(system.bonusDeslocamento, system.movementBonus);
-    context.armorBackpackSpaceBonus = ArmorContext.#normalizeBonusField(system.bonusEspacoMochila, system.backpackSpace);
+    context.armorMovementBonus = ArmorContext.#normalizeBonusField(system.movementBonus, null);
+    context.armorBackpackSpaceBonus = ArmorContext.#normalizeBonusField(system.backpackBonus, null);
 
     return context;
   }

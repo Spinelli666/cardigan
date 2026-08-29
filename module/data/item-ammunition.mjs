@@ -1,0 +1,87 @@
+import CardiganSystemItemBase from './base-item.mjs';
+
+export default class CardiganSystemItemMunicao extends CardiganSystemItemBase {
+  static LOCALIZATION_PREFIXES = [
+    'CARDIGAN.Item.base',
+    'CARDIGAN.Item.ItemMunicao',
+  ];
+
+  /** Weight choices for ammunition */
+  static WEIGHT_CHOICES = {
+    "light": "CARDIGAN.WeightLight",
+    "medium": "CARDIGAN.WeightMedium",
+    "heavy": "CARDIGAN.WeightHeavy"
+  };
+
+  static defineSchema() {
+    const fields = foundry.data.fields;
+    const requiredInteger = { required: true, nullable: false, integer: true };
+    const schema = super.defineSchema();
+
+    // Mechanical/rules-facing description, shown alongside the flavor description
+    // in a second "Descrição Sistemática" section within the Descrição tab.
+    schema.systematicDescription = new fields.HTMLField();
+
+    schema.quantity = new fields.NumberField({
+      ...requiredInteger,
+      initial: 1,
+      min: 0,
+    });
+
+    schema.weight = new fields.StringField({
+      required: true,
+      blank: false,
+      initial: "light",
+      choices: CardiganSystemItemMunicao.WEIGHT_CHOICES
+    });
+
+    schema.price = new fields.NumberField({
+      required: true,
+      nullable: false,
+      initial: 0,
+      min: 0,
+    });
+
+    schema.isFirearmAmmo = new fields.BooleanField({
+      required: true,
+      initial: false
+    });
+
+    schema.isSpecialAmmo = new fields.BooleanField({
+      required: true,
+      initial: false
+    });
+
+    return schema;
+  }
+
+  /** Create ammunition with default settings - options: {quantity, weight, price, isSpecialAmmo} */
+  static createAmmo(name, options = {}) {
+    return {
+      name,
+      type: 'municao',
+      system: {
+        quantity: options.quantity || 1,
+        weight: options.weight || 'light',
+        price: options.price || 0,
+        isFirearmAmmo: false,
+        isSpecialAmmo: options.isSpecialAmmo || false
+      }
+    };
+  }
+
+  /** Create firearm ammunition - options: {quantity, weight, price, isSpecialAmmo} */
+  static createFirearmAmmo(name, options = {}) {
+    return {
+      name,
+      type: 'municao',
+      system: {
+        quantity: options.quantity || 1,
+        weight: options.weight || 'light',
+        price: options.price || 0,
+        isFirearmAmmo: true,
+        isSpecialAmmo: options.isSpecialAmmo || false
+      }
+    };
+  }
+}

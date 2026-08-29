@@ -1,0 +1,147 @@
+{{!-- 
+Template para itens do tipo arma com sistema de propriedades dinâmicas
+--}}
+<section class="tab item-type-arma {{tab.cssClass}}" data-group="primary" data-tab="attributes">
+  <div class="weapon-details-form">
+
+    {{!-- Top grid: weapon properties (left) and skill bonuses (right) --}}
+    <div class="weapon-top-grid">
+      <div class="weapon-properties">
+        <div class="weapon-properties-content">
+          <div class="weapon-category-toggles">
+            <button type="button" class="weapon-category-btn" data-weapon-category="melee" data-tooltip="{{localize 'CARDIGAN.WeaponMelee'}}" data-tooltip-class='cardigan-tooltip' {{#if item.system.melee}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/weapons/sword.webp" alt="{{localize 'CARDIGAN.WeaponMelee'}}" title="{{localize 'CARDIGAN.WeaponMelee'}}"/>
+            </button>
+            <button type="button" class="weapon-category-btn" data-weapon-category="ranged" data-tooltip="{{localize 'CARDIGAN.WeaponRanged'}}" data-tooltip-class='cardigan-tooltip' {{#if item.system.ranged}}data-selected{{/if}}>
+              <img src="systems/cardigan/assets/images/weapons/arrow.webp" alt="{{localize 'CARDIGAN.WeaponRanged'}}" title="{{localize 'CARDIGAN.WeaponRanged'}}"/>
+            </button>
+            {{#if item.system.ranged}}
+              <button type="button" class="weapon-category-btn" data-weapon-category="isFirearm" data-tooltip="{{localize 'CARDIGAN.IsFirearm'}}" data-tooltip-class='cardigan-tooltip' {{#if item.system.isFirearm}}data-selected{{/if}}>
+                <img src="systems/cardigan/assets/images/weapons/pistol.webp" alt="{{localize 'CARDIGAN.IsFirearm'}}" title="{{localize 'CARDIGAN.IsFirearm'}}"/>
+              </button>
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="armor-extra-properties">
+          <div class="weapon-extra-property weapon-protection-property">
+            <div class="weapon-extra-content">
+              <img class="weapon-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-armor.svg" alt="{{localize 'CARDIGAN.ArmorProtection'}}" data-tooltip="Proteção" data-tooltip-class='cardigan-tooltip' />
+              <div class="weapon-protection-input-wrapper weapon-extra-panel" data-weapon-extra-panel="protection">
+                <input type="number" name="system.protection.value" value="{{item.system.protection.value}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="armor-extra-property armor-durability-property">
+            <div class="armor-extra-content">
+              <img class="armor-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-durability.svg" alt="{{localize 'CARDIGAN.Durability'}}" data-tooltip="Durabilidade" data-tooltip-class='cardigan-tooltip' />
+              <div class="durability-container durability-container--expanded armor-extra-panel" data-armor-extra-panel="durability">
+                <input class="durability-value-input" type="number" name="system.durability.current" value="{{item.system.durability.current}}" min="0" max="{{item.system.durability.max}}"/>
+                <img src="systems/cardigan/assets/images/decorative/field-divider.svg" alt="/" class="durability-divider"/>
+                <input class="durability-value-input" type="number" name="system.durability.max" value="{{item.system.durability.max}}" min="1"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="armor-extra-properties weapon-damage-price-properties">
+          <div class="weapon-extra-property weapon-damage-property">
+            <div class="weapon-extra-content">
+              <img class="weapon-extra-icon" src="systems/cardigan/assets/images/decorative/accuracy-attack.webp" alt="{{localize 'CARDIGAN.Damage'}}" data-tooltip="Dano Total" data-tooltip-class='cardigan-tooltip' />
+              <div class="weapon-damage-input-wrapper weapon-extra-panel" data-weapon-extra-panel="damage" data-tooltip="{{item.system.damage.value}}{{#if item.system.damage.useStrength}} + Força{{/if}}{{#if item.system.damage.useDexterity}} + Destreza{{/if}}{{#if item.system.damage.usePsionics}} + Psionismo{{/if}}" data-tooltip-class='cardigan-tooltip'>
+                <input type="text" class="weapon-damage-display" value="{{item.system.damage.total}}" placeholder="0" readonly/>
+              </div>
+            </div>
+          </div>
+
+          <div class="weapon-extra-property weapon-price-property">
+            <div class="weapon-extra-content">
+              <img class="weapon-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-coins.svg" alt="{{localize 'CARDIGAN.Price'}}" data-tooltip="Preço" data-tooltip-class='cardigan-tooltip' />
+              <div class="weapon-price-input-wrapper weapon-extra-panel" data-weapon-extra-panel="price">
+                <input type="number" name="system.price" value="{{item.system.price}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="armor-extra-properties weapon-magazine-special-properties">
+          <div class="weapon-extra-property weapon-magazine-property" style="{{#unless (and item.system.ranged item.system.isFirearm)}}display: none;{{/unless}}">
+            <div class="weapon-extra-content">
+              <img class="weapon-extra-icon" src="systems/cardigan/assets/images/weapons/ammunition.webp" alt="Carregador" data-tooltip="Carregador" data-tooltip-class='cardigan-tooltip' />
+              <div class="weapon-magazine-input-wrapper weapon-extra-panel" data-weapon-extra-panel="magazine">
+                <input type="number" name="system.magazine" value="{{item.system.magazine}}" min="0" placeholder="0"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="armor-extra-properties weapon-special-properties-row">
+            <div class="weapon-extra-property weapon-weight-heavy-property">
+              <div class="weapon-extra-content">
+                <img class="weapon-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-heavy-item.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-weapon-checkbox-toggle="system.weight" data-weapon-toggle-on-value="heavy" data-weapon-toggle-off-value="light" data-tooltip="Pesado" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
+              </div>
+            </div>
+
+            <div class="weapon-extra-property weapon-magical-artifact-property">
+              <div class="weapon-extra-content">
+                <img class="weapon-extra-icon" src="systems/cardigan/assets/images/decorative/icons/icon-paranormal-artifact.svg" alt="{{localize 'CARDIGAN.MagicalArtifact'}}" data-weapon-checkbox-toggle="system.magicalArtifact" data-tooltip="Artefato Mágico" data-tooltip-class='cardigan-tooltip' role="button" tabindex="0" aria-pressed="false"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="consumable-item-check-skill-wrapper">
+          <div class="consumable-item-check-skill">
+            <label class="consumable-item-check-skill-toggle" aria-label="Ativar propriedades" data-tooltip="Ativar" data-tooltip-class='cardigan-tooltip'>
+              <input type="checkbox" name="system.hasPropertiesSection" {{checked item.system.hasPropertiesSection}} data-dtype="Boolean" data-weapon-properties-toggle class="consumable-item-check-skill-checkbox" />
+              <p>PROPRIEDADES</p>
+            </label>
+          </div>
+          <img class="consumable-item-check-skill-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+        </div>
+
+        <div class="weapon-properties-system {{#unless item.system.hasPropertiesSection}}hidden{{/unless}}" data-weapon-properties-section>
+          <div class="consumable-item-life-energy-add-button-container weapon-properties-add-button-container">
+            <button type="button" class="consumable-item-life-energy-add-button weapon-properties-add-button" aria-label="Adicionar" data-tooltip="Adicionar" data-tooltip-class="cardigan-tooltip">
+              <img
+                src="systems/cardigan/assets/images/decorative/icons/icon-add-effects.svg"
+                alt="Adicionar"
+                class="consumable-item-life-energy-add-icon"
+              />
+            </button>
+          </div>
+          <div class="weapon-properties-added-content"></div>
+        </div>
+      </div>
+      <div class="weapon-skill-bonuses">
+        <table class="weapon-skill-bonuses-table">
+          <tbody>
+            {{#each weaponSkillBonusRows as |row|}}
+              <tr class="weapon-skill-bonus-row">
+                <th scope="row">{{row.label}}</th>
+                <td>
+                  <input type="hidden" name="system.skillBonuses.{{row.index}}.skill" value="{{row.key}}" />
+                  <div class="weapon-skill-bonus-input-wrapper">
+                    <input
+                      type="number"
+                      name="system.skillBonuses.{{row.index}}.bonus"
+                      value="{{row.value}}"
+                      data-dtype="Number"
+                      placeholder="0"
+                    />
+                  </div>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {{!-- Hidden fields - not visible to players --}}
+    <input type="hidden" name="system.quantity" value="{{item.system.quantity}}" data-dtype="Number"/>
+    <input type="hidden" name="system.rightHand" {{checked item.system.rightHand}}/>
+    <input type="hidden" name="system.leftHand" {{checked item.system.leftHand}}/>
+
+  </div>
+</section>

@@ -1,3 +1,5 @@
+﻿import { getCoreRollMode } from '../helpers/roll-mode.mjs';
+
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
@@ -453,7 +455,7 @@ export class CardiganSystemItem extends Item {
       if (tracking.appliedEffects && tracking.appliedEffects.length > 0) {
         for (const effectId of tracking.appliedEffects) {
           // Find and remove effect from actor
-          const pack = game.packs.get("cardigan.efeitos-cardigan");
+          const pack = game.packs.get("cardigan.effects-cardigan");
           if (pack) {
             const effectDoc = await pack.getDocument(effectId);
             if (effectDoc) {
@@ -672,7 +674,7 @@ export class CardiganSystemItem extends Item {
 
     // Initialize chat data.
     const speaker = ChatMessage.getSpeaker({ actor: this.actor });
-    const rollMode = game.settings.get('core', 'rollMode');
+    const rollMode = getCoreRollMode();
     const label = `[${item.type}] ${item.name}`;
 
     // If there's no roll data, send a chat message.
@@ -778,35 +780,35 @@ export class CardiganSystemItem extends Item {
     // Get the skill class
     const skillClass = this.system.skillClass;
     
-    // Skip racial skills and auto-added skills
-    if (skillClass === 'raciais' || skillClass === 'unicas') {
+    // Skip racial and unique skills
+    if (skillClass === 'racial' || skillClass === 'unique') {
       console.log(`[Item._incrementClassCounter] Skipping counter increment for: ${this.name} (${skillClass})`);
       return;
     }
-    
+
     // Skip Componentes and Despertar Psiônico (auto-added skills)
     if (this.name === 'Componentes' || this.name === 'Despertar Psiônico') {
       console.log(`[Item._incrementClassCounter] Skipping auto-added skill: ${this.name}`);
       return;
     }
-    
+
     // Valid class types that have counters
-    const validClasses = ['andarilho', 'guerreiro', 'ladino', 'feiticeiro'];
-    
+    const validClasses = ['wanderer', 'warrior', 'rogue', 'sorcerer'];
+
     if (!validClasses.includes(skillClass)) {
       console.log(`[Item._incrementClassCounter] Skill ${this.name} has invalid skillClass: ${skillClass}`);
       return;
     }
-    
+
     // Get current counter value
     const currentValue = this.actor.system.classes[skillClass] || 0;
     const newValue = currentValue + 1;
-    
+
     // Update the counter
     await this.actor.update({
       [`system.classes.${skillClass}`]: newValue
     });
-    
+
     console.log(`[Item._incrementClassCounter] Incremented ${skillClass} counter from ${currentValue} to ${newValue} for skill: ${this.name}`);
   }
 
@@ -821,35 +823,35 @@ export class CardiganSystemItem extends Item {
     // Get the skill class
     const skillClass = this.system.skillClass;
     
-    // Skip racial skills and auto-added skills
-    if (skillClass === 'raciais' || skillClass === 'unicas') {
+    // Skip racial and unique skills
+    if (skillClass === 'racial' || skillClass === 'unique') {
       console.log(`[Item._decrementClassCounter] Skipping counter decrement for: ${this.name} (${skillClass})`);
       return;
     }
-    
+
     // Skip Componentes and Despertar Psiônico (auto-added skills)
     if (this.name === 'Componentes' || this.name === 'Despertar Psiônico') {
       console.log(`[Item._decrementClassCounter] Skipping auto-added skill: ${this.name}`);
       return;
     }
-    
+
     // Valid class types that have counters
-    const validClasses = ['andarilho', 'guerreiro', 'ladino', 'feiticeiro'];
-    
+    const validClasses = ['wanderer', 'warrior', 'rogue', 'sorcerer'];
+
     if (!validClasses.includes(skillClass)) {
       console.log(`[Item._decrementClassCounter] Skill ${this.name} has invalid skillClass: ${skillClass}`);
       return;
     }
-    
+
     // Get current counter value
     const currentValue = this.actor.system.classes[skillClass] || 0;
-    const newValue = Math.max(0, currentValue - 1); // Never go below 0
-    
+    const newValue = Math.max(0, currentValue - 1);
+
     // Update the counter
     await this.actor.update({
       [`system.classes.${skillClass}`]: newValue
     });
-    
+
     console.log(`[Item._decrementClassCounter] Decremented ${skillClass} counter from ${currentValue} to ${newValue} for skill: ${this.name}`);
   }
 

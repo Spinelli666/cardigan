@@ -9,8 +9,8 @@
       "short-action",
       "long-action"
     ],
-    "skillClass": "feiticeiro",
-    "spellCategories": ["neutro"],
+    "skillClass": "sorcerer",
+    "spellCategories": ["neutral"],
     "hasEnergyCost": true,
     "energyCost": 1,
     "hasCustomEffects": false,

@@ -6,9 +6,9 @@
   "img": "systems/cardigan/assets/images/paths/warrior.webp",
   "system": {
     "skillActionTypes": [
-      "reacao"
+      "reaction"
     ],
-    "skillClass": "guerreiro",
+    "skillClass": "warrior",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 1,

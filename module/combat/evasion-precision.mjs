@@ -95,7 +95,7 @@ export async function handleEvasionClick(button) {
     }
 
     // Check for Congelado effect and apply skill penalty
-    const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+    const { CongeladoEffect } = await import('../effects/effects/frozen.mjs');
     const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
     
     // Apply Congelado penalty to formula if present
@@ -109,7 +109,7 @@ export async function handleEvasionClick(button) {
     await roll.evaluate();
 
     // Apply Sangramento effect for evasion rolls
-    const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+    const { SangramentoEffect } = await import('../effects/effects/bleeding.mjs');
     await SangramentoEffect.applyBleedingDamage(actor, 'Evasão', 'evasion');
 
     const evasionTotal = roll.total;
@@ -449,7 +449,7 @@ export async function handlePrecisionClick(button) {
     const rollData = actor.getRollData();
 
     // Check for Congelado effect and apply skill penalty
-    const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+    const { CongeladoEffect } = await import('../effects/effects/frozen.mjs');
     const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
     
     // Apply Congelado penalty to formula if present
@@ -463,7 +463,7 @@ export async function handlePrecisionClick(button) {
     const precisionTotal = roll.total;
 
     // Apply Sangramento effect for accuracy rolls
-    const { SangramentoEffect } = await import('../effects/effects/sangramento.mjs');
+    const { SangramentoEffect } = await import('../effects/effects/bleeding.mjs');
     await SangramentoEffect.applyBleedingDamage(actor, 'Precisão', 'accuracy');
 
     // Detect critical results using actor's thresholds

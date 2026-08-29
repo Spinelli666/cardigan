@@ -1,0 +1,31 @@
+// ========================================
+// 🎲 BOTÕES INLINE DE @Teste[...] / @Pericia[...]
+// ========================================
+
+a.cardigan-roll-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 8px;
+  margin: 0 1px;
+  border: 1px solid #FFB75C;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(255, 183, 92, 0.19) 0%, rgba(67, 170, 218, 0.19) 100%);
+  color: inherit;
+  text-decoration: none;
+  font-weight: bold;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.15s ease;
+
+  i {
+    color: #FFB75C;
+  }
+
+  &:hover,
+  &:focus {
+    filter: brightness(1.25);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+}

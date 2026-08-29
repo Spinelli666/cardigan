@@ -8,8 +8,8 @@
     "skillActionTypes": [
       "long-action"
     ],
-    "skillClass": "feiticeiro",
-    "spellCategories": ["feerico", "caos", "necromancia"],
+    "skillClass": "sorcerer",
+    "spellCategories": ["fae", "chaos", "necromancy"],
     "hasEnergyCost": true,
     "energyCost": 5,
     "hasCustomEffects": false,

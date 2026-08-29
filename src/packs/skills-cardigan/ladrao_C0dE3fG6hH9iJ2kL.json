@@ -7,9 +7,9 @@
   "system": {
     "skillActionTypes": [
       "short-action",
-      "foco"
+      "focus"
     ],
-    "skillClass": "ladino",
+    "skillClass": "rogue",
     "spellCategories": [],
     "hasEnergyCost": false,
     "energyCost": 0,

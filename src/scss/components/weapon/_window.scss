@@ -34,18 +34,45 @@ $color-gradient-text-focus: linear-gradient(180deg, $color-gold-focus 0%, $color
       right: -2.5%;
     }
 
-    .header-control.fa-xmark {
+    .header-control.fa-xmark,
+    .header-control.fa-download {
+      position: relative;
+      z-index: 11;
       opacity: 0;
       transition: opacity 0.2s ease;
+      outline: none;
+      color: #FFB75C;
+
+      &:hover {
+        background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+        border-radius: 5px;
+        outline: none;
+        color: #FFB75C;
+      }
     }
 
-    &:hover .header-control.fa-xmark {
+    &:hover .header-control.fa-xmark,
+    &:hover .header-control.fa-download {
       opacity: 1;
     }
   }
 
   .window-resize-handle {
     cursor: ns-resize;
+  }
+
+  .attributesArma {
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 8px 6px 12px;
+    max-height: calc(100% - 140px);
+    padding-right: 12px;
+  }
+
+  .tab.item-type-arma.active {
+    scrollbar-width: none;
+    scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);
+    scrollbar-gutter: stable;
   }
 
   .sheet-header {

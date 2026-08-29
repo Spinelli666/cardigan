@@ -1,0 +1,17 @@
+{{!-- Consumable "Efeitos" badge tooltip — mesma marcação/classes de consumable-item-effects-added-content (ver common-item-listeners.mjs > setupEffectsSectionAddButton) --}}
+<div class="cardigan-tooltip-wrapper consumable-badge-tooltip-content">
+  <div class="consumable-badge-tooltip-list">
+    {{#each effects}}
+    <div class="consumable-item-effects-added-item">
+      <img class="consumable-item-effects-added-icon" src="{{this.img}}" alt="{{this.name}}" />
+      <span class="consumable-item-effects-added-name">{{this.name}}</span>
+      <span class="consumable-item-effects-added-rounds">
+        <img class="consumable-item-effects-added-clock" src="systems/cardigan/assets/images/decorative/icons/icon-clock.svg" alt="Rodadas" />
+        <span class="consumable-item-effects-added-rounds-value">
+          {{#if (eq this.rounds "infinito")}}<div class="rounds-infinite-icon"></div>{{else}}{{this.rounds}}{{/if}}
+        </span>
+      </span>
+    </div>
+    {{/each}}
+  </div>
+</div>

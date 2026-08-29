@@ -104,7 +104,7 @@ export class RecipeActions {
           img: recipe.img,
           system: {
             quantity: recipe.system.servings || 1,
-            weight: recipe.system.weight || "leve",
+            weight: recipe.system.weight || "light",
             price: Math.ceil(recipe.system.price / 2) || 1,
             effects: []
           }
@@ -396,7 +396,7 @@ export class RecipeActions {
               }),
               ...(selectedResult.customProperties.weaponType && { weaponType: selectedResult.customProperties.weaponType }),
               ...(selectedResult.customProperties.properties && { properties: selectedResult.customProperties.properties }),
-              ...(selectedResult.customProperties.protecao !== undefined && { protecao: selectedResult.customProperties.protecao }),
+              ...(selectedResult.customProperties.protection !== undefined && { protection: selectedResult.customProperties.protection }),
               ...(selectedResult.customProperties.armorType && { armorType: selectedResult.customProperties.armorType }),
               ...(selectedResult.customProperties.armorClass && { armorClass: selectedResult.customProperties.armorClass }),
               ...(selectedResult.customProperties.durability && { durability: selectedResult.customProperties.durability }),
@@ -426,7 +426,7 @@ export class RecipeActions {
           img: recipe.img || "icons/sundries/miscellaneous/mortar-pestle.svg",
           system: {
             quantity: 1,
-            weight: "leve",
+            weight: "light",
             price: recipe.system.price || 10,
             description: `Crafted from ${recipe.name} recipe.${recipe.system.description ? `\n\n${recipe.system.description}` : ''}`
           }
@@ -455,16 +455,16 @@ export class RecipeActions {
             break;
           case "armadura":
             itemData.system.armorType = "torso";
-            itemData.system.protecao = 1;
+            itemData.system.protection = 1;
             itemData.system.armorClass = "";
             itemData.system.equipped = false;
             itemData.system.properties = [];
             itemData.system.skillBonuses = [];
             itemData.system.magicalArtifact = false;
             itemData.system.resistenciaFrio = false;
-            itemData.system.bonusVida = 0;
-            itemData.system.bonusEnergia = 0;
-            itemData.system.bonusDeslocamento = { enabled: false, bonus: 0 };
+            itemData.system.lifeBonus = 0;
+            itemData.system.energyBonus = 0;
+            itemData.system.movementBonus = { enabled: false, bonus: 0 };
             itemData.system.durability = { current: 3, max: 3 };
             break;
           case "item-municao":

@@ -33,6 +33,10 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
     const requiredInteger = { required: true, nullable: false, integer: true };
     const schema = super.defineSchema();
 
+    // Mechanical/rules-facing description, shown alongside the flavor description
+    // in a second "Descrição Sistemática" section within the Descrição tab.
+    schema.systematicDescription = new fields.HTMLField();
+
     schema.quantity = new fields.NumberField({
       ...requiredInteger,
       initial: 1,
@@ -42,7 +46,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
     schema.weight = new fields.StringField({
       required: true,
       blank: false,
-      initial: "leve"
+      initial: "light"
     });
 
     schema.price = new fields.NumberField({
@@ -189,7 +193,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
           ),
           
           // Armor properties
-          protecao: new fields.NumberField({ required: false, min: 0 }),
+          protection: new fields.NumberField({ required: false, min: 0 }),
           armorType: new fields.StringField({ required: false, blank: true }),
           armorClass: new fields.StringField({ required: false, blank: true }),
           durability: new fields.SchemaField({
@@ -234,7 +238,7 @@ export default class CardiganSystemItemRecipe extends CardiganSystemItemBase {
       system: {
         description: options.description || '',
         quantity: options.quantity || 1,
-        weight: options.weight || 'leve',
+        weight: options.weight || 'light',
         price: options.price || 0,
         recipeType: options.recipeType || 'culinary',
         difficulty: options.difficulty || 'easy',

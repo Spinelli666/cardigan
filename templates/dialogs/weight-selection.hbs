@@ -15,15 +15,15 @@
     {{#each weightOptions}}
       <button type="button" class="weight-option" data-weight="{{value}}" title="{{localize description}}">
         <div class="weight-icon">
-          {{#if (eq value "leve")}}
+          {{#if (eq value "light")}}
             <i class="fas fa-feather"></i>
-          {{else if (eq value "leve")}}
+          {{else if (eq value "light")}}
             <i class="fas fa-cube"></i>
           {{else if (eq value "medio")}}
             <i class="fas fa-box"></i>
-          {{else if (eq value "pesado")}}
+          {{else if (eq value "heavy")}}
             <i class="fas fa-dumbbell"></i>
-          {{else if (eq value "muito-pesado")}}
+          {{else if (eq value "very-heavy")}}
             <i class="fas fa-anchor"></i>
           {{/if}}
         </div>
@@ -32,15 +32,15 @@
           <div class="weight-description">{{localize description}}</div>
         </div>
         <div class="weight-spaces">
-          {{#if (eq value "leve")}}
+          {{#if (eq value "light")}}
             <span class="spaces-info">+1 espaço / 10 itens</span>
-          {{else if (eq value "leve")}}
+          {{else if (eq value "light")}}
             <span class="spaces-info">1 espaço / 11 itens</span>
           {{else if (eq value "medio")}}
             <span class="spaces-info">1 espaço / item</span>
-          {{else if (eq value "pesado")}}
+          {{else if (eq value "heavy")}}
             <span class="spaces-info">2 espaços / item</span>
-          {{else if (eq value "muito-pesado")}}
+          {{else if (eq value "very-heavy")}}
             <span class="spaces-info">4 espaços / item</span>
           {{/if}}
         </div>

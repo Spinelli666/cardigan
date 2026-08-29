@@ -72,12 +72,23 @@ export class SheetBaseBehavior {
       });
     });
 
+    // Pull the "Export Data" (fa-download) control out of the (now-inaccessible) controls
+    // dropdown and place it directly in the header, to the left of the close button.
+    const downloadControl = header.querySelector('.header-control.fa-download');
+    const downloadNode = downloadControl
+      ? (downloadControl.closest('button, a, li, div') || downloadControl)
+      : null;
+    if (downloadNode) downloadNode.style.removeProperty('display');
+
     if (closeControl) {
       const closeNode = closeControl.closest('button, a, li, div') || closeControl;
       closeNode.style.marginLeft = 'auto';
+      if (downloadNode && downloadNode !== closeNode) header.insertBefore(downloadNode, closeNode);
       if (closeNode.parentElement !== header) header.appendChild(closeNode);
       return;
     }
+
+    if (downloadNode && downloadNode.parentElement !== header) header.appendChild(downloadNode);
 
     const controlsDropdown = header.querySelector('.controls-dropdown');
     if (controlsDropdown) controlsDropdown.style.marginLeft = 'auto';

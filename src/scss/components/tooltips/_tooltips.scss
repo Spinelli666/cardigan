@@ -5,6 +5,7 @@
 /* Import rich tooltips styles */
 @import 'rich-tooltips';
 @import 'dice-formula-tooltip';
+@import 'consumable-badge-tooltip';
 
 /* Tooltip com classe cardigan-tooltip */
 #tooltip.cardigan-tooltip,
@@ -12,7 +13,7 @@
   font-family: 'Alatsi', sans-serif !important;
   font-size: 14px !important;
   color: #FFB75C !important;
-  background: linear-gradient(0deg, rgba(255, 183, 92, 0.50) 0%, rgba(29, 91, 102, 0.50) 50%) !important;
+  background: linear-gradient(0deg, rgba(52, 108, 143, 0.6) 9%, rgba(34, 69, 91, 0.6) 51%, rgba(24, 49, 65, 0.6) 86%) !important;
   text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25) !important;
   backdrop-filter: blur(4px) !important;
   border: 2px solid #c0863b !important;
@@ -30,6 +31,13 @@
   }
 }
 
+/* Ao fixar um tooltip (clique do meio), o core "rouba" o conteúdo do #tooltip original pro
+   clone .locked-tooltip e só depois chama deactivate() nele. O #tooltip original fica vazio mas
+   ainda visível, desbotando por 500ms (transition padrão do core) — some o "flash" de caixa vazia. */
+#tooltip.cardigan-tooltip:not(.active) {
+  transition: none !important;
+}
+
 /* Tooltip customizado para mensagens de chat */
 #tooltip.cardigan-chat-tooltip,
 .locked-tooltip.cardigan-chat-tooltip {
@@ -37,7 +45,7 @@
   font-size: 14px !important;
   color: #FFB75C !important;
   backdrop-filter: blur(6px) !important;
-  background: linear-gradient(0deg, rgba(255, 183, 92, 0.40) 0%, rgba(29, 91, 102, 0.40) 50%) !important;
+  background: linear-gradient(0deg, rgba(52, 108, 143, 0.6) 9%, rgba(34, 69, 91, 0.6) 51%, rgba(24, 49, 65, 0.6) 86%) !important;
   text-shadow: 0 2.847px 2.847px rgba(0, 0, 0, 0.25) !important;
   border: 2px solid #c0863b !important;
   border-radius: 7px !important;
@@ -130,5 +138,533 @@
 .locked-tooltip.cardigan-tooltip {
   border-color: var(--color-border-light-highlight) !important;
   box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Item Preview Tooltip (mochila) — tooltip padrão do Foundry (game.tooltip / data-tooltip),
+   fixável com o clique do meio, nativo do core. Mesmo estilo visual do tooltip de Efeito
+   (templates/tooltips/effect-tooltip.hbs + .effect-tooltip em _rich-tooltips.scss),
+   só sem a descrição — por enquanto mostra apenas ícone + nome. */
+// Floating popup box style — only for the native Foundry tooltip, not the chat message
+// version (that one sits inside the .chat-message card, which already has its own background/border).
+#tooltip.cardigan-tooltip.item-preview-tooltip,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip {
+  text-transform: none !important;
+  max-width: 300px !important;
+  min-width: 250px !important;
+  padding: 0px !important;
+  overflow: hidden !important;
+  background: linear-gradient(0deg, rgba(52, 108, 143, 0.8) 9%, rgba(34, 69, 91, 0.8) 51%, rgba(24, 49, 65, 0.8) 86%) !important;
+  border: 3px solid #c0863b !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
+
+  .divider-left {
+    position: absolute;
+    top: -14px;
+    left: -7px;
+    width: 25%;
+    height: auto;
+    opacity: 0.8;
+    transform: rotate(224deg);
+  }
+
+  .divider-right {
+    position: absolute;
+    top: -14px;
+    right: -7px;
+    width: 25%;
+    height: auto;
+    opacity: 0.8;
+    transform: rotate(134deg) scaleX(-1);
+  }
+}
+
+#tooltip.cardigan-tooltip.item-preview-tooltip,
+.locked-tooltip.cardigan-tooltip.item-preview-tooltip,
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner {
+  &.locked-tooltip {
+    border-color: #FFB75C !important;
+
+    .item-preview-tooltip-footer {
+      display: none;
+    }
+  }
+
+  .item-preview-tooltip-inner {
+    position: relative;
+  }
+
+  .tooltip-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 8px auto 8px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid #c9934a;
+    padding: 12px;
+    background: #2D353A;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.6);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .tooltip-header {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  .tooltip-title {
+    margin: 0;
+    font-family: 'Alatsi', sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    // line-height default (~1) is tighter than the font's actual descent — since the
+    // gradient fill is clipped to the element's own line box (not the glyph's full metrics),
+    // descenders like "ç"/"g" render past where the gradient is painted and look cut off.
+    line-height: 1.3;
+    background: linear-gradient(180deg, #FFB75C 22.19%, #996E37 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+
+  // Same style as .consumable-summary-description (backpack expandable box), copied here
+  // since the tooltip lives outside that scope. Per-word gradient spans (.gradient-word) are
+  // applied via wrapWordsInGradientSpans() in consumable-preview-tooltip.mjs, same helper the
+  // expandable box uses, so multi-line text doesn't fade top-to-bottom.
+  .item-preview-tooltip-description {
+    padding: 0 20px 4px;
+
+    p {
+      margin: 0;
+      text-align: center;
+      font-size: 10px;
+
+      &::before,
+      &::after {
+        content: '"';
+        background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .gradient-word {
+        background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
+  }
+
+  .consumable-summary-description-border {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 8px;
+    margin: 2px auto 5px;
+  }
+
+  // "Teste de Perícia" / "Vida & Energia" / "Efeitos" — mesmos badges do header da caixa
+  // expansível da mochila (consumable-summary-header-left, ver _backpack.scss), mas
+  // centralizados aqui em vez de alinhados à esquerda.
+  .item-preview-tooltip-badges {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 5px;
+
+  }
+
+  .consumable-summary-header-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(255, 183, 92, 0.2);
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  }
+
+  .consumable-summary-header-badge-text {
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  // Ícones de armadura (Único/Pesado/Artefato Mágico/Estiloso) — mesmo padrão do
+  // header-right da caixa expansível (armor-backpack-summary.hbs, ver _backpack.scss), mas
+  // alinhados à direita (margin-left: auto) em vez de centralizados como os demais badges.
+  .item-preview-tooltip-armor-badges {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+  }
+
+  .item-preview-tooltip-armor-badges .consumable-summary-profession-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .item-preview-tooltip-armor-badges .consumable-summary-divider {
+    font-size: 10px;
+    color: rgba(255, 183, 92, 0.8);
+  }
+
+  // Linhas combinadas de armadura/deslocamento/crítico + bônus de perícia + status
+  // (Fratura/Toxicidade/Sanidade/Fome/Sede) — tudo junto numa lista só (ver
+  // ConsumablePreviewTooltip._buildInfoRows), agrupadas em linhas de 2 (ver
+  // ConsumablePreviewTooltip._buildTooltipHtml), mesmo padrão usado na caixa expansível da
+  // mochila (consumable-summary-properties, ver _backpack.scss) — cada característica tem
+  // seu próprio card (.item-preview-tooltip-info-box) e align-items: center centraliza uma
+  // linha final mais curta (número ímpar de características).
+  .item-preview-tooltip-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 5px !important;
+  }
+
+  .item-preview-tooltip-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  // flex-shrink: 0 nos três níveis — sem isso, o flexbox comprime a caixa abaixo do
+  // conteúdo quando as duas colunas da linha não cabem no espaço disponível, e o texto
+  // (ex: "+2 FOR") quebra letra a letra em vez de a linha simplesmente ficar mais larga.
+  .item-preview-tooltip-info-box {
+    flex-shrink: 0;
+    padding: 5px;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  }
+
+  // Bônus de perícia (ex: "+1 FOR", "+1 PSI") — largura fixa, igual ao
+  // consumable-summary-property-item--skill da caixa expansível (_backpack.scss).
+  .item-preview-tooltip-info-box:has(.item-preview-tooltip-info-item--skill) {
+    width: 78px;
+  }
+
+  .item-preview-tooltip-info-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .item-preview-tooltip-info-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .item-preview-tooltip-info-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: 42px;
+    height: 22px;
+    padding: 0 8px;
+    background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+    border: 1.5px solid rgba(255, 183, 92, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+    flex-shrink: 0;
+  }
+
+  .item-preview-tooltip-info-divider {
+    width: 6px;
+    height: 14px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+  }
+
+  .item-preview-tooltip-info-text,
+  .item-preview-tooltip-info-abbr {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .consumable-summary-info-border {
+    display: block;
+    width: 95%;
+    max-width: 100%;
+    height: 15px;
+    margin: 5px auto 0px;
+  }
+
+  .consumable-summary-systematic-description {
+    background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
+    padding: 0px 10px;
+    border: 1px solid #FFB75C;
+    border-radius: 10px;
+    margin: 7px 20px 15px;
+
+    p {
+      text-align: center;
+      font-size: 10px;
+
+      .gradient-word {
+        background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
+  }
+
+  .item-preview-tooltip-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 0 20px 10px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 10px;
+    text-align: center;
+  }
+
+  .item-preview-tooltip-footer-icon {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+    background: linear-gradient(180deg, #FFB75C 40.19%, #996E37 100%);
+    -webkit-mask: url('/systems/cardigan/assets/images/decorative/icons/mouse-solid.svg') no-repeat center;
+    mask: url('/systems/cardigan/assets/images/decorative/icons/mouse-solid.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+
+  .item-preview-tooltip-footer-text {
+    background: linear-gradient(180deg, #FFB75C 40.19%, #996E37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+// Armor tooltip only (armorBadgeIcons pushed to the right via item-preview-tooltip-armor-badges)
+// — .item-preview-tooltip-inner is the floating/locked tooltip's own root here, but IS the chat
+// message's root when hideFooter is true (see .is-chat-message in item-preview-tooltip.hbs), so
+// this exclusion works for both without needing the 3-way ancestor selector above.
+.item-preview-tooltip-inner:not(.is-chat-message) .item-preview-tooltip-badges:has(.item-preview-tooltip-armor-badges) {
+  padding-right: 10px;
+}
+
+/* Foundry message-header for item preview (consumable) chat messages only */
+.chat-message:has(.item-preview-tooltip-inner) .message-header.flexrow {
+  position: absolute;
+}
+
+.chat-message.message.flexcol.cardigan-item-preview-message {
+  padding-top: 0px;
+}
+
+// Clicar no header expande/recolhe o resto da mensagem (ver renderChatMessageHTML em
+// chat-hooks.mjs) — por padrão só ícone + header + footer aparecem.
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner {
+  .tooltip-header {
+    cursor: pointer;
+
+    .tooltip-title {
+      transition: all 0.2s;
+    }
+
+    // Same hover glow as .race-placeholder (_forms.scss) — brighter gradient + soft glow
+    &:hover .tooltip-title {
+      background: linear-gradient(180deg, #FFCA7C 0%, #FFB75C 40%, #C98A45 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0px 0px 3px rgba(255, 183, 92, 0.4);
+    }
+  }
+
+  .item-preview-tooltip-body {
+    display: none;
+  }
+}
+
+// Descrição roleplay e sistemática: gradiente mais claro (55.19% em vez de 20.19%/40.19%),
+// só na mensagem de chat — o tooltip flutuante da mochila mantém o gradiente original.
+// A propriedade "background" é shorthand e reseta background-clip pro valor inicial (border-box)
+// mesmo quando não mencionado — por isso as 3 propriedades de clip precisam ser repetidas aqui,
+// senão o texto perde o efeito de gradiente clicado e vira uma caixa sólida atrás do texto.
+.cardigan-item-preview-message .message-content .item-preview-tooltip-inner {
+  .item-preview-tooltip-description p {
+    &::before,
+    &::after {
+      background: linear-gradient(180deg, #FFB75C 55.19%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-word {
+      background: linear-gradient(180deg, #FFB75C 55.19%, #996E37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  }
+
+  .consumable-summary-systematic-description p .gradient-word {
+    background: linear-gradient(180deg, #FFB75C 55.19%, #996E37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+// Adiciona dividers decorativos na mensagem de item consumível
+:is(.chat-popout, #chat-log, .chat-log) .message.cardigan-chat.cardigan-item-preview-message {
+  .message-header {
+    position: relative;
+
+    // First divider (left side)
+    .message-divider-1 {
+      position: absolute;
+      bottom: 0;
+      left: 115px;
+      width: 100%;
+      height: 70px;
+      object-fit: contain;
+      pointer-events: none;
+      transform: rotate(138deg) scaleX(-1);
+      top: -8px;
+      opacity: 0.6;
+    }
+
+    // Second divider (right side)
+    .message-divider-2 {
+      position: absolute;
+      bottom: 0;
+      right: 115px;
+      width: 100%;
+      height: 70px;
+      object-fit: contain;
+      pointer-events: none;
+      transform: rotate(224deg);
+      top: -8px;
+      opacity: 0.6;
+    }
+  }
+}
+
+/* Weapon Property Tooltips */
+#tooltip.cardigan-tooltip.weapon-property-tooltip,
+.locked-tooltip.cardigan-tooltip.weapon-property-tooltip {
+  font-size: 11px !important;
+  padding: 14px 14px !important;
+  max-width: 420px !important;
+  text-align: center !important;
+  text-transform: none !important;
+  font-weight: normal !important;
+  border-radius: 8px !important;
+  background: linear-gradient(0deg, rgba(52, 108, 143, 0.6) 9%, rgba(34, 69, 91, 0.6) 51%, rgba(24, 49, 65, 0.6) 86%) !important;
+
+  img {
+    max-height: 12px !important;
+    max-width: 12px !important;
+  }
+
+  img[src*="dice-difficult.webp"] {
+    max-height: 18px !important;
+    max-width: 18px !important;
+  }
+
+  img[src*="effects.webp"] {
+    max-height: 21px !important;
+    max-width: 21px !important;
+  }
+
+  img[src*="icon-critical.svg"] {
+    max-height: 18px !important;
+    max-width: 18px !important;
+  }
+
+  img[src*="evasion-defense.webp"],
+  img[src*="accuracy-attack.webp"] {
+    max-height: 18px !important;
+    max-width: 18px !important;
+  }
+
+  img[src*="simple-action.webp"] {
+    max-height: 18px !important;
+    max-width: 18px !important;
+  }
+
+  img[src*="icon-disadvantage.svg"],
+  img[src*="icon-advantage.svg"] {
+    max-height: 16px !important;
+    max-width: 16px !important;
+  }
+
+  img[src*="ammunition.webp"],
+  img[src*="icon-recharge.svg"],
+  img[src*="shield.webp"] {
+    max-height: 18px !important;
+    max-width: 18px !important;
+  }
+
+  code {
+    background: rgba(0, 0, 0, 0.35) !important;
+    padding: 1px 6px !important;
+    border-radius: 4px !important;
+    font-family: 'Courier New', monospace !important;
+    font-size: 11px !important;
+    color: #FFB75C !important;
+  }
+
+  .tooltip-value-red {
+    color: #ff4d4d !important;
+    font-weight: bold !important;
+  }
+
+  .tooltip-bold-yellow {
+    color: #ffdc82 !important;
+  }
+
+  .tooltip-ability-name {
+    background: linear-gradient(180deg, #8C063E 0%, #E17F00 75%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+  }
 }
 

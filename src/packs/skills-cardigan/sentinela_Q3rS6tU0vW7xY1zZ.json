@@ -7,9 +7,9 @@
   "system": {
     "skillActionTypes": [
       "short-action",
-      "foco"
+      "focus"
     ],
-    "skillClass": "andarilho",
+    "skillClass": "wanderer",
     "spellCategories": [],
     "hasEnergyCost": true,
     "energyCost": 2,

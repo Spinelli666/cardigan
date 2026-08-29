@@ -1,5 +1,8 @@
 import { AdvantageSelectionDialog } from '../../applications/advantage-selection-dialog.mjs';
 import { ChatMessageHelper } from '../../helpers/chat-messages.mjs';
+import { getCoreRollMode } from '../../helpers/roll-mode.mjs';
+import { ConsumablePreviewTooltip } from '../parts/consumable-preview-tooltip.mjs';
+import { ArmorPreviewTooltip } from '../parts/armor-preview-tooltip.mjs';
 
 /**
  * Header Status Actions Module
@@ -50,8 +53,10 @@ export class HeaderStatusActions {
       case 'item':
         const itemId = element.closest('[data-item-id]')?.dataset.itemId;
         const item = sheet.document.items.get(itemId);
-        if (item) return item.roll();
-        break;
+        if (!item) break;
+        if (item.type === 'item-consumivel') return ConsumablePreviewTooltip.postToChat(item, sheet.document);
+        if (item.type === 'armadura') return ArmorPreviewTooltip.postToChat(item, sheet.document);
+        return item.roll();
     }
 
     // Handle rolls that supply the formula directly.
@@ -127,7 +132,7 @@ export class HeaderStatusActions {
         rollDescription += modeText;
         
         // Check for Congelado effect and apply skill penalty
-        const { CongeladoEffect } = await import('../../effects/effects/congelado.mjs');
+        const { CongeladoEffect } = await import('../../effects/effects/frozen.mjs');
         const congeladoPenalty = CongeladoEffect.getSkillPenalty(sheet.document);
         
         // Apply Congelado penalty to formula if present
@@ -355,7 +360,7 @@ export class HeaderStatusActions {
       const chatMessage = await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: sheet.document }),
         flavor: flavorMessage,
-        rollMode: game.settings.get('core', 'rollMode'),
+        rollMode: getCoreRollMode(),
         flags: flags
       });
       

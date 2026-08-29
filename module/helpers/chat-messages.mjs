@@ -1,3 +1,5 @@
+import { getCoreRollMode, applyRollModeToMessageData } from './roll-mode.mjs';
+
 /**
  * Chat Message Helper
  * Centralizes custom chat message rendering for rolls
@@ -19,6 +21,7 @@ export class ChatMessageHelper {
    * @param {boolean} [options.secondaryHand] - Whether secondary hand was selected
    * @param {Object} [options.flags] - Additional flags to attach to the message
    * @param {string} [options.rollMode] - Roll mode override (uses game setting if not provided)
+   * @param {number|null} [options.dc] - Optional difficulty class to compare the roll total against
    * @returns {Promise<ChatMessage>} The created chat message
    */
   static async createRollMessage({
@@ -33,7 +36,8 @@ export class ChatMessageHelper {
     primaryHand = false,
     secondaryHand = false,
     flags = {},
-    rollMode = null
+    rollMode = null,
+    dc = null
   }) {
     
     // Determine hand indicator class
@@ -137,7 +141,10 @@ export class ChatMessageHelper {
     // - Critical failure: natural 1 on the die OR total <= 1 (covers natural 1 with modifiers like +2 = 3)
     const isCriticalSuccess = naturalDiceResult === 20 || roll.total >= 20;
     const isCriticalFailure = naturalDiceResult === 1 || roll.total <= 1;
-    
+
+    const hasDC = typeof dc === 'number' && !Number.isNaN(dc);
+    const isSuccess = hasDC ? roll.total >= dc : null;
+
     const content = template({
       actorImg: actor.img,
       actorName: actor.name,
@@ -157,11 +164,14 @@ export class ChatMessageHelper {
       targetImg: targetImg,
       targetName: targetName,
       isCriticalSuccess: isCriticalSuccess,
-      isCriticalFailure: isCriticalFailure
+      isCriticalFailure: isCriticalFailure,
+      hasDC: hasDC,
+      dc: dc,
+      isSuccess: isSuccess
     });
     
     // Use provided rollMode or get from settings
-    const effectiveRollMode = rollMode || game.settings.get('core', 'rollMode');
+    const effectiveRollMode = rollMode || getCoreRollMode();
 
     // Store display metadata in flags so whisper placeholder can reconstruct the visual
     flags.cardigan = {
@@ -184,7 +194,7 @@ export class ChatMessageHelper {
     };
     
     // Apply roll mode using Foundry's official API method
-    ChatMessage.applyRollMode(messageData, effectiveRollMode);
+    applyRollModeToMessageData(messageData, effectiveRollMode);
     
     // Create and return the chat message
     return await ChatMessage.create(messageData);

@@ -24,12 +24,12 @@ export class ItemPrepareActions {
     const armaduras = [];
     const recipes = [];
     const skills = [];
-    const skillsAndarilho = [];
-    const skillsGuerreiro = [];
-    const skillsLadino = [];
-    const skillsFeiticeiro = [];
-    const skillsRaciais = [];
-    const skillsUnicas = [];
+    const skillsWanderer = [];
+    const skillsWarrior = [];
+    const skillsRogue = [];
+    const skillsSorcerer = [];
+    const skillsRacial = [];
+    const skillsUnique = [];
     const culinaryRecipes = [];
     const tailoringRecipes = [];
     const tecnomagicRecipes = [];
@@ -73,23 +73,23 @@ export class ItemPrepareActions {
         
         // Also categorize by skill class
         switch (i.system.skillClass) {
-          case 'andarilho':
-            skillsAndarilho.push(i);
+          case 'wanderer':
+            skillsWanderer.push(i);
             break;
-          case 'guerreiro':
-            skillsGuerreiro.push(i);
+          case 'warrior':
+            skillsWarrior.push(i);
             break;
-          case 'ladino':
-            skillsLadino.push(i);
+          case 'rogue':
+            skillsRogue.push(i);
             break;
-          case 'feiticeiro':
-            skillsFeiticeiro.push(i);
+          case 'sorcerer':
+            skillsSorcerer.push(i);
             break;
-          case 'raciais':
-            skillsRaciais.push(i);
+          case 'racial':
+            skillsRacial.push(i);
             break;
-          case 'unicas':
-            skillsUnicas.push(i);
+          case 'unique':
+            skillsUnique.push(i);
             break;
         }
       }
@@ -116,12 +116,12 @@ export class ItemPrepareActions {
 
     // Sort armors by type order (Cabeça, Acessórios, Torso, Braços, Pernas, Pés)
     const armorTypeOrder = {
-      "cabeca": 1,
-      "acessorios": 2,
+      "head": 1,
+      "accessories": 2,
       "torso": 3,
-      "bracos": 4,
-      "pernas": 5,
-      "pes": 6
+      "arms": 4,
+      "legs": 5,
+      "feet": 6
     };
 
     // Sort then assign
@@ -163,12 +163,12 @@ export class ItemPrepareActions {
     context.raceItem = sheet.document.items.find(i => i.type === 'race') || null;
     
     context.skills = skills.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.skillsAndarilho = skillsAndarilho.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.skillsGuerreiro = skillsGuerreiro.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.skillsLadino = skillsLadino.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.skillsFeiticeiro = skillsFeiticeiro.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.skillsRaciais = skillsRaciais.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    context.skillsUnicas = skillsUnicas.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skillsWanderer = skillsWanderer.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skillsWarrior = skillsWarrior.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skillsRogue = skillsRogue.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skillsSorcerer = skillsSorcerer.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skillsRacial = skillsRacial.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    context.skillsUnique = skillsUnique.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.culinaryRecipes = culinaryRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.tailoringRecipes = tailoringRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     context.tecnomagicRecipes = tecnomagicRecipes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
@@ -223,12 +223,12 @@ export class ItemPrepareActions {
     });
 
     // Header armor section visibility flags
-    context.hasHeadArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'cabeca');
+    context.hasHeadArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'head');
     context.hasTorsoArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'torso');
-    context.hasArmsArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'bracos');
-    context.hasLegsArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'pernas');
-    context.hasFeetArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'pes');
-    context.hasAccessoriesArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'acessorios');
+    context.hasArmsArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'arms');
+    context.hasLegsArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'legs');
+    context.hasFeetArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'feet');
+    context.hasAccessoriesArmorEquipped = context.armaduras.some((armor) => armor?.system?.armorType === 'accessories');
     context.hasHeaderArmorEquipped =
       context.hasHeadArmorEquipped ||
       context.hasTorsoArmorEquipped ||

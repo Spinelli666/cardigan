@@ -86,7 +86,7 @@ export class DeleteActions {
         const skillItem = actor.items.find(item =>
           item.type === 'skill' &&
           item.name === racialSkill.name &&
-          item.system.skillClass === 'raciais'
+          item.system.skillClass === 'racial'
         );
         if (skillItem) skillsToDelete.push(skillItem);
       }

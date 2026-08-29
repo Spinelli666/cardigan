@@ -1,4 +1,4 @@
-const { api } = foundry.applications;
+﻿const { api } = foundry.applications;
 
 /**
  * A dialog for selecting effects from the compendium
@@ -13,6 +13,8 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
     this.actor = options.actor;
     this.onEffectsAdded = options.onEffectsAdded;
     this.createOnActor = options.createOnActor !== false;
+    this.requireSelection = options.requireSelection !== false;
+    this.initialSelection = Array.isArray(options.initialSelection) ? options.initialSelection : [];
   }
 
   /** @override */
@@ -46,6 +48,8 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
   actor;
   onEffectsAdded;
   createOnActor;
+  requireSelection;
+  initialSelection;
 
   /** @override */
   async _prepareContext(options) {
@@ -63,12 +67,12 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
    * @private
    */
   async _getEffectsFromCompendium() {
-    const pack = game.packs.get('cardigan.efeitos-cardigan');
+    const pack = game.packs.get('cardigan.effects-cardigan');
     const mappedEffects = [];
 
     // 1) Effects from system compendium
     if (!pack) {
-      console.warn('[CARDIGAN] Compendium "efeitos-cardigan" not found');
+      console.warn('[CARDIGAN] Compendium "effects-cardigan" not found');
     } else {
       const compendiumDocs = await pack.getDocuments();
       mappedEffects.push(...compendiumDocs.filter(doc => doc.type === 'efeito').map(doc => ({
@@ -77,7 +81,7 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
         name: doc.name,
         img: doc.img,
         system: {
-          efeitoType: doc.system?.efeitoType,
+          effectType: doc.system?.effectType,
           description: doc.system?.description
         }
       })));
@@ -92,7 +96,7 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
         name: item.name,
         img: item.img,
         system: {
-          efeitoType: item.system?.efeitoType,
+          effectType: item.system?.effectType,
           description: item.system?.description
         }
       }));
@@ -109,11 +113,11 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
 
     // Sort effects: positivos first, then others, then alphabetically.
     return uniqueEffects.sort((a, b) => {
-      const typeA = a.system?.efeitoType || '';
-      const typeB = b.system?.efeitoType || '';
+      const typeA = a.system?.effectType || '';
+      const typeB = b.system?.effectType || '';
 
-      if (typeA === 'positivo' && typeB !== 'positivo') return -1;
-      if (typeA !== 'positivo' && typeB === 'positivo') return 1;
+      if (typeA === 'positive' && typeB !== 'positive') return -1;
+      if (typeA !== 'positive' && typeB === 'positive') return 1;
 
       return (a.name || '').localeCompare(b.name || '', 'pt-BR');
     });
@@ -131,6 +135,29 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
     if (closeBtn) {
       closeBtn.dataset.tooltip = 'Fechar Janela';
       closeBtn.dataset.tooltipClass = 'cardigan-tooltip';
+    }
+
+    // Pre-select effects already added elsewhere, restoring their rounds.
+    // Unchecking one here removes it from the caller's list on confirm.
+    if (this.initialSelection.length) {
+      this.element.querySelectorAll('.effect-item').forEach(item => {
+        const existing = this.initialSelection.find(entry => entry.uuid === item.dataset.effectUuid);
+        if (!existing) return;
+
+        item.classList.add('selected');
+
+        const rounds = existing.rounds === 'infinito' ? '∞' : (existing.rounds ?? '0');
+        item.dataset.rounds = rounds;
+
+        const roundsButton = item.querySelector('.rounds-button');
+        if (roundsButton) {
+          if (rounds === '∞') {
+            roundsButton.innerHTML = '<div class="rounds-infinite-icon"></div>';
+          } else {
+            roundsButton.textContent = rounds;
+          }
+        }
+      });
     }
 
     // Add search functionality
@@ -223,8 +250,8 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
     
     const selectedItems = this.element.querySelectorAll('.effect-item.selected');
     const selectedUUIDs = Array.from(selectedItems).map(item => item.dataset.effectUuid);
-    
-    if (selectedUUIDs.length === 0) {
+
+    if (selectedUUIDs.length === 0 && this.requireSelection) {
       ui.notifications.warn('Nenhum efeito selecionado');
       return;
     }
@@ -259,7 +286,7 @@ export default class EffectsCompendiumSelectionDialog extends api.HandlebarsAppl
 
         const itemData = doc.toObject();
         if (!itemData.system) itemData.system = {};
-        itemData.system.rodadas = effect.roundsValue;
+        itemData.system.rounds = effect.roundsValue;
         itemsToCreate.push(itemData);
       }
 

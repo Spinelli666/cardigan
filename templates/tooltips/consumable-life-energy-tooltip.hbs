@@ -1,0 +1,8 @@
+{{!-- Consumable "Vida & Energia" badge tooltip — reuses the same row partial shown in the item's own Propriedades tab --}}
+<div class="cardigan-tooltip-wrapper consumable-badge-tooltip-content">
+  <div class="consumable-badge-tooltip-list">
+    {{#each entries}}
+      {{> "systems/cardigan/templates/dialogs/partials/life-energy-added-row.hbs" this}}
+    {{/each}}
+  </div>
+</div>

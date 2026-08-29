@@ -28,18 +28,18 @@
     {{/if}}
     
     {{! Spell Categories - Only for Feiticeiro skills with categories }}
-    {{#if (eq system.skillClass "feiticeiro")}}
+    {{#if (eq system.skillClass "sorcerer")}}
       {{#if system.spellCategories}}
         {{#if system.spellCategories.length}}
           <div class="spell-categories-display">
             {{#each system.spellCategories as |category index|}}
-              {{#if (eq category "neutro")}}
+              {{#if (eq category "neutral")}}
                 <img src="systems/cardigan/assets/images/others/neutral-spell.webp" alt="Neutro" class="spell-category-image" />
-              {{else if (eq category "feerico")}}
+              {{else if (eq category "fae")}}
                 <img src="systems/cardigan/assets/images/bestiary/fae-creatures.webp" alt="Feérico" class="spell-category-image" />
-              {{else if (eq category "caos")}}
+              {{else if (eq category "chaos")}}
                 <img src="systems/cardigan/assets/images/bestiary/indivisible-chaos.webp" alt="Caos" class="spell-category-image" />
-              {{else if (eq category "necromancia")}}
+              {{else if (eq category "necromancy")}}
                 <img src="systems/cardigan/assets/images/bestiary/necromancy.webp" alt="Necromancia" class="spell-category-image" />
               {{/if}}
               {{#unless @last}}

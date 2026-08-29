@@ -85,11 +85,11 @@
   ],
   "packs": [
     {
-      "name": "efeitos-cardigan",
+      "name": "effects-cardigan",
       "label": "Efeitos",
       "type": "Item",
       "system": "cardigan",
-      "path": "packs/efeitos-cardigan",
+      "path": "packs/effects-cardigan",
       "banner": "ui/banners/item-banner.webp"
     },
     {
@@ -101,19 +101,19 @@
       "banner": "ui/banners/item-banner.webp"
     },
     {
-      "name": "racas-cardigan",
+      "name": "races-cardigan",
       "label": "Raças",
       "type": "Item",
       "system": "cardigan",
-      "path": "packs/racas-cardigan",
+      "path": "packs/races-cardigan",
       "banner": "ui/banners/actor-banner.webp"
     },
     {
-      "name": "equipamentos-cardigan",
+      "name": "equipment-cardigan",
       "label": "Equipamentos",
       "type": "Item",
       "system": "cardigan",
-      "path": "packs/equipamentos-cardigan",
+      "path": "packs/equipment-cardigan",
       "banner": "ui/banners/item-banner.webp"
     }
   ],
@@ -121,7 +121,7 @@
     {
       "name": "SRD",
       "sorting": "a",
-      "packs": ["efeitos-cardigan", "skills-cardigan", "racas-cardigan", "equipamentos-cardigan"]
+      "packs": ["effects-cardigan", "skills-cardigan", "races-cardigan", "equipment-cardigan"]
     }
   ],
   "socket": true,

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Base class for weapon properties.
  * Each property hooks into the attack flow to modify behavior.
  *
@@ -97,7 +97,7 @@ export class BaseWeaponProperty {
   // --- Shared compendium-effect application ---
 
   /**
-   * Apply a named effect from the efeitos-cardigan compendium to a target actor.
+   * Apply a named effect from the effects-cardigan compendium to a target actor.
    * Handles the GM check, duplicate guard, socket delegation to GM when needed,
    * and owner notification after the effect is applied.
    * Requires effectName, socketApplyType, socketNotifyType, effectEmoji and logTag
@@ -132,9 +132,9 @@ export class BaseWeaponProperty {
     }
 
     try {
-      const pack = game.packs.get('cardigan.efeitos-cardigan');
+      const pack = game.packs.get('cardigan.effects-cardigan');
       if (!pack) {
-        console.error(`${logTag} Compendium "cardigan.efeitos-cardigan" not found`);
+        console.error(`${logTag} Compendium "cardigan.effects-cardigan" not found`);
         ui.notifications.error('Erro: Compêndio de efeitos não encontrado');
         return false;
       }

@@ -1,0 +1,24 @@
+<form class="dialog-form standard-form weapon-damage-dialog-form">
+  <img src="{{titleBorderPath}}" class="title-border" alt="">
+
+  <div class="weapon-damage-dialog-content">
+    <div class="weapon-damage-value-wrapper">
+      <input type="text" class="weapon-damage-value-input" value="{{damageValue}}" placeholder="0"/>
+    </div>
+
+    <div class="weapon-damage-ability-row">
+      <label class="weapon-damage-ability-option">
+        <input type="checkbox" class="weapon-damage-ability-checkbox" data-ability="strength" {{#if useStrength}}checked{{/if}}/>
+        <span class="weapon-damage-ability-label">{{localize "CARDIGAN.Ability.Strength.full"}}</span>
+      </label>
+      <label class="weapon-damage-ability-option">
+        <input type="checkbox" class="weapon-damage-ability-checkbox" data-ability="dexterity" {{#if useDexterity}}checked{{/if}}/>
+        <span class="weapon-damage-ability-label">{{localize "CARDIGAN.Ability.Dexterity.full"}}</span>
+      </label>
+      <label class="weapon-damage-ability-option">
+        <input type="checkbox" class="weapon-damage-ability-checkbox" data-ability="psionics" {{#if usePsionics}}checked{{/if}}/>
+        <span class="weapon-damage-ability-label">{{localize "CARDIGAN.Ability.Psionics.full"}}</span>
+      </label>
+    </div>
+  </div>
+</form>

@@ -1,5 +1,6 @@
 import { RestSelectionDialog } from '../../applications/rest-selection-dialog.mjs';
 import { CharacterCreationWizard } from '../../applications/character-creation-wizard.mjs';
+import { getCoreRollMode } from '../../helpers/roll-mode.mjs';
 
 /**
  * Header Actions Module
@@ -199,7 +200,7 @@ export class HeaderActions {
       item.type === "armadura" && item.system.equipped
     );
     
-    return equippedArmor.some(armor => armor.system.weight === "pesado");
+    return equippedArmor.some(armor => armor.system.weight === "heavy");
   }
 
   /**
@@ -226,7 +227,7 @@ export class HeaderActions {
     await recoveryRoll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor }),
       flavor: flavor,
-      rollMode: game.settings.get('core', 'rollMode')
+      rollMode: getCoreRollMode()
     });
   }
 

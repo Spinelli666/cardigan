@@ -1,4 +1,4 @@
-const { api } = foundry.applications;
+﻿const { api } = foundry.applications;
 
 /**
  * Dialog for applying effects to targeted tokens
@@ -76,7 +76,7 @@ export class EffectsApplicationDialog extends api.HandlebarsApplicationMixin(
     const context = await super._prepareContext(options);
     
     // Get all effects from compendium
-    const effectsCompendium = game.packs.get("cardigan.efeitos-cardigan");
+    const effectsCompendium = game.packs.get("cardigan.effects-cardigan");
     if (!effectsCompendium) {
       console.error("[CARDIGAN] Effects compendium not found!");
       ui.notifications.error("Compêndio de efeitos não encontrado!");
@@ -215,7 +215,7 @@ export class EffectsApplicationDialog extends api.HandlebarsApplicationMixin(
 
     try {
       // Get effects from compendium
-      const effectsCompendium = game.packs.get("cardigan.efeitos-cardigan");
+      const effectsCompendium = game.packs.get("cardigan.effects-cardigan");
       const compendiumContent = await effectsCompendium.getDocuments();
       const selectedEffects = compendiumContent.filter(effect => selectedEffectIds.includes(effect.id));
 

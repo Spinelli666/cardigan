@@ -5,12 +5,33 @@
 .application.cardigan.actor,
 .cardigan.actor.sheet {
   border: 5px solid #b07b36 !important;
-  border-radius: 14px;
-  background: transparent !important;
-  
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(17, 42, 53, 0.95) 0%, rgba(33, 82, 104, 0.9) 50%, rgba(17, 42, 53, 0.95) 100%) !important;
+  // Sobrescreve o overflow:hidden do .application do Foundry core (este arquivo
+  // não usa @layer, então vence a regra do core independente de especificidade —
+  // mesmo princípio já usado no override do botão do ProseMirror, mais abaixo).
+  // Necessário pra .sheet-tabs (navbar de abas vertical) vazar pra fora da borda.
+  overflow: visible;
+
   // REMOVIDO: container-type cria novo stacking context que isola z-index
   // container-type: size;
   // container-name: actor-sheet;
+
+  // Wrapper que recorta as molduras decorativas exatamente na caixa da janela,
+  // reproduzindo o overflow:hidden que o .application tinha antes — isolado só
+  // pra elas, sem impedir a navbar de abas de vazar (ver overflow:visible acima).
+  .moldura-clip-wrapper {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    // 9px = 14px (border-radius do .application) - 5px (largura da borda dele).
+    // O overflow:hidden original recortava no raio efetivo do padding-box (raio
+    // menos a borda), não nos 14px cheios — o wrapper não tem borda própria,
+    // então precisa desse valor já reduzido pra recortar no mesmo lugar de antes.
+    border-radius: 9px;
+    pointer-events: none;
+    z-index: 1000; // Fica acima do window-header (z-index ~100)
+  }
 
   // Moldura decorativa - fora do window-content, acima de tudo
   .moldura-esquerda-overlay {
@@ -18,8 +39,6 @@
     top: -92px;
     left: -105px;
     height: 281.05px;
-    pointer-events: none; // Não interfere com cliques
-    z-index: 1000; // Fica acima do window-header (z-index ~100)
   }
 
   .moldura-direita-overlay {
@@ -27,13 +46,10 @@
     top: -92px;
     right: -105px;
     height: 281.05px;
-    pointer-events: none; // Não interfere com cliques
-    z-index: 1000; // Fica acima do window-header (z-index ~100)
   }
 
   // Ocultar molduras quando minimizado
-  &.minimized .moldura-esquerda-overlay,
-  &.minimized .moldura-direita-overlay {
+  &.minimized .moldura-clip-wrapper {
     display: none;
   }
 
@@ -49,12 +65,13 @@
     width: 100%;
     height: 100%;
     transition: opacity 0.2s ease, transform 0.2s ease;
-    background: rgba(14, 41, 56, 0.9);
+    border-radius: 14px;
     // backdrop-filter: none !important; // Remove blur do Foundry
     // -webkit-backdrop-filter: none !important; // Remove blur WebKit
     position: relative;
     z-index: 50; // Acima do window-header
     margin-top: 0px; // Remove o offset negativo
+    overflow: visible; // Permite a navbar de abas (.sheet-tabs) vazar pra fora da borda direita
   }
 
   .window-header {
@@ -70,9 +87,16 @@
     background: rgba(14, 41, 56, 0.9) !important;
     border: 5px solid #b07b36 !important;
     transition: all 0.2s ease;
-    
+    // O ApplicationV2 core define height/max-height inline via JS ao minimizar
+    // (style.height em px vindo do tamanho anterior, style.maxHeight = var(--header-height)) -
+    // como são inline styles sem !important, só um !important aqui consegue vencer.
+    max-height: none !important;
+    height: 45px !important;
+
     .window-header {
       display: flex !important; // Mostra o header quando minimizado
+      background: none; // Sem fundo próprio - usa o background do .application.minimized
+      border-bottom: none; // Sem linha divisória, já que não há window-content visível
       cursor: grab; // Cursor para indicar que pode arrastar
       padding-bottom: 3px;
       
@@ -84,16 +108,35 @@
         display: block;
         flex: 1;
         font-size: 11px !important;
+        color: #FFB75C;
       }
-      
+
       .header-control {
         // Esconde todos os botões exceto o de fechar
         display: none;
-        
-        // Mostra apenas o botão de fechar (ícone fa-xmark)
+
+        // Mostra apenas o botão de fechar (ícone fa-xmark), no mesmo padrão
+        // visual usado nos botões de fechar dos outros dialogs do sistema.
         &.fa-xmark {
           display: block;
+          position: relative;
+          z-index: 11;
+          opacity: 0;
+          transition: opacity 0.2s ease;
+          outline: none;
+          color: #FFB75C;
+
+          &:hover {
+            background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%);
+            border-radius: 5px;
+            outline: none;
+            color: #FFB75C;
+          }
         }
+      }
+
+      &:hover .header-control.fa-xmark {
+        opacity: 1;
       }
     }
   }
@@ -151,6 +194,34 @@
   &::after {
     display: none;
   }
+}
+
+// Foundry core CSS bug: inside its own "compatibility" @layer, `button.toggle:enabled`
+// (display: block) out-specificities `prose-mirror button.toggle` (display: none), which
+// skips the "elements.forms" layer's flex/centering for the editor's edit-toggle button —
+// leaving its icon uncentered/off-kilter. This file isn't layered, so it always wins over
+// Foundry's @layer rules regardless of their specificity — restore the flex centering here.
+prose-mirror button.toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+// Only reveal the edit-toggle button while hovering the editor content (or the button
+// itself, so it doesn't vanish right as the cursor reaches it).
+prose-mirror:has(.editor-content:hover) button.toggle,
+prose-mirror:has(button.toggle:hover) button.toggle {
+  display: flex;
+}
+
+// ...but keep it hidden while the ProseMirror toolbar (menu-container) is open — the
+// editor is already active at that point, so the edit-toggle button is redundant.
+// !important is required here: while typing, the cursor sits inside .editor-content, so
+// the hover-reveal rule above is ALSO matching at the same time, and its `:hover` pseudo-
+// class inside :has() gives it higher specificity than a plain class selector — it would
+// otherwise win and keep the button visible even with the toolbar open.
+prose-mirror:has(.menu-container) button.toggle {
+  display: none !important;
 }
 
 .rollable {

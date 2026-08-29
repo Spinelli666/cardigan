@@ -1,11 +1,11 @@
-import { readdir, readFile, writeFile } from "node:fs/promises";
+﻿import { readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const SYSTEM_ROOT = path.resolve(__dirname, "..");
-const SOURCE_DIR = path.join(SYSTEM_ROOT, "src", "packs", "equipamentos-cardigan");
+const SOURCE_DIR = path.join(SYSTEM_ROOT, "src", "packs", "equipment-cardigan");
 
 const ITEM_TYPES = new Set(["arma", "armadura"]);
 

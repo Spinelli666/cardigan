@@ -116,28 +116,28 @@ export class LevelUpWizard extends HandlebarsApplicationMixin(ApplicationV2) {
   async _preparePathsData() {
     const paths = [
       {
-        id: 'andarilho',
+        id: 'wanderer',
         name: 'Andarilho',
         img: 'systems/cardigan/assets/images/paths/wanderer.webp',
-        active: this.currentPath === 'andarilho'
+        active: this.currentPath === 'wanderer'
       },
       {
-        id: 'guerreiro',
+        id: 'warrior',
         name: 'Guerreiro',
         img: 'systems/cardigan/assets/images/paths/warrior.webp',
-        active: this.currentPath === 'guerreiro'
+        active: this.currentPath === 'warrior'
       },
       {
-        id: 'ladino',
+        id: 'rogue',
         name: 'Ladino',
         img: 'systems/cardigan/assets/images/paths/rogue.webp',
-        active: this.currentPath === 'ladino'
+        active: this.currentPath === 'rogue'
       },
       {
-        id: 'feiticeiro',
+        id: 'sorcerer',
         name: 'Feiticeiro',
         img: 'systems/cardigan/assets/images/paths/wizard.webp',
-        active: this.currentPath === 'feiticeiro'
+        active: this.currentPath === 'sorcerer'
       }
     ];
     
@@ -151,7 +151,7 @@ export class LevelUpWizard extends HandlebarsApplicationMixin(ApplicationV2) {
         const pathSkills = compendiumSkills.filter(s => 
           s.type === 'skill' && 
           s.system.skillClass === path.id &&
-          s.system.skillClass !== 'raciais'
+          s.system.skillClass !== 'racial'
         );
         path.skillCount = pathSkills.length;
       }
@@ -165,10 +165,10 @@ export class LevelUpWizard extends HandlebarsApplicationMixin(ApplicationV2) {
    */
   _getPathName(pathId) {
     const names = {
-      andarilho: 'Andarilho',
-      guerreiro: 'Guerreiro',
-      ladino: 'Ladino',
-      feiticeiro: 'Feiticeiro'
+      wanderer: 'Andarilho',
+      warrior: 'Guerreiro',
+      rogue: 'Ladino',
+      sorcerer: 'Feiticeiro'
     };
     return names[pathId] || pathId;
   }
@@ -200,7 +200,7 @@ export class LevelUpWizard extends HandlebarsApplicationMixin(ApplicationV2) {
       if (actorSkill.system.skillClass !== pathId) continue;
       
       // Skip racial skills
-      const isRacialSkill = actorSkill.system.skillClass === 'raciais';
+      const isRacialSkill = actorSkill.system.skillClass === 'racial';
       if (isRacialSkill) continue;
       
       // Filter out "Componentes" and "Despertar Psiônico" - they are added automatically
@@ -264,7 +264,7 @@ export class LevelUpWizard extends HandlebarsApplicationMixin(ApplicationV2) {
       if (skill.system.skillClass !== pathId) continue;
       
       // Filter out racial skills and already owned skills
-      const isRacialSkill = skill.system.skillClass === 'raciais';
+      const isRacialSkill = skill.system.skillClass === 'racial';
       if (isRacialSkill || actorSkillNames.includes(skill.name)) continue;
       
       // Filter out "Componentes" and "Despertar Psiônico" - they are added automatically

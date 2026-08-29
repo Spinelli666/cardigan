@@ -1,0 +1,43 @@
+{{!-- Consumable "Teste de Perícia" badge tooltip — mesma marcação/classes de consumable-item-skill-test-added-content (ver common-item-listeners.mjs > setupSkillTestAddButton) --}}
+<div class="cardigan-tooltip-wrapper consumable-badge-tooltip-content">
+  <div class="consumable-badge-tooltip-list">
+    {{#each effects}}
+    <div class="consumable-item-skill-test-added-entry">
+      <div class="consumable-item-skill-test-added-item">
+        <img class="consumable-item-skill-test-added-icon" src="{{this.img}}" alt="{{this.name}}" />
+        <span class="consumable-item-skill-test-added-name">{{this.name}}</span>
+        <span class="consumable-item-skill-test-added-rounds">
+          <img class="consumable-item-skill-test-added-clock" src="systems/cardigan/assets/images/decorative/icons/icon-clock.svg" alt="Rodadas" />
+          <span class="consumable-item-skill-test-added-rounds-value">
+            {{#if (eq this.rounds "infinito")}}<div class="rounds-infinite-icon"></div>{{else}}{{this.rounds}}{{/if}}
+          </span>
+        </span>
+      </div>
+      <div class="consumable-item-skill-test-added-flags">
+        {{#if this.criticalFailure}}
+        <img class="consumable-item-skill-test-added-flag-icon" src="systems/cardigan/assets/images/decorative/icons/icon-critical-failure.svg" alt="Falha Crítica" />
+        {{/if}}
+        {{#if this.criticalHit}}
+        <img class="consumable-item-skill-test-added-flag-icon" src="systems/cardigan/assets/images/decorative/icons/icon-critical-hit.svg" alt="Acerto Crítico" />
+        {{/if}}
+      </div>
+    </div>
+    {{/each}}
+    {{#each skills}}
+    <div class="consumable-item-skill-test-added-entry">
+      <div class="consumable-item-skill-test-added-item consumable-item-skill-test-added-skill-item">
+        <span class="consumable-item-skill-test-added-name">{{this.label}}</span>
+        <span class="consumable-item-skill-test-added-skill-value">{{this.displayValue}}</span>
+      </div>
+      <div class="consumable-item-skill-test-added-flags">
+        {{#if this.criticalFailure}}
+        <img class="consumable-item-skill-test-added-flag-icon" src="systems/cardigan/assets/images/decorative/icons/icon-critical-failure.svg" alt="Falha Crítica" />
+        {{/if}}
+        {{#if this.criticalHit}}
+        <img class="consumable-item-skill-test-added-flag-icon" src="systems/cardigan/assets/images/decorative/icons/icon-critical-hit.svg" alt="Acerto Crítico" />
+        {{/if}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>

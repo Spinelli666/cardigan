@@ -19,6 +19,8 @@ import { initializeEffects } from './effects/index.mjs';
 import { initializeRaces } from './races/index.mjs';
 // Import Weapon Properties System
 import { initializeWeaponProperties } from './weapon-properties/index.mjs';
+// Import Roll Text Enrichers
+import { initializeRollEnrichers } from './text-enrichers/index.mjs';
 // Import Tooltips System
 import CardiganTooltipManager from './tooltips/tooltip-manager.mjs';
 // Import Hooks
@@ -31,6 +33,10 @@ import { handleTradeRequest, handleTradeAccepted, handleTradeRejected, handleTra
 import { handleMerchantTradeRequest, handleMerchantTradeAccepted, handleMerchantTradeRejected, handleMerchantTradeUpdate, handleMerchantTradeConfirm, handleMerchantTradeUndo, handleMerchantTradeCancel, handleMerchantTradeComplete, handleExecuteMerchantTradeTransfer } from './trade/merchant-trade-handlers.mjs';
 // Import Combat Dialogs
 import { closeAttackDialogForAttacker, showDamageNotification, showArmorDurabilityNotification, createAttackerResultDialog, showArmorDurabilityDialog, createGMEvasionNotification } from './combat/combat-dialogs.mjs';
+// Import Migration
+import { migrateWorldData } from './migration/migrate-world.mjs';
+// [STYLELAB] Ferramenta de dev temporária — ver module/dev-tools/style-lab.mjs para remoção
+import { CardiganStyleLab, registerStyleLabKeybinding, registerStyleLabSocket, mountStyleLabLauncher } from './dev-tools/style-lab.mjs';
 
 
 
@@ -53,6 +59,7 @@ globalThis.cardigan = {
     rollItemMacro,
   },
   models,
+  styleLab: CardiganStyleLab, // [STYLELAB]
 };
 
 Hooks.once('init', function () {
@@ -145,6 +152,18 @@ Hooks.once('init', function () {
   // Initialize Weapon Properties System
   initializeWeaponProperties();
 
+  // [STYLELAB] Registra o atalho Ctrl+Shift+L da ferramenta de dev temporária
+  registerStyleLabKeybinding();
+
+  // Register schema version setting (used by the migration system)
+  game.settings.register('cardigan', 'schemaVersion', {
+    name: 'Schema Version',
+    scope: 'world',
+    config: false,
+    type: Number,
+    default: 0,
+  });
+
   // Pre-load HBS partials for reusable template components
   foundry.applications.handlebars.loadTemplates([
     'systems/cardigan/templates/actor/partials/skill-row.hbs',
@@ -152,6 +171,13 @@ Hooks.once('init', function () {
     'systems/cardigan/templates/actor/partials/durability-display.hbs',
     'systems/cardigan/templates/actor/partials/armor-info-badges.hbs',
     'systems/cardigan/templates/actor/partials/equipped-armor-item.hbs',
+    'systems/cardigan/templates/actor/partials/proficiency-item.hbs',
+    'systems/cardigan/templates/actor/partials/sequential-status-field.hbs',
+    'systems/cardigan/templates/actor/partials/weapon-reload-ammo.hbs',
+    'systems/cardigan/templates/actor/partials/armor-section-container.hbs',
+    'systems/cardigan/templates/dialogs/partials/life-energy-add-section.hbs',
+    'systems/cardigan/templates/dialogs/partials/life-energy-added-row.hbs',
+    'systems/cardigan/templates/partials/ability-dropdown.hbs',
   ]);
 });
 
@@ -160,7 +186,7 @@ Hooks.once('init', function () {
 /* -------------------------------------------- */
 
 /**
- * Load status effects from the efeitos-cardigan compendium
+ * Load status effects from the effects-cardigan compendium
  * and populate CONFIG.statusEffects for token HUD
  */
 async function loadStatusEffects() {
@@ -168,7 +194,7 @@ async function loadStatusEffects() {
     console.log('[CARDIGAN] Loading status effects from compendium...');
     
     // Get the effects compendium
-    const pack = game.packs.get('cardigan.efeitos-cardigan');
+    const pack = game.packs.get('cardigan.effects-cardigan');
     if (!pack) {
       console.warn('[CARDIGAN] Effects compendium not found');
       return;
@@ -193,11 +219,11 @@ async function loadStatusEffects() {
         name: doc.name,
         img: doc.img,
         // Store reference to the compendium item for later use
-        _source: `Compendium.cardigan.efeitos-cardigan.Item.${doc.id}`
+        _source: `Compendium.cardigan.effects-cardigan.Item.${doc.id}`
       };
       
       // Separate by type
-      if (doc.system.efeitoType === 'positivo') {
+      if (doc.system.effectType === 'positive') {
         positiveEffects.push(effectData);
       } else {
         negativeEffects.push(effectData);
@@ -247,6 +273,9 @@ Hooks.once('setup', async () => {
       return img;
     }
   });
+
+  // Enrichers para @Teste[atributo] / @Pericia[nome] clicáveis nas descrições
+  initializeRollEnrichers();
 });
 
 /* -------------------------------------------- */
@@ -320,9 +349,17 @@ Hooks.on('updateItem', function (item, updates, options, userId) {
 /* -------------------------------------------- */
 
 Hooks.once('ready', function () {
+  // Run world data migrations (GM only)
+  migrateWorldData();
+
   // Initialize Cardigan tooltip system
   CardiganTooltipManager.initialize();
-  
+
+  // [STYLELAB] Sincroniza os overrides de estilo com outros clientes na mesa (efêmero)
+  registerStyleLabSocket();
+  // [STYLELAB] Botão flutuante para abrir a ferramenta de dev sem precisar do console
+  mountStyleLabLauncher();
+
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on('hotbarDrop', (bar, data, slot) => createDocMacro(data, slot));
   

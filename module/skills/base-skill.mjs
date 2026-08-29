@@ -1,4 +1,5 @@
 import { EffectsApplicationDialog } from '../applications/effects-application-dialog.mjs';
+import { getCoreRollMode } from '../helpers/roll-mode.mjs';
 
 /**
  * Base Skill Class - Foundation for all skills in the Cardigan system
@@ -992,7 +993,7 @@ export class BaseSkill {
       const { rollType, attackMode, manualModifier = 0 } = advantageType;
 
       // Check for Congelado effect and get penalty
-      const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+      const { CongeladoEffect } = await import('../effects/effects/frozen.mjs');
       const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
 
       // Helper function to roll with critical detection
@@ -1032,7 +1033,7 @@ export class BaseSkill {
         await roll.toMessage({
           speaker: ChatMessage.getSpeaker({ actor }),
           flavor: finalFlavor,
-          rollMode: game.settings.get('core', 'rollMode'),
+          rollMode: getCoreRollMode(),
           flags: flags
         });
 
@@ -1078,7 +1079,7 @@ export class BaseSkill {
       const { rollType, attackMode, manualModifier = 0 } = advantageType;
 
       // Check for Congelado effect and get penalty
-      const { CongeladoEffect } = await import('../effects/effects/congelado.mjs');
+      const { CongeladoEffect } = await import('../effects/effects/frozen.mjs');
       const congeladoPenalty = CongeladoEffect.getSkillPenalty(actor);
 
       // Helper function to roll with critical detection
@@ -1118,7 +1119,7 @@ export class BaseSkill {
         await roll.toMessage({
           speaker: ChatMessage.getSpeaker({ actor }),
           flavor: finalFlavor,
-          rollMode: game.settings.get('core', 'rollMode'),
+          rollMode: getCoreRollMode(),
           flags: flags
         });
 
