@@ -605,6 +605,39 @@ ol.items-list.equipament-table > li.item.items-header {
         }
       }
     }
+
+    // When this item's description row below it is expanded, merge the two rows visually
+    // by dropping the item pill's bottom radius — mirrors li.item.description-expanded in _backpack.scss.
+    li.item.description-expanded > .item-row {
+      border-radius: 15px 15px 0 0;
+    }
+
+    // Caixa expansiva (armor-backpack-summary.hbs) for the equipped-armor-item row — same
+    // markup/classes as the mochila's backpack-item-description-row, so it needs the same styling,
+    // shared via a mixin since this block isn't nested under .backpack-table like the mochila's is.
+    li.backpack-item-description-row {
+      @include backpack-item-description-row-content;
+
+      // Narrower than the mochila's box — insets both sides so it doesn't stretch edge-to-edge
+      // with the armor table. Adjust these values to taste.
+      width: auto;
+      margin-left: 2px;
+      margin-right: 2px;
+      margin-top: -5px;
+
+      .consumable-item-summary .consumable-summary-body {
+        .consumable-summary-description {
+
+          p {
+            margin: 0.5rem 0;
+          }
+        }
+
+        .consumable-summary-systematic-description p {
+          margin: 0.5rem 0;
+        }
+      }
+    }
   }
 }
 

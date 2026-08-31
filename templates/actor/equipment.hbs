@@ -213,7 +213,7 @@
         </li>
       {{#each backpack as |item id|}}
         <li
-          class='item flexrow {{#if (or (eq item.type "item-comum") (eq item.type "item-municao") (eq item.type "item-ingredient") (eq item.type "backpack"))}}backpack-row-generic{{/if}} {{#if (eq item.type "item-consumivel")}}backpack-row-consumable{{/if}} {{#if (eq item.type "arma")}}backpack-row-weapon {{#unless (or item.system.ranged item.system.isFirearm)}}backpack-row-weapon-no-reload{{/unless}} {{#unless item.system.protection.enabled}}backpack-row-weapon-no-information{{/unless}} {{#if (and item.system.protection.enabled (not (or item.system.ranged item.system.isFirearm)))}}backpack-row-weapon-protection-no-reload{{/if}}{{/if}} {{#if (eq item.type "armadura")}}backpack-row-armor{{/if}} {{#if (and (or (eq item.type "arma") (eq item.type "armadura")) (eq item.system.durability.current 0))}}durability-broken{{/if}}'
+          class='item flexrow {{#if (or (eq item.type "item-comum") (eq item.type "item-municao") (eq item.type "item-ingredient") (eq item.type "backpack"))}}backpack-row-generic{{/if}} {{#if (eq item.type "item-consumivel")}}backpack-row-consumable{{/if}} {{#if (eq item.type "arma")}}backpack-row-weapon {{#unless item.system.ranged}}backpack-row-weapon-no-reload{{/unless}} {{#unless item.system.protection.enabled}}backpack-row-weapon-no-information{{/unless}} {{#if (and item.system.protection.enabled (not item.system.ranged))}}backpack-row-weapon-protection-no-reload{{/if}}{{/if}} {{#if (eq item.type "armadura")}}backpack-row-armor{{/if}} {{#if (and (or (eq item.type "arma") (eq item.type "armadura")) (eq item.system.durability.current 0))}}durability-broken{{/if}}'
           data-item-id='{{item._id}}'
           data-uuid='{{item.uuid}}'
           data-drag='true'
@@ -223,7 +223,7 @@
             <a class='rollable' data-roll-type='item' data-action='roll'>
               <img
                 src='{{item.img}}'
-                {{#if (or (eq item.type "item-consumivel") (eq item.type "armadura"))}}
+                {{#if (or (eq item.type "item-consumivel") (eq item.type "armadura") (eq item.type "item-comum") (eq item.type "item-municao") (eq item.type "item-ingredient"))}}
                 data-tooltip-class='cardigan-tooltip item-preview-tooltip'
                 data-tooltip-direction='LEFT'
                 {{else}}

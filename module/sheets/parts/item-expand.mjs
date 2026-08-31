@@ -5,6 +5,59 @@ import { buildArmorPropertyEntries } from './armor-property-rows.mjs';
 export class ItemExpand {
 
   /**
+   * Builds the armor caixa-expansiva HTML (armor-backpack-summary.hbs) — used by toggleBackpackExpandById
+   * for both the backpack row (mochila) and the equipped-armor-item row (armor-section-container), which
+   * reuses the exact same .backpack-item-description-row/.wrapper sibling-<li> markup and CSS.
+   * @param {Item} item
+   * @returns {Promise<string>}
+   */
+  static async _buildArmorSummaryHtml(item) {
+    const template = "systems/cardigan/templates/armors/armor-backpack-summary.hbs";
+    const rawDescription = item.system.description || '';
+    // ProseMirror saves an empty editor as "<p></p>" rather than "" — strip tags before checking.
+    const hasDescription = rawDescription.replace(/<[^>]*>/g, '').trim().length > 0;
+    const rawSystematicDescription = item.system.systematicDescription || '';
+    const hasSystematicDescription = rawSystematicDescription.replace(/<[^>]*>/g, '').trim().length > 0;
+
+    const armorEntries = buildArmorPropertyEntries(item);
+    const armorPropertyRows = [];
+    for (let i = 0; i < armorEntries.length; i += 3) {
+      armorPropertyRows.push(armorEntries.slice(i, i + 3));
+    }
+
+    const content = await foundry.applications.handlebars.renderTemplate(template, {
+      item,
+      system: item.system,
+      config: CONFIG.CARDIGAN,
+      propertyRows: armorPropertyRows,
+      hasAnyInfo: armorEntries.length > 0,
+      enrichedDescription: hasDescription
+        ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(rawDescription, {
+            secrets: item.isOwner,
+            documents: true,
+            links: true,
+            rolls: true,
+            rollData: item.getRollData?.() || {}
+          })
+        : '',
+      enrichedSystematicDescription: hasSystematicDescription
+        ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(rawSystematicDescription, {
+            secrets: item.isOwner,
+            documents: true,
+            links: true,
+            rolls: true,
+            rollData: item.getRollData?.() || {}
+          })
+        : ''
+    });
+
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = content;
+    wrapWordsInGradientSpans(wrapper, '.consumable-summary-description p, .consumable-summary-systematic-description p');
+    return wrapper.innerHTML;
+  }
+
+  /**
    * Toggle expand/collapse state of an item row, rendering the inline summary on expand.
    * Called by _handleToggleExpand (instance wrapper).
    * @param {ActorSheet} sheet
@@ -26,15 +79,11 @@ export class ItemExpand {
     }
 
     const expanded = sheet.expandedSections.get(itemId);
-    const isArmor = item.type === 'armadura';
-    const isWeapon = item.type === 'arma';
     const isSkill = item.type === 'skill';
     const isRecipe = item.type?.includes('recipe') || item.type?.includes('-recipe');
 
     let summaryClass;
-    if (isArmor) summaryClass = ".armor-summary";
-    else if (isWeapon) summaryClass = ".weapon-summary";
-    else if (isSkill) summaryClass = ".skill-summary";
+    if (isSkill) summaryClass = ".skill-summary";
     else if (isRecipe) summaryClass = ".recipe-summary";
     else summaryClass = ".weapon-summary";
 
@@ -82,8 +131,7 @@ export class ItemExpand {
         }
 
         let template;
-        if (isArmor) template = "systems/cardigan/templates/armors/armor-summary.hbs";
-        else if (isSkill) template = "systems/cardigan/templates/skills/skill-summary.hbs";
+        if (isSkill) template = "systems/cardigan/templates/skills/skill-summary.hbs";
         else if (isRecipe) template = "systems/cardigan/templates/recipes/recipe-summary.hbs";
         else template = "systems/cardigan/templates/weapons/weapon-summary.hbs";
 
@@ -91,7 +139,7 @@ export class ItemExpand {
         summary.insertAdjacentHTML("beforeend", content);
         sheet.expandedSections.set(itemId, true);
       } catch (error) {
-        console.error(`Error creating ${isArmor ? 'armor' : isSkill ? 'skill' : isRecipe ? 'recipe' : 'weapon'} summary:`, error);
+        console.error(`Error creating ${isSkill ? 'skill' : isRecipe ? 'recipe' : 'weapon'} summary:`, error);
         return;
       }
     }
@@ -192,9 +240,10 @@ export class ItemExpand {
 
   /**
    * Toggle expand/collapse for a backpack row's description, by item id.
-   * item-consumivel (item-consumivel-summary.hbs) and armadura (armor-backpack-summary.hbs)
-   * render real content; other backpack item types just toggle the empty row, to be filled
-   * in later.
+   * item-consumivel (item-consumivel-summary.hbs), armadura (armor-backpack-summary.hbs),
+   * item-comum (item-common-summary.hbs), item-municao (item-ammunition-summary.hbs) and
+   * item-ingredient (item-ingredient-summary.hbs) render real content; other backpack item
+   * types just toggle the empty row, to be filled in later.
    * @param {ActorSheet} sheet
    * @param {string} itemId
    */
@@ -336,24 +385,22 @@ export class ItemExpand {
         }
       } else if (item?.type === 'armadura' && wrapper) {
         try {
-          const template = "systems/cardigan/templates/armors/armor-backpack-summary.hbs";
+          wrapper.innerHTML = await ItemExpand._buildArmorSummaryHtml(item);
+        } catch (error) {
+          console.error("Error rendering armor summary:", error);
+        }
+      } else if (item?.type === 'item-comum' && wrapper) {
+        try {
+          const template = "systems/cardigan/templates/common-items/item-common-summary.hbs";
           const rawDescription = item.system.description || '';
           const hasDescription = rawDescription.replace(/<[^>]*>/g, '').trim().length > 0;
           const rawSystematicDescription = item.system.systematicDescription || '';
           const hasSystematicDescription = rawSystematicDescription.replace(/<[^>]*>/g, '').trim().length > 0;
 
-          const armorEntries = buildArmorPropertyEntries(item);
-          const armorPropertyRows = [];
-          for (let i = 0; i < armorEntries.length; i += 3) {
-            armorPropertyRows.push(armorEntries.slice(i, i + 3));
-          }
-
           const content = await foundry.applications.handlebars.renderTemplate(template, {
             item,
             system: item.system,
             config: CONFIG.CARDIGAN,
-            propertyRows: armorPropertyRows,
-            hasAnyInfo: armorEntries.length > 0,
             enrichedDescription: hasDescription
               ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(rawDescription, {
                   secrets: item.isOwner,
@@ -376,7 +423,79 @@ export class ItemExpand {
           wrapper.innerHTML = content;
           wrapWordsInGradientSpans(wrapper, '.consumable-summary-description p, .consumable-summary-systematic-description p');
         } catch (error) {
-          console.error("Error rendering armor summary:", error);
+          console.error("Error rendering common item summary:", error);
+        }
+      } else if (item?.type === 'item-municao' && wrapper) {
+        try {
+          const template = "systems/cardigan/templates/ammunitions/item-ammunition-summary.hbs";
+          const rawDescription = item.system.description || '';
+          const hasDescription = rawDescription.replace(/<[^>]*>/g, '').trim().length > 0;
+          const rawSystematicDescription = item.system.systematicDescription || '';
+          const hasSystematicDescription = rawSystematicDescription.replace(/<[^>]*>/g, '').trim().length > 0;
+
+          const content = await foundry.applications.handlebars.renderTemplate(template, {
+            item,
+            system: item.system,
+            config: CONFIG.CARDIGAN,
+            enrichedDescription: hasDescription
+              ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(rawDescription, {
+                  secrets: item.isOwner,
+                  documents: true,
+                  links: true,
+                  rolls: true,
+                  rollData: item.getRollData?.() || {}
+                })
+              : '',
+            enrichedSystematicDescription: hasSystematicDescription
+              ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(rawSystematicDescription, {
+                  secrets: item.isOwner,
+                  documents: true,
+                  links: true,
+                  rolls: true,
+                  rollData: item.getRollData?.() || {}
+                })
+              : ''
+          });
+          wrapper.innerHTML = content;
+          wrapWordsInGradientSpans(wrapper, '.consumable-summary-description p, .consumable-summary-systematic-description p');
+        } catch (error) {
+          console.error("Error rendering ammunition summary:", error);
+        }
+      } else if (item?.type === 'item-ingredient' && wrapper) {
+        try {
+          const template = "systems/cardigan/templates/ingredients/item-ingredient-summary.hbs";
+          const rawDescription = item.system.description || '';
+          const hasDescription = rawDescription.replace(/<[^>]*>/g, '').trim().length > 0;
+          const rawSystematicDescription = item.system.systematicDescription || '';
+          const hasSystematicDescription = rawSystematicDescription.replace(/<[^>]*>/g, '').trim().length > 0;
+
+          const content = await foundry.applications.handlebars.renderTemplate(template, {
+            item,
+            system: item.system,
+            config: CONFIG.CARDIGAN,
+            enrichedDescription: hasDescription
+              ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(rawDescription, {
+                  secrets: item.isOwner,
+                  documents: true,
+                  links: true,
+                  rolls: true,
+                  rollData: item.getRollData?.() || {}
+                })
+              : '',
+            enrichedSystematicDescription: hasSystematicDescription
+              ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(rawSystematicDescription, {
+                  secrets: item.isOwner,
+                  documents: true,
+                  links: true,
+                  rolls: true,
+                  rollData: item.getRollData?.() || {}
+                })
+              : ''
+          });
+          wrapper.innerHTML = content;
+          wrapWordsInGradientSpans(wrapper, '.consumable-summary-description p, .consumable-summary-systematic-description p');
+        } catch (error) {
+          console.error("Error rendering ingredient summary:", error);
         }
       }
     }
@@ -414,15 +533,11 @@ export class ItemExpand {
     }
 
     const expanded = sheet.expandedSections.get(itemId);
-    const isArmor = item.type === 'armadura';
-    const isWeapon = item.type === 'arma';
     const isSkill = item.type === 'skill';
     const isRecipe = item.type?.includes('recipe') || item.type?.includes('-recipe');
 
     let summaryClass;
-    if (isArmor) summaryClass = ".armor-summary";
-    else if (isWeapon) summaryClass = ".weapon-summary";
-    else if (isSkill) summaryClass = ".skill-summary";
+    if (isSkill) summaryClass = ".skill-summary";
     else if (isRecipe) summaryClass = ".recipe-summary";
     else summaryClass = ".weapon-summary";
 
@@ -470,8 +585,7 @@ export class ItemExpand {
         }
 
         let template;
-        if (isArmor) template = "systems/cardigan/templates/armors/armor-summary.hbs";
-        else if (isSkill) template = "systems/cardigan/templates/skills/skill-summary.hbs";
+        if (isSkill) template = "systems/cardigan/templates/skills/skill-summary.hbs";
         else if (isRecipe) template = "systems/cardigan/templates/recipes/recipe-summary.hbs";
         else template = "systems/cardigan/templates/weapons/weapon-summary.hbs";
 
@@ -479,7 +593,7 @@ export class ItemExpand {
         summary.insertAdjacentHTML("beforeend", content);
         sheet.expandedSections.set(itemId, true);
       } catch (error) {
-        console.error(`Error creating ${isArmor ? 'armor' : isSkill ? 'skill' : isRecipe ? 'recipe' : 'weapon'} summary:`, error);
+        console.error(`Error creating ${isSkill ? 'skill' : isRecipe ? 'recipe' : 'weapon'} summary:`, error);
         return;
       }
     }

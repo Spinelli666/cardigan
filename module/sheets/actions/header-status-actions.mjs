@@ -3,6 +3,9 @@ import { ChatMessageHelper } from '../../helpers/chat-messages.mjs';
 import { getCoreRollMode } from '../../helpers/roll-mode.mjs';
 import { ConsumablePreviewTooltip } from '../parts/consumable-preview-tooltip.mjs';
 import { ArmorPreviewTooltip } from '../parts/armor-preview-tooltip.mjs';
+import { CommonPreviewTooltip } from '../parts/common-preview-tooltip.mjs';
+import { AmmunitionPreviewTooltip } from '../parts/ammunition-preview-tooltip.mjs';
+import { IngredientPreviewTooltip } from '../parts/ingredient-preview-tooltip.mjs';
 
 /**
  * Header Status Actions Module
@@ -56,6 +59,9 @@ export class HeaderStatusActions {
         if (!item) break;
         if (item.type === 'item-consumivel') return ConsumablePreviewTooltip.postToChat(item, sheet.document);
         if (item.type === 'armadura') return ArmorPreviewTooltip.postToChat(item, sheet.document);
+        if (item.type === 'item-comum') return CommonPreviewTooltip.postToChat(item, sheet.document);
+        if (item.type === 'item-municao') return AmmunitionPreviewTooltip.postToChat(item, sheet.document);
+        if (item.type === 'item-ingredient') return IngredientPreviewTooltip.postToChat(item, sheet.document);
         return item.roll();
     }
 

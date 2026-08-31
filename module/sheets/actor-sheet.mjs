@@ -32,6 +32,9 @@ import { DeleteActions } from './actions/delete-actions.mjs';
 import CardiganTooltipManager from '../tooltips/tooltip-manager.mjs';
 import { ConsumablePreviewTooltip } from './parts/consumable-preview-tooltip.mjs';
 import { ArmorPreviewTooltip } from './parts/armor-preview-tooltip.mjs';
+import { CommonPreviewTooltip } from './parts/common-preview-tooltip.mjs';
+import { AmmunitionPreviewTooltip } from './parts/ammunition-preview-tooltip.mjs';
+import { IngredientPreviewTooltip } from './parts/ingredient-preview-tooltip.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -414,6 +417,15 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
 
     // Mesmo tooltip de preview, agora para itens de armadura na mochila.
     ArmorPreviewTooltip.attach(this.element, this.actor);
+
+    // Mesmo tooltip de preview, agora para item-comum na mochila.
+    CommonPreviewTooltip.attach(this.element, this.actor);
+
+    // Mesmo tooltip de preview, agora para item-municao na mochila.
+    AmmunitionPreviewTooltip.attach(this.element, this.actor);
+
+    // Mesmo tooltip de preview, agora para item-ingredient na mochila.
+    IngredientPreviewTooltip.attach(this.element, this.actor);
 
     // NOTE: Profession table toggles are handled automatically by Foundry's form system
     // The checkboxes update system.details.show*Table which triggers a re-render

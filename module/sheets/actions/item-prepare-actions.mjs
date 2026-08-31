@@ -214,7 +214,9 @@ export class ItemPrepareActions {
     context.hasNonUnarmedWeapons = armas.some(weapon => !weapon.system.isUnarmed);
     
     // Check if there are any ranged weapons to show ammunition-related columns
-    context.hasRangedWeapons = armas.some(weapon => weapon.system.ranged || weapon.system.isFirearm);
+    // (isFirearm alone doesn't count — it's only meaningful when ranged is also true,
+    // see weapon-reload-ammo.hbs).
+    context.hasRangedWeapons = armas.some(weapon => weapon.system.ranged);
     
     context.armaduras = armaduras.sort((a, b) => {
       const orderA = armorTypeOrder[a.system.armorType] || 99;

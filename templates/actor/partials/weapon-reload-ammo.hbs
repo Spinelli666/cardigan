@@ -3,7 +3,7 @@
 <div class='item-reload-ammunition-wrapper'>
   <div class='item-reload'>
     {{#unless item.system.isUnarmed}}
-      {{#if (or item.system.ranged item.system.isFirearm)}}
+      {{#if item.system.ranged}}
         {{#if @root.editable}}
           <a
             class='item-control manage-ammunition'

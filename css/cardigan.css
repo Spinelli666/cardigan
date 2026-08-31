@@ -10319,6 +10319,686 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   outline: none;
   box-shadow: none;
 }
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.item.description-expanded > .item-row,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.item.description-expanded > .item-row,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.item.description-expanded > .item-row,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.item.description-expanded > .item-row,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.item.description-expanded > .item-row,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.item.description-expanded > .item-row {
+  border-radius: 15px 15px 0 0;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row {
+  display: none;
+  width: 100%;
+  min-height: 32px;
+  margin-top: -4px;
+  margin-bottom: 4px;
+  border: 1px solid #FFB75C;
+  border-top: none;
+  border-radius: 0 0 15px 15px;
+  background: linear-gradient(90deg, rgba(163, 115, 55, 0.2) 0%, rgba(60, 143, 202, 0.2) 67%);
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row.expanded,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row.expanded,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row.expanded,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row.expanded,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row.expanded,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row.expanded {
+  display: block;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body {
+  min-height: 18px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description {
+  padding: 5px 20px 0px 20px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p {
+  text-align: center;
+  font-size: 10px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::before, .cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::after,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::before,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::after,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::before,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::after,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::before,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::after,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::before,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::after,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::before,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p::after {
+  content: '"';
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p .gradient-word,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p .gradient-word,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p .gradient-word,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p .gradient-word,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p .gradient-word,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p .gradient-word {
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description-border,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description-border,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description-border,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description-border,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description-border,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description-border {
+  display: block;
+  width: 550px;
+  max-width: 100%;
+  height: 8px;
+  margin: 2px auto 0;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info-border,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info-border,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info-border,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info-border,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info-border,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info-border {
+  display: block;
+  width: 390px;
+  max-width: 100%;
+  height: 15px;
+  margin: 2px auto 0px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description {
+  padding: 0px 10px 0px 10px;
+  border: 1px solid #FFB75C;
+  border-radius: 10px;
+  margin: 10px 20px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p {
+  text-align: center;
+  font-size: 10px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p .gradient-word,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p .gradient-word,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p .gradient-word,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p .gradient-word,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p .gradient-word,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p .gradient-word {
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header {
+  display: flex;
+  align-items: center;
+  padding: 5px 5px 0px 5px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-left,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-left,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-left,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-left,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-left,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-badge,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-badge,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-badge,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-badge,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-badge,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-badge-text,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-badge-text,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-badge-text,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-badge-text,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-badge-text,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-badge-text {
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-right,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-right,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-right,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-right,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-right,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-header-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon {
+  width: 15px;
+  height: 15px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon.consumable-summary-profession-icon--general,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon.consumable-summary-profession-icon--general,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon.consumable-summary-profession-icon--general,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon.consumable-summary-profession-icon--general,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon.consumable-summary-profession-icon--general,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-profession-icon.consumable-summary-profession-icon--general {
+  width: 18px;
+  height: 18px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-divider,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-divider,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-divider,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-divider,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-divider,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-divider {
+  font-size: 10px;
+  color: rgba(255, 183, 92, 0.8);
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-icon,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-icon,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-icon,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-icon,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-icon,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-icon {
+  width: 18px;
+  height: 18px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-text,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-text,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-text,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-text,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-text,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-price-text {
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-icon,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-icon,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-icon,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-icon,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-icon,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-icon {
+  width: 15px;
+  height: 15px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-text,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-text,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-text,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-text,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-text,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header .consumable-summary-weight-text {
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common {
+  justify-content: center;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-header-right,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-header-right,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-header-right,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-header-right,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-header-right,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-header-right {
+  margin-left: 0;
+  gap: 6px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon {
+  width: 20px;
+  height: 20px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon.consumable-summary-profession-icon--general,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon.consumable-summary-profession-icon--general,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon.consumable-summary-profession-icon--general,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon.consumable-summary-profession-icon--general,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon.consumable-summary-profession-icon--general,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon.consumable-summary-profession-icon--general {
+  width: 24px;
+  height: 24px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-divider,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-divider,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-divider,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-divider,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-divider,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-divider {
+  font-size: 14px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-icon,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-icon,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-icon,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-icon,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-icon,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-icon,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-icon,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-icon,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-icon,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-icon,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-icon,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-icon {
+  width: 22px;
+  height: 22px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-text,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-text,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-text,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-text,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-text,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-text,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-text,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-text,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-text,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-text,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-text,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-text {
+  font-size: 16px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 5px 5px 5px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 5px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-properties-row,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-properties-row,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-properties-row,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-properties-row,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-properties-row,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-properties-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-box,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-box,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-box,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-box,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-box,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-box {
+  padding: 5px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-icon,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-icon,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-icon,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-icon,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-icon,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-icon {
+  width: 22px;
+  height: 22px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-value,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-value,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-value,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-value,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-value,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 42px;
+  height: 22px;
+  padding: 0 6px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-divider,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-divider,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-divider,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-divider,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-divider,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-divider {
+  width: 6px;
+  height: 14px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-text,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-abbr,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-text,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-abbr,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-text,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-abbr,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-text,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-abbr,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-text,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-abbr,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-text,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-abbr {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-icon,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-icon,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-icon,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-icon,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-icon,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-icon {
+  width: 22px;
+  height: 22px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-value,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-value,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-value,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-value,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-value,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 22px;
+  padding: 0 6px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-text,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-text,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-text,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-text,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-text,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-armor-text {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-icon,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-icon,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-icon,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-icon,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-icon,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-icon,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-icon,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-icon,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-icon,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-icon,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-icon,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-icon {
+  width: 22px;
+  height: 22px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-value,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-value,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-value,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-value,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-value,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-value,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-value,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-value,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-value,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-value,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-value,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 22px;
+  padding: 0 6px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-text,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-text,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-text,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-text,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-text,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-text,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-text,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-text,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-text,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-text,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-movement-text,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-critical-text {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item--skill,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item--skill,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item--skill,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item--skill,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item--skill,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-property-item--skill {
+  justify-content: center;
+  width: 70px;
+  min-height: 22px;
+  padding: 0 6px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-label,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-label,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-label,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-label,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-label,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-value,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-skill-bonus-label {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-icon,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-icon,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-icon,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-icon,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-icon,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-icon {
+  width: 22px;
+  height: 22px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-value,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-value,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-value,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-value,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-value,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 22px;
+  padding: 0 6px;
+  background: linear-gradient(0deg, rgba(126, 84, 31, 0.19) 0%, rgba(0, 25, 37, 0.19) 50%) !important;
+  border: 1.5px solid rgba(255, 183, 92, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-text,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-text,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-text,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-text,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-text,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-properties .consumable-summary-status-text {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #FFB75C 36.54%, #996E37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row {
+  width: auto;
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-top: -5px;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p {
+  margin: 0.5rem 0;
+}
+.cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
+.cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
+.cardigan .tab.equipment .armor-equipament-container .arms-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
+.cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
+.cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
+.cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p {
+  margin: 0.5rem 0;
+}
 .cardigan .tab.equipment .equipament-table {
   flex: 1;
   min-width: 0;
@@ -11095,143 +11775,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   text-align: left;
   padding: 2px 0;
   font-weight: normal;
-}
-.cardigan .tab.equipment .armor-summary {
-  margin: 8px 0;
-  padding: 12px;
-  position: relative;
-}
-.cardigan .tab.equipment .armor-summary .summary-content {
-  color: var(--cardigan-c-black);
-  font-size: 13px;
-  line-height: 1.4;
-}
-.cardigan .tab.equipment .armor-summary .armor-properties-top-right {
-  display: flex;
-  justify-content: flex-end;
-  color: var(--cardigan-c-black);
-  font-size: 12px;
-}
-.cardigan .tab.equipment .armor-summary .armor-properties-top-right i {
-  color: var(--cardigan-c-black);
-  margin-right: 2px;
-}
-.cardigan .tab.equipment .armor-summary .armor-properties-top-right i.fa-backpack {
-  color: var(--cardigan-c-black);
-  margin-left: 6px;
-  margin-right: 3px;
-}
-.cardigan .tab.equipment .armor-summary .armor-properties-top-right .weight-text {
-  color: var(--cardigan-c-black);
-  font-size: 11px;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding-right: 20px;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-image-center {
-  display: flex;
-  justify-content: center;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-image-center img {
-  width: 48px;
-  height: 48px;
-  border-radius: 4px;
-  border: 2px solid var(--cardigan-c-black);
-  background: rgba(0, 0, 0, 0.3);
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-name-center {
-  text-align: center;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-name-center h4 {
-  color: var(--cardigan-c-black);
-  margin: 0;
-  font-size: 16px;
-  font-weight: bold;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-type-center {
-  text-align: center;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-type-center em {
-  color: var(--cardigan-c-faint);
-  font-style: italic;
-  font-size: 13px;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-stats-row {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin: 4px 0;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-stats-row .armor-protection {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--cardigan-c-black);
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-stats-row .armor-protection i {
-  color: var(--cardigan-c-black);
-  width: 14px;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-durability-center {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--cardigan-c-black);
-  justify-content: center;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-durability-center i {
-  color: var(--cardigan-c-black);
-  width: 14px;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-description-center {
-  text-align: center;
-  color: var(--cardigan-c-black);
-  line-height: 1.5;
-  margin: 8px 0;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-description-center p {
-  margin-bottom: 8px;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-description-center p:last-child {
-  margin-bottom: 0;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-properties-bonuses-center {
-  text-align: center;
-  margin: 8px 0;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-properties-bonuses-center .properties-title {
-  color: var(--cardigan-c-black);
-  font-weight: bold;
-  font-size: 12px;
-  margin-bottom: 4px;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-properties-bonuses-center .properties-bonuses {
-  color: var(--cardigan-c-black);
-  font-size: 11px;
-  font-weight: bold;
-  font-family: monospace;
-  background: rgba(0, 0, 0, 0.1);
-  padding: 3px 8px;
-  border-radius: 3px;
-  border: 1px solid rgba(201, 199, 184, 0.2);
-  display: inline-block;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-detailed-properties {
-  width: 100%;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-detailed-properties .property-detail-line {
-  color: var(--cardigan-c-black);
-  font-size: 12px;
-  line-height: 1.4;
-  margin-bottom: 4px;
-  text-align: left;
-}
-.cardigan .tab.equipment .armor-summary .armor-vertical-layout .armor-detailed-properties .property-detail-line:last-child {
-  margin-bottom: 0;
 }
 .cardigan .recipe-summary {
   padding: 12px;
@@ -12195,9 +12738,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .effects-system .weapon-name-hover {
   cursor: pointer;
 }
-.cardigan .effects-system .armor-name-hover {
-  cursor: pointer;
-}
 .cardigan .effects-system .attack-weapon {
   font-size: 16px;
   margin-right: 5px;
@@ -13003,6 +13543,33 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common {
+  justify-content: center;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-header-right {
+  margin-left: 0;
+  gap: 6px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon {
+  width: 20px;
+  height: 20px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-profession-icon.consumable-summary-profession-icon--general {
+  width: 24px;
+  height: 24px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-divider {
+  font-size: 14px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-icon,
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-icon {
+  width: 22px;
+  height: 22px;
+}
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-price-text,
+.cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-header.consumable-summary-header--common .consumable-summary-weight-text {
+  font-size: 16px;
 }
 .cardigan .backpack-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-info {
   display: flex;

@@ -10,7 +10,13 @@
   <div class='item-row flexrow {{itemClass}} {{#if (eq item.system.durability.current 0)}}durability-broken{{/if}}'>
     <div class='item-name-group'>
       <div class='item-name {{#if (eq item.system.durability.current 0)}}item-name-broken{{/if}}'>
-        <div class="armor-name-hover" data-action="toggleExpand" data-item-id="{{item._id}}">{{item.name}}</div>
+        <div
+          class="weapon-name-hover"
+          data-action="toggleBackpackItemExpand"
+          data-item-id="{{item._id}}"
+          data-tooltip-class="cardigan-tooltip item-preview-tooltip"
+          data-tooltip-direction="LEFT"
+        >{{item.name}}</div>
       </div>
       <div class='item-single-heavy'>
         {{#if item.system.single}}
@@ -69,11 +75,7 @@
       {{/if}}
     </div>
   </div>
-
-  {{!-- Expandable Description --}}
-  <div class="item-description">
-    <div class="wrapper">
-      {{!-- Expanded content will be loaded here dynamically --}}
-    </div>
-  </div>
+</li>
+<li class="backpack-item-description-row" data-item-id="{{item._id}}">
+  <div class="wrapper"></div>
 </li>

@@ -75,7 +75,9 @@
     </div>
     {{/if}}
     {{#if hasSystematicDescription}}
+    {{#unless hideInfoBorder}}
     <img class='consumable-summary-info-border' src='systems/cardigan/assets/images/decorative/border-description.png' alt='Borda decorativa' />
+    {{/unless}}
     <div class='consumable-summary-systematic-description'>{{{enrichedSystematicDescription}}}</div>
     {{/if}}
   </div>

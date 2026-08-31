@@ -1,0 +1,53 @@
+{{!-- Ammunition Item Summary — rendered inside the backpack's expandable description row.
+      Mirrors item-common-summary.hbs: item-municao has no life/energy/effects/skill-test
+      header badges and no armor/movement/critical/skill/status characteristics, so this only
+      shows the header-right (isFirearmAmmo/isSpecialAmmo toggles + price + weight) — centered
+      and enlarged via consumable-summary-header--common (see _backpack.scss). --}}
+<div class="consumable-item-summary">
+  <div class="consumable-summary-body">
+    {{#if enrichedDescription}}
+    <div class="consumable-summary-description">
+      {{{enrichedDescription}}}
+    </div>
+    <img class="consumable-summary-description-border" src="systems/cardigan/assets/images/decorative/border.webp" alt="Borda decorativa" />
+    {{/if}}
+
+    <div class="consumable-summary-header consumable-summary-header--common">
+      <div class="consumable-summary-header-right">
+        {{#if system.isFirearmAmmo}}
+        <img class="consumable-summary-profession-icon" src="systems/cardigan/assets/images/decorative/icons/icon-firearm-ammu.svg" alt="{{localize 'CARDIGAN.ItemMunicao.IsFirearmAmmo'}}" data-tooltip="{{localize 'CARDIGAN.ItemMunicao.IsFirearmAmmo'}}" data-tooltip-class='cardigan-tooltip' />
+        <span class="consumable-summary-divider">⬩</span>
+        {{/if}}
+
+        {{#if system.isSpecialAmmo}}
+        <img class="consumable-summary-profession-icon" src="systems/cardigan/assets/images/weapons/special-ammunition.webp" alt="{{localize 'CARDIGAN.ItemMunicao.IsSpecialAmmo'}}" data-tooltip="{{localize 'CARDIGAN.ItemMunicao.IsSpecialAmmo'}}" data-tooltip-class='cardigan-tooltip' />
+        <span class="consumable-summary-divider">⬩</span>
+        {{/if}}
+
+        <div class="consumable-summary-price">
+          <img class="consumable-summary-price-icon" src="systems/cardigan/assets/images/decorative/icons/icon-coins.svg" alt="{{localize 'CARDIGAN.Price'}}" data-tooltip="Preço" data-tooltip-class='cardigan-tooltip' />
+          <span class="consumable-summary-price-text">{{system.price}}</span>
+        </div>
+
+        <span class="consumable-summary-divider">⬩</span>
+
+        <div class="consumable-summary-weight">
+          <img class="consumable-summary-weight-icon" src="systems/cardigan/assets/images/decorative/icons/icon-weight.svg" alt="{{localize 'CARDIGAN.Weight'}}" data-tooltip="Peso" data-tooltip-class='cardigan-tooltip' />
+          <span class="consumable-summary-weight-text">
+            {{#if (eq system.weight "light")}}{{localize "CARDIGAN.WeightLight"}}
+            {{else if (eq system.weight "medium")}}{{localize "CARDIGAN.WeightMedium"}}
+            {{else if (eq system.weight "heavy")}}{{localize "CARDIGAN.WeightHeavy"}}
+            {{/if}}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    {{#if enrichedSystematicDescription}}
+    <img class="consumable-summary-info-border" src="systems/cardigan/assets/images/decorative/border-description.png" alt="Borda decorativa" />
+    <div class="consumable-summary-systematic-description">
+      {{{enrichedSystematicDescription}}}
+    </div>
+    {{/if}}
+  </div>
+</div>

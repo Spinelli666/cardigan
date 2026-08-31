@@ -169,18 +169,18 @@
   // -----------------------------------------
   // Expand/Collapse System for Equipment Tab (Based on D&D5e)
   // -----------------------------------------
-  
+
   .items-list {
     .item.collapsible {
       display: flex;
       flex-direction: column;
       width: 100%;
-      
+
       .item-row {
         display: flex;
         width: 100%;
         align-items: center;
-        
+
         // Ensure flexrow behavior for the row content
         &.flexrow {
           display: flex;
@@ -188,38 +188,38 @@
           align-items: center;
         }
       }
-      
+
       .item-description {
         width: 100%;
         display: block;
         transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
         overflow: hidden;
-        
+
         .wrapper {
           padding: 0;
           width: 100%;
         }
       }
-      
+
       // Collapsed state - hide the description
       &.collapsed .item-description {
         max-height: 0;
         opacity: 0;
         padding: 0;
         margin: 0;
-        
+
         .wrapper {
           padding: 0;
         }
       }
-      
+
       // Expanded state - show the description
       &:not(.collapsed) .item-description {
         max-height: 1000px; // Increase max height for more content
         opacity: 1;
         padding: 0; // Remove padding from container
         margin: 0;
-        
+
         .wrapper {
           padding: 12px 8px; // Add padding to wrapper instead
           margin-top: 10px; // Add spacing from the weapon row
@@ -506,180 +506,10 @@
       }
     }
   }
-
-  // -----------------------------------------
-  // Armor Summary Styles for Equipment Tab - Based on Weapon Summary
-  // -----------------------------------------
-  
-  .armor-summary {
-    margin: 8px 0;
-    padding: 12px;
-    position: relative;
-    
-    .summary-content {
-      color: $c-black;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-    
-    // Top-right armor properties (weight)
-    .armor-properties-top-right {
-      display: flex;
-      justify-content: flex-end;
-      color: $c-black;
-      font-size: 12px;
-      
-      i {
-        color: $c-black;
-        margin-right: 2px;
-        
-        &.fa-backpack {
-          color: $c-black;
-          margin-left: 6px;
-          margin-right: 3px;
-        }
-      }
-      
-      .weight-text {
-        color: $c-black;
-        font-size: 11px;
-      }
-    }
-    
-    // Vertical centered layout for armor
-    .armor-vertical-layout {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      padding-right: 20px;
-      
-      .armor-image-center {
-        display: flex;
-        justify-content: center;
-        
-        img {
-          width: 48px;
-          height: 48px;
-          border-radius: 4px;
-          border: 2px solid $c-black;
-          background: rgba(0, 0, 0, 0.3);
-        }
-      }
-      
-      .armor-name-center {
-        text-align: center;
-        
-        h4 {
-          color: $c-black;
-          margin: 0;
-          font-size: 16px;
-          font-weight: bold;
-        }
-      }
-      
-      .armor-type-center {
-        text-align: center;
-        
-        em {
-          color: $c-faint;
-          font-style: italic;
-          font-size: 13px;
-        }
-      }
-      
-      .armor-stats-row {
-        display: flex;
-        justify-content: center;
-        gap: 16px;
-        margin: 4px 0;
-        
-        .armor-protection {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          color: $c-black;
-          
-          i {
-            color: $c-black;
-            width: 14px;
-          }
-        }
-      }
-      
-      .armor-durability-center {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        color: $c-black;
-        justify-content: center;
-        
-        i {
-          color: $c-black;
-          width: 14px;
-        }
-      }
-      
-      .armor-description-center {
-        text-align: center;
-        color: $c-black;
-        line-height: 1.5;
-        margin: 8px 0;
-        
-        p {
-          margin-bottom: 8px;
-          
-          &:last-child {
-            margin-bottom: 0;
-          }
-        }
-      }
-      
-      .armor-properties-bonuses-center {
-        text-align: center;
-        margin: 8px 0;
-        
-        .properties-title {
-          color: $c-black;
-          font-weight: bold;
-          font-size: 12px;
-          margin-bottom: 4px;
-        }
-        
-        .properties-bonuses {
-          color: $c-black;
-          font-size: 11px;
-          font-weight: bold;
-          font-family: monospace;
-          background: rgba(0, 0, 0, 0.1);
-          padding: 3px 8px;
-          border-radius: 3px;
-          border: 1px solid rgba(201, 199, 184, 0.2);
-          display: inline-block;
-        }
-      }
-      
-      .armor-detailed-properties {
-        width: 100%;
-        
-        .property-detail-line {
-          color: $c-black;
-          font-size: 12px;
-          line-height: 1.4;
-          margin-bottom: 4px;
-          text-align: left;
-          
-          &:last-child {
-            margin-bottom: 0;
-          }
-        }
-      }
-    }
-  }
 }
 
 // -----------------------------------------
-// Recipe Summary Styles 
+// Recipe Summary Styles
 // -----------------------------------------
 
 .recipe-summary {
@@ -1792,10 +1622,6 @@
   // Weapon Name Hover
   // -----------------------------------------
   .weapon-name-hover {
-    cursor: pointer;
-  }
-
-  .armor-name-hover {
     cursor: pointer;
   }
 
