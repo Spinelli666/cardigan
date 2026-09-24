@@ -54,9 +54,13 @@
   }
 
   // Tamanho mínimo e máximo da janela
+  // Default height is still 679 (DEFAULT_OPTIONS.position). min-height used to be 679 too, which
+  // blocked Foundry's own clamp to the viewport — on ~600–650px tall screens (1366×768 or
+  // 1920×1080 @150% in a browser) the bottom of the sheet was cut off. 480 = 227px header +
+  // ~250px of tab content, which scrolls internally (.tab has overflow-y: auto).
   &:not(.minimized, .minimizing, .maximizing) {
     min-width: 526px;
-    min-height: 679px;
+    min-height: 480px;
     max-width: 526px; // Largura máxima
   }
 

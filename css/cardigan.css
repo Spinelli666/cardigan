@@ -59,7 +59,7 @@
 .application.cardigan.actor:not(.minimized, .minimizing, .maximizing),
 .cardigan.actor.sheet:not(.minimized, .minimizing, .maximizing) {
   min-width: 526px;
-  min-height: 679px;
+  min-height: 480px;
   max-width: 526px;
 }
 .application.cardigan.actor .window-content,
@@ -1128,8 +1128,8 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 
 /* Common item form styles */
 .application.sheet.cardigan.item.item-type-comum {
-  min-width: 400.444px;
-  width: 400.444px;
+  min-width: 400px;
+  width: 400px;
   background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -1415,10 +1415,10 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 
 /* Ingredient item form styles */
 .application.sheet.cardigan.item.item-type-ingredient {
-  min-width: 400.444px;
-  width: 400.444px;
-  height: 440.445px;
-  min-height: 440.445px;
+  min-width: 400px;
+  width: 400px;
+  height: 440px;
+  min-height: 440px;
   background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -1704,8 +1704,8 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 
 /* Ammunition item form styles */
 .application.sheet.cardigan.item.item-type-municao {
-  min-width: 400.444px;
-  width: 400.444px;
+  min-width: 400px;
+  width: 400px;
   background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -2036,9 +2036,9 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 
 /* Consumable item form styles */
 .application.sheet.cardigan.item.item-type-consumivel {
-  min-width: 450.444px;
-  width: 450.444px;
-  height: 671.556px;
+  min-width: 450px;
+  width: 450px;
+  height: 672px;
   background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -4793,7 +4793,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   scrollbar-gutter: stable;
 }
 .application.sheet.cardigan.item .tab[data-tab=description].active prose-mirror .editor-content {
-  padding: 0rem 0.5rem;
+  padding: 0px 8px;
   background: linear-gradient(180deg, #FFB75C 20.19%, #996E37 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -4932,8 +4932,8 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 /* Armor sheet header root styling must stay outside .cardigan scope */
 /* Armor Item Sheet Styles */
 .application.sheet.cardigan.item.item-type-armadura {
-  min-width: 400.444px;
-  width: 400.444px;
+  min-width: 400px;
+  width: 400px;
   background: linear-gradient(180deg, rgba(49, 115, 135, 0.8) 9%, rgba(27, 62, 75, 0.8) 51%, rgba(23, 48, 60, 0.8) 86%);
   border: 4px solid #c0863b;
   border-radius: 20px;
@@ -7254,7 +7254,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   top: -20px;
 }
 .cardigan .tab.equipment .inventory-banner .backpack-warning i {
-  font-size: 0.7rem;
+  font-size: 11px;
 }
 .cardigan .tab.equipment .equipament-banner {
   width: 100%;
@@ -10983,7 +10983,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-description p {
-  margin: 0.5rem 0;
+  margin: 8px 0;
 }
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
 .cardigan .tab.equipment .armor-equipament-container .torso-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
@@ -10991,7 +10991,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .tab.equipment .armor-equipament-container .legs-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
 .cardigan .tab.equipment .armor-equipament-container .feet-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table li.backpack-item-description-row .consumable-item-summary .consumable-summary-body .consumable-summary-systematic-description p {
-  margin: 0.5rem 0;
+  margin: 8px 0;
 }
 .cardigan .tab.equipment .equipament-table {
   flex: 1;
@@ -12547,7 +12547,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .item-selection-modal .item-armor-type {
   text-align: center;
   min-width: 100px;
-  font-size: 0.9rem;
+  font-size: 14px;
   color: #c9c7b8;
 }
 .cardigan .item-selection-modal .item-protection {
@@ -13209,9 +13209,9 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .profession-filters {
   display: none;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8px;
   min-width: 50px;
-  padding: 0.5rem;
+  padding: 8px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   border: 1px solid #FFB75C;
@@ -16806,7 +16806,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 }
 .cardigan .cardigan-dialog .form-group small {
   color: rgba(var(--cardigan-c-beige), 0.7);
-  font-size: 0.85rem;
+  font-size: 14px;
   margin-top: 4px;
   display: block;
 }
@@ -20017,14 +20017,14 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .skill-enhancements-tab .enhancement-item {
   border: 1px solid var(--color-border-light-primary);
   border-radius: 4px;
-  padding: 0.75rem;
+  padding: 12px;
   background: rgba(255, 255, 255, 0.05);
 }
 .cardigan .skill-enhancements-tab .enhancement-item .enhancement-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
 }
 .cardigan .skill-enhancements-tab .enhancement-item .enhancement-header h3 {
   margin: 0;
@@ -20036,8 +20036,8 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   background: var(--color-control-bg);
   border: 1px solid var(--color-border-light-primary);
   border-radius: 3px;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.8rem;
+  padding: 4px 8px;
+  font-size: 13px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -20046,18 +20046,18 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   border-color: var(--color-border-light-highlight);
 }
 .cardigan .skill-enhancements-tab .enhancement-item .enhancement-header .enhancement-config-btn i {
-  margin-right: 0.25rem;
+  margin-right: 4px;
 }
 .cardigan .skill-enhancements-tab .enhancement-item .enhancement-content {
-  margin-top: 0.5rem;
+  margin-top: 8px;
 }
 .cardigan .skill-enhancements-tab .enhancement-item .enhancement-content .enhancement-name {
   font-weight: 600;
-  margin-bottom: 0.25rem;
+  margin-bottom: 4px;
   color: var(--color-text-primary);
 }
 .cardigan .skill-enhancements-tab .enhancement-item .enhancement-content .enhancement-description {
-  font-size: 0.9rem;
+  font-size: 14px;
   color: var(--color-text-secondary);
   font-style: italic;
 }
@@ -20412,18 +20412,18 @@ dialog.item-create {
 dialog.item-create .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8px;
 }
 dialog.item-create .form-group label {
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 14px;
   color: var(--color-text-dark-primary);
 }
 dialog.item-create .form-group input[type=text] {
-  padding: 0.5rem;
+  padding: 8px;
   border: 1px solid var(--color-border-light-2);
   border-radius: 4px;
-  font-size: 0.9rem;
+  font-size: 14px;
 }
 dialog.item-create .form-group input[type=text]:focus {
   outline: none;
@@ -20439,7 +20439,7 @@ dialog.item-create .item-type-categories {
   gap: 1rem;
   max-height: 400px;
   overflow-y: auto;
-  padding-right: 0.5rem;
+  padding-right: 8px;
   /* Custom scrollbar */
 }
 dialog.item-create .item-type-categories::-webkit-scrollbar {
@@ -20462,17 +20462,17 @@ dialog.item-create {
 dialog.item-create .category {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8px;
 }
 dialog.item-create .category .category-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
+  gap: 8px;
+  font-size: 14px;
   font-weight: bold;
   color: var(--color-text-dark-primary);
   margin: 0;
-  padding-bottom: 0.5rem;
+  padding-bottom: 8px;
   border-bottom: 2px solid var(--color-border-light-2);
 }
 dialog.item-create .category .category-header i {
@@ -20481,7 +20481,7 @@ dialog.item-create .category .category-header i {
 dialog.item-create .category .item-types {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 0.5rem;
+  gap: 8px;
 }
 dialog.item-create {
   /* Item Type Option */
@@ -20513,14 +20513,14 @@ dialog.item-create .item-type-option input[type=radio]:focus-visible + .type-con
 dialog.item-create .item-type-option .type-content {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem;
+  gap: 8px;
+  padding: 12px;
   background: white;
   border: 2px solid var(--color-border-light-2);
   border-radius: 6px;
   transition: all 0.2s ease;
   width: 100%;
-  font-size: 0.85rem;
+  font-size: 14px;
 }
 dialog.item-create .item-type-option .type-content:hover {
   border-color: #4a90e2;
@@ -20528,7 +20528,7 @@ dialog.item-create .item-type-option .type-content:hover {
   transform: translateY(-1px);
 }
 dialog.item-create .item-type-option .type-content i {
-  font-size: 1.1rem;
+  font-size: 18px;
   color: var(--color-text-dark-5);
   transition: color 0.2s ease;
   min-width: 20px;
@@ -20543,20 +20543,20 @@ dialog.item-create {
 }
 dialog.item-create .dialog-buttons {
   display: flex;
-  gap: 0.5rem;
+  gap: 8px;
   justify-content: flex-end;
-  margin-top: 0.5rem;
+  margin-top: 8px;
   padding-top: 1rem;
   border-top: 1px solid var(--color-border-light-2);
 }
 dialog.item-create .dialog-buttons button {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  gap: 8px;
+  padding: 8px 16px;
   border: none;
   border-radius: 4px;
-  font-size: 0.9rem;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -25251,7 +25251,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
   display: none;
 }
 .dialog.cardigan-weight-selection-dialog .window-content .weight-options {
-  gap: 0.2rem;
+  gap: 3px;
   display: flex;
   flex-direction: column;
   margin-top: 2px;
