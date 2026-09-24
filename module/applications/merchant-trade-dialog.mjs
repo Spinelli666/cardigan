@@ -1,3 +1,5 @@
+import { snapPositionToDevicePixels } from "../sheets/parts/pixel-snap-position.mjs";
+
 const { api } = foundry.applications;
 
 /**
@@ -136,6 +138,14 @@ export class MerchantTradeDialog extends api.HandlebarsApplicationMixin(api.Appl
       canConfirm: this.isCustomer ? !this.tradeState.customerConfirmed : !this.tradeState.merchantConfirmed,
       bothConfirmed: this.tradeState.customerConfirmed && this.tradeState.merchantConfirmed
     });
+  }
+
+  /**
+   * Keep the window on the device pixel grid to avoid sub-pixel jitter on fractional DPR screens.
+   * @override
+   */
+  _updatePosition(position) {
+    return snapPositionToDevicePixels(super._updatePosition(position));
   }
 
   /** @override */

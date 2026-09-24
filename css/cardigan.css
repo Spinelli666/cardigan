@@ -22911,13 +22911,15 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 /* ===================================== */
 /*  MERCHANT TRADE DIALOG STYLES (3-COL) */
 /* ===================================== */
+.merchant-trade-dialog {
+  min-width: 780px;
+}
 .merchant-trade-dialog .window-content {
   padding: 0;
   overflow: hidden;
 }
 
 .merchant-trade-dialog-wrapper {
-  min-width: 1000px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -22948,7 +22950,7 @@ dialog.item-create .dialog-buttons button[data-action=close]:hover {
 
 .trade-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   flex: 1;
   min-height: 0;

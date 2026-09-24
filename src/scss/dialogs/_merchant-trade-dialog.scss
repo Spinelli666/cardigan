@@ -3,6 +3,12 @@
 /* ===================================== */
 
 .merchant-trade-dialog {
+  // The window opens at 900px (DEFAULT_OPTIONS.position). The wrapper used to force
+  // min-width: 1000px, so ~100px of the right column was clipped by .window-content's
+  // overflow: hidden. 780px keeps three ~240px columns and fits 1280px-wide viewports
+  // (1920×1080 @150%).
+  min-width: 780px;
+
   .window-content {
     padding: 0;
     overflow: hidden;
@@ -10,7 +16,6 @@
 }
 
 .merchant-trade-dialog-wrapper {
-  min-width: 1000px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -43,7 +48,7 @@
 
 .trade-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); // minmax(0) so long item names ellipsize instead of widening a column
   gap: 12px;
   flex: 1;
   min-height: 0;
