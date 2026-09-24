@@ -2,7 +2,7 @@
 
 Este arquivo é um **resumo organizado e acionável** das investigações registradas em [`FUTURE_INVESTIGATIONS.md`](../FUTURE_INVESTIGATIONS.md) (raiz do projeto). Esse arquivo histórico contém o detalhamento completo, comparações com outros sistemas, exemplos de código e justificativas — **não foi alterado e deve ser consultado para contexto completo** antes de iniciar qualquer item abaixo marcado como tarefa grande.
 
-Última sincronização com `FUTURE_INVESTIGATIONS.md`: última atualização registrada lá foi 14/01/2026, com adição de 28/03/2026 (backlog de extrações do `actor-sheet.mjs`). Atualizado em 30/06/2026 com conclusão da Fase 2 de `cardigan.mjs`. Atualizado em 01/07/2026 com conclusão da Fase 3 de `skill-manager.mjs`. Atualizado em 03/07/2026 com conclusão da refatoração do `actor-sheet.mjs`. Atualizado em 03/07/2026 com conclusão da Fase 4 (Weapon Properties base class). Atualizado em 04/07/2026 com conclusão da Fase 2 (Templates Handlebars).
+Última sincronização com `FUTURE_INVESTIGATIONS.md`: última atualização registrada lá foi 14/01/2026, com adição de 28/03/2026 (backlog de extrações do `actor-sheet.mjs`). Atualizado em 30/06/2026 com conclusão da Fase 2 de `cardigan.mjs`. Atualizado em 01/07/2026 com conclusão da Fase 3 de `skill-manager.mjs`. Atualizado em 03/07/2026 com conclusão da refatoração do `actor-sheet.mjs`. Atualizado em 03/07/2026 com conclusão da Fase 4 (Weapon Properties base class). Atualizado em 04/07/2026 com conclusão da Fase 2 (Templates Handlebars). Atualizado em 23/09/2026: migração PT→EN dos schemas registrada como concluída, status de v14 e novos itens (`item-sheet.mjs`, style-lab, `render(true)`, i18n de `ArmorType`).
 
 ---
 
@@ -133,30 +133,38 @@ Todos os partials registrados via `foundry.applications.handlebars.loadTemplates
 
 ---
 
-## 🟡 Prioridade média — Outras refatorações planejadas (Fase 5)
+## ✅ Concluído — Padronização de idioma PT→EN (schemas, valores e arquivos) — 04/07/2026
+
+Executada ao longo de ~20 commits cirúrgicos (`refact(schema): ... (C1–C11)` + renomeações de arquivos):
+
+| Escopo | Exemplos |
+|--------|----------|
+| Campos de schema | armadura: `protecao→protection`, `bonusVida→lifeBonus`, `bonusEnergia→energyBonus`, `bonusDeslocamento→movementBonus`, `bonusEspacoMochila→backpackBonus`; efeito: `efeitoType→effectType`, `rodadas→rounds`; consumível: `statusEffects.fome→hunger` etc.; receita: `customProperties.protecao→protection`; character: `classes.guerreiro→warrior`, flags `showSkills*` |
+| Valores de choices | `armorType` (`cabeca→head`…), `weight` (`muito-pesado→very-heavy`…), `skillClass`, `skillActionTypes`, `spellCategories`, `effectType`, `properties` de arma (`ferir→wound`…) |
+| Arquivos | `module/data/`, `module/effects/effects/`, `module/weapon-properties/properties/`, `templates/item/attribute-parts/`, SCSS, `scripts/`, `docs-ai/` |
+| Compêndios | fontes de `src/packs/` migrados; packs renomeados para `effects-cardigan`, `races-cardigan`, `equipment-cardigan` |
+
+- Migração automática de mundos existentes em `module/migration/migrate-world.mjs` (`SCHEMA_VERSION = 1`, roda no `ready`, só GM).
+- A camada de aliases com `logCompatibilityWarning` prevista no plano original **não** foi implementada — a migração é direta via `migrateWorldData()`.
+- **Mantidos em português de propósito:** ids de tipo de Actor/Item (`arma`, `armadura`, `efeito`, `item-comum`…), nomes de classes (`SangramentoEffect`, `Ferir`…) e chaves de registro do `EffectManager` (`'Sangramento'`…). Ver tabela completa em [project-conventions.md](project-conventions.md#idioma-do-código-e-dos-schemas).
+
+---
+
+## 🟡 Prioridade média — Outras refatorações planejadas
 
 Detalhes completos e exemplos de código em `FUTURE_INVESTIGATIONS.md`.
 
 - **Fase 5 — JSDoc**: adicionar JSDoc consistente em data models, helpers principais, weapon properties e effect classes (padrão pf2e).
+- **`item-sheet.mjs` (~2.850 linhas)**: hoje é o maior arquivo do sistema, maior que o `actor-sheet.mjs` pós-refatoração. Candidato a extrações no mesmo padrão cirúrgico (listeners/parts por tipo de item, wrappers mantidos). Outros arquivos grandes: `sheets/actions/consumable-actions.mjs` (~2.400), `sheets/listeners/common-item-listeners.mjs` (~1.500), `combat/combat-dialogs.mjs` (~1.450), `skills/base-skill.mjs` (~1.370). **Não planejado ainda** — requer decisão.
 
 ---
 
-## 🟢 Hipótese / investigação não confirmada — Padronização de idioma (PT→EN nos schemas)
+## 🟢 Pequenos itens / limpeza
 
-**Status:** Documentado em 14/01/2026, **decisão atual é manter como está**. Não iniciar sem alinhamento explícito.
-
-**Situação:**
-- Classes/métodos: inglês (ok).
-- Campos de schema: português (`protecao`, `bonusVida`, `bonusEnergia`, `armorType` com valores `"cabeca"`, `"torso"`, etc.) — inconsistente com classes/métodos.
-- Chaves i18n: inglês (ok).
-- Comentários: mistos PT/EN.
-
-**Decisão temporária (vigente):**
-- Manter campos em português (compatibilidade com dados/saves/compêndios existentes).
-- Padronizar comentários novos em inglês (JSDoc).
-- Métodos/constantes já seguem inglês.
-
-**Se esta migração for retomada no futuro**, o plano completo (8 etapas: mapeamento, sistema de migração de dados, refatoração de schemas, atualização de templates, refatoração de sheets, atualização de compêndios, camada de compatibilidade com `logCompatibilityWarning`, testes) está detalhado em `FUTURE_INVESTIGATIONS.md`, incluindo tabela de riscos/mitigações. Tratar como **versão major (v2.0)**, não como tarefa incremental.
+- **Style Lab (`module/dev-tools/style-lab.mjs`)**: ferramenta de dev marcada como temporária. Remover antes de um release público (apagar o arquivo + linhas `[STYLELAB]` em `cardigan.mjs`).
+- **`render(true)` / `render(false)`**: 79 ocorrências em `module/`. Funciona no v14; migrar gradualmente para `render({ force: true })` durante outras mudanças, nunca em massa.
+- **`TextEditor.implementation.enrichHTML`**: 29 ocorrências (o doc de v14 estimava 5). Unificar para `foundry.applications.ux.TextEditor.enrichHTML` durante refatorações.
+- **i18n de `ArmorType` em `lang/pt-BR.json`**: as chaves continuam em PT (`CARDIGAN.ArmorType.Cabeca`) e os **valores estão em inglês** (`"Head"`, `"Arms"`, `"Legs"`, `"Feet"`, `"Accessories"`) desde o commit `bd5fff7` (21/01/2026). Aparece em inglês para o usuário (diálogo de seleção de tipo de armadura, choices do item). **Confirmar se é intencional** antes de corrigir.
 
 ---
 
@@ -166,7 +174,7 @@ Detalhes completos e exemplos de código em `FUTURE_INVESTIGATIONS.md`.
 
 **Situação:**
 - `src/scss/components/equipment/` tem 68 ocorrências de `!important`.
-- `src/scss/` inteiro tem 55 arquivos com pelo menos um `!important`.
+- `src/scss/` inteiro tem 55 arquivos com pelo menos um `!important` (59 na recontagem de 23/09/2026, após a extração de mixins em `utils/_mixins.scss` na `develop`).
 - Origem provável: mesmas classes (`.item-ammunition`, `.item-quantity`, etc.) redefinidas em múltiplos arquivos para contextos visuais diferentes (mochila em `_backpack.scss` vs. arma equipada em `_equipament-banner.scss`), gerando conflitos de especificidade resolvidos com `!important` em vez de seletores mais específicos.
 
 **Decisão temporária (vigente):**

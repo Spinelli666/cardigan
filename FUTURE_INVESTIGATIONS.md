@@ -419,6 +419,8 @@ function _calculateArmorTotals(actor) {
 
 ## 🌍 FUTURA INVESTIGAÇÃO: Padronização Completa de Idioma (Inglês)
 
+> **📌 Nota de status (23/09/2026):** esta migração foi **executada em 04/07/2026** (commits `refact(schema): ... (C1–C11)` + renomeação de arquivos), com migração automática de mundos em `module/migration/migrate-world.mjs`. Ids de tipo, nomes de classes e chaves do `EffectManager` foram mantidos em PT. Resumo em `docs-ai/pending-tasks.md`; o conteúdo abaixo é mantido como histórico do planejamento.
+
 ### 📊 Situação Atual (Análise de 14/01/2026)
 
 **Padrão inconsistente detectado:**

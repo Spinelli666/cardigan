@@ -13,6 +13,25 @@ Referências consultadas:
 
 ---
 
+## Status atual (revisado em 23/09/2026, branch `develop`)
+
+| Item | Status |
+|------|--------|
+| 2.1 Sheet registration via `DocumentSheetConfig` | ✅ Feito (`module/cardigan.mjs`) |
+| 2.2 `foundry.appv1.sheets.*` no `unregisterSheet` | ✅ Mantido de propósito (mesmo padrão do dnd5e) |
+| 2.3 `CONFIG.ActiveEffect.legacyTransferral` | ✅ Removido |
+| `system.json` → `verified: "14"` | ✅ Feito (commit de 30/06/2026) |
+| 3.1 `duplicate()` → `deepClone()` | ✅ 0 ocorrências |
+| 3.2 `render(true/false)` → `render({ force })` | ⏳ 79 ocorrências — migração gradual |
+| 3.3 `TextEditor.implementation.enrichHTML` | ⏳ 29 ocorrências (não 5, como estimado abaixo) |
+| 3.4 `template.json` | ✅ Removido |
+| Roll mode (`core.rollMode` → `core.messageMode`, `applyRollMode` → `applyMode`) | ✅ Compat layer em `module/helpers/roll-mode.mjs` (não estava nesta análise original) |
+| Checklist de teste da seção 6 | ❓ Não registrado se foi executado |
+
+A análise original abaixo foi mantida como histórico.
+
+---
+
 ## Resumo Executivo
 
 O Cardigan usa APIs modernas (ApplicationV2, DataModels, DialogV2) e está **bem posicionado para v14**. A maioria dos padrões usados continua funcionando. Há **3 mudanças obrigatórias** de baixo esforço e **4 mudanças recomendadas** para seguir o padrão moderno.
