@@ -72,6 +72,25 @@ Há relatos de texto e ícones da ficha "tremendo" cerca de 1px ao rolar ou muda
 9. **Janelas novas** (sheets e applications próprias com `window.positioned`): sobrescrever `_updatePosition` com `snapPositionToDevicePixels(super._updatePosition(position))` (`module/sheets/parts/pixel-snap-position.mjs`), como já fazem `actor-sheet.mjs` e `item-sheet.mjs`.
 10. **Correções de bugs visuais: diagnosticar antes de corrigir.** Rodar `$0.getBoundingClientRect()` durante scroll/zoom. Se as coordenadas mudam, é layout (CSS/JS). Se ficam fixas e o texto ainda treme, é composição (camadas/transform/filter). Corrigir um componente por vez, nunca com substituição global.
 
+## Resoluções, escala e zoom (notebooks)
+
+A ficha tem que funcionar bem em notebooks variados, não só na máquina de desenvolvimento (1920×1200 com escala de 125%, ou seja, viewport lógico de 1536×960). Ao construir ou estilizar qualquer parte, considerar:
+
+| Cenário | Viewport lógico | DPR |
+|---------|-----------------|-----|
+| Notebook básico, 1366×768 em 100% | 1366×768 | 1 |
+| 1920×1080 em 150% (comum em 14"/15") | 1280×720 | 1,5 |
+| 1920×1080 em 125% | 1536×864 | 1,25 |
+| 1920×1200 em 125% (máquina do dev) | 1536×960 | 1,25 |
+| 1920×1080 em 100% | 1920×1080 | 1 |
+
+Também considerar zoom do navegador de 90% a 110% e as configurações do Foundry "Escala da Interface" (`uiScale`) e "Tamanho da Fonte" (`fontScale`, que muda o `rem`).
+
+- **Altura é o limite mais comum:** a ficha abre com 526×679. Em viewports de ~720px de altura, o conteúdo deve rolar internamente, sem cortar nem vazar. Evitar alturas fixas em containers que crescem com o conteúdo.
+- **Preferir `px` a `rem` em medidas finas:** o `rem` segue o `fontScale` do Foundry e pode virar fração (ex.: `0.8rem` com fonte de 14px dá 11,2px).
+- **Seguir as regras de estabilidade de renderização acima** (px inteiros, sem `contain` em bitmaps, etc.). Elas são o que mantém a ficha nítida em DPR 1,25 e 1,5.
+- **Testar visualmente** pelo menos em 125% e 150% de escala do Windows (ou com Ctrl +/- no Foundry) antes de considerar uma mudança de layout pronta.
+
 ## Build / artefatos
 
 - Não há linter nem suite de testes configurados — não inventar comandos de `lint`/`test`.
