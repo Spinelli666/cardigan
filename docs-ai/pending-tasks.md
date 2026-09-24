@@ -150,6 +150,41 @@ Executada ao longo de ~20 commits cirúrgicos (`refact(schema): ... (C1–C11)` 
 
 ---
 
+## 🔴 Em andamento — Microdeslocamentos (sub-pixel) na ficha
+
+**Relato (23/09/2026):** textos e pequenos elementos da ficha "tremem" cerca de 1px ao rolar e ao mudar o zoom, só em algumas telas/máquinas. Análise externa: `analise_microdeslocamentos_interface_web.docx`. Conclusão dela: a causa não é `px` em si, e sim coordenadas fracionárias + camadas de composição. Os sistemas de referência (dnd5e, pf2e, daggerheart, olddragon2e) não apresentam o problema. Regras preventivas em [project-conventions.md](project-conventions.md#estabilidade-de-renderização-microdeslocamentos--sub-pixel).
+
+Por que só em algumas telas: com DPR inteiro (escala do Windows em 100%, zoom 100%), valores `.5px` e camadas de GPU caem em pixels físicos exatos. Com escala de 125%/150% ou zoom ≠ 100%, tudo vira fração e cada camada é arredondada de forma independente durante o scroll.
+
+**Mapa de pontos quentes em `src/scss/` (levantado em 23/09/2026):**
+
+| Padrão | Ocorrências | Onde | Risco |
+|--------|-------------|------|-------|
+| `will-change: transform, filter` permanente | 12 | `equipment/_backpack.scss` (5), `equipment/_equipament-banner.scss` (7) — em `img` de **cada linha** da mochila/banner | 🔴 Alto — uma camada de GPU por ícone, dentro de área que rola |
+| `will-change: width/opacity` | 6 | `_health-bar.scss`, `_energy-bar.scss` | 🟡 Médio — header, fora da área que rola |
+| `transform: translateZ(0)` permanente | 2 | `aside-left/_death-fields.scss:13`, `_forms.scss:64` | 🔴 Alto — promove containers inteiros a camada |
+| `translate(-50%…)` para centralizar | 46 | `aside-left/*`, `aside-right/*` (death-fields, movement-crit, fracture, hunger-thirst…) | 🟡 Médio — gera `.5px` em caixas de tamanho ímpar |
+| px fracionário em propriedade de layout | 81 | pior: `_consumable-form.scss` (10), `_movement-crit.scss`, `_ingredient-form.scss`, `_health-bar.scss`, `_energy-bar.scss` (5 cada); ex.: `width: 155.54px`, `width: 400.444px`, `margin: 0.5px` | 🟡 Médio |
+| `line-height` sem unidade fracionário | 60 | 33 arquivos | 🟢 Baixo |
+| `background-clip: text` (gradiente) | 335 | 40 arquivos | 🟡 Médio se combinado com transform/filter em ancestral |
+| `filter:` / `backdrop-filter` | 167 / 12 | 46 / 9 arquivos (grande parte em `:hover`) | 🟢–🟡 depende se é permanente |
+
+**Plano (cirúrgico, um passo por commit, testar em escala 125%/150% do Windows e zoom 90%/110%):**
+1. **Diagnóstico nas máquinas afetadas:** identificar a área que treme e rodar `getBoundingClientRect()` durante o scroll (roteiro no docx, seção 6). Se possível, anotar escala do Windows, zoom e GPU de quem tem o problema.
+2. **Fase 1 — camadas de composição (maior chance de resolver):** remover os 12 `will-change` da mochila/banner e os 2 `translateZ(0)`. A transição de hover continua funcionando. ⏳ **Aplicada em 23/09/2026, aguardando teste.** Área relatada: nomes dos itens da tabela do inventário e contador de espaço "0|0". Também incluído nesta fase: `_inventory-banner.scss`, onde `.status-current`/`.status-next` (o "0|0") perderam o `top: -0.3px` e `font-size: 0.8rem` (12,8px) virou `13px`.
+   - **Resultado (vídeo gravado depois da Fase 1, arrastando a janela, Windows em 125%):** medido quadro a quadro com OpenCV:
+     - Texto contra texto: estável (~0,06px).
+     - Texto contra ícone, imagem ou borda: oscila ~0,4px, com picos de ~1px.
+
+     Conclusão: o texto se alinha ao pixel físico, e imagens, SVG, fundos e bordas são desenhados na posição fracionária da janela. Causa-raiz: o core (`ApplicationV2#_updatePosition` / `#applyPosition`, v14.367) aplica `left`/`top`/`width`/`height` sem arredondar. Com DPR 1,25 as coordenadas do mouse são fracionárias, e a centralização inicial também gera `.5px`.
+2b. **Fase 1b — posição da janela na grade de pixels físicos:** ⏳ **aplicada em 23/09/2026, aguardando novo vídeo.** `module/sheets/parts/pixel-snap-position.mjs` (`snapPositionToDevicePixels`) arredonda `left`/`top`/`width`/`height` para múltiplos de `1/devicePixelRatio`. É usado via override de `_updatePosition` em `actor-sheet.mjs` e `item-sheet.mjs`.
+2c. **Fase 1c — imagens de fundo com `contain`:** ⏳ **aplicada só no `.status-display` do inventário ("0|0"/"5|15") em 23/09/2026, aguardando teste.** Foi o usuário que apontou esse elemento como o indicador mais claro: o fundo "desliza" ao arrastar a ficha. `back-space.webp` (1526×444) com `contain` em 132×20 resultava em 68,74×20 a x=31,63px. Trocado por `background-size: 68px 20px`. Restam **21** `background-size: contain/cover/%` em `src/scss/`: `_advantage-selection-dialog`, `_money-business-banner` (3 cada); `global/_window`, `_rich-tooltips`, `_tabs-legacy`, `_backpack` (2 cada); e outros. Se o teste confirmar, corrigir um por um. Também vale considerar gerar versões reduzidas dos bitmaps gigantes (ex.: 2× o tamanho exibido).
+3. **Fase 2 — centralização:** trocar `absolute + translate(-50%)` por centralização via flex/grid no pai, componente por componente (começar por `aside-left/`).
+4. **Fase 3 — medidas fracionárias:** arredondar os px fracionários de layout, começando pelos arquivos da tabela.
+5. **Fase 4 — tipografia:** `line-height` em px inteiros nos componentes compactos afetados.
+
+---
+
 ## 🟡 Prioridade média — Outras refatorações planejadas
 
 Detalhes completos e exemplos de código em `FUTURE_INVESTIGATIONS.md`.

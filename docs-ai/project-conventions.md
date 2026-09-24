@@ -56,6 +56,22 @@ Regras:
 - Para roll mode, use os helpers de `module/helpers/roll-mode.mjs` em vez de `core.rollMode` / `ChatMessage.applyRollMode` diretamente (renomeados no v14).
 - Prefira `render({ force: true })` a `render(true)` e `foundry.utils.deepClone()` a `duplicate()` em código novo. Ver [v14-compatibility.md](v14-compatibility.md).
 
+## Estabilidade de renderização (microdeslocamentos / sub-pixel)
+
+Há relatos de texto e ícones da ficha "tremendo" cerca de 1px ao rolar ou mudar o zoom, só em algumas telas: DPR fracionário, como escala do Windows em 125%/150%, ou zoom do navegador ≠ 100%. A causa não é usar `px`, e sim coordenadas fracionárias somadas a camadas de composição da GPU. Diagnóstico completo e plano de correção em [pending-tasks.md](pending-tasks.md#-em-andamento--microdeslocamentos-sub-pixel-na-ficha). **Todo SCSS novo ou alterado deve seguir estas regras:**
+
+1. **Nada de `will-change` permanente.** Não deixar `will-change: transform/filter` em estado de repouso, principalmente em elementos repetidos, como linhas de mochila e ícones. Cada um vira uma camada de GPU, rasterizada em posição sub-pixel, que "treme" no scroll. A transição de `:hover` funciona sem ele.
+2. **Nada de `transform: translateZ(0)` / `translate3d` como "hack de performance"** em containers da ficha.
+3. **Centralizar com flex/grid, não com `position: absolute` + `translate(-50%, -50%)`.** O `-50%` de uma caixa com tamanho ímpar resulta em `.5px`. Use `display: flex; align-items: center; justify-content: center;` no pai (ou `display: grid; place-items: center;`).
+4. **`transform` só para interação transitória** (`:hover`, `:active`, animações). Nunca para posicionar ou ajustar alinhamento no estado de repouso (ex.: `translateY(-1px)` para "subir um pouco"). Para alinhar, use `margin`, `padding`, `gap` ou o alinhamento do flex.
+5. **Medidas de layout em px inteiros.** `width`, `height`, `margin`, `padding`, `top`/`left`, `gap` e `font-size` sem decimais: nada de `155.54px`, `0.5px` ou `8.4px`. Decimais só em `box-shadow`, `text-shadow` e `blur()`.
+6. **`line-height` em px inteiros** nos componentes compactos (ex.: `font-size: 12px; line-height: 16px;`), e não multiplicadores que dão fração (`11px × 1.2 = 13.2px`).
+7. **Evitar `filter`/`backdrop-filter`/`drop-shadow` permanentes em texto** e em áreas que rolam. Eles também criam camada de composição. Em `:hover`, tudo bem.
+8. **Texto com gradiente (`background-clip: text`)**: usar `wrapWordsInGradientSpans()` (`module/helpers/gradient-text.mjs`) quando o texto pode quebrar linha, e não combinar com `transform`/`filter` no mesmo elemento ou em ancestrais.
+8b. **Imagens de fundo em tamanho inteiro:** evitar `background-size: contain`/`cover`/`%` em bitmaps de tamanho fixo. Calcular o tamanho em px inteiros mantendo a proporção, de forma que `center` também resulte em inteiro (ex.: `(132 - 68) / 2 = 32`). `contain` gera largura/posição fracionárias, e bitmaps muito maiores que a exibição (ex.: 1526px mostrado em 68px) "deslizam" quando a janela se move.
+9. **Janelas novas** (sheets e applications próprias com `window.positioned`): sobrescrever `_updatePosition` com `snapPositionToDevicePixels(super._updatePosition(position))` (`module/sheets/parts/pixel-snap-position.mjs`), como já fazem `actor-sheet.mjs` e `item-sheet.mjs`.
+10. **Correções de bugs visuais: diagnosticar antes de corrigir.** Rodar `$0.getBoundingClientRect()` durante scroll/zoom. Se as coordenadas mudam, é layout (CSS/JS). Se ficam fixas e o texto ainda treme, é composição (camadas/transform/filter). Corrigir um componente por vez, nunca com substituição global.
+
 ## Build / artefatos
 
 - Não há linter nem suite de testes configurados — não inventar comandos de `lint`/`test`.

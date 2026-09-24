@@ -78,6 +78,7 @@ A lógica das sheets é dividida por responsabilidade em subpastas:
   - Comportamento de sheet de item: `sheet-base-behavior.mjs`, `armor-sheet-behavior.mjs`, `ingredient-sheet-behavior.mjs`, `ammunition-sheet-behavior.mjs`, `weapon-ammunition-behavior.mjs`.
   - Caixa expansível da mochila: `item-expand.mjs` (toggle expand/collapse + render dos summaries por tipo).
   - Tooltip de preview + mensagem de chat por tipo de item: `consumable-preview-tooltip.mjs`, `armor-preview-tooltip.mjs`, `common-preview-tooltip.mjs`, `ammunition-preview-tooltip.mjs`, `ingredient-preview-tooltip.mjs`. Todos usam o tooltip nativo do Foundry (`data-tooltip-html`) e o template compartilhado `templates/tooltips/item-preview-tooltip.hbs`.
+  - Posicionamento: `pixel-snap-position.mjs` (`snapPositionToDevicePixels`), usado no override de `_updatePosition` das duas sheets para manter a janela na grade de pixels físicos. Evita o tremor sub-pixel em telas com escala do Windows fracionária.
   - Builders compartilhados entre caixa expansível e tooltip/chat: `armor-property-rows.mjs`, `armor-info-badges.mjs`, `consumable-header-badges.mjs`.
 
 ## Subsistemas "Manager"
