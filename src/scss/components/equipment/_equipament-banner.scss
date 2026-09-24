@@ -358,7 +358,6 @@ ol.items-list.equipament-table > li.item.items-header {
           cursor: pointer;
           opacity: 0.8;
           transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
-          will-change: transform, filter;
           filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
         }
 
@@ -535,7 +534,6 @@ ol.items-list.equipament-table > li.item.items-header {
 
           img {
             transition: transform 0.15s ease, filter 0.15s ease;
-            will-change: transform, filter;
           }
 
           &:hover {
@@ -579,7 +577,6 @@ ol.items-list.equipament-table > li.item.items-header {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             transition: transform 0.15s ease, filter 0.15s ease;
-            will-change: transform, filter;
           }
 
           &:hover {
@@ -815,7 +812,6 @@ ol.items-list.equipament-table > li.item.items-header {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             transition: transform 0.15s ease, filter 0.15s ease;
-            will-change: transform, filter;
           }
 
           &:hover {
@@ -854,7 +850,6 @@ ol.items-list.equipament-table > li.item.items-header {
         .reload-icon,
         .reload-icon-readonly {
           transition: transform 0.15s ease, filter 0.15s ease;
-          will-change: transform, filter;
         }
 
         &:hover {
@@ -879,7 +874,6 @@ ol.items-list.equipament-table > li.item.items-header {
           cursor: pointer;
           opacity: 0.8;
           transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
-          will-change: transform, filter;
         }
 
         .toggle-durability-display:hover {
@@ -1110,7 +1104,6 @@ ol.items-list.equipament-table > li.item.items-header {
             inset: 0;
             opacity: 0;
             filter: drop-shadow(0 0 4px rgba(255, 183, 92, 0.55));
-            will-change: transform, filter;
           }
 
           &:hover:not(.disabled) {

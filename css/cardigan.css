@@ -5850,7 +5850,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   position: relative;
   padding-right: 6px;
   z-index: 150;
-  transform: translateZ(0);
 }
 .cardigan.actor .sheet-header .header-left .border-divider {
   padding: 0px 18px;
@@ -7188,7 +7187,7 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   display: inline-flex;
   align-items: center;
   background: url("/systems/cardigan/assets/images/decorative/back-space.webp") no-repeat center center;
-  background-size: contain;
+  background-size: 68px 20px;
   border: none;
   width: 132px;
   min-width: 132px;
@@ -7207,25 +7206,23 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   border: none;
   background: transparent;
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 13px;
   color: white;
   outline: none;
   box-sizing: border-box;
   position: relative;
   left: 15px;
-  top: -0.3px;
 }
 .cardigan .tab.equipment .inventory-banner .status-next {
   border: none;
   background: transparent;
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 13px;
   color: white;
   outline: none;
   box-sizing: border-box;
   position: relative;
   right: 15px;
-  top: -0.3px;
 }
 .cardigan .tab.equipment .inventory-banner .status-current,
 .cardigan .tab.equipment .inventory-banner .status-next {
@@ -8789,7 +8786,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   cursor: pointer;
   opacity: 0.8;
   transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
-  will-change: transform, filter;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.25));
 }
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-durability .toggle-durability-display:hover .durability-icon,
@@ -9918,7 +9914,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .feet-armor-item .item-unequip .unequip-armor img,
 .cardigan .tab.equipment .armor-equipament-container .accessories-armor-table .accessories-armor-item .item-unequip .unequip-armor img {
   transition: transform 0.15s ease, filter 0.15s ease;
-  will-change: transform, filter;
 }
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-unequip .unequip-armor:hover img,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-unequip .unequip-armor:hover img,
@@ -10128,7 +10123,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: transform 0.15s ease, filter 0.15s ease;
-  will-change: transform, filter;
 }
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .head-armor-item .item-controls .item-control.always-interactive:hover,
 .cardigan .tab.equipment .armor-equipament-container .head-armor-table .torso-armor-item .item-controls .item-control.always-interactive:hover,
@@ -11150,7 +11144,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: transform 0.15s ease, filter 0.15s ease;
-  will-change: transform, filter;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control[data-context-menu]:hover,
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-controls .item-control.always-interactive:hover {
@@ -11185,7 +11178,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload .reload-icon,
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload .reload-icon-readonly {
   transition: transform 0.15s ease, filter 0.15s ease;
-  will-change: transform, filter;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload:hover .reload-icon,
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-reload:hover .reload-icon-readonly {
@@ -11204,7 +11196,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   cursor: pointer;
   opacity: 0.8;
   transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
-  will-change: transform, filter;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-durability .toggle-durability-display:hover .durability-icon {
   opacity: 1;
@@ -11396,7 +11387,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   inset: 0;
   opacity: 0;
   filter: drop-shadow(0 0 4px rgba(255, 183, 92, 0.55));
-  will-change: transform, filter;
 }
 .cardigan .tab.equipment .equipament-table li.item .item-row .item-image .weapon-image-attack:hover:not(.disabled) .weapon-base-icon {
   opacity: 0;
@@ -12937,7 +12927,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 }
 .cardigan .tab.equipment .item-unequip .unequip-weapon img {
   transition: transform 0.15s ease, filter 0.15s ease;
-  will-change: transform, filter;
 }
 .cardigan .tab.equipment .item-unequip .unequip-weapon:hover img {
   transform: scale(1.06);
@@ -12965,7 +12954,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .tab.equipment .item-equip .equip-armor img,
 .cardigan .tab.equipment .item-equip .consume-item img {
   transition: transform 0.15s ease, filter 0.15s ease;
-  will-change: transform, filter;
 }
 .cardigan .tab.equipment .item-equip .equip-weapon:hover,
 .cardigan .tab.equipment .item-equip .equip-armor:hover,
@@ -13959,7 +13947,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
 .cardigan .backpack-table .item-reload .reload-icon,
 .cardigan .backpack-table .item-reload .reload-icon-readonly {
   transition: transform 0.15s ease, filter 0.15s ease;
-  will-change: transform, filter;
 }
 .cardigan .backpack-table .item-reload:hover .reload-icon,
 .cardigan .backpack-table .item-reload:hover .reload-icon-readonly {
@@ -14015,7 +14002,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   cursor: pointer;
   opacity: 0.8;
   transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
-  will-change: transform, filter;
 }
 .cardigan .backpack-table .item-durability .toggle-durability-display:hover .durability-icon {
   opacity: 1;
@@ -14179,7 +14165,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: transform 0.15s ease, filter 0.15s ease;
-  will-change: transform, filter;
 }
 .cardigan .backpack-table .item-controls .item-control[data-context-menu]:hover,
 .cardigan .backpack-table .item-controls .item-control.always-interactive:hover {
@@ -14649,7 +14634,6 @@ a.cardigan-roll-link:hover, a.cardigan-roll-link:focus {
   align-items: center;
   justify-content: space-between;
   margin: 2px 0px 0px 0px;
-  transform: translateZ(0);
   height: 40px;
   width: 100%;
 }

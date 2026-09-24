@@ -39,7 +39,11 @@
     display: inline-flex;
     align-items: center;
     background: url('/systems/cardigan/assets/images/decorative/back-space.webp') no-repeat center center;
-    background-size: contain;
+    // Integer size instead of `contain`: back-space.webp is 1526×444, so `contain` in 132×20
+    // resolved to 68.74×20 centered at x=31.63px — a fractional, 22× downscaled bitmap that
+    // resamples differently as the window moves (visible "sliding" background).
+    // 68×20 keeps the aspect within ~1% and centers at exactly 32px.
+    background-size: 68px 20px;
     border: none;
     width: 132px;
     min-width: 132px;
@@ -60,26 +64,24 @@
     border: none;
     background: transparent;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 13px; // integer px — 0.8rem (12.8px) caused sub-pixel jitter
     color: white;
     outline: none;
     box-sizing: border-box;
     position: relative;
     left: 15px;
-    top: -0.3px;
   }
 
   .status-next {
     border: none;
     background: transparent;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 13px; // integer px — 0.8rem (12.8px) caused sub-pixel jitter
     color: white;
     outline: none;
     box-sizing: border-box;
     position: relative;
     right: 15px;
-    top: -0.3px;
   }
 
   .status-current,

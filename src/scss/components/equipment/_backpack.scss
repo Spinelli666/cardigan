@@ -185,7 +185,6 @@
 
       img {
         transition: transform 0.15s ease, filter 0.15s ease;
-        will-change: transform, filter;
       }
       
       &:hover {
@@ -222,7 +221,6 @@
 
       img {
         transition: transform 0.15s ease, filter 0.15s ease;
-        will-change: transform, filter;
       }
       
       &:hover {
@@ -1035,7 +1033,6 @@ ol.items-list.backpack-table > li.item.items-header {
     .reload-icon,
     .reload-icon-readonly {
       transition: transform 0.15s ease, filter 0.15s ease;
-      will-change: transform, filter;
     }
 
     &:hover {
@@ -1101,7 +1098,6 @@ ol.items-list.backpack-table > li.item.items-header {
       cursor: pointer;
       opacity: 0.8;
       transition: transform 0.15s ease, filter 0.15s ease, opacity 0.15s ease;
-      will-change: transform, filter;
     }
 
     .toggle-durability-display:hover {
@@ -1297,7 +1293,6 @@ ol.items-list.backpack-table > li.item.items-header {
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         transition: transform 0.15s ease, filter 0.15s ease;
-        will-change: transform, filter;
       }
 
       &:hover {
