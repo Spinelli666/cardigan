@@ -12,6 +12,7 @@ import { AmmunitionSheetBehavior } from './parts/ammunition-sheet-behavior.mjs';
 import { IngredientSheetBehavior } from './parts/ingredient-sheet-behavior.mjs';
 import { SheetBaseBehavior } from './parts/sheet-base-behavior.mjs';
 import { WeaponAmmunitionBehavior } from './parts/weapon-ammunition-behavior.mjs';
+import { snapPositionToDevicePixels } from './parts/pixel-snap-position.mjs';
 
 const { api, sheets } = foundry.applications;
 
@@ -49,6 +50,14 @@ export class CardiganSystemItemSheet extends api.HandlebarsApplicationMixin(
     
     const result = await super.render(options, _options);
     return result;
+  }
+
+  /**
+   * Keep the window on the device pixel grid to avoid sub-pixel jitter on fractional DPR screens.
+   * @override
+   */
+  _updatePosition(position) {
+    return snapPositionToDevicePixels(super._updatePosition(position));
   }
 
   /** @override */

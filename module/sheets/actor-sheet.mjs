@@ -35,6 +35,7 @@ import { ArmorPreviewTooltip } from './parts/armor-preview-tooltip.mjs';
 import { CommonPreviewTooltip } from './parts/common-preview-tooltip.mjs';
 import { AmmunitionPreviewTooltip } from './parts/ammunition-preview-tooltip.mjs';
 import { IngredientPreviewTooltip } from './parts/ingredient-preview-tooltip.mjs';
+import { snapPositionToDevicePixels } from './parts/pixel-snap-position.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -161,6 +162,14 @@ export class CardiganSystemActorSheet extends api.HandlebarsApplicationMixin(
       template: 'systems/cardigan/templates/actor/professions.hbs',
     },
   };
+
+  /**
+   * Keep the window on the device pixel grid to avoid sub-pixel jitter on fractional DPR screens.
+   * @override
+   */
+  _updatePosition(position) {
+    return snapPositionToDevicePixels(super._updatePosition(position));
+  }
 
   /** @override */
   _configureRenderOptions(options) {
